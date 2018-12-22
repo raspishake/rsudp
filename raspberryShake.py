@@ -4,23 +4,23 @@ import datetime as dt
 import signal
 
 def printM(msg):
-	print dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " " + msg
+	print(dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " " + msg)
 
 initV = 0.0
 initVS = ""
 
 host = initVS                           # when running not on the Shake Pi: blank = localhost 
-port = 32768                            # Port to bind to
-sock = initVS
+port = 18005                            # Port to bind to
+sock = s.socket(s.AF_INET, s.SOCK_DGRAM | s.SO_REUSEADDR)
 
-def openSOCK()
+
+def openSOCK():
 	if host == initVS:
 		HP = "localhost:" + str(port)
 	else:
 		HP = host + ":" + str(port)
 	printM("Opening socket on (HOST:PORT) " + HP)
 	
-	sock = s.socket(s.AF_INET, s.SOCK_DGRAM | s.SO_REUSEADDR)
 	sock.bind((host, port))
 
 def getDATA():				# read a DP off the port
@@ -28,10 +28,10 @@ def getDATA():				# read a DP off the port
 	return data
 	
 def getCHN(DP):				# extract the channel from the DP
-	return DP.split(",")[0][1:]
+	return DP.split(b",")[0][1:]
 	
 def getTIME(DP):			# extract the timestamp
-	return float(DP.split(",")[1])
+	return float(DP.split(b",")[1])
 	
 def getTR(chn):				# DP transmission rate in msecs
 	timeP1 = initV
@@ -51,7 +51,7 @@ def getTR(chn):				# DP transmission rate in msecs
 
 def getSR(TR):				# sample rate - samples / second
 	DP = getDATA()
-	return int((DP.count(",") - 1) * 1000 / TR)
+	return int((DP.count(b",") - 1) * 1000 / TR)
 	
 def getTTLCHN():
 	firstCHN = initVS

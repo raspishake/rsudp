@@ -4,7 +4,7 @@ import signal
 import raspberryShake as RS
 
 def signal_handler(signal, frame):
-	printM("Quitting...")
+	RS.printM("Quitting...")
 	sys.exit(0)
         
 signal.signal(signal.SIGINT, signal_handler)
@@ -15,17 +15,17 @@ def printTTLS(CHAN, TRS):
 		return False		# only once in any given second
 	ttlDPs = ttlSecs * TRS
 	pct = float(float(DPttlLoss[CHAN]) / float(ttlDPs)) * 100.
-	printM("CHANNEL " + CHAN + ": Total packets lost in last " + str(ttlSecs) + " seconds: " \
+	RS.printM("CHANNEL " + str(CHAN.decode("utf-8")) + ": Total packets lost in last " + str(ttlSecs) + " seconds: " \
 			+ str(DPttlLoss[CHAN]) \
 			+ " ( " + str(round(pct, 2)) + "% / " + str(ttlDPs) + " )")
 	return True
 
 def main(printFREQ):
-	RS.openSOCK(host, port)
-	printM("Waiting for data on (HOST:PORT) " + HP)
+	RS.openSOCK()
+	#RS.printM("Waiting for data on (HOST:PORT) " + HP)
 	
 	# initialize data stream constants
-	printM("Initializing...")
+	RS.printM("Initializing...")
 	DP = RS.getDATA()
 	CHAN = RS.getCHN(DP)						# first channel - doesn't matter which, used to stop looping
 	TR = RS.getTR(CHAN)						# transmission rate - in milliseconds

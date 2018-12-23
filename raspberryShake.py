@@ -9,10 +9,15 @@ def printM(msg):
 initV = 0.0
 initVS = ""
 
-host = initVS                           # when running not on the Shake Pi: blank = localhost 
-port = 18005                            # Port to bind to
+port = 18005                            # port to bind to
+timeout = 15							# time to wait for data
+host = initVS                           # should always revert to localhost
 sock = s.socket(s.AF_INET, s.SOCK_DGRAM | s.SO_REUSEADDR)
 
+def handler(signum, frame):
+    printM('No data received in %s seconds; aborting.' % (timeout))
+    printM('Check that the data is being forwarded to the local port correctly.')
+    raise IOError('No data received')
 
 def openSOCK():
 	if host == initVS:
@@ -24,7 +29,10 @@ def openSOCK():
 	sock.bind((host, port))
 
 def getDATA():				# read a DP off the port
+	signal.signal(signal.SIGALRM, handler)
+	signal.alarm(timeout)
 	data, addr = sock.recvfrom(1024)
+	signal.alarm(0)
 	return data
 	
 def getCHN(DP):				# extract the channel from the DP
@@ -32,7 +40,10 @@ def getCHN(DP):				# extract the channel from the DP
 	
 def getTIME(DP):			# extract the timestamp
 	return float(DP.split(b",")[1])
-	
+
+def getSTREAM(DP):          # get list of counts
+	return list(map(int, DP.decode('utf-8').replace('}','').split(',')[2:]))
+
 def getTR(chn):				# DP transmission rate in msecs
 	timeP1 = initV
 	timeP2 = initV

@@ -10,6 +10,9 @@ def signal_handler(signal, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 def printTTLS(CHAN, TRS):
+	'''
+	Report packets lost.
+	'''
 	ttlSecs = int(DPtime[CHAN] - timeStart[CHAN])
 	if ttlSecs == 0:
 		return False		# only once in any given second
@@ -21,9 +24,11 @@ def printTTLS(CHAN, TRS):
 	return True
 
 def main(printFREQ):
+	'''
+	Initialize stream and print constants, then process data for packet loss.
+	'''
 	RS.openSOCK()
-	#RS.printM("Waiting for data on (HOST:PORT) " + HP)
-	
+
 	# initialize data stream constants
 	RS.printM("Initializing...")
 	DP = RS.getDATA()
@@ -72,6 +77,14 @@ timeStart = {}
 DPttlLoss = {}
 
 if __name__== "__main__":
+	'''
+	When run from the command line, pass in a value of seconds as an argument
+	to set the packet loss for reporting period.
+
+	for example, to report packet loss statistics every hour, run the following command:
+
+	python shake-UDP-packetLoss.py 3600
+	'''
 	if len(sys.argv) != 2:
 		RS.printM("Argument required: frequency to print totals, in seconds")
 		sys.exit(0)

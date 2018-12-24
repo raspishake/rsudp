@@ -4,6 +4,7 @@ import datetime as dt
 import signal
 
 def printM(msg):
+	'''Prints messages with datetime stamp.'''
 	print(dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " " + msg)
 
 initV = 0.0
@@ -14,11 +15,13 @@ host = initVS                           # should always revert to localhost
 sock = s.socket(s.AF_INET, s.SOCK_DGRAM | s.SO_REUSEADDR)
 
 def handler(signum, frame):
-    printM('No data received in %s seconds; aborting.' % (timeout))
-    printM('Check that the data is being forwarded to the local port correctly.')
-    raise IOError('No data received')
+	'''The signal handler for the nodata alarm.'''
+	printM('No data received in %s seconds; aborting.' % (timeout))
+	printM('Check that the data is being forwarded to the local port correctly.')
+	raise IOError('No data received')
 
 def openSOCK(port=8888):
+	'''Initialize a socket at a port. Port defaults to 8888. Pass another local port value to change.'''
 	if host == initVS:
 		HP = "localhost:" + str(port)
 	else:
@@ -27,23 +30,34 @@ def openSOCK(port=8888):
 	
 	sock.bind((host, port))
 
-def getDATA():				# read a DP off the port
+def getDATA():
+	'''Read a data packet off the port.
+	Alarm if no data is received within timeout.'''
 	signal.signal(signal.SIGALRM, handler)
 	signal.alarm(timeout)
 	data, addr = sock.recvfrom(1024)
 	signal.alarm(0)
 	return data
 	
-def getCHN(DP):				# extract the channel from the DP
+def getCHN(DP):
+	'''Extract the channel information from the data packet.
+	Requires getDATA() packet as argument.'''
 	return str(DP.decode('utf-8').split(",")[0][1:]).strip("\'")
 	
-def getTIME(DP):			# extract the timestamp
+def getTIME(DP):
+	'''Extract the timestamp from the data packet.
+	Timestamp is seconds since 1970-01-01 00:00:00Z, which can be passed directly to an obspy UTCDateTime object.
+	Requires getDATA() packet as argument.'''
 	return float(DP.split(b",")[1])
 
-def getSTREAM(DP):          # get list of counts
+def getSTREAM(DP):
+	'''Get the samples in a data packet as a list object.
+	Requires getDATA() packet as argument.'''
 	return list(map(int, DP.decode('utf-8').replace('}','').split(',')[2:]))
 
 def getTR(chn):				# DP transmission rate in msecs
+	'''Get the transmission rate in milliseconds.
+	Requires a getCHN() or a channel name string as argument.'''
 	timeP1 = initV
 	timeP2 = initV
 	done = False
@@ -59,11 +73,13 @@ def getTR(chn):				# DP transmission rate in msecs
 	TR = timeP2*1000 - timeP1*1000
 	return int(TR)
 
-def getSR(TR):				# sample rate - samples / second
-	DP = getDATA()
+def getSR(TR, DP):
+	'''Get the sample rate in samples per second.
+	Requires an integer transmission rate and a data packet as arguments.'''
 	return int((DP.count(b",") - 1) * 1000 / TR)
 	
 def getTTLCHN():
+	'''Calculate total number of channels received.'''
 	firstCHN = initVS
 	ttlchn = 0
 	done = False
@@ -81,6 +97,7 @@ def getTTLCHN():
 	return ttlchn
 
 def getCHNS():
+	'''Get a list of channels sent to the port.	'''
 	chns = []
 	firstCHN = initVS
 	done = False

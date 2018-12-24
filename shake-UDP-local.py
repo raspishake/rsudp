@@ -17,4 +17,4 @@ print("Waiting for data on (HOST:PORT) ", HP)
 
 while 1:								# loop forever
     data, addr = sock.recvfrom(1024)	# wait to receive data
-    print(data)							
+    print(data)

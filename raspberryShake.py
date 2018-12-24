@@ -9,7 +9,6 @@ def printM(msg):
 initV = 0.0
 initVS = ""
 
-port = 18005                            # port to bind to
 timeout = 15							# time to wait for data
 host = initVS                           # should always revert to localhost
 sock = s.socket(s.AF_INET, s.SOCK_DGRAM | s.SO_REUSEADDR)
@@ -19,7 +18,7 @@ def handler(signum, frame):
     printM('Check that the data is being forwarded to the local port correctly.')
     raise IOError('No data received')
 
-def openSOCK():
+def openSOCK(port=8888):
 	if host == initVS:
 		HP = "localhost:" + str(port)
 	else:
@@ -36,7 +35,7 @@ def getDATA():				# read a DP off the port
 	return data
 	
 def getCHN(DP):				# extract the channel from the DP
-	return DP.split(b",")[0][1:]
+	return str(DP.decode('utf-8').split(",")[0][1:]).strip("\'")
 	
 def getTIME(DP):			# extract the timestamp
 	return float(DP.split(b",")[1])
@@ -81,3 +80,20 @@ def getTTLCHN():
 		ttlchn += 1
 	return ttlchn
 
+def getCHNS():
+	chns = []
+	firstCHN = initVS
+	done = False
+	while not done:
+		DP = getDATA()
+		if firstCHN == initVS:
+			firstCHN = getCHN(DP)
+			chns.append(firstCHN)
+			continue
+		nextCHN = getCHN(DP)
+		if firstCHN == nextCHN:
+			done = True
+			continue
+		else:
+			chns.append(nextCHN)
+	return chns

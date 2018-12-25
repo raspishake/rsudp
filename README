@@ -4,7 +4,7 @@ the files in this repo:
     library of shake-related functions, to be used in a parent python program wanting to process data off a UDP port
 
 2) rs2obspy.py
-	example library that uses raspberryShake.py to process UDP data to obspy stream object with channel-specific traces. can be iterated.
+    example library that uses raspberryShake.py to process UDP data to obspy stream object with channel-specific traces. can be iterated.
 
 3) shake-UDP-packetLoss.py
     program that will report UDP data packet loss between a shake and a receiving computer 
@@ -31,4 +31,5 @@ TO DO
 5) document packetLoss program as example of how to use library
 
 6) flesh out the -local and -remote program templates, to use new library, etc.
+	- done
     

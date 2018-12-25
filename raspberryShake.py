@@ -20,7 +20,7 @@ def handler(signum, frame):
 	printM('Check that the data is being forwarded to the local port correctly.')
 	raise IOError('No data received')
 
-def openSOCK(port=8888):
+def openSOCK(host='localhost', port=8888):
 	'''Initialize a socket at a port. Port defaults to 8888. Pass another local port value to change.'''
 	if host == initVS:
 		HP = "localhost:" + str(port)

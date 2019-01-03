@@ -7,18 +7,12 @@ import numpy as np
 import raspberryShake as RS
 
 
-# The call letters of the station
-# we have to set by hand this because it's not included in UDP packets
-net = 'AM'
-sta = 'RCB43'		# this example is a RS1D in Williamstown, MA, USA
-port = 18005		# port on the local machine that the RS is sending data to
-
 '''
 This program demonstrates the ease with which you can turn Raspberry Pi UDP data into a fully functional obspy stream.
 
 We do that by taking the following steps.
 
-1. open socket at port listed above
+1. open socket at port using init(port=XXXX, sta='RCB43', sta='AM')
 2. set samples per second value (requires two getDATA calls, so we leave it out of the normal workflow)
 3. create a blank stream object
 4. get a data packet and calculate inherent values
@@ -32,23 +26,26 @@ Your stream object should contain traces representing all channels sent to the p
 Traces should be appended and merged to one per channel automatically.
 '''
 
-RS.openSOCK(port)
-d = RS.getDATA()
-sps = RS.getSR(RS.getTR(RS.getCHN(d)), d)
-channels = RS.getCHNS()
-channelstring = ''
-for channel in channels:
-	channelstring += channel + ' '
-iter1 = True
-
-RS.printM('Found %s channel(s): %s' % (len(channels), channelstring))
-try:
-	RS.printM('Fetching inventory from Raspberry Shake FDSN.')
-	inv = read_inventory('https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&level=resp&format=xml'
-						 % (net, sta))
-except:
-	RS.printM('Inventory fetch failed, continuing without.')
-	inv = False
+def init(port=8888, sta='R0E05', net='AM', timeout=10):
+	global sps, channels, inv
+	RS.initRSlib(dport=port, rsnet=net, rssta=sta, timeout=timeout)
+	RS.openSOCK()
+	d = RS.getDATA()
+	sps = RS.getSR(RS.getTR(RS.getCHN(d)), d)
+	RS.printM('Got data with sampling rate %s Hz (calculated from channel %s)' % (sps, RS.getCHN(d)))
+	channels = RS.getCHNS()
+	channelstring = ''
+	for channel in channels:
+		channelstring += channel + ' '
+	RS.printM('Found %s channel(s): %s' % (len(channels), channelstring))
+	try:
+		RS.printM('Fetching inventory for station %s.%s from Raspberry Shake FDSN.' % (RS.net, RS.sta))
+		inv = read_inventory('https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&level=resp&format=xml'
+							 % (RS.net, RS.sta))
+		RS.printM('Inventory fetch successful.')
+	except:
+		RS.printM('Inventory fetch failed, continuing without.')
+		inv = False
 
 def make_trace():
 	'''Makes a trace and assigns it some values using a data packet.'''
@@ -57,9 +54,9 @@ def make_trace():
 	t = RS.getTIME(d)							# unix epoch time since 1970-01-01 00:00:00Z, or as obspy calls it, "timestamp"
 	st = RS.getSTREAM(d)						# samples in data packet in list [] format
 	tr = Trace()								# create empty trace
-	tr.stats.network = net						# assign values
+	tr.stats.network = RS.net						# assign values
 	tr.stats.location = '00'
-	tr.stats.station = sta
+	tr.stats.station = RS.sta
 	tr.stats.channel = ch
 	tr.stats.sampling_rate = sps
 	tr.stats.starttime = UTCDateTime(t)

@@ -3,41 +3,110 @@ import socket as s
 import datetime as dt
 import signal
 
+initd, sockopen = False, False
+to = 10								# timeout
+
 def printM(msg):
 	'''Prints messages with datetime stamp.'''
 	print(dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " " + msg)
 
-initV = 0.0
-initVS = ""
-
-timeout = 15							# time to wait for data
-host = initVS                           # should always revert to localhost
 sock = s.socket(s.AF_INET, s.SOCK_DGRAM | s.SO_REUSEADDR)
 
 def handler(signum, frame):
 	'''The signal handler for the nodata alarm.'''
-	printM('No data received in %s seconds; aborting.' % (timeout))
-	printM('Check that the data is being forwarded to the local port correctly.')
+	printM('No data received in %s seconds; aborting.' % (to))
+	printM('Check that no other program is using the port, and that the Shake')
+	printM('is forwarding data to the port correctly.')
 	raise IOError('No data received')
 
-def openSOCK(host='localhost', port=8888):
-	'''Initialize a socket at a port. Port defaults to 8888. Pass another local port value to change.'''
-	if host == initVS:
-		HP = "localhost:" + str(port)
-	else:
-		HP = host + ":" + str(port)
-	printM("Opening socket on (HOST:PORT) " + HP)
+def initRSlib(dport=8888, rssta='R0E05', rsnet='AM', timeout=10):
+	'''
+	Set values for data port, station, network, and data port timeout prior to opening the socket.
+	Defaults:
+	dport=8888					# this is the port number to be opened
+	rssta='R0E05'				# the name of the station
+	rsnet='AM'					# the name of the Raspberry Shake seismic network
+	timeout=10					# the number of seconds to wait for data before an error is raised (zero for unlimited wait)
+	'''
+	global port, sta, net, to, initd
+	initd = False				# initialization has not completed yet, therefore false
+	try:						# set port value first
+		if dport == int(dport):
+			port = int(dport)
+		else:
+			port = int(dport)
+			printM('WARNING: Supplied port value was converted to integer. Non-integer port numbers are invalid.')
+	except ValueError as e:
+		printM('ERROR: You likely supplied a non-integer as the port value. Your value: %s' % dport)
+		printM('Error details: %s' % e)
+	except Exception as e:
+		printM('ERROR. Details: ' + e)
+
+	try:						# set station name
+		if len(rssta) == 5 or len(rssta) == 6:
+			sta = str(rssta).upper()
+		else:
+			printM('ERROR: Station name must include one or two alphabetical characters and 4 hexadecimal characters, like R09AF.')
+	except ValueError as e:
+		printM('ERROR: Invalid station name supplied.')
+		printM('Error details: %s' % e)
+	except Exception as e:
+		printM('ERROR. Details:' % e)
+
+	try:						# set network name
+		if str(rsnet).upper() == 'AM':
+			net = str(rsnet).upper()
+		elif len(rsnet) == 2:
+			net = str(rsnet).upper()
+			printM('WARNING: Network name is not default AM.')
+		else:
+			raise ValueError('Network names must be two characters long.')
+	except ValueError as e:
+		printM('ERROR: Invalid network name supplied.')
+		printM('Error details: %s' % e)
+	except Exception as e:
+		printM('ERROR. Details %s' % e)
 	
-	sock.bind((host, port))
+	try:						# set timeout value 
+		to = int(timeout)
+	except ValueError as e:
+		printM('ERROR: You likely supplied a non-integer as the timeout value. Your value: %s' % timeout)
+		printM('Error details: %s' % e)
+	except Exception as e:
+		printM('ERROR. Details: ' + e)
+
+	initd = True				# if initialization goes correctly, set initd to true
+
+def openSOCK():
+	'''Initialize a socket at a port. Must be done after the above function is called.'''
+	global sockopen
+	sockopen = False
+	if initd:
+		host = ''
+		HP = '%s:%s' % ('localhost',port)
+		printM("Opening socket on (HOST:PORT) %s" % HP)	
+		sock.bind((host, port))
+		sockopen = True
+	else:
+		raise IOError("Before opening a socket, you must initialize this raspberryShake library by calling initRSlib(dport=XXXXX, rssta='R0E05') first.")
+
 
 def getDATA():
 	'''Read a data packet off the port.
 	Alarm if no data is received within timeout.'''
-	signal.signal(signal.SIGALRM, handler)
-	signal.alarm(timeout)
-	data, addr = sock.recvfrom(1024)
-	signal.alarm(0)
-	return data
+	global to
+	if sockopen:
+		signal.signal(signal.SIGALRM, handler)
+		signal.alarm(to)						# alarm time set with timeout value
+		data, addr = sock.recvfrom(1024)
+		signal.alarm(0)							# once data has been received, turn alarm completely off
+		to = 0									# otherwise it erroneously triggers after keyboardinterrupt
+		return data
+	else:
+		if initd:
+			raise IOError("No socket is open. Please open a socket using this library's openSOCK() function.")
+		else:
+			raise IOError('No socket is open. Please initialize the library then open a socket using openSOCK().')
 	
 def getCHN(DP):
 	'''Extract the channel information from the data packet.
@@ -58,14 +127,13 @@ def getSTREAM(DP):
 def getTR(chn):				# DP transmission rate in msecs
 	'''Get the transmission rate in milliseconds.
 	Requires a getCHN() or a channel name string as argument.'''
-	timeP1 = initV
-	timeP2 = initV
+	timeP1, timeP2 = 0.0, 0.0
 	done = False
 	while not done:
 		DP = getDATA()
 		CHAN = getCHN(DP)
 		if CHAN == chn:
-			if timeP1 == initV:
+			if timeP1 == 0.0:
 				timeP1 = getTIME(DP)
 			else:
 				timeP2 = getTIME(DP)
@@ -78,32 +146,14 @@ def getSR(TR, DP):
 	Requires an integer transmission rate and a data packet as arguments.'''
 	return int((DP.count(b",") - 1) * 1000 / TR)
 	
-def getTTLCHN():
-	'''Calculate total number of channels received.'''
-	firstCHN = initVS
-	ttlchn = 0
-	done = False
-	while not done:
-		DP = getDATA()
-		if firstCHN == initVS:
-			firstCHN = getCHN(DP)
-			ttlchn = 1
-			continue
-		nextCHN = getCHN(DP)
-		if firstCHN == nextCHN:
-			done = True
-			continue
-		ttlchn += 1
-	return ttlchn
-
 def getCHNS():
 	'''Get a list of channels sent to the port.	'''
 	chns = []
-	firstCHN = initVS
+	firstCHN = ''
 	done = False
 	while not done:
 		DP = getDATA()
-		if firstCHN == initVS:
+		if firstCHN == '':
 			firstCHN = getCHN(DP)
 			chns.append(firstCHN)
 			continue
@@ -114,3 +164,7 @@ def getCHNS():
 		else:
 			chns.append(nextCHN)
 	return chns
+
+def getTTLCHN():
+	'''Calculate total number of channels received.'''
+	return len(getCHNS())

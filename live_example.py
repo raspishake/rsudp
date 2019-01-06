@@ -66,8 +66,8 @@ def live_stream(port=8888, sta='R4989', seconds=30, net='AM'):
 			trate = rso.trate + 0
 			s = s.slice(starttime=obstart+timedelta(milliseconds=trate))
 			for t in s:
-				r = np.arange(start,end,np.timedelta64(int(1000/rso.sps), 'ms'))[-len(t.data):]
-				lines[i].set_ydata(t.data)
+				r = np.arange(start,end,np.timedelta64(int(1000/rso.sps), 'ms'))[-len(t.data[-rso.sps*seconds:]):]
+				lines[i].set_ydata(t.data[-rso.sps*seconds:])
 				lines[i].set_xdata(r)
 				ax[i].set_xlim(left=start, right=end)
 				ax[i].set_ylim(bottom=np.min(t.data)-abs(np.min(t.data))*0.1, top=np.max(t.data)+abs(np.max(t.data))*0.1)

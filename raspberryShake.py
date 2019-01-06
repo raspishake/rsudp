@@ -43,10 +43,11 @@ def initRSlib(dport=8888, rssta='R0E05', rsnet='AM', timeout=10):
 		printM('ERROR. Details: ' + e)
 
 	try:						# set station name
-		if len(rssta) == 5 or len(rssta) == 6:
+		if len(rssta) == 5:
 			sta = str(rssta).upper()
 		else:
-			printM('ERROR: Station name must include one or two alphabetical characters and 4 hexadecimal characters, like R09AF.')
+			sta = str(rssta).upper()
+			printM('WARNING: Station name does not follow Raspberry Shake naming convention. Ignoring.')
 	except ValueError as e:
 		printM('ERROR: Invalid station name supplied.')
 		printM('Error details: %s' % e)

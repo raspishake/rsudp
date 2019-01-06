@@ -16,6 +16,9 @@ the files in this repo:
 5) shake-UDP-remote.py
     program to read data off UDP port, to be run on a computer not the shake
 
+6) obspy_example.py
+    program to read UDP data to an ObsPy stream continuously, then plot it when the user presses CTRL+C
+
 TO DO
 
 1) finish library / add any other base functions of interest

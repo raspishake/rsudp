@@ -1,11 +1,9 @@
 import getopt, sys
 import rs2obspy as rso
-import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 from obspy import UTCDateTime
 from datetime import datetime, timedelta
-import time
 
 plt.ion()
 
@@ -22,6 +20,7 @@ def live_stream(port=8888, sta='R4989', seconds=30, net='AM'):
 	at which point it will create a simple trace plot.
 	'''
 	rso.init(port=port, sta=sta, net=net)
+	trate = rso.trate
 
 	s = rso.init_stream()
 
@@ -59,18 +58,20 @@ def live_stream(port=8888, sta='R4989', seconds=30, net='AM'):
 	try:
 		while True:
 			i = 0
-			s = rso.update_stream(s)
-			obstart = t.stats.endtime - timedelta(seconds=seconds)
-			start = np.datetime64(t.stats.endtime)-np.timedelta64(seconds, 's')
-			end = np.datetime64(t.stats.endtime)
-			trate = rso.trate + 0
-			s = s.slice(starttime=obstart+timedelta(milliseconds=trate))
-			for t in s:
-				r = np.arange(start,end,np.timedelta64(int(1000/rso.sps), 'ms'))[-len(t.data[-rso.sps*seconds:]):]
-				lines[i].set_ydata(t.data[-rso.sps*seconds:])
+			while i < len(rso.channels):
+				s = rso.update_stream(s)
+				i += 1
+			obstart = s[0].stats.endtime - timedelta(seconds=seconds)
+			start = np.datetime64(s[0].stats.endtime)-np.timedelta64(seconds, 's')
+			end = np.datetime64(s[0].stats.endtime)
+			s = s.slice(starttime=obstart)
+			i = 0
+			while i < len(rso.channels):
+				r = np.arange(start, end, np.timedelta64(int(1000/rso.sps), 'ms'))[-len(s[i].data[-rso.sps*seconds:]):]
+				lines[i].set_ydata(s[i].data[-rso.sps*seconds:])
 				lines[i].set_xdata(r)
 				ax[i].set_xlim(left=start, right=end)
-				ax[i].set_ylim(bottom=np.min(t.data)-abs(np.min(t.data))*0.1, top=np.max(t.data)+abs(np.max(t.data))*0.1)
+				ax[i].set_ylim(bottom=np.min(s[i].data)-np.ptp(s[i].data)*0.1, top=np.max(s[i].data)+np.ptp(s[i].data)*0.1)
 				i += 1
 			plt.pause(0.01)
 	except KeyboardInterrupt:

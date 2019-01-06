@@ -24,7 +24,7 @@ def live_stream(port=8888, sta='R4989', seconds=30, net='AM'):
 
 	s = rso.init_stream()
 
-	fig = plt.figure(figsize=(8,8))
+	fig = plt.figure(figsize=(8,2*len(rso.channels)))
 	fig.suptitle('Raspberry Shake station %s.%s live output'
 				 % (rso.network, rso.station), fontsize=14)
 	fig.patch.set_facecolor('white')

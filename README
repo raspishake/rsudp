@@ -19,6 +19,9 @@ the files in this repo:
 6) obspy_example.py
     program to read UDP data to an ObsPy stream continuously, then plot it when the user presses CTRL+C
 
+7) live_example.py
+    reads UDP data and continuously updates a plot, can be used from the command line. run `python live_example.py -h or --help` for details.
+
 TO DO
 
 1) finish library / add any other base functions of interest

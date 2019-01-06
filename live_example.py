@@ -7,14 +7,13 @@ from obspy import UTCDateTime
 from datetime import datetime, timedelta
 import time
 
-matplotlib.use('Qt4Agg')
 plt.ion()
 
 '''
-A small example program that uses rs2obspy to build a stream, then
-plots the result when the user interrupts the program using CTRL+C.
+A more complex example program that uses rs2obspy to build a stream, then
+plots the result live until the user interrupts the program using CTRL+C.
 
-Requires obspy, numpy, rs2obspy, and raspberryShake.
+Requires obspy, numpy, matplotlib, rs2obspy, and raspberryShake.
 '''
 
 def live_stream(port=8888, sta='R4989', seconds=30, net='AM'):
@@ -55,7 +54,7 @@ def live_stream(port=8888, sta='R4989', seconds=30, net='AM'):
 		ax[i].legend(loc='upper left')
 		i += 1
 	ax[i-1].set_xlabel('Time (UTC)')
-
+	rso.RS.printM('Plots set up successfully. Will run until CTRL+C keystroke.')
 
 	try:
 		while True:
@@ -75,7 +74,14 @@ def live_stream(port=8888, sta='R4989', seconds=30, net='AM'):
 				i += 1
 			plt.pause(0.01)
 	except KeyboardInterrupt:
-		time.sleep(0.1)
+		print()
+		rso.RS.printM('Plotting ended.')
+		exit(0)
+	except Exception as e:
+		print()
+		rso.RS.printM('ERROR: %s' % e)
+		exit(2)
+
 
 if __name__ == '__main__':
 	'''
@@ -114,23 +120,24 @@ if __name__ == '__main__':
 	'''
 
 	try:
-		opts, args = getopt.getopt(sys.argv[1:], 'hp:s:n:d:', ['help=', 'port=', 'station=', 'network=', 'duration='])
 		prt, stn, nw, sec = None, None, None, None
 		h = False
+		opts, args = getopt.getopt(sys.argv[1:], 'hp:s:n:d:', ['help', 'port=', 'station=', 'network=', 'duration='])
 		for o, a in opts:
 			if o in ('-h, --help'):
 				h = True
 				print(hlp_txt)
 				exit(0)
-			if o in ('-p', '--port', '--port='):
+			if o in ('-p', 'port='):
 				prt = int(a)
-			if o in ('-s', '--station', '--station='):
+			if o in ('-s', 'station='):
 				stn = str(a)
-			if o in ('-n', '--network', '--network='):
+			if o in ('-n', 'network='):
 				nw = str(a)
-			if o in ('-d', '--duration', '--duration='):
+			if o in ('-d', 'duration='):
 				sec = int(a)
 		live_stream(port=prt, sta=stn, net=nw, seconds=sec)
+		exit(0)
 	except Exception as e:
 		if not h:
 			print('ERROR: %s' % e)

@@ -110,7 +110,7 @@ if __name__ == '__main__':
 ## - rs2obspy                                                               ##
 ## - raspberryShake                                                         ##
 ##                                                                          ##
-## The following example sets the port to 18002, station to R0E05,          ##
+## The following example sets the port to 18001, station to R0E05,          ##
 ## network to AM, and plot duration to 25 seconds, then plots data live:    ##
 ##                                                                          ##
 ##############################################################################

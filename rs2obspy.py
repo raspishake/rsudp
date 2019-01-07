@@ -26,7 +26,7 @@ Your stream object should contain traces representing all channels sent to the p
 Traces should be appended and merged to one per channel automatically.
 '''
 
-def init(port=8888, sta='R0E05', net='AM', timeout=10):
+def init(port=8888, sta='Z0000', net='AM', timeout=10):
 	global sps, station, network, channels, inv, trate
 	RS.initRSlib(dport=port, rsnet=net, rssta=sta, timeout=timeout)
 	station = RS.sta
@@ -41,14 +41,18 @@ def init(port=8888, sta='R0E05', net='AM', timeout=10):
 	for channel in channels:
 		channelstring += channel + ' '
 	RS.printM('Found %s channel(s): %s' % (len(channels), channelstring))
-	try:
-		RS.printM('Fetching inventory for station %s.%s from Raspberry Shake FDSN.' % (RS.net, RS.sta))
-		inv = read_inventory('https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&level=resp&format=xml'
-							 % (RS.net, RS.sta))
-		RS.printM('Inventory fetch successful.')
-	except:
-		RS.printM('Inventory fetch failed, continuing without.')
+	if 'Z0000' in sta:
+		RS.printM('No station name given, continuing without inventory.')
 		inv = False
+	else:
+		try:
+			RS.printM('Fetching inventory for station %s.%s from Raspberry Shake FDSN.' % (RS.net, RS.sta))
+			inv = read_inventory('https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&level=resp&format=xml'
+								 % (RS.net, RS.sta))
+			RS.printM('Inventory fetch successful.')
+		except:
+			RS.printM('Inventory fetch failed, continuing without.')
+			inv = False
 
 def make_trace():
 	'''Makes a trace and assigns it some values using a data packet.'''
@@ -64,7 +68,12 @@ def make_trace():
 	tr.stats.sampling_rate = sps
 	tr.stats.starttime = UTCDateTime(t)
 	if inv:
-		tr.attach_response(inv)
+		try:
+			tr.attach_response(inv)
+		except:
+			RS.printM('ERROR attaching inventory response. Are you sure you set the station name correctly?')
+			RS.printM('    This could indicate a mismatch in the number of data channels between the inventory and the stream.')
+			RS.printM('    If you are receiving RS4D data, please make sure the inventory you download has 4 channels.')
 	tr.data = np.ma.MaskedArray(st)
 	return tr
 

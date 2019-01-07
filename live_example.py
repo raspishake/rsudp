@@ -53,7 +53,7 @@ def live_stream(port=8888, sta='R4989', seconds=30, net='AM'):
 		ax[i].legend(loc='upper left')
 		i += 1
 	ax[i-1].set_xlabel('Time (UTC)')
-	rso.RS.printM('Plots set up successfully. Will run until CTRL+C keystroke.')
+	rso.RS.printM('Plot set up successfully. Will run until CTRL+C keystroke.')
 
 	try:
 		while True:
@@ -121,7 +121,7 @@ if __name__ == '__main__':
 	'''
 
 	try:
-		prt, stn, nw, sec = None, None, None, None
+		prt, stn, nw, sec = 8888, 'Z0000', 'AM', 30
 		h = False
 		opts, args = getopt.getopt(sys.argv[1:], 'hp:s:n:d:', ['help', 'port=', 'station=', 'network=', 'duration='])
 		for o, a in opts:

@@ -20,9 +20,8 @@ def printTTLS(CHAN, TRS):
 		return False		# only once in any given second
 	ttlDPs = ttlSecs * TRS
 	pct = float(float(DPttlLoss[CHAN]) / float(ttlDPs)) * 100.
-	RS.printM("CHANNEL " + str(CHAN.decode("utf-8")) + ": Total packets lost in last " + str(ttlSecs) + " seconds: " \
-			+ str(DPttlLoss[CHAN]) \
-			+ " ( " + str(round(pct, 2)) + "% / " + str(ttlDPs) + " )")
+	RS.printM('CHANNEL %s: total packets lost in last %s seconds: %s ( %s%% / %s )' %
+							(CHAN, ttlSecs, DPttlLoss[CHAN], round(pct, 2), ttlDPs))
 	return True
 
 def main(printFREQ=60, port=8888):
@@ -35,15 +34,15 @@ def main(printFREQ=60, port=8888):
 	# initialize data stream constants
 	RS.printM('Opened data port successfully.')
 	DP = RS.getDATA()
-	CHAN = RS.getCHN(DP)						# first channel - doesn't matter which, used to stop looping
+	CHAN = RS.getCHN(DP)					# first channel - doesn't matter which, used to stop looping
 	TR = RS.getTR(CHAN)						# transmission rate - in milliseconds
 	TRS = 1000 / TR							# number of DPs / second
 	TRE = (TR+TR*.5) / 1000.				# time diff / error to identify a missed packet
 	SR = RS.getSR(TR, DP)							# sample / second
 	ttlCHN = RS.getTTLCHN()					# total number of channels
-	RS.printM("	Total Channels: " + str(ttlCHN))
-	RS.printM("	   Sample Rate: " + str(SR) + " samples / second")
-	RS.printM("	       TX Rate: Every " + str(TR) + " milliseconds")
+	RS.printM("	Total Channels: %s" % ttlCHN)
+	RS.printM("	   Sample Rate: %s samples / second" % SR)
+	RS.printM("	       TX Rate: Every %s milliseconds" % TR)
 	
 	# start processing data packets for packet loss detection
 	# initialize
@@ -56,16 +55,16 @@ def main(printFREQ=60, port=8888):
 		DPttlLoss[CHAN] = 0
 		chnNum += 1
 	
-	RS.printM("Data Packet reading begun... Will report any DP loss as it happens and totals every " \
-			+ str(printFREQ) + " seconds")
+	RS.printM('Data Packet reading begun.')
+	RS.printM('Will report any DP loss as it happens and totals every %s seconds.' % printFREQ)
+
 	while 1:                                # loop forever
 		DP = RS.getDATA()
 		CHAN = RS.getCHN(DP)
 		timeS = RS.getTIME(DP)
 		timeD = timeS - DPtime[CHAN]
 		if abs(timeD) > TRE:
-			RS.printM("DP loss of " + str(round(timeD, 3)) + " second(s) " + \
-					"Current TS: " + str(timeS) + ", Previous TS: " + str(DPtime[CHAN]))
+			RS.printM("DP loss of %s second(s) Current TS: %s, Previous TS: %s" % (round(timeD, 3), timeS, DPtime[CHAN]))
 			DPttlLoss[CHAN] += abs(int(timeD * TRS))
 		DPtime[CHAN] = timeS 
 	

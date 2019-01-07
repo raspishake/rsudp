@@ -1,9 +1,11 @@
 import sys
+import getopt
 import datetime as dt
 import signal
 import raspberryShake as RS
 
 def signal_handler(signal, frame):
+	print()
 	RS.printM("Quitting...")
 	sys.exit(0)
         
@@ -23,20 +25,21 @@ def printTTLS(CHAN, TRS):
 			+ " ( " + str(round(pct, 2)) + "% / " + str(ttlDPs) + " )")
 	return True
 
-def main(printFREQ):
+def main(printFREQ=60, port=8888):
 	'''
 	Initialize stream and print constants, then process data for packet loss.
 	'''
-	RS.openSOCK()
-
-	# initialize data stream constants
 	RS.printM("Initializing...")
+	RS.initRSlib(dport=port)
+	RS.openSOCK()
+	# initialize data stream constants
+	RS.printM('Opened data port successfully.')
 	DP = RS.getDATA()
 	CHAN = RS.getCHN(DP)						# first channel - doesn't matter which, used to stop looping
 	TR = RS.getTR(CHAN)						# transmission rate - in milliseconds
 	TRS = 1000 / TR							# number of DPs / second
 	TRE = (TR+TR*.5) / 1000.				# time diff / error to identify a missed packet
-	SR = RS.getSR(TR)							# sample / second
+	SR = RS.getSR(TR, DP)							# sample / second
 	ttlCHN = RS.getTTLCHN()					# total number of channels
 	RS.printM("	Total Channels: " + str(ttlCHN))
 	RS.printM("	   Sample Rate: " + str(SR) + " samples / second")
@@ -83,11 +86,43 @@ if __name__== "__main__":
 
 	for example, to report packet loss statistics every hour, run the following command:
 
-	python shake-UDP-packetLoss.py 3600
+	python shake-UDP-packetLoss.py -s 3600 -p 18001
 	'''
-	if len(sys.argv) != 2:
-		RS.printM("Argument required: frequency to print totals, in seconds")
-		sys.exit(0)
-		
-	printFREQ = int(sys.argv[1])		# how often to print loss totals, in seconds
-	main(printFREQ)
+
+	hlp_txt = '''
+##############################################################################
+##                       R A S P B E R R Y  S H A K E                       ##
+##                         UDP Packet Loss Reporter                         ##
+##                             by Richard Boaz                              ##
+##                              Copyleft 2019                               ##
+##                                                                          ##
+## Reports data packet loss over a specified period of seconds.             ##
+## Supply -p (port) and -f (frequency) to change the port and frequency     ##
+## to report packet loss statistics.                                        ##
+##                                                                          ##
+## Requires:                                                                ##
+## - raspberryShake                                                         ##
+##                                                                          ##
+## The following example sets the port to 18001 and report frequency        ##
+## to 1 hour                                                                ##
+##                                                                          ##
+##############################################################################
+##                                                                          ##
+##    $ python live_example.py -p 18001 -f 3600                             ##
+##                                                                          ##
+##############################################################################
+
+	'''
+
+	f, p = 60, 8888
+	opts, args = getopt.getopt(sys.argv[1:], 'hp:f:', ['help', 'port=', 'frequency='])
+	for o, a in opts:
+		if o in ('-h, --help'):
+			h = True
+			print(hlp_txt)
+			exit(0)
+		if o in ('-p', 'port='):
+			p = int(a)
+		if o in ('-f', 'frequency='):
+			f = int(a)
+	main(printFREQ=f, port=p)

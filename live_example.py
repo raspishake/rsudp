@@ -38,6 +38,7 @@ def live_stream(port=8888, sta='R4989', seconds=30, net='AM'):
 			ax.append(fig.add_subplot(len(rso.channels), 1, i, sharex=ax[0]))
 		s = rso.update_stream(s)
 		i += 1
+	plt.tight_layout(pad=3, h_pad=0, w_pad=0)
 	plt.draw()
 	plt.pause(0.05)
 

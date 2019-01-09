@@ -20,6 +20,6 @@ def construct_stream():
 		s.plot()
 
 
-rso.init(port=18003, sta='R4989', net='AM')
+rso.init(port=18003, sta='R4989')
 
 construct_stream()

@@ -26,11 +26,9 @@ Your stream object should contain traces representing all channels sent to the p
 Traces should be appended and merged to one per channel automatically.
 '''
 
-def init(port=8888, sta='Z0000', net='AM', timeout=10):
-	global sps, station, network, channels, inv, trate
-	RS.initRSlib(dport=port, rsnet=net, rssta=sta, timeout=timeout)
-	station = RS.sta
-	network = RS.net
+def init(port=8888, sta='Z0000', timeout=10):
+	global sps, channels, inv, trate
+	RS.initRSlib(dport=port, rssta=sta, timeout=timeout)
 	RS.openSOCK()
 	d = RS.getDATA()
 	trate = RS.getTR(RS.getCHN(d))

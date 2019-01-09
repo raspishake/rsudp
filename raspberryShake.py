@@ -19,16 +19,16 @@ def handler(signum, frame):
 	printM('is forwarding data to the port correctly.')
 	raise IOError('No data received')
 
-def initRSlib(dport=8888, rssta='R0E05', rsnet='AM', timeout=10):
+def initRSlib(dport=8888, rssta='R0E05', timeout=10):
 	'''
 	Set values for data port, station, network, and data port timeout prior to opening the socket.
 	Defaults:
 	dport=8888					# this is the port number to be opened
 	rssta='R0E05'				# the name of the station
-	rsnet='AM'					# the name of the Raspberry Shake seismic network
 	timeout=10					# the number of seconds to wait for data before an error is raised (zero for unlimited wait)
 	'''
 	global port, sta, net, to, initd
+	net = 'AM'
 	initd = False				# initialization has not completed yet, therefore false
 	try:						# set port value first
 		if dport == int(dport):
@@ -53,20 +53,6 @@ def initRSlib(dport=8888, rssta='R0E05', rsnet='AM', timeout=10):
 		printM('Error details: %s' % e)
 	except Exception as e:
 		printM('ERROR. Details:' % e)
-
-	try:						# set network name
-		if str(rsnet).upper() == 'AM':
-			net = str(rsnet).upper()
-		elif len(rsnet) == 2:
-			net = str(rsnet).upper()
-			printM('WARNING: Network name is not default AM.')
-		else:
-			raise ValueError('Network names must be two characters long.')
-	except ValueError as e:
-		printM('ERROR: Invalid network name supplied.')
-		printM('Error details: %s' % e)
-	except Exception as e:
-		printM('ERROR. Details %s' % e)
 	
 	try:						# set timeout value 
 		to = int(timeout)

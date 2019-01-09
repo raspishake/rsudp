@@ -14,19 +14,20 @@ plots the result live until the user interrupts the program using CTRL+C.
 Requires obspy, numpy, matplotlib, rs2obspy, and raspberryShake.
 '''
 
-def live_stream(port=8888, sta='R4989', seconds=30, net='AM'):
+def live_stream(port=8888, sta='R4989', seconds=30):
 	'''
 	Main function. Designed to run until user cancels with CTRL+C,
 	at which point it will create a simple trace plot.
 	'''
-	rso.init(port=port, sta=sta, net=net)
+
+	rso.init(port=port, sta=sta)
 	trate = rso.trate
 
 	s = rso.init_stream()
 
 	fig = plt.figure(figsize=(8,2*len(rso.channels)))
 	fig.suptitle('Raspberry Shake station %s.%s live output'
-				 % (rso.network, rso.station), fontsize=14)
+				 % (rso.RS.net, rso.RS.net), fontsize=14)
 	fig.patch.set_facecolor('white')
 	plt.draw()
 	ax = []
@@ -99,8 +100,8 @@ if __name__ == '__main__':
 ##                              by Ian Nesbitt                              ##
 ##                              Copyleft  2019                              ##
 ##                                                                          ##
-## Loads port, station, network, and duration arguments to create a graph.  ##
-## Supply -p, -s, -n, and/or -d to change the port and the output plot      ##
+## Loads port, station, and duration arguments to create a graph.           ##
+## Supply -p, -s, and/or -d to change the port and the output plot          ##
 ## parameters.                                                              ##
 ##                                                                          ##
 ## Requires:                                                                ##
@@ -111,7 +112,7 @@ if __name__ == '__main__':
 ## - raspberryShake                                                         ##
 ##                                                                          ##
 ## The following example sets the port to 18001, station to R0E05,          ##
-## network to AM, and plot duration to 25 seconds, then plots data live:    ##
+## and plot duration to 25 seconds, then plots data live:                   ##
 ##                                                                          ##
 ##############################################################################
 ##                                                                          ##
@@ -122,9 +123,9 @@ if __name__ == '__main__':
 	'''
 
 	try:
-		prt, stn, nw, sec = 8888, 'Z0000', 'AM', 30
+		prt, stn, sec = 8888, 'Z0000', 30
 		h = False
-		opts, args = getopt.getopt(sys.argv[1:], 'hp:s:n:d:', ['help', 'port=', 'station=', 'network=', 'duration='])
+		opts, args = getopt.getopt(sys.argv[1:], 'hp:s:n:d:', ['help', 'port=', 'station=', 'duration='])
 		for o, a in opts:
 			if o in ('-h, --help'):
 				h = True
@@ -134,11 +135,9 @@ if __name__ == '__main__':
 				prt = int(a)
 			if o in ('-s', 'station='):
 				stn = str(a)
-			if o in ('-n', 'network='):
-				nw = str(a)
 			if o in ('-d', 'duration='):
 				sec = int(a)
-		live_stream(port=prt, sta=stn, net=nw, seconds=sec)
+		live_stream(port=prt, sta=stn, seconds=sec)
 		exit(0)
 	except Exception as e:
 		if not h:

@@ -188,7 +188,8 @@ if __name__ == '__main__':
 	try:
 		prt, stn, sec = 8888, 'Z0000', 30
 		h = False
-		opts, args = getopt.getopt(sys.argv[1:], 'hp:s:n:d:', ['help', 'port=', 'station=', 'duration='])
+		spec = False
+		opts, args = getopt.getopt(sys.argv[1:], 'hp:s:n:d:g', ['help', 'port=', 'station=', 'duration=', 'spectrogram'])
 		for o, a in opts:
 			if o in ('-h, --help'):
 				h = True
@@ -200,7 +201,9 @@ if __name__ == '__main__':
 				stn = str(a)
 			if o in ('-d', 'duration='):
 				sec = int(a)
-		live_stream(port=prt, sta=stn, seconds=sec)
+			if o in ('-g', '--spectrogram'):
+				spec = True
+		live_stream(port=prt, sta=stn, seconds=sec, spectrogram=spec)
 		exit(0)
 	except Exception as e:
 		if not h:

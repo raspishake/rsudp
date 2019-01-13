@@ -202,7 +202,7 @@ if __name__ == '__main__':
 				sec = int(a)
 		live_stream(port=prt, sta=stn, seconds=sec)
 		exit(0)
-	except ValueError as e:
+	except Exception as e:
 		if not h:
 			print('ERROR: %s' % e)
 			print(hlp_txt)

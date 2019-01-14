@@ -28,7 +28,8 @@
    - reads UDP data and continuously updates a plot, can be used from the command line. run `python live_example.py -h or --help` for details.
 
 
-## How to use these tools ([back to top](#Contents-of-this-repository))
+## How to use these tools
+([back to top](#Contents-of-this-repository))
 
 Before you do anything, you should read the [manual page on UDP](https://manual.raspberryshake.org/udp.html#udp). This will tell you how to forward UDP data from your shake to a port on your local computer. That page is available at https://manual.raspberryshake.org/udp.html#udp.
 
@@ -76,7 +77,8 @@ And here's one demonstrating a truly remote connection. In this case UDP data is
 ```
 
 
-## raspberryShake.py ([back to top](#Contents-of-this-repository))
+## raspberryShake.py
+([back to top](#Contents-of-this-repository))
 
 This is the heart of the library. Use this to open a port, get data packets, and interpret those packets to readable, but still pretty basic form.
 
@@ -141,7 +143,8 @@ The data stream is a list object with values representing raw voltage counts fro
 
 So the first sample occurs at `1547497409.05` and each subsequent sample is 10 ms (1000 ms / 100 Hz) later. It turns out that this is all we need to convert this raw data stream to, say, an ObsPy data trace.
 
-## rs2obspy.py ([back to top](#Contents-of-this-repository))
+## rs2obspy.py
+([back to top](#Contents-of-this-repository))
 
 `rs2obspy` is a way to get more complex and useful functionality from UDP data, by interpreting your Shake's UDP data and translating it to ObsPy data stream format. This library uses the `raspberryShake` library to initialize a port, get data on that port, then construct obspy traces and append them to an [ObsPy](https://www.obspy.org/) stream object. As such this library requires `obspy`.
 
@@ -192,7 +195,8 @@ AM.R4989.00.EHN | 2019-01-14T22:29:31.750000Z - 2019-01-14T22:29:31.990000Z | 10
 Continuing to update the stream `s` using the `update_stream(s)` call will keep adding traces (one per data packet) to the stream, then merging them based on the channel. So you'll end up with a continuous stream with as many traces as there are channels on your Shake. And you'll have the full functionality of `obspy` at your fingertips.
 
 
-## TO DO ([back to top](#Contents-of-this-repository))
+## TO DO
+([back to top](#Contents-of-this-repository))
 
 1) finish library / add any other base functions of interest
 	- library has been updated to work with current use cases

@@ -57,7 +57,7 @@ This is the heart of the library. Use this to open a port, get data packets, and
 
 #### Initializing a connection on a port
 
-Basic usage must start with initializing the library with the `initRSlib()` and `openSOCK()` functions. *Keep in mind that once you open a port, you will not be able to open the same port elsewhere until you quit the program using the port.*
+Basic usage must start by initializing the library with the `initRSlib()` and `openSOCK()` functions. *Keep in mind that once you open a port, you will not be able to open the same port elsewhere until you quit the program using the port.*
 
 ```python
 >>> import raspberryShake as rs

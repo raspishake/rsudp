@@ -1,3 +1,7 @@
+# rsh-UDP
+### Tools for receiving and interacting with Raspberry Shake UDP data
+*written by @ivor and @iannesbitt*
+
 the files in this repo:
 
 1) raspberryShake.py

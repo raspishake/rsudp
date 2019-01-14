@@ -1,6 +1,6 @@
 # rsh-UDP
 ### Tools for receiving and interacting with Raspberry Shake UDP data
-*Written by @ivor and @iannesbitt*  
+*Written by @ivor and @iannesbitt for @osop*  
 *This file is easiest to read at https://gitlab.com/osop-raspberry-shake/rsh-UDP/blob/master/README.md*
 
 ### Contents of this repository:

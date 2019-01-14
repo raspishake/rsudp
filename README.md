@@ -36,44 +36,17 @@ Before you do anything, you should read the [manual page on UDP](https://manual.
 The standard way to utilize the Raspberry Shake's UDP capability is by forwarding the UDP stream to a computer on the same local network. If the Shake and the computer you're working on aren't on the same network, usually you have to aim the UDP stream at the router on your side, then fiddle with the port forwarding settings on your router to forward the data to a port at your device's IP address.
 
 Here's a visual diagram demonstrating a local connection. Home routers typically don't block any internal traffic, so while the router is implied here, it doesn't need to be configured in any way, so it's left out of the diagram.
-```
-  __________                        Some port (eg. 8888) on
- / RS  Box /                            your computer
-/_________/|----local-network---.      (192.168.1.104)
-|        | /                    |     ._________________.
-|________|/                     |     |.---------------.|
-                                |     ||               ||
-                                |     ||   -._ .-._    ||
-                                |     ||               ||
-                                |     ||   UDP DATA    ||
-                                |     ||               ||
-                                |     ||_______________||
-                                |     /.-.-.-.-.-.-.-.-.\
-                                '-->>/.-.-.-.-.-.-.-.-.-.\
-                                    /.-.-.-.-.-.-.-.-.-.-.\
-                                   /______/__________\___o_\
-                                   \_______________________/
+```mermaid
+graph TD
+A{Raspberry Shake} -->|Local network| B(Some port like 8888 on your computer. Local address: 192.168.1.104)
 ```
 
-And here's one demonstrating a truly remote connection. In this case UDP data is being sent from a distant network to a port (10002) on the externally-facing part of your local router, and your router is forwarding that to port 8888 your computer. This can be done with any modern router, but unfortunately since there are so many routers out there, you'll have to figure out how to do this with your specific make and model yourself.
+And here's one demonstrating a truly remote connection. In this case UDP data is being sent from a distant network to a port (10002) on the externally-facing part of your router (64.69.109.122), and your router is forwarding that to port 8888 your computer. This can be done with any modern router, but unfortunately since there are so many routers out there, you'll have to figure out how to do this with your specific make and model yourself.
 
-```
-  __________                                                 Some port (eg. 8888) on
- / RS  Box /                                                      your computer
-/_________/|---remote-network---.                                (192.168.1.104)
-|        | /                    |                              ._________________.
-|________|/              \      |     /  Port 10002 on         |.---------------.|
-                          \_____|____/    your router          ||               ||
-                          |__________|  (65.61.121.222)        ||   -._ .-._    ||
-                                |                              ||               ||
-                                |_______________               ||   UDP DATA    ||
-                                  forwarding to \              ||               ||
-                                  your computer  \             ||_______________||
-                                   locally        \            /.-.-.-.-.-.-.-.-.\
-                                                   `------->>>/.-.-.-.-.-.-.-.-.-.\
-                                                             /.-.-.-.-.-.-.-.-.-.-.\
-                                                            /______/__________\___o_\
-                                                            \_______________________/
+```mermaid
+graph TD
+A{Raspberry Shake} -->|Remote network| B[Some port like 10001 on your router. Global address: 64.69.109.122]
+B -->|Forwarded locally| C(Some port like 8888 on your computer. Local address: 192.168.1.104)
 ```
 
 
@@ -86,7 +59,7 @@ This is the heart of the library. Use this to open a port, get data packets, and
 
 Basic usage must start with initializing the library with the `initRSlib()` and `openSOCK()` functions. *Keep in mind that once you open a port, you will not be able to open the same port elsewhere until you quit the program using the port.*
 
-```
+```python
 >>> import raspberryShake as rs
 >>> rs.initRSlib(dport=8888, rssta='R0E05')
 >>> rs.openSOCK()
@@ -96,7 +69,7 @@ Basic usage must start with initializing the library with the `initRSlib()` and 
 
 Then, you can read data packets off of the port and interpret their contents.
 
-```
+```python
 >>> packet = rs.getDATA()
 >>> packet
 "{'EHZ', 1547497409.05, 610, 614, 620, 624, 605, 646, 648, 693, 639, 669, 654, 645, 690, 656, 687, 667, 703, 650, 641, 634, 637, 706, 641, 671, 617}"
@@ -109,7 +82,7 @@ Then, you can read data packets off of the port and interpret their contents.
 
 Time is represented in what's called a UNIX timestamp. This is the number of seconds since 00:00:00 on January 1, 1970, in UTC. Seismic libraries like [ObsPy](https://www.obspy.org/) will be able to interpret this number to date and time without you doing anything to modify it. Python's datetime library lets you do something similar.
 
-```
+```python
 >>> from datetime import datetime
 >>> timestamp = rs.getTIME(packet)
 >>> dt = datetime.utcfromtimestamp(timestamp)
@@ -122,7 +95,7 @@ datetime.datetime(2019, 1, 14, 20, 23, 29, 50000)
 
 Now let's look at the data stream and some of its attributes.
 
-```
+```python
 >>> rs.getSTREAM(packet)
 [610, 614, 620, 624, 605, 646, 648, 693, 639, 669, 654, 645, 690, 656, 687, 667, 703, 650, 641, 634, 637, 706, 641, 671, 617]
 >>>
@@ -130,7 +103,7 @@ Now let's look at the data stream and some of its attributes.
 
 The data stream is a list object with values representing raw voltage counts from the geophone. They're measured at whatever millisecond frequency your device measures at. For older models, this means 50 Hz (one sample every 20 ms), and for newer ones that's 100 Hz (one sample every 10 ms). Luckily, we've written a way to tell the sampling frequency mathematically.
 
-```
+```python
 >>> tr = rs.getTR('EHZ')        # elapsed time between packet transmissions, in milliseconds
 >>> tr
 250
@@ -152,7 +125,7 @@ So the first sample occurs at `1547497409.05` and each subsequent sample is 10 m
 
 The basic functionality of the `rs2obspy` library is pretty simple. You initialize the library in almost the same way as the `raspberryShake` library, but you supply a station name as well. Once you open a port, you will not be able to open the same port elsewhere until you exit the program. The following is an example with an RS3D.
 
-```
+```python
 >>> import rs2obspy as rso
 >>> rso.init(port=8888, sta='R4989')
 2019-01-14 17:29:31 Opening socket on (HOST:PORT) localhost:8888
@@ -167,7 +140,7 @@ The basic functionality of the `rs2obspy` library is pretty simple. You initiali
 
 Now you'll call the `init_stream()` function, which will return an obspy stream object with one trace inside (it will have processed one data packet).
 
-```
+```python
 >>> s = rso.init_stream()
 2019-01-14 17:32:02 Initializing Stream object.
 2019-01-14 17:32:02 Attaching inventory response.
@@ -181,7 +154,7 @@ AM.R4989.00.EHE | 2019-01-14T22:29:31.750000Z - 2019-01-14T22:29:31.990000Z | 10
 
 From here, you'll just need to update the stream for every data packet you receive using `update_stream()`. You'll need to feed it an already-initialized stream to update, like the example below. This is easiest with a loop, in which case the function will wait for data and automatically update when it receives something.
 
-```
+```python
 >>> s = rso.update_stream(s)
 >>> s = rso.update_stream(s)
 >>> print(s)

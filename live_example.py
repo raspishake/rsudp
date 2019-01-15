@@ -86,7 +86,7 @@ def live_stream(port=8888, sta='R4989', seconds=30, spectrogram=False):
 	for t in s:								# for trace in stream
 		start = np.datetime64(t.stats.endtime)-np.timedelta64(seconds, 's')
 		end = np.datetime64(t.stats.endtime)
-		r = np.arange(start,end,np.timedelta64(int(1000/rso.sps), 'ms'))[-len(t.data):] # array range of times in trace
+		r = np.arange(start,end,np.timedelta64(int(1000/rso.sps), 'ms')).astype(datetime)[-len(t.data):] # array range of times in trace
 		lines.append(ax[i*mult].plot(r, t.data, color='k',
 					 lw=0.5, label=t.stats.channel)[0])	# plot the line on the axis and put the instance in a list
 		ax[i*mult].set_ylabel('Voltage counts')
@@ -104,7 +104,7 @@ def live_stream(port=8888, sta='R4989', seconds=30, spectrogram=False):
 	try:
 		while True:
 			i = 0
-			while i < len(rso.channels)*mult*(rso.sps/100):	# way of reducing CPU load while keeping stream up to date
+			while i < len(rso.channels)*mult*(float(rso.sps)/100):	# way of reducing CPU load while keeping stream up to date
 				s = rso.update_stream(s)	# this will update twice per channel if spectrogram==True and sps==100, otherwise once
 				i += 1
 			obstart = s[0].stats.endtime - timedelta(seconds=seconds)	# obspy time
@@ -128,7 +128,7 @@ def live_stream(port=8888, sta='R4989', seconds=30, spectrogram=False):
 					ax[i*mult+1].clear()	# incredibly important, otherwise continues to draw over old images (gets exponentially slower)
 					ax[i*mult+1].set_xlim(0,seconds)
 					ax[i*mult+1].set_ylim(0,int(rso.sps/2))
-					ax[i*mult+1].imshow(np.flipud(sg**(1/10)), extent=(seconds-(1/(rso.sps/float(len(s[i].data)))),seconds,0,rso.sps/2), aspect='auto')
+					ax[i*mult+1].imshow(np.flipud(sg**(1/float(10))), extent=(seconds-(1/(rso.sps/float(len(s[i].data)))),seconds,0,rso.sps/2), aspect='auto')
 					ax[i*mult+1].tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
 					ax[i*mult+1].set_ylabel('Frequency (Hz)')
 				i += 1

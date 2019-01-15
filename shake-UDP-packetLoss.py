@@ -128,5 +128,4 @@ if __name__== "__main__":
 		main(printFREQ=f, port=p)
 	except KeyboardInterrupt:
 		print('')
-		rso.RS.printM('Quitting...')
-		s.plot()
+		RS.printM('Quitting...')

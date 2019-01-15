@@ -1,35 +1,48 @@
 # rsh-UDP
+![Video of live waveform and spectrogram plotting](doc_imgs/raspbery-shake-logo-2x.png)
+
 ### Tools for receiving and interacting with Raspberry Shake UDP data
 *Written by Richard Boaz (@ivor) and Ian Nesbitt (@iannesbitt) for @osop*  
 *This file is easiest to read at https://gitlab.com/osop-raspberry-shake/rsh-UDP/blob/master/README.md*
 
-### Contents of this repository:
+### Contents of this readme:
+
+0) [How to use these tools](#how-to-use-these-tools)
+   - An explanation of how UDP data works and what this software's function is
+
+#### Python libraries
 
 1) [`raspberryShake.py`](#raspberryshakepy)
-   - library of shake-related functions, to be used in a parent python program wanting to process data off a UDP port
+   - Library of shake-related functions, to be used in a parent python program wanting to process data off a UDP port
 
 2) [`rs2obspy.py`](#rs2obspypy)
-   - example library that uses raspberryShake.py to process UDP data to obspy stream object with channel-specific traces. can be iterated.
+   - Example library that uses raspberryShake.py to process UDP data to obspy stream object with channel-specific traces. can be iterated.
+
+#### Command line programs
 
 3) [`shake-UDP-packetLoss.py`](#shake-udp-packetlosspy)
-   - program that will report UDP data packet loss between a shake and a receiving computer 
+   - Program that will report UDP data packet loss between a shake and a receiving computer 
     to be run on receiving computer
 
 4) [`shake-UDP-local.py`](#shake-udp-localpy)
-   - program to read data off UDP port, to be run from Shake command line directly
+   - Program to read data off UDP port, to be run from Shake command line directly
 
 5) [`shake-UDP-remote.py`](#shake-udp-remotepy)
-   - program to read data off UDP port, to be run from a command line on the receiving computer, not the shake
+   - Program to read data off UDP port, to be run from a command line on the receiving computer, not the shake
 
 6) [`obspy_example.py`](#obspy_examplepy)
-   - command line program to read UDP data to an ObsPy stream continuously, then plot it when the user presses CTRL+C
+   - Command line program to read UDP data to an ObsPy stream continuously, then plot it when the user presses CTRL+C
 
 7) [`live_example.py`](#live_examplepy)
-   - reads UDP data and continuously updates a plot, to be used from the command line. run `python live_example.py -h or --help` for details.
+   - Reads UDP data and continuously updates a waveform and spectrogram plot, to be used from the command line
 
+#### Resources
+
+8) [Get help](#get-help)
+   - help resources, community support, and paid technical support
 
 ## How to use these tools
-([back to top](#contents-of-this-repository))
+([back to top](#contents-of-this-readme))
 
 Before you do anything, you should read the [manual page on UDP](https://manual.raspberryshake.org/udp.html#udp). This will tell you how to forward UDP data from your shake to a port on your local computer. That page is available at https://manual.raspberryshake.org/udp.html#udp.
 
@@ -60,7 +73,7 @@ D -->|reading data off of the port| C
 So before you work with this software, please read the manual to ensure that you are forwarding data to the correct place and it's not getting stuck in a router firewall somewhere.
 
 ## raspberryShake.py
-([back to top](#contents-of-this-repository))
+([back to top](#contents-of-this-readme))
 
 This is the heart of the library. Use this to open a port, get data packets, and interpret those packets to readable, but still pretty basic python data types.
 
@@ -130,7 +143,7 @@ The data stream is a list object with values representing raw voltage counts fro
 So the first sample occurs at `1547497409.05` and each subsequent sample is 10 ms (1000 ms / 100 Hz) later. It turns out that this is all we need to convert this raw data stream to, say, an ObsPy data trace.
 
 ## rs2obspy.py
-([back to top](#contents-of-this-repository))
+([back to top](#contents-of-this-readme))
 
 `rs2obspy` is a way to get more complex and useful functionality from UDP data, by interpreting your Shake's UDP data and translating it to ObsPy data stream format. This library uses the `raspberryShake` library to initialize a port, get data on that port, then construct obspy traces and append them to an [ObsPy](https://www.obspy.org/) stream object. As such this library requires `obspy`. See [obspy example](#obspy_examplepy) and [live_example.py](#live_examplepy) for working usage examples for this library. See below for a walkthrough.
 
@@ -185,7 +198,7 @@ AM.R4989.00.EHN | 2019-01-14T22:29:31.750000Z - 2019-01-14T22:29:31.990000Z | 10
 Continuing to update the stream `s` using the `update_stream(s)` call will keep adding traces (one per data packet) to the stream, then merging them based on the channel. So you'll end up with a continuous stream with as many traces as there are channels on your Shake. And you'll have the full functionality of `obspy` at your fingertips.
 
 ## shake-UDP-packetloss.py
-([back to top](#contents-of-this-repository))
+([back to top](#contents-of-this-readme))
 
 Track lost packets at specified intervals from the command line.
 
@@ -228,7 +241,7 @@ $
 As with most command line programs, the CTRL+C keystroke will end the program and return to the shell.
 
 ## shake-UDP-local.py
-([back to top](#contents-of-this-repository))
+([back to top](#contents-of-this-readme))
 
 This program is meant to run from the Shake itself, to make sure that UDP data is flowing at least to its own internal port (8888 by default).
 
@@ -256,7 +269,7 @@ Use CTRL+C to quit the program and return to the shell.
 
 
 ## shake-UDP-remote.py
-([back to top](#contents-of-this-repository))
+([back to top](#contents-of-this-readme))
 
 This program is meant to run from the computer receiving Shake UDP data, to make sure that data is flowing.
 
@@ -284,7 +297,7 @@ Use CTRL+C to quit the program and return to the shell.
 
 
 ## obspy_example.py
-([back to top](#contents-of-this-repository))
+([back to top](#contents-of-this-readme))
 
 `python live_example.py -p <port> -s <station> [-h]`
 
@@ -321,7 +334,7 @@ If all goes well and you have the proper libraries installed, you should see som
 
 
 ## live_example.py
-([back to top](#contents-of-this-repository))
+([back to top](#contents-of-this-readme))
 
 This is a much more intricate example program, as it is meant to live-plot data as it is received. If you find that it is sluggish or drops a lot of packets when you run it, you may either need to quit some programs on your machine or you may just need more horsepower. Extremely fun to watch no matter what.
 
@@ -379,22 +392,11 @@ QGtkStyle could not resolve GTK. Make sure you have installed the proper librari
 
 ![Video of live waveform and spectrogram plotting](doc_imgs/R4989_live2.mp4)
 
+# Get help
+([back to top](#contents-of-this-readme))
 
-## TO DO
-([back to top](#contents-of-this-repository))
+If you're looking for support videos, the Raspberry Shake manual, or educator's guides, you'll find those at https://raspberryshake.org/learn-support/.
 
-1) finish library / add any other base functions of interest
-	- library has been updated to work with current use cases
+As always, if you have questions about software or hardware, our community is ready to help. Find us at https://groups.google.com/forum/#!forum/raspberryshake.
 
-2) convert pgm 2 to completely use raspberryShake library
-
-3) add an example program using obsPy library
-	- done and working
-
-4) document library
-
-5) document packetLoss program as example of how to use library
-
-6) flesh out the -local and -remote program templates, to use new library, etc.
-	- done
-    
+If you need technical assistance from a trained specialist or a developer, our support tickets are located here: https://shop.raspberryshake.org/product/technical-support-incident/

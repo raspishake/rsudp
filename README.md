@@ -55,7 +55,7 @@ B -->|Forwarded locally| C(Some port like 8888 on your computer. Local address: 
 
 This is the heart of the library. Use this to open a port, get data packets, and interpret those packets to readable, but still pretty basic form.
 
-#### Initializing a connection on a port
+### Initializing a connection on a port
 
 Basic usage must start by initializing the library with the `initRSlib()` and `openSOCK()` functions. *Keep in mind that once you open a port, you will not be able to open the same port elsewhere until you quit the program using the port.*
 
@@ -66,6 +66,8 @@ Basic usage must start by initializing the library with the `initRSlib()` and `o
 2019-01-14 15:23:29 Opening socket on (HOST:PORT) localhost:8888
 >>>
 ```
+
+### Reading data packets
 
 Then, you can read data packets off of the port and interpret their contents.
 
@@ -92,6 +94,8 @@ datetime.datetime(2019, 1, 14, 20, 23, 29, 50000)
 2019-01-14 20:23:29.050000
 >>>
 ```
+
+### Data stream
 
 Now let's look at the data stream and some of its attributes.
 
@@ -151,6 +155,8 @@ Now you'll call the `init_stream()` function, which will return an obspy stream 
 AM.R4989.00.EHE | 2019-01-14T22:29:31.750000Z - 2019-01-14T22:29:31.990000Z | 100.0 Hz, 25 samples
 >>> 
 ```
+
+### Update your stream
 
 From here, you'll just need to update the stream for every data packet you receive using `update_stream()`. You'll need to feed it an already-initialized stream to update, like the example below. This is easiest with a loop, in which case the function will wait for data and automatically update when it receives something.
 

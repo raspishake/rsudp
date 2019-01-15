@@ -116,7 +116,7 @@ def live_stream(port=8888, sta='R4989', seconds=30, spectrogram=False):
 				r = np.arange(start, end, np.timedelta64(int(1000/rso.sps), 'ms'))[-len(s[i].data[-rso.sps*seconds:]):]
 				lines[i].set_ydata(s[i].data[-rso.sps*seconds:])
 				lines[i].set_xdata(r)
-				ax[i*mult].set_xlim(left=start, right=end)
+				ax[i*mult].set_xlim(left=start.astype(datetime), right=end.astype(datetime))
 				ax[i*mult].set_ylim(bottom=np.min(s[i].data)-np.ptp(s[i].data)*0.1, top=np.max(s[i].data)+np.ptp(s[i].data)*0.1)
 				if spectrogram:
 					nfft1 = _nearest_pow_2(rso.sps)	# FFTs run much faster if the number of transforms is a power of 2
@@ -128,7 +128,7 @@ def live_stream(port=8888, sta='R4989', seconds=30, spectrogram=False):
 					ax[i*mult+1].clear()	# incredibly important, otherwise continues to draw over old images (gets exponentially slower)
 					ax[i*mult+1].set_xlim(0,seconds)
 					ax[i*mult+1].set_ylim(0,int(rso.sps/2))
-					ax[i*mult+1].imshow(np.flipud(sg**(1/10)), extent=(seconds-(1/(rso.sps/len(s[i].data))),seconds,0,rso.sps/2), aspect='auto')
+					ax[i*mult+1].imshow(np.flipud(sg**(1/10)), extent=(seconds-(1/(rso.sps/float(len(s[i].data)))),seconds,0,rso.sps/2), aspect='auto')
 					ax[i*mult+1].tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
 					ax[i*mult+1].set_ylabel('Frequency (Hz)')
 				i += 1
@@ -196,7 +196,7 @@ if __name__ == '__main__':
 				spec = True
 		live_stream(port=prt, sta=stn, seconds=sec, spectrogram=spec)
 		exit(0)
-	except Exception as e:
+	except ValueError as e:
 		print('ERROR: %s' % e)
 		print(hlp_txt)
 		exit(2)

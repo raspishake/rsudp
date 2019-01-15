@@ -10,5 +10,10 @@ file.close()
 RS.initRSlib(dport=port)
 RS.openSOCK()
 
-while 1:								# loop forever
-	print(RS.getDATA())
+try:
+	while 1:								# loop forever
+		print(RS.getDATA())
+except KeyboardInterrupt:
+	print('')
+	RS.printM('Quitting...')
+	exit(0)

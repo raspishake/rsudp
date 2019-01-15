@@ -14,9 +14,12 @@ def construct_stream():
 	'''
 	s = rso.init_stream()
 	try:
+		rso.RS.printM('Updating stream continuously. Will run unitl Ctrl+C is pressed.')
 		while True:
 			s = rso.update_stream(s)
 	except KeyboardInterrupt:
+		print('')
+		rso.RS.printM('Plotting...')
 		s.plot()
 
 

@@ -71,7 +71,7 @@ def make_trace():
 		except:
 			RS.printM('ERROR attaching inventory response. Are you sure you set the station name correctly?')
 			RS.printM('    This could indicate a mismatch in the number of data channels between the inventory and the stream.')
-			RS.printM('    If you are receiving RS4D data, please make sure the inventory you download has 4 channels.')
+			RS.printM('    For example, if you are receiving RS4D data, please make sure the inventory you download has 4 channels.')
 	tr.data = np.ma.MaskedArray(st)
 	return tr
 

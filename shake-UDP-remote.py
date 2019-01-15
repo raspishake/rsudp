@@ -33,4 +33,9 @@ if __name__ == '__main__':
 			RS.printM('ERROR: Port value must be integer.')
 			RS.printM('Error details: %s' % e)
 			exit(2)
-	run(prt)
+	try:
+		run(prt)
+	except KeyboardInterrupt:
+		print('')
+		RS.printM('Quitting...')
+		exit(0)

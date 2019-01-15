@@ -124,4 +124,9 @@ if __name__== "__main__":
 			p = int(a)
 		if o in ('-f', 'frequency='):
 			f = int(a)
-	main(printFREQ=f, port=p)
+	try:
+		main(printFREQ=f, port=p)
+	except KeyboardInterrupt:
+		print('')
+		rso.RS.printM('Quitting...')
+		s.plot()

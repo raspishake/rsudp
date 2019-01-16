@@ -16,7 +16,7 @@
    - Library of shake-related functions, to be used in a parent python program wanting to process data off a UDP port
 
 2) [`rs2obspy.py`](#rs2obspypy)
-   - Example library that uses raspberryShake.py to process UDP data to obspy stream object with channel-specific traces. can be iterated.
+   - Example library that uses raspberryShake.py to process UDP data to obspy stream object with channel-specific traces. Can be iterated.
 
 #### Command line programs
 
@@ -39,14 +39,16 @@
 #### Resources
 
 8) [Get help](#get-help)
-   - help resources, community support, and paid technical support
+   - Help resources, community support, and paid technical support
 
 ## How to use these tools
 ([back to top](#contents-of-this-readme))
 
 Before you do anything, you should read the [manual page on UDP](https://manual.raspberryshake.org/udp.html#udp). This will tell you how to forward UDP data from your shake to a port on your local computer. That page is available at https://manual.raspberryshake.org/udp.html#udp.
 
-The standard way to utilize the Raspberry Shake's UDP capability is by forwarding the UDP stream to a computer on the same local network. If the Shake and the computer you're working on aren't on the same network, usually you have to aim the UDP stream at the router on your side, then fiddle with the port forwarding settings on your router to forward the data to a port at your device's IP address.
+The standard way to utilize the Raspberry Shake's UDP capability is by forwarding the UDP stream to a computer on the same local network (see [Local example diagram](#local-example-diagram) below).
+
+If the Shake and the computer you're working on *aren't* on the same network, usually you have to aim the UDP stream at the external IP of the router on your side, then fiddle with the port forwarding settings on the router to forward the data to a port at your device's local, internal IP address (see [remote example diagram](#remote-example-diagram) below).
 
 ### Local example diagram
 
@@ -60,7 +62,7 @@ C -->|reading data off of the port| B
 
 ### Remote example diagram
 
-And here's one demonstrating a truly remote connection. In this case UDP data is being sent from a distant network to a port (10002) on the externally-facing part of your router (64.69.109.122), and your router is forwarding that to port 8888 your computer. This can be done with any modern router, but unfortunately since there are so many routers out there, you'll have to figure out how to do this with your specific make and model yourself.
+And here's a diagram demonstrating a truly remote connection. In this case UDP data is being sent from a distant network to a port (10002) on the externally-facing IP of your router (in this example your router's global IP address is 64.69.109.122), and your router is forwarding that to port 8888 your computer (for example 192.168.1.104). This can be done with any modern router, but unfortunately since there are so many routers out there, you'll have to figure out how to do this with your specific make and model yourself.
 
 ```mermaid
 graph TD
@@ -70,7 +72,7 @@ C -->|Continuously| D[This software]
 D -->|reading data off of the port| C
 ```
 
-So before you work with this software, please read the manual to ensure that you are forwarding data to the correct place and it's not getting stuck in a router firewall somewhere.
+So before you work with this software, please read the [manual](https://manual.raspberryshake.org/udp.html#udp) to ensure that you are forwarding data to the correct place and it's not getting stuck in a router firewall somewhere.
 
 # Python libraries
 

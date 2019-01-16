@@ -72,6 +72,8 @@ D -->|reading data off of the port| C
 
 So before you work with this software, please read the manual to ensure that you are forwarding data to the correct place and it's not getting stuck in a router firewall somewhere.
 
+# Python libraries
+
 ## raspberryShake.py
 ([back to top](#contents-of-this-readme))
 
@@ -196,6 +198,8 @@ AM.R4989.00.EHN | 2019-01-14T22:29:31.750000Z - 2019-01-14T22:29:31.990000Z | 10
 ```
 
 Continuing to update the stream `s` using the `update_stream(s)` call will keep adding traces (one per data packet) to the stream, then merging them based on the channel. So you'll end up with a continuous stream with as many traces as there are channels on your Shake. And you'll have the full functionality of `obspy` at your fingertips.
+
+# Command line programs
 
 ## shake-UDP-packetloss.py
 ([back to top](#contents-of-this-readme))
@@ -392,7 +396,9 @@ QGtkStyle could not resolve GTK. Make sure you have installed the proper librari
 
 ![Video of live waveform and spectrogram plotting](doc_imgs/R4989_live2.mp4)
 
-# Get help
+# Resources
+
+## Get help
 ([back to top](#contents-of-this-readme))
 
 If you're looking for support videos, the Raspberry Shake manual, or educator's guides, you'll find those at https://raspberryshake.org/learn-support/.

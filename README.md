@@ -38,7 +38,10 @@
 
 #### Resources
 
-8) [Get help](#get-help)
+8) [Installing requirements](#installing-requirements)
+   - Install the Anaconda platform and python dependencies for this software
+
+9) [Get help](#get-help)
    - Help resources, community support, and paid technical support
 
 ## How to use these tools
@@ -149,7 +152,7 @@ So the first sample occurs at `1547497409.05` and each subsequent sample is 10 m
 ## rs2obspy.py
 ([back to top](#contents-of-this-readme))
 
-`rs2obspy` is a way to get more complex and useful functionality from UDP data, by interpreting your Shake's UDP data and translating it to ObsPy data stream format. This library uses the `raspberryShake` library to initialize a port, get data on that port, then construct obspy traces and append them to an [ObsPy](https://www.obspy.org/) stream object. As such this library requires `obspy`. See [obspy example](#obspy_examplepy) and [live_example.py](#live_examplepy) for working usage examples for this library. See below for a walkthrough.
+`rs2obspy` is a way to get more complex and useful functionality from UDP data, by interpreting your Shake's UDP data and translating it to ObsPy data stream format. This library uses the `raspberryShake` library to initialize a port, get data on that port, then construct obspy traces and append them to an [ObsPy](https://www.obspy.org/) stream object. As such this library requires `obspy`. Depending on your level of comfort with the command line, installing `obspy` may or may not be a trivial task. See [installing requirements](#installing-requirements) for help. See [obspy_example.py](#obspy_examplepy) and [live_example.py](#live_examplepy) for working usage examples for this library. See below for a walkthrough.
 
 ### Initialize the library with a port and a station name
 
@@ -399,6 +402,30 @@ QGtkStyle could not resolve GTK. Make sure you have installed the proper librari
 ![Video of live waveform and spectrogram plotting](doc_imgs/R4989_live2.mp4)
 
 # Resources
+
+## Installing requirements
+([back to top](#contents-of-this-readme))
+
+Some of the software in this repository requires `numpy`, `obspy`, and/or `matplotlib` to function. Here's a guide to help you install these dependencies.
+
+1. **The first step is to install [Anaconda](https://www.anaconda.com/download/)**. This should be fairly straightforward, as they've got good documentation and they support a lot of operating systems. Once you've done that, skip to step 2.
+
+2. **Create a new virtual environment to run this software from, then activate it.** *(optional but recommended)*  
+   `conda create -n rshake`  
+   This will create a closed-off area of your computer where you can install python software and not affect the workings of any other python installation on your computer. We call these areas "virtual environments." To activate that virtual environment, type:  
+   `conda activate rshake`  
+   You'll notice the name of the virtual environment `rshake` will appear to the left of your prompt to let you know you're in that environment. Now you can install the requirements.
+
+3. **Install `obspy`.** Doing so will actually install all the other dependencies as well:  
+   `conda install -c conda-forge obspy`  
+   You'll be required to press enter to confirm you want to do this, then anaconda will install the things you need.
+
+4. **Confirm you've installed everything correctly**. To do so, execute the following command:  
+   `python -c 'import obspy; print(obspy.__version__)'`  
+   If it prints the version, great! You're ready to go!
+
+5. **To deactivate the virtual environment** and get back to your regular python environment:  
+   `conda deactivate`
 
 ## Get help
 ([back to top](#contents-of-this-readme))

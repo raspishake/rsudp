@@ -46,7 +46,7 @@
 
 Before you do anything, you should read the [manual page on UDP](https://manual.raspberryshake.org/udp.html#udp). This will tell you how to forward UDP data from your shake to a port on your local computer. That page is available at https://manual.raspberryshake.org/udp.html#udp.
 
-The standard way to utilize the Raspberry Shake's UDP capability is by forwarding the UDP stream to a computer on the same local network (see [Local example diagram](#local-example-diagram) below).
+The standard way to utilize the Raspberry Shake's UDP capability is by forwarding the UDP stream to a computer on the same local network (see [local example diagram](#local-example-diagram) below).
 
 If the Shake and the computer you're working on *aren't* on the same network, usually you have to aim the UDP stream at the external IP of the router on your side, then fiddle with the port forwarding settings on the router to forward the data to a port at your device's local, internal IP address (see [remote example diagram](#remote-example-diagram) below).
 

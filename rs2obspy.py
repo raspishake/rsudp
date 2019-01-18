@@ -89,6 +89,6 @@ def init_stream():
 
 
 # Then make repeated calls to this, to continue adding trace data to the stream
-def update_stream(stream):
+def update_stream(stream, **kwargs):
 	'''Returns an updated trace object with new data, merged down to one trace per available channel.'''
-	return stream.append(make_trace()).merge(fill_value='latest')
+	return stream.append(make_trace()).merge(**kwargs)

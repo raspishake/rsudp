@@ -105,7 +105,7 @@ def live_stream(port=8888, sta='R4989', seconds=30, spectrogram=False):
 		while True:
 			i = 0
 			while i < len(rso.channels)*mult*(float(rso.sps)/100):	# way of reducing CPU load while keeping stream up to date
-				s = rso.update_stream(s)	# this will update twice per channel if spectrogram==True and sps==100, otherwise once
+				s = rso.update_stream(s)#, fill_value='latest')	# this will update twice per channel if spectrogram==True and sps==100, otherwise once
 				i += 1
 			obstart = s[0].stats.endtime - timedelta(seconds=seconds)	# obspy time
 			start = np.datetime64(s[0].stats.endtime)-np.timedelta64(seconds, 's')	# numpy time

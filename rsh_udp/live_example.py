@@ -1,11 +1,11 @@
 import getopt, sys
-import rs2obspy as rso
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import math
 from obspy import UTCDateTime
 from datetime import datetime, timedelta
+import rsh_udp.rs2obspy as rso
 
 plt.ion()
 
@@ -40,7 +40,7 @@ def _nearest_pow_2(x):
     else:
         return b
 
-def live_stream(port=8888, sta='R4989', seconds=30, spectrogram=False):
+def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 	'''
 	Main function. Designed to run until user cancels with CTRL+C.
 	This will attempt to live-plot a UDP stream from a Raspberry Shake device.
@@ -139,8 +139,7 @@ def live_stream(port=8888, sta='R4989', seconds=30, spectrogram=False):
 		rso.RS.printM('Plotting ended.')
 		exit(0)
 
-
-if __name__ == '__main__':
+def main():
 	'''
 	Loads port, station, network, and duration arguments to create a graph.
 	Supply -p, -s, -n, and/or -d to change the port and the output plot
@@ -200,3 +199,6 @@ if __name__ == '__main__':
 		print('ERROR: %s' % e)
 		print(hlp_txt)
 		exit(2)
+
+if __name__ == '__main__':
+	main()

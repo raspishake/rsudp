@@ -427,7 +427,7 @@ Some of the software in this repository requires `numpy`, `obspy`, and/or `matpl
    `python -c 'import obspy; print(obspy.__version__)'`  
    If it prints the version, great! You're ready to go!
 
-5. **To deactivate the virtual environment** and get back to your regular python environment:  
+5. **To deactivate the virtual environment** *(optional)* and get back to your regular python environment:  
    `conda deactivate`
 
 ## Installing this software

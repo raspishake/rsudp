@@ -2,7 +2,7 @@ import sys
 import getopt
 import datetime as dt
 import signal
-import raspberryShake as RS
+import rsh_udp.raspberryshake as RS
 
 def signal_handler(signal, frame):
 	print()
@@ -24,7 +24,7 @@ def printTTLS(CHAN, TRS):
 							(CHAN, ttlSecs, DPttlLoss[CHAN], round(pct, 2), ttlDPs))
 	return True
 
-def main(printFREQ=60, port=8888):
+def run(printFREQ=60, port=8888):
 	'''
 	Initialize stream and print constants, then process data for packet loss.
 	'''
@@ -78,7 +78,7 @@ DPtime = {}
 timeStart = {}
 DPttlLoss = {}
 
-if __name__== "__main__":
+def main():
 	'''
 	When run from the command line, pass in a value of seconds as an argument
 	to set the packet loss for reporting period.
@@ -125,7 +125,11 @@ if __name__== "__main__":
 		if o in ('-f', 'frequency='):
 			f = int(a)
 	try:
-		main(printFREQ=f, port=p)
+		run(printFREQ=f, port=p)
 	except KeyboardInterrupt:
 		print('')
 		RS.printM('Quitting...')
+
+
+if __name__== "__main__":
+	main()

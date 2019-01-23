@@ -1,4 +1,4 @@
-import raspberryShake as RS
+import rsh_udp.raspberryshake as RS
 import sys, getopt
 
 
@@ -19,7 +19,7 @@ python shake-UDP-remote.py -p 18001
 Use -h to display this message.
 '''
 
-if __name__ == '__main__':
+def main():
 	prt = 8888
 	opts, args = getopt.getopt(sys.argv[1:], 'hp:', ['help', 'port='])
 	for o, a in opts:
@@ -39,3 +39,6 @@ if __name__ == '__main__':
 		print('')
 		RS.printM('Quitting...')
 		exit(0)
+
+if __name__ == '__main__':
+	main()

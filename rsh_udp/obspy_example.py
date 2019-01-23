@@ -1,4 +1,4 @@
-import rs2obspy as rso
+import rsh_udp.rs2obspy as rso
 
 '''
 A small example program that uses rs2obspy to build a stream, then
@@ -23,6 +23,10 @@ def construct_stream():
 		s.plot()
 
 
-rso.init(port=18003, sta='R4989')
+def main():
+	rso.init(port=18003, sta='Z0000')
 
-construct_stream()
+	construct_stream()
+
+if __name__ == '__main__':
+	main()

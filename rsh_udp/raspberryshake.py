@@ -19,12 +19,12 @@ def handler(signum, frame):
 	printM('is forwarding data to the port correctly.')
 	raise IOError('No data received')
 
-def initRSlib(dport=8888, rssta='R0E05', timeout=10):
+def initRSlib(dport=8888, rssta='Z0000', timeout=10):
 	'''
 	Set values for data port, station, network, and data port timeout prior to opening the socket.
 	Defaults:
 	dport=8888					# this is the port number to be opened
-	rssta='R0E05'				# the name of the station
+	rssta='Z0000'				# the name of the station (something like R0E05)
 	timeout=10					# the number of seconds to wait for data before an error is raised (zero for unlimited wait)
 	'''
 	global port, sta, net, to, initd

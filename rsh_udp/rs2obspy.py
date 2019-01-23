@@ -4,7 +4,7 @@ from obspy.core.utcdatetime import UTCDateTime
 from obspy import read_inventory
 from datetime import timedelta
 import numpy as np
-import raspberryShake as RS
+import rsh_udp.raspberryshake as RS
 
 
 '''

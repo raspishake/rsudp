@@ -414,23 +414,35 @@ Some of the software in this repository requires `numpy`, `obspy`, and/or `matpl
 1. **The first step is to install [Anaconda](https://www.anaconda.com/download/)**. This should be fairly straightforward, as they've got good documentation and they support a lot of operating systems. Once you've done that, skip to step 2.
 
 2. **Create a new virtual environment to run this software from, then activate it.** *(optional but recommended)*  
-   `conda create -n rshake`  
+   ```bash
+   conda create -n rshake
+   ```
    This will create a closed-off area of your computer where you can install python software and not affect the workings of any other python installation on your computer. We call these areas "virtual environments." To activate that virtual environment, type:  
-   `conda activate rshake`  
+   ```bash
+   conda activate rshake
+   ```  
    You'll notice the name of the virtual environment `rshake` will appear to the left of your prompt to let you know you're in that environment. Now you can install the requirements.
 
 3. **Install `obspy`.** Doing so will actually install all the other dependencies as well:  
-   `conda install -c conda-forge obspy`  
+   ```bash
+   conda install -c conda-forge obspy
+   ```  
    You'll be required to press enter to confirm you want to do this, then anaconda will install the things you need.
 
 4. **Confirm you've installed everything correctly**. To do so, execute the following command:  
-   `python -c 'import obspy; print(obspy.__version__)'`  
+   ```bash
+   python -c 'import obspy; print(obspy.__version__)'
+   ```  
    If it prints the version, great! You're ready to go!
 
 5. **To deactivate the virtual environment** *(optional)* and get back to your regular python environment:  
-   `conda deactivate`
+   ```bash
+   conda deactivate
+   ```
 
 ## Installing this software
+([back to top](#contents-of-this-readme))
+
 This software is distributed from the Raspberry Shake's web interface as well as through the Python Package Index (PyPI).
 
 To install from PyPI, ensure you follow the steps in the [Installing requirements](#installing-requirements) section above, then execute the following commands:
@@ -447,13 +459,16 @@ Now you should be able to execute this test command:
 shake_liveplot -h
 ```
 
-If the command works, it will output a help dialog. If not, something went wrong.
+If the installation was successful, this command will output a help dialog. If not, something went wrong.
 
 ## Get help
 ([back to top](#contents-of-this-readme))
 
-If you're looking for support videos, the Raspberry Shake manual, or educator's guides, you'll find those at https://raspberryshake.org/learn-support/.
+If you're looking for support videos, the Raspberry Shake manual, or educator's guides, you'll find those at:  
+https://raspberryshake.org/learn-support/
 
-As always, if you have questions about software or hardware, our community is ready to help. Find us at https://groups.google.com/forum/#!forum/raspberryshake.
+As always, if you have questions about software or hardware, our community is ready to help.  
+Find us at https://groups.google.com/forum/#!forum/raspberryshake.
 
-If you need technical assistance from a trained specialist or a developer, our support tickets are located here: https://shop.raspberryshake.org/product/technical-support-incident/
+If you need technical assistance from a trained specialist or a developer, our support tickets are located here:  
+https://shop.raspberryshake.org/product/technical-support-incident/

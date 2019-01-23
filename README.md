@@ -1,5 +1,5 @@
-# rsh-UDP
-![Video of live waveform and spectrogram plotting](doc_imgs/raspbery-shake-logo-2x.png)
+# rsh_udp
+![Raspberry Shake logo](doc_imgs/raspbery-shake-logo-2x.png)
 
 ### Tools for receiving and interacting with Raspberry Shake UDP data
 *Written by Richard Boaz (@ivor) and Ian Nesbitt (@iannesbitt) for @osop*  
@@ -12,28 +12,28 @@
 
 #### Python libraries
 
-1) [`raspberryShake.py`](#raspberryshakepy)
+1) [`rsh_udp.raspberryshake`](#raspberryshake-library)
    - Library of shake-related functions, to be used in a parent python program wanting to process data off a UDP port
 
-2) [`rs2obspy.py`](#rs2obspypy)
-   - Example library that uses raspberryShake.py to process UDP data to obspy stream object with channel-specific traces. Can be iterated.
+2) [`rsh_udp.rs2obspy`](#rs2obspy-library)
+   - Example library that uses `rsh_udp.raspberryshake` to process UDP data to obspy stream object with channel-specific traces. Can be iterated.
 
 #### Command line programs
 
-3) [`shake-UDP-packetLoss.py`](#shake-udp-packetlosspy)
+3) [`shake_packetloss`](#shake_packetloss)
    - Program that will report UDP data packet loss between a shake and a receiving computer 
     to be run on receiving computer
 
-4) [`shake-UDP-local.py`](#shake-udp-localpy)
+4) [`shake_local`](#shake_local)
    - Program to read data off UDP port, to be run from Shake command line directly
 
-5) [`shake-UDP-remote.py`](#shake-udp-remotepy)
+5) [`shake_remote`](#shake_remote)
    - Program to read data off UDP port, to be run from a command line on the receiving computer, not the shake
 
-6) [`obspy_example.py`](#obspy_examplepy)
+6) [`shake_obspy_plot`](#shake_obspy_plot)
    - Command line program to read UDP data to an ObsPy stream continuously, then plot it when the user presses CTRL+C
 
-7) [`live_example.py`](#live_examplepy)
+7) [`shake_liveplot`](#shake_liveplot)
    - Reads UDP data and continuously updates a waveform and spectrogram plot, to be used from the command line
 
 #### Resources
@@ -41,8 +41,11 @@
 8) [Installing requirements](#installing-requirements)
    - Install the Anaconda platform and python dependencies for this software
 
-9) [Get help](#get-help)
-   - Help resources, community support, and paid technical support
+9) [Installing this software](#installing-this-software)
+   - Install this software using `pip`
+
+10) [Get help](#get-help)
+    - Help resources, community support, and paid technical support
 
 ## How to use these tools
 ([back to top](#contents-of-this-readme))
@@ -79,17 +82,17 @@ So before you work with this software, please read the [manual](https://manual.r
 
 # Python libraries
 
-## raspberryShake.py
+## raspberryshake library
 ([back to top](#contents-of-this-readme))
 
-This is the heart of the library. Use this to open a port, get data packets, and interpret those packets to readable, but still pretty basic python data types.
+Accessed via `rsh_udp.raspberryshake`. This is the heart of the library. Use this to open a port, get data packets, and interpret those packets to readable, but still pretty basic python data types.
 
 ### Initializing a connection on a port
 
 Basic usage must start by initializing the library with the `initRSlib()` and `openSOCK()` functions. Specify the data port to listen on and the station name using the arguments `dport=<integer>` and `rssta=<string>` respectively. *Keep in mind that once you open a port, you will not be able to open the same port elsewhere until you quit the program using the port.*
 
 ```python
->>> import raspberryShake as rs
+>>> import rsh_udp.raspberryshake as rs
 >>> rs.initRSlib(dport=8888, rssta='R0E05')
 >>> rs.openSOCK()
 2019-01-14 15:23:29 Opening socket on (HOST:PORT) localhost:8888
@@ -149,17 +152,17 @@ The data stream is a list object with values representing raw voltage counts fro
 
 So the first sample occurs at `1547497409.05` and each subsequent sample is 10 ms (1000 ms / 100 Hz) later. It turns out that this is all we need to convert this raw data stream to, say, an ObsPy data trace.
 
-## rs2obspy.py
+## rs2obspy library
 ([back to top](#contents-of-this-readme))
 
-`rs2obspy` is a way to get more complex and useful functionality from UDP data, by interpreting your Shake's UDP data and translating it to ObsPy data stream format. This library uses the `raspberryShake` library to initialize a port, get data on that port, then construct obspy traces and append them to an [ObsPy](https://www.obspy.org/) stream object. As such this library requires `obspy`. Depending on your level of comfort with the command line, installing `obspy` may or may not be a trivial task. See [installing requirements](#installing-requirements) for help. See [obspy_example.py](#obspy_examplepy) and [live_example.py](#live_examplepy) for working usage examples for this library. See below for a walkthrough.
+`rsh_udp.rs2obspy` is a way to get more complex and useful functionality from UDP data, by interpreting your Shake's UDP data and translating it to ObsPy data stream format. This library uses the `raspberryShake` library to initialize a port, get data on that port, then construct obspy traces and append them to an [ObsPy](https://www.obspy.org/) stream object. As such this library requires `obspy`. Depending on your level of comfort with the command line, installing `obspy` may or may not be a trivial task. See [installing requirements](#installing-requirements) for help. See [shake_obspy_plot](#shake_obspy_plot) and [shake_liveplot](#shake_liveplot) for working usage examples for this library. See below for a walkthrough.
 
 ### Initialize the library with a port and a station name
 
 The basic functionality of the `rs2obspy` library is pretty simple. You initialize the library in almost the same way as the `raspberryShake` library, but you supply the port with `port=<integer>` and station name with `sta=<string>`. Once you open a port, you will not be able to open the same port elsewhere until you exit the program. The following is an example with an RS3D.
 
 ```python
->>> import rs2obspy as rso
+>>> import rsh_udp.rs2obspy as rso
 >>> rso.init(port=8888, sta='R4989')
 2019-01-14 17:29:31 Opening socket on (HOST:PORT) localhost:8888
 2019-01-14 17:29:31 Got data with sampling rate 100 Hz (calculated from channel EHZ)
@@ -206,14 +209,14 @@ Continuing to update the stream `s` using the `update_stream(s)` call will keep 
 
 # Command line programs
 
-## shake-UDP-packetloss.py
+## shake_packetloss
 ([back to top](#contents-of-this-readme))
 
 Track lost packets at specified intervals from the command line.
 
 ### Usage
 
-`python shake-UDP-packetloss.py -p <port> -f <report frequency>`
+`shake_packetloss -p <port> -f <report frequency>`
 
 `-p <integer>`  - Port. Whole, positive number referring to the port to listen for data on.  
 `-f <integer>`  - Report frequency. Whole, positive number of seconds to wait before reporting on packetloss statistics. Lost packets will always be reported as they happen as well. Default is 60.
@@ -223,7 +226,7 @@ This program is meant to run from the command line and is pretty simple to use. 
 The following example shows a two hour run with a report frequency of 3600 seconds (1 hour) for an RS4D sending data to port 18001.
 
 ```
-$ python shake-UDP-packetloss.py -p 18001 -f 3600
+$ shake_packetloss -p 18001 -f 3600
 2019-01-07 16:01:00 Initializing...
 2019-01-07 16:01:00 Opening socket on (HOST:PORT) localhost:18001
 2019-01-07 16:01:00 Opened data port successfully.
@@ -249,19 +252,19 @@ $
 
 As with most command line programs, the CTRL+C keystroke will end the program and return to the shell.
 
-## shake-UDP-local.py
+## shake_local
 ([back to top](#contents-of-this-readme))
 
 This program is meant to run from the Shake itself, to make sure that UDP data is flowing at least to its own internal port (8888 by default).
 
 ### Usage
 
-`python shake-UDP-local.py`
+`shake_local`
 
 From the Shake's command line:
 
 ```
-myshake@raspberryshake:/opt/settings/user $ python shake-UDP-local.py 
+myshake@raspberryshake:/opt/settings/user $ shake_local 
 2019-01-15 20:20:49 Opening socket on (HOST:PORT) localhost:8888
 {'EHZ', 1547583648.980, 544, 527, 490, 550, 625, 637, 545, 429, 436, 540, 620, 578, 559, 500, 458, 513, 574, 598, 511, 454, 481, 550, 567, 530, 477}
 {'EHE', 1547583648.980, 415, 435, 431, 454, 472, 483, 478, 447, 443, 458, 492, 535, 546, 507, 452, 442, 438, 444, 453, 458, 482, 514, 529, 544, 557}
@@ -277,19 +280,19 @@ myshake@raspberryshake:/opt/settings/user $
 Use CTRL+C to quit the program and return to the shell.
 
 
-## shake-UDP-remote.py
+## shake_remote
 ([back to top](#contents-of-this-readme))
 
 This program is meant to run from the computer receiving Shake UDP data, to make sure that data is flowing.
 
 ### Usage
 
-`python shake-UDP-remote.py -p <port>`
+`shake_remote -p <port>`
 
 `-p <integer>`  - Port. Whole, positive number referring to the port to listen for data on.  
 
 ```
-$ python shake-UDP-remote.py -p 18003
+$ shake_remote -p 18003
 2019-01-15 15:30:56 Opening socket on (HOST:PORT) localhost:18003
 "{'EHZ', 1547584256.480, 686, 545, 550, 581, 611, 650, 561, 483, 485, 543, 883, 595, 151, 700, 684, 449, 447, 654, 563, 335, 702, 598, 345, 473, 603}"
 "{'EHE', 1547584256.480, 295, 285, 330, 418, 429, 395, 346, 313, 369, 418, 421, 203, 182, 404, 439, 328, 305, 419, 360, 334, 405, 398, 231, 193, 483}"
@@ -305,10 +308,10 @@ $
 Use CTRL+C to quit the program and return to the shell.
 
 
-## obspy_example.py
+## shake_obspy_plot
 ([back to top](#contents-of-this-readme))
 
-`python live_example.py -p <port> -s <station> [-h]`
+`shake_obspy_plot -p <port> -s <station> [-h]`
 
 `-p <integer>`  - Port. Whole, positive number referring to the port to listen for data on.  
 `-s <string>`   - Station name. Usually 5 characters, usually something like R4989 or SF4A5.  
@@ -323,7 +326,7 @@ Although this is a simple program, it does requires ObsPy, Numpy, and Matplotlib
 Here's an example of its use:
 
 ```
-$ python obspy_example.py -p 18003 -s R4989
+$ shake_obspy_plot -p 18003 -s R4989
 2019-01-15 16:04:27 Opening socket on (HOST:PORT) localhost:18003
 2019-01-15 16:04:28 Got data with sampling rate 100 Hz (calculated from channel EHZ)
 2019-01-15 16:04:28 Found 3 channel(s): EHE EHN EHZ 
@@ -342,7 +345,7 @@ If all goes well and you have the proper libraries installed, you should see som
 
 
 
-## live_example.py
+## shake_liveplot
 ([back to top](#contents-of-this-readme))
 
 This is a much more intricate example program, as it is meant to live-plot data as it is received. If you find that it is sluggish or drops a lot of packets when you run it, you may either need to quit some programs on your machine or you may just need more horsepower. Extremely fun to watch no matter what.
@@ -351,7 +354,7 @@ As with the last example, this program requires ObsPy, Numpy, and Matplotlib.
 
 ### Usage
 
-`python live_example.py -p <port> -s <station> [-d <duration>] [-g]`
+`shake_liveplot -p <port> -s <station> [-d <duration>] [-g]`
 
 `-h` - (optional) Display help text.  
 `-p <integer>`  - Port. Whole, positive number referring to the port to listen for data on.  
@@ -364,7 +367,7 @@ As with the last example, this program requires ObsPy, Numpy, and Matplotlib.
 Here's an example of its low-horsepower functionality, which just plots waveforms as they're received. This example does not supply a `-d <duration>` which means that it will plot with a default x-axis range of 30 seconds. See video below for demonstration.
 
 ```
-$ python live_example.py -p 18003 -s R4989
+$ shake_liveplot -p 18003 -s R4989
 2019-01-15 16:32:33 Opening socket on (HOST:PORT) localhost:18003
 2019-01-15 16:32:33 Got data with sampling rate 100 Hz (calculated from channel EHN)
 2019-01-15 16:32:33 Found 3 channel(s): EHZ EHE EHN 
@@ -384,7 +387,7 @@ QGtkStyle could not resolve GTK. Make sure you have installed the proper librari
 Adding the `-g` flag to the command will tell the program to calculate spectrogram data as well. Due to CPU requirements, we've limited the update rate to every 0.5 seconds for the 100 Hz models. Since the 50 Hz models only send UDP data every second, the CPU usage is not as much of a problem. To find which yours is, you can look in the command output.
 
 ```
-$ python live_example.py -p 18003 -s R4989 -g
+$ shake_liveplot -p 18003 -s R4989 -g
 2019-01-15 16:55:42 Opening socket on (HOST:PORT) localhost:18003
 2019-01-15 16:55:42 Got data with sampling rate 100 Hz (calculated from channel EHN)
 2019-01-15 16:55:42 Found 3 channel(s): EHZ EHE EHN 
@@ -426,6 +429,25 @@ Some of the software in this repository requires `numpy`, `obspy`, and/or `matpl
 
 5. **To deactivate the virtual environment** and get back to your regular python environment:  
    `conda deactivate`
+
+## Installing this software
+This software is distributed from the Raspberry Shake's web interface as well as through the Python Package Index (PyPI).
+
+To install from PyPI, ensure you follow the steps in the [Installing requirements](#installing-requirements) section above, then execute the following commands:
+
+
+```bash
+conda activate rshake
+pip install rsh-udp
+```
+
+Now you should be able to execute this test command:
+
+```bash
+shake_liveplot -h
+```
+
+If the command works, it will output a help dialog. If not, something went wrong.
 
 ## Get help
 ([back to top](#contents-of-this-readme))

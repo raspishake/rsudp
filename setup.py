@@ -10,7 +10,7 @@ setuptools.setup(
     author="Ian Nesbitt",
     author_email="ian.nesbitt@raspberryshake.org",
     license='GPL',
-    description="",
+    description="Tools for receiving and interacting with Raspberry Shake UDP data",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://gitlab.com/iannesbitt/readgssi",

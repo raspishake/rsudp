@@ -225,7 +225,7 @@ This program is meant to run from the command line and is pretty simple to use. 
 
 The following example shows a two hour run with a report frequency of 3600 seconds (1 hour) for an RS4D sending data to port 18001.
 
-```
+```bash
 $ shake_packetloss -p 18001 -f 3600
 2019-01-07 16:01:00 Initializing...
 2019-01-07 16:01:00 Opening socket on (HOST:PORT) localhost:18001
@@ -263,7 +263,7 @@ This program is meant to run from the Shake itself, to make sure that UDP data i
 
 From the Shake's command line:
 
-```
+```bash
 myshake@raspberryshake:/opt/settings/user $ shake_local 
 2019-01-15 20:20:49 Opening socket on (HOST:PORT) localhost:8888
 {'EHZ', 1547583648.980, 544, 527, 490, 550, 625, 637, 545, 429, 436, 540, 620, 578, 559, 500, 458, 513, 574, 598, 511, 454, 481, 550, 567, 530, 477}
@@ -291,7 +291,7 @@ This program is meant to run from the computer receiving Shake UDP data, to make
 
 `-p <integer>`  - Port. Whole, positive number referring to the port to listen for data on.  
 
-```
+```bash
 $ shake_remote -p 18003
 2019-01-15 15:30:56 Opening socket on (HOST:PORT) localhost:18003
 "{'EHZ', 1547584256.480, 686, 545, 550, 581, 611, 650, 561, 483, 485, 543, 883, 595, 151, 700, 684, 449, 447, 654, 563, 335, 702, 598, 345, 473, 603}"
@@ -325,7 +325,7 @@ Although this is a simple program, it does requires ObsPy, Numpy, and Matplotlib
 
 Here's an example of its use:
 
-```
+```bash
 $ shake_obspy_plot -p 18003 -s R4989
 2019-01-15 16:04:27 Opening socket on (HOST:PORT) localhost:18003
 2019-01-15 16:04:28 Got data with sampling rate 100 Hz (calculated from channel EHZ)
@@ -366,7 +366,7 @@ As with the last example, this program requires ObsPy, Numpy, and Matplotlib.
 
 Here's an example of its low-horsepower functionality, which just plots waveforms as they're received. This example does not supply a `-d <duration>` which means that it will plot with a default x-axis range of 30 seconds. See video below for demonstration.
 
-```
+```bash
 $ shake_liveplot -p 18003 -s R4989
 2019-01-15 16:32:33 Opening socket on (HOST:PORT) localhost:18003
 2019-01-15 16:32:33 Got data with sampling rate 100 Hz (calculated from channel EHN)
@@ -386,7 +386,7 @@ QGtkStyle could not resolve GTK. Make sure you have installed the proper librari
 
 Adding the `-g` flag to the command will tell the program to calculate spectrogram data as well. Due to CPU requirements, we've limited the update rate to every 0.5 seconds for the 100 Hz models. Since the 50 Hz models only send UDP data every second, the CPU usage is not as much of a problem. To find which yours is, you can look in the command output.
 
-```
+```bash
 $ shake_liveplot -p 18003 -s R4989 -g
 2019-01-15 16:55:42 Opening socket on (HOST:PORT) localhost:18003
 2019-01-15 16:55:42 Got data with sampling rate 100 Hz (calculated from channel EHN)

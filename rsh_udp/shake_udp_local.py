@@ -2,10 +2,8 @@ import rsh_udp.raspberryshake as RS
 
 port = 8888								# Port to bind to
 
-hostipF = "/opt/settings/sys/ip.txt"
-file = open(hostipF, 'r')
-host = file.read().strip()
-file.close()
+with open('/opt/settings/sys/ip.txt', 'r') as file:
+    host = file.read().strip()
 
 RS.initRSlib(dport=port)
 RS.openSOCK(host)

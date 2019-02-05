@@ -64,12 +64,11 @@ def initRSlib(dport=8888, rssta='Z0000', timeout=10):
 
 	initd = True				# if initialization goes correctly, set initd to true
 
-def openSOCK():
+def openSOCK(host=''):
 	'''Initialize a socket at a port. Must be done after the above function is called.'''
 	global sockopen
 	sockopen = False
 	if initd:
-		host = ''
 		HP = '%s:%s' % ('localhost',port)
 		printM("Opening socket on (HOST:PORT) %s" % HP)	
 		sock.bind((host, port))

@@ -8,7 +8,7 @@ host = file.read().strip()
 file.close()
 
 RS.initRSlib(dport=port)
-RS.openSOCK()
+RS.openSOCK(host)
 
 def main():
 	try:

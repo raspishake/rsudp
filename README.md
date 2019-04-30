@@ -484,7 +484,7 @@ If you're looking for support videos, the Raspberry Shake manual, or educator's 
 https://raspberryshake.org/learn-support/
 
 As always, if you have questions about software or hardware, our community is ready to help.  
-Find us at https://groups.google.com/forum/#!forum/raspberryshake.
+Find us at https://community.raspberryshake.org/.
 
-If you need technical assistance from a trained specialist or a developer, our support tickets are located here:  
+If you need urgent technical assistance from a trained specialist or a developer, our support tickets are located here:  
 https://shop.raspberryshake.org/product/technical-support-incident/

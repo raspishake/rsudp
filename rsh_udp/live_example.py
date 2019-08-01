@@ -172,7 +172,7 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 			plt.pause(0.01)
 
 			n += 1											###################################
-			if (float(n) / 1000.) == int(int(n) / 1000):	###################################
+			if (float(n) / 100.) == int(int(n) / 100):		###################################
 				snapshot = tracemalloc.take_snapshot()		#############testing###############
 				display_top(snapshot)						###################################
 

@@ -58,7 +58,7 @@ def make_trace():
 	ch = RS.getCHN(d)							# channel
 	t = RS.getTIME(d)							# unix epoch time since 1970-01-01 00:00:00Z, or as obspy calls it, "timestamp"
 	st = RS.getSTREAM(d)						# samples in data packet in list [] format
-	tr = Trace(data=np.ma.MaskedArray(st))								# create empty trace
+	tr = Trace(data=np.ma.MaskedArray(st))		# create empty trace
 	tr.stats.network = RS.net						# assign values
 	tr.stats.location = '00'
 	tr.stats.station = RS.sta

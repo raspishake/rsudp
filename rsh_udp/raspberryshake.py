@@ -84,7 +84,7 @@ def getDATA():
 	if sockopen:
 		signal.signal(signal.SIGALRM, handler)
 		signal.alarm(to)						# alarm time set with timeout value
-		data, addr = sock.recvfrom(4096)
+		data = sock.recv(4096)
 		signal.alarm(0)							# once data has been received, turn alarm completely off
 		to = 0									# otherwise it erroneously triggers after keyboardinterrupt
 		return data

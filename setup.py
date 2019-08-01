@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="rsh_udp",
-    version="0.1.0",
+    version="0.1.1",
     author="Ian Nesbitt",
     author_email="ian.nesbitt@raspberryshake.org",
     license='GPL',

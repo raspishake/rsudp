@@ -58,8 +58,7 @@ def make_trace():
 	ch = RS.getCHN(d)							# channel
 	t = RS.getTIME(d)							# unix epoch time since 1970-01-01 00:00:00Z, or as obspy calls it, "timestamp"
 	st = RS.getSTREAM(d)						# samples in data packet in list [] format
-	tr = Trace()								# create empty trace
-	tr._always_contiguous = False
+	tr = Trace(data=np.ma.MaskedArray(st))								# create empty trace
 	tr.stats.network = RS.net						# assign values
 	tr.stats.location = '00'
 	tr.stats.station = RS.sta
@@ -73,7 +72,6 @@ def make_trace():
 			RS.printM('ERROR attaching inventory response. Are you sure you set the station name correctly?')
 			RS.printM('    This could indicate a mismatch in the number of data channels between the inventory and the stream.')
 			RS.printM('    For example, if you are receiving RS4D data, please make sure the inventory you download has 4 channels.')
-	tr.data = np.ma.MaskedArray(st)
 	return tr
 
 
@@ -92,6 +90,4 @@ def init_stream():
 # Then make repeated calls to this, to continue adding trace data to the stream
 def update_stream(stream, **kwargs):
 	'''Returns an updated trace object with new data, merged down to one trace per available channel.'''
-	for t in stream:
-		t._always_contiguous = False
 	return stream.append(make_trace()).merge(**kwargs)

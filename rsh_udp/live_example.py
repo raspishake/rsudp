@@ -171,9 +171,11 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 			ax[i*mult-1].set_xlabel('Time (UTC)')
 			plt.pause(0.01)
 
+			n += 1											###################################
 			if (float(n) / 10000.) == int(int(n) / 10000):	###################################
 				snapshot = tracemalloc.take_snapshot()		#############testing###############
 				display_top(snapshot)						###################################
+
 	except KeyboardInterrupt:
 		print()
 		rso.RS.printM('Plotting ended.')

@@ -9,6 +9,41 @@ import rsh_udp.rs2obspy as rso
 
 plt.ion()
 
+##########################
+##########################
+import linecache
+import os
+import tracemalloc
+
+def display_top(snapshot, key_type='lineno', limit=10):
+    snapshot = snapshot.filter_traces((
+        tracemalloc.Filter(False, "<frozen importlib._bootstrap>"),
+        tracemalloc.Filter(False, "<unknown>"),
+    ))
+    top_stats = snapshot.statistics(key_type)
+
+    print("Top %s lines" % limit)
+    for index, stat in enumerate(top_stats[:limit], 1):
+        frame = stat.traceback[0]
+        # replace "/path/to/module/file.py" with "module/file.py"
+        filename = os.sep.join(frame.filename.split(os.sep)[-2:])
+        print("#%s: %s:%s: %.1f KiB"
+              % (index, filename, frame.lineno, stat.size / 1024))
+        line = linecache.getline(frame.filename, frame.lineno).strip()
+        if line:
+            print('    %s' % line)
+
+    other = top_stats[limit:]
+    if other:
+        size = sum(stat.size for stat in other)
+        print("%s other: %.1f KiB" % (len(other), size / 1024))
+    total = sum(stat.size for stat in top_stats)
+    print("Total allocated size: %.1f KiB" % (total / 1024))
+
+tracemalloc.start()
+##########################
+##########################
+
 '''
 A more complex example program that uses rs2obspy to build a stream, then
 plots the result live until the user interrupts the program using CTRL+C.
@@ -102,6 +137,7 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 	rso.RS.printM('Plot set up successfully. Will run until CTRL+C keystroke.')
 
 	try:
+		n=0 ####################################################################################
 		while True:
 			i = 0
 			while i < len(rso.channels)*mult*(float(rso.sps)/100):	# way of reducing CPU load while keeping stream up to date
@@ -134,6 +170,10 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 				i += 1
 			ax[i*mult-1].set_xlabel('Time (UTC)')
 			plt.pause(0.01)
+
+			if (float(n) / 10000.) == int(int(n) / 10000):	###################################
+				snapshot = tracemalloc.take_snapshot()		#############testing###############
+				display_top(snapshot)						###################################
 	except KeyboardInterrupt:
 		print()
 		rso.RS.printM('Plotting ended.')

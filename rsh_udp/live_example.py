@@ -176,7 +176,7 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 					gc.collect()									# clean up garbage
 					plt.ion()
 				if spectrogram:
-					s, fig, ax, lines, mult, per_lap, nfft1, nlap1 = plot_gen(
+					s, fig, ax, lines, mult, sg, per_lap, nfft1, nlap1 = plot_gen(
 							s, figsize=(width,3*num_chans), seconds=seconds, spectrogram=spectrogram
 						)	# regenerate all plots
 				else:

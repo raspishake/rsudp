@@ -154,7 +154,7 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 	num_chans = len(rso.channels)
 
 	if spectrogram:
-		rso.RS.printM('Because spectrograms are enabled, plots will update at most every 0.5 sec to reduce CPU load.')
+		rso.RS.printM('Spectrogram is enabled; plots will update at most every 0.5 sec to reduce CPU load.')
 		s, fig, ax, lines, mult, sg, per_lap, nfft1, nlap1 = plot_gen(
 				s, figsize=(width,3*num_chans), seconds=seconds, spectrogram=spectrogram
 			)	# set up plot with spectrograms

@@ -212,7 +212,7 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 					ax[i*mult+1].clear()	# incredibly important, otherwise continues to draw over old images (gets exponentially slower)
 					ax[i*mult+1].set_xlim(0,seconds)
 					ax[i*mult+1].set_ylim(0,int(rso.sps/2))
-					ax[i*mult+1].imshow(np.flipud(sg**(1/float(10))),
+					ax[i*mult+1].imshow(np.flipud(sg**(1/float(10))), cmap='inferno',
 							extent=(seconds-(1/(rso.sps/float(len(s[i].data)))),seconds,0,rso.sps/2), aspect='auto'
 						)
 					ax[i*mult+1].tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)

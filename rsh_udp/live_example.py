@@ -41,6 +41,9 @@ def _nearest_pow_2(x):
         return b
 
 def plot_gen(s, figsize=(8,3), spectrogram=False):
+	"""
+	Generate a new plot on command with a stream object.
+	"""
 	fig = plt.figure(figsize=figsize)	# create a figure
 	fig.suptitle('Raspberry Shake station %s.%s live output' # title
 				 % (rso.RS.net, rso.RS.sta), fontsize=14)

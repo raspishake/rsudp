@@ -2,6 +2,7 @@ import getopt, sys
 import matplotlib
 matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt
+import linecache
 import numpy as np
 import math
 from obspy import UTCDateTime
@@ -138,6 +139,7 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 				if n > 1:
 					width = fig.get_size_inches()[0]				# get the current figure width (inches)
 					plt.close('all')								# close all matplotlib objects
+					linecache.clearcache()							# clear the linecache
 					gc.collect()									# clean up garbage
 				if spectrogram:
 					s, fig, ax, lines, mult, sg, per_lap, nfft1, nlap1 = plot_gen(

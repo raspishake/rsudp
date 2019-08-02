@@ -6,6 +6,7 @@ import math
 from obspy import UTCDateTime
 from datetime import datetime, timedelta
 import rsh_udp.rs2obspy as rso
+import gc
 
 plt.ion()
 
@@ -40,7 +41,7 @@ def _nearest_pow_2(x):
     else:
         return b
 
-def plot_gen(s, figsize=(8,3), spectrogram=False):
+def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 	"""
 	Generate a new plot on command with a stream object.
 	"""
@@ -70,6 +71,12 @@ def plot_gen(s, figsize=(8,3), spectrogram=False):
 				ax.append(fig.add_subplot(len(rso.channels)*mult, 1, i, sharex=ax[1]))
 		s = rso.update_stream(s)
 		i += 1
+
+		obstart = s[0].stats.endtime - timedelta(seconds=seconds)	# obspy time
+		start = np.datetime64(s[0].stats.endtime)-np.timedelta64(seconds, 's')	# numpy time
+		end = np.datetime64(s[0].stats.endtime)	# numpy time
+		s = s.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
+
 	plt.tight_layout(pad=3, h_pad=0, w_pad=0, rect=(0.03, 0, 1, 1))	# carefully designed plot layout parameters
 	plt.draw()								# update the canvas
 	plt.pause(0.05)							# wait (trust me this is necessary, but I don't know why)
@@ -80,7 +87,7 @@ def plot_gen(s, figsize=(8,3), spectrogram=False):
 		start = np.datetime64(t.stats.endtime)-np.timedelta64(seconds, 's')
 		end = np.datetime64(t.stats.endtime)
 		r = np.arange(start,end,np.timedelta64(int(1000/rso.sps), 'ms')).astype(datetime)[-len(t.data):] # array range of times in trace
-		lines.append(ax[i*mult].plot(r, t.data, color='k',
+		lines.append(ax[i*mult].plot(r, t.data[:(seconds*rso.sps)], color='k',
 					 lw=0.5, label=t.stats.channel)[0])	# plot the line on the axis and put the instance in a list
 		ax[i*mult].set_ylabel('Voltage counts')
 		ax[i*mult].legend(loc='upper left')
@@ -95,13 +102,14 @@ def plot_gen(s, figsize=(8,3), spectrogram=False):
 	if spectrogram:
 		return s, fig, ax, lines, mult, per_lap, nfft1, nlap1
 	else:
-		return s, fig, ax, lines
+		return s, fig, ax, lines, mult
 
 def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 	'''
 	Main function. Designed to run until user cancels with CTRL+C.
 	This will attempt to live-plot a UDP stream from a Raspberry Shake device.
 	'''
+	width = 8								# plot width in inches
 
 	rso.init(port=port, sta=sta)			# initialize the port
 	s = rso.init_stream()					# initialize a stream
@@ -109,28 +117,31 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 	if spectrogram:
 		rso.RS.printM('Because spectrograms are enabled, plots will update at most every 0.5 sec to reduce CPU load.')
 		s, fig, ax, lines, mult, per_lap, nfft1, nlap1 = plot_gen(
-				s, figsize=(8,3*len(rso.channels)), spectrogram=spectrogram
+				s, figsize=(width,3*len(rso.channels)), seconds=seconds, spectrogram=spectrogram
 			)	# set up plot with spectrograms
 		regen_mult = 1	# low regeneration time (FFTs eat up lots of resources)
 	else:
-		s, fig, ax, lines = plot_gen(s, figsize=(8,3*len(rso.channels)))	# standard waveform plotting
+		s, fig, ax, lines, mult = plot_gen(s, figsize=(width,3*len(rso.channels)), seconds=seconds)	# standard waveform plotting
 		regen_mult = 2	# higher regeneration time
 	rso.RS.printM('Plot set up successfully. Will run until CTRL+C keystroke.')
 
 	try:
-		n = 0
-		while True:
-			regen_time = (float(n)*rso.channels) / (4000.*regen_mult)
-			if regen_time == int(regen_time):	# periodically purge mpl memory objects and regenerate plot
-				plt.close()												# close all matplotlib objects
-				gc.collect()											# clean up garbage
+		n = 1
+		while True:		# main loop
+			regen_time = (float(n)) / (900.*float(regen_mult))		# calculate if 900*regen_mult iterations have passed
+			if regen_time == int(regen_time):						# purge mpl memory objects and regenerate plot
+				if n > 1:
+					width = fig.get_size_inches()[0]				# get the current figure width (inches)
+					plt.close(fig)									# close all matplotlib objects
+					gc.collect()									# clean up garbage
 				if spectrogram:
 					s, fig, ax, lines, mult, per_lap, nfft1, nlap1 = plot_gen(
-							s, figsize=(8,3*len(rso.channels)), spectrogram=spectrogram
+							s, figsize=(width,3*len(rso.channels)), seconds=seconds, spectrogram=spectrogram
 						)	# regenerate all plots
 				else:
-					s, fig, ax, lines = plot_gen(s, figsize=(8,3*len(rso.channels)))	# regenerate line plot
-				rso.RS.printM('Plot regenerated after %s loops.' % (n))
+					s, fig, ax, lines, mult = plot_gen(s, figsize=(width,3*len(rso.channels)), seconds=seconds)	# regenerate line plot
+				if n > 1:
+					rso.RS.printM('Plot regenerated after %s loops.' % (n))
 
 			i = 0
 			while i < len(rso.channels)*mult*(float(rso.sps)/100):	# way of reducing CPU load while keeping stream up to date
@@ -208,7 +219,7 @@ def main():
 
 	'''
 
-	try:
+	if True: #try:
 		prt, stn, sec = 8888, 'Z0000', 30
 		h = False
 		spec = False
@@ -227,11 +238,11 @@ def main():
 			if o in ('-g', '--spectrogram'):
 				spec = True
 		live_stream(port=prt, sta=stn, seconds=sec, spectrogram=spec)
-		exit(0)
-	except ValueError as e:
-		print('ERROR: %s' % e)
-		print(hlp_txt)
-		exit(2)
+	#	exit(0)
+	# except ValueError as e:
+	# 	print('ERROR: %s' % e)
+	# 	print(hlp_txt)
+	# 	exit(2)
 
 if __name__ == '__main__':
 	main()

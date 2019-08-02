@@ -170,6 +170,7 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 					width = fig.get_size_inches()[0]				# get the current figure width (inches)
 					plt.close('all')								# close all matplotlib objects
 					gc.collect()									# clean up garbage
+					global matplotlib, plt
 					import matplotlib
 					import matplotlib.pyplot as plt
 					plt.ion()

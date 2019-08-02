@@ -168,7 +168,7 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 		n = 1
 		regen_denom = 900.*float(regen_mult)
 		while True:		# main loop
-			regen_time = (float(n)*num_chans) / regen_denom)		# calculate if 900*regen_mult iterations have passed
+			regen_time = ((float(n)*num_chans) / regen_denom)		# calculate if 900*regen_mult iterations have passed
 			if regen_time == int(regen_time):						# purge mpl memory objects and regenerate plot
 				if n > 1:
 					width = fig.get_size_inches()[0]				# get the current figure width (inches)

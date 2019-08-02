@@ -129,7 +129,7 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 		ax[i*mult].legend(loc='upper left')
 		if spectrogram:						# if the user wants a spectrogram, plot it
 			if i == 0:
-				sg = ax[1].specgram(t.data, NFFT=8, pad_to=8, Fs=rso.sps, noverlap=7)[0]
+				sg = ax[1].specgram(t.data, NFFT=8, pad_to=8, Fs=rso.sps, noverlap=7, cmap='inferno')[0]
 				ax[1].set_xlim(0,seconds)
 			ax[i*mult+1].set_ylim(0,int(rso.sps/2))
 		i += 1
@@ -170,6 +170,8 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 					width = fig.get_size_inches()[0]				# get the current figure width (inches)
 					plt.close(fig)									# close all matplotlib objects
 					gc.collect()									# clean up garbage
+					import matplotlib
+					import matplotlib.pyplot as plt
 				if spectrogram:
 					s, fig, ax, lines, mult, per_lap, nfft1, nlap1 = plot_gen(
 							s, figsize=(width,3*len(rso.channels)), seconds=seconds, spectrogram=spectrogram
@@ -202,7 +204,8 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 					if len(s[i].data) < nfft1:	# when the number of data points is low, we just need to kind of fake it for a few fractions of a second
 						nfft1 = 8
 						nlap1 = 6
-					sg = ax[i*mult+1].specgram(s[i].data, NFFT=nfft1, pad_to=int(rso.sps*2), Fs=rso.sps, noverlap=nlap1)[0]	# meat & potatoes
+					sg = ax[i*mult+1].specgram(s[i].data, NFFT=nfft1, pad_to=int(rso.sps*2), cmap='inferno',
+							Fs=rso.sps, noverlap=nlap1)[0]	# meat & potatoes
 					ax[i*mult+1].clear()	# incredibly important, otherwise continues to draw over old images (gets exponentially slower)
 					ax[i*mult+1].set_xlim(0,seconds)
 					ax[i*mult+1].set_ylim(0,int(rso.sps/2))

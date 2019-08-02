@@ -124,10 +124,10 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 		s, fig, ax, lines, mult, sg, per_lap, nfft1, nlap1 = plot_gen(
 				s, figsize=(width,3*num_chans), seconds=seconds, spectrogram=spectrogram
 			)	# set up plot with spectrograms
-		regen_mult = 1	# low regeneration time (FFTs eat up lots of resources)
+		regen_mult = 2	# shorter regeneration time (FFTs eat up lots of resources)
 	else:
 		s, fig, ax, lines, mult = plot_gen(s, figsize=(width,3*num_chans), seconds=seconds)	# standard waveform plotting
-		regen_mult = 2	# higher regeneration time
+		regen_mult = 1	# longer regeneration time
 	rso.RS.printM('Plot set up successfully. Will run until CTRL+C keystroke.')
 
 	try:

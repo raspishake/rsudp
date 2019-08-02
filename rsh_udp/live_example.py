@@ -1,5 +1,6 @@
 import getopt, sys
 import matplotlib
+matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import math
@@ -88,6 +89,7 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 	plt.draw()								# set up the canvas
 	ax = []									# list for subplot axes
 	mult = 1
+	num_chans = len(rso.channels)
 	if spectrogram:							# things to set when spectrogram is True
 		mult = 2
 		per_lap = 0.9
@@ -96,15 +98,15 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 	i = 1
 	for c in rso.channels:					# for each channel, add a plot; if spectrogram==True, add another plot
 		if i == 1:
-			ax.append(fig.add_subplot(len(rso.channels)*mult, 1, i))
+			ax.append(fig.add_subplot(num_chans*mult, 1, i))
 			if spectrogram:
 				i += 1
-				ax.append(fig.add_subplot(len(rso.channels)*mult, 1, i))#, sharex=ax[0]))
+				ax.append(fig.add_subplot(num_chans*mult, 1, i))#, sharex=ax[0]))
 		else:
-			ax.append(fig.add_subplot(len(rso.channels)*mult, 1, i, sharex=ax[0]))
+			ax.append(fig.add_subplot(num_chans*mult, 1, i, sharex=ax[0]))
 			if spectrogram:
 				i += 1
-				ax.append(fig.add_subplot(len(rso.channels)*mult, 1, i, sharex=ax[1]))
+				ax.append(fig.add_subplot(num_chans*mult, 1, i, sharex=ax[1]))
 		s = rso.update_stream(s)
 		i += 1
 
@@ -129,14 +131,14 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 		ax[i*mult].legend(loc='upper left')
 		if spectrogram:						# if the user wants a spectrogram, plot it
 			if i == 0:
-				sg = ax[1].specgram(t.data, NFFT=8, pad_to=8, Fs=rso.sps, noverlap=7, cmap='inferno')[0]
+				sg = ax[1].specgram(t.data, NFFT=8, pad_to=8, Fs=rso.sps, noverlap=7)[0]
 				ax[1].set_xlim(0,seconds)
 			ax[i*mult+1].set_ylim(0,int(rso.sps/2))
 		i += 1
 	ax[i*mult-1].set_xlabel('Time (UTC)')
 
 	if spectrogram:
-		return s, fig, ax, lines, mult, per_lap, nfft1, nlap1
+		return s, fig, ax, lines, mult, sg, per_lap, nfft1, nlap1
 	else:
 		return s, fig, ax, lines, mult
 
@@ -149,45 +151,43 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 
 	rso.init(port=port, sta=sta)			# initialize the port
 	s = rso.init_stream()					# initialize a stream
+	num_chans = len(rso.channels)
 
 	if spectrogram:
 		rso.RS.printM('Because spectrograms are enabled, plots will update at most every 0.5 sec to reduce CPU load.')
-		s, fig, ax, lines, mult, per_lap, nfft1, nlap1 = plot_gen(
-				s, figsize=(width,3*len(rso.channels)), seconds=seconds, spectrogram=spectrogram
+		s, fig, ax, lines, mult, sg, per_lap, nfft1, nlap1 = plot_gen(
+				s, figsize=(width,3*num_chans), seconds=seconds, spectrogram=spectrogram
 			)	# set up plot with spectrograms
 		regen_mult = 1	# low regeneration time (FFTs eat up lots of resources)
 	else:
-		s, fig, ax, lines, mult = plot_gen(s, figsize=(width,3*len(rso.channels)), seconds=seconds)	# standard waveform plotting
+		s, fig, ax, lines, mult = plot_gen(s, figsize=(width,3*num_chans), seconds=seconds)	# standard waveform plotting
 		regen_mult = 2	# higher regeneration time
 	rso.RS.printM('Plot set up successfully. Will run until CTRL+C keystroke.')
 
 	try:
 		n = 1
+		regen_denom = 900.*float(regen_mult)
 		while True:		# main loop
-			regen_time = (float(n)) / (900.*float(regen_mult))		# calculate if 900*regen_mult iterations have passed
+			regen_time = (float(n)*num_chans) / regen_denom)		# calculate if 900*regen_mult iterations have passed
 			if regen_time == int(regen_time):						# purge mpl memory objects and regenerate plot
 				if n > 1:
 					width = fig.get_size_inches()[0]				# get the current figure width (inches)
 					plt.close('all')								# close all matplotlib objects
 					gc.collect()									# clean up garbage
-					global matplotlib
-					global plt
-					import matplotlib
-					import matplotlib.pyplot as plt
 					plt.ion()
 				if spectrogram:
 					s, fig, ax, lines, mult, per_lap, nfft1, nlap1 = plot_gen(
-							s, figsize=(width,3*len(rso.channels)), seconds=seconds, spectrogram=spectrogram
+							s, figsize=(width,3*num_chans), seconds=seconds, spectrogram=spectrogram
 						)	# regenerate all plots
 				else:
-					s, fig, ax, lines, mult = plot_gen(s, figsize=(width,3*len(rso.channels)), seconds=seconds)	# regenerate line plot
+					s, fig, ax, lines, mult = plot_gen(s, figsize=(width,3*num_chans), seconds=seconds)	# regenerate line plot
 				if n > 1:
 					rso.RS.printM('Plot regenerated after %s loops.' % (n))
 					snapshot = tracemalloc.take_snapshot()
 					display_top(snapshot)
 
 			i = 0
-			while i < len(rso.channels)*mult*(float(rso.sps)/100):	# way of reducing CPU load while keeping stream up to date
+			while i < num_chans*mult*(float(rso.sps)/100):	# way of reducing CPU load while keeping stream up to date
 				s = rso.update_stream(s, fill_value='latest')	# this will update twice per channel if spectrogram==True and sps==100, otherwise once
 				i += 1
 			obstart = s[0].stats.endtime - timedelta(seconds=seconds)	# obspy time
@@ -195,7 +195,7 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 			end = np.datetime64(s[0].stats.endtime)	# numpy time
 			s = s.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
 			i = 0
-			while i < len(rso.channels):	# for each channel, update the plots
+			while i < num_chans:	# for each channel, update the plots
 				r = np.arange(start, end, np.timedelta64(int(1000/rso.sps), 'ms'))[-len(s[i].data[-rso.sps*seconds:]):]
 				lines[i].set_ydata(s[i].data[-rso.sps*seconds:])
 				lines[i].set_xdata(r)
@@ -207,7 +207,7 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 					if len(s[i].data) < nfft1:	# when the number of data points is low, we just need to kind of fake it for a few fractions of a second
 						nfft1 = 8
 						nlap1 = 6
-					sg = ax[i*mult+1].specgram(s[i].data, NFFT=nfft1, pad_to=int(rso.sps*2), cmap='inferno',
+					sg = ax[i*mult+1].specgram(s[i].data, NFFT=nfft1, pad_to=int(rso.sps*2),
 							Fs=rso.sps, noverlap=nlap1)[0]	# meat & potatoes
 					ax[i*mult+1].clear()	# incredibly important, otherwise continues to draw over old images (gets exponentially slower)
 					ax[i*mult+1].set_xlim(0,seconds)

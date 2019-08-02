@@ -168,10 +168,11 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 			if regen_time == int(regen_time):						# purge mpl memory objects and regenerate plot
 				if n > 1:
 					width = fig.get_size_inches()[0]				# get the current figure width (inches)
-					plt.close(fig)									# close all matplotlib objects
+					plt.close('all')								# close all matplotlib objects
 					gc.collect()									# clean up garbage
 					import matplotlib
 					import matplotlib.pyplot as plt
+					plt.ion()
 				if spectrogram:
 					s, fig, ax, lines, mult, per_lap, nfft1, nlap1 = plot_gen(
 							s, figsize=(width,3*len(rso.channels)), seconds=seconds, spectrogram=spectrogram

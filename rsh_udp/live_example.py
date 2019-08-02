@@ -9,41 +9,6 @@ import rsh_udp.rs2obspy as rso
 
 plt.ion()
 
-##########################
-##########################
-import linecache
-import os
-import tracemalloc
-
-def display_top(snapshot, key_type='lineno', limit=10):
-    snapshot = snapshot.filter_traces((
-        tracemalloc.Filter(False, "<frozen importlib._bootstrap>"),
-        tracemalloc.Filter(False, "<unknown>"),
-    ))
-    top_stats = snapshot.statistics(key_type)
-
-    print("Top %s lines" % limit)
-    for index, stat in enumerate(top_stats[:limit], 1):
-        frame = stat.traceback[0]
-        # replace "/path/to/module/file.py" with "module/file.py"
-        filename = os.sep.join(frame.filename.split(os.sep)[-2:])
-        print("#%s: %s:%s: %.1f KiB"
-              % (index, filename, frame.lineno, stat.size / 1024))
-        line = linecache.getline(frame.filename, frame.lineno).strip()
-        if line:
-            print('    %s' % line)
-
-    other = top_stats[limit:]
-    if other:
-        size = sum(stat.size for stat in other)
-        print("%s other: %.1f KiB" % (len(other), size / 1024))
-    total = sum(stat.size for stat in top_stats)
-    print("Total allocated size: %.1f KiB" % (total / 1024))
-
-tracemalloc.start()
-##########################
-##########################
-
 '''
 A more complex example program that uses rs2obspy to build a stream, then
 plots the result live until the user interrupts the program using CTRL+C.
@@ -75,18 +40,8 @@ def _nearest_pow_2(x):
     else:
         return b
 
-def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
-	'''
-	Main function. Designed to run until user cancels with CTRL+C.
-	This will attempt to live-plot a UDP stream from a Raspberry Shake device.
-	'''
-
-	rso.init(port=port, sta=sta)			# initialize the port
-	trate = rso.trate
-
-	s = rso.init_stream()					# initialize a stream
-
-	fig = plt.figure(figsize=(8,3*len(rso.channels)))	# create a figure
+def plot_gen(s, figsize=(8,3), spectrogram=False):
+	fig = plt.figure(figsize=figsize)	# create a figure
 	fig.suptitle('Raspberry Shake station %s.%s live output' # title
 				 % (rso.RS.net, rso.RS.sta), fontsize=14)
 	fig.patch.set_facecolor('white')		# background color
@@ -128,17 +83,52 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 		ax[i*mult].legend(loc='upper left')
 		if spectrogram:						# if the user wants a spectrogram, plot it
 			if i == 0:
-				rso.RS.printM('Setting up spectrograms. Plots will update at most every 0.5 sec to reduce CPU load.')
 				sg = ax[1].specgram(t.data, NFFT=8, pad_to=8, Fs=rso.sps, noverlap=7)[0]
 				ax[1].set_xlim(0,seconds)
 			ax[i*mult+1].set_ylim(0,int(rso.sps/2))
 		i += 1
 	ax[i*mult-1].set_xlabel('Time (UTC)')
+
+	if spectrogram:
+		return s, fig, ax, lines, mult, per_lap, nfft1, nlap1
+	else:
+		return s, fig, ax, lines
+
+def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
+	'''
+	Main function. Designed to run until user cancels with CTRL+C.
+	This will attempt to live-plot a UDP stream from a Raspberry Shake device.
+	'''
+
+	rso.init(port=port, sta=sta)			# initialize the port
+	s = rso.init_stream()					# initialize a stream
+
+	if spectrogram:
+		rso.RS.printM('Because spectrograms are enabled, plots will update at most every 0.5 sec to reduce CPU load.')
+		s, fig, ax, lines, mult, per_lap, nfft1, nlap1 = plot_gen(
+				s, figsize=(8,3*len(rso.channels)), spectrogram=spectrogram
+			)	# set up plot with spectrograms
+		regen_mult = 1	# low regeneration time (FFTs eat up lots of resources)
+	else:
+		s, fig, ax, lines = plot_gen(s, figsize=(8,3*len(rso.channels)))	# standard waveform plotting
+		regen_mult = 2	# higher regeneration time
 	rso.RS.printM('Plot set up successfully. Will run until CTRL+C keystroke.')
 
 	try:
-		n=0 ####################################################################################
+		n = 0
 		while True:
+			regen_time = (float(n)*rso.channels) / (4000.*regen_mult)
+			if regen_time == int(regen_time):	# periodically purge mpl memory objects and regenerate plot
+				plt.close()												# close all matplotlib objects
+				gc.collect()											# clean up garbage
+				if spectrogram:
+					s, fig, ax, lines, mult, per_lap, nfft1, nlap1 = plot_gen(
+							s, figsize=(8,3*len(rso.channels)), spectrogram=spectrogram
+						)	# regenerate all plots
+				else:
+					s, fig, ax, lines = plot_gen(s, figsize=(8,3*len(rso.channels)))	# regenerate line plot
+				rso.RS.printM('Plot regenerated after %s loops.' % (n))
+
 			i = 0
 			while i < len(rso.channels)*mult*(float(rso.sps)/100):	# way of reducing CPU load while keeping stream up to date
 				s = rso.update_stream(s, fill_value='latest')	# this will update twice per channel if spectrogram==True and sps==100, otherwise once
@@ -164,17 +154,15 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 					ax[i*mult+1].clear()	# incredibly important, otherwise continues to draw over old images (gets exponentially slower)
 					ax[i*mult+1].set_xlim(0,seconds)
 					ax[i*mult+1].set_ylim(0,int(rso.sps/2))
-					ax[i*mult+1].imshow(np.flipud(sg**(1/float(10))), extent=(seconds-(1/(rso.sps/float(len(s[i].data)))),seconds,0,rso.sps/2), aspect='auto')
+					ax[i*mult+1].imshow(np.flipud(sg**(1/float(10))),
+							extent=(seconds-(1/(rso.sps/float(len(s[i].data)))),seconds,0,rso.sps/2), aspect='auto'
+						)
 					ax[i*mult+1].tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
 					ax[i*mult+1].set_ylabel('Frequency (Hz)')
 				i += 1
 			ax[i*mult-1].set_xlabel('Time (UTC)')
-			plt.pause(0.01)
-
-			n += 1											###################################
-			if (float(n) / 100.) == int(int(n) / 100):		###################################
-				snapshot = tracemalloc.take_snapshot()		#############testing###############
-				display_top(snapshot)						###################################
+			plt.pause(0.01)	# let the dust settle
+			n += 1		# total iterations
 
 	except KeyboardInterrupt:
 		print()

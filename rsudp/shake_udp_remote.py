@@ -1,4 +1,4 @@
-import rsh_udp.raspberryshake as RS
+import rsudp.raspberryshake as RS
 import sys, getopt
 
 

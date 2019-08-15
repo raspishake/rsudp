@@ -1,4 +1,4 @@
-# rsh_udp
+# rsudp
 ![Raspberry Shake logo](doc_imgs/raspbery-shake-logo-2x.png)
 
 ### Tools for receiving and interacting with Raspberry Shake UDP data
@@ -12,11 +12,11 @@
 
 #### Python modules in this library
 
-1) [`rsh_udp.raspberryshake`](#raspberryshake-module)
+1) [`rsudp.raspberryshake`](#raspberryshake-module)
    - Library of shake-related functions, to be used in a parent python program wanting to process data off a UDP port
 
-2) [`rsh_udp.rs2obspy`](#rs2obspy-module)
-   - Example library that uses `rsh_udp.raspberryshake` to process UDP data to obspy stream object with channel-specific traces. Can be iterated.
+2) [`rsudp.rs2obspy`](#rs2obspy-module)
+   - Example library that uses `rsudp.raspberryshake` to process UDP data to obspy stream object with channel-specific traces. Can be iterated.
 
 #### Command line programs included with this library
 
@@ -85,14 +85,14 @@ So before you work with this software, please read the [manual](https://manual.r
 ## `raspberryshake` module
 ([back to top](#contents-of-this-readme))
 
-Accessed via `rsh_udp.raspberryshake`. This is the heart of the library. Use this to open a port, get data packets, and interpret those packets to readable, but still pretty basic python data types.
+Accessed via `rsudp.raspberryshake`. This is the heart of the library. Use this to open a port, get data packets, and interpret those packets to readable, but still pretty basic python data types.
 
 ### Initializing a connection on a port
 
 Basic usage must start by initializing the library with the `initRSlib()` and `openSOCK()` functions. Specify the data port to listen on and the station name using the arguments `dport=<integer>` and `rssta=<string>` respectively. *Keep in mind that once you open a port, you will not be able to open the same port elsewhere until you quit the program using the port.*
 
 ```python
->>> import rsh_udp.raspberryshake as rs
+>>> import rsudp.raspberryshake as rs
 >>> rs.initRSlib(dport=8888, rssta='R0E05')
 >>> rs.openSOCK()
 # 2019-01-14 15:23:29 Opening socket on (HOST:PORT) localhost:8888
@@ -155,14 +155,14 @@ So the first sample occurs at `1547497409.05` and each subsequent sample is 10 m
 ## `rs2obspy` module
 ([back to top](#contents-of-this-readme))
 
-`rsh_udp.rs2obspy` is a way to get more complex and useful functionality from UDP data, by interpreting your Shake's UDP data and translating it to ObsPy data stream format. This library uses the `raspberryShake` library to initialize a port, get data on that port, then construct obspy traces and append them to an [ObsPy](https://www.obspy.org/) stream object. As such this library requires `obspy`. Depending on your level of comfort with the command line, installing `obspy` may or may not be a trivial task. See [installing requirements](#installing-requirements) for help. See [shake_obspy_plot](#shake_obspy_plot) and [shake_liveplot](#shake_liveplot) for working usage examples for this library. See below for a walkthrough.
+`rsudp.rs2obspy` is a way to get more complex and useful functionality from UDP data, by interpreting your Shake's UDP data and translating it to ObsPy data stream format. This library uses the `raspberryShake` library to initialize a port, get data on that port, then construct obspy traces and append them to an [ObsPy](https://www.obspy.org/) stream object. As such this library requires `obspy`. Depending on your level of comfort with the command line, installing `obspy` may or may not be a trivial task. See [installing requirements](#installing-requirements) for help. See [shake_obspy_plot](#shake_obspy_plot) and [shake_liveplot](#shake_liveplot) for working usage examples for this library. See below for a walkthrough.
 
 ### Initialize the library with a port and a station name
 
 The basic functionality of the `rs2obspy` library is pretty simple. You initialize the library in almost the same way as the `raspberryShake` library, but you supply the port with `port=<integer>` and station name with `sta=<string>`. Once you open a port, you will not be able to open the same port elsewhere until you exit the program. The following is an example with an RS3D.
 
 ```python
->>> import rsh_udp.rs2obspy as rso
+>>> import rsudp.rs2obspy as rso
 >>> rso.init(port=8888, sta='R4989')
 # 2019-01-14 17:29:31 Opening socket on (HOST:PORT) localhost:8888
 # 2019-01-14 17:29:31 Got data with sampling rate 100 Hz (calculated from channel EHZ)

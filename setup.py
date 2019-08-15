@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 
 setuptools.setup(
-    name="rsh_udp",
+    name="rsudp",
     version="0.1.1",
     author="Ian Nesbitt",
     author_email="ian.nesbitt@raspberryshake.org",
@@ -18,11 +18,11 @@ setuptools.setup(
     install_requires=['obspy', 'numpy', 'matplotlib'],
     entry_points = {
         'console_scripts': [
-            'shake_local=rsh_udp.shake_udp_local:main',
-            'shake_remote=rsh_udp.shake_udp_remote:main',
-            'shake_packetloss=rsh_udp.shake_udp_packetloss:main',
-            'shake_obspy_plot=rsh_udp.obspy_example:main',
-            'shake_liveplot=rsh_udp.live_example:main',
+            'shake_local=rsudp.shake_udp_local:main',
+            'shake_remote=rsudp.shake_udp_remote:main',
+            'shake_packetloss=rsudp.shake_udp_packetloss:main',
+            'shake_obspy_plot=rsudp.obspy_example:main',
+            'shake_liveplot=rsudp.live_example:main',
             ],
     },
     classifiers=[

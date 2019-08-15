@@ -2,7 +2,7 @@ import sys
 import getopt
 import datetime as dt
 import signal
-import rsh_udp.raspberryshake as RS
+import rsudp.raspberryshake as RS
 
 def signal_handler(signal, frame):
 	print()

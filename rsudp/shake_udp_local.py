@@ -1,4 +1,4 @@
-import rsh_udp.raspberryshake as RS
+import rsudp.raspberryshake as RS
 
 port = 8888								# Port to bind to
 

@@ -7,7 +7,7 @@ import numpy as np
 import math
 from obspy import UTCDateTime
 from datetime import datetime, timedelta
-import rsh_udp.rs2obspy as rso
+import rsudp.rs2obspy as rso
 import gc
 
 plt.ion()

@@ -1,4 +1,4 @@
-import rsh_udp.rs2obspy as rso
+import rsudp.rs2obspy as rso
 
 '''
 A small example program that uses rs2obspy to build a stream, then

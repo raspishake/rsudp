@@ -3,7 +3,7 @@
 
 ### Tools for receiving and interacting with Raspberry Shake UDP data
 *Written by Richard Boaz (@ivor) and Ian Nesbitt (@iannesbitt) for @osop*  
-*This file is easiest to read at https://gitlab.com/osop-raspberry-shake/rsh-UDP/blob/master/README.md*
+*This file is easiest to read at https://gitlab.com/osop-raspberry-shake/rsudp/blob/master/README.md*
 
 ### Contents of this readme
 
@@ -466,7 +466,7 @@ To install from PyPI, ensure you follow the steps in the [Installing requirement
 
 ```bash
 conda activate rshake
-pip install rsh-udp
+pip install rsudp
 ```
 
 Now you should be able to execute this test command:

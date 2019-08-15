@@ -83,7 +83,7 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 
 	plt.tight_layout(pad=3, h_pad=0, w_pad=0, rect=(0.03, 0, 1, 1))	# carefully designed plot layout parameters
 	plt.draw()								# update the canvas
-	plt.pause(0.05)							# wait (trust me this is necessary, but I don't know why)
+	plt.pause(0.01)							# wait (trust me this is necessary, but I don't know why)
 
 	lines = []								# lines objects to update
 	i = 0
@@ -132,21 +132,24 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 
 	try:
 		n = 1
-		regen_denom = 3600.*float(regen_mult)
+		regen_denom = 200#3600.*float(regen_mult)
 		while True:		# main loop
 			regen_time = ((float(n)*num_chans) / regen_denom)		# calculate how many iterations have passed (varies based on channels)
 			if regen_time == int(regen_time):						# purge mpl memory objects and regenerate plot
 				if n > 1:
-					width = fig.get_size_inches()[0]				# get the current figure width (inches)
-					plt.close('all')								# close all matplotlib objects
+					size = fig.get_size_inches()				# get the current figure width (inches)
+					fig2 = figure(figsize=size)
+					fig2.axes.append(ax)
+					fig2.show()
+					plt.close(fig=fig)								# close all matplotlib objects
 					linecache.clearcache()							# clear the linecache
 					gc.collect()									# clean up garbage
 				if spectrogram:
 					s, fig, ax, lines, mult, sg, per_lap, nfft1, nlap1 = plot_gen(
-							s, figsize=(width,3*num_chans), seconds=seconds, spectrogram=spectrogram
+							s, figsize=size, seconds=seconds, spectrogram=spectrogram
 						)	# regenerate all plots
 				else:
-					s, fig, ax, lines, mult = plot_gen(s, figsize=(width,3*num_chans), seconds=seconds)	# regenerate line plot
+					s, fig, ax, lines, mult = plot_gen(s, figsize=size, seconds=seconds)	# regenerate line plot
 				if n > 1:
 					rso.RS.printM('Plot regenerated after %s loops.' % (n))
 

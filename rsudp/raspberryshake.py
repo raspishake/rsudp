@@ -74,7 +74,7 @@ def openSOCK(host=''):
 		sock.bind((host, port))
 		sockopen = True
 	else:
-		raise IOError("Before opening a socket, you must initialize this raspberryShake library by calling initRSlib(dport=XXXXX, rssta='R0E05') first.")
+		raise IOError("Before opening a socket, you must initialize this raspberryshake library by calling initRSlib(dport=XXXXX, rssta='R0E05') first.")
 
 
 def getDATA():

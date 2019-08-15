@@ -137,8 +137,8 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 			regen_time = ((float(n)*num_chans) / regen_denom)		# calculate how many iterations have passed (varies based on channels)
 			if regen_time == int(regen_time):						# purge mpl memory objects and regenerate plot
 				if n > 1:
-					size = fig.get_size_inches()				# get the current figure width (inches)
-					fig2 = figure(figsize=size)
+					size = fig.get_size_inches()					# get the current figure width (inches)
+					fig2 = plt.figure(figsize=size)
 					fig2.axes.append(ax)
 					fig2.show()
 					plt.close(fig=fig)								# close all matplotlib objects
@@ -151,6 +151,7 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 				else:
 					s, fig, ax, lines, mult = plot_gen(s, figsize=size, seconds=seconds)	# regenerate line plot
 				if n > 1:
+					plt.close(fig=fig2)
 					rso.RS.printM('Plot regenerated after %s loops.' % (n))
 
 			i = 0

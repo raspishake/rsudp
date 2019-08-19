@@ -91,7 +91,7 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 		start = np.datetime64(t.stats.endtime)-np.timedelta64(seconds, 's')
 		end = np.datetime64(t.stats.endtime)
 		r = np.arange(start,end,np.timedelta64(int(1000/rso.sps), 'ms')).astype(datetime)[-len(t.data):] # array range of times in trace
-		lines.append(ax[i*mult].plot(r, t.data[:(seconds*rso.sps)], color='k',
+		lines.append(ax[i*mult].plot(r, t.data[:(seconds*rso.sps)], color='b',
 					 lw=0.5, label=t.stats.channel)[0])	# plot the line on the axis and put the instance in a list
 		ax[i*mult].set_ylabel('Voltage counts')
 		ax[i*mult].legend(loc='upper left')

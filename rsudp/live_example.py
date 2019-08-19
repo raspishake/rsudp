@@ -49,9 +49,12 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 	Generate a new plot on command with a stream object.
 	"""
 	fig = plt.figure(figsize=figsize)	# create a figure
+	bgcolor = '0.0'
+	fgcolor = '0.8'
+	linecolor = 'blue'
 	fig.suptitle('Raspberry Shake station %s.%s live output' # title
-				 % (rso.RS.net, rso.RS.sta), fontsize=14)
-	fig.patch.set_facecolor('white')		# background color
+				 % (rso.RS.net, rso.RS.sta), fontsize=14, color=fgcolor)
+	fig.patch.set_facecolor(bgcolor)		# background color
 	plt.draw()								# set up the canvas
 	ax = []									# list for subplot axes
 	mult = 1
@@ -65,14 +68,23 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 	for c in rso.channels:					# for each channel, add a plot; if spectrogram==True, add another plot
 		if i == 1:
 			ax.append(fig.add_subplot(num_chans*mult, 1, i))
+			ax[i-1].set_facecolor(bgcolor)
+			ax[i-1].tick_params(colors=fgcolor, labelcolor=fgcolor)
 			if spectrogram:
 				i += 1
 				ax.append(fig.add_subplot(num_chans*mult, 1, i))#, sharex=ax[0]))
+				ax[i-1].set_facecolor(bgcolor)
+				ax[i-1].tick_params(colors=fgcolor, labelcolor=fgcolor)
+
 		else:
 			ax.append(fig.add_subplot(num_chans*mult, 1, i, sharex=ax[0]))
+			ax[i-1].set_facecolor(bgcolor)
+			ax[i-1].tick_params(colors=fgcolor, labelcolor=fgcolor)
 			if spectrogram:
 				i += 1
 				ax.append(fig.add_subplot(num_chans*mult, 1, i, sharex=ax[1]))
+				ax[i-1].set_facecolor(bgcolor)
+				ax[i-1].tick_params(colors=fgcolor, labelcolor=fgcolor)
 		s = rso.update_stream(s)
 		i += 1
 
@@ -80,6 +92,10 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 		start = np.datetime64(s[0].stats.endtime)-np.timedelta64(seconds, 's')	# numpy time
 		end = np.datetime64(s[0].stats.endtime)	# numpy time
 		s = s.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
+
+	for axis in ax:
+		plt.setp(axis.spines.values(), color=fgcolor)
+		plt.setp([axis.get_xticklines(), axis.get_yticklines()], color=fgcolor)
 
 	plt.tight_layout(pad=3, h_pad=0, w_pad=0, rect=(0.03, 0, 1, 1))	# carefully designed plot layout parameters
 	plt.draw()								# update the canvas
@@ -92,7 +108,7 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 		end = np.datetime64(t.stats.endtime)
 		r = np.arange(start,end,np.timedelta64(int(1000/rso.sps), 'ms')).astype(datetime)[-len(t.data):] # array range of times in trace
 		lines.append(ax[i*mult].plot(r, t.data[:(seconds*rso.sps)], color='b',
-					 lw=0.5, label=t.stats.channel)[0])	# plot the line on the axis and put the instance in a list
+					 lw=0.35, label=t.stats.channel)[0])	# plot the line on the axis and put the instance in a list
 		ax[i*mult].set_ylabel('Voltage counts')
 		ax[i*mult].legend(loc='upper left')
 		if spectrogram:						# if the user wants a spectrogram, plot it
@@ -132,7 +148,7 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 
 	try:
 		n = 1
-		regen_denom = 200#3600.*float(regen_mult)
+		regen_denom = 3600.*float(regen_mult)
 		while True:		# main loop
 			regen_time = ((float(n)*num_chans) / regen_denom)		# calculate how many iterations have passed (varies based on channels)
 			if regen_time == int(regen_time):						# purge mpl memory objects and regenerate plot

@@ -26,7 +26,7 @@ Your stream object should contain traces representing all channels sent to the p
 Traces should be appended and merged to one per channel automatically.
 '''
 
-def init(port=8888, sta='Z0000', timeout=10):
+def init(port=8888, sta='Z0000', timeout=10, cha='all'):
 	global sps, channels, inv, trate
 	RS.initRSlib(dport=port, rssta=sta, timeout=timeout)
 	RS.openSOCK()
@@ -37,9 +37,19 @@ def init(port=8888, sta='Z0000', timeout=10):
 	RS.printM('Got data with sampling rate %s Hz (calculated from channel %s)' % (sps, RS.getCHN(d)))
 	channels = RS.getCHNS()
 	channelstring = ''
-	for channel in channels:
-		channelstring += channel + ' '
-	RS.printM('Found %s channel(s): %s' % (len(channels), channelstring))
+	RS.printM('Found %s channel(s): %s' % (len(channels), channels))
+	if cha == 'all':
+		for channel in channels:
+			channelstring += channel + ' '
+	else:
+		for c in cha:
+			if c in channels:
+				channelstring += c + ' '
+			else:
+				RS.printM('ERROR: Channel %s not in channel list. Available channels are: %s' % (c, channels))
+				exit(2)
+		channels = channelstring[:-1].split(' ')
+	RS.printM('Using channels %s' % channels)
 	if 'Z0000' in sta:
 		RS.printM('No station name given, continuing without inventory.')
 		inv = False
@@ -57,23 +67,24 @@ def make_trace():
 	'''Makes a trace and assigns it some values using a data packet.'''
 	d = RS.getDATA()							# get a data packet
 	ch = RS.getCHN(d)							# channel
-	t = RS.getTIME(d)							# unix epoch time since 1970-01-01 00:00:00Z, or as obspy calls it, "timestamp"
-	st = RS.getSTREAM(d)						# samples in data packet in list [] format
-	tr = Trace(data=np.ma.MaskedArray(st))		# create empty trace
-	tr.stats.network = RS.net						# assign values
-	tr.stats.location = '00'
-	tr.stats.station = RS.sta
-	tr.stats.channel = ch
-	tr.stats.sampling_rate = sps
-	tr.stats.starttime = UTCDateTime(t)
-	if inv:
-		try:
-			tr.attach_response(inv)
-		except:
-			RS.printM('ERROR attaching inventory response. Are you sure you set the station name correctly?')
-			RS.printM('    This could indicate a mismatch in the number of data channels between the inventory and the stream.')
-			RS.printM('    For example, if you are receiving RS4D data, please make sure the inventory you download has 4 channels.')
-	return tr
+	if ch in channels:
+		t = RS.getTIME(d)							# unix epoch time since 1970-01-01 00:00:00Z, or as obspy calls it, "timestamp"
+		st = RS.getSTREAM(d)						# samples in data packet in list [] format
+		tr = Trace(data=np.ma.MaskedArray(st))		# create empty trace
+		tr.stats.network = RS.net						# assign values
+		tr.stats.location = '00'
+		tr.stats.station = RS.sta
+		tr.stats.channel = ch
+		tr.stats.sampling_rate = sps
+		tr.stats.starttime = UTCDateTime(t)
+		if inv:
+			try:
+				tr.attach_response(inv)
+			except:
+				RS.printM('ERROR attaching inventory response. Are you sure you set the station name correctly?')
+				RS.printM('    This could indicate a mismatch in the number of data channels between the inventory and the stream.')
+				RS.printM('    For example, if you are receiving RS4D data, please make sure the inventory you download has 4 channels.')
+		return tr
 
 
 ## Call these methods in succession to initialize a stream, then add traces to it
@@ -81,7 +92,12 @@ def make_trace():
 def init_stream():
 	'''Returns the initial stream object with one trace.'''
 	RS.printM('Initializing Stream object.')
-	stream = Stream().append(make_trace())
+	while True:
+		try:
+			stream = Stream().append(make_trace())
+			break
+		except TypeError:
+			pass
 	if inv:
 		RS.printM('Attaching inventory response.')
 		stream.attach_response(inv)
@@ -91,4 +107,9 @@ def init_stream():
 # Then make repeated calls to this, to continue adding trace data to the stream
 def update_stream(stream, **kwargs):
 	'''Returns an updated trace object with new data, merged down to one trace per available channel.'''
-	return stream.append(make_trace()).merge(**kwargs)
+	while True:
+		try:
+			return stream.append(make_trace()).merge(**kwargs)
+			return stream
+		except TypeError:
+			pass

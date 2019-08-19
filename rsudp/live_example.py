@@ -101,7 +101,8 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 
 	plt.tight_layout(pad=3, h_pad=0, w_pad=0, rect=(0.03, 0, 1, 1))	# carefully designed plot layout parameters
 	plt.draw()								# update the canvas
-	plt.pause(0.01)							# wait (trust me this is necessary, but I don't know why)
+	#plt.pause(0.01)							# wait (trust me this is necessary, but I don't know why)
+	fig.canvas.start_event_loop(0.001)
 
 	lines = []								# lines objects to update
 	i = 0
@@ -126,14 +127,14 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 	else:
 		return s, fig, ax, lines, mult
 
-def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
+def live_stream(port=8888, sta='Z0000', cha='all', seconds=30, spectrogram=False):
 	'''
 	Main function. Designed to run until user cancels with CTRL+C.
 	This will attempt to live-plot a UDP stream from a Raspberry Shake device.
 	'''
 	width = 8								# plot width in inches
 
-	rso.init(port=port, sta=sta)			# initialize the port
+	rso.init(port=port, sta=sta, cha=cha)	# initialize the port
 	s = rso.init_stream()					# initialize a stream
 	num_chans = len(rso.channels)
 
@@ -205,7 +206,8 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 					ax[i*mult+1].set_ylabel('Frequency (Hz)', color=fgcolor)
 				i += 1
 			ax[i*mult-1].set_xlabel('Time (UTC)')
-			plt.pause(0.01)	# let the dust settle
+			#plt.pause(0.01)	# let the dust settle
+			fig.canvas.start_event_loop(0.001)
 			n += 1		# total iterations
 
 	except KeyboardInterrupt:
@@ -253,7 +255,7 @@ def main():
 		prt, stn, sec = 8888, 'Z0000', 30
 		h = False
 		spec = False
-		opts, args = getopt.getopt(sys.argv[1:], 'hp:s:n:d:g', ['help', 'port=', 'station=', 'duration=', 'spectrogram'])
+		opts, args = getopt.getopt(sys.argv[1:], 'hp:s:n:d:c:g', ['help', 'port=', 'station=', 'duration=', 'channels=', 'spectrogram'])
 		for o, a in opts:
 			if o in ('-h, --help'):
 				h = True
@@ -263,12 +265,13 @@ def main():
 				prt = int(a)
 			if o in ('-s', 'station='):
 				stn = str(a)
+			if o in ('-c', 'channels='):
+				cha = a.split(',')
 			if o in ('-d', 'duration='):
 				sec = int(a)
 			if o in ('-g', '--spectrogram'):
 				spec = True
-		live_stream(port=prt, sta=stn, seconds=sec, spectrogram=spec)
-	#	exit(0)
+		live_stream(port=prt, sta=stn, cha=cha, seconds=sec, spectrogram=spec)	#	exit(0)
 	# except ValueError as e:
 	# 	print('ERROR: %s' % e)
 	# 	print(hlp_txt)

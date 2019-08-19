@@ -23,6 +23,7 @@ setuptools.setup(
             'shake_packetloss=rsudp.shake_udp_packetloss:main',
             'shake_obspy_plot=rsudp.obspy_example:main',
             'shake_liveplot=rsudp.live_example:main',
+            'shake_animation=rsudp.animation:main',
             ],
     },
     classifiers=[

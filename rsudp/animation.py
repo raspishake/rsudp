@@ -13,6 +13,8 @@ import gc
 
 plt.ion()
 
+global init, update, lines, seconds, s
+
 
 '''
 A more complex example program that uses rs2obspy to build a stream, then
@@ -127,7 +129,7 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 	fig.suptitle('Raspberry Shake station %s.%s live output' # title
 					% (rso.RS.net, rso.RS.sta), fontsize=14)
 	fig.patch.set_facecolor('white')		# background color
-	ax = []									# list for subplot axes
+	ax = {}									# list for subplot axes
 	if spectrogram:							# things to set when spectrogram is True
 		mult = 2
 		per_lap = 0.9
@@ -143,56 +145,58 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 	i = 1
 	for c in rso.channels:					# for each channel, add a plot; if spectrogram==True, add another plot
 		if i == 1:
-			ax.append(fig.add_subplot(num_chans*mult, 1, i))
+			fc = c							# first channel
+			ax[c] = [fig.add_subplot(num_chans*mult, 1, i)]
 			if spectrogram:
 				i += 1
-				ax.append(fig.add_subplot(num_chans*mult, 1, i))#, sharex=ax[0]))
+				ax[c].append(fig.add_subplot(num_chans*mult, 1, i))#, sharex=ax[0]))
 		else:
-			ax.append(fig.add_subplot(num_chans*mult, 1, i, sharex=ax[0]))
+			ax[c] = [fig.add_subplot(num_chans*mult, 1, i, sharex=ax[fc][0])]
 			if spectrogram:
 				i += 1
-				ax.append(fig.add_subplot(num_chans*mult, 1, i, sharex=ax[1]))
-		s = rso.update_stream(s)
-		i += 1	
+				ax[c].append(fig.add_subplot(num_chans*mult, 1, i, sharex=ax[fc][1]))
+		s = rso.update_stream(s, fill_value='latest')
+		i += 1
 		s = slice_stream(s)
+		lc = c								# last channel
 
 
-	lines = []								# lines objects to update
+	lines = {}								# lines objects to update
 
-	i = 0
+	i = 0									# iteration
+	lp = 0									# last plot
 	for t in s:								# for trace in stream
 		start = np.datetime64(t.stats.endtime)-np.timedelta64(seconds, 's')
 		end = np.datetime64(t.stats.endtime)
 		r = np.arange(start,end,np.timedelta64(int(1000/rso.sps), 'ms')).astype(datetime)[-len(t.data):] # array range of times in trace
-		lines.append(ax[i*mult].plot(r, t.data[:(seconds*rso.sps)], color='k',
-					 lw=0.5, label=t.stats.channel)[0])	# plot the line on the axis and put the instance in a list
-		ax[i*mult].set_ylabel('Voltage counts')
-		ax[i*mult].legend(loc='upper left')
+		lines[t.stats.channel] = ax[t.stats.channel][0].plot(r, t.data[:(seconds*rso.sps)], color='k',
+					 lw=0.5, label=t.stats.channel)[0]		# plot the line on the axis and put the instance in a list
+		ax[t.stats.channel][0].set_ylabel('Voltage counts')
+		ax[t.stats.channel][0].legend(loc='upper left')
 		if spectrogram:						# if the user wants a spectrogram, plot it
 			if i == 0:
-				sg = ax[1].specgram(t.data, NFFT=8, pad_to=8, Fs=rso.sps, noverlap=7)[0]
-				ax[1].set_xlim(0,seconds)
-			ax[i*mult+1].set_ylim(0,int(rso.sps/2))
+				lp = 1
+				sg = ax[t.stats.channel][1].specgram(t.data, NFFT=8, pad_to=8, Fs=rso.sps, noverlap=7)[0]
+				ax[t.stats.channel][1].set_xlim(0,seconds)
+			ax[t.stats.channel][1].set_ylim(0,int(rso.sps/2))
 		i += 1
-	ax[i*mult-1].set_xlabel('Time (UTC)')
+	ax[lc][lp].set_xlabel('Time (UTC)')
 
 	def init():
 		for line in lines:
 			line.set_ydata([np.nan] * (seconds * rso.sps))
-	def update():
-		i = 0
-		while i < num_chans*mult*(float(rso.sps)/100):	# way of reducing CPU load while keeping stream up to date
-			s = rso.update_stream(s, fill_value='latest')	# this will update twice per channel if spectrogram==True and sps==100, otherwise once
-			i += 1
-		s = slice_stream(s)
-		i = 0
-		for t in s:
-			lines[i].set_ydata(t.data)
+		return lines
 
+	def update(frame):
+		s = rso.update_stream(s, fill_value='latest')	# this will update twice per channel if spectrogram==True and sps==100, otherwise once
+		s = slice_stream(s)
+		for t in s:
+			lines[t.stats.channel].set_ydata(t.data)
+		return lines
 
 	try:
 		ani = animation.FuncAnimation(
-			fig, update, init_func=init, interval=2, blit=True, save_count=50)
+			fig, update, init_func=init, interval=1, blit=True, save_count=50)
 		plt.show()
 
 	except KeyboardInterrupt:

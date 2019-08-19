@@ -101,22 +101,22 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 
 	plt.tight_layout(pad=3, h_pad=0, w_pad=0, rect=(0.03, 0, 1, 1))	# carefully designed plot layout parameters
 	plt.draw()								# update the canvas
-	#plt.pause(0.01)							# wait (trust me this is necessary, but I don't know why)
-	fig.canvas.start_event_loop(0.001)
+	fig.canvas.start_event_loop(0.001)		# wait (trust me this is necessary, but I don't know why)
 
 	lines = []								# lines objects to update
 	i = 0
 	for t in s:								# for trace in stream
 		start = np.datetime64(t.stats.endtime)-np.timedelta64(seconds, 's')
 		end = np.datetime64(t.stats.endtime)
+		mean = int(round(np.mean(t.data)))
 		r = np.arange(start,end,np.timedelta64(int(1000/rso.sps), 'ms')).astype(datetime)[-len(t.data):] # array range of times in trace
-		lines.append(ax[i*mult].plot(r, t.data[:(seconds*rso.sps)], color='b',
+		lines.append(ax[i*mult].plot(r, t.data[:(seconds*rso.sps)]-mean, color='b',
 					 lw=0.35, label=t.stats.channel)[0])	# plot the line on the axis and put the instance in a list
 		ax[i*mult].set_ylabel('Voltage counts', color=fgcolor)
 		ax[i*mult].legend(loc='upper left')
 		if spectrogram:						# if the user wants a spectrogram, plot it
 			if i == 0:
-				sg = ax[1].specgram(t.data, NFFT=8, pad_to=8, Fs=rso.sps, noverlap=7)[0]
+				sg = ax[1].specgram(t.data-mean, NFFT=8, pad_to=8, Fs=rso.sps, noverlap=7)[0]
 				ax[1].set_xlim(0,seconds)
 			ax[i*mult+1].set_ylim(0,int(rso.sps/2))
 		i += 1
@@ -184,17 +184,18 @@ def live_stream(port=8888, sta='Z0000', cha='all', seconds=30, spectrogram=False
 			i = 0
 			while i < num_chans:	# for each channel, update the plots
 				r = np.arange(start, end, np.timedelta64(int(1000/rso.sps), 'ms'))[-len(s[i].data[-rso.sps*seconds:]):]
-				lines[i].set_ydata(s[i].data[-rso.sps*seconds:])
+				mean = int(round(np.mean(s[i].data)))
+				lines[i].set_ydata(s[i].data[-rso.sps*seconds:]-mean)
 				lines[i].set_xdata(r)
 				ax[i*mult].set_xlim(left=start.astype(datetime), right=end.astype(datetime))
-				ax[i*mult].set_ylim(bottom=np.min(s[i].data)-np.ptp(s[i].data)*0.1, top=np.max(s[i].data)+np.ptp(s[i].data)*0.1)
+				ax[i*mult].set_ylim(bottom=np.min(s[i].data-mean)-np.ptp(s[i].data-mean)*0.1, top=np.max(s[i].data-mean)+np.ptp(s[i].data-mean)*0.1)
 				if spectrogram:
 					nfft1 = _nearest_pow_2(rso.sps)	# FFTs run much faster if the number of transforms is a power of 2
 					nlap1 = nfft1 * per_lap
 					if len(s[i].data) < nfft1:	# when the number of data points is low, we just need to kind of fake it for a few fractions of a second
 						nfft1 = 8
 						nlap1 = 6
-					sg = ax[i*mult+1].specgram(s[i].data, NFFT=nfft1, pad_to=int(rso.sps*2),
+					sg = ax[i*mult+1].specgram(s[i].data-mean, NFFT=nfft1, pad_to=int(rso.sps*2),
 							Fs=rso.sps, noverlap=nlap1)[0]	# meat & potatoes
 					ax[i*mult+1].clear()	# incredibly important, otherwise continues to draw over old images (gets exponentially slower)
 					ax[i*mult+1].set_xlim(0,seconds)

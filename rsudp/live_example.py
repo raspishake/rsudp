@@ -252,7 +252,7 @@ def main():
 	'''
 
 	if True: #try:
-		prt, stn, sec = 8888, 'Z0000', 30
+		prt, stn, sec, cha = 8888, 'Z0000', 30, 'all'
 		h = False
 		spec = False
 		opts, args = getopt.getopt(sys.argv[1:], 'hp:s:n:d:c:g', ['help', 'port=', 'station=', 'duration=', 'channels=', 'spectrogram'])

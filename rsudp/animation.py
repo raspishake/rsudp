@@ -3,17 +3,12 @@ import matplotlib
 matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-import linecache
 import numpy as np
 import math
 from obspy import UTCDateTime
 from datetime import datetime, timedelta
 import rsudp.rs2obspy as rso
-import gc
-
-plt.ion()
-
-global init, update, lines, seconds, s
+import threading
 
 
 '''
@@ -47,70 +42,6 @@ def _nearest_pow_2(x):
 	else:
 		return b
 
-def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
-	"""
-	Generate a new plot on command with a stream object.
-	"""
-	fig = plt.figure(figsize=figsize)	# create a figure
-	fig.suptitle('Raspberry Shake station %s.%s live output' # title
-				 % (rso.RS.net, rso.RS.sta), fontsize=14)
-	fig.patch.set_facecolor('white')		# background color
-	plt.draw()								# set up the canvas
-	ax = []									# list for subplot axes
-	mult = 1
-	num_chans = len(rso.channels)
-	if spectrogram:							# things to set when spectrogram is True
-		mult = 2
-		per_lap = 0.9
-		nfft1 = _nearest_pow_2(rso.sps)
-		nlap1 = nfft1 * per_lap
-	i = 1
-	for c in rso.channels:					# for each channel, add a plot; if spectrogram==True, add another plot
-		if i == 1:
-			ax.append(fig.add_subplot(num_chans*mult, 1, i))
-			if spectrogram:
-				i += 1
-				ax.append(fig.add_subplot(num_chans*mult, 1, i))#, sharex=ax[0]))
-		else:
-			ax.append(fig.add_subplot(num_chans*mult, 1, i, sharex=ax[0]))
-			if spectrogram:
-				i += 1
-				ax.append(fig.add_subplot(num_chans*mult, 1, i, sharex=ax[1]))
-		s = rso.update_stream(s)
-		i += 1
-
-		obstart = s[0].stats.endtime - timedelta(seconds=seconds)	# obspy time
-		start = np.datetime64(s[0].stats.endtime)-np.timedelta64(seconds, 's')	# numpy time
-		end = np.datetime64(s[0].stats.endtime)	# numpy time
-		s = s.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
-
-	plt.tight_layout(pad=3, h_pad=0, w_pad=0, rect=(0.03, 0, 1, 1))	# carefully designed plot layout parameters
-	plt.draw()								# update the canvas
-	plt.pause(0.01)							# wait (trust me this is necessary, but I don't know why)
-
-	lines = []								# lines objects to update
-	i = 0
-	for t in s:								# for trace in stream
-		start = np.datetime64(t.stats.endtime)-np.timedelta64(seconds, 's')
-		end = np.datetime64(t.stats.endtime)
-		r = np.arange(start,end,np.timedelta64(int(1000/rso.sps), 'ms')).astype(datetime)[-len(t.data):] # array range of times in trace
-		lines.append(ax[i*mult].plot(r, t.data[:(seconds*rso.sps)], color='k',
-					 lw=0.5, label=t.stats.channel)[0])	# plot the line on the axis and put the instance in a list
-		ax[i*mult].set_ylabel('Voltage counts')
-		ax[i*mult].legend(loc='upper left')
-		if spectrogram:						# if the user wants a spectrogram, plot it
-			if i == 0:
-				sg = ax[1].specgram(t.data, NFFT=8, pad_to=8, Fs=rso.sps, noverlap=7)[0]
-				ax[1].set_xlim(0,seconds)
-			ax[i*mult+1].set_ylim(0,int(rso.sps/2))
-		i += 1
-	ax[i*mult-1].set_xlabel('Time (UTC)')
-
-	if spectrogram:
-		return s, fig, ax, lines, mult, sg, per_lap, nfft1, nlap1
-	else:
-		return s, fig, ax, lines, mult
-	
 
 def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 	'''
@@ -118,6 +49,10 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 	This will attempt to live-plot a UDP stream from a Raspberry Shake device.
 	'''
 	width = 8								# plot width in inches
+	bgcolor = '0.0'
+	fgcolor = '0.8'
+	linecolor = 'blue'
+
 	mult = 1
 
 	rso.init(port=port, sta=sta)			# initialize the port
@@ -128,71 +63,32 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 
 	fig.suptitle('Raspberry Shake station %s.%s live output' # title
 					% (rso.RS.net, rso.RS.sta), fontsize=14)
-	fig.patch.set_facecolor('white')		# background color
+	fig.patch.set_facecolor(bgcolor)		# background color
 	ax = {}									# list for subplot axes
+
 	if spectrogram:							# things to set when spectrogram is True
 		mult = 2
 		per_lap = 0.9
 		nfft1 = _nearest_pow_2(rso.sps)
 		nlap1 = nfft1 * per_lap
 
-	def slice_stream(s):
+	def slice_stream(s, seconds=seconds):
 		obstart = s[0].stats.endtime - timedelta(seconds=seconds)	# obspy time
 		start = np.datetime64(s[0].stats.endtime)-np.timedelta64(seconds, 's')	# numpy time
 		end = np.datetime64(s[0].stats.endtime)	# numpy time
 		return s.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
 
-	i = 1
-	for c in rso.channels:					# for each channel, add a plot; if spectrogram==True, add another plot
-		if i == 1:
-			fc = c							# first channel
-			ax[c] = [fig.add_subplot(num_chans*mult, 1, i)]
-			if spectrogram:
-				i += 1
-				ax[c].append(fig.add_subplot(num_chans*mult, 1, i))#, sharex=ax[0]))
-		else:
-			ax[c] = [fig.add_subplot(num_chans*mult, 1, i, sharex=ax[fc][0])]
-			if spectrogram:
-				i += 1
-				ax[c].append(fig.add_subplot(num_chans*mult, 1, i, sharex=ax[fc][1]))
-		s = rso.update_stream(s, fill_value='latest')
-		i += 1
-		s = slice_stream(s)
-		lc = c								# last channel
+
+	rso.init(port=port, sta=sta)			# initialize the port
+	s = rso.init_stream()					# initialize a stream
+	num_chans = len(rso.channels)			# number of channels setnt to the port
+
+	def data_listener(s=s):
+		while True:
+			s = rso.update_stream()
+			s = slice_stream(s)
 
 
-	lines = {}								# lines objects to update
-
-	i = 0									# iteration
-	lp = 0									# last plot
-	for t in s:								# for trace in stream
-		start = np.datetime64(t.stats.endtime)-np.timedelta64(seconds, 's')
-		end = np.datetime64(t.stats.endtime)
-		r = np.arange(start,end,np.timedelta64(int(1000/rso.sps), 'ms')).astype(datetime)[-len(t.data):] # array range of times in trace
-		lines[t.stats.channel] = ax[t.stats.channel][0].plot(r, t.data[:(seconds*rso.sps)], color='k',
-					 lw=0.5, label=t.stats.channel)[0]		# plot the line on the axis and put the instance in a list
-		ax[t.stats.channel][0].set_ylabel('Voltage counts')
-		ax[t.stats.channel][0].legend(loc='upper left')
-		if spectrogram:						# if the user wants a spectrogram, plot it
-			if i == 0:
-				lp = 1
-				sg = ax[t.stats.channel][1].specgram(t.data, NFFT=8, pad_to=8, Fs=rso.sps, noverlap=7)[0]
-				ax[t.stats.channel][1].set_xlim(0,seconds)
-			ax[t.stats.channel][1].set_ylim(0,int(rso.sps/2))
-		i += 1
-	ax[lc][lp].set_xlabel('Time (UTC)')
-
-	def init():
-		for line in lines:
-			line.set_ydata([np.nan] * (seconds * rso.sps))
-		return lines
-
-	def update(frame):
-		s = rso.update_stream(s, fill_value='latest')	# this will update twice per channel if spectrogram==True and sps==100, otherwise once
-		s = slice_stream(s)
-		for t in s:
-			lines[t.stats.channel].set_ydata(t.data)
-		return lines
 
 	try:
 		ani = animation.FuncAnimation(

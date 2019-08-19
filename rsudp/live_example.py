@@ -12,6 +12,7 @@ import gc
 
 plt.ion()
 
+fgcolor = 0.0
 
 '''
 A more complex example program that uses rs2obspy to build a stream, then
@@ -48,6 +49,7 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 	"""
 	Generate a new plot on command with a stream object.
 	"""
+	global fgcolor
 	fig = plt.figure(figsize=figsize)	# create a figure
 	bgcolor = '0.0'
 	fgcolor = '0.8'
@@ -109,7 +111,7 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 		r = np.arange(start,end,np.timedelta64(int(1000/rso.sps), 'ms')).astype(datetime)[-len(t.data):] # array range of times in trace
 		lines.append(ax[i*mult].plot(r, t.data[:(seconds*rso.sps)], color='b',
 					 lw=0.35, label=t.stats.channel)[0])	# plot the line on the axis and put the instance in a list
-		ax[i*mult].set_ylabel('Voltage counts')
+		ax[i*mult].set_ylabel('Voltage counts', color=fgcolor)
 		ax[i*mult].legend(loc='upper left')
 		if spectrogram:						# if the user wants a spectrogram, plot it
 			if i == 0:
@@ -117,7 +119,7 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 				ax[1].set_xlim(0,seconds)
 			ax[i*mult+1].set_ylim(0,int(rso.sps/2))
 		i += 1
-	ax[i*mult-1].set_xlabel('Time (UTC)')
+	ax[i*mult-1].set_xlabel('Time (UTC)', color=fgcolor)
 
 	if spectrogram:
 		return s, fig, ax, lines, mult, sg, per_lap, nfft1, nlap1
@@ -200,7 +202,7 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 							extent=(seconds-(1/(rso.sps/float(len(s[i].data)))),seconds,0,rso.sps/2), aspect='auto'
 						)
 					ax[i*mult+1].tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
-					ax[i*mult+1].set_ylabel('Frequency (Hz)')
+					ax[i*mult+1].set_ylabel('Frequency (Hz)', color=fgcolor)
 				i += 1
 			ax[i*mult-1].set_xlabel('Time (UTC)')
 			plt.pause(0.01)	# let the dust settle

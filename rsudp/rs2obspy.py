@@ -32,6 +32,7 @@ def init(port=8888, sta='Z0000', timeout=10):
 	RS.openSOCK()
 	d = RS.getDATA()
 	trate = RS.getTR(RS.getCHN(d))
+	RS.printM('Transmission every: %s ms' % (trate))
 	sps = RS.getSR(trate, d)
 	RS.printM('Got data with sampling rate %s Hz (calculated from channel %s)' % (sps, RS.getCHN(d)))
 	channels = RS.getCHNS()

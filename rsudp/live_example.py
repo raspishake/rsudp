@@ -51,9 +51,9 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 	"""
 	global fgcolor
 	fig = plt.figure(figsize=figsize)	# create a figure
-	bgcolor = '0.0'
+	bgcolor = '#202530'
 	fgcolor = '0.8'
-	linecolor = 'blue'
+	linecolor = '#c28285'
 	fig.suptitle('Raspberry Shake station %s.%s live output' # title
 				 % (rso.RS.net, rso.RS.sta), fontsize=14, color=fgcolor)
 	fig.patch.set_facecolor(bgcolor)		# background color
@@ -110,7 +110,7 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 		end = np.datetime64(t.stats.endtime)
 		mean = int(round(np.mean(t.data)))
 		r = np.arange(start,end,np.timedelta64(int(1000/rso.sps), 'ms')).astype(datetime)[-len(t.data):] # array range of times in trace
-		lines.append(ax[i*mult].plot(r, t.data[:(seconds*rso.sps)]-mean, color='b',
+		lines.append(ax[i*mult].plot(r, t.data[:(seconds*rso.sps)]-mean, color=linecolor,
 					 lw=0.35, label=t.stats.channel)[0])	# plot the line on the axis and put the instance in a list
 		ax[i*mult].set_ylabel('Voltage counts', color=fgcolor)
 		ax[i*mult].legend(loc='upper left')

@@ -5,6 +5,7 @@ import signal
 
 initd, sockopen = False, False
 to = 10								# timeout
+firstaddr = ''
 
 def printM(msg):
 	'''Prints messages with datetime stamp.'''
@@ -80,14 +81,23 @@ def openSOCK(host=''):
 def getDATA():
 	'''Read a data packet off the port.
 	Alarm if no data is received within timeout.'''
-	global to
+	global to, firstaddr
+	notif = False
 	if sockopen:
 		signal.signal(signal.SIGALRM, handler)
 		signal.alarm(to)						# alarm time set with timeout value
-		data = sock.recv(4096)
+		data, addr = sock.recvfrom(4096)
 		signal.alarm(0)							# once data has been received, turn alarm completely off
 		to = 0									# otherwise it erroneously triggers after keyboardinterrupt
-		return data
+		if firstaddr == '':
+			firstaddr = addr[0]
+			printM('Receiving UDP data from %s' % (firstaddr))
+		if (firstaddr != '') and (addr[0] == firstaddr):
+			return data
+		else:
+			if notif == False:
+				printM('Another address (%s) is sending UDP data to this port. Ignoring...' % (addr[0]))
+				notif = True
 	else:
 		if initd:
 			raise IOError("No socket is open. Please open a socket using this library's openSOCK() function.")
@@ -135,8 +145,10 @@ def getSR(TR, DP):
 def getCHNS():
 	'''Get a list of channels sent to the port.	'''
 	chns = []
+	chdict = {'EHZ': False, 'EHN': False, 'EHE': False, 'ENZ': False, 'ENN': False, 'ENE': False, 'HDF': False}
 	firstCHN = ''
 	done = False
+	sim = 0
 	while not done:
 		DP = getDATA()
 		if firstCHN == '':
@@ -145,10 +157,18 @@ def getCHNS():
 			continue
 		nextCHN = getCHN(DP)
 		if firstCHN == nextCHN:
-			done = True
-			continue
+			if sim > 1:
+				done = True
+				continue
+			sim += 1
 		else:
 			chns.append(nextCHN)
+	for ch in chns:
+		chdict[ch] = True
+	chns = []
+	for ch in chdict:
+		if chdict[ch] == True:
+			chns.append(ch)
 	return chns
 
 def getTTLCHN():

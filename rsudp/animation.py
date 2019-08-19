@@ -9,6 +9,7 @@ from obspy import UTCDateTime
 from datetime import datetime, timedelta
 import rsudp.rs2obspy as rso
 import threading
+import queue
 
 
 '''
@@ -43,7 +44,7 @@ def _nearest_pow_2(x):
 		return b
 
 
-def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
+def live_stream(port=8888, sta='Z0000', cha='EHZ', seconds=30, spectrogram=False):
 	'''
 	Main function. Designed to run until user cancels with CTRL+C.
 	This will attempt to live-plot a UDP stream from a Raspberry Shake device.
@@ -57,14 +58,16 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 
 	rso.init(port=port, sta=sta)			# initialize the port
 	s = rso.init_stream()					# initialize a stream
-
-	num_chans = len(rso.channels)
-	fig, ax = plt.subplots(figsize=(width,num_chans*3))
+	num_chans = len(rso.channels)			# number of channels sent to the port
+	fig = plt.figure(figsize=(width,num_chans*3))
 
 	fig.suptitle('Raspberry Shake station %s.%s live output' # title
 					% (rso.RS.net, rso.RS.sta), fontsize=14)
 	fig.patch.set_facecolor(bgcolor)		# background color
 	ax = {}									# list for subplot axes
+
+	q = queue.Queue()
+	lock = threading.Lock()
 
 	if spectrogram:							# things to set when spectrogram is True
 		mult = 2
@@ -78,21 +81,32 @@ def live_stream(port=8888, sta='Z0000', seconds=30, spectrogram=False):
 		end = np.datetime64(s[0].stats.endtime)	# numpy time
 		return s.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
 
-
-	rso.init(port=port, sta=sta)			# initialize the port
-	s = rso.init_stream()					# initialize a stream
-	num_chans = len(rso.channels)			# number of channels setnt to the port
-
 	def data_listener(s=s):
 		while True:
-			s = rso.update_stream()
+			lock.acquire()
+			s = rso.update_stream(s, fill_value='latest')
 			s = slice_stream(s)
+			lock.release()
 
+	def init():
+		for line in lines:
+			line.set_ydata([np.nan] * (seconds * rso.sps))
+		return lines
+
+	def update(frame):
+		for t in s:
+			lines[t.stats.channel].set_ydata(t.data)
+		return lines
 
 
 	try:
+		thread = threading.Thread(target=data_listener)
+		thread.daemon = True
+		thread.start()
+	
+
 		ani = animation.FuncAnimation(
-			fig, update, init_func=init, interval=1, blit=True, save_count=50)
+			fig, update, init_func=init, interval=1, blit=True, cache_frame_data=False)
 		plt.show()
 
 	except KeyboardInterrupt:
@@ -140,7 +154,7 @@ def main():
 		prt, stn, sec = 8888, 'Z0000', 30
 		h = False
 		spec = False
-		opts, args = getopt.getopt(sys.argv[1:], 'hp:s:n:d:g', ['help', 'port=', 'station=', 'duration=', 'spectrogram'])
+		opts, args = getopt.getopt(sys.argv[1:], 'hp:s:n:d:c:g', ['help', 'port=', 'station=', 'duration=', 'channels=', 'spectrogram'])
 		for o, a in opts:
 			if o in ('-h, --help'):
 				h = True
@@ -150,11 +164,13 @@ def main():
 				prt = int(a)
 			if o in ('-s', 'station='):
 				stn = str(a)
+			if o in ('-c', 'channels='):
+				cha = a.split(',')
 			if o in ('-d', 'duration='):
 				sec = int(a)
 			if o in ('-g', '--spectrogram'):
 				spec = True
-		live_stream(port=prt, sta=stn, seconds=sec, spectrogram=spec)
+		live_stream(port=prt, sta=stn, cha=cha, seconds=sec, spectrogram=spec)
 	#	exit(0)
 	# except ValueError as e:
 	# 	print('ERROR: %s' % e)

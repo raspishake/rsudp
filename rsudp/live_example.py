@@ -12,7 +12,10 @@ import gc
 
 plt.ion()
 
-fgcolor = 0.0
+global fgcolor, bgcolor
+bgcolor = '#202530'
+fgcolor = '0.8'
+linecolor = '#c28285'
 
 '''
 A more complex example program that uses rs2obspy to build a stream, then
@@ -45,20 +48,19 @@ def _nearest_pow_2(x):
     else:
         return b
 
-def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
+def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False, fullscreen=False):
 	"""
 	Generate a new plot on command with a stream object.
 	"""
-	global fgcolor
-	fig = plt.figure(figsize=figsize)	# create a figure
-	bgcolor = '#202530'
-	fgcolor = '0.8'
-	linecolor = '#c28285'
-	fig.suptitle('Raspberry Shake station %s.%s live output' # title
+	nfig = plt.figure(num=1, figsize=figsize)	# create a figure
+	nfig.suptitle('Raspberry Shake station %s.%s live output' # title
 				 % (rso.RS.net, rso.RS.sta), fontsize=14, color=fgcolor)
-	fig.patch.set_facecolor(bgcolor)		# background color
+	nfig.patch.set_facecolor(bgcolor)		# background color
+	if fullscreen:
+		figManager = plt.get_current_fig_manager()
+		figManager.window.showMaximized()
 	plt.draw()								# set up the canvas
-	ax = []									# list for subplot axes
+	nax = []								# list for subplot axes
 	mult = 1
 	num_chans = len(rso.channels)
 	if spectrogram:							# things to set when spectrogram is True
@@ -69,24 +71,24 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 	i = 1
 	for c in rso.channels:					# for each channel, add a plot; if spectrogram==True, add another plot
 		if i == 1:
-			ax.append(fig.add_subplot(num_chans*mult, 1, i))
-			ax[i-1].set_facecolor(bgcolor)
-			ax[i-1].tick_params(colors=fgcolor, labelcolor=fgcolor)
+			nax.append(nfig.add_subplot(num_chans*mult, 1, i, label=str(i)))
+			nax[i-1].set_facecolor(bgcolor)
+			nax[i-1].tick_params(colors=fgcolor, labelcolor=fgcolor)
 			if spectrogram:
 				i += 1
-				ax.append(fig.add_subplot(num_chans*mult, 1, i))#, sharex=ax[0]))
-				ax[i-1].set_facecolor(bgcolor)
-				ax[i-1].tick_params(colors=fgcolor, labelcolor=fgcolor)
+				nax.append(nfig.add_subplot(num_chans*mult, 1, i, label=str(i)))#, sharex=ax[0]))
+				nax[i-1].set_facecolor(bgcolor)
+				nax[i-1].tick_params(colors=fgcolor, labelcolor=fgcolor)
 
 		else:
-			ax.append(fig.add_subplot(num_chans*mult, 1, i, sharex=ax[0]))
-			ax[i-1].set_facecolor(bgcolor)
-			ax[i-1].tick_params(colors=fgcolor, labelcolor=fgcolor)
+			nax.append(nfig.add_subplot(num_chans*mult, 1, i, sharex=nax[0], label=str(i)))
+			nax[i-1].set_facecolor(bgcolor)
+			nax[i-1].tick_params(colors=fgcolor, labelcolor=fgcolor)
 			if spectrogram:
 				i += 1
-				ax.append(fig.add_subplot(num_chans*mult, 1, i, sharex=ax[1]))
-				ax[i-1].set_facecolor(bgcolor)
-				ax[i-1].tick_params(colors=fgcolor, labelcolor=fgcolor)
+				nax.append(nfig.add_subplot(num_chans*mult, 1, i, sharex=nax[1], label=str(i)))
+				nax[i-1].set_facecolor(bgcolor)
+				nax[i-1].tick_params(colors=fgcolor, labelcolor=fgcolor)
 		s = rso.update_stream(s)
 		i += 1
 
@@ -95,13 +97,12 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 		end = np.datetime64(s[0].stats.endtime)	# numpy time
 		s = s.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
 
-	for axis in ax:
+	for axis in nax:
 		plt.setp(axis.spines.values(), color=fgcolor)
 		plt.setp([axis.get_xticklines(), axis.get_yticklines()], color=fgcolor)
 
-	plt.tight_layout(pad=3, h_pad=0, w_pad=0, rect=(0.03, 0, 1, 1))	# carefully designed plot layout parameters
 	plt.draw()								# update the canvas
-	fig.canvas.start_event_loop(0.001)		# wait (trust me this is necessary, but I don't know why)
+	nfig.canvas.start_event_loop(0.001)		# wait (trust me this is necessary, but I don't know why)
 
 	lines = []								# lines objects to update
 	i = 0
@@ -110,24 +111,61 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False):
 		end = np.datetime64(t.stats.endtime)
 		mean = int(round(np.mean(t.data)))
 		r = np.arange(start,end,np.timedelta64(int(1000/rso.sps), 'ms')).astype(datetime)[-len(t.data):] # array range of times in trace
-		lines.append(ax[i*mult].plot(r, t.data[:(seconds*rso.sps)]-mean, color=linecolor,
+		lines.append(nax[i*mult].plot(r, t.data[:(seconds*rso.sps)]-mean, color=linecolor,
 					 lw=0.35, label=t.stats.channel)[0])	# plot the line on the axis and put the instance in a list
-		ax[i*mult].set_ylabel('Voltage counts', color=fgcolor)
-		ax[i*mult].legend(loc='upper left')
+		nax[i*mult].set_ylabel('Voltage counts', color=fgcolor)
+		nax[i*mult].legend(loc='upper left')
 		if spectrogram:						# if the user wants a spectrogram, plot it
 			if i == 0:
-				sg = ax[1].specgram(t.data-mean, NFFT=8, pad_to=8, Fs=rso.sps, noverlap=7)[0]
-				ax[1].set_xlim(0,seconds)
-			ax[i*mult+1].set_ylim(0,int(rso.sps/2))
+				sg = nax[1].specgram(t.data-mean, NFFT=8, pad_to=8, Fs=rso.sps, noverlap=7)[0]
+				nax[1].set_xlim(0,seconds)
+			nax[i*mult+1].set_ylim(0,int(rso.sps/2))
 		i += 1
-	ax[i*mult-1].set_xlabel('Time (UTC)', color=fgcolor)
+	nax[i*mult-1].set_xlabel('Time (UTC)', color=fgcolor)
 
 	if spectrogram:
-		return s, fig, ax, lines, mult, sg, per_lap, nfft1, nlap1
+		return s, nfig, nax, lines, mult, sg, per_lap, nfft1, nlap1
 	else:
-		return s, fig, ax, lines, mult
+		return s, nfig, nax, lines, mult
 
-def live_stream(port=8888, sta='Z0000', cha='all', seconds=30, spectrogram=False):
+def update_plot(fig, ax, s, per_lap, nfft1, nlap1, lines=[], num_chans=1, mult=1, seconds=30, spectrogram=False):
+	i = 0
+	while i < num_chans*mult*(float(rso.sps)/100):	# way of reducing CPU load while keeping stream up to date
+		s = rso.update_stream(s, fill_value='latest')	# this will update twice per channel if spectrogram==True and sps==100, otherwise once
+		i += 1
+	obstart = s[0].stats.endtime - timedelta(seconds=seconds)	# obspy time
+	start = np.datetime64(s[0].stats.endtime)-np.timedelta64(seconds, 's')	# numpy time
+	end = np.datetime64(s[0].stats.endtime)	# numpy time
+	s = s.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
+	i = 0
+	while i < num_chans:	# for each channel, update the plots
+		r = np.arange(start, end, np.timedelta64(int(1000/rso.sps), 'ms'))[-len(s[i].data[-rso.sps*seconds:]):]
+		mean = int(round(np.mean(s[i].data)))
+		lines[i].set_ydata(s[i].data[-rso.sps*seconds:]-mean)
+		lines[i].set_xdata(r)
+		ax[i*mult].set_xlim(left=start.astype(datetime), right=end.astype(datetime))
+		ax[i*mult].set_ylim(bottom=np.min(s[i].data-mean)-np.ptp(s[i].data-mean)*0.1, top=np.max(s[i].data-mean)+np.ptp(s[i].data-mean)*0.1)
+		if spectrogram:
+			nfft1 = _nearest_pow_2(rso.sps)	# FFTs run much faster if the number of transforms is a power of 2
+			nlap1 = nfft1 * per_lap
+			if len(s[i].data) < nfft1:	# when the number of data points is low, we just need to kind of fake it for a few fractions of a second
+				nfft1 = 8
+				nlap1 = 6
+			sg = ax[i*mult+1].specgram(s[i].data-mean, NFFT=nfft1, pad_to=int(rso.sps*2),
+					Fs=rso.sps, noverlap=nlap1)[0]	# meat & potatoes
+			ax[i*mult+1].clear()	# incredibly important, otherwise continues to draw over old images (gets exponentially slower)
+			ax[i*mult+1].set_xlim(0,seconds)
+			ax[i*mult+1].set_ylim(0,int(rso.sps/2))
+			ax[i*mult+1].imshow(np.flipud(sg**(1/float(10))), cmap='inferno',
+					extent=(seconds-(1/(rso.sps/float(len(s[i].data)))),seconds,0,rso.sps/2), aspect='auto'
+				)
+			ax[i*mult+1].tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
+			ax[i*mult+1].set_ylabel('Frequency (Hz)', color=fgcolor)
+		i += 1
+	ax[i*mult-1].set_xlabel('Time (UTC)')
+	fig.canvas.start_event_loop(0.001)
+
+def live_stream(port=8888, sta='Z0000', cha='all', seconds=30, spectrogram=False, fullscreen=False):
 	'''
 	Main function. Designed to run until user cancels with CTRL+C.
 	This will attempt to live-plot a UDP stream from a Raspberry Shake device.
@@ -138,77 +176,52 @@ def live_stream(port=8888, sta='Z0000', cha='all', seconds=30, spectrogram=False
 	s = rso.init_stream()					# initialize a stream
 	num_chans = len(rso.channels)
 
+	if fullscreen:
+		fig2 = plt.figure(num=2, facecolor=bgcolor)
+		figManager = plt.get_current_fig_manager()
+		figManager.window.showMaximized()
+
 	if spectrogram:
 		rso.RS.printM('Spectrogram is enabled; plots will update at most every 0.5 sec to reduce CPU load.')
 		s, fig, ax, lines, mult, sg, per_lap, nfft1, nlap1 = plot_gen(
-				s, figsize=(width,3*num_chans), seconds=seconds, spectrogram=spectrogram
+				s, figsize=(width,3*num_chans), seconds=seconds, spectrogram=spectrogram, fullscreen=fullscreen,
 			)	# set up plot with spectrograms
 		regen_mult = 2	# shorter regeneration time (FFTs eat up lots of resources)
 	else:
-		s, fig, ax, lines, mult = plot_gen(s, figsize=(width,3*num_chans), seconds=seconds)	# standard waveform plotting
+		s, fig, ax, lines, mult = plot_gen(
+			s, figsize=(width,3*num_chans), seconds=seconds, fullscreen=fullscreen
+			)	# standard waveform plotting
 		regen_mult = 1	# longer regeneration time
 	rso.RS.printM('Plot set up successfully. Will run until CTRL+C keystroke.')
 
 	try:
-		n = 1
+		n = 0
 		regen_denom = 3600.*float(regen_mult)
 		while True:		# main loop
 			regen_time = ((float(n)*num_chans) / regen_denom)		# calculate how many iterations have passed (varies based on channels)
 			if regen_time == int(regen_time):						# purge mpl memory objects and regenerate plot
 				if n > 1:
-					size = fig.get_size_inches()					# get the current figure width (inches)
-					fig2 = plt.figure(figsize=size)
-					fig2.axes.append(ax)
-					fig2.show()
+					size = fig.get_size_inches()
+					if fullscreen:
+						fig2 = plt.figure(num=2, figsize=size, facecolor=bgcolor)
 					plt.close(fig=fig)								# close all matplotlib objects
 					linecache.clearcache()							# clear the linecache
 					gc.collect()									# clean up garbage
-				if spectrogram:
-					s, fig, ax, lines, mult, sg, per_lap, nfft1, nlap1 = plot_gen(
-							s, figsize=size, seconds=seconds, spectrogram=spectrogram
-						)	# regenerate all plots
-				else:
-					s, fig, ax, lines, mult = plot_gen(s, figsize=size, seconds=seconds)	# regenerate line plot
-				if n > 1:
-					plt.close(fig=fig2)
+					if spectrogram:
+						s, fig, ax, lines, mult, sg, per_lap, nfft1, nlap1 = plot_gen(
+								s, figsize=size, seconds=seconds, spectrogram=spectrogram
+							)	# regenerate all plots
+					else:
+						s, fig, ax, lines, mult = plot_gen(s, figsize=size, seconds=seconds)	# regenerate line plot
 					rso.RS.printM('Plot regenerated after %s loops.' % (n))
+				if fullscreen:
+					plt.tight_layout(pad=0.5, rect=[0.015, 0, 1, 0.965])
+				else:
+					plt.tight_layout(pad=3, h_pad=0, w_pad=0, rect=(0.03, 0, 1, 1))	# carefully designed plot layout parameters
 
-			i = 0
-			while i < num_chans*mult*(float(rso.sps)/100):	# way of reducing CPU load while keeping stream up to date
-				s = rso.update_stream(s, fill_value='latest')	# this will update twice per channel if spectrogram==True and sps==100, otherwise once
-				i += 1
-			obstart = s[0].stats.endtime - timedelta(seconds=seconds)	# obspy time
-			start = np.datetime64(s[0].stats.endtime)-np.timedelta64(seconds, 's')	# numpy time
-			end = np.datetime64(s[0].stats.endtime)	# numpy time
-			s = s.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
-			i = 0
-			while i < num_chans:	# for each channel, update the plots
-				r = np.arange(start, end, np.timedelta64(int(1000/rso.sps), 'ms'))[-len(s[i].data[-rso.sps*seconds:]):]
-				mean = int(round(np.mean(s[i].data)))
-				lines[i].set_ydata(s[i].data[-rso.sps*seconds:]-mean)
-				lines[i].set_xdata(r)
-				ax[i*mult].set_xlim(left=start.astype(datetime), right=end.astype(datetime))
-				ax[i*mult].set_ylim(bottom=np.min(s[i].data-mean)-np.ptp(s[i].data-mean)*0.1, top=np.max(s[i].data-mean)+np.ptp(s[i].data-mean)*0.1)
-				if spectrogram:
-					nfft1 = _nearest_pow_2(rso.sps)	# FFTs run much faster if the number of transforms is a power of 2
-					nlap1 = nfft1 * per_lap
-					if len(s[i].data) < nfft1:	# when the number of data points is low, we just need to kind of fake it for a few fractions of a second
-						nfft1 = 8
-						nlap1 = 6
-					sg = ax[i*mult+1].specgram(s[i].data-mean, NFFT=nfft1, pad_to=int(rso.sps*2),
-							Fs=rso.sps, noverlap=nlap1)[0]	# meat & potatoes
-					ax[i*mult+1].clear()	# incredibly important, otherwise continues to draw over old images (gets exponentially slower)
-					ax[i*mult+1].set_xlim(0,seconds)
-					ax[i*mult+1].set_ylim(0,int(rso.sps/2))
-					ax[i*mult+1].imshow(np.flipud(sg**(1/float(10))), cmap='inferno',
-							extent=(seconds-(1/(rso.sps/float(len(s[i].data)))),seconds,0,rso.sps/2), aspect='auto'
-						)
-					ax[i*mult+1].tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
-					ax[i*mult+1].set_ylabel('Frequency (Hz)', color=fgcolor)
-				i += 1
-			ax[i*mult-1].set_xlabel('Time (UTC)')
-			#plt.pause(0.01)	# let the dust settle
-			fig.canvas.start_event_loop(0.001)
+			update_plot(fig=fig, ax=ax, s=s, per_lap=per_lap, nfft1=nfft1,
+						nlap1=nlap1, lines=lines, num_chans=num_chans,
+						mult=mult, seconds=seconds, spectrogram=spectrogram)
 			n += 1		# total iterations
 
 	except KeyboardInterrupt:
@@ -255,8 +268,10 @@ def main():
 	if True: #try:
 		prt, stn, sec, cha = 8888, 'Z0000', 30, 'all'
 		h = False
-		spec = False
-		opts, args = getopt.getopt(sys.argv[1:], 'hp:s:n:d:c:g', ['help', 'port=', 'station=', 'duration=', 'channels=', 'spectrogram'])
+		full, spec = False, False
+		opts, args = getopt.getopt(sys.argv[1:], 'hp:s:n:d:c:gf',
+			['help', 'port=', 'station=', 'duration=', 'channels=', 'spectrogram', 'fullscreen']
+			)
 		for o, a in opts:
 			if o in ('-h, --help'):
 				h = True
@@ -272,7 +287,9 @@ def main():
 				sec = int(a)
 			if o in ('-g', '--spectrogram'):
 				spec = True
-		live_stream(port=prt, sta=stn, cha=cha, seconds=sec, spectrogram=spec)	#	exit(0)
+			if o in ('-f', '--fullscreen'):
+				full = True
+		live_stream(port=prt, sta=stn, cha=cha, seconds=sec, spectrogram=spec, fullscreen=full)	#	exit(0)
 	# except ValueError as e:
 	# 	print('ERROR: %s' % e)
 	# 	print(hlp_txt)

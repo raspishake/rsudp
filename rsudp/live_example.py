@@ -128,7 +128,8 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False, fullscreen=False):
 	else:
 		return s, nfig, nax, lines, mult
 
-def update_plot(fig, ax, s, per_lap, nfft1, nlap1, lines=[], num_chans=1, mult=1, seconds=30, spectrogram=False):
+def update_plot(fig, ax, s, per_lap=None, nfft1=None, nlap1=None, lines=[],
+				num_chans=1, mult=1, seconds=30, spectrogram=False):
 	i = 0
 	while i < num_chans*mult*(float(rso.sps)/100):	# way of reducing CPU load while keeping stream up to date
 		s = rso.update_stream(s, fill_value='latest')	# this will update twice per channel if spectrogram==True and sps==100, otherwise once
@@ -218,10 +219,13 @@ def live_stream(port=8888, sta='Z0000', cha='all', seconds=30, spectrogram=False
 					plt.tight_layout(pad=0.5, rect=[0.015, 0, 1, 0.965])
 				else:
 					plt.tight_layout(pad=3, h_pad=0, w_pad=0, rect=(0.03, 0, 1, 1))	# carefully designed plot layout parameters
-
-			update_plot(fig=fig, ax=ax, s=s, per_lap=per_lap, nfft1=nfft1,
-						nlap1=nlap1, lines=lines, num_chans=num_chans,
-						mult=mult, seconds=seconds, spectrogram=spectrogram)
+			if spectrogram:
+				update_plot(fig=fig, ax=ax, s=s, per_lap=per_lap, nfft1=nfft1,
+							nlap1=nlap1, lines=lines, num_chans=num_chans,
+							mult=mult, seconds=seconds, spectrogram=spectrogram)
+			else:
+				update_plot(fig=fig, ax=ax, s=s, lines=lines, num_chans=num_chans,
+							mult=mult, seconds=seconds, spectrogram=spectrogram)
 			n += 1		# total iterations
 
 	except KeyboardInterrupt:

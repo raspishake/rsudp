@@ -13,9 +13,9 @@ import gc
 plt.ion()
 
 global fgcolor, bgcolor
-bgcolor = '#202530'
-fgcolor = '0.8'
-linecolor = '#c28285'
+bgcolor = '#202530' # background
+fgcolor = '0.8' # axis and label color
+linecolor = '#c28285' # seismogram color
 
 '''
 A more complex example program that uses rs2obspy to build a stream, then

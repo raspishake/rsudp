@@ -15,9 +15,19 @@ def start_listen(port):
 class ProducerThread(Thread):
 	def run(self):
 		global queue
+		firstaddr = ''
+		notif = False
 		while True:
-			r = RS.getDATA()
-			queue.put(r)
+			data, addr = RS.sock.recvfrom(4096)
+			if firstaddr == '':
+				firstaddr = addr[0]
+				RS.printM('Receiving UDP data from %s' % (firstaddr))
+			if (firstaddr != '') and (addr[0] == firstaddr):
+				queue.put(data)
+			else:
+				if notif == False:
+					RS.printM('Another address (%s) is sending UDP data to this port. Ignoring...' % (addr[0]))
+					notif = True
 
 
 class ConsumerThread(Thread):
@@ -28,11 +38,15 @@ class ConsumerThread(Thread):
 			queue.task_done()
 			print(p)
 
-try:
-	start_listen(port=18001)
-	prod = ProducerThread()
-	cons = ConsumerThread()
-	prod.start()
-	cons.start()
-except KeyboardInterrupt:
-	RS.printM('Output ended.')
+def main():
+	try:
+		start_listen(port=18001)
+		prod = ProducerThread()
+		cons = ConsumerThread()
+		prod.start()
+		cons.start()
+	except KeyboardInterrupt:
+		RS.printM('Output ended.')
+
+if __name__ == '__main__':
+	main()

@@ -216,9 +216,9 @@ def live_stream(port=8888, sta='Z0000', cha='all', seconds=30, spectrogram=False
 						s, fig, ax, lines, mult = plot_gen(s, figsize=size, seconds=seconds)	# regenerate line plot
 					rso.RS.printM('Plot regenerated after %s loops.' % (n))
 				if fullscreen:
-					plt.tight_layout(pad=0.5, rect=[0.015, 0, 1, 0.965])
+					plt.tight_layout(pad=0, rect=[0.015, 0, 1, 0.965])
 				else:
-					plt.tight_layout(pad=3, h_pad=0, w_pad=0, rect=(0.03, 0, 1, 1))	# carefully designed plot layout parameters
+					plt.tight_layout(pad=0, h_pad=0.1, w_pad=0, rect=(0.015, 0, 1, 0.965))	# carefully designed plot layout parameters
 			if spectrogram:
 				update_plot(fig=fig, ax=ax, s=s, per_lap=per_lap, nfft1=nfft1,
 							nlap1=nlap1, lines=lines, num_chans=num_chans,

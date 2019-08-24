@@ -71,7 +71,7 @@ def openSOCK(host=''):
 	sockopen = False
 	if initd:
 		HP = '%s:%s' % ('localhost',port)
-		printM("Opening socket on (HOST:PORT) %s" % HP)	
+		printM("Opening socket on %s (HOST:PORT)" % HP)
 		sock.bind((host, port))
 		sockopen = True
 	else:

@@ -14,9 +14,19 @@ def start_listen(port):
 
 class ProducerThread(Thread):
 	def run(self):
+		"""
+		Receives data from one IP address and puts it in an async queue.
+		Prints each sending address to STDOUT so the user can troubleshoot.
+		This will work best on local networks where a router does not obscure
+		multiple devices behind one sending IP.
+		Remember, UDP packets cannot be differentiated by sending instrument.
+		Their identifiers are per channel (EHZ, HDF, ENE, SHZ, etc.)
+		and not per Shake (R4989, R52CD, R24FA, RCB43, etc.). To avoid problems,
+		please use a separate port for each Shake.
+		"""
 		global queue
 		firstaddr = ''
-		notif = False
+		blocked = []
 		while True:
 			data, addr = RS.sock.recvfrom(4096)
 			if firstaddr == '':
@@ -25,13 +35,18 @@ class ProducerThread(Thread):
 			if (firstaddr != '') and (addr[0] == firstaddr):
 				queue.put(data)
 			else:
-				if notif == False:
-					RS.printM('Another address (%s) is sending UDP data to this port. Ignoring...' % (addr[0]))
-					notif = True
+				if addr not in blocked:
+					RS.printM('Another IP (%s) is sending UDP data to this port. Ignoring...' % (addr[0]))
+					blocked.append(addr)
 
 
 class ConsumerThread(Thread):
 	def run(self):
+		"""
+		Distributes queue objects to execute various other tasks: for example,
+		it may be used to populate ObsPy streams for various things like
+		plotting, alert triggers, and ground motion calculation.
+		"""
 		global queue
 		while True:
 			p = queue.get()
@@ -39,14 +54,11 @@ class ConsumerThread(Thread):
 			print(p)
 
 def main():
-	try:
-		start_listen(port=18001)
-		prod = ProducerThread()
-		cons = ConsumerThread()
-		prod.start()
-		cons.start()
-	except KeyboardInterrupt:
-		RS.printM('Output ended.')
+	start_listen(port=18001)
+	prod = ProducerThread()
+	cons = ConsumerThread()
+	prod.start()
+	cons.start()
 
 if __name__ == '__main__':
 	main()

@@ -2,6 +2,12 @@ import sys
 import socket as s
 import datetime as dt
 import signal
+from threading import Thread
+from queue import Queue
+
+qsize = 120 			# max UDP queue size is 30 seconds' worth of seismic data
+queue = Queue(qsize)	# master queue
+destinations = {}		# queues to write to
 
 initd, sockopen = False, False
 to = 10								# timeout
@@ -76,6 +82,14 @@ def openSOCK(host=''):
 		sockopen = True
 	else:
 		raise IOError("Before opening a socket, you must initialize this raspberryshake library by calling initRSlib(dport=XXXXX, rssta='R0E05') first.")
+
+def test_connection():
+	global to
+	signal.signal(signal.SIGALRM, handler)
+	signal.alarm(to)						# alarm time set with timeout value
+	data, addr = sock.recvfrom(4096)
+	signal.alarm(0)							# once data has been received, turn alarm completely off
+	to = 0									# otherwise it erroneously triggers after keyboardinterrupt
 
 
 def getDATA():
@@ -174,3 +188,51 @@ def getCHNS():
 def getTTLCHN():
 	'''Calculate total number of channels received.'''
 	return len(getCHNS())
+
+
+class ProducerThread(Thread):
+	def run(self):
+		"""
+		Receives data from one IP address and puts it in an async queue.
+		Prints each sending address to STDOUT so the user can troubleshoot.
+		This will work best on local networks where a router does not obscure
+		multiple devices behind one sending IP.
+		Remember, UDP packets cannot be differentiated by sending instrument.
+		Their identifiers are per channel (EHZ, HDF, ENE, SHZ, etc.)
+		and not per Shake (R4989, R52CD, R24FA, RCB43, etc.). To avoid problems,
+		please use a separate port for each Shake.
+		"""
+		global to
+		global queue
+		firstaddr = ''
+		blocked = []
+		while True:
+			data, addr = sock.recvfrom(4096)
+			if firstaddr == '':
+				firstaddr = addr[0]
+				printM('Receiving UDP data from %s' % (firstaddr))
+			if (firstaddr != '') and (addr[0] == firstaddr):
+				queue.put(data)
+			else:
+				if addr not in blocked:
+					printM('Another IP (%s) is sending UDP data to this port. Ignoring...' % (addr[0]))
+					blocked.append(addr)
+
+
+class ConsumerThread(Thread):
+	global destinations
+
+	def run(self):
+		"""
+		Distributes queue objects to execute various other tasks: for example,
+		it may be used to populate ObsPy streams for various things like
+		plotting, alert triggers, and ground motion calculation.
+		"""
+		global queue
+
+		while True:
+			p = queue.get()
+			queue.task_done()
+
+			for q in destinations:
+				destinations[q].put(p)

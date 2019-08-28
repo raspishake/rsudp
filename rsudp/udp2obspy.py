@@ -1,65 +1,99 @@
-from threading import Thread
-import time
-import random
-import signal
-from queue import Queue
-from obspy.core.trace import Trace
-from obspy.core.stream import Stream
-from obspy.core.utcdatetime import UTCDateTime
-from obspy.signal.trigger import recursive_sta_lta
-from obspy.signal.trigger import z_detect
-from obspy import read_inventory
-import numpy as np
-import math
-from obspy import UTCDateTime
-from datetime import datetime, timedelta
-
 import rsudp.raspberryshake as RS
-import rsudp.rs2o as rso
-
-inv = False
 
 
-def start_listen(port, sta):
-	RS.initRSlib(dport=port, rssta=sta)
-	RS.openSOCK()
+def eqAlert(blanklines=True,
+			printtext='Trigger threshold exceeded -- possible earthquake!',
+			other=''):
+	if blanklines:
+		printtext = '\n' + str(printtext) + '\n'
+	RS.printM(printtext)
 
-def get_inventory(sta='Z0000'):
-	global inv
-	if 'Z0000' in sta:
-		RS.printM('No station name given, continuing without inventory.')
-		inv = False
-	else:
-		try:
-			RS.printM('Fetching inventory for station %s.%s from Raspberry Shake FDSN.' % (RS.net, RS.sta))
-			inv = read_inventory('https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&level=resp&format=xml'
-								 % (RS.net, RS.sta))
-			RS.printM('Inventory fetch successful.')
-		except:
-			RS.printM('Inventory fetch failed, continuing without.')
-			inv = False
+def main(alert=True, plot=False, print=False, port=8888, stn='Z0000',
+		 sta=5, lta=10, thresh=1.5, bp=False, cha='all',
+		 sec=30, spec=False, full=False):
 
-
-
-def main():
-	#global alrtq
-	port = 18001
-	start_listen(port=port, sta='R3BCF')
-	RS.test_connection()
-
-	prod = RS.ProducerThread()
+	prod = RS.ProducerThread(port=port, stn=stn)
 	cons = RS.ConsumerThread()
-
-	alrt = RS.AlertThread()
-	prnt = RS.PrintThread()
-	#plot = RS.PlotThread()
 
 	prod.start()
 	cons.start()
 
-	alrt.start()
-	prnt.start()
-	#plot.start()
+	if alert:
+		alrt = RS.AlertThread(sta=sta, lta=lta, thresh=thresh, func=tweet)
+		alrt.start()
+	if stdprint:
+		prnt = RS.PrintThread()
+		prnt.start()
+	if plotting:
+		plot = RS.PlotThread(stn=stn, cha=cha, seconds=sec, spectrogram=spec
+							 fullscreen=full)
+		plot.start()
 
 if __name__ == '__main__':
-	main()
+def main():
+	'''
+	Loads port, station, network, and duration arguments to create a graph.
+	Supply -p, -s, -n, and/or -d to change the port and the output plot
+	parameters.
+	'''
+
+	hlp_txt='''
+##############################################################################
+##                       R A S P B E R R Y  S H A K E                       ##
+##                         UDP Data Plotter Example                         ##
+##                              by Ian Nesbitt                              ##
+##                              Copyleft  2019                              ##
+##                                                                          ##
+## Loads port, station, and duration arguments to create a graph.           ##
+## Supply -p, -s, and/or -d to change the port and the output plot          ##
+## parameters. Use -g to plot spectrogram(s).                               ##
+##                                                                          ##
+## Requires:                                                                ##
+## - Numpy                                                                  ##
+## - ObsPy                                                                  ##
+## - Matplotlib                                                             ##
+## - rs2obspy                                                               ##
+## - raspberryShake                                                         ##
+##                                                                          ##
+## The following example sets the port to 18001, station to R0E05,          ##
+## and plot duration to 25 seconds, then plots data live with spectrogram:  ##
+##                                                                          ##
+##############################################################################
+##                                                                          ##
+##    $ python live_example.py -p 18001 -s R0E05 -d 25 -g                   ##
+##                                                                          ##
+##############################################################################
+
+	'''
+
+	if True: #try:
+		prt, stn, sec, cha = 8888, 'Z0000', 30, 'all'
+		h = False
+		full, spec = False, False
+		opts, args = getopt.getopt(sys.argv[1:], 'hp:s:n:d:c:gfaS:L:T:',
+			['help', 'port=', 'station=', 'duration=', 'channels=', 'spectrogram',
+			 'fullscreen', 'alarm', 'sta', 'lta']
+			)
+		for o, a in opts:
+			if o in ('-h, --help'):
+				h = True
+				print(hlp_txt)
+				exit(0)
+			if o in ('-p', 'port='):
+				prt = int(a)
+			if o in ('-s', 'station='):
+				stn = str(a)
+			if o in ('-c', 'channels='):
+				cha = a.split(',')
+			if o in ('-d', 'duration='):
+				sec = int(a)
+			if o in ('-g', '--spectrogram'):
+				spec = True
+			if o in ('-f', '--fullscreen'):
+				full = True
+		main(port=prt, stn=stn, cha=cha, seconds=sec, spectrogram=spec, fullscreen=full
+			 fullscreen=full)
+	# except ValueError as e:
+	# 	print('ERROR: %s' % e)
+	# 	print(hlp_txt)
+	# 	exit(2)

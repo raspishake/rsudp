@@ -10,15 +10,23 @@ from obspy.signal.trigger import recursive_sta_lta
 import numpy as np
 from obspy import UTCDateTime
 from datetime import datetime, timedelta
+import time
 
 qsize = 120 			# max UDP queue size is 30 seconds' worth of seismic data
 queue = Queue(qsize)	# master queue
 destinations = []		# queues to write to
 
 initd, sockopen = False, False
-to = 10								# timeout
-firstaddr = ''
-inv = False
+to = 10					# socket test timeout
+firstaddr = ''			# the first address data is received from
+inv = False				# station inventory
+producer, consumer = False, False # state of producer and consumer threads
+stn = 'Z0000'			# station name
+net = 'AM'				# network (this will always be AM)
+
+tf = None				# transmission rate in ms
+sps = None				# samples per second
+
 
 def printM(msg):
 	'''Prints messages with datetime stamp.'''
@@ -33,15 +41,15 @@ def handler(signum, frame):
 	printM('is forwarding data to the port correctly.')
 	raise IOError('No data received')
 
-def initRSlib(dport=8888, rssta='Z0000', timeout=10):
+def initRSlib(dport=8888, rsstn='Z0000', timeout=10):
 	'''
 	Set values for data port, station, network, and data port timeout prior to opening the socket.
 	Defaults:
 	dport=8888					# this is the port number to be opened
-	rssta='Z0000'				# the name of the station (something like R0E05)
+	rsstn='Z0000'				# the name of the station (something like R0E05)
 	timeout=10					# the number of seconds to wait for data before an error is raised (zero for unlimited wait)
 	'''
-	global port, sta, net, to, initd
+	global port, stn, net, to, initd
 	net = 'AM'
 	initd = False				# initialization has not completed yet, therefore false
 	try:						# set port value first
@@ -57,10 +65,10 @@ def initRSlib(dport=8888, rssta='Z0000', timeout=10):
 		printM('ERROR. Details: ' + e)
 
 	try:						# set station name
-		if len(rssta) == 5:
-			sta = str(rssta).upper()
+		if len(rsstn) == 5:
+			stn = str(rsstn).upper()
 		else:
-			sta = str(rssta).upper()
+			stn = str(rsstn).upper()
 			printM('WARNING: Station name does not follow Raspberry Shake naming convention. Ignoring.')
 	except ValueError as e:
 		printM('ERROR: Invalid station name supplied.')
@@ -71,7 +79,8 @@ def initRSlib(dport=8888, rssta='Z0000', timeout=10):
 	try:						# set timeout value 
 		to = int(timeout)
 	except ValueError as e:
-		printM('ERROR: You likely supplied a non-integer as the timeout value. Your value: %s' % timeout)
+		printM('ERROR: You likely supplied a non-integer as the timeout value. Your value was: %s' % timeout)
+		printM('       Continuing with default timeout of %s sec' % (to))
 		printM('Error details: %s' % e)
 	except Exception as e:
 		printM('ERROR. Details: ' + e)
@@ -197,42 +206,42 @@ def getTTLCHN():
 	return len(getCHNS())
 
 
-def get_inventory(sta='Z0000'):
+def get_inventory(stn='Z0000'):
 	global inv
-	if 'Z0000' in sta:
-		RS.printM('No station name given, continuing without inventory.')
+	if 'Z0000' in stn:
+		printM('No station name given, continuing without inventory.')
 		inv = False
 	else:
 		try:
-			RS.printM('Fetching inventory for station %s.%s from Raspberry Shake FDSN.' % (RS.net, RS.sta))
+			printM('Fetching inventory for station %s.%s from Raspberry Shake FDSN.' % (net, sta))
 			inv = read_inventory('https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&level=resp&format=xml'
-								 % (RS.net, RS.sta))
-			RS.printM('Inventory fetch successful.')
+								 % (net, stn))
+			printM('Inventory fetch successful.')
 		except:
-			RS.printM('Inventory fetch failed, continuing without.')
+			printM('Inventory fetch failed, continuing without.')
 			inv = False
 
 
 def make_trace(d):
 	'''Makes a trace and assigns it some values using a data packet.'''
-	ch = ['EHZ']#RS.getCHN(d)							# channel
+	ch = getCHN(d)							# channel
 	if ch:# in channels:
 		t = getTIME(d)							# unix epoch time since 1970-01-01 00:00:00Z, or as obspy calls it, "timestamp"
 		st = getSTREAM(d)						# samples in data packet in list [] format
 		tr = Trace(data=np.ma.MaskedArray(st))		# create empty trace
 		tr.stats.network = net						# assign values
 		tr.stats.location = '00'
-		tr.stats.station = sta
+		tr.stats.station = stn
 		tr.stats.channel = ch
 		tr.stats.sampling_rate = 100#sps
 		tr.stats.starttime = UTCDateTime(t)
 		if inv:
-			#try:
-			tr.attach_response(inv)
-			# except:
-			# 	RS.printM('ERROR attaching inventory response. Are you sure you set the station name correctly?')
-			# 	RS.printM('    This could indicate a mismatch in the number of data channels between the inventory and the stream.')
-			# 	RS.printM('    For example, if you are receiving RS4D data, please make sure the inventory you download has 4 channels.')
+			try:
+				tr.attach_response(inv)
+			except:
+				RS.printM('ERROR attaching inventory response. Are you sure you set the station name correctly?')
+				RS.printM('    This could indicate a mismatch in the number of data channels between the inventory and the stream.')
+				RS.printM('    For example, if you are receiving RS4D data, please make sure the inventory you download has 4 channels.')
 		return tr
 
 # Then make repeated calls to this, to continue adding trace data to the stream
@@ -247,6 +256,21 @@ def update_stream(stream, d, **kwargs):
 
 
 class ProducerThread(Thread):
+	def __init__(self, port, stn='Z0000'):
+		"""
+		Initialize the thread
+		"""
+		global destinations, producer
+
+		if not producer:
+			super().__init__()
+			initRSlib(dport=port, rsstn=stn)
+			openSOCK()
+			test_connection()
+			producer = True
+		else:
+			printM('Error: Producer thread already started')
+
 	def run(self):
 		"""
 		Receives data from one IP address and puts it in an async queue.
@@ -262,6 +286,7 @@ class ProducerThread(Thread):
 		global queue
 		firstaddr = ''
 		blocked = []
+		printM('Waiting for UDP data on port %s...' % (port))
 		while True:
 			data, addr = sock.recvfrom(4096)
 			if firstaddr == '':
@@ -276,7 +301,16 @@ class ProducerThread(Thread):
 
 
 class ConsumerThread(Thread):
-	global destinations
+	def __init__(self):
+		"""
+		Initialize the thread
+		"""
+		global destinations, consumer
+
+		if not consumer:
+			super().__init__()
+		else:
+			printM('Error: Consumer thread already started')
 
 	def run(self):
 		"""
@@ -295,67 +329,85 @@ class ConsumerThread(Thread):
 
 
 class AlertThread(Thread):
-	def __init__(self):
+	def __init__(self, sta=5, lta=30, thresh=1.5, func='print', printcft=True, *args, **kwargs):
 		"""
-		Initialize the thread
+		A recursive STA-LTA 
+		:param str infile: Input DZT data file
+		:param str outfile: Base output file name for plots, CSVs, and other products. Defaults to :py:data:`None`, which will cause the output filename to take a form similar to the input. The default will let the file be named via the descriptive naming function :py:data:`readgssi.functions.naming()`.
 		"""
 		super().__init__()
 		global destinations, alertqno
+		self.sta = sta
+		self.lta = lta
+		self.thresh = thresh
+		self.func = func
+		self.printcft = printcft
+		self.args = args
+		self.kwargs = kwargs
 
 		alrtq = Queue(qsize)
 		destinations.append(alrtq)
 		alertqno = len(destinations) - 1
+
+		printM('Starting Alert trigger thread with sta=%s and lta=%s' % (self.sta, self.lta))
 
 	def run(self):
 		"""
 
 		"""
 		alert_stream = Stream()
-		sta='R3BCF'
-		#get_inventory(sta=sta)
-		#if inv:
-			#alert_stream.attach_response(inv)
+		get_inventory(stn=stn)
+		if inv:
+			alert_stream.attach_response(inv)
 		alert_stream.select(component='Z')
 
+		cft, maxcft = np.zeros(1), 0
 		tf = 4
 		n = 0
-		sta = 5
-		lta = 10
 
-		wait_pkts = tf * lta
+		wait_pkts = tf * self.lta
 		while True:
-			while True:
+			while not destinations[alertqno].empty():
 				d = destinations[alertqno].get()
 				destinations[alertqno].task_done()
 				alert_stream = update_stream(
 					stream=alert_stream, d=d, fill_value='latest')
 				df = alert_stream[0].stats.sampling_rate
-				break
 
-			if n > (lta * tf):
-				obstart = alert_stream[0].stats.endtime - timedelta(seconds=lta)	# obspy time
+			if n > (self.lta * tf):
+				obstart = alert_stream[0].stats.endtime - timedelta(seconds=self.lta)	# obspy time
 				alert_stream = alert_stream.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
 
-				cft = recursive_sta_lta(alert_stream[0], int(sta * df), int(lta * df))
-				if cft.max() > 1.5:
-				#cft = z_detect(alert_stream[0], int(sta * df))
-				#if cft.max() > 1.1:
-					printM('Event detected! CFT: %s (waiting %s sec for clear trigger)' % (cft.max(), lta))
+				cft = recursive_sta_lta(alert_stream[0], int(self.sta * df), int(self.lta * df))
+				if cft.max() > self.thresh:
+					if self.func == 'print':
+						printM('Event detected! Trigger threshold: %s, CFT: %s ' % (thresh, cft.max()))
+						printM('Waiting %s sec for clear trigger' % (lta))
+					else:
+						printM('Trigger threshold of %s exceeded: %s' % (thresh, cft.max()))
+						self.func(*self.args, **self.kwargs)
+
 					n = 1
-				#else:
-				#	RS.printM('                     CFT: %s' % (cft.max()))
 			elif n == 0:
-				printM('Earthquake trigger warmup time of %s seconds...' % (lta))
+				printM('Earthquake trigger warmup time of %s seconds...' % (self.lta))
 				n += 1
-			elif n == (tf * lta):
-				printM('Earthquake trigger up and running normally.')
+			elif n == (tf * self.lta):
+				if cft.max() == 0:
+					printM('Earthquake trigger up and running normally.')
+				else:
+					printM('Earthquake trigger reset and active again.')
+					printM('Max CFT reached in alarm state: %s' % (maxcft))
+					maxcft = 0
 				n += 1
 			else:
+				if cft.max() > maxcft:
+					maxcft = cft.max()
 				n += 1
 
 
 class PlotThread(Thread):
-	def __init__(self):
+	def __init__(self, stn='Z0000', cha='all', seconds=30, spectrogram=False,
+				 fullscreen=False):
 		"""
 		Initialize the thread
 		"""
@@ -370,18 +422,17 @@ class PlotThread(Thread):
 		"""
 
 		"""
-
-		seconds = 30
-
 		print_stream = Stream()
-		sta='R3BCF'
+
 		n = 0
-		while True:
+		while not destinations[plotqno].empty():
 			d = destinations[plotqno].get()
 			destinations[plotqno].task_done()
 			alert_stream = update_stream(
 				stream=alert_stream, d=d, fill_value='latest')
 			df = alert_stream[0].stats.sampling_rate
+		time.wait(3)
+		print('plotsdf')
 
 
 class PrintThread(Thread):

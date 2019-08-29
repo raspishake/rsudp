@@ -10,7 +10,7 @@ def eqAlert(blanklines=True,
 		printtext = '\n' + str(printtext) + '\n'
 	RS.printM(printtext)
 
-def main(alert=True, plot=False, printpkts=False, port=8888, stn='Z0000',
+def main(alert=True, plot=False, debug=False, port=8888, stn='Z0000',
 		 sta=5, lta=10, thresh=1.5, bp=False, cha='all',
 		 sec=30, spec=False, full=False):
 
@@ -20,12 +20,12 @@ def main(alert=True, plot=False, printpkts=False, port=8888, stn='Z0000',
 	prod.start()
 	cons.start()
 
+	if debug:
+		prnt = RS.PrintThread()
+		prnt.start()
 	if alert:
 		alrt = RS.AlertThread(sta=sta, lta=lta, thresh=thresh, bp=bp, func=eqAlert)
 		alrt.start()
-	if printpkts:
-		prnt = RS.PrintThread()
-		prnt.start()
 	if plot:
 		plotting = RS.PlotThread(stn=stn, cha=cha, seconds=sec, spectrogram=spec,
 							 fullscreen=full)
@@ -70,6 +70,7 @@ if __name__ == '__main__':
 	if True: #try:
 		prt, stn, sec, cha = 8888, 'Z0000', 30, 'all'
 		h = False
+		debug = False
 		full, spec = False, False
 		printdata = False
 		alert = True
@@ -80,8 +81,8 @@ if __name__ == '__main__':
 		sta, lta = 6, 30	# short term & long term period for alert (seconds)
 		thresh = 1.6		# threshold for STA/LTA
 
-		opts, args = getopt.getopt(sys.argv[1:], 'hp:s:n:d:c:gfaS:L:T:',
-			['help', 'port=', 'station=', 'duration=', 'channels=', 'spectrogram',
+		opts, args = getopt.getopt(sys.argv[1:], 'hDp:s:n:d:c:gfaS:L:T:',
+			['help', 'debug', 'port=', 'station=', 'duration=', 'channels=', 'spectrogram',
 			 'fullscreen', 'alarm', 'sta', 'lta', 'thresh']
 			)
 		for o, a in opts:
@@ -89,6 +90,8 @@ if __name__ == '__main__':
 				h = True
 				print(hlp_txt)
 				exit(0)
+			if o in ('-D', '--debug'):
+				debug = True
 			if o in ('-p', 'port='):
 				prt = int(a)
 			if o in ('-s', 'station='):
@@ -131,7 +134,8 @@ if __name__ == '__main__':
 
 
 		main(port=prt, stn=stn, cha=cha, sec=sec, spec=spec, full=full,
-			 alert=alert, sta=sta, lta=lta, thresh=thresh, bp=bp)
+			 alert=alert, sta=sta, lta=lta, thresh=thresh, bp=bp
+			 debug=debug)
 	# except ValueError as e:
 	# 	print('ERROR: %s' % e)
 	# 	print(hlp_txt)

@@ -266,6 +266,7 @@ class ProducerThread(Thread):
 			super().__init__()
 			initRSlib(dport=port, rsstn=stn)
 			openSOCK()
+			printM('Waiting for UDP data on port %s...' % (port))
 			test_connection()
 			producer = True
 		else:
@@ -286,7 +287,6 @@ class ProducerThread(Thread):
 		global queue
 		firstaddr = ''
 		blocked = []
-		printM('Waiting for UDP data on port %s...' % (port))
 		while True:
 			data, addr = sock.recvfrom(4096)
 			if firstaddr == '':
@@ -309,6 +309,7 @@ class ConsumerThread(Thread):
 
 		if not consumer:
 			super().__init__()
+			consumer = True
 		else:
 			printM('Error: Consumer thread already started')
 
@@ -344,6 +345,7 @@ class AlertThread(Thread):
 		self.printcft = printcft
 		self.args = args
 		self.kwargs = kwargs
+		self.stream = Stream()
 		if bp:
 			self.freqmin = bp[0]
 			self.freqmax = bp[1]
@@ -370,46 +372,55 @@ class AlertThread(Thread):
 		elif self.filt in ('lowpass', 'highpass'):
 			modifier = 'below' if self.filt in 'lowpass' else 'above'
 			printM('Alert stream will be %s filtered %s %s Hz' % (self.filt, modifier, self.freq))
+
 	def run(self):
 		"""
 
 		"""
-		alert_stream = Stream()
 		get_inventory(stn=stn)
 		if inv:
-			alert_stream.attach_response(inv)
-		alert_stream.select(component='Z')
+			self.stream.attach_response(inv)
+		self.stream.select(component='Z')
 
 		cft, maxcft = np.zeros(1), 0
 		tf = 4
 		n = 0
 
 		wait_pkts = tf * self.lta
+
 		while True:
-			while not destinations[alertqno].empty():
-				d = destinations[alertqno].get()
-				destinations[alertqno].task_done()
-				alert_stream = update_stream(
-					stream=alert_stream, d=d, fill_value='latest')
-				df = alert_stream[0].stats.sampling_rate
+			while True:
+				if destinations[alertqno].qsize() > 0:
+					d = destinations[alertqno].get()
+					destinations[alertqno].task_done()
+					self.stream = update_stream(
+						stream=self.stream, d=d, fill_value='latest')
+					df = self.stream[0].stats.sampling_rate
+				else:
+					d = destinations[alertqno].get()
+					destinations[alertqno].task_done()
+					self.stream = update_stream(
+						stream=self.stream, d=d, fill_value='latest')
+					df = self.stream[0].stats.sampling_rate
+					break
 
 			if n > (self.lta * tf):
-				obstart = alert_stream[0].stats.endtime - timedelta(seconds=self.lta)	# obspy time
-				alert_stream = alert_stream.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
+				obstart = self.stream[0].stats.endtime - timedelta(seconds=self.lta)	# obspy time
+				self.stream = self.stream.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
 
 				if self.filt:
-					cft = recursive_sta_lta(alert_stream[0].copy().filter(
+					cft = recursive_sta_lta(self.stream[0].copy().filter(
 								type=self.filt, freq=self.freq,
 								freqmin=self.freqmin, freqmax=self.freqmax),
 								int(self.sta * df), int(self.lta * df))
 				else:
-					cft = recursive_sta_lta(alert_stream[0], int(self.sta * df), int(self.lta * df))
+					cft = recursive_sta_lta(self.stream[0], int(self.sta * df), int(self.lta * df))
 				if cft.max() > self.thresh:
 					if self.func == 'print':
-						printM('Event detected! Trigger threshold: %s, CFT: %s ' % (thresh, cft.max()))
-						printM('Waiting %s sec for clear trigger' % (lta))
+						printM('Event detected! Trigger threshold: %s, CFT: %s ' % (self.thresh, cft.max()))
+						printM('Waiting %s sec for clear trigger' % (self.lta))
 					else:
-						printM('Trigger threshold of %s exceeded: %s' % (thresh, cft.max()))
+						printM('Trigger threshold of %s exceeded: %s' % (self.thresh, cft.max()))
 						self.func(*self.args, **self.kwargs)
 
 					n = 1
@@ -453,9 +464,9 @@ class PlotThread(Thread):
 		while not destinations[plotqno].empty():
 			d = destinations[plotqno].get()
 			destinations[plotqno].task_done()
-			alert_stream = update_stream(
-				stream=alert_stream, d=d, fill_value='latest')
-			df = alert_stream[0].stats.sampling_rate
+			self.stream = update_stream(
+				stream=self.stream, d=d, fill_value='latest')
+			df = self.stream[0].stats.sampling_rate
 		time.wait(3)
 		print('plotsdf')
 

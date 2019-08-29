@@ -4,6 +4,7 @@ import datetime as dt
 import signal
 from threading import Thread
 from queue import Queue
+from obspy import read_inventory
 from obspy.core.trace import Trace
 from obspy.core.stream import Stream
 from obspy.signal.trigger import recursive_sta_lta
@@ -213,11 +214,11 @@ def get_inventory(stn='Z0000'):
 		inv = False
 	else:
 		try:
-			printM('Fetching inventory for station %s.%s from Raspberry Shake FDSN.' % (net, sta))
+			printM('Fetching inventory for station %s.%s from Raspberry Shake FDSN.' % (net, stn))
 			inv = read_inventory('https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&level=resp&format=xml'
 								 % (net, stn))
 			printM('Inventory fetch successful.')
-		except:
+		except IndexError:
 			printM('Inventory fetch failed, continuing without.')
 			inv = False
 
@@ -330,7 +331,8 @@ class ConsumerThread(Thread):
 
 
 class AlertThread(Thread):
-	def __init__(self, sta=5, lta=30, thresh=1.5, bp=False, func='print', printcft=True, *args, **kwargs):
+	def __init__(self, sta=5, lta=30, thresh=1.5, bp=False, func='print',
+				 printcft=True, cha='Z', *args, **kwargs):
 		"""
 		A recursive STA-LTA 
 		:param str infile: Input DZT data file
@@ -346,6 +348,7 @@ class AlertThread(Thread):
 		self.args = args
 		self.kwargs = kwargs
 		self.stream = Stream()
+		self.cha = cha
 		if bp:
 			self.freqmin = bp[0]
 			self.freqmax = bp[1]
@@ -373,6 +376,16 @@ class AlertThread(Thread):
 			modifier = 'below' if self.filt in 'lowpass' else 'above'
 			printM('Alert stream will be %s filtered %s %s Hz' % (self.filt, modifier, self.freq))
 
+	def getq(self):
+		d = destinations[alertqno].get()
+		destinations[alertqno].task_done()
+		self.stream = update_stream(
+			stream=self.stream, d=d, fill_value='latest')
+	
+	def set_sps(self):
+		self.sps = self.stream[0].stats.sampling_rate
+
+
 	def run(self):
 		"""
 
@@ -380,7 +393,6 @@ class AlertThread(Thread):
 		get_inventory(stn=stn)
 		if inv:
 			self.stream.attach_response(inv)
-		self.stream.select(component='Z')
 
 		cft, maxcft = np.zeros(1), 0
 		tf = 4
@@ -388,20 +400,21 @@ class AlertThread(Thread):
 
 		wait_pkts = tf * self.lta
 
+		self.getq()
+		self.set_sps()
+		if self.ch != 'all':
+			while n > 3:
+				self.getq()
+				n += 1
+			self.stream.select(component=self.cha)
+			n = 0
+
 		while True:
 			while True:
 				if destinations[alertqno].qsize() > 0:
-					d = destinations[alertqno].get()
-					destinations[alertqno].task_done()
-					self.stream = update_stream(
-						stream=self.stream, d=d, fill_value='latest')
-					df = self.stream[0].stats.sampling_rate
+					self.getq()
 				else:
-					d = destinations[alertqno].get()
-					destinations[alertqno].task_done()
-					self.stream = update_stream(
-						stream=self.stream, d=d, fill_value='latest')
-					df = self.stream[0].stats.sampling_rate
+					self.getq()
 					break
 
 			if n > (self.lta * tf):
@@ -412,9 +425,9 @@ class AlertThread(Thread):
 					cft = recursive_sta_lta(self.stream[0].copy().filter(
 								type=self.filt, freq=self.freq,
 								freqmin=self.freqmin, freqmax=self.freqmax),
-								int(self.sta * df), int(self.lta * df))
+								int(self.sta * self.sps), int(self.lta * self.sps))
 				else:
-					cft = recursive_sta_lta(self.stream[0], int(self.sta * df), int(self.lta * df))
+					cft = recursive_sta_lta(self.stream[0], int(self.sta * self.sps), int(self.lta * self.sps))
 				if cft.max() > self.thresh:
 					if self.func == 'print':
 						printM('Event detected! Trigger threshold: %s, CFT: %s ' % (self.thresh, cft.max()))

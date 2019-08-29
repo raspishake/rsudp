@@ -5,9 +5,9 @@ import rsudp.raspberryshake as RS
 
 def eqAlert(blanklines=True,
 			printtext='Trigger threshold exceeded -- possible earthquake!',
-			other=''):
+			other='Waiting for clear trigger...'):
 	if blanklines:
-		printtext = '\n' + str(printtext) + '\n'
+		printtext = '\n\n' + str(printtext) + '\n' + str(other) + '\n'
 	RS.printM(printtext)
 
 def main(alert=True, plot=False, debug=False, port=8888, stn='Z0000',
@@ -41,7 +41,7 @@ if __name__ == '__main__':
 	hlp_txt='''
 ##############################################################################
 ##                       R A S P B E R R Y  S H A K E                       ##
-##                         UDP Data Plotter Example                         ##
+##                             UDP Data Library                             ##
 ##                              by Ian Nesbitt                              ##
 ##                              Copyleft  2019                              ##
 ##                                                                          ##
@@ -134,7 +134,7 @@ if __name__ == '__main__':
 
 
 		main(port=prt, stn=stn, cha=cha, sec=sec, spec=spec, full=full,
-			 alert=alert, sta=sta, lta=lta, thresh=thresh, bp=bp
+			 alert=alert, sta=sta, lta=lta, thresh=thresh, bp=bp,
 			 debug=debug)
 	# except ValueError as e:
 	# 	print('ERROR: %s' % e)

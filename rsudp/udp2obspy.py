@@ -1,3 +1,5 @@
+import getopt, sys
+
 import rsudp.raspberryshake as RS
 
 
@@ -8,7 +10,7 @@ def eqAlert(blanklines=True,
 		printtext = '\n' + str(printtext) + '\n'
 	RS.printM(printtext)
 
-def main(alert=True, plot=False, print=False, port=8888, stn='Z0000',
+def main(alert=True, plot=False, printpkts=False, port=8888, stn='Z0000',
 		 sta=5, lta=10, thresh=1.5, bp=False, cha='all',
 		 sec=30, spec=False, full=False):
 
@@ -19,18 +21,17 @@ def main(alert=True, plot=False, print=False, port=8888, stn='Z0000',
 	cons.start()
 
 	if alert:
-		alrt = RS.AlertThread(sta=sta, lta=lta, thresh=thresh, func=tweet)
+		alrt = RS.AlertThread(sta=sta, lta=lta, thresh=thresh, bp=bp, func=eqAlert)
 		alrt.start()
-	if stdprint:
+	if printpkts:
 		prnt = RS.PrintThread()
 		prnt.start()
-	if plotting:
-		plot = RS.PlotThread(stn=stn, cha=cha, seconds=sec, spectrogram=spec
+	if plot:
+		plotting = RS.PlotThread(stn=stn, cha=cha, seconds=sec, spectrogram=spec,
 							 fullscreen=full)
-		plot.start()
+		plotting.start()
 
 if __name__ == '__main__':
-def main():
 	'''
 	Loads port, station, network, and duration arguments to create a graph.
 	Supply -p, -s, -n, and/or -d to change the port and the output plot
@@ -70,9 +71,18 @@ def main():
 		prt, stn, sec, cha = 8888, 'Z0000', 30, 'all'
 		h = False
 		full, spec = False, False
+		printdata = False
+		alert = True
+		plot = False
+		bp = False	# (can be tuple or list)
+
+		# short term average / long term average (STA/LTA) noise trigger defaults
+		sta, lta = 6, 30	# short term & long term period for alert (seconds)
+		thresh = 1.6		# threshold for STA/LTA
+
 		opts, args = getopt.getopt(sys.argv[1:], 'hp:s:n:d:c:gfaS:L:T:',
 			['help', 'port=', 'station=', 'duration=', 'channels=', 'spectrogram',
-			 'fullscreen', 'alarm', 'sta', 'lta']
+			 'fullscreen', 'alarm', 'sta', 'lta', 'thresh']
 			)
 		for o, a in opts:
 			if o in ('-h, --help'):
@@ -91,8 +101,37 @@ def main():
 				spec = True
 			if o in ('-f', '--fullscreen'):
 				full = True
-		main(port=prt, stn=stn, cha=cha, seconds=sec, spectrogram=spec, fullscreen=full
-			 fullscreen=full)
+			if o in ('-a', '--alert'):
+				alert = True
+			if o in ('-S', 'STA='):
+				try:
+					sta = int(a)
+				except ValueError as e:
+					RS.printM('ERROR: Could not set STA duration. Message: %s' % (a))
+					exit(2)
+			if o in ('-L', 'LTA='):
+				try:
+					lta = int(a)
+				except ValueError as e:
+					RS.printM('ERROR: Could not set LTA duration. Message: %s' % (a))
+					exit(2)
+			if o in ('-T', 'threshold='):
+				try:
+					thresh = float(thresh)
+				except ValueError as e:
+					RS.printM('ERROR: Could not set trigger threshold. Message: %s' % (a))
+					exit(2)
+			if o in ('-B', 'bandpass='):
+				try:
+					bp = list(a)
+					bp = bp.sort()
+				except ValueError as e:
+					RS.printM('ERROR: Could not set bandpass limits. Message: %s' % (a))
+					exit(2)
+
+
+		main(port=prt, stn=stn, cha=cha, sec=sec, spec=spec, full=full,
+			 alert=alert, sta=sta, lta=lta, thresh=thresh, bp=bp)
 	# except ValueError as e:
 	# 	print('ERROR: %s' % e)
 	# 	print(hlp_txt)

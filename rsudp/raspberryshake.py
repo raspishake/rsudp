@@ -329,7 +329,7 @@ class ConsumerThread(Thread):
 
 
 class AlertThread(Thread):
-	def __init__(self, sta=5, lta=30, thresh=1.5, func='print', printcft=True, *args, **kwargs):
+	def __init__(self, sta=5, lta=30, thresh=1.5, bp=False, func='print', printcft=True, *args, **kwargs):
 		"""
 		A recursive STA-LTA 
 		:param str infile: Input DZT data file
@@ -344,13 +344,32 @@ class AlertThread(Thread):
 		self.printcft = printcft
 		self.args = args
 		self.kwargs = kwargs
+		if bp:
+			self.freqmin = bp[0]
+			self.freqmax = bp[1]
+			if (bp[0] <= 0) and (bp[1] >= (sps/2)):
+				self.filt = False
+			elif (bp[0] > 0) and (bp[1] >= (sps/2)):
+				self.filt = 'highpass'
+				self.freq = bp[0]
+			elif (bp[0] <= 0) and (bp[1] <= (sps/2)):
+				self.filt = 'lowpass'
+				self.freq = bp[1]
+			else:
+				self.filt = 'bandpass'
+		else:
+			self.filt = False
 
 		alrtq = Queue(qsize)
 		destinations.append(alrtq)
 		alertqno = len(destinations) - 1
 
 		printM('Starting Alert trigger thread with sta=%s and lta=%s' % (self.sta, self.lta))
-
+		if self.filt == 'bandpass':
+			printM('Alert stream will be %s filtered from %s to %s Hz' % (self.filt, self.freqmin, self.freqmax))
+		elif self.filt in ('lowpass', 'highpass'):
+			modifier = 'below' if self.filt in 'lowpass' else 'above'
+			printM('Alert stream will be %s filtered %s %s Hz' % (self.filt, modifier, self.freq))
 	def run(self):
 		"""
 
@@ -378,7 +397,13 @@ class AlertThread(Thread):
 				obstart = alert_stream[0].stats.endtime - timedelta(seconds=self.lta)	# obspy time
 				alert_stream = alert_stream.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
 
-				cft = recursive_sta_lta(alert_stream[0], int(self.sta * df), int(self.lta * df))
+				if self.filt:
+					cft = recursive_sta_lta(alert_stream[0].copy().filter(
+								type=self.filt, freq=self.freq,
+								freqmin=self.freqmin, freqmax=self.freqmax),
+								int(self.sta * df), int(self.lta * df))
+				else:
+					cft = recursive_sta_lta(alert_stream[0], int(self.sta * df), int(self.lta * df))
 				if cft.max() > self.thresh:
 					if self.func == 'print':
 						printM('Event detected! Trigger threshold: %s, CFT: %s ' % (thresh, cft.max()))
@@ -415,7 +440,7 @@ class PlotThread(Thread):
 		global destinations, plotqno
 
 		plotq = Queue(qsize)
-		destinations.append(prntq)
+		destinations.append(plotq)
 		plotqno = len(destinations) - 1
 
 	def run(self):

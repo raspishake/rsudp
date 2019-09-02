@@ -1,4 +1,5 @@
-import getopt, sys
+import sys, os
+import getopt
 
 import rsudp.raspberryshake as RS
 
@@ -6,12 +7,11 @@ import rsudp.raspberryshake as RS
 def eqAlert(blanklines=True,
 			printtext='Trigger threshold exceeded -- possible earthquake!',
 			other='Waiting for clear trigger...'):
-	if blanklines:
-		printtext = '\n\n' + str(printtext) + '\n' + str(other) + '\n'
+	printtext = str(printtext) + '\n' + str(other)
 	RS.printM(printtext)
 
 def main(alert=True, plot=False, debug=False, port=8888, stn='Z0000',
-		 sta=5, lta=10, thresh=1.5, bp=False, cha='all',
+		 sta=5, lta=10, thresh=1.5, bp=False, cha='all', outdir='',
 		 sec=30, spec=False, full=False):
 
 	prod = RS.ProducerThread(port=port, stn=stn)
@@ -27,9 +27,12 @@ def main(alert=True, plot=False, debug=False, port=8888, stn='Z0000',
 		alrt = RS.AlertThread(sta=sta, lta=lta, thresh=thresh, bp=bp, func=eqAlert)
 		alrt.start()
 	if plot:
-		plotting = RS.PlotThread(stn=stn, cha=cha, seconds=sec, spectrogram=spec,
+		plotter = RS.PlotThread(stn=stn, cha=cha, seconds=sec, spectrogram=spec,
 							 fullscreen=full)
-		plotting.start()
+		plotter.start()
+	if outdir:
+		writer = RS.WriteThread(outdir=outdir)
+		writer.start()
 
 if __name__ == '__main__':
 	'''
@@ -76,14 +79,15 @@ if __name__ == '__main__':
 		alert = True
 		plot = False
 		bp = False	# (can be tuple or list)
+		outdir = False
 
 		# short term average / long term average (STA/LTA) noise trigger defaults
 		sta, lta = 6, 30	# short term & long term period for alert (seconds)
 		thresh = 1.6		# threshold for STA/LTA
 
-		opts, args = getopt.getopt(sys.argv[1:], 'hDp:s:n:d:c:gfaS:L:T:',
+		opts, args = getopt.getopt(sys.argv[1:], 'hDp:s:n:d:c:PgfaS:L:T:o:',
 			['help', 'debug', 'port=', 'station=', 'duration=', 'channels=', 'spectrogram',
-			 'fullscreen', 'alarm', 'sta', 'lta', 'thresh']
+			 'fullscreen', 'alarm', 'sta', 'lta', 'thresh', 'outdir=']
 			)
 		for o, a in opts:
 			if o in ('-h, --help'):
@@ -104,6 +108,8 @@ if __name__ == '__main__':
 				spec = True
 			if o in ('-f', '--fullscreen'):
 				full = True
+			if o in ('-P', '--plot'):
+				plot = True
 			if o in ('-a', '--alert'):
 				alert = True
 			if o in ('-S', 'STA='):
@@ -120,7 +126,7 @@ if __name__ == '__main__':
 					exit(2)
 			if o in ('-T', 'threshold='):
 				try:
-					thresh = float(thresh)
+					thresh = float(a)
 				except ValueError as e:
 					RS.printM('ERROR: Could not set trigger threshold. Message: %s' % (a))
 					exit(2)
@@ -131,11 +137,13 @@ if __name__ == '__main__':
 				except ValueError as e:
 					RS.printM('ERROR: Could not set bandpass limits. Message: %s' % (a))
 					exit(2)
-
+			if o in ('-o', 'outdir='):
+				if os.path.isdir(os.path.abspath(a)):
+					outdir = os.path.abspath(a)
 
 		main(port=prt, stn=stn, cha=cha, sec=sec, spec=spec, full=full,
 			 alert=alert, sta=sta, lta=lta, thresh=thresh, bp=bp,
-			 debug=debug)
+			 debug=debug, outdir=outdir, plot=plot)
 	# except ValueError as e:
 	# 	print('ERROR: %s' % e)
 	# 	print(hlp_txt)

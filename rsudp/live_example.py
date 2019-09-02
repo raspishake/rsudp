@@ -54,7 +54,7 @@ def plot_gen(s, figsize=(8,3), seconds=30, spectrogram=False, fullscreen=False):
 	"""
 	nfig = plt.figure(num=1, figsize=figsize)	# create a figure
 	nfig.suptitle('Raspberry Shake station %s.%s live output' # title
-				 % (rso.RS.net, rso.RS.sta), fontsize=14, color=fgcolor)
+				 % (rso.RS.net, rso.RS.stn), fontsize=14, color=fgcolor)
 	nfig.patch.set_facecolor(bgcolor)		# background color
 	if fullscreen:
 		figManager = plt.get_current_fig_manager()

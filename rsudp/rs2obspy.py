@@ -28,7 +28,7 @@ Traces should be appended and merged to one per channel automatically.
 
 def init(port=8888, sta='Z0000', timeout=10, cha='all'):
 	global sps, channels, inv, trate
-	RS.initRSlib(dport=port, rssta=sta, timeout=timeout)
+	RS.initRSlib(dport=port, rsstn=sta, timeout=timeout)
 	RS.openSOCK()
 	d = RS.getDATA()
 	trate = RS.getTR(RS.getCHN(d))
@@ -73,7 +73,7 @@ def make_trace():
 		tr = Trace(data=np.ma.MaskedArray(st))		# create empty trace
 		tr.stats.network = RS.net						# assign values
 		tr.stats.location = '00'
-		tr.stats.station = RS.sta
+		tr.stats.station = RS.stn
 		tr.stats.channel = ch
 		tr.stats.sampling_rate = sps
 		tr.stats.starttime = UTCDateTime(t)

@@ -1,6 +1,5 @@
-import sys
+import sys, os
 import socket as s
-import datetime as dt
 import signal
 from threading import Thread
 from queue import Queue
@@ -24,14 +23,16 @@ inv = False				# station inventory
 producer, consumer = False, False # state of producer and consumer threads
 stn = 'Z0000'			# station name
 net = 'AM'				# network (this will always be AM)
+chns = []				# list of channels
 
-tf = None				# transmission rate in ms
+
+tf = None				# transmission frequency in ms
 sps = None				# samples per second
 
 
 def printM(msg):
 	'''Prints messages with datetime stamp.'''
-	print(dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " " + msg)
+	print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " " + msg)
 
 sock = s.socket(s.AF_INET, s.SOCK_DGRAM | s.SO_REUSEADDR)
 
@@ -51,6 +52,8 @@ def initRSlib(dport=8888, rsstn='Z0000', timeout=10):
 	timeout=10					# the number of seconds to wait for data before an error is raised (zero for unlimited wait)
 	'''
 	global port, stn, net, to, initd
+	global producer, consumer
+	producer, consumer = False, False
 	net = 'AM'
 	initd = False				# initialization has not completed yet, therefore false
 	try:						# set port value first
@@ -107,7 +110,7 @@ def test_connection():
 	data, addr = sock.recvfrom(4096)
 	signal.alarm(0)							# once data has been received, turn alarm completely off
 	to = 0									# otherwise it erroneously triggers after keyboardinterrupt
-
+	getTR(getCHNS()[0])
 
 def getDATA():
 	'''Read a data packet off the port.
@@ -154,6 +157,7 @@ def getSTREAM(DP):
 def getTR(chn):				# DP transmission rate in msecs
 	'''Get the transmission rate in milliseconds.
 	Requires a getCHN() or a channel name string as argument.'''
+	global tf
 	timeP1, timeP2 = 0.0, 0.0
 	done = False
 	while not done:
@@ -166,6 +170,7 @@ def getTR(chn):				# DP transmission rate in msecs
 				timeP2 = getTIME(DP)
 				done = True
 	TR = timeP2*1000 - timeP1*1000
+	tf = int(TR)
 	return int(TR)
 
 def getSR(TR, DP):
@@ -175,7 +180,7 @@ def getSR(TR, DP):
 	
 def getCHNS():
 	'''Get a list of channels sent to the port.	'''
-	chns = []
+	global chns
 	chdict = {'EHZ': False, 'EHN': False, 'EHE': False, 'ENZ': False, 'ENN': False, 'ENE': False, 'HDF': False}
 	firstCHN = ''
 	done = False
@@ -240,9 +245,9 @@ def make_trace(d):
 			try:
 				tr.attach_response(inv)
 			except:
-				RS.printM('ERROR attaching inventory response. Are you sure you set the station name correctly?')
-				RS.printM('    This could indicate a mismatch in the number of data channels between the inventory and the stream.')
-				RS.printM('    For example, if you are receiving RS4D data, please make sure the inventory you download has 4 channels.')
+				printM('ERROR attaching inventory response. Are you sure you set the station name correctly?')
+				printM('    This could indicate a mismatch in the number of data channels between the inventory and the stream.')
+				printM('    For example, if you are receiving RS4D data, please make sure the inventory you download has 4 channels.')
 		return tr
 
 # Then make repeated calls to this, to continue adding trace data to the stream
@@ -261,7 +266,7 @@ class ProducerThread(Thread):
 		"""
 		Initialize the thread
 		"""
-		global destinations, producer
+		global producer
 
 		if not producer:
 			super().__init__()
@@ -307,6 +312,7 @@ class ConsumerThread(Thread):
 		Initialize the thread
 		"""
 		global destinations, consumer
+		destinations = []
 
 		if not consumer:
 			super().__init__()
@@ -331,20 +337,26 @@ class ConsumerThread(Thread):
 
 
 class AlertThread(Thread):
-	def __init__(self, sta=5, lta=30, thresh=1.5, bp=False, func='print',
-				 printcft=True, cha='Z', *args, **kwargs):
+	def __init__(self, sta=5, lta=30, thresh=1.6, bp=False, func='print',
+				 debug=True, cha='Z', *args, **kwargs):
 		"""
 		A recursive STA-LTA 
-		:param str infile: Input DZT data file
-		:param str outfile: Base output file name for plots, CSVs, and other products. Defaults to :py:data:`None`, which will cause the output filename to take a form similar to the input. The default will let the file be named via the descriptive naming function :py:data:`readgssi.functions.naming()`.
+		:param float sta: short term average (STA) duration in seconds
+		:param float lta: long term average (LTA) duration in seconds
+		:param float thresh: threshold for STA/LTA trigger
+		:type bp: :py:class:`bool` or :py:class:`list`
+		:param bp: bandpass filter parameters
+		:param func func: threshold for STA/LTA trigger
+		:param bool debug: threshold for STA/LTA trigger
+		:param str cha: threshold for STA/LTA trigger
 		"""
 		super().__init__()
-		global destinations, alertqno
+		global destinations
 		self.sta = sta
 		self.lta = lta
 		self.thresh = thresh
 		self.func = func
-		self.printcft = printcft
+		self.debug = debug
 		self.args = args
 		self.kwargs = kwargs
 		self.stream = Stream()
@@ -367,9 +379,9 @@ class AlertThread(Thread):
 
 		alrtq = Queue(qsize)
 		destinations.append(alrtq)
-		alertqno = len(destinations) - 1
+		self.qno = len(destinations) - 1
 
-		printM('Starting Alert trigger thread with sta=%s and lta=%s' % (self.sta, self.lta))
+		printM('Starting Alert trigger thread with sta=%ss, lta=%ss, and threshold=%s' % (self.sta, self.lta, self.thresh))
 		if self.filt == 'bandpass':
 			printM('Alert stream will be %s filtered from %s to %s Hz' % (self.filt, self.freqmin, self.freqmax))
 		elif self.filt in ('lowpass', 'highpass'):
@@ -377,8 +389,8 @@ class AlertThread(Thread):
 			printM('Alert stream will be %s filtered %s %s Hz' % (self.filt, modifier, self.freq))
 
 	def getq(self):
-		d = destinations[alertqno].get()
-		destinations[alertqno].task_done()
+		d = destinations[self.qno].get()
+		destinations[self.qno].task_done()
 		self.stream = update_stream(
 			stream=self.stream, d=d, fill_value='latest')
 	
@@ -390,19 +402,19 @@ class AlertThread(Thread):
 		"""
 
 		"""
+		global tf
 		get_inventory(stn=stn)
 		if inv:
 			self.stream.attach_response(inv)
 
 		cft, maxcft = np.zeros(1), 0
-		tf = 4
 		n = 0
 
-		wait_pkts = tf * self.lta
+		wait_pkts = self.lta / (tf / 1000)
 
 		self.getq()
 		self.set_sps()
-		if self.ch != 'all':
+		if self.cha != 'all':
 			while n > 3:
 				self.getq()
 				n += 1
@@ -411,13 +423,13 @@ class AlertThread(Thread):
 
 		while True:
 			while True:
-				if destinations[alertqno].qsize() > 0:
+				if destinations[self.qno].qsize() > 0:
 					self.getq()
 				else:
 					self.getq()
 					break
 
-			if n > (self.lta * tf):
+			if n > (wait_pkts):
 				obstart = self.stream[0].stats.endtime - timedelta(seconds=self.lta)	# obspy time
 				self.stream = self.stream.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
 
@@ -430,9 +442,11 @@ class AlertThread(Thread):
 					cft = recursive_sta_lta(self.stream[0], int(self.sta * self.sps), int(self.lta * self.sps))
 				if cft.max() > self.thresh:
 					if self.func == 'print':
+						print()
 						printM('Event detected! Trigger threshold: %s, CFT: %s ' % (self.thresh, cft.max()))
 						printM('Waiting %s sec for clear trigger' % (self.lta))
 					else:
+						print()
 						printM('Trigger threshold of %s exceeded: %s' % (self.thresh, cft.max()))
 						self.func(*self.args, **self.kwargs)
 
@@ -440,7 +454,7 @@ class AlertThread(Thread):
 			elif n == 0:
 				printM('Earthquake trigger warmup time of %s seconds...' % (self.lta))
 				n += 1
-			elif n == (tf * self.lta):
+			elif n == (wait_pkts):
 				if cft.max() == 0:
 					printM('Earthquake trigger up and running normally.')
 				else:
@@ -461,27 +475,122 @@ class PlotThread(Thread):
 		Initialize the thread
 		"""
 		super().__init__()
-		global destinations, plotqno
+		global destinations
 
 		plotq = Queue(qsize)
 		destinations.append(plotq)
-		plotqno = len(destinations) - 1
+		self.qno = len(destinations) - 1
+		self.stream = Stream()
+
+	def getq(self):
+		d = destinations[self.qno].get()
+		destinations[self.qno].task_done()
+		self.stream = update_stream(
+			stream=self.stream, d=d, fill_value='latest')
+	
+	def set_sps(self):
+		self.sps = self.stream[0].stats.sampling_rate
 
 	def run(self):
 		"""
 
 		"""
-		print_stream = Stream()
+		self.getq()
+		self.set_sps()
+		n = 0
+
+		while True:
+			while True:
+				if destinations[self.qno].qsize() > 0:
+					self.getq()
+				else:
+					self.getq()
+					break
+
+
+class WriteThread(Thread):
+	def __init__(self, outdir='', stn=stn, debug=False):
+		"""
+		Initialize the thread
+		"""
+		super().__init__()
+		global destinations
+
+		wrteq = Queue(qsize)
+		destinations.append(wrteq)
+		self.qno = len(destinations) - 1
+
+		self.stream = Stream()
+		self.outdir = outdir
+
+	def getq(self):
+		d = destinations[self.qno].get()
+		destinations[self.qno].task_done()
+		self.stream = update_stream(
+			stream=self.stream, d=d, fill_value=None)
+	
+	def set_sps(self):
+		self.sps = self.stream[0].stats.sampling_rate
+
+	def elapse(self, new=False):
+		self.st = UTCDateTime.now()
+		self.y, self.m, self.d = self.st.year, self.st.month, self.st.day
+		self.j = self.st.strftime('%j')
+		self.newday = UTCDateTime(self.y, self.m, self.d + 1, 0, 0)
+		if new:
+			self.last = self.newday
+		else:
+			self.last = self.st
+
+	def slicestream(self):
+		self.stream.slice(starttime=self.last)
+
+	def write(self, stream=False):
+		if not stream:
+			self.last = self.stream[0].stats.endtime - timedelta(seconds=5)
+			stream = self.stream.copy().slice(endtime=self.last)
+
+		for t in stream:
+			outfile = self.outdir + '%s.%s.00.%s.D.%s.%s' % (t.stats.network,
+								t.stats.station, t.stats.channel, self.y, self.j)
+			if os.path.exists(os.path.abspath(outfile)):
+				with open(outfile, 'ab') as fh:
+					if debug:
+						printM('writing to %s' % outfile)
+					t.write(fh, format='MSEED')
+			else:
+				if debug:
+					printM('Writing new file %s' % outfile)
+				t.write(outfile, format='MSEED')
+
+	def run(self):
+		"""
+		"""
+		self.elapse()
+		printM('Starting miniSEED writer')
+
+		self.getq()
+		self.set_sps()
+
+		wait_pkts = 10 / (tf / 1000) 		# comes out to 10 seconds (tf is in ms)
 
 		n = 0
-		while not destinations[plotqno].empty():
-			d = destinations[plotqno].get()
-			destinations[plotqno].task_done()
-			self.stream = update_stream(
-				stream=self.stream, d=d, fill_value='latest')
-			df = self.stream[0].stats.sampling_rate
-		time.wait(3)
-		print('plotsdf')
+		while True:
+			while True:
+				if destinations[self.qno].qsize() > 0:
+					self.getq()
+					n += 1
+				else:
+					self.getq()
+					n += 1
+					break
+			if n >= wait_pkts:
+				if self.newday < UTCDateTime.now(): # end of previous day and start of new day
+					self.write(self.stream.copy().slice(endtime=self.newday))
+					self.stream.slice(starttime=self.newday)
+					self.elapse(new=True)
+				else:
+					self.write()
 
 
 class PrintThread(Thread):
@@ -490,11 +599,11 @@ class PrintThread(Thread):
 		Initialize the thread
 		"""
 		super().__init__()
-		global destinations, printqno
+		global destinations
 
 		prntq = Queue(qsize)
 		destinations.append(prntq)
-		printqno = len(destinations) - 1
+		self.qno = len(destinations) - 1
 
 	def run(self):
 		"""
@@ -502,6 +611,6 @@ class PrintThread(Thread):
 		"""
 
 		while True:
-			d = destinations[printqno].get()
-			destinations[printqno].task_done()
+			d = destinations[self.qno].get()
+			destinations[self.qno].task_done()
 			print(str(d))

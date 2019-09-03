@@ -583,11 +583,11 @@ class WriteThread(Thread):
 			if os.path.exists(os.path.abspath(outfile)):
 				with open(outfile, 'ab') as fh:
 					if self.debug:
-						printM('writing to %s' % outfile, self.sender)
+						printM('Writing %s records to %s' % (len(t.data), outfile), self.sender)
 					t.write(fh, format='MSEED')
 			else:
 				if self.debug:
-					printM('Writing new file %s' % outfile, self.sender)
+					printM('Writing %s new file %s' % (len(t.data), outfile), self.sender)
 				t.write(outfile, format='MSEED')
 
 	def run(self):
@@ -607,7 +607,6 @@ class WriteThread(Thread):
 				if destinations[self.qno].qsize() > 0:
 					self.getq()
 					n += 1
-					time.sleep(0.01)
 				else:
 					q = self.getq()
 					n += 1
@@ -615,12 +614,11 @@ class WriteThread(Thread):
 			if n >= wait_pkts:
 				if self.newday < UTCDateTime.now(): # end of previous day and start of new day
 					self.write(self.stream.copy().slice(endtime=self.newday))
-					self.stream.slice(starttime=self.newday)
+					self.stream = self.stream.slice(starttime=self.newday)
 					self.elapse(new=True)
 				else:
-					if self.debug:
-						printM('writing', self.sender)
 					self.write()
+					self.stream = self.stream.slice(starttime=self.last)
 				n = 0
 
 

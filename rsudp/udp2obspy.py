@@ -10,7 +10,7 @@ def eqAlert(blanklines=True,
 	printtext = str(printtext) + '\n' + str(other)
 	RS.printM(printtext, sender='EQAlert function')
 
-def main(alert=True, plot=False, debug=False, port=8888, stn='Z0000',
+def main(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 		 sta=5, lta=10, thresh=1.5, bp=False, cha='all', outdir='',
 		 sec=30, spec=False, full=False):
 
@@ -20,7 +20,7 @@ def main(alert=True, plot=False, debug=False, port=8888, stn='Z0000',
 	prod.start()
 	cons.start()
 
-	if debug:
+	if False:
 		prnt = RS.PrintThread()
 		prnt.start()
 	if alert:
@@ -32,7 +32,7 @@ def main(alert=True, plot=False, debug=False, port=8888, stn='Z0000',
 							 	fullscreen=full)
 		plotter.start()
 	if outdir:
-		writer = RS.WriteThread(outdir=outdir, stn=stn)
+		writer = RS.WriteThread(outdir=outdir, stn=stn, debug=debug)
 		writer.start()
 
 if __name__ == '__main__':
@@ -77,7 +77,7 @@ if __name__ == '__main__':
 		debug = False
 		full, spec = False, False
 		printdata = False
-		alert = True
+		alert = False
 		plot = False
 		bp = False	# (can be tuple or list)
 		outdir = False

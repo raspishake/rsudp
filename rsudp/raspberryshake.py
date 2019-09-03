@@ -16,7 +16,7 @@ qsize = 120 			# max UDP queue size is 30 seconds' worth of seismic data
 queue = Queue(qsize)	# master queue
 destinations = []		# queues to write to
 
-initd, sockopen = False, False
+initd, sockopen, active = False, False, False
 to = 10					# socket test timeout
 firstaddr = ''			# the first address data is received from
 inv = False				# station inventory
@@ -114,6 +114,7 @@ def test_connection():
 	to = 0									# otherwise it erroneously triggers after keyboardinterrupt
 	getTR(getCHNS()[0])
 	getSR(tf, data)
+	getTTLCHN()
 
 def getDATA():
 	'''Read a data packet off the port.
@@ -206,7 +207,9 @@ def getCHNS():
 
 def getTTLCHN():
 	'''Calculate total number of channels received.'''
-	return len(getCHNS())
+	global numchns
+	numchns = len(getCHNS())
+	return numchns
 
 
 def get_inventory(stn='Z0000'):
@@ -232,7 +235,7 @@ def make_trace(d):
 	if ch:# in channels:
 		t = getTIME(d)							# unix epoch time since 1970-01-01 00:00:00Z, or as obspy calls it, "timestamp"
 		st = getSTREAM(d)						# samples in data packet in list [] format
-		tr = Trace(data=np.ma.MaskedArray(st))		# create empty trace
+		tr = Trace(data=np.ma.MaskedArray(st, dtype=np.int32))		# create empty trace
 		tr.stats.network = net						# assign values
 		tr.stats.location = '00'
 		tr.stats.station = stn
@@ -264,16 +267,17 @@ class ProducerThread(Thread):
 		"""
 		Initialize the thread
 		"""
-		global producer
 		self.sender = 'ProducerThread'
+		self.active = False
 
-		if not producer:
+		if not self.active:
 			super().__init__()
 			initRSlib(dport=port, rsstn=stn)
 			openSOCK()
 			printM('Waiting for UDP data on port %s...' % (port), self.sender)
 			test_connection()
-			producer = True
+			self.active = True
+			printM('Producer thread starting.', self.sender)
 		else:
 			printM('Error: Producer thread already started', self.sender)
 
@@ -310,14 +314,15 @@ class ConsumerThread(Thread):
 		"""
 		Initialize the thread
 		"""
-		global destinations, consumer
+		global destinations
 		destinations = []
-
+		self.active = False
 		self.sender = 'ConsumerThread'
 
-		if not consumer:
+		if not self.active:
 			super().__init__()
-			consumer = True
+			self.active = True
+			printM('Consumer thread starting.', self.sender)
 		else:
 			printM('Error: Consumer thread already started', self.sender)
 
@@ -533,15 +538,23 @@ class WriteThread(Thread):
 		self.qno = len(destinations) - 1
 
 		self.stream = Stream()
+		self.refcha = None
 		self.outdir = outdir
 		self.sender = 'WriteThread'
-
+		self.debug = debug
+		self.numchns = numchns
 
 	def getq(self):
 		d = destinations[self.qno].get()
 		destinations[self.qno].task_done()
 		self.stream = update_stream(
-			stream=self.stream, d=d, fill_value=None)
+			stream=self.stream, d=d, fill_value='latest')
+		if not self.refcha:
+			self.refcha = getCHN(d)
+		if self.refcha in str(d):
+			return True
+		else:
+			return False
 	
 	def set_sps(self):
 		self.sps = self.stream[0].stats.sampling_rate
@@ -565,15 +578,15 @@ class WriteThread(Thread):
 			stream = self.stream.copy().slice(endtime=self.last)
 
 		for t in stream:
-			outfile = self.outdir + '%s.%s.00.%s.D.%s.%s' % (t.stats.network,
+			outfile = self.outdir + '/%s.%s.00.%s.D.%s.%s' % (t.stats.network,
 								t.stats.station, t.stats.channel, self.y, self.j)
 			if os.path.exists(os.path.abspath(outfile)):
 				with open(outfile, 'ab') as fh:
-					if debug:
+					if self.debug:
 						printM('writing to %s' % outfile, self.sender)
 					t.write(fh, format='MSEED')
 			else:
-				if debug:
+				if self.debug:
 					printM('Writing new file %s' % outfile, self.sender)
 				t.write(outfile, format='MSEED')
 
@@ -586,7 +599,7 @@ class WriteThread(Thread):
 		self.getq()
 		self.set_sps()
 
-		wait_pkts = 10 / (tf / 1000) 		# comes out to 10 seconds (tf is in ms)
+		wait_pkts = (self.numchns * 10) / (tf / 1000) 		# comes out to 10 seconds (tf is in ms)
 
 		n = 0
 		while True:
@@ -594,8 +607,9 @@ class WriteThread(Thread):
 				if destinations[self.qno].qsize() > 0:
 					self.getq()
 					n += 1
+					time.sleep(0.01)
 				else:
-					self.getq()
+					q = self.getq()
 					n += 1
 					break
 			if n >= wait_pkts:
@@ -604,7 +618,10 @@ class WriteThread(Thread):
 					self.stream.slice(starttime=self.newday)
 					self.elapse(new=True)
 				else:
+					if self.debug:
+						printM('writing', self.sender)
 					self.write()
+				n = 0
 
 
 class PrintThread(Thread):

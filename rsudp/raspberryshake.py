@@ -231,16 +231,16 @@ def get_inventory(stn='Z0000'):
 
 def make_trace(d):
 	'''Makes a trace and assigns it some values using a data packet.'''
-	ch = getCHN(d)							# channel
+	ch = getCHN(d)								# channel
 	if ch:# in channels:
 		t = getTIME(d)							# unix epoch time since 1970-01-01 00:00:00Z, or as obspy calls it, "timestamp"
 		st = getSTREAM(d)						# samples in data packet in list [] format
-		tr = Trace(data=np.ma.MaskedArray(st, dtype=np.int32))		# create empty trace
-		tr.stats.network = net						# assign values
+		tr = Trace(data=np.ma.MaskedArray(st, dtype=np.int32))	# create empty trace
+		tr.stats.network = net					# assign values
 		tr.stats.location = '00'
 		tr.stats.station = stn
 		tr.stats.channel = ch
-		tr.stats.sampling_rate = 100#sps
+		tr.stats.sampling_rate = sps
 		tr.stats.starttime = UTCDateTime(t)
 		if inv:
 			try:

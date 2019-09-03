@@ -24,15 +24,17 @@ producer, consumer = False, False # state of producer and consumer threads
 stn = 'Z0000'			# station name
 net = 'AM'				# network (this will always be AM)
 chns = []				# list of channels
+numchns = 0
 
 
 tf = None				# transmission frequency in ms
 sps = None				# samples per second
 
 
-def printM(msg):
+def printM(msg, sender=''):
 	'''Prints messages with datetime stamp.'''
-	print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " " + msg)
+	msg = '[%s] %s' % (sender, msg) if sender != '' else msg
+	print('%s %s' % (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), msg))
 
 sock = s.socket(s.AF_INET, s.SOCK_DGRAM | s.SO_REUSEADDR)
 
@@ -97,7 +99,7 @@ def openSOCK(host=''):
 	sockopen = False
 	if initd:
 		HP = '%s:%s' % ('localhost',port)
-		printM("Opening socket on %s (HOST:PORT)" % HP)
+		printM("Opening socket on %s (HOST:PORT)" % HP, 'openSOCK')
 		sock.bind((host, port))
 		sockopen = True
 	else:
@@ -111,6 +113,7 @@ def test_connection():
 	signal.alarm(0)							# once data has been received, turn alarm completely off
 	to = 0									# otherwise it erroneously triggers after keyboardinterrupt
 	getTR(getCHNS()[0])
+	getSR(tf, data)
 
 def getDATA():
 	'''Read a data packet off the port.
@@ -123,15 +126,7 @@ def getDATA():
 		data, addr = sock.recvfrom(4096)
 		signal.alarm(0)							# once data has been received, turn alarm completely off
 		to = 0									# otherwise it erroneously triggers after keyboardinterrupt
-		if firstaddr == '':
-			firstaddr = addr[0]
-			printM('Receiving UDP data from %s' % (firstaddr))
-		if (firstaddr != '') and (addr[0] == firstaddr):
-			return data
-		else:
-			if notif == False:
-				printM('Another address (%s) is sending UDP data to this port. Ignoring...' % (addr[0]))
-				notif = True
+		return data
 	else:
 		if initd:
 			raise IOError("No socket is open. Please open a socket using this library's openSOCK() function.")
@@ -171,12 +166,14 @@ def getTR(chn):				# DP transmission rate in msecs
 				done = True
 	TR = timeP2*1000 - timeP1*1000
 	tf = int(TR)
-	return int(TR)
+	return tf
 
 def getSR(TR, DP):
 	'''Get the sample rate in samples per second.
 	Requires an integer transmission rate and a data packet as arguments.'''
-	return int((DP.count(b",") - 1) * 1000 / TR)
+	global sps
+	sps = int((DP.count(b",") - 1) * 1000 / TR)
+	return sps
 	
 def getCHNS():
 	'''Get a list of channels sent to the port.	'''
@@ -214,17 +211,18 @@ def getTTLCHN():
 
 def get_inventory(stn='Z0000'):
 	global inv
+	sender = 'get_inventory'
 	if 'Z0000' in stn:
-		printM('No station name given, continuing without inventory.')
+		printM('No station name given, continuing without inventory.', sender)
 		inv = False
 	else:
 		try:
-			printM('Fetching inventory for station %s.%s from Raspberry Shake FDSN.' % (net, stn))
+			printM('Fetching inventory for station %s.%s from Raspberry Shake FDSN.' % (net, stn), sender)
 			inv = read_inventory('https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&level=resp&format=xml'
 								 % (net, stn))
-			printM('Inventory fetch successful.')
+			printM('Inventory fetch successful.', sender)
 		except IndexError:
-			printM('Inventory fetch failed, continuing without.')
+			printM('Inventory fetch failed, continuing without.', sender)
 			inv = False
 
 
@@ -267,16 +265,17 @@ class ProducerThread(Thread):
 		Initialize the thread
 		"""
 		global producer
+		self.sender = 'ProducerThread'
 
 		if not producer:
 			super().__init__()
 			initRSlib(dport=port, rsstn=stn)
 			openSOCK()
-			printM('Waiting for UDP data on port %s...' % (port))
+			printM('Waiting for UDP data on port %s...' % (port), self.sender)
 			test_connection()
 			producer = True
 		else:
-			printM('Error: Producer thread already started')
+			printM('Error: Producer thread already started', self.sender)
 
 	def run(self):
 		"""
@@ -284,7 +283,7 @@ class ProducerThread(Thread):
 		Prints each sending address to STDOUT so the user can troubleshoot.
 		This will work best on local networks where a router does not obscure
 		multiple devices behind one sending IP.
-		Remember, UDP packets cannot be differentiated by sending instrument.
+		Remember, RS UDP packets cannot be differentiated by sending instrument.
 		Their identifiers are per channel (EHZ, HDF, ENE, SHZ, etc.)
 		and not per Shake (R4989, R52CD, R24FA, RCB43, etc.). To avoid problems,
 		please use a separate port for each Shake.
@@ -297,12 +296,12 @@ class ProducerThread(Thread):
 			data, addr = sock.recvfrom(4096)
 			if firstaddr == '':
 				firstaddr = addr[0]
-				printM('Receiving UDP data from %s' % (firstaddr))
+				printM('Receiving UDP data from %s' % (firstaddr), self.sender)
 			if (firstaddr != '') and (addr[0] == firstaddr):
 				queue.put(data)
 			else:
 				if addr not in blocked:
-					printM('Another IP (%s) is sending UDP data to this port. Ignoring...' % (addr[0]))
+					printM('Another IP (%s) is sending UDP data to this port. Ignoring...' % (addr[0]), self.sender)
 					blocked.append(addr)
 
 
@@ -314,11 +313,13 @@ class ConsumerThread(Thread):
 		global destinations, consumer
 		destinations = []
 
+		self.sender = 'ConsumerThread'
+
 		if not consumer:
 			super().__init__()
 			consumer = True
 		else:
-			printM('Error: Consumer thread already started')
+			printM('Error: Consumer thread already started', self.sender)
 
 	def run(self):
 		"""
@@ -337,8 +338,10 @@ class ConsumerThread(Thread):
 
 
 class AlertThread(Thread):
+	global default_ch
+	default_ch = 'HZ'
 	def __init__(self, sta=5, lta=30, thresh=1.6, bp=False, func='print',
-				 debug=True, cha='Z', *args, **kwargs):
+				 debug=True, cha=default_ch, *args, **kwargs):
 		"""
 		A recursive STA-LTA 
 		:param float sta: short term average (STA) duration in seconds
@@ -348,7 +351,7 @@ class AlertThread(Thread):
 		:param bp: bandpass filter parameters
 		:param func func: threshold for STA/LTA trigger
 		:param bool debug: threshold for STA/LTA trigger
-		:param str cha: threshold for STA/LTA trigger
+		:param str cha: listening channel (defaults to [S,E]HZ)
 		"""
 		super().__init__()
 		global destinations
@@ -360,7 +363,10 @@ class AlertThread(Thread):
 		self.args = args
 		self.kwargs = kwargs
 		self.stream = Stream()
-		self.cha = cha
+		cha = default_ch if (cha == 'all') else cha
+		self.cha = cha if isinstance(cha, str) else cha[0]
+		self.sps = sps
+		self.sender = 'AlertThread'
 		if bp:
 			self.freqmin = bp[0]
 			self.freqmax = bp[1]
@@ -381,18 +387,24 @@ class AlertThread(Thread):
 		destinations.append(alrtq)
 		self.qno = len(destinations) - 1
 
-		printM('Starting Alert trigger thread with sta=%ss, lta=%ss, and threshold=%s' % (self.sta, self.lta, self.thresh))
+		listen_ch = '?%s' % default_ch if self.cha == default_ch else self.cha
+		printM('Starting Alert trigger with sta=%ss, lta=%ss, and threshold=%s on channel=%s'
+				% (self.sta, self.lta, self.thresh, listen_ch), self.sender)
 		if self.filt == 'bandpass':
-			printM('Alert stream will be %s filtered from %s to %s Hz' % (self.filt, self.freqmin, self.freqmax))
+			printM('Alert stream will be %s filtered from %s to %s Hz' % (self.filt, self.freqmin, self.freqmax), self.sender)
 		elif self.filt in ('lowpass', 'highpass'):
 			modifier = 'below' if self.filt in 'lowpass' else 'above'
-			printM('Alert stream will be %s filtered %s %s Hz' % (self.filt, modifier, self.freq))
+			printM('Alert stream will be %s filtered %s %s Hz' % (self.filt, modifier, self.freq), self.sender)
 
 	def getq(self):
 		d = destinations[self.qno].get()
 		destinations[self.qno].task_done()
-		self.stream = update_stream(
-			stream=self.stream, d=d, fill_value='latest')
+		if self.cha in str(d):
+			self.stream = update_stream(
+				stream=self.stream, d=d, fill_value='latest')
+			return True
+		else:
+			return False
 	
 	def set_sps(self):
 		self.sps = self.stream[0].stats.sampling_rate
@@ -410,24 +422,21 @@ class AlertThread(Thread):
 		cft, maxcft = np.zeros(1), 0
 		n = 0
 
-		wait_pkts = self.lta / (tf / 1000)
+		wait_pkts = (self.lta) / (tf / 1000)
 
-		self.getq()
-		self.set_sps()
-		if self.cha != 'all':
-			while n > 3:
-				self.getq()
-				n += 1
-			self.stream.select(component=self.cha)
-			n = 0
+		while n > 3:
+			self.getq()
+			n += 1
+		n = 0
 
 		while True:
 			while True:
 				if destinations[self.qno].qsize() > 0:
 					self.getq()
 				else:
-					self.getq()
-					break
+					is_ch = self.getq()
+					if is_ch:
+						break
 
 			if n > (wait_pkts):
 				obstart = self.stream[0].stats.endtime - timedelta(seconds=self.lta)	# obspy time
@@ -443,23 +452,24 @@ class AlertThread(Thread):
 				if cft.max() > self.thresh:
 					if self.func == 'print':
 						print()
-						printM('Event detected! Trigger threshold: %s, CFT: %s ' % (self.thresh, cft.max()))
-						printM('Waiting %s sec for clear trigger' % (self.lta))
+						printM('Event detected! Trigger threshold: %s, CFT: %s ' % (self.thresh, cft.max()), self.sender)
+						printM('Waiting %s sec for clear trigger' % (self.lta), self.sender)
 					else:
 						print()
-						printM('Trigger threshold of %s exceeded: %s' % (self.thresh, cft.max()))
+						printM('Trigger threshold of %s exceeded: %s' % (self.thresh, cft.max()), self.sender)
 						self.func(*self.args, **self.kwargs)
 
 					n = 1
 			elif n == 0:
-				printM('Earthquake trigger warmup time of %s seconds...' % (self.lta))
+				printM('Listening to channel %s' % (self.stream[0].stats.channel), self.sender)
+				printM('Earthquake trigger warmup time of %s seconds...' % (self.lta), self.sender)
 				n += 1
 			elif n == (wait_pkts):
 				if cft.max() == 0:
-					printM('Earthquake trigger up and running normally.')
+					printM('Earthquake trigger up and running normally.', self.sender)
 				else:
-					printM('Earthquake trigger reset and active again.')
-					printM('Max CFT reached in alarm state: %s' % (maxcft))
+					printM('Earthquake trigger reset and active again.', self.sender)
+					printM('Max CFT reached in alarm state: %s' % (maxcft), self.sender)
 					maxcft = 0
 				n += 1
 			else:
@@ -481,6 +491,8 @@ class PlotThread(Thread):
 		destinations.append(plotq)
 		self.qno = len(destinations) - 1
 		self.stream = Stream()
+		self.sender = 'PlotThread'
+
 
 	def getq(self):
 		d = destinations[self.qno].get()
@@ -522,6 +534,8 @@ class WriteThread(Thread):
 
 		self.stream = Stream()
 		self.outdir = outdir
+		self.sender = 'WriteThread'
+
 
 	def getq(self):
 		d = destinations[self.qno].get()
@@ -556,18 +570,18 @@ class WriteThread(Thread):
 			if os.path.exists(os.path.abspath(outfile)):
 				with open(outfile, 'ab') as fh:
 					if debug:
-						printM('writing to %s' % outfile)
+						printM('writing to %s' % outfile, self.sender)
 					t.write(fh, format='MSEED')
 			else:
 				if debug:
-					printM('Writing new file %s' % outfile)
+					printM('Writing new file %s' % outfile, self.sender)
 				t.write(outfile, format='MSEED')
 
 	def run(self):
 		"""
 		"""
 		self.elapse()
-		printM('Starting miniSEED writer')
+		printM('Starting miniSEED writer', self.sender)
 
 		self.getq()
 		self.set_sps()

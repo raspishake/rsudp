@@ -8,7 +8,7 @@ def eqAlert(blanklines=True,
 			printtext='Trigger threshold exceeded -- possible earthquake!',
 			other='Waiting for clear trigger...'):
 	printtext = str(printtext) + '\n' + str(other)
-	RS.printM(printtext)
+	RS.printM(printtext, sender='EQAlert function')
 
 def main(alert=True, plot=False, debug=False, port=8888, stn='Z0000',
 		 sta=5, lta=10, thresh=1.5, bp=False, cha='all', outdir='',
@@ -24,14 +24,15 @@ def main(alert=True, plot=False, debug=False, port=8888, stn='Z0000',
 		prnt = RS.PrintThread()
 		prnt.start()
 	if alert:
-		alrt = RS.AlertThread(sta=sta, lta=lta, thresh=thresh, bp=bp, func=eqAlert)
+		alrt = RS.AlertThread(sta=sta, lta=lta, thresh=thresh, bp=bp, func=eqAlert,
+							  cha=cha)
 		alrt.start()
 	if plot:
 		plotter = RS.PlotThread(stn=stn, cha=cha, seconds=sec, spectrogram=spec,
-							 fullscreen=full)
+							 	fullscreen=full)
 		plotter.start()
 	if outdir:
-		writer = RS.WriteThread(outdir=outdir)
+		writer = RS.WriteThread(outdir=outdir, stn=stn)
 		writer.start()
 
 if __name__ == '__main__':

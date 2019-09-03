@@ -543,6 +543,7 @@ class WriteThread(Thread):
 		self.sender = 'WriteThread'
 		self.debug = debug
 		self.numchns = numchns
+		self.stime = 1/sps
 
 	def getq(self):
 		d = destinations[self.qno].get()
@@ -575,7 +576,7 @@ class WriteThread(Thread):
 	def write(self, stream=False):
 		if not stream:
 			self.last = self.stream[0].stats.endtime - timedelta(seconds=5)
-			stream = self.stream.copy().slice(endtime=self.last)
+			stream = self.stream.copy().slice(endtime=self.last - timedelta(seconds=stime))
 
 		for t in stream:
 			outfile = self.outdir + '/%s.%s.00.%s.D.%s.%s' % (t.stats.network,

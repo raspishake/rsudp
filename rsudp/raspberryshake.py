@@ -607,7 +607,7 @@ class WriteThread(Thread):
 		self.set_sps()
 		self.inv = get_inventory(stn=stn, sender=self.sender)
 		if self.inv:
-			printM('Writing inventory to output directory...', self.sender)
+			printM('Writing inventory to output directory.', self.sender)
 			inv.write('%s/%s.%s.00' % (self.outdir,
 					  self.stream[0].stats.network,
 					  self.stream[0].stats.station),

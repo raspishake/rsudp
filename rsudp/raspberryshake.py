@@ -109,7 +109,7 @@ def test_connection():
 	global to
 	signal.signal(signal.SIGALRM, handler)
 	signal.alarm(to)						# alarm time set with timeout value
-	data, addr = sock.recvfrom(4096)
+	data = sock.recv(4096)
 	signal.alarm(0)							# once data has been received, turn alarm completely off
 	to = 0									# otherwise it erroneously triggers after keyboardinterrupt
 	getTR(getCHNS()[0])
@@ -120,11 +120,10 @@ def getDATA():
 	'''Read a data packet off the port.
 	Alarm if no data is received within timeout.'''
 	global to, firstaddr
-	notif = False
 	if sockopen:
 		signal.signal(signal.SIGALRM, handler)
 		signal.alarm(to)						# alarm time set with timeout value
-		data, addr = sock.recvfrom(4096)
+		data = sock.recv(4096)
 		signal.alarm(0)							# once data has been received, turn alarm completely off
 		to = 0									# otherwise it erroneously triggers after keyboardinterrupt
 		return data
@@ -257,7 +256,6 @@ def update_stream(stream, d, **kwargs):
 	while True:
 		try:
 			return stream.append(make_trace(d)).merge(**kwargs)
-			return stream
 		except TypeError:
 			pass
 
@@ -343,10 +341,9 @@ class ConsumerThread(Thread):
 
 
 class AlertThread(Thread):
-	global default_ch
-	default_ch = 'HZ'
 	def __init__(self, sta=5, lta=30, thresh=1.6, bp=False, func='print',
-				 debug=True, cha=default_ch, *args, **kwargs):
+				 debug=True, cha='HZ', *args, **kwargs):
+		
 		"""
 		A recursive STA-LTA 
 		:param float sta: short term average (STA) duration in seconds
@@ -360,6 +357,7 @@ class AlertThread(Thread):
 		"""
 		super().__init__()
 		global destinations
+		self.default_ch = 'HZ'
 		self.sta = sta
 		self.lta = lta
 		self.thresh = thresh
@@ -368,7 +366,7 @@ class AlertThread(Thread):
 		self.args = args
 		self.kwargs = kwargs
 		self.stream = Stream()
-		cha = default_ch if (cha == 'all') else cha
+		cha = self.default_ch if (cha == 'all') else cha
 		self.cha = cha if isinstance(cha, str) else cha[0]
 		self.sps = sps
 		self.sender = 'AlertThread'
@@ -392,7 +390,7 @@ class AlertThread(Thread):
 		destinations.append(alrtq)
 		self.qno = len(destinations) - 1
 
-		listen_ch = '?%s' % default_ch if self.cha == default_ch else self.cha
+		listen_ch = '?%s' % self.default_ch if self.cha == self.default_ch else self.cha
 		printM('Starting Alert trigger with sta=%ss, lta=%ss, and threshold=%s on channel=%s'
 				% (self.sta, self.lta, self.thresh, listen_ch), self.sender)
 		if self.filt == 'bandpass':
@@ -515,7 +513,6 @@ class PlotThread(Thread):
 		"""
 		self.getq()
 		self.set_sps()
-		n = 0
 
 		while True:
 			while True:
@@ -550,7 +547,7 @@ class WriteThread(Thread):
 		d = destinations[self.qno].get()
 		destinations[self.qno].task_done()
 		self.stream = update_stream(
-			stream=self.stream, d=d, fill_value='latest')
+			stream=self.stream, d=d, fill_value=None)
 		if not self.refcha:
 			self.refcha = getCHN(d)
 		if self.refcha in str(d):
@@ -610,7 +607,7 @@ class WriteThread(Thread):
 					self.getq()
 					n += 1
 				else:
-					q = self.getq()
+					self.getq()
 					n += 1
 					break
 			if n >= wait_pkts:

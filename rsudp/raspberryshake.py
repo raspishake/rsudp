@@ -217,7 +217,7 @@ def getTTLCHN():
 	return numchns
 
 
-def get_inventory(stn='Z0000'):
+def get_inventory(stn='Z0000', sender='get_inventory'):
 	global inv
 	sender = 'get_inventory'
 	if 'Z0000' in stn:
@@ -235,6 +235,7 @@ def get_inventory(stn='Z0000'):
 			printM('Inventory fetch failed, continuing without.',
 					sender)
 			inv = False
+	return inv
 
 
 def make_trace(d):
@@ -455,9 +456,6 @@ class AlertThread(Thread):
 
 		"""
 		global tf
-		get_inventory(stn=stn)
-		if inv:
-			self.stream.attach_response(inv)
 
 		cft, maxcft = np.zeros(1), 0
 		n = 0
@@ -548,6 +546,7 @@ class WriteThread(Thread):
 		self.debug = debug
 		self.numchns = numchns
 		self.stime = 1/sps
+		printM('Starting.' % self.sender)
 
 	def getq(self):
 		d = destinations[self.qno].get()
@@ -602,10 +601,16 @@ class WriteThread(Thread):
 		"""
 		"""
 		self.elapse()
-		printM('Starting miniSEED writer', self.sender)
+		printM('miniSEED output directory: %s' % (self.outdir), self.sender)
 
 		self.getq()
 		self.set_sps()
+		self.inv = get_inventory(stn=stn, sender=self.sender)
+		if self.inv:
+			printM('Writing inventory to output directory...', self.sender)
+			inv.write(self.outdir + '/%s.%s.00', 
+					  % self.stream[0].stats.network, self.stream[0].stats.station,
+					  format='STATIONXML')
 
 		wait_pkts = (self.numchns * 10) / (tf / 1000) 		# comes out to 10 seconds (tf is in ms)
 
@@ -712,11 +717,6 @@ class CustomThread(Thread):
 	def set_sps(self):
 		self.sps = self.stream[0].stats.sampling_rate
 	
-	def setup_plot(self):
-		pass
-
-	def update_plot(self):
-		pass
 
 	def run(self):
 		"""

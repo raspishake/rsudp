@@ -12,7 +12,7 @@ def eqAlert(blanklines=True,
 
 def main(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 		 sta=5, lta=10, thresh=1.5, bp=False, cha='all', outdir='',
-		 sec=30, spec=False, full=False):
+		 sec=30, spec=False, full=False, printdata=False):
 
 	prod = RS.ProducerThread(port=port, stn=stn)
 	cons = RS.ConsumerThread()
@@ -20,12 +20,12 @@ def main(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 	prod.start()
 	cons.start()
 
-	if False:
+	if printdata:
 		prnt = RS.PrintThread()
 		prnt.start()
 	if alert:
 		alrt = RS.AlertThread(sta=sta, lta=lta, thresh=thresh, bp=bp, func=eqAlert,
-							  cha=cha)
+							  cha=cha, debug=debug)
 		alrt.start()
 	if plot:
 		plotter = RS.PlotThread(stn=stn, cha=cha, seconds=sec, spectrogram=spec,
@@ -86,8 +86,8 @@ if __name__ == '__main__':
 		sta, lta = 6, 30	# short term & long term period for alert (seconds)
 		thresh = 1.6		# threshold for STA/LTA
 
-		opts, args = getopt.getopt(sys.argv[1:], 'hDp:s:n:d:c:PgfaS:L:T:o:',
-			['help', 'debug', 'port=', 'station=', 'duration=', 'channels=', 'spectrogram',
+		opts, args = getopt.getopt(sys.argv[1:], 'hvDp:s:n:d:c:PgfaS:L:T:o:',
+			['help', 'verbose', 'data', 'port=', 'station=', 'duration=', 'channels=', 'spectrogram',
 			 'fullscreen', 'alarm', 'sta', 'lta', 'thresh', 'outdir=']
 			)
 		for o, a in opts:
@@ -95,8 +95,10 @@ if __name__ == '__main__':
 				h = True
 				print(hlp_txt)
 				exit(0)
-			if o in ('-D', '--debug'):
+			if o in ('-v', '--verbose'):
 				debug = True
+			if o in ('-D', '--data'):
+				printdata = True
 			if o in ('-p', 'port='):
 				prt = int(a)
 			if o in ('-s', 'station='):
@@ -144,7 +146,7 @@ if __name__ == '__main__':
 
 		main(port=prt, stn=stn, cha=cha, sec=sec, spec=spec, full=full,
 			 alert=alert, sta=sta, lta=lta, thresh=thresh, bp=bp,
-			 debug=debug, outdir=outdir, plot=plot)
+			 debug=debug, printdata=printdata, outdir=outdir, plot=plot)
 	# except ValueError as e:
 	# 	print('ERROR: %s' % e)
 	# 	print(hlp_txt)

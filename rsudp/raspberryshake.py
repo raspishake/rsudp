@@ -277,7 +277,7 @@ class ProducerThread(Thread):
 			printM('Waiting for UDP data on port %s...' % (port), self.sender)
 			test_connection()
 			self.active = True
-			printM('Producer thread starting.', self.sender)
+			printM('Starting.', self.sender)
 		else:
 			printM('Error: Producer thread already started', self.sender)
 
@@ -322,7 +322,7 @@ class ConsumerThread(Thread):
 		if not self.active:
 			super().__init__()
 			self.active = True
-			printM('Consumer thread starting.', self.sender)
+			printM('Starting.', self.sender)
 		else:
 			printM('Error: Consumer thread already started', self.sender)
 
@@ -497,6 +497,7 @@ class PlotThread(Thread):
 		self.qno = len(destinations) - 1
 		self.stream = Stream()
 		self.sender = 'PlotThread'
+		printM('Starting.', self.sender)
 
 
 	def getq(self):
@@ -576,7 +577,7 @@ class WriteThread(Thread):
 	def write(self, stream=False):
 		if not stream:
 			self.last = self.stream[0].stats.endtime - timedelta(seconds=5)
-			stream = self.stream.copy().slice(endtime=self.last - timedelta(seconds=stime))
+			stream = self.stream.copy().slice(endtime=self.last - timedelta(seconds=self.stime))
 
 		for t in stream:
 			outfile = self.outdir + '/%s.%s.00.%s.D.%s.%s' % (t.stats.network,
@@ -614,7 +615,7 @@ class WriteThread(Thread):
 					break
 			if n >= wait_pkts:
 				if self.newday < UTCDateTime.now(): # end of previous day and start of new day
-					self.write(self.stream.copy().slice(endtime=self.newday))
+					self.write(self.stream.copy().slice(endtime=self.newday - timedelta(seconds=self.stime)))
 					self.stream = self.stream.slice(starttime=self.newday)
 					self.elapse(new=True)
 				else:
@@ -634,6 +635,8 @@ class PrintThread(Thread):
 		prntq = Queue(qsize)
 		destinations.append(prntq)
 		self.qno = len(destinations) - 1
+		self.sender = 'PrintThread'
+		printM('Starting.', self.sender)
 
 	def run(self):
 		"""

@@ -546,7 +546,7 @@ class WriteThread(Thread):
 		self.debug = debug
 		self.numchns = numchns
 		self.stime = 1/sps
-		printM('Starting.' % self.sender)
+		printM('Starting.', self.sender)
 
 	def getq(self):
 		d = destinations[self.qno].get()

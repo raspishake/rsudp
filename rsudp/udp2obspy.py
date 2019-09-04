@@ -1,45 +1,46 @@
 import sys, os
 import getopt
 
-from . import raspberryshake
+import rsudp.raspberryshake as RS
 
 
 def eqAlert(blanklines=True,
 			printtext='Trigger threshold exceeded -- possible earthquake!',
 			other='Waiting for clear trigger...'):
 	printtext = str(printtext) + '\n' + str(other)
-	raspberryshake.printM(printtext, sender='EQAlert function')
+	RS.printM(printtext, sender='EQAlert function')
+
 
 def main(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 		 sta=5, lta=10, thresh=1.5, bp=False, cha='all', outdir='',
 		 sec=30, spec=False, full=False, printdata=False):
 
-	prod = raspberryshake.ProducerThread(port=port, stn=stn)
-	cons = raspberryshake.ConsumerThread()
+	prod = RS.ProducerThread(port=port, stn=stn)
+	cons = RS.ConsumerThread()
 
 	prod.start()
 	cons.start()
 
 	if printdata:
-		prnt = raspberryshake.PrintThread()
+		prnt = RS.PrintThread()
 		prnt.start()
 	if alert:
-		alrt = raspberryshake.AlertThread(sta=sta, lta=lta, thresh=thresh, bp=bp, func=eqAlert,
+		alrt = RS.AlertThread(sta=sta, lta=lta, thresh=thresh, bp=bp, func=eqAlert,
 							  cha=cha, debug=debug)
 		alrt.start()
 	if plot:
-		plotter = raspberryshake.PlotThread(stn=stn, cha=cha, seconds=sec, spectrogram=spec,
+		plotter = RS.PlotThread(stn=stn, cha=cha, seconds=sec, spectrogram=spec,
 							 	fullscreen=full)
 		plotter.start()
 	if outdir:
-		writer = raspberryshake.WriteThread(outdir=outdir, stn=stn, debug=debug)
+		writer = RS.WriteThread(outdir=outdir, stn=stn, debug=debug)
 		writer.start()
 
 if __name__ == '__main__':
 	'''
 	Loads port, station, network, and duration arguments to create a graph.
 	Supply -p, -s, -n, and/or -d to change the port and the output plot
-	parameteraspberryshake.
+	parameteRS.
 	'''
 
 	hlp_txt='''
@@ -51,14 +52,13 @@ if __name__ == '__main__':
 ##                                                                          ##
 ## Loads port, station, and duration arguments to create a graph.           ##
 ## Supply -p, -s, and/or -d to change the port and the output plot          ##
-## parameteraspberryshake. Use -g to plot spectrogram(s).                               ##
+## parameteRS. Use -g to plot spectrogram(s).                               ##
 ##                                                                          ##
 ## Requires:                                                                ##
 ## - Numpy                                                                  ##
 ## - ObsPy                                                                  ##
 ## - Matplotlib                                                             ##
-## - raspberryshake2obspy                                                               ##
-## - raspberryShake                                                         ##
+## - rsudp                                                                  ##
 ##                                                                          ##
 ## The following example sets the port to 18001, station to R0E05,          ##
 ## and plot duration to 25 seconds, then plots data live with spectrogram:  ##
@@ -119,26 +119,26 @@ if __name__ == '__main__':
 				try:
 					sta = int(a)
 				except ValueError as e:
-					raspberryshake.printM('ERROR: Could not set STA duration. Message: %s' % (a))
+					RS.printM('ERROR: Could not set STA duration. Message: %s' % (a))
 					exit(2)
 			if o in ('-L', 'LTA='):
 				try:
 					lta = int(a)
 				except ValueError as e:
-					raspberryshake.printM('ERROR: Could not set LTA duration. Message: %s' % (a))
+					RS.printM('ERROR: Could not set LTA duration. Message: %s' % (a))
 					exit(2)
 			if o in ('-T', 'threshold='):
 				try:
 					thresh = float(a)
 				except ValueError as e:
-					raspberryshake.printM('ERROR: Could not set trigger threshold. Message: %s' % (a))
+					RS.printM('ERROR: Could not set trigger threshold. Message: %s' % (a))
 					exit(2)
 			if o in ('-B', 'bandpass='):
 				try:
 					bp = list(a)
 					bp = bp.sort()
 				except ValueError as e:
-					raspberryshake.printM('ERROR: Could not set bandpass limits. Message: %s' % (a))
+					RS.printM('ERROR: Could not set bandpass limits. Message: %s' % (a))
 					exit(2)
 			if o in ('-o', 'outdir='):
 				if os.path.isdir(os.path.abspath(a)):

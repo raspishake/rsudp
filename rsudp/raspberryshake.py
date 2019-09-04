@@ -608,8 +608,9 @@ class WriteThread(Thread):
 		self.inv = get_inventory(stn=stn, sender=self.sender)
 		if self.inv:
 			printM('Writing inventory to output directory...', self.sender)
-			inv.write(self.outdir + '/%s.%s.00' 
-					  % self.stream[0].stats.network, self.stream[0].stats.station,
+			inv.write('%s/%s.%s.00' % (self.outdir,
+					  self.stream[0].stats.network,
+					  self.stream[0].stats.station),
 					  format='STATIONXML')
 
 		wait_pkts = (self.numchns * 10) / (tf / 1000) 		# comes out to 10 seconds (tf is in ms)

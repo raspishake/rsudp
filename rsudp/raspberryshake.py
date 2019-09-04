@@ -608,7 +608,7 @@ class WriteThread(Thread):
 		self.inv = get_inventory(stn=stn, sender=self.sender)
 		if self.inv:
 			printM('Writing inventory to output directory...', self.sender)
-			inv.write(self.outdir + '/%s.%s.00', 
+			inv.write(self.outdir + '/%s.%s.00' 
 					  % self.stream[0].stats.network, self.stream[0].stats.station,
 					  format='STATIONXML')
 

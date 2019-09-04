@@ -2,25 +2,25 @@ import sys
 import getopt
 import datetime as dt
 import signal
-import rsudp.raspberryshake as RS
+from . import raspberryshake
 
 def signal_handler(signal, frame):
 	print()
-	RS.printM("Quitting...")
+	raspberryshake.printM("Quitting...")
 	sys.exit(0)
         
 signal.signal(signal.SIGINT, signal_handler)
 
-def printTTLS(CHAN, TRS):
+def printTTLS(CHAN, TR):
 	'''
 	Report packets lost.
 	'''
 	ttlSecs = int(DPtime[CHAN] - timeStart[CHAN])
 	if ttlSecs == 0:
 		return False		# only once in any given second
-	ttlDPs = ttlSecs * TRS
+	ttlDPs = ttlSecs * TR
 	pct = float(float(DPttlLoss[CHAN]) / float(ttlDPs)) * 100.
-	RS.printM('CHANNEL %s: total packets lost in last %s seconds: %s ( %s%% / %s )' %
+	raspberryshake.printM('CHANNEL %s: total packets lost in last %s seconds: %s ( %s%% / %s )' %
 							(CHAN, ttlSecs, DPttlLoss[CHAN], round(pct, 2), ttlDPs))
 	return True
 
@@ -28,48 +28,48 @@ def run(printFREQ=60, port=8888):
 	'''
 	Initialize stream and print constants, then process data for packet loss.
 	'''
-	RS.printM("Initializing...")
-	RS.initRSlib(dport=port)
-	RS.openSOCK()
+	raspberryshake.printM("Initializing...")
+	raspberryshake.initRSlib(dport=port)
+	raspberryshake.openSOCK()
 	# initialize data stream constants
-	RS.printM('Opened data port successfully.')
-	DP = RS.getDATA()
-	CHAN = RS.getCHN(DP)					# first channel - doesn't matter which, used to stop looping
-	TR = RS.getTR(CHAN)						# transmission rate - in milliseconds
-	TRS = 1000 / TR							# number of DPs / second
+	raspberryshake.printM('Opened data port successfully.')
+	DP = raspberryshake.getDATA()
+	CHAN = raspberryshake.getCHN(DP)					# first channel - doesn't matter which, used to stop looping
+	TR = raspberryshake.getTR(CHAN)						# transmission rate - in milliseconds
+	TR = 1000 / TR							# number of DPs / second
 	TRE = (TR+TR*.5) / 1000.				# time diff / error to identify a missed packet
-	SR = RS.getSR(TR, DP)							# sample / second
-	ttlCHN = RS.getTTLCHN()					# total number of channels
-	RS.printM("	Total Channels: %s" % ttlCHN)
-	RS.printM("	   Sample Rate: %s samples / second" % SR)
-	RS.printM("	       TX Rate: Every %s milliseconds" % TR)
+	SR = raspberryshake.getSR(TR, DP)							# sample / second
+	ttlCHN = raspberryshake.getTTLCHN()					# total number of channels
+	raspberryshake.printM("	Total Channels: %s" % ttlCHN)
+	raspberryshake.printM("	   Sample Rate: %s samples / second" % SR)
+	raspberryshake.printM("	       TX Rate: Every %s milliseconds" % TR)
 	
 	# start processing data packets for packet loss detection
 	# initialize
 	chnNum = 0
 	while chnNum < ttlCHN:
-		DP = RS.getDATA()
-		CHAN = RS.getCHN(DP)
-		DPtime[CHAN] = RS.getTIME(DP)
+		DP = raspberryshake.getDATA()
+		CHAN = raspberryshake.getCHN(DP)
+		DPtime[CHAN] = raspberryshake.getTIME(DP)
 		timeStart[CHAN] = DPtime[CHAN]
 		DPttlLoss[CHAN] = 0
 		chnNum += 1
 	
-	RS.printM('Data Packet reading begun.')
-	RS.printM('Will report any DP loss as it happens and totals every %s seconds.' % printFREQ)
+	raspberryshake.printM('Data Packet reading begun.')
+	raspberryshake.printM('Will report any DP loss as it happens and totals every %s seconds.' % printFREQ)
 
 	while 1:                                # loop forever
-		DP = RS.getDATA()
-		CHAN = RS.getCHN(DP)
-		timeS = RS.getTIME(DP)
+		DP = raspberryshake.getDATA()
+		CHAN = raspberryshake.getCHN(DP)
+		timeS = raspberryshake.getTIME(DP)
 		timeD = timeS - DPtime[CHAN]
 		if abs(timeD) > TRE:
-			RS.printM("DP loss of %s second(s) Current TS: %s, Previous TS: %s" % (round(timeD, 3), timeS, DPtime[CHAN]))
-			DPttlLoss[CHAN] += abs(int(timeD * TRS))
+			raspberryshake.printM("DP loss of %s second(s) Current TS: %s, Previous TS: %s" % (round(timeD, 3), timeS, DPtime[CHAN]))
+			DPttlLoss[CHAN] += abs(int(timeD * TR))
 		DPtime[CHAN] = timeS 
 	
 		if int(timeS) % printFREQ == 0:
-			if printTTLS(CHAN, TRS):
+			if printTTLS(CHAN, TR):
 				timeStart[CHAN] = timeS
 				DPttlLoss[CHAN] = 0
 
@@ -117,7 +117,6 @@ def main():
 	opts, args = getopt.getopt(sys.argv[1:], 'hp:f:', ['help', 'port=', 'frequency='])
 	for o, a in opts:
 		if o in ('-h, --help'):
-			h = True
 			print(hlp_txt)
 			exit(0)
 		if o in ('-p', 'port='):
@@ -128,7 +127,7 @@ def main():
 		run(printFREQ=f, port=p)
 	except KeyboardInterrupt:
 		print('')
-		RS.printM('Quitting...')
+		raspberryshake.printM('Quitting...')
 
 
 if __name__== "__main__":

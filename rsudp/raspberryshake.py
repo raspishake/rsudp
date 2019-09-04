@@ -612,7 +612,7 @@ class WriteThread(Thread):
 					  self.stream[0].stats.network,
 					  self.stream[0].stats.station),
 					  format='STATIONXML')
-
+		printM('Beginning miniSEED output.', self.sender)
 		wait_pkts = (self.numchns * 10) / (tf / 1000) 		# comes out to 10 seconds (tf is in ms)
 
 		n = 0

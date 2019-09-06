@@ -11,10 +11,17 @@ import numpy as np
 from obspy import UTCDateTime
 from datetime import datetime, timedelta
 import time
+import matplotlib
+try:
+	matplotlib.use('Qt5Agg')
+except:
+	matplotlib.use('TkAgg')
 
+###########
+#Profiling#
 import cProfile, pstats, io
 from pstats import SortKey
-
+###########
 
 qsize = 120 			# max UDP queue size is 30 seconds' worth of seismic data
 queue = Queue(qsize)	# master queue
@@ -316,10 +323,10 @@ class ProducerThread(Thread):
 			if (firstaddr != '') and (addr[0] == firstaddr):
 				queue.put(data)
 			else:
-				if addr not in blocked:
+				if addr[0] not in blocked:
 					printM('Another IP (%s) is sending UDP data to this port. Ignoring...'
 							% (addr[0]), self.sender)
-					blocked.append(addr)
+					blocked.append(addr[0])
 
 
 class ConsumerThread(Thread):
@@ -446,7 +453,7 @@ class AlertThread(Thread):
 		destinations[self.qno].task_done()
 		if self.cha in str(d):
 			self.stream = update_stream(
-				stream=self.stream.copy(), d=d, fill_value='latest')
+				stream=self.stream, d=d, fill_value='latest')
 			return True
 		else:
 			return False
@@ -454,6 +461,18 @@ class AlertThread(Thread):
 	def set_sps(self):
 		self.sps = self.stream[0].stats.sampling_rate
 
+	def copy(self):
+		stream = Stream()
+		for t in range(len(self.stream)):
+			trace = Trace(data=self.stream[t].data)
+			trace.stats.network = self.stream[t].stats.network
+			trace.stats.location = self.stream[t].stats.location
+			trace.stats.station = self.stream[t].stats.station
+			trace.stats.channel = self.stream[t].stats.channel
+			trace.stats.sampling_rate = self.stream[t].stats.sampling_rate
+			trace.stats.starttime = self.stream[t].stats.starttime
+			stream.append(trace).merge(fill_value=None)
+		self.stream = stream.copy()
 
 	def run(self):
 		"""
@@ -487,7 +506,7 @@ class AlertThread(Thread):
 							starttime=obstart)	# slice the stream to the specified length (seconds variable)
 
 				if self.filt:
-					cft = recursive_sta_lta(self.stream[0].copy().filter(
+					cft = recursive_sta_lta(self.stream[0].filter(
 								type=self.filt, freq=self.freq,
 								freqmin=self.freqmin, freqmax=self.freqmax),
 								int(self.sta * self.sps), int(self.lta * self.sps))
@@ -506,8 +525,9 @@ class AlertThread(Thread):
 						printM('Trigger threshold of %s exceeded: %s'
 								% (self.thresh, cft.max()), self.sender)
 						self.func(*self.args, **self.kwargs)
-
 					n = 1
+				self.copy()
+
 			elif n == 0:
 				printM('Listening to channel %s'
 						% (self.stream[0].stats.channel), self.sender)
@@ -519,9 +539,9 @@ class AlertThread(Thread):
 					printM('Earthquake trigger up and running normally.',
 							self.sender)
 				else:
-					printM('Earthquake trigger reset and active again.',
-							self.sender)
 					printM('Max CFT reached in alarm state: %s' % (maxcft),
+							self.sender)
+					printM('Earthquake trigger reset and active again.',
 							self.sender)
 					maxcft = 0
 				n += 1
@@ -564,6 +584,40 @@ class WriteThread(Thread):
 		else:
 			return False
 	
+	###########
+	#profiling#
+	def on(self):
+		self.pr = cProfile.Profile()
+		self.pr.enable()
+
+	def off(self):
+		self.pr.disable()
+		s = io.StringIO()
+		sortby = SortKey.CUMULATIVE
+		ps = pstats.Stats(self.pr, stream=s).sort_stats(sortby)
+		printM('Printing CPU stats:', self.sender)
+		ps.print_stats()
+		print(s.getvalue())
+
+	def elapsetime(self):
+		self.lt = datetime.now()
+	###########
+
+	def copy(self):
+		stream = Stream()
+		for t in range(len(self.stream)):
+			trace = Trace(data=self.stream[t].data)
+			trace.stats.network = self.stream[t].stats.network
+			trace.stats.location = self.stream[t].stats.location
+			trace.stats.station = self.stream[t].stats.station
+			trace.stats.channel = self.stream[t].stats.channel
+			trace.stats.sampling_rate = self.stream[t].stats.sampling_rate
+			trace.stats.starttime = self.stream[t].stats.starttime
+			stream.append(trace).merge(fill_value=None)
+		
+		self.stream = stream.copy()
+
+
 	def set_sps(self):
 		self.sps = self.stream[0].stats.sampling_rate
 
@@ -607,6 +661,12 @@ class WriteThread(Thread):
 		self.elapse()
 		printM('miniSEED output directory: %s' % (self.outdir), self.sender)
 
+		###########
+		#profiling#
+		self.on()
+		self.lt = datetime.now()
+		###########
+
 		self.getq()
 		self.set_sps()
 		self.inv = get_inventory(stn=stn, sender=self.sender)
@@ -631,15 +691,22 @@ class WriteThread(Thread):
 					break
 			if n >= wait_pkts:
 				if self.newday < UTCDateTime.now(): # end of previous day and start of new day
-					self.write(self.stream.copy().slice(
+					self.write(self.stream.slice(
 								endtime=self.newday, nearest_sample=False))
 					self.stream = self.stream.slice(
 								starttime=self.newday, nearest_sample=False)
 					self.elapse(new=True)
+					###########
+					#profiling#
+					self.off()
+					self.on()
+					self.elapsetime()
+					###########
 				else:
 					self.write()
 					self.stream = self.stream.slice(
-								starttime=self.last, nearest_sample=False).copy()
+								starttime=self.last, nearest_sample=False)
+				self.copy()
 				n = 0
 
 
@@ -668,6 +735,20 @@ class PlotThread(Thread):
 	
 	def set_sps(self):
 		self.sps = self.stream[0].stats.sampling_rate
+
+	def copy(self):
+		stream = Stream()
+		for t in range(len(self.stream)):
+			trace = Trace(data=self.stream[t].data)
+			trace.stats.network = self.stream[t].stats.network
+			trace.stats.location = self.stream[t].stats.location
+			trace.stats.station = self.stream[t].stats.station
+			trace.stats.channel = self.stream[t].stats.channel
+			trace.stats.sampling_rate = self.stream[t].stats.sampling_rate
+			trace.stats.starttime = self.stream[t].stats.starttime
+			stream.append(trace).merge(fill_value=None)
+		self.stream = stream.copy()
+
 	def setup_plot(self):
 		pass
 
@@ -694,51 +775,8 @@ class PlotThread(Thread):
 					self.getq()
 					n += 1
 					break
+			self.copy()
 			self.update_plot()
-
-
-class UsageThread(Thread):
-	def __init__(self, name='UsageThread', period=60):
-		"""
-		Initialize the thread
-		"""
-		super().__init__()
-
-		self.period = period
-		self.sender = name
-		printM('Starting.', self.sender)
-
-	def on(self):
-		self.pr = cProfile.Profile()
-		self.pr.enable()
-
-	def off(self):
-		self.pr.disable()
-		s = io.StringIO()
-		sortby = SortKey.CUMULATIVE
-		ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
-		printM('Printing CPU stats:', self.sender)
-		ps.print_stats()
-		print(s.getvalue())
-
-	def elapse():
-		self.lt = datetime.now()
-
-	def run(self):
-		"""
-
-		"""
-		self.on()
-		self.lt = datetime.now()
-
-		while True:
-			if (datetime.now() - self.lt).total_seconds() > self.period:
-				self.off()
-				self.on()
-				self.elapse()
-			else:
-				time.sleep(self.period*1.0001)
-
 
 
 if __name__ == '__main__':

@@ -11,11 +11,14 @@ import numpy as np
 from obspy import UTCDateTime
 from datetime import datetime, timedelta
 import time
+import math
 import matplotlib
 try:
 	matplotlib.use('Qt5Agg')
 except:
 	matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
+
 
 ###########
 #Profiling#
@@ -279,6 +282,30 @@ def update_stream(stream, d, **kwargs):
 			return stream.append(make_trace(d)).merge(**kwargs)
 		except TypeError:
 			pass
+
+# from https://docs.obspy.org/_modules/obspy/imaging/spectrogram.html#_nearest_pow_2:
+def _nearest_pow_2(x):
+    """
+    Find power of two nearest to x
+
+    >>> _nearest_pow_2(3)
+    2.0
+    >>> _nearest_pow_2(15)
+    16.0
+
+    :type x: float
+    :param x: Number
+    :rtype: Int
+    :return: Nearest power of 2 to x
+
+    Adapted from the obspy library
+    """
+    a = math.pow(2, math.ceil(np.log2(x)))
+    b = math.pow(2, math.floor(np.log2(x)))
+    if abs(a - x) < abs(b - x):
+        return a
+    else:
+        return b
 
 
 class ProducerThread(Thread):
@@ -726,6 +753,10 @@ class PlotThread(Thread):
 		self.sender = 'PlotThread'
 		printM('Starting.', self.sender)
 
+		self.bgcolor = '#202530' # background
+		self.fgcolor = '0.8' # axis and label color
+		self.linecolor = '#c28285' # seismogram color
+
 
 	def getq(self):
 		d = destinations[self.qno].get()
@@ -750,7 +781,24 @@ class PlotThread(Thread):
 		self.stream = stream.copy()
 
 	def setup_plot(self):
-		pass
+		self.fig, self.ax = plt.subplots()
+		self.x = np.arange(0, 2*np.pi, 0.01)
+		self.line, = ax.plot(self.x, np.sin(self.x))
+
+
+	def animate(i):
+		line.set_ydata(np.sin(self.x + i/10.0))  # update the data
+		return line,
+
+
+	# Init only required for blitting to give a clean slate.
+	def init_plot():
+		line.set_ydata(np.ma.array(x, mask=True))
+		return line,
+
+ani = animation.FuncAnimation(fig, animate, np.arange(1, 200), init_func=init_plot,
+                              blit=True)
+plt.show()
 
 	def update_plot(self):
 		pass

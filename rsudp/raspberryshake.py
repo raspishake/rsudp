@@ -12,6 +12,10 @@ from obspy import UTCDateTime
 from datetime import datetime, timedelta
 import time
 
+import cProfile, pstats, io
+from pstats import SortKey
+
+
 qsize = 120 			# max UDP queue size is 30 seconds' worth of seismic data
 queue = Queue(qsize)	# master queue
 destinations = []		# queues to write to
@@ -280,12 +284,12 @@ class ProducerThread(Thread):
 
 		if not self.active:
 			super().__init__()
+			printM('Starting.', self.sender)
 			initRSlib(dport=port, rsstn=stn)
 			openSOCK()
 			printM('Waiting for UDP data on port %s...' % (port), self.sender)
 			test_connection()
 			self.active = True
-			printM('Starting.', self.sender)
 		else:
 			printM('Error: Producer thread already started', self.sender)
 
@@ -590,7 +594,7 @@ class WriteThread(Thread):
 					if self.debug:
 						printM('Writing %s records to %s'
 								% (len(t.data), outfile), self.sender)
-					t.write(fh, format='MSEED')
+					t.write(fh, format='MSEED', encoding='STEIM2')
 			else:
 				if self.debug:
 					printM('Writing %s new file %s'
@@ -693,45 +697,47 @@ class PlotThread(Thread):
 			self.update_plot()
 
 
-class CustomThread(Thread):
-	def __init__(self, name='CustomThread', fill_value=None):
+class UsageThread(Thread):
+	def __init__(self, name='UsageThread', period=60):
 		"""
 		Initialize the thread
 		"""
 		super().__init__()
-		global destinations
 
-		prntq = Queue(qsize)
-		destinations.append(prntq)
-		self.qno = len(destinations) - 1
-		self.stream = Stream()
-		self.fill_value = fill_value
+		self.period = period
 		self.sender = name
 		printM('Starting.', self.sender)
 
-	def getq(self):
-		d = destinations[self.qno].get()
-		destinations[self.qno].task_done()
-		self.stream = update_stream(
-			stream=self.stream.copy(), d=d, fill_value=self.fill_value)
-	
-	def set_sps(self):
-		self.sps = self.stream[0].stats.sampling_rate
-	
+	def on(self):
+		self.pr = cProfile.Profile()
+		self.pr.enable()
+
+	def off(self):
+		self.pr.disable()
+		s = io.StringIO()
+		sortby = SortKey.CUMULATIVE
+		ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+		printM('Printing CPU stats:', self.sender)
+		ps.print_stats()
+		print(s.getvalue())
+
+	def elapse():
+		self.lt = datetime.now()
 
 	def run(self):
 		"""
 
 		"""
-		n = 0
-		while n < 3:
-			self.getq()
-			n += 1
-		self.set_sps()
-		self.setup_plot()
+		self.on()
+		self.lt = datetime.now()
 
 		while True:
-			self.getq()
+			if (datetime.now() - self.lt).total_seconds() > self.period:
+				self.off()
+				self.on()
+				self.elapse()
+			else:
+				time.sleep(self.period*1.0001)
 
 
 

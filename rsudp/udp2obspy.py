@@ -13,7 +13,7 @@ def eqAlert(blanklines=True,
 
 def main(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 		 sta=5, lta=10, thresh=1.5, bp=False, cha='all', outdir='',
-		 sec=30, spec=False, full=False, printdata=False):
+		 sec=30, spec=False, full=False, printdata=False, usage=False):
 
 	prod = RS.ProducerThread(port=port, stn=stn)
 	cons = RS.ConsumerThread()
@@ -35,6 +35,10 @@ def main(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 	if outdir:
 		writer = RS.WriteThread(outdir=outdir, stn=stn, debug=debug)
 		writer.start()
+
+	if usage:
+		usagetrack = RS.UsageThread(period=3600)
+		usagetrack.start()
 
 if __name__ == '__main__':
 	'''
@@ -81,14 +85,15 @@ if __name__ == '__main__':
 		plot = False
 		bp = False	# (can be tuple or list)
 		outdir = False
+		usage = False
 
 		# short term average / long term average (STA/LTA) noise trigger defaults
 		sta, lta = 6, 30	# short term & long term period for alert (seconds)
 		thresh = 1.6		# threshold for STA/LTA
 
-		opts, args = getopt.getopt(sys.argv[1:], 'hvDp:s:n:d:c:PgfaS:L:T:o:',
+		opts, args = getopt.getopt(sys.argv[1:], 'hvDp:s:n:d:c:PgfaS:L:T:o:U',
 			['help', 'verbose', 'data', 'port=', 'station=', 'duration=', 'channels=', 'spectrogram',
-			 'fullscreen', 'alarm', 'sta', 'lta', 'thresh', 'outdir=']
+			 'fullscreen', 'alarm', 'sta', 'lta', 'thresh', 'outdir=', 'usage']
 			)
 		for o, a in opts:
 			if o in ('-h, --help'):
@@ -99,6 +104,8 @@ if __name__ == '__main__':
 				debug = True
 			if o in ('-D', '--data'):
 				printdata = True
+			if o in ('-U', '--usage'):
+				usage = True
 			if o in ('-p', 'port='):
 				prt = int(a)
 			if o in ('-s', 'station='):
@@ -146,7 +153,8 @@ if __name__ == '__main__':
 
 		main(port=prt, stn=stn, cha=cha, sec=sec, spec=spec, full=full,
 			 alert=alert, sta=sta, lta=lta, thresh=thresh, bp=bp,
-			 debug=debug, printdata=printdata, outdir=outdir, plot=plot)
+			 debug=debug, printdata=printdata, outdir=outdir, plot=plot,
+			 usage=usage)
 	# except ValueError as e:
 	# 	print('ERROR: %s' % e)
 	# 	print(hlp_txt)

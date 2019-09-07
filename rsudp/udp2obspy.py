@@ -1,7 +1,21 @@
 import sys, os
 import getopt
-
+import time
 import rsudp.raspberryshake as RS
+try:
+	import matplotlib
+	try:
+		matplotlib.use('Qt5Agg')
+	except:
+		matplotlib.use('TkAgg')
+	import matplotlib.pyplot as plt
+	from matplotlib import animation
+	plt.ion()
+	mpl = True
+except:
+	mpl = False
+	RS.printM('Could not import matplotlib, plotting will not be available')
+
 
 
 def eqAlert(blanklines=True,
@@ -28,23 +42,110 @@ def main(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 		alrt = RS.AlertThread(sta=sta, lta=lta, thresh=thresh, bp=bp, func=eqAlert,
 							  cha=cha, debug=debug)
 		alrt.start()
-	if plot:
-		plotter = RS.PlotThread(stn=stn, cha=cha, seconds=sec, spectrogram=spec,
-							 	fullscreen=full)
-		plotter.start()
 	if outdir:
 		writer = RS.WriteThread(outdir=outdir, stn=stn, debug=debug)
 		writer.start()
 
-	if usage:
-		usagetrack = RS.UsageThread(period=3600)
-		usagetrack.start()
+	if plot and mpl:
+		while True:
+			if prod.numchns == 0:
+				time.sleep(0.01)
+				continue
+			else:
+				fig, ax, lines = setup_plot(num_chans=prod.numchns, seconds=sec,
+											spectrogram=spec, sps=prod.sps,
+											fullscreen=full)
+				break
+		plotter = RS.PlotThread(stn=stn, cha=cha, seconds=sec, spectrogram=spec,
+							 	fullscreen=full)
+		plotter.start()
+
+		ani = animation.FuncAnimation(fig, animate, interval=250, fargs=(plotter.stream),
+									  init_func=init_plot, blit=False,
+									  repeat=False, cache_frame_data=False)
+
+
+def setup_plot(num_chans, spectrogram, sps, seconds, fullscreen=False):
+	"""
+	Matplotlib is not threadsafe, so plots must be initialized outside of the thread.
+	"""
+	global fig, ax, lines
+	bgcolor = '#202530' # background
+	fgcolor = '0.8' # axis and label color
+	linecolor = '#c28285' # seismogram color
+	fig = plt.figure(figsize=(8,3))
+	fig.patch.set_facecolor(bgcolor)		# background color
+	fig.suptitle('Raspberry Shake station %s.%s live output' # title
+				 % (RS.net, RS.stn), fontsize=14, color=fgcolor)
+	ax, lines = [], []							# list for subplot axes
+	mult = 1
+	if fullscreen:
+		figManager = plt.get_current_fig_manager()
+		figManager.window.showMaximized()
+	plt.draw()								# set up the canvas
+	if spectrogram:
+		mult = 2
+		per_lap = 0.9
+		nfft1 = _nearest_pow_2(rso.sps)
+		nlap1 = nfft1 * per_lap
+	for i in range(num_chans * mult):
+		i += 1
+		if i == 1:
+			ax.append(fig.add_subplot(num_chans*mult, 1, i, label=str(i)))
+			ax[i-1].set_facecolor(bgcolor)
+			ax[i-1].tick_params(colors=fgcolor, labelcolor=fgcolor)
+			if spectrogram:
+				ax.append(fig.add_subplot(num_chans*mult, 1, i,
+						  label=str(i)))#, sharex=ax[0]))
+				ax[i-1].set_facecolor(bgcolor)
+				ax[i-1].tick_params(colors=fgcolor, labelcolor=fgcolor)
+		else:
+			ax.append(fig.add_subplot(num_chans*mult, 1, i, sharex=ax[0],
+					  label=str(i)))
+			ax[i-1].set_facecolor(bgcolor)
+			ax[i-1].tick_params(colors=fgcolor, labelcolor=fgcolor)
+			if spectrogram:
+				ax.append(fig.add_subplot(num_chans*mult, 1, i, sharex=ax[1],
+						  label=str(i)))
+				ax[i-1].set_facecolor(bgcolor)
+				ax[i-1].tick_params(colors=fgcolor, labelcolor=fgcolor)
+	for axis in ax:
+		plt.setp(axis.spines.values(), color=fgcolor)
+		plt.setp([axis.get_xticklines(), axis.get_yticklines()], color=fgcolor)
+	for i in range(num_chans * mult):
+		lines.append(ax[i*mult].plot([0,1], [0,1], color=fgcolor))
+		ax[i*mult].set_ylabel('Voltage counts', color=fgcolor)
+		if spectrogram:						# if the user wants a spectrogram, plot it
+			if i == 0:
+				sg = ax[1].specgram([0,1], NFFT=8, pad_to=8, Fs=sps, noverlap=7)[0]
+				ax[1].set_xlim(0,seconds)
+			ax[i*mult+1].set_ylim(0,int(sps/2))
+	plt.draw()								# update the canvas
+	fig.canvas.start_event_loop(0.001)		# wait (trust me this is necessary, but I don't know why)
+
+	return fig, ax, lines
+
+def init_plot():
+	i = 0
+	for line in lines:
+		lines[i].set_ydata(np.ma.array(x, mask=True))
+		i += 1
+	return lines,
+
+def animate(i, *fargs):
+	i = 0
+	for t in fargs[0]:
+		lines[i].set_ydata(t.data)  # update the data
+		i += 1
+	return lines,
+
+
 
 if __name__ == '__main__':
 	'''
 	Loads port, station, network, and duration arguments to create a graph.
 	Supply -p, -s, -n, and/or -d to change the port and the output plot
-	parameteRS.
+	parameters.
 	'''
 
 	hlp_txt='''

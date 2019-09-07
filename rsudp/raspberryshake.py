@@ -12,19 +12,10 @@ from obspy import UTCDateTime
 from datetime import datetime, timedelta
 import time
 import math
-import matplotlib
 try:
-	matplotlib.use('Qt5Agg')
+	from matplotlib import animation
 except:
-	matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
-
-
-###########
-#Profiling#
-import cProfile, pstats, io
-from pstats import SortKey
-###########
+	pass
 
 qsize = 120 			# max UDP queue size is 30 seconds' worth of seismic data
 queue = Queue(qsize)	# master queue
@@ -313,19 +304,19 @@ class ProducerThread(Thread):
 		"""
 		Initialize the thread
 		"""
+		super().__init__()
 		self.sender = 'ProducerThread'
-		self.active = False
+		self.chns = []
+		self.numchns = 0
 
-		if not self.active:
-			super().__init__()
-			printM('Starting.', self.sender)
-			initRSlib(dport=port, rsstn=stn)
-			openSOCK()
-			printM('Waiting for UDP data on port %s...' % (port), self.sender)
-			test_connection()
-			self.active = True
-		else:
-			printM('Error: Producer thread already started', self.sender)
+		printM('Starting.', self.sender)
+		initRSlib(dport=port, rsstn=stn)
+		openSOCK()
+		printM('Waiting for UDP data on port %s...' % (port), self.sender)
+		test_connection()
+		self.sps = sps
+		self.chns = chns
+		self.numchns = numchns
 
 	def run(self):
 		"""
@@ -361,17 +352,13 @@ class ConsumerThread(Thread):
 		"""
 		Initialize the thread
 		"""
+		super().__init__()
 		global destinations
 		destinations = []
 		self.active = False
-		self.sender = 'ConsumerThread'
 
-		if not self.active:
-			super().__init__()
-			self.active = True
-			printM('Starting.', self.sender)
-		else:
-			printM('Error: Consumer thread already started', self.sender)
+		self.sender = 'ConsumerThread'
+		printM('Starting.', self.sender)
 
 	def run(self):
 		"""
@@ -611,24 +598,6 @@ class WriteThread(Thread):
 		else:
 			return False
 	
-	###########
-	#profiling#
-	def on(self):
-		self.pr = cProfile.Profile()
-		self.pr.enable()
-
-	def off(self):
-		self.pr.disable()
-		s = io.StringIO()
-		sortby = SortKey.CUMULATIVE
-		ps = pstats.Stats(self.pr, stream=s).sort_stats(sortby)
-		printM('Printing CPU stats:', self.sender)
-		ps.print_stats()
-		print(s.getvalue())
-
-	def elapsetime(self):
-		self.lt = datetime.now()
-	###########
 
 	def copy(self):
 		stream = Stream()
@@ -688,12 +657,6 @@ class WriteThread(Thread):
 		self.elapse()
 		printM('miniSEED output directory: %s' % (self.outdir), self.sender)
 
-		###########
-		#profiling#
-		self.on()
-		self.lt = datetime.now()
-		###########
-
 		self.getq()
 		self.set_sps()
 		self.inv = get_inventory(stn=stn, sender=self.sender)
@@ -723,12 +686,6 @@ class WriteThread(Thread):
 					self.stream = self.stream.slice(
 								starttime=self.newday, nearest_sample=False)
 					self.elapse(new=True)
-					###########
-					#profiling#
-					self.off()
-					self.on()
-					self.elapsetime()
-					###########
 				else:
 					self.write()
 					self.stream = self.stream.slice(
@@ -738,7 +695,8 @@ class WriteThread(Thread):
 
 
 class PlotThread(Thread):
-	def __init__(self, stn='Z0000', cha='all', seconds=30, spectrogram=False,
+	def __init__(self, stn='Z0000', cha='all',
+				 seconds=30, spectrogram=False,
 				 fullscreen=False):
 		"""
 		Initialize the thread
@@ -752,11 +710,6 @@ class PlotThread(Thread):
 		self.stream = Stream()
 		self.sender = 'PlotThread'
 		printM('Starting.', self.sender)
-
-		self.bgcolor = '#202530' # background
-		self.fgcolor = '0.8' # axis and label color
-		self.linecolor = '#c28285' # seismogram color
-
 
 	def getq(self):
 		d = destinations[self.qno].get()
@@ -780,51 +733,17 @@ class PlotThread(Thread):
 			stream.append(trace).merge(fill_value=None)
 		self.stream = stream.copy()
 
-	def setup_plot(self):
-		self.fig, self.ax = plt.subplots()
-		self.x = np.arange(0, 2*np.pi, 0.01)
-		self.line, = ax.plot(self.x, np.sin(self.x))
-
-
-	def animate(i):
-		line.set_ydata(np.sin(self.x + i/10.0))  # update the data
-		return line,
-
-
-	# Init only required for blitting to give a clean slate.
-	def init_plot():
-		line.set_ydata(np.ma.array(x, mask=True))
-		return line,
-
-ani = animation.FuncAnimation(fig, animate, np.arange(1, 200), init_func=init_plot,
-                              blit=True)
-plt.show()
-
-	def update_plot(self):
-		pass
 
 	def run(self):
 		"""
 
 		"""
-		n = 0
-		while n < 3:
-			self.getq()
-			n += 1
+		self.getq()
 		self.set_sps()
-		self.setup_plot()
 
 		while True:
-			while True:
-				if destinations[self.qno].qsize() > 0:
-					self.getq()
-					n += 1
-				else:
-					self.getq()
-					n += 1
-					break
+			self.getq()
 			self.copy()
-			self.update_plot()
 
 
 if __name__ == '__main__':

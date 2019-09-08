@@ -13,9 +13,19 @@ from datetime import datetime, timedelta
 import time
 import math
 try:
+	import matplotlib
+	try:
+		matplotlib.use('Qt5Agg')
+	except:
+		matplotlib.use('TkAgg')
+	import matplotlib.pyplot as plt
 	from matplotlib import animation
+	plt.ion()
+	mpl = True
 except:
-	pass
+	mpl = False
+	printM('ERROR: Could not import matplotlib, plotting will not be available')
+
 
 qsize = 120 			# max UDP queue size is 30 seconds' worth of seismic data
 queue = Queue(qsize)	# master queue
@@ -502,16 +512,13 @@ class AlertThread(Thread):
 		while n > 3:
 			self.getq()
 			n += 1
-		n = 0
 
+		n = 0
 		while True:
 			while True:
-				if destinations[self.qno].qsize() > 0:
-					self.getq()
-				else:
-					is_ch = self.getq()
-					if is_ch:
-						break
+				if self.getq():
+					n += 1
+					break
 
 			if n > (wait_pkts):
 				obstart = self.stream[0].stats.endtime - timedelta(
@@ -674,10 +681,8 @@ class WriteThread(Thread):
 			while True:
 				if destinations[self.qno].qsize() > 0:
 					self.getq()
-					n += 1
+					time.sleep(0.005)		# wait a few ms to see if another packet will arrive
 				else:
-					self.getq()
-					n += 1
 					break
 			if n >= wait_pkts:
 				if self.newday < UTCDateTime.now(): # end of previous day and start of new day
@@ -693,9 +698,12 @@ class WriteThread(Thread):
 				self.copy()
 				n = 0
 
+				self.getq()
+				time.sleep(0.005)		# wait a few ms to see if another packet will arrive
+
 
 class PlotThread(Thread):
-	def __init__(self, stn='Z0000', cha='all',
+	def __init__(self, num_chans, stn='Z0000', cha='all',
 				 seconds=30, spectrogram=False,
 				 fullscreen=False):
 		"""
@@ -709,6 +717,18 @@ class PlotThread(Thread):
 		self.qno = len(destinations) - 1
 		self.stream = Stream()
 		self.sender = 'PlotThread'
+		self.stn = stn
+		self.net = net
+		self.cha = cha
+		self.seconds = seconds
+		self.spectrogram = spectrogram
+		self.fullscreen = fullscreen
+		self.num_chans = num_chans
+		# plot stuff
+		self.bgcolor = '#202530' # background
+		self.fgcolor = '0.8' # axis and label color
+		self.linecolor = '#c28285' # seismogram color
+		self.fig = plt.figure(figsize=(8,3*self.num_chans))
 		printM('Starting.', self.sender)
 
 	def getq(self):
@@ -733,6 +753,134 @@ class PlotThread(Thread):
 			stream.append(trace).merge(fill_value=None)
 		self.stream = stream.copy()
 
+	def _nearest_pow_2(self, x):
+		"""
+		Find power of two nearest to x
+
+		>>> _nearest_pow_2(3)
+		2.0
+		>>> _nearest_pow_2(15)
+		16.0
+
+		:type x: float
+		:param x: Number
+		:rtype: Int
+		:return: Nearest power of 2 to x
+
+		Adapted from the obspy library
+		"""
+		a = math.pow(2, math.ceil(np.log2(x)))
+		b = math.pow(2, math.floor(np.log2(x)))
+		if abs(a - x) < abs(b - x):
+			return a
+		else:
+			return b
+
+	def setup_plot(self):
+		"""
+		Matplotlib is not threadsafe, so plots must be initialized outside of the thread.
+		"""
+		self.fig.patch.set_facecolor(self.bgcolor)		# background color
+		self.fig.suptitle('Raspberry Shake station %s.%s live output' # title
+					% (self.net, self.stn), fontsize=14, color=self.fgcolor)
+		self.ax, self.lines = [], []							# list for subplot axes
+		self.mult = 1
+		if self.fullscreen:
+			figManager = plt.get_current_fig_manager()
+			figManager.window.showMaximized()
+		plt.draw()								# set up the canvas
+		if self.spectrogram:
+			self.mult = 2
+			self.per_lap = 0.9
+			self.nfft1 = self._nearest_pow_2(self.sps)
+			self.nlap1 = self.nfft1 * self.per_lap
+		for i in range(self.num_chans * self.mult):
+			i += 1
+			if i == 1:
+				self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
+							   1, i, label=str(i)))
+				self.ax[i-1].set_facecolor(self.bgcolor)
+				self.ax[i-1].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
+				if self.spectrogram:
+					self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
+								   1, i, label=str(i)))#, sharex=ax[0]))
+					self.ax[i-1].set_facecolor(self.bgcolor)
+					self.ax[i-1].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
+			else:
+				self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
+							   1, i, sharex=self.ax[0], label=str(i)))
+				self.ax[i-1].set_facecolor(self.bgcolor)
+				self.ax[i-1].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
+				if self.spectrogram:
+					self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
+								   1, i, sharex=self.ax[1], label=str(i)))
+					self.ax[i-1].set_facecolor(self.bgcolor)
+					self.ax[i-1].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
+		for axis in self.ax:
+			plt.setp(axis.spines.values(), color=self.fgcolor)
+			plt.setp([axis.get_xticklines(), axis.get_yticklines()], color=self.fgcolor)
+		for i in range(self.num_chans * self.mult):
+			self.lines.append(self.ax[i*self.mult].plot([0,1], [0,1], color=self.fgcolor)[0])
+			self.ax[i*self.mult].set_ylabel('Voltage counts', color=self.fgcolor)
+			if self.spectrogram:						# if the user wants a spectrogram, plot it
+				if i == 0:
+					sg = self.ax[1].specgram([0,1], NFFT=8, pad_to=8,
+											 Fs=self.sps, noverlap=7)[0]
+					self.ax[1].set_xlim(0,self.seconds)
+				self.ax[i*self.mult+1].set_ylim(0,int(self.sps/2))
+		plt.draw()								# update the canvas
+		self.fig.canvas.start_event_loop(0.01)		# wait (trust me this is necessary, but I don't know why)
+		if self.fullscreen:
+			plt.tight_layout(pad=0, rect=[0.015, 0, 1, 0.955])
+		else:
+			plt.tight_layout(pad=0, h_pad=0.1, w_pad=0, rect=(0.015, 0, 1, 0.965))	# carefully designed plot layout parameters
+
+	def update_plot(self):
+		obstart = self.stream[0].stats.endtime - timedelta(seconds=self.seconds)	# obspy time
+		start = np.datetime64(self.stream[0].stats.endtime
+							  )-np.timedelta64(self.seconds, 's')	# numpy time
+		end = np.datetime64(self.stream[0].stats.endtime)	# numpy time
+		self.stream = self.stream.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
+		i = 0
+		while i < self.num_chans:	# for each channel, update the plots
+			r = np.arange(start, end, np.timedelta64(int(1000/self.sps), 'ms'))[-len(
+						  self.stream[i].data[int(-self.sps*self.seconds):]):]
+			mean = int(round(np.mean(self.stream[i].data)))
+			self.lines[i].set_ydata(self.stream[i].data[int(-self.sps*self.seconds):]-mean)
+			self.lines[i].set_xdata(r)
+			self.ax[i*self.mult].set_xlim(left=start.astype(datetime),
+										  right=end.astype(datetime))
+			self.ax[i*self.mult].set_ylim(bottom=np.min(self.stream[i].data-mean)
+										  -np.ptp(self.stream[i].data-mean)*0.1,
+										  top=np.max(self.stream[i].data-mean)
+										  +np.ptp(self.stream[i].data-mean)*0.1)
+			if self.spectrogram:
+				self.nfft1 = self._nearest_pow_2(self.sps)	# FFTs run much faster if the number of transforms is a power of 2
+				self.nlap1 = self.nfft1 * self.per_lap
+				if len(self.stream[i].data) < self.nfft1:	# when the number of data points is low, we just need to kind of fake it for a few fractions of a second
+					self.nfft1 = 8
+					self.nlap1 = 6
+				sg = ax[i*self.mult+1].specgram(self.stream[i].data-mean, NFFT=self.nfft1,
+												pad_to=int(self.sps*2),
+						Fs=self.sps, noverlap=self.nlap1)[0]	# meat & potatoes
+				self.ax[i*self.mult+1].clear()	# incredibly important, otherwise continues to draw over old images (gets exponentially slower)
+				self.ax[i*self.mult+1].set_xlim(0,self.seconds)
+				self.ax[i*self.mult+1].set_ylim(0,int(self.sps/2))
+				self.ax[i*self.mult+1].imshow(np.flipud(sg**(1/float(10))), cmap='inferno',
+						extent=(self.seconds-(1/(self.sps/float(len(self.stream[i].data)))),
+								self.seconds,0,self.sps/2), aspect='auto')
+				self.ax[i*self.mult+1].tick_params(axis='x', which='both',
+						bottom=False, top=False, labelbottom=False)
+				self.ax[i*self.mult+1].set_ylabel('Frequency (Hz)', color=self.fgcolor)
+			i += 1
+		self.ax[i*self.mult-1].set_xlabel('Time (UTC)')
+		plt.draw()
+		self.fig.canvas.start_event_loop(0.01)
+		if self.fullscreen:
+			plt.tight_layout(pad=0, rect=[0.015, 0, 1, 0.955])
+		else:
+			plt.tight_layout(pad=0, h_pad=0.1, w_pad=0, rect=(0.015, 0, 1, 0.965))	# carefully designed plot layout parameters
+
 
 	def run(self):
 		"""
@@ -740,10 +888,21 @@ class PlotThread(Thread):
 		"""
 		self.getq()
 		self.set_sps()
+		self.setup_plot()
 
 		while True:
-			self.getq()
+			while True:
+				if destinations[self.qno].qsize() > 0:
+					self.getq()
+					time.sleep(0.005)		# wait a few ms to see if another packet will arrive
+				else:
+					break
 			self.copy()
+			self.update_plot()
+
+			self.getq()
+			time.sleep(0.005)		# wait a few ms to see if another packet will arrive
+
 
 
 if __name__ == '__main__':

@@ -2,6 +2,19 @@ import sys, os
 import getopt
 import time
 import rsudp.raspberryshake as RS
+try:
+	import matplotlib
+	try:
+		matplotlib.use('Qt5Agg')
+	except:
+		RS.printM('ERROR cannot use Qt5, using Tk instead')
+		matplotlib.use('TkAgg')
+	import matplotlib.pyplot as plt
+	plt.ion()
+	mpl = True
+except:
+	mpl = False
+	RS.printM('ERROR: Could not import matplotlib, plotting will not be available')
 
 
 
@@ -33,7 +46,7 @@ def main(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 		writer = RS.WriteThread(outdir=outdir, stn=stn, debug=debug)
 		writer.start()
 
-	if plot and RS.mpl:
+	if plot and mpl:
 		while True:
 			if prod.numchns == 0:
 				time.sleep(0.01)

@@ -717,6 +717,7 @@ class PlotThread(Thread):
 		self.spectrogram = spectrogram
 		self.fullscreen = fullscreen
 		self.num_chans = num_chans
+		self.delay = 2 if self.num_chans > 1 else 1
 		# plot stuff
 		self.bgcolor = '#202530' # background
 		self.fgcolor = '0.8' # axis and label color
@@ -785,7 +786,7 @@ class PlotThread(Thread):
 		plt.draw()								# set up the canvas
 		if self.spectrogram:
 			self.mult = 2
-			self.per_lap = 0.9
+			self.per_lap = 0.95
 			self.nfft1 = self._nearest_pow_2(self.sps)
 			self.nlap1 = self.nfft1 * self.per_lap
 
@@ -842,12 +843,13 @@ class PlotThread(Thread):
 											Fs=self.sps, noverlap=7)[0]
 				self.ax[1].set_xlim(0,self.seconds)
 				self.ax[i*self.mult+1].set_ylim(0,int(self.sps/2))
-		if self.fullscreen:
-			plt.tight_layout(pad=0, rect=[0.015, 0, 1, 0.955])
-		else:
-			plt.tight_layout(pad=0, h_pad=0.1, w_pad=0, rect=(0.015, 0, 1, 0.965))	# carefully designed plot layout parameters
 		plt.draw()								# update the canvas
 		self.fig.canvas.start_event_loop(0.05)		# wait (trust me this is necessary, but I don't know why)
+		if self.fullscreen:		# carefully designed plot layout parameters
+			plt.tight_layout(pad=0, rect=[0.015, 0, 1, 0.955])	# [left, bottom, right, top]
+		else:	# carefully designed plot layout parameters
+			plt.tight_layout(pad=0, h_pad=0.1, w_pad=0,
+							 rect=[0.015, 0, 1, 0.885+(0.02*self.num_chans)])	# [left, bottom, right, top]
 
 	def update_plot(self):
 		obstart = self.stream[0].stats.endtime - timedelta(seconds=self.seconds)	# obspy time
@@ -901,14 +903,18 @@ class PlotThread(Thread):
 			self.getq()
 
 		self.setup_plot()
-		i = 0
+		i = 0	# number of plot events
+		u = 0	# number of queue calls
 		while True: # main loop
 			while True:
 				if destinations[self.qno].qsize() > 0:
 					self.getq()
+					u += 1
 					time.sleep(0.001)		# wait a ms to see if another packet will arrive
 				else:
-					break
+					if int(u/(self.num_chans*self.delay)) == float(u/(self.num_chans*self.delay)):
+						u = 0
+						break
 
 			if i > 10:
 				linecache.clearcache()
@@ -919,8 +925,8 @@ class PlotThread(Thread):
 			self.update_plot()
 
 			self.getq()
+			u += 1
 			time.sleep(0.001)		# wait a ms to see if another packet will arrive
-
 
 
 if __name__ == '__main__':

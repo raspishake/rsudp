@@ -54,7 +54,7 @@ def main(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 			else:
 				break
 		plotter = RS.PlotThread(stn=stn, cha=cha, seconds=sec, spectrogram=spec,
-							 	fullscreen=full, num_chans=prod.numchns)
+								fullscreen=full, num_chans=prod.numchns)
 		plotter.start()
 
 
@@ -170,10 +170,6 @@ if __name__ == '__main__':
 					outdir = os.path.abspath(a)
 
 		main(port=prt, stn=stn, cha=cha, sec=sec, spec=spec, full=full,
-			 alert=alert, sta=sta, lta=lta, thresh=thresh, bp=bp,
-			 debug=debug, printdata=printdata, outdir=outdir, plot=plot,
-			 usage=usage)
-	# except ValueError as e:
-	# 	print('ERROR: %s' % e)
-	# 	print(hlp_txt)
-	# 	exit(2)
+			alert=alert, sta=sta, lta=lta, thresh=thresh, bp=bp,
+			debug=debug, printdata=printdata, outdir=outdir, plot=plot,
+			usage=usage)

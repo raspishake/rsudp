@@ -778,26 +778,23 @@ class PlotThread(Thread):
 		# instantiate a figure and set basic params
 		self.fig = plt.figure(figsize=(8,3*self.num_chans))
 		self.fig.patch.set_facecolor(self.bgcolor)	# background color
-		self.fig.canvas.start_event_loop(0.005)		# draw canvas
 		self.fig.suptitle('Raspberry Shake station %s.%s live output' # title
 					% (self.net, self.stn), fontsize=14, color=self.fgcolor)
 		self.ax, self.lines = [], []				# list for subplot axes and lines artists
-		if self.fullscreen:
-			figManager = plt.get_current_fig_manager()
-			figManager.window.showMaximized()
-		#plt.draw()									# draw the canvas
-		self.mult = 1
+		self.mult = 1					# spectrogram selection multiplier
 		if self.spectrogram:
-			self.mult = 2
+			self.mult = 2				# 2 if user wants a spectrogram else 1
 			if self.seconds > 60:
-				self.per_lap = 0.9
+				self.per_lap = 0.9		# if axis is long, spectrogram overlap can be shorter
 			else:
-				self.per_lap = 0.975
+				self.per_lap = 0.975	# if axis is short, increase resolution
+			# set spectrogram parameters
 			self.nfft1 = self._nearest_pow_2(self.sps)
 			self.nlap1 = self.nfft1 * self.per_lap
 
 		for i in range(self.num_chans):
 			if i == 0:
+				# set up first axes (axes added later will share these x axis limits)
 				self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
 							   1, 1, label=str(1)))
 				self.ax[0].set_facecolor(self.bgcolor)
@@ -808,7 +805,8 @@ class PlotThread(Thread):
 					self.ax[1].set_facecolor(self.bgcolor)
 					self.ax[1].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
 			else:
-				s = i * self.mult					# plot selector
+				# add axes that share either lines or spectrogram axis limits
+				s = i * self.mult	# plot selector
 				# add a subplot then set colors
 				self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
 							   1, s+1, sharex=self.ax[0], label=str(s+1)))
@@ -832,6 +830,7 @@ class PlotThread(Thread):
 							  )-np.timedelta64(self.seconds, 's')	# numpy time
 		end = np.datetime64(self.stream[0].stats.endtime)	# numpy time
 
+		# set up axes and artists
 		for i in range(self.num_chans): # create lines objects and modify axes
 			if len(self.stream[i].data) < int(self.sps*(1/self.per_lap)):
 				comp = 0				# spectrogram offset compensation factor
@@ -840,25 +839,34 @@ class PlotThread(Thread):
 			r = np.arange(start, end, np.timedelta64(int(1000/self.sps), 'ms'))[-len(
 						  self.stream[i].data[int(-self.sps*(self.seconds-(comp/2))):-int(self.sps*(comp/2))]):]
 			mean = int(round(np.mean(self.stream[i].data)))
+			# add artist to lines list
 			self.lines.append(self.ax[i*self.mult].plot(r,
 							  np.nan*(np.zeros(len(r))),
 							  label=self.stream[i].stats.channel, color=self.linecolor,
 							  lw=0.45)[0])
+			# set axis limits
 			self.ax[i*self.mult].set_xlim(left=start.astype(datetime),
 										  right=end.astype(datetime))
 			self.ax[i*self.mult].set_ylim(bottom=np.min(self.stream[i].data-mean)
 										  -np.ptp(self.stream[i].data-mean)*0.1,
 										  top=np.max(self.stream[i].data-mean)
 										  +np.ptp(self.stream[i].data-mean)*0.1)
+			# we can set line plot labels here, but not imshow labels
 			self.ax[i*self.mult].set_ylabel('Voltage counts', color=self.fgcolor)
-			self.ax[i*self.mult].legend(loc='upper left')
+			self.ax[i*self.mult].legend(loc='upper left')	# legend and location
 			if self.spectrogram:		# if the user wants a spectrogram, plot it
+				# add spectrogram to axes list
 				sg = self.ax[1].specgram(self.stream[i].data, NFFT=8, pad_to=8,
 										 Fs=self.sps, noverlap=7, cmap='inferno',
 										 xextent=(self.seconds-0.5, self.seconds))[0]
 				self.ax[1].set_xlim(0,self.seconds)
 				self.ax[i*self.mult+1].set_ylim(0,int(self.sps/2))
-		plt.draw()								# update the canvas
+
+		# update canvas and draw
+		if self.fullscreen: # set up fullscreen
+			figManager = plt.get_current_fig_manager()
+			figManager.window.showMaximized()
+		plt.draw()									# draw the canvas
 		self.fig.canvas.start_event_loop(0.005)		# wait for canvas to update
 		if self.fullscreen:		# carefully designed plot layout parameters
 			plt.tight_layout(pad=0, rect=[0.015, 0.01, 0.99, 0.955])	# [left, bottom, right, top]
@@ -896,22 +904,36 @@ class PlotThread(Thread):
 							NFFT=self.nfft1, pad_to=int(self.sps*4),
 							Fs=self.sps, noverlap=self.nlap1)[0]	# meat & potatoes
 				self.ax[i*self.mult+1].clear()	# incredibly important, otherwise continues to draw over old images (gets exponentially slower)
+				# cloogy way to shift the spectrogram to line up with the seismogram
 				self.ax[i*self.mult+1].set_xlim(0.25,self.seconds-0.25)
 				self.ax[i*self.mult+1].set_ylim(0,int(self.sps/2))
+				# imshow to update the spectrogram
 				self.ax[i*self.mult+1].imshow(np.flipud(sg**(1/float(10))), cmap='inferno',
 						extent=(self.seconds-(1/(self.sps/float(len(self.stream[i].data)))),
 								self.seconds,0,self.sps/2), aspect='auto')
+				# some things that unfortunately can't be in the setup function:
 				self.ax[i*self.mult+1].tick_params(axis='x', which='both',
 						bottom=False, top=False, labelbottom=False)
 				self.ax[i*self.mult+1].set_ylabel('Frequency (Hz)', color=self.fgcolor)
+		# also can't be in the setup function
 		self.ax[i*self.mult+1].set_xlabel('Time (UTC)', color=self.fgcolor)
 
 	def loop(self):
+		"""
+		Let some time elapse in order for the plot canvas to draw properly.
+		Must be separate from :func:`update_plot()` to avoid a broadcast error early in plotting.
+		Takes no arguments except :py:code:`self`.
+		"""
 		self.fig.canvas.start_event_loop(0.005)
 
 	def run(self):
 		"""
+		The heart of the plotting routine.
 
+		Begins by updating the queue to populate a :py:`obspy.core.stream.Stream` object, then setting up the main plot.
+		The first time through the main loop, the plot is not drawn. After that, the plot is drawn every time all channels are updated.
+		Any plots containing a spectrogram and more than 1 channel are drawn at most every half second (500 ms).
+		All other plots are drawn at most every quarter second (250 ms).
 		"""
 		self.getq() # block until data is flowing from the consumer
 		self.set_sps()

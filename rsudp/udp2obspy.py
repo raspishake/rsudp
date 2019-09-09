@@ -111,10 +111,10 @@ def main():
 		sta, lta = 6, 30	# short term & long term period for alert (seconds)
 		thresh = 1.6		# threshold for STA/LTA
 
-		opts, args = getopt.getopt(sys.argv[1:], 'hvDp:s:n:d:c:PgfaS:L:T:o:U',
+		opts = getopt.getopt(sys.argv[1:], 'hvDp:s:n:d:c:PgfaS:L:T:o:U',
 			['help', 'verbose', 'data', 'port=', 'station=', 'duration=', 'channels=', 'spectrogram',
 			 'fullscreen', 'alarm', 'sta', 'lta', 'thresh', 'outdir=', 'usage']
-			)
+			)[0]
 		for o, a in opts:
 			if o in ('-h, --help'):
 				h = True
@@ -146,26 +146,26 @@ def main():
 				try:
 					sta = int(a)
 				except ValueError as e:
-					RS.printM('ERROR: Could not set STA duration. Message: %s' % (a))
+					RS.printM('ERROR: Could not set STA duration to %s. Message: %s' % (a, e))
 					exit(2)
 			if o in ('-L', 'LTA='):
 				try:
 					lta = int(a)
 				except ValueError as e:
-					RS.printM('ERROR: Could not set LTA duration. Message: %s' % (a))
+					RS.printM('ERROR: Could not set LTA duration to %s. Message: %s' % (a, e))
 					exit(2)
 			if o in ('-T', 'threshold='):
 				try:
 					thresh = float(a)
 				except ValueError as e:
-					RS.printM('ERROR: Could not set trigger threshold. Message: %s' % (a))
+					RS.printM('ERROR: Could not set trigger threshold to %s. Message: %s' % (a, e))
 					exit(2)
 			if o in ('-B', 'bandpass='):
 				try:
 					bp = list(a)
 					bp = bp.sort()
 				except ValueError as e:
-					RS.printM('ERROR: Could not set bandpass limits. Message: %s' % (a))
+					RS.printM('ERROR: Could not set bandpass limits to %s. Message: %s' % (a, e))
 					exit(2)
 			if o in ('-o', 'outdir='):
 				if os.path.isdir(os.path.abspath(a)):

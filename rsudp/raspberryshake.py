@@ -465,7 +465,7 @@ class AlertThread(Thread):
 					% (self.filt, modifier, self.freq), self.sender)
 
 	def getq(self):
-		d = destinations[self.qno].get()
+		d = destinations[self.qno].get(True, timeout=None)
 		destinations[self.qno].task_done()
 		if self.cha in str(d):
 			self.stream = update_stream(
@@ -508,11 +508,13 @@ class AlertThread(Thread):
 		n = 0
 		while True:
 			while True:
-				if self.getq():
-					n += 1
-					break
+				if destinations[self.qno].qsize() > 0:
+					self.getq()		# get recent packets
+				else:
+					if self.getq():	# is this the specified channel? if so break
+						break
 
-			if n > (wait_pkts):
+			if n > wait_pkts:
 				obstart = self.stream[0].stats.endtime - timedelta(
 							seconds=self.lta)	# obspy time
 				self.stream = self.stream.slice(
@@ -547,7 +549,7 @@ class AlertThread(Thread):
 				printM('Earthquake trigger warmup time of %s seconds...'
 						% (self.lta), self.sender)
 				n += 1
-			elif n == (wait_pkts):
+			elif n == wait_pkts:
 				if cft.max() == 0:
 					printM('Earthquake trigger up and running normally.',
 							self.sender)
@@ -586,7 +588,7 @@ class WriteThread(Thread):
 		printM('Starting.', self.sender)
 
 	def getq(self):
-		d = destinations[self.qno].get()
+		d = destinations[self.qno].get(True, timeout=None)
 		destinations[self.qno].task_done()
 		self.stream = update_stream(
 			stream=self.stream, d=d, fill_value=None)
@@ -636,6 +638,7 @@ class WriteThread(Thread):
 						endtime=self.last, nearest_sample=False)
 
 		for t in stream:
+			enc = 'STEIM2'	# encoding
 			outfile = self.outdir + '/%s.%s.00.%s.D.%s.%s' % (t.stats.network,
 								t.stats.station, t.stats.channel, self.y, self.j)
 			if os.path.exists(os.path.abspath(outfile)):
@@ -643,12 +646,12 @@ class WriteThread(Thread):
 					if self.debug:
 						printM('Writing %s records to %s'
 								% (len(t.data), outfile), self.sender)
-					t.write(fh, format='MSEED', encoding='STEIM2')
+					t.write(fh, format='MSEED', encoding=enc)
 			else:
 				if self.debug:
 					printM('Writing %s new file %s'
 							% (len(t.data), outfile), self.sender)
-				t.write(outfile, format='MSEED')
+				t.write(outfile, format='MSEED', encoding=enc)
 
 	def run(self):
 		"""
@@ -674,7 +677,10 @@ class WriteThread(Thread):
 				if destinations[self.qno].qsize() > 0:
 					self.getq()
 					time.sleep(0.005)		# wait a few ms to see if another packet will arrive
+					n += 1
 				else:
+					self.getq()
+					n += 1
 					break
 			if n >= wait_pkts:
 				if self.newday < UTCDateTime.now(): # end of previous day and start of new day
@@ -827,7 +833,6 @@ class PlotThread(Thread):
 			plt.setp([axis.get_xticklines(), axis.get_yticklines()], color=self.fgcolor)
 
 		# calculate times
-		obstart = self.stream[0].stats.endtime - timedelta(seconds=self.seconds)	# obspy time
 		start = np.datetime64(self.stream[0].stats.endtime
 							  )-np.timedelta64(self.seconds, 's')	# numpy time
 		end = np.datetime64(self.stream[0].stats.endtime)	# numpy time
@@ -863,6 +868,9 @@ class PlotThread(Thread):
 										 xextent=(self.seconds-0.5, self.seconds))[0]
 				self.ax[1].set_xlim(0,self.seconds)
 				self.ax[i*self.mult+1].set_ylim(0,int(self.sps/2))
+				self.ax[i*self.mult+1].imshow(np.flipud(sg**(1/float(10))), cmap='inferno',
+						extent=(self.seconds-(1/(self.sps/float(len(self.stream[i].data)))),
+								self.seconds,0,self.sps/2), aspect='auto')
 
 		# update canvas and draw
 		if self.fullscreen: # set up fullscreen
@@ -953,11 +961,12 @@ class PlotThread(Thread):
 		u = -1	# number of queue calls
 		while True: # main loop
 			while True:
+				u += 1
 				if destinations[self.qno].qsize() > 0:
 					self.getq()
-					u += 1
 					time.sleep(0.001)		# wait a ms to see if another packet will arrive
 				else:
+					self.getq()
 					if int(u/(self.num_chans*self.delay)) == float(u/(self.num_chans*self.delay)):
 						u = 0
 						break

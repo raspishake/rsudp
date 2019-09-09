@@ -728,7 +728,7 @@ class PlotThread(Thread):
 		d = destinations[self.qno].get()
 		destinations[self.qno].task_done()
 		self.stream = update_stream(
-			stream=self.stream.copy(), d=d, fill_value='latest')
+			stream=self.stream, d=d, fill_value='latest')
 	
 	def set_sps(self):
 		self.sps = self.stream[0].stats.sampling_rate
@@ -786,7 +786,10 @@ class PlotThread(Thread):
 		plt.draw()								# set up the canvas
 		if self.spectrogram:
 			self.mult = 2
-			self.per_lap = 0.95
+			if self.seconds > 60:
+				self.per_lap = 0.9
+			else:
+				self.per_lap = 0.975
 			self.nfft1 = self._nearest_pow_2(self.sps)
 			self.nlap1 = self.nfft1 * self.per_lap
 
@@ -824,12 +827,17 @@ class PlotThread(Thread):
 		end = np.datetime64(self.stream[0].stats.endtime)	# numpy time
 
 		for i in range(self.num_chans): # create lines objects and modify axes
+			if len(self.stream[i].data) < int(self.sps*(1/self.per_lap)):
+				comp = 0				# spectrogram offset compensation factor
+			else:
+				comp = 1/self.per_lap	# spectrogram offset compensation factor
 			r = np.arange(start, end, np.timedelta64(int(1000/self.sps), 'ms'))[-len(
-						  self.stream[i].data[int(-self.sps*self.seconds):]):]
+						  self.stream[i].data[int(-self.sps*(self.seconds-(comp/2))):-int(self.sps*(comp/2))]):]
 			mean = int(round(np.mean(self.stream[i].data)))
 			self.lines.append(self.ax[i*self.mult].plot(r,
-							  self.stream[i].data[int(-self.sps*self.seconds):]-mean,
-							  label=self.stream[i].stats.channel, color=self.linecolor)[0])
+							  np.nan*(np.zeros(len(r))),
+							  label=self.stream[i].stats.channel, color=self.linecolor,
+							  lw=0.45)[0])
 			self.ax[i*self.mult].set_xlim(left=start.astype(datetime),
 										  right=end.astype(datetime))
 			self.ax[i*self.mult].set_ylim(bottom=np.min(self.stream[i].data-mean)
@@ -840,16 +848,21 @@ class PlotThread(Thread):
 			self.ax[i*self.mult].legend(loc='upper left')
 			if self.spectrogram:		# if the user wants a spectrogram, plot it
 				sg = self.ax[1].specgram(self.stream[i].data, NFFT=8, pad_to=8,
-											Fs=self.sps, noverlap=7)[0]
+										 Fs=self.sps, noverlap=7, cmap='inferno',
+										 xextent=(self.seconds-0.5, self.seconds))[0]
 				self.ax[1].set_xlim(0,self.seconds)
 				self.ax[i*self.mult+1].set_ylim(0,int(self.sps/2))
 		plt.draw()								# update the canvas
-		self.fig.canvas.start_event_loop(0.05)		# wait (trust me this is necessary, but I don't know why)
+		self.fig.canvas.start_event_loop(0.001)		# wait for canvas to update
 		if self.fullscreen:		# carefully designed plot layout parameters
 			plt.tight_layout(pad=0, rect=[0.015, 0, 1, 0.955])	# [left, bottom, right, top]
 		else:	# carefully designed plot layout parameters
 			plt.tight_layout(pad=0, h_pad=0.1, w_pad=0,
 							 rect=[0.015, 0, 1, 0.885+(0.02*self.num_chans)])	# [left, bottom, right, top]
+		# print()
+		# print('plot setup done')
+		# print()
+
 
 	def update_plot(self):
 		obstart = self.stream[0].stats.endtime - timedelta(seconds=self.seconds)	# obspy time
@@ -858,13 +871,14 @@ class PlotThread(Thread):
 		end = np.datetime64(self.stream[0].stats.endtime)	# numpy time
 		self.stream = self.stream.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
 		i = 0
-		while i < self.num_chans:	# for each channel, update the plots
+		for i in range(self.num_chans):	# for each channel, update the plots
+			comp = 1/self.per_lap	# spectrogram offset compensation factor
 			r = np.arange(start, end, np.timedelta64(int(1000/self.sps), 'ms'))[-len(
-						  self.stream[i].data[int(-self.sps*self.seconds):]):]
+						self.stream[i].data[int(-self.sps*(self.seconds-(comp/2))):-int(self.sps*(comp/2))]):]
 			mean = int(round(np.mean(self.stream[i].data)))
-			self.lines[i].set_ydata(self.stream[i].data[int(-self.sps*self.seconds):]-mean)
-			self.lines[i].set_xdata(r)
-			self.ax[i*self.mult].set_xlim(left=start.astype(datetime),
+			self.lines[i].set_ydata(self.stream[i].data[int(-self.sps*(self.seconds-(comp/2))):-int(self.sps*(comp/2))]-mean)
+			self.lines[i].set_xdata(r)	# (1/self.per_lap)/2
+			self.ax[i*self.mult].set_xlim(left=start.astype(datetime)+timedelta(seconds=comp*1.5),
 										  right=end.astype(datetime))
 			self.ax[i*self.mult].set_ylim(bottom=np.min(self.stream[i].data-mean)
 										  -np.ptp(self.stream[i].data-mean)*0.1,
@@ -877,10 +891,10 @@ class PlotThread(Thread):
 					self.nfft1 = 8
 					self.nlap1 = 6
 				sg = self.ax[i*self.mult+1].specgram(self.stream[i].data-mean,
-							NFFT=self.nfft1, pad_to=int(self.sps*2),
+							NFFT=self.nfft1, pad_to=int(self.sps*4),
 							Fs=self.sps, noverlap=self.nlap1)[0]	# meat & potatoes
 				self.ax[i*self.mult+1].clear()	# incredibly important, otherwise continues to draw over old images (gets exponentially slower)
-				self.ax[i*self.mult+1].set_xlim(0,self.seconds)
+				self.ax[i*self.mult+1].set_xlim(0.25,self.seconds-0.25)
 				self.ax[i*self.mult+1].set_ylim(0,int(self.sps/2))
 				self.ax[i*self.mult+1].imshow(np.flipud(sg**(1/float(10))), cmap='inferno',
 						extent=(self.seconds-(1/(self.sps/float(len(self.stream[i].data)))),
@@ -888,9 +902,14 @@ class PlotThread(Thread):
 				self.ax[i*self.mult+1].tick_params(axis='x', which='both',
 						bottom=False, top=False, labelbottom=False)
 				self.ax[i*self.mult+1].set_ylabel('Frequency (Hz)', color=self.fgcolor)
-			i += 1
 		self.ax[i*self.mult-1].set_xlabel('Time (UTC)', color=self.fgcolor)
-		#plt.draw()
+		# print()
+		# print('data length:     %s' % (len(self.stream[i].data)))
+		# print('sps*(1/per_lap): %s' % (int(self.sps*(1/self.per_lap))))
+		# print('length of range: %s' % (len(r)))
+		# print()
+
+	def loop(self):
 		self.fig.canvas.start_event_loop(0.005)
 
 	def run(self):
@@ -899,12 +918,12 @@ class PlotThread(Thread):
 		"""
 		self.getq() # block until data is flowing from the consumer
 		self.set_sps()
-		for i in range(self.num_chans-1): # fill up a stream object
+		for i in range((self.num_chans-1)*2): # fill up a stream object
 			self.getq()
 
 		self.setup_plot()
 		i = 0	# number of plot events
-		u = 0	# number of queue calls
+		u = -1	# number of queue calls
 		while True: # main loop
 			while True:
 				if destinations[self.qno].qsize() > 0:
@@ -923,6 +942,8 @@ class PlotThread(Thread):
 				i += 1
 			self.copy()
 			self.update_plot()
+			if u >= 0:
+				self.loop()
 
 			self.getq()
 			u += 1

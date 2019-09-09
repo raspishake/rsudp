@@ -717,6 +717,7 @@ class PlotThread(Thread):
 		self.chans = chns
 		self.seconds = seconds
 		self.spectrogram = spectrogram
+		self.per_lap = 0.9
 		self.fullscreen = fullscreen
 		self.num_chans = num_chans
 		self.delay = 2 if self.num_chans > 1 else 1
@@ -915,8 +916,10 @@ class PlotThread(Thread):
 				self.ax[i*self.mult+1].tick_params(axis='x', which='both',
 						bottom=False, top=False, labelbottom=False)
 				self.ax[i*self.mult+1].set_ylabel('Frequency (Hz)', color=self.fgcolor)
-		# also can't be in the setup function
-		self.ax[i*self.mult+1].set_xlabel('Time (UTC)', color=self.fgcolor)
+				self.ax[i*self.mult+1].set_xlabel('Time (UTC)', color=self.fgcolor)
+			else:
+				# also can't be in the setup function
+				self.ax[i*self.mult].set_xlabel('Time (UTC)', color=self.fgcolor)
 
 	def loop(self):
 		"""

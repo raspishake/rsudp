@@ -6,9 +6,11 @@ try:
 	import matplotlib
 	try:
 		matplotlib.use('Qt5Agg')
+		qt = True
 	except:
 		RS.printM('ERROR cannot use Qt5, using Tk instead')
 		matplotlib.use('TkAgg')
+		qt = False
 	import matplotlib.pyplot as plt
 	plt.ion()
 	mpl = True

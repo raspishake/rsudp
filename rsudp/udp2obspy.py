@@ -56,7 +56,7 @@ def run(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 			else:
 				break
 		plotter = RS.PlotThread(stn=stn, cha=cha, seconds=sec, spectrogram=spec,
-								fullscreen=full, num_chans=prod.numchns)
+								fullscreen=full, num_chans=prod.numchns, qt=qt)
 		plotter.start()
 
 

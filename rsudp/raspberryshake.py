@@ -697,7 +697,7 @@ class WriteThread(Thread):
 class PlotThread(Thread):
 	def __init__(self, num_chans, stn='Z0000', cha='all',
 				 seconds=30, spectrogram=False,
-				 fullscreen=False):
+				 fullscreen=False, qt=True):
 		"""
 		Initialize the plot thread
 
@@ -719,6 +719,7 @@ class PlotThread(Thread):
 		self.spectrogram = spectrogram
 		self.per_lap = 0.9
 		self.fullscreen = fullscreen
+		self.qt = qt
 		self.num_chans = num_chans
 		self.delay = 2 if self.num_chans > 1 else 1
 		# plot stuff
@@ -865,10 +866,10 @@ class PlotThread(Thread):
 
 		# update canvas and draw
 		if self.fullscreen: # set up fullscreen
-			try:	# try maximizing in Qt first
+			if self.qt:	# try maximizing in Qt first
 				figManager = plt.get_current_fig_manager()
 				figManager.window.showMaximized()
-			except:	# if Qt fails, try Tk
+			else:	# if Qt fails, try Tk
 				figManager.window.state('zoomed')
 		plt.draw()									# draw the canvas
 		self.fig.canvas.start_event_loop(0.005)		# wait for canvas to update

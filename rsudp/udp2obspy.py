@@ -25,7 +25,7 @@ def eqAlert(blanklines=True,
 	RS.printM(printtext, sender='EQAlert function')
 
 
-def main(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
+def run(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 		 sta=5, lta=10, thresh=1.5, bp=False, cha='all', outdir='',
 		 sec=30, spec=False, full=False, printdata=False, usage=False):
 
@@ -58,7 +58,7 @@ def main(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 		plotter.start()
 
 
-if __name__ == '__main__':
+def main():
 	'''
 	Loads port, station, network, and duration arguments to create a graph.
 	Supply -p, -s, -n, and/or -d to change the port and the output plot
@@ -169,7 +169,10 @@ if __name__ == '__main__':
 				if os.path.isdir(os.path.abspath(a)):
 					outdir = os.path.abspath(a)
 
-		main(port=prt, stn=stn, cha=cha, sec=sec, spec=spec, full=full,
+		run(port=prt, stn=stn, cha=cha, sec=sec, spec=spec, full=full,
 			alert=alert, sta=sta, lta=lta, thresh=thresh, bp=bp,
 			debug=debug, printdata=printdata, outdir=outdir, plot=plot,
 			usage=usage)
+
+if __name__ == '__main__':
+	main()

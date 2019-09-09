@@ -19,7 +19,7 @@ except:
 	printM('ERROR: Could not import matplotlib, plotting will not be available')
 
 
-qsize = 120 			# max UDP queue size is 30 seconds' worth of seismic data
+qsize = 2048 			# max queue size
 queue = Queue(qsize)	# master queue
 destinations = []		# queues to write to
 

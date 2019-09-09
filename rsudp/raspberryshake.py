@@ -775,17 +775,18 @@ class PlotThread(Thread):
 		"""
 		Matplotlib is not threadsafe, so things are a little weird here.
 		"""
+		# instantiate a figure and set basic params
 		self.fig = plt.figure(figsize=(8,3*self.num_chans))
-		self.fig.patch.set_facecolor(self.bgcolor)		# background color
-		self.fig.canvas.start_event_loop(0.05)
+		self.fig.patch.set_facecolor(self.bgcolor)	# background color
+		self.fig.canvas.start_event_loop(0.005)		# draw canvas
 		self.fig.suptitle('Raspberry Shake station %s.%s live output' # title
 					% (self.net, self.stn), fontsize=14, color=self.fgcolor)
-		self.ax, self.lines = [], []							# list for subplot axes
-		self.mult = 1
+		self.ax, self.lines = [], []				# list for subplot axes and lines artists
 		if self.fullscreen:
 			figManager = plt.get_current_fig_manager()
 			figManager.window.showMaximized()
-		plt.draw()								# set up the canvas
+		#plt.draw()									# draw the canvas
+		self.mult = 1
 		if self.spectrogram:
 			self.mult = 2
 			if self.seconds > 60:
@@ -807,22 +808,25 @@ class PlotThread(Thread):
 					self.ax[1].set_facecolor(self.bgcolor)
 					self.ax[1].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
 			else:
-				s = i * self.mult
-
+				s = i * self.mult					# plot selector
+				# add a subplot then set colors
 				self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
 							   1, s+1, sharex=self.ax[0], label=str(s+1)))
 				self.ax[s].set_facecolor(self.bgcolor)
 				self.ax[s].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
 				if self.spectrogram:
+					# add a spectrogram and set colors
 					self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
 								   1, s+2, sharex=self.ax[1], label=str(s+2)))
 					self.ax[s+1].set_facecolor(self.bgcolor)
 					self.ax[s+1].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
 
 		for axis in self.ax:
+			# set the rest of plot colors
 			plt.setp(axis.spines.values(), color=self.fgcolor)
 			plt.setp([axis.get_xticklines(), axis.get_yticklines()], color=self.fgcolor)
 
+		# calculate times
 		obstart = self.stream[0].stats.endtime - timedelta(seconds=self.seconds)	# obspy time
 		start = np.datetime64(self.stream[0].stats.endtime
 							  )-np.timedelta64(self.seconds, 's')	# numpy time

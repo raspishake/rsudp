@@ -870,7 +870,7 @@ class PlotThread(Thread):
 			if self.qt:	# try maximizing in Qt first
 				figManager.window.showMaximized()
 			else:	# if Qt fails, try Tk
-				figManager.window.state('zoomed')
+				figManager.window.showMaximized()
 		plt.draw()									# draw the canvas
 		self.fig.canvas.start_event_loop(0.005)		# wait for canvas to update
 		if self.fullscreen:		# carefully designed plot layout parameters

@@ -699,7 +699,9 @@ class PlotThread(Thread):
 				 seconds=30, spectrogram=False,
 				 fullscreen=False):
 		"""
-		Initialize the thread
+		Initialize the plot thread
+
+
 		"""
 		super().__init__()
 		global destinations
@@ -853,16 +855,12 @@ class PlotThread(Thread):
 				self.ax[1].set_xlim(0,self.seconds)
 				self.ax[i*self.mult+1].set_ylim(0,int(self.sps/2))
 		plt.draw()								# update the canvas
-		self.fig.canvas.start_event_loop(0.001)		# wait for canvas to update
+		self.fig.canvas.start_event_loop(0.005)		# wait for canvas to update
 		if self.fullscreen:		# carefully designed plot layout parameters
-			plt.tight_layout(pad=0, rect=[0.015, 0, 1, 0.955])	# [left, bottom, right, top]
+			plt.tight_layout(pad=0, rect=[0.015, 0.01, 0.99, 0.955])	# [left, bottom, right, top]
 		else:	# carefully designed plot layout parameters
 			plt.tight_layout(pad=0, h_pad=0.1, w_pad=0,
-							 rect=[0.015, 0, 1, 0.885+(0.02*self.num_chans)])	# [left, bottom, right, top]
-		# print()
-		# print('plot setup done')
-		# print()
-
+							 rect=[0.015, 0.01, 0.99, 0.885+(0.02*self.num_chans)])	# [left, bottom, right, top]
 
 	def update_plot(self):
 		obstart = self.stream[0].stats.endtime - timedelta(seconds=self.seconds)	# obspy time
@@ -902,12 +900,7 @@ class PlotThread(Thread):
 				self.ax[i*self.mult+1].tick_params(axis='x', which='both',
 						bottom=False, top=False, labelbottom=False)
 				self.ax[i*self.mult+1].set_ylabel('Frequency (Hz)', color=self.fgcolor)
-		self.ax[i*self.mult-1].set_xlabel('Time (UTC)', color=self.fgcolor)
-		# print()
-		# print('data length:     %s' % (len(self.stream[i].data)))
-		# print('sps*(1/per_lap): %s' % (int(self.sps*(1/self.per_lap))))
-		# print('length of range: %s' % (len(r)))
-		# print()
+		self.ax[i*self.mult+1].set_xlabel('Time (UTC)', color=self.fgcolor)
 
 	def loop(self):
 		self.fig.canvas.start_event_loop(0.005)
@@ -942,7 +935,7 @@ class PlotThread(Thread):
 				i += 1
 			self.copy()
 			self.update_plot()
-			if u >= 0:
+			if u >= 0:				# avoiding a matplotlib broadcast error
 				self.loop()
 
 			self.getq()

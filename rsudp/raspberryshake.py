@@ -973,9 +973,8 @@ class PlotThread(Thread):
 			while True:
 				if destinations[self.qno].qsize() > 0:
 					u += 1 if self.getq() else 0
-					time.sleep(0.001)		# wait a ms to see if another packet will arrive
+					time.sleep(0.005)		# wait a ms to see if another packet will arrive
 				else:
-					u += 1 if self.getq() else 0
 					if int(u/(self.num_chans*self.delay)) == float(u/(self.num_chans*self.delay)):
 						u = 0
 						break
@@ -992,7 +991,7 @@ class PlotThread(Thread):
 
 			self.getq()
 			u += 1
-			time.sleep(0.001)		# wait a ms to see if another packet will arrive
+			time.sleep(0.005)		# wait a ms to see if another packet will arrive
 
 
 if __name__ == '__main__':

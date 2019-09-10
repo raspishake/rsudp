@@ -37,10 +37,10 @@ numchns = 0
 tf = None				# transmission frequency in ms
 sps = None				# samples per second
 
-try:		# for UNIX
-	sock = s.socket(s.AF_INET, s.SOCK_DGRAM | s.SO_REUSEADDR)
-except:		# for Windows
+if os.name in 'nt':		# for Windows
 	sock = s.socket(s.AF_INET, s.SOCK_DGRAM)
+else:					# for UNIX
+	sock = s.socket(s.AF_INET, s.SOCK_DGRAM | s.SO_REUSEADDR)
 
 
 def printM(msg, sender=''):

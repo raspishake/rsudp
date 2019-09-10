@@ -37,13 +37,16 @@ numchns = 0
 tf = None				# transmission frequency in ms
 sps = None				# samples per second
 
+try:		# for UNIX
+	sock = s.socket(s.AF_INET, s.SOCK_DGRAM | s.SO_REUSEADDR)
+except:		# for Windows
+	sock = s.socket(s.AF_INET, s.SOCK_DGRAM)
+
 
 def printM(msg, sender=''):
 	'''Prints messages with datetime stamp.'''
 	msg = '[%s] %s' % (sender, msg) if sender != '' else msg
 	print('%s %s' % (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), msg))
-
-sock = s.socket(s.AF_INET, s.SOCK_DGRAM | s.SO_REUSEADDR)
 
 def handler(signum, frame):
 	'''The signal handler for the nodata alarm.'''

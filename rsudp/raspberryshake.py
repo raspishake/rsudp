@@ -714,34 +714,44 @@ class PlotThread(Thread):
 
 		plotq = Queue(qsize)
 		destinations.append(plotq)
+		self.sender = 'PlotThread'
+		printM('Starting.', self.sender)
+
 		self.qno = len(destinations) - 1
 		self.stream = Stream()
-		self.sender = 'PlotThread'
 		self.stn = stn
 		self.net = net
-		self.cha = cha
-		self.chans = chns
+		self.chans = []
+		cha = chns if (cha == 'all') else cha
+		cha = list(cha) if isinstance(cha, str) else cha
+		for c in cha:
+			self.chans.append(c.upper()) if c.upper() in chns else printM(
+								'No channel %s found' % c.upper(), self.sender)
+		self.totchns = numchns
 		self.seconds = seconds
 		self.spectrogram = spectrogram
 		self.per_lap = 0.9
 		self.fullscreen = fullscreen
 		self.qt = qt
-		self.num_chans = num_chans
-		self.delay = 2 if self.num_chans > 1 else 1
+		self.num_chans = len(self.chans)
+		self.delay = 2 if (self.num_chans > 1) and (self.spectrogram) else 1
 		# plot stuff
 		self.bgcolor = '#202530' # background
 		self.fgcolor = '0.8' # axis and label color
 		self.linecolor = '#c28285' # seismogram color
-		printM('Starting.', self.sender)
 
 	def getq(self):
 		d = destinations[self.qno].get()
 		destinations[self.qno].task_done()
-		self.stream = update_stream(
-			stream=self.stream, d=d, fill_value='latest')
-	
+		if getCHN(d) in self.chans:
+			self.stream = update_stream(
+				stream=self.stream, d=d, fill_value='latest')
+			return True
+		else:
+			return False
+
 	def set_sps(self):
-		self.sps = self.stream[0].stats.sampling_rate
+		self.sps = sps #self.stream[0].stats.sampling_rate
 
 	def copy(self):
 		stream = Stream()
@@ -951,22 +961,21 @@ class PlotThread(Thread):
 		Any plots containing a spectrogram and more than 1 channel are drawn at most every half second (500 ms).
 		All other plots are drawn at most every quarter second (250 ms).
 		"""
-		self.getq() # block until data is flowing from the consumer
-		self.set_sps()
-		for i in range((self.num_chans-1)*2): # fill up a stream object
+		#self.getq() # block until data is flowing from the consumer
+		for i in range((self.totchns)*2): # fill up a stream object
 			self.getq()
+		self.set_sps()
 
 		self.setup_plot()
 		i = 0	# number of plot events
 		u = -1	# number of queue calls
 		while True: # main loop
 			while True:
-				u += 1
 				if destinations[self.qno].qsize() > 0:
-					self.getq()
+					u += 1 if self.getq() else 0
 					time.sleep(0.001)		# wait a ms to see if another packet will arrive
 				else:
-					self.getq()
+					u += 1 if self.getq() else 0
 					if int(u/(self.num_chans*self.delay)) == float(u/(self.num_chans*self.delay)):
 						u = 0
 						break

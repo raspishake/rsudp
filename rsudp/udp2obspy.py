@@ -18,6 +18,13 @@ except:
 	mpl = False
 	RS.printM('ERROR: Could not import matplotlib, plotting will not be available')
 
+def init(port, stn='Z0000'):
+	sender = 'Init'
+	RS.printM('Starting.', sender)
+	RS.initRSlib(dport=port, rsstn=stn)
+	RS.openSOCK()
+	RS.printM('Waiting for UDP data on port %s...' % (port), sender)
+	RS.set_params()
 
 
 def eqAlert(blanklines=True,
@@ -26,15 +33,46 @@ def eqAlert(blanklines=True,
 	printtext = str(printtext) + '\n' + str(other)
 	RS.printM(printtext, sender='EQAlert function')
 
+def prod():
+	sender = 'Producer'
+	chns = []
+	numchns = 0
+
+	"""
+	Receives data from one IP address and puts it in an async queue.
+	Prints each sending address to STDOUT so the user can troubleshoot.
+	This will work best on local networks where a router does not obscure
+	multiple devices behind one sending IP.
+	Remember, RS UDP packets cannot be differentiated by sending instrument.
+	Their identifiers are per channel (EHZ, HDF, ENE, SHZ, etc.)
+	and not per Shake (R4989, R52CD, R24FA, RCB43, etc.). To avoid problems,
+	please use a separate port for each Shake.
+	"""
+	firstaddr = ''
+	blocked = []
+	while True:
+		data, addr = RS.sock.recvfrom(4096)
+		if firstaddr == '':
+			firstaddr = addr[0]
+			RS.printM('Receiving UDP data from %s' % (firstaddr), sender)
+		if (firstaddr != '') and (addr[0] == firstaddr):
+			RS.queue.put(data)
+		else:
+			if addr[0] not in blocked:
+				RS.printM('Another IP (%s) is sending UDP data to this port. Ignoring...'
+						% (addr[0]), sender)
+				blocked.append(addr[0])
+
+
 
 def run(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 		 sta=5, lta=10, thresh=1.5, bp=False, cha='all', outdir='',
 		 sec=30, spec=False, full=False, printdata=False, usage=False):
 
-	prod = RS.ProducerThread(port=port, stn=stn)
+	init(port, stn)
+
 	cons = RS.ConsumerThread()
 
-	prod.start()
 	cons.start()
 
 	if printdata:
@@ -59,6 +97,10 @@ def run(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 								fullscreen=full, num_chans=prod.numchns, qt=qt)
 		plotter.start()
 
+	prod()
+
+
+	print('here')
 
 def main():
 	'''

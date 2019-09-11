@@ -24,6 +24,7 @@ queue = Queue(qsize)	# master queue
 destinations = []		# queues to write to
 
 initd, sockopen, active = False, False, False
+port = 8888
 to = 10					# socket test timeout
 firstaddr = ''			# the first address data is received from
 inv = False				# station inventory
@@ -37,11 +38,10 @@ numchns = 0
 tf = None				# transmission frequency in ms
 sps = None				# samples per second
 
-if os.name in 'nt':		# for Windows
-	sock = s.socket(s.AF_INET, s.SOCK_DGRAM)
-else:					# for UNIX
-	sock = s.socket(s.AF_INET, s.SOCK_DGRAM | s.SO_REUSEADDR)
 
+# construct a socket for either Windows or Unix
+socket_type = s.SOCK_DGRAM if os.name in 'nt' else s.SOCK_DGRAM | s.SO_REUSEADDR
+sock = s.socket(s.AF_INET, socket_type)
 
 def printM(msg, sender=''):
 	'''Prints messages with datetime stamp.'''
@@ -63,7 +63,7 @@ def initRSlib(dport=8888, rsstn='Z0000', timeout=10):
 	rsstn='Z0000'	# the name of the station (something like R0E05)
 	timeout=10		# the number of seconds to wait for data before an error is raised (zero for unlimited wait)
 	'''
-	global port, stn, net, to, initd
+	global port, stn, net, to, initd, port
 	global producer, consumer
 	producer, consumer = False, False
 	net = 'AM'
@@ -119,7 +119,7 @@ def openSOCK(host=''):
 	else:
 		raise IOError("Before opening a socket, you must initialize this raspberryshake library by calling initRSlib(dport=XXXXX, rssta='R0E05') first.")
 
-def test_connection():
+def set_params():
 	global to
 	signal.signal(signal.SIGALRM, handler)
 	signal.alarm(to)			# alarm time set with timeout value
@@ -360,7 +360,6 @@ class ConsumerThread(Thread):
 		super().__init__()
 		global destinations
 		destinations = []
-		self.active = False
 
 		self.sender = 'ConsumerThread'
 		printM('Starting.', self.sender)
@@ -408,7 +407,7 @@ class PrintThread(Thread):
 
 class AlertThread(Thread):
 	def __init__(self, sta=5, lta=30, thresh=1.6, bp=False, func='print',
-				 debug=True, cha='HZ', *args, **kwargs):
+				 debug=True, cha='HZ', tf=0, *args, **kwargs):
 		
 		"""
 		A recursive STA-LTA 

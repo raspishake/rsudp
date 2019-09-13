@@ -1,31 +1,10 @@
 import sys, os
+import signal
 import getopt
 import time
 import rsudp.raspberryshake as RS
-try:
-	import matplotlib
-	try:
-		matplotlib.use('Qt5Agg')
-		qt = True
-	except:
-		RS.printM('ERROR cannot use Qt5, using Tk instead')
-		matplotlib.use('TkAgg')
-		qt = False
-	import matplotlib.pyplot as plt
-	plt.ion()
-	mpl = True
-except:
-	mpl = False
-	RS.printM('ERROR: Could not import matplotlib, plotting will not be available')
 
-def init(port, stn='Z0000'):
-	sender = 'Init'
-	RS.printM('Starting.', sender)
-	RS.initRSlib(dport=port, rsstn=stn)
-	RS.openSOCK()
-	RS.printM('Waiting for UDP data on port %s...' % (port), sender)
-	RS.set_params()
-
+running = False
 
 def eqAlert(blanklines=True,
 			printtext='Trigger threshold exceeded -- possible earthquake!',
@@ -34,6 +13,7 @@ def eqAlert(blanklines=True,
 	RS.printM(printtext, sender='EQAlert function')
 
 def prod():
+	global running
 	sender = 'Producer'
 	chns = []
 	numchns = 0
@@ -50,7 +30,8 @@ def prod():
 	"""
 	firstaddr = ''
 	blocked = []
-	while True:
+	running = True
+	while running:
 		data, addr = RS.sock.recvfrom(4096)
 		if firstaddr == '':
 			firstaddr = addr[0]
@@ -62,14 +43,24 @@ def prod():
 				RS.printM('Another IP (%s) is sending UDP data to this port. Ignoring...'
 						% (addr[0]), sender)
 				blocked.append(addr[0])
+	
+	RS.queue.put(b'TERM')
+	RS.queue.join()
 
-
+def handler(sig, frame):
+	global running
+	print()
+	RS.printM('Caught exit signal, sending TERM signal to threads...')
+	running = False
 
 def run(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 		 sta=5, lta=10, thresh=1.5, bp=False, cha='all', outdir='',
 		 sec=30, spec=False, full=False, printdata=False, usage=False):
 
-	init(port, stn)
+	# handler for the exit signal
+	signal.signal(signal.SIGINT, handler)
+
+	RS.initRSlib(dport=port, rsstn=stn)
 
 	cons = RS.ConsumerThread()
 
@@ -86,21 +77,24 @@ def run(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 		writer = RS.WriteThread(outdir=outdir, stn=stn, debug=debug)
 		writer.start()
 
-	if plot and mpl:
+	if plot and RS.mpl:
 		while True:
-			if prod.numchns == 0:
+			if RS.numchns == 0:
 				time.sleep(0.01)
 				continue
 			else:
 				break
 		plotter = RS.PlotThread(stn=stn, cha=cha, seconds=sec, spectrogram=spec,
-								fullscreen=full, num_chans=prod.numchns, qt=qt)
+								fullscreen=full)
 		plotter.start()
 
 	prod()
 
-
-	print('here')
+	cons.shutdown = True
+	for q in RS.destinations:
+		q.join()
+	RS.printM('Shutdown successful.', 'Main')
+	sys.exit(1)
 
 def main():
 	'''

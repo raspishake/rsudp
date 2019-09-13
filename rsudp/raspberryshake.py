@@ -12,11 +12,22 @@ from obspy import UTCDateTime
 from datetime import datetime, timedelta
 import time
 import math
+import linecache
 try:
+	import matplotlib
+	try:
+		matplotlib.use('Qt5Agg')
+		qt = True
+	except:
+		RS.printM('ERROR cannot use Qt5, using Tk instead')
+		matplotlib.use('TkAgg')
+		qt = False
 	import matplotlib.pyplot as plt
-	import linecache
+	plt.ion()
+	mpl = True
 except:
-	printM('ERROR: Could not import matplotlib, plotting will not be available')
+	mpl = False
+	RS.printM('ERROR: Could not import matplotlib, plotting will not be available')
 
 
 qsize = 2048 			# max queue size
@@ -67,6 +78,8 @@ def initRSlib(dport=8888, rsstn='Z0000', timeout=10):
 	global producer, consumer
 	producer, consumer = False, False
 	net = 'AM'
+	sender = 'Init'
+	printM('Initializing.', sender)
 	initd = False				# initialization has not completed yet, therefore false
 	try:						# set port value first
 		if dport == int(dport):
@@ -105,6 +118,9 @@ def initRSlib(dport=8888, rsstn='Z0000', timeout=10):
 		printM('ERROR. Details: ' + e)
 
 	initd = True				# if initialization goes correctly, set initd to true
+	openSOCK()					# open a socket
+	printM('Waiting for UDP data on port %s...' % (port), sender)
+	set_params()				# get data and set parameters
 
 def openSOCK(host=''):
 	'''Initialize a socket at a port. Must be done after the above function is called.'''
@@ -363,6 +379,7 @@ class ConsumerThread(Thread):
 
 		self.sender = 'ConsumerThread'
 		printM('Starting.', self.sender)
+		self.running = True
 
 	def run(self):
 		"""
@@ -372,12 +389,14 @@ class ConsumerThread(Thread):
 		"""
 		global queue
 
-		while True:
+		while self.running:
 			p = queue.get()
 			queue.task_done()
 
 			for q in destinations:
 				q.put(p)
+		
+		return
 
 
 class PrintThread(Thread):
@@ -703,9 +722,9 @@ class WriteThread(Thread):
 
 
 class PlotThread(Thread):
-	def __init__(self, num_chans, stn='Z0000', cha='all',
+	def __init__(self, stn='Z0000', cha='all',
 				 seconds=30, spectrogram=False,
-				 fullscreen=False, qt=True):
+				 fullscreen=False, qt=qt):
 		"""
 		Initialize the plot thread
 
@@ -718,6 +737,7 @@ class PlotThread(Thread):
 		destinations.append(plotq)
 		self.sender = 'PlotThread'
 		printM('Starting.', self.sender)
+		self.shutdown = False
 
 		self.qno = len(destinations) - 1
 		self.stream = Stream()
@@ -749,6 +769,9 @@ class PlotThread(Thread):
 			self.stream = update_stream(
 				stream=self.stream, d=d, fill_value='latest')
 			return True
+		elif 'TERM' in str(d):
+			self.shutdown = True
+			return False
 		else:
 			return False
 
@@ -990,6 +1013,11 @@ class PlotThread(Thread):
 			self.update_plot()
 			if u >= 0:				# avoiding a matplotlib broadcast error
 				self.loop()
+
+			if self.shutdown:
+				plt.close('all')
+				printM('Shutting down.', self.sender)
+				break
 
 			self.getq()
 			u += 1

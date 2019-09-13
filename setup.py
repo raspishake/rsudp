@@ -6,14 +6,14 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="rsudp",
-    version="0.1.1",
+    version="0.2.0",
     author="Ian Nesbitt",
     author_email="ian.nesbitt@raspberryshake.org",
-    license='GPL',
+    license='GPLv3',
     description="Tools for receiving and interacting with Raspberry Shake UDP data",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://gitlab.com/iannesbitt/readgssi",
+    url="https://github.com/raspishake/rsudp",
     packages=setuptools.find_packages(),
     install_requires=['obspy', 'numpy', 'matplotlib'],
     entry_points = {

@@ -2,18 +2,23 @@ import sys, os
 import signal
 import getopt
 import time
+from multiprocessing import active_children
+from rsudp import printM
 import rsudp.raspberryshake as RS
+from rsudp.consumer import Consumer, queue, destinations
+from rsudp.printraw import PrintRaw
+from rsudp.alert import Alert
+from rsudp.write import Write
+from rsudp.plot import Plot, mpl
 
-running = False
 
 def eqAlert(blanklines=True,
 			printtext='Trigger threshold exceeded -- possible earthquake!',
 			other='Waiting for clear trigger...'):
 	printtext = str(printtext) + '\n' + str(other)
-	RS.printM(printtext, sender='EQAlert function')
+	printM(printtext, sender='EQAlert function')
 
 def prod():
-	global running
 	sender = 'Producer'
 	chns = []
 	numchns = 0
@@ -30,28 +35,27 @@ def prod():
 	"""
 	firstaddr = ''
 	blocked = []
-	running = True
-	while running:
+	RS.producer = True
+	while RS.producer:
 		data, addr = RS.sock.recvfrom(4096)
 		if firstaddr == '':
 			firstaddr = addr[0]
-			RS.printM('Receiving UDP data from %s' % (firstaddr), sender)
+			printM('Receiving UDP data from %s' % (firstaddr), sender)
 		if (firstaddr != '') and (addr[0] == firstaddr):
-			RS.queue.put(data)
+			queue.put(data)
 		else:
 			if addr[0] not in blocked:
-				RS.printM('Another IP (%s) is sending UDP data to this port. Ignoring...'
+				printM('Another IP (%s) is sending UDP data to this port. Ignoring...'
 						% (addr[0]), sender)
 				blocked.append(addr[0])
 	
 	print()
-	RS.printM('Sending TERM signal to processes...', sender)
-	RS.queue.put(b'TERM')
-	RS.queue.join()
+	printM('Sending TERM signal to threads...', sender)
+	queue.put(b'TERM')
+	queue.join()
 
 def handler(sig, frame):
-	global running
-	running = False
+	RS.producer = False
 
 def run(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 		 sta=5, lta=10, thresh=1.5, bp=False, cha='all', outdir='',
@@ -62,39 +66,39 @@ def run(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 
 	RS.initRSlib(dport=port, rsstn=stn)
 
-	cons = RS.Consumer()
+	cons = Consumer()
 
 	cons.start()
 
 	if printdata:
-		prnt = RS.Print()
+		prnt = PrintRaw()
 		prnt.start()
 	if alert:
-		alrt = RS.Alert(sta=sta, lta=lta, thresh=thresh, bp=bp, func=eqAlert,
+		alrt = Alert(sta=sta, lta=lta, thresh=thresh, bp=bp, func=eqAlert,
 							  cha=cha, debug=debug)
 		alrt.start()
 	if outdir:
-		writer = RS.Write(outdir=outdir, stn=stn, debug=debug)
+		writer = Write(outdir=outdir, debug=debug)
 		writer.start()
 
-	if plot and RS.mpl:
+	if plot and mpl:
 		while True:
 			if RS.numchns == 0:
 				time.sleep(0.01)
 				continue
 			else:
 				break
-		plotter = RS.Plot(stn=stn, cha=cha, seconds=sec, spectrogram=spec,
+		plotter = Plot(cha=cha, seconds=sec, spectrogram=spec,
 								fullscreen=full)
 		plotter.start()
 
 	prod()
 
-	for q in RS.destinations:
+	for q in destinations:
 		q.join()
-	for p in RS.multiprocessing.active_children():
+	for p in active_children():
 		p.terminate()
-	RS.printM('Shutdown successful.', 'Main')
+	printM('Shutdown successful.', 'Main')
 	sys.exit(0)
 
 
@@ -184,26 +188,26 @@ def main():
 				try:
 					sta = int(a)
 				except ValueError as e:
-					RS.printM('ERROR: Could not set STA duration to %s. Message: %s' % (a, e))
+					printM('ERROR: Could not set STA duration to %s. Message: %s' % (a, e))
 					exit(2)
 			if o in ('-L', 'LTA='):
 				try:
 					lta = int(a)
 				except ValueError as e:
-					RS.printM('ERROR: Could not set LTA duration to %s. Message: %s' % (a, e))
+					printM('ERROR: Could not set LTA duration to %s. Message: %s' % (a, e))
 					exit(2)
 			if o in ('-T', 'threshold='):
 				try:
 					thresh = float(a)
 				except ValueError as e:
-					RS.printM('ERROR: Could not set trigger threshold to %s. Message: %s' % (a, e))
+					printM('ERROR: Could not set trigger threshold to %s. Message: %s' % (a, e))
 					exit(2)
 			if o in ('-B', 'bandpass='):
 				try:
 					bp = list(a)
 					bp = bp.sort()
 				except ValueError as e:
-					RS.printM('ERROR: Could not set bandpass limits to %s. Message: %s' % (a, e))
+					printM('ERROR: Could not set bandpass limits to %s. Message: %s' % (a, e))
 					exit(2)
 			if o in ('-o', 'outdir='):
 				if os.path.isdir(os.path.abspath(a)):

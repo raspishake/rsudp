@@ -1,8 +1,8 @@
 import sys, os
 import socket as s
 import signal
-from threading import Thread
-from queue import Queue
+import multiprocessing
+from multiprocessing import Process, JoinableQueue
 from obspy import read_inventory
 from obspy.core.trace import Trace
 from obspy.core.stream import Stream
@@ -31,7 +31,7 @@ except:
 
 
 qsize = 2048 			# max queue size
-queue = Queue(qsize)	# master queue
+queue = JoinableQueue(qsize)	# master queue
 destinations = []		# queues to write to
 
 initd, sockopen, active = False, False, False
@@ -39,7 +39,7 @@ port = 8888
 to = 10					# socket test timeout
 firstaddr = ''			# the first address data is received from
 inv = False				# station inventory
-producer, consumer = False, False # state of producer and consumer threads
+producer, consumer = False, False # state of producer and consumer processes
 stn = 'Z0000'			# station name
 net = 'AM'				# network (this will always be AM)
 chns = []				# list of channels
@@ -320,64 +320,16 @@ def _nearest_pow_2(x):
         return b
 
 
-class ProducerThread(Thread):
-	def __init__(self, port, stn='Z0000'):
-		"""
-		Initialize the thread
-		"""
-		super().__init__()
-		self.sender = 'ProducerThread'
-		self.chns = []
-		self.numchns = 0
-
-		printM('Starting.', self.sender)
-		initRSlib(dport=port, rsstn=stn)
-		openSOCK()
-		printM('Waiting for UDP data on port %s...' % (port), self.sender)
-		test_connection()
-		self.sps = sps
-		self.chns = chns
-		self.numchns = numchns
-
-	def run(self):
-		"""
-		Receives data from one IP address and puts it in an async queue.
-		Prints each sending address to STDOUT so the user can troubleshoot.
-		This will work best on local networks where a router does not obscure
-		multiple devices behind one sending IP.
-		Remember, RS UDP packets cannot be differentiated by sending instrument.
-		Their identifiers are per channel (EHZ, HDF, ENE, SHZ, etc.)
-		and not per Shake (R4989, R52CD, R24FA, RCB43, etc.). To avoid problems,
-		please use a separate port for each Shake.
-		"""
-		global to
-		global queue
-		firstaddr = ''
-		blocked = []
-		while True:
-			data, addr = sock.recvfrom(4096)
-			if firstaddr == '':
-				firstaddr = addr[0]
-				printM('Receiving UDP data from %s' % (firstaddr), self.sender)
-			if (firstaddr != '') and (addr[0] == firstaddr):
-				queue.put(data)
-			else:
-				if addr[0] not in blocked:
-					printM('Another IP (%s) is sending UDP data to this port. Ignoring...'
-							% (addr[0]), self.sender)
-					blocked.append(addr[0])
-
-
-class ConsumerThread(Thread):
+class Consumer(Process):
 	def __init__(self):
 		"""
-		Initialize the thread
+		Initialize the process
 		"""
 		super().__init__()
 		global destinations
 		destinations = []
 
-		self.sender = 'ConsumerThread'
+		self.sender = 'Consumer'
 		printM('Starting.', self.sender)
 		self.running = True
 
@@ -399,18 +351,18 @@ class ConsumerThread(Thread):
 		return
 
 
-class PrintThread(Thread):
+class Print(Process):
 	def __init__(self):
 		"""
-		Initialize the thread
+		Initialize the process
 		"""
 		super().__init__()
 		global destinations
 
-		prntq = Queue(qsize)
+		prntq = JoinableQueue(qsize)
 		destinations.append(prntq)
 		self.qno = len(destinations) - 1
-		self.sender = 'PrintThread'
+		self.sender = 'Print'
 		printM('Starting.', self.sender)
 
 	def run(self):
@@ -424,7 +376,7 @@ class PrintThread(Thread):
 			print(str(d))
 
 
-class AlertThread(Thread):
+class Alert(Process):
 	def __init__(self, sta=5, lta=30, thresh=1.6, bp=False, func='print',
 				 debug=True, cha='HZ', tf=0, *args, **kwargs):
 		
@@ -453,7 +405,7 @@ class AlertThread(Thread):
 		cha = self.default_ch if (cha == 'all') else cha
 		self.cha = cha if isinstance(cha, str) else cha[0]
 		self.sps = sps
-		self.sender = 'AlertThread'
+		self.sender = 'Alert'
 		if bp:
 			self.freqmin = bp[0]
 			self.freqmax = bp[1]
@@ -470,7 +422,7 @@ class AlertThread(Thread):
 		else:
 			self.filt = False
 
-		alrtq = Queue(qsize)
+		alrtq = JoinableQueue(qsize)
 		destinations.append(alrtq)
 		self.qno = len(destinations) - 1
 
@@ -587,22 +539,22 @@ class AlertThread(Thread):
 				n += 1
 
 
-class WriteThread(Thread):
+class Write(Process):
 	def __init__(self, outdir='', stn=stn, debug=False):
 		"""
-		Initialize the thread
+		Initialize the process
 		"""
 		super().__init__()
 		global destinations
 
-		wrteq = Queue(qsize)
+		wrteq = JoinableQueue(qsize)
 		destinations.append(wrteq)
 		self.qno = len(destinations) - 1
 
 		self.stream = Stream()
 		self.refcha = None
 		self.outdir = outdir
-		self.sender = 'WriteThread'
+		self.sender = 'Write'
 		self.debug = debug
 		self.numchns = numchns
 		self.stime = 1/sps
@@ -721,23 +673,22 @@ class WriteThread(Thread):
 				time.sleep(0.005)		# wait a few ms to see if another packet will arrive
 
 
-class PlotThread(Thread):
+class Plot(Process):
 	def __init__(self, stn='Z0000', cha='all',
 				 seconds=30, spectrogram=False,
 				 fullscreen=False, qt=qt):
 		"""
-		Initialize the plot thread
+		Initialize the plot process
 
 
 		"""
 		super().__init__()
 		global destinations
 
-		plotq = Queue(qsize)
+		plotq = JoinableQueue(qsize)
 		destinations.append(plotq)
-		self.sender = 'PlotThread'
+		self.sender = 'Plot'
 		printM('Starting.', self.sender)
-		self.shutdown = False
 
 		self.qno = len(destinations) - 1
 		self.stream = Stream()
@@ -769,12 +720,9 @@ class PlotThread(Thread):
 			self.stream = update_stream(
 				stream=self.stream, d=d, fill_value='latest')
 			return True
-		elif 'TERM' in str(d):
-			self.shutdown = True
-			return False
 		else:
 			return False
-
+		
 	def set_sps(self):
 		self.sps = sps #self.stream[0].stats.sampling_rate
 
@@ -1013,11 +961,6 @@ class PlotThread(Thread):
 			self.update_plot()
 			if u >= 0:				# avoiding a matplotlib broadcast error
 				self.loop()
-
-			if self.shutdown:
-				plt.close('all')
-				printM('Shutting down.', self.sender)
-				break
 
 			self.getq()
 			u += 1

@@ -44,13 +44,13 @@ def prod():
 						% (addr[0]), sender)
 				blocked.append(addr[0])
 	
+	print()
+	RS.printM('Sending TERM signal to processes...', sender)
 	RS.queue.put(b'TERM')
 	RS.queue.join()
 
 def handler(sig, frame):
 	global running
-	print()
-	RS.printM('Caught exit signal, sending TERM signal to threads...')
 	running = False
 
 def run(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
@@ -62,19 +62,19 @@ def run(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 
 	RS.initRSlib(dport=port, rsstn=stn)
 
-	cons = RS.ConsumerThread()
+	cons = RS.Consumer()
 
 	cons.start()
 
 	if printdata:
-		prnt = RS.PrintThread()
+		prnt = RS.Print()
 		prnt.start()
 	if alert:
-		alrt = RS.AlertThread(sta=sta, lta=lta, thresh=thresh, bp=bp, func=eqAlert,
+		alrt = RS.Alert(sta=sta, lta=lta, thresh=thresh, bp=bp, func=eqAlert,
 							  cha=cha, debug=debug)
 		alrt.start()
 	if outdir:
-		writer = RS.WriteThread(outdir=outdir, stn=stn, debug=debug)
+		writer = RS.Write(outdir=outdir, stn=stn, debug=debug)
 		writer.start()
 
 	if plot and RS.mpl:
@@ -84,17 +84,19 @@ def run(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 				continue
 			else:
 				break
-		plotter = RS.PlotThread(stn=stn, cha=cha, seconds=sec, spectrogram=spec,
+		plotter = RS.Plot(stn=stn, cha=cha, seconds=sec, spectrogram=spec,
 								fullscreen=full)
 		plotter.start()
 
 	prod()
 
-	cons.shutdown = True
 	for q in RS.destinations:
 		q.join()
+	for p in RS.multiprocessing.active_children():
+		p.terminate()
 	RS.printM('Shutdown successful.', 'Main')
-	sys.exit(1)
+	sys.exit(0)
+
 
 def main():
 	'''

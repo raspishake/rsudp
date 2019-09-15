@@ -14,12 +14,12 @@ from requests.exceptions import HTTPError
 from rsudp.consumer import queue
 
 
-initd, sockopen, active = False, False, False
+initd, sockopen = False, False
 port = 8888
 to = 10					# socket test timeout
 firstaddr = ''			# the first address data is received from
 inv = False				# station inventory
-producer = False # state of producer and consumer processes
+producer = False 		# flag for producer status
 stn = 'Z0000'			# station name
 net = 'AM'				# network (this will always be AM)
 chns = []				# list of channels
@@ -49,9 +49,8 @@ def initRSlib(dport=8888, rsstn='Z0000', timeout=10):
 	rsstn='Z0000'	# the name of the station (something like R0E05)
 	timeout=10		# the number of seconds to wait for data before an error is raised (zero for unlimited wait)
 	'''
-	global port, stn, net, to, initd, port
+	global port, stn, to, initd, port
 	global producer
-	net = 'AM'
 	sender = 'Init'
 	printM('Initializing.', sender)
 	try:						# set port value first
@@ -72,7 +71,7 @@ def initRSlib(dport=8888, rsstn='Z0000', timeout=10):
 			stn = str(rsstn).upper()
 		else:
 			stn = str(rsstn).upper()
-			printM('WARNING: Station name does not follow Raspberry Shake naming convention. Ignoring.')
+			printM('WARNING: Station name does not follow Raspberry Shake naming convention.')
 	except ValueError as e:
 		printM('ERROR: Invalid station name supplied.')
 		printM('Error details: %s' % e)
@@ -216,8 +215,8 @@ def getTTLCHN():
 	return numchns
 
 
-def get_inventory(stn='Z0000', sender='get_inventory'):
-	global inv
+def get_inventory(sender='get_inventory'):
+	global inv, stn
 	sender = 'get_inventory'
 	if 'Z0000' in stn:
 		printM('No station name given, continuing without inventory.',
@@ -233,10 +232,12 @@ def get_inventory(stn='Z0000', sender='get_inventory'):
 		except (IndexError, HTTPError):
 			printM('Inventory fetch returned nothing; is the station name correct?',
 					sender)
-			inv = None
+			stn = 'Z0000'
+			inv = False
+			return None
 		except Exception as e:
-			printM('ERROR: Inventory fetch failed!')
-			printM('Error detail: %s' % e)
+			printM('ERROR: Inventory fetch failed!', sender)
+			printM('Error detail: %s' % e, sender)
 			inv = False
 	return inv
 
@@ -245,7 +246,7 @@ def make_trace(d):
 	'''Makes a trace and assigns it some values using a data packet.'''
 	global producer
 	ch = getCHN(d)						# channel
-	if ch:# in channels:
+	if ch:
 		t = getTIME(d)				# unix epoch time since 1970-01-01 00:00:00Z; "timestamp" in obspy
 		st = getSTREAM(d)				# samples in data packet in list [] format
 		tr = Trace(data=np.ma.MaskedArray(st, dtype=np.int32))	# create empty trace

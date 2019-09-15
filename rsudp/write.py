@@ -84,19 +84,18 @@ class Write(Thread):
 	def run(self):
 		"""
 		"""
+		self.inv = RS.get_inventory(sender=self.sender)
 		self.elapse()
-		printM('miniSEED output directory: %s' % (self.outdir), self.sender)
 
 		self.getq()
 		self.set_sps()
-		self.inv = RS.get_inventory(stn=RS.stn, sender=self.sender)
 		if self.inv == None:
+			self.inv = False
 			printM('WARNING: No inventory found. Are you forwarding your Shake data?')
 			print('                             Your inventory will only be available if data forwarding is on.')
 			print('                             Access the config page of the web front end for details.')
 			print('                             Falling back to station name "Z0000".')
-			RS.stn = 'Z0000'
-			self.inv = False
+		printM('miniSEED output directory: %s' % (self.outdir), self.sender)
 		if self.inv:
 			printM('Writing inventory to output directory.', self.sender)
 			self.inv.write('%s/%s.%s.00' % (self.outdir,
@@ -106,13 +105,12 @@ class Write(Thread):
 		printM('Beginning miniSEED output.', self.sender)
 		wait_pkts = (self.numchns * 10) / (RS.tf / 1000) 		# comes out to 10 seconds (tf is in ms)
 
-
 		n = 0
 		while True:
 			while True:
 				if destinations[self.qno].qsize() > 0:
 					self.getq()
-					time.sleep(0.005)		# wait a few ms to see if another packet will arrive
+					time.sleep(0.01)		# wait a few ms to see if another packet will arrive
 					n += 1
 				else:
 					self.getq()
@@ -133,5 +131,6 @@ class Write(Thread):
 				n = 0
 
 				self.getq()
-				time.sleep(0.005)		# wait a few ms to see if another packet will arrive
+				time.sleep(0.01)		# wait a few ms to see if another packet will arrive
 			sys.stdout.flush()
+			sys.stderr.flush()

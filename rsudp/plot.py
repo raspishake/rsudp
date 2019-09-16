@@ -292,11 +292,11 @@ class Plot(Thread):
 		while True: # main loop
 			while True:
 				if destinations[self.qno].qsize() > 0:
-					u += 1 if self.getq() else 0
-					time.sleep(0.005)		# wait a ms to see if another packet will arrive
+					self.getq()
+					time.sleep(0.009)		# wait a ms to see if another packet will arrive
 				else:
+					u += 1 if self.getq() else 0
 					if int(u/(self.num_chans*self.delay)) == float(u/(self.num_chans*self.delay)):
-						u = 0
 						break
 
 			if i > 10:
@@ -309,7 +309,6 @@ class Plot(Thread):
 			if u >= 0:				# avoiding a matplotlib broadcast error
 				self.loop()
 
-			self.getq()
-			u += 1
+			u = 0
 			time.sleep(0.005)		# wait a ms to see if another packet will arrive
 			sys.stdout.flush()

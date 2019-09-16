@@ -96,8 +96,6 @@ def run(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 
 	for q in destinations:
 		q.join()
-	for p in active_children():
-		p.terminate()
 	printM('Shutdown successful.', 'Main')
 	sys.exit(0)
 

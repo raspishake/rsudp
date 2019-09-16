@@ -74,6 +74,7 @@ class Plot(Thread):
 		d = destinations[self.qno].get()
 		destinations[self.qno].task_done()
 		if 'TERM' in str(d):
+			plt.close()
 			sys.exit()
 		if RS.getCHN(d) in self.chans:
 			self.stream = RS.update_stream(

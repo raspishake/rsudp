@@ -1,4 +1,4 @@
-import sys
+import os, sys
 from threading import Thread
 from queue import Queue
 import time
@@ -12,13 +12,13 @@ import linecache
 sender = 'plot.py'
 try:		# test for matplotlib and exit if import fails
 	import matplotlib
-	try:	# test for Qt and fail over to Tk
-		matplotlib.use('Qt5Agg')
-		qt = True
-	except:
-		printM('WARNING: cannot import Qt5, using Tk instead', sender)
+	if 'armv' in os.uname().machine:	# test for Qt and fail over to Tk
+		printM('WARNING: Running on %s architecture, using Tk instead of Qt' % (os.uname().machine), sender)
 		matplotlib.use('TkAgg')
 		qt = False
+	else:
+		matplotlib.use('Qt5Agg')
+		qt = True
 	import matplotlib.pyplot as plt
 	plt.ion()
 	mpl = True

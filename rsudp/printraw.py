@@ -1,7 +1,8 @@
 import sys
 from threading import Thread
 from queue import Queue
-from rsudp.consumer import destinations, qsize
+from rsudp.consumer import destinations
+from rsudp.raspberryshake import qsize
 from rsudp import printM
 
 

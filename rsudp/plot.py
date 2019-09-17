@@ -6,7 +6,8 @@ import math
 import numpy as np
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as RS
-from rsudp.consumer import destinations, qsize
+from rsudp.raspberryshake import qsize
+from rsudp.consumer import destinations
 from rsudp import printM
 import linecache
 sender = 'plot.py'

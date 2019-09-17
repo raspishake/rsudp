@@ -3,7 +3,8 @@ from threading import Thread
 from queue import Queue
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as RS
-from rsudp.consumer import destinations, qsize
+from rsudp.raspberryshake import qsize
+from rsudp.consumer import destinations
 from obspy.signal.trigger import recursive_sta_lta
 from rsudp import printM
 import numpy as np

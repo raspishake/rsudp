@@ -14,7 +14,8 @@ from requests.exceptions import HTTPError
 
 
 initd, sockopen = False, False
-port = 8888
+qsize = 2048 			# max queue size
+port = 8888				# default listening port
 to = 10					# socket test timeout
 firstaddr = ''			# the first address data is received from
 inv = False				# station inventory
@@ -40,7 +41,7 @@ def handler(signum, frame):
 	raise IOError('No data received')
 
 
-def initRSlib(dport=8888, rsstn='Z0000', timeout=10):
+def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 	'''
 	Set values for data port, station, network, and data port timeout prior to opening the socket.
 	Defaults:

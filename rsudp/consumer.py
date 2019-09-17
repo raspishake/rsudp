@@ -3,11 +3,10 @@ from threading import Thread
 from queue import Queue
 from rsudp import printM
 
-qsize = 2048 					# max queue size
 destinations = []				# list of queues to distribute to
 
 class Consumer(Thread):
-	def __init__(self):
+	def __init__(self, queue):
 		"""
 		Initialize the process
 		"""
@@ -15,7 +14,7 @@ class Consumer(Thread):
 
 		self.sender = 'Consumer'
 		printM('Starting.', self.sender)
-		self.queue = Queue(qsize)
+		self.queue = queue
 		self.running = True
 
 	def run(self):

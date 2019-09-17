@@ -4,7 +4,6 @@ from queue import Queue
 from rsudp import printM
 
 qsize = 2048 					# max queue size
-queue = Queue(qsize)	# master queue
 destinations = []				# list of queues to distribute to
 
 class Consumer(Thread):
@@ -16,6 +15,7 @@ class Consumer(Thread):
 
 		self.sender = 'Consumer'
 		printM('Starting.', self.sender)
+		self.queue = Queue(qsize)
 		self.running = True
 
 	def run(self):
@@ -24,11 +24,11 @@ class Consumer(Thread):
 		it may be used to populate ObsPy streams for various things like
 		plotting, alert triggers, and ground motion calculation.
 		"""
-		global queue, destinations
+		global destinations
 		try:
 			while self.running:
-				p = queue.get()
-				queue.task_done()
+				p = self.queue.get()
+				self.queue.task_done()
 
 				for q in destinations:
 					q.put(p)

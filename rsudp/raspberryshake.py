@@ -11,7 +11,6 @@ from obspy import read_inventory
 from obspy.core.trace import Trace
 from rsudp import printM
 from requests.exceptions import HTTPError
-from rsudp.consumer import queue
 
 
 initd, sockopen = False, False

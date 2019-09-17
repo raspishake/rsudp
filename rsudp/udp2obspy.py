@@ -5,7 +5,7 @@ import time
 from multiprocessing import active_children
 from rsudp import printM
 import rsudp.raspberryshake as RS
-from rsudp.consumer import Consumer, queue, destinations
+from rsudp.consumer import Consumer, destinations
 from rsudp.printraw import PrintRaw
 from rsudp.alert import Alert
 from rsudp.write import Write
@@ -18,7 +18,7 @@ def eqAlert(blanklines=True,
 	printtext = str(printtext) + '\n' + str(other)
 	printM(printtext, sender='EQAlert function')
 
-def prod():
+def prod(consumer):
 	sender = 'Producer'
 	chns = []
 	numchns = 0
@@ -42,7 +42,7 @@ def prod():
 			firstaddr = addr[0]
 			printM('Receiving UDP data from %s' % (firstaddr), sender)
 		if (firstaddr != '') and (addr[0] == firstaddr):
-			queue.put(data)
+			consumer.queue.put(data)
 		else:
 			if addr[0] not in blocked:
 				printM('Another IP (%s) is sending UDP data to this port. Ignoring...'
@@ -51,8 +51,8 @@ def prod():
 	
 	print()
 	printM('Sending TERM signal to threads...', sender)
-	queue.put(b'TERM')
-	queue.join()
+	consumer.queue.put(b'TERM')
+	consumer.queue.join()
 
 def handler(sig, frame):
 	RS.producer = False
@@ -92,7 +92,7 @@ def run(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 								fullscreen=full)
 		plotter.start()
 
-	prod()
+	prod(cons)
 
 	for q in destinations:
 		q.join()

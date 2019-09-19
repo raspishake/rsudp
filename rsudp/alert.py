@@ -39,6 +39,7 @@ class Alert(Thread):
 		cha = self.default_ch if (cha == 'all') else cha
 		self.cha = cha if isinstance(cha, str) else cha[0]
 		self.sps = RS.sps
+		self.inv = RS.inv
 		self.sender = 'Alert'
 		if bp:
 			self.freqmin = bp[0]

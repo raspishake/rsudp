@@ -117,6 +117,7 @@ def set_params():
 	getTR(getCHNS()[0])
 	getSR(tf, data)
 	getTTLCHN()
+	get_inventory()
 
 def getDATA():
 	'''Read a data packet off the port.
@@ -230,14 +231,15 @@ def get_inventory(sender='get_inventory'):
 								 % (net, stn))
 			printM('Inventory fetch successful.', sender)
 		except (IndexError, HTTPError):
-			printM('Inventory fetch returned nothing; is the station name correct?',
-					sender)
+			printM('WARNING: No inventory found for %s. Are you forwarding your Shake data?' % stn)
+			print('                             Your inventory will only be available if data forwarding is on.')
+			print('                             Access the config page of the web front end for details.')
+			print('                             Falling back to station name "Z0000".')
 			stn = 'Z0000'
 			inv = False
-			return None
 		except Exception as e:
 			printM('ERROR: Inventory fetch failed!', sender)
-			printM('Error detail: %s' % e, sender)
+			printM('       Error detail: %s' % e, sender)
 			inv = False
 	return inv
 

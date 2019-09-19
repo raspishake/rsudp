@@ -28,6 +28,7 @@ class Write(Thread):
 		self.debug = debug
 		self.numchns = RS.numchns
 		self.stime = 1/RS.sps
+		self.inv = RS.inv
 		printM('Starting.', self.sender)
 
 	def getq(self):
@@ -85,17 +86,10 @@ class Write(Thread):
 	def run(self):
 		"""
 		"""
-		self.inv = RS.get_inventory(sender=self.sender)
 		self.elapse()
 
 		self.getq()
 		self.set_sps()
-		if self.inv == None:
-			self.inv = False
-			printM('WARNING: No inventory found. Are you forwarding your Shake data?')
-			print('                             Your inventory will only be available if data forwarding is on.')
-			print('                             Access the config page of the web front end for details.')
-			print('                             Falling back to station name "Z0000".')
 		printM('miniSEED output directory: %s' % (self.outdir), self.sender)
 		if self.inv:
 			printM('Writing inventory to output directory.', self.sender)

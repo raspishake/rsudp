@@ -14,7 +14,7 @@ from rsudp.plot import Plot, mpl
 
 def eqAlert(blanklines=True,
 			printtext='Trigger threshold exceeded -- possible earthquake!',
-			other='Waiting for clear trigger...'):
+			other='Waiting for clear trigger...', *args, **kwargs):
 	printtext = str(printtext) + '\n' + str(other)
 	printM(printtext, sender='EQAlert function')
 

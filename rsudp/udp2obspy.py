@@ -59,7 +59,7 @@ def handler(sig, frame):
 
 def run(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
 		 sta=5, lta=10, thresh=1.5, bp=False, cha='all', outdir='',
-		 sec=30, spec=False, full=False, printdata=False, usage=False):
+		 sec=30, spec=False, full=False, printdata=False):
 
 	# handler for the exit signal
 	signal.signal(signal.SIGINT, handler)
@@ -146,15 +146,14 @@ def main():
 		plot = False
 		bp = False	# (can be tuple or list)
 		outdir = False
-		usage = False
 
 		# short term average / long term average (STA/LTA) noise trigger defaults
 		sta, lta = 6, 30	# short term & long term period for alert (seconds)
 		thresh = 1.6		# threshold for STA/LTA
 
-		opts = getopt.getopt(sys.argv[1:], 'hvDp:s:n:d:c:PgfaS:L:T:o:U',
+		opts = getopt.getopt(sys.argv[1:], 'hvDp:s:n:d:c:PgfaF:S:L:T:o:',
 			['help', 'verbose', 'data', 'port=', 'station=', 'duration=', 'channels=', 'spectrogram',
-			 'fullscreen', 'alarm', 'sta', 'lta', 'thresh', 'outdir=', 'usage']
+			 'fullscreen', 'alarm', 'filter=', 'sta=', 'lta=', 'thresh=', 'outdir=']
 			)[0]
 		for o, a in opts:
 			if o in ('-h, --help'):
@@ -172,7 +171,7 @@ def main():
 			if o in ('-s', 'station='):
 				stn = str(a)
 			if o in ('-c', 'channels='):
-				cha = a.split(',')
+				cha = a.upper().split(',')
 			if o in ('-d', 'duration='):
 				sec = int(a)
 			if o in ('-g', '--spectrogram'):
@@ -183,6 +182,10 @@ def main():
 				plot = True
 			if o in ('-a', '--alert'):
 				alert = True
+			if o in ('-F', '--filter'):
+				bp = []
+				bp.append(float(a.split('-')[0]))
+				bp.append(float(a.split('-')[1]))
 			if o in ('-S', 'STA='):
 				try:
 					sta = int(a)
@@ -215,7 +218,7 @@ def main():
 		run(port=prt, stn=stn, cha=cha, sec=sec, spec=spec, full=full,
 			alert=alert, sta=sta, lta=lta, thresh=thresh, bp=bp,
 			debug=debug, printdata=printdata, outdir=outdir, plot=plot,
-			usage=usage)
+			)
 
 if __name__ == '__main__':
 	main()

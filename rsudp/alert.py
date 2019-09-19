@@ -44,12 +44,14 @@ class Alert(Thread):
 		if bp:
 			self.freqmin = bp[0]
 			self.freqmax = bp[1]
-			if (bp[0] <= 0) and (bp[1] >= (sps/2)):
+			self.freq = 0
+			if (bp[0] <= 0) and (bp[1] >= (self.sps/2)):
 				self.filt = False
-			elif (bp[0] > 0) and (bp[1] >= (sps/2)):
+			elif (bp[0] > 0) and (bp[1] >= (self.sps/2)):
 				self.filt = 'highpass'
 				self.freq = bp[0]
-			elif (bp[0] <= 0) and (bp[1] <= (sps/2)):
+				desc = 'low corner %s' % (bp[0])
+			elif (bp[0] <= 0) and (bp[1] <= (self.sps/2)):
 				self.filt = 'lowpass'
 				self.freq = bp[1]
 			else:
@@ -116,10 +118,17 @@ class Alert(Thread):
 							starttime=obstart)	# slice the stream to the specified length (seconds variable)
 
 				if self.filt:
-					cft = recursive_sta_lta(self.stream[0].filter(
-								type=self.filt, freq=self.freq,
-								freqmin=self.freqmin, freqmax=self.freqmax),
-								int(self.sta * self.sps), int(self.lta * self.sps))
+					if self.filt in 'bandpass':
+						cft = recursive_sta_lta(
+									self.stream[0].copy().filter(type=self.filt,
+									freqmin=self.freqmin, freqmax=self.freqmax),
+									int(self.sta * self.sps), int(self.lta * self.sps))
+					else:
+						cft = recursive_sta_lta(
+									self.stream[0].copy().filter(type=self.filt,
+									freq=self.freq),
+									int(self.sta * self.sps), int(self.lta * self.sps))
+
 				else:
 					cft = recursive_sta_lta(self.stream[0],
 							int(self.sta * self.sps), int(self.lta * self.sps))
@@ -149,7 +158,7 @@ class Alert(Thread):
 					printM('Earthquake trigger up and running normally.',
 							self.sender)
 				else:
-					printM('Max CFT reached in alarm state: %s' % (maxcft),
+					printM('Max STA/LTA ratio reached in alarm state: %s' % (maxcft),
 							self.sender)
 					printM('Earthquake trigger reset and active again.',
 							self.sender)

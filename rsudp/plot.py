@@ -64,7 +64,7 @@ class Plot(Thread):
 				n += 1
 		if len(self.chans) < 1:
 			self.chans = RS.chns
-		printM('Plotting channels: %s' % self.chans)
+		printM('Plotting channels: %s' % self.chans, self.sender)
 		self.totchns = RS.numchns
 		self.seconds = seconds
 		self.spectrogram = spectrogram

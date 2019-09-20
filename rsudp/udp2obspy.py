@@ -2,6 +2,7 @@ import sys, os
 import signal
 import getopt
 import time
+import json
 from queue import Queue
 from rsudp import printM
 import rsudp.raspberryshake as RS
@@ -57,38 +58,48 @@ def prod(queue):
 def handler(sig, frame):
 	RS.producer = False
 
-def run(alert=False, plot=False, debug=False, port=8888, stn='Z0000',
-		 sta=5, lta=10, thresh=1.5, bp=False, cha='all', outdir='',
-		 sec=30, spec=False, full=False, printdata=False):
+def run(settings):
 
 	# handler for the exit signal
 	signal.signal(signal.SIGINT, handler)
 
-	RS.initRSlib(dport=port, rsstn=stn)
+	RS.initRSlib(dport=settings['settings']['port'],
+				 rsstn=settings['settings']['station'])
 
 	queue = Queue(RS.qsize)
 	cons = Consumer(queue)
 
 	cons.start()
 
-	if printdata:
+	if settings['printdata']['enabled']:
 		prnt = PrintRaw()
 		prnt.start()
-	if alert:
+	if settings['alert']['enabled']:
+		sta = settings['alert']['sta']
+		lta = settings['alert']['lta']
+		thresh = settings['alert']['threshold']
+		bp = [settings['alert']['highpass'], settings['alert']['lowpass']]
+		cha = settings['alert']['channel']
+		debug = settings['alert']['debug']
 		alrt = Alert(sta=sta, lta=lta, thresh=thresh, bp=bp, func=eqAlert,
 							  cha=cha, debug=debug)
 		alrt.start()
-	if outdir:
-		writer = Write(outdir=outdir, debug=debug)
+	if settings['write']['enabled']:
+		outdir = settings['write']['outdir']
+		writer = Write(outdir=outdir)
 		writer.start()
 
-	if plot and mpl:
+	if settings['plot']['enabled'] and mpl:
 		while True:
 			if RS.numchns == 0:
 				time.sleep(0.01)
 				continue
 			else:
 				break
+		cha = settings['plot']['channels']
+		sec = settings['plot']['duration']
+		spec = settings['plot']['spectrogram']
+		full = settings['plot']['fullscreen']
 		plotter = Plot(cha=cha, seconds=sec, spectrogram=spec,
 								fullscreen=full)
 		plotter.start()
@@ -109,116 +120,84 @@ def main():
 	'''
 
 	hlp_txt='''
-##############################################################################
-##                       R A S P B E R R Y  S H A K E                       ##
-##                             UDP Data Library                             ##
-##                              by Ian Nesbitt                              ##
-##                              Copyleft  2019                              ##
-##                                                                          ##
-## Loads port, station, and duration arguments to create a graph.           ##
-## Supply -p, -s, and/or -d to change the port and the output plot          ##
-## parameteRS. Use -g to plot spectrogram(s).                               ##
-##                                                                          ##
-## Requires:                                                                ##
-## - Numpy                                                                  ##
-## - ObsPy                                                                  ##
-## - Matplotlib                                                             ##
-## - rsudp                                                                  ##
-##                                                                          ##
-## The following example sets the port to 18001, station to R0E05,          ##
-## and plot duration to 25 seconds, then plots data live with spectrogram:  ##
-##                                                                          ##
-##############################################################################
-##                                                                          ##
-##    $ python live_example.py -p 18001 -s R0E05 -d 25 -g                   ##
-##                                                                          ##
-##############################################################################
+###########################################
+##     R A S P B E R R Y  S H A K E      ##
+##           UDP Data Library            ##
+##            by Ian Nesbitt             ##
+##            GNU GPLv3 2019             ##
+##                                       ##
+## Do various tasks with Shake data      ##
+## like plot, trigger alerts, and write  ##
+## to miniSEED.                          ##
+##                                       ##
+##  Requires:                            ##
+##  - numpy, obspy, matplotlib v3        ##
+##                                       ##
+###########################################
 
-	'''
+Usage: shake_tool [ OPTIONS ]
+where OPTIONS := {
+    -h | --help
+            display this help message
+    -d | --dump
+            dump the default settings in a JSON-formatted string
+    -s | --settings=/path/to/settings/json
+            specify the path to a custom JSON-formatted settings file
+    }
 
-	if True: #try:
-		prt, stn, sec, cha = 8888, 'Z0000', 30, 'all'
-		h = False
-		debug = False
-		full, spec = False, False
-		printdata = False
-		alert = False
-		plot = False
-		bp = False	# (can be tuple or list)
-		outdir = False
+'''
 
-		# short term average / long term average (STA/LTA) noise trigger defaults
-		sta, lta = 6, 30	# short term & long term period for alert (seconds)
-		thresh = 1.6		# threshold for STA/LTA
+	default_settings = """{
+"settings": {
+	"port": 18004,
+	"station": "Z0000"},
+"printdata": {
+	"enabled": false},
+"alert": {
+	"enabled": true,
+	"sta": 6,
+	"lta": 30,
+	"threshold": 1.6,
+	"highpass": 0,
+	"lowpass": 50,
+	"channel": "HZ",
+	"debug": false},
+"write": {
+	"enabled": false,
+	"outdir": "/home/pi",
+	"channels": "all"},
+"plot": {
+	"enabled": true,
+	"duration": 30,
+	"spectrogram": false,
+	"fullscreen": false,
+	"channels": ["HZ", "HDF"]}
+}
+"""
 
-		opts = getopt.getopt(sys.argv[1:], 'hvDp:s:n:d:c:PgfaF:S:L:T:o:',
-			['help', 'verbose', 'data', 'port=', 'station=', 'duration=', 'channels=', 'spectrogram',
-			 'fullscreen', 'alarm', 'filter=', 'sta=', 'lta=', 'thresh=', 'outdir=']
-			)[0]
-		for o, a in opts:
-			if o in ('-h, --help'):
-				h = True
-				print(hlp_txt)
-				exit(0)
-			if o in ('-v', '--verbose'):
-				debug = True
-			if o in ('-D', '--data'):
-				printdata = True
-			if o in ('-U', '--usage'):
-				usage = True
-			if o in ('-p', 'port='):
-				prt = int(a)
-			if o in ('-s', 'station='):
-				stn = str(a)
-			if o in ('-c', 'channels='):
-				cha = a.upper().split(',')
-			if o in ('-d', 'duration='):
-				sec = int(a)
-			if o in ('-g', '--spectrogram'):
-				spec = True
-			if o in ('-f', '--fullscreen'):
-				full = True
-			if o in ('-P', '--plot'):
-				plot = True
-			if o in ('-a', '--alert'):
-				alert = True
-			if o in ('-F', '--filter'):
-				bp = []
-				bp.append(float(a.split('-')[0]))
-				bp.append(float(a.split('-')[1]))
-			if o in ('-S', 'STA='):
-				try:
-					sta = int(a)
-				except ValueError as e:
-					printM('ERROR: Could not set STA duration to %s. Message: %s' % (a, e))
-					exit(2)
-			if o in ('-L', 'LTA='):
-				try:
-					lta = int(a)
-				except ValueError as e:
-					printM('ERROR: Could not set LTA duration to %s. Message: %s' % (a, e))
-					exit(2)
-			if o in ('-T', 'threshold='):
-				try:
-					thresh = float(a)
-				except ValueError as e:
-					printM('ERROR: Could not set trigger threshold to %s. Message: %s' % (a, e))
-					exit(2)
-			if o in ('-B', 'bandpass='):
-				try:
-					bp = list(a)
-					bp = bp.sort()
-				except ValueError as e:
-					printM('ERROR: Could not set bandpass limits to %s. Message: %s' % (a, e))
-					exit(2)
-			if o in ('-o', 'outdir='):
-				if os.path.isdir(os.path.abspath(a)):
-					outdir = os.path.abspath(a)
+	settings = json.loads(default_settings)
 
-		run(port=prt, stn=stn, cha=cha, sec=sec, spec=spec, full=full,
-			alert=alert, sta=sta, lta=lta, thresh=thresh, bp=bp,
-			debug=debug, printdata=printdata, outdir=outdir, plot=plot,
-			)
+	opts = getopt.getopt(sys.argv[1:], 'hds:',
+		['help', 'dump', 'settings=']
+		)[0]
+	for o, a in opts:
+		if o in ('-h, --help'):
+			h = True
+			print(hlp_txt)
+			exit(0)
+		if o in ('-d', '--dump'):
+			print(default_settings)
+			exit(0)
+		if o in ('-s', 'settings='):
+			if os.path.exists(os.path.abspath(a)):
+				with open(os.path.abspath(a), 'r') as f:
+					settings = json.load(f)
+			else:
+				print('ERROR: could not find the settings file you specified. Check the path and try again')
+				print()
+				exit(2)
+
+	run(settings)
 
 if __name__ == '__main__':
 	main()

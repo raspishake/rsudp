@@ -207,6 +207,7 @@ def getCHNS():
 	for ch in chdict:
 		if chdict[ch] == True:
 			chns.append(ch)
+	printM('Available channels: %s' % chns, 'Init')
 	return chns
 
 def getTTLCHN():

@@ -55,9 +55,16 @@ class Plot(Thread):
 		self.chans = []
 		cha = RS.chns if (cha == 'all') else cha
 		cha = list(cha) if isinstance(cha, str) else cha
-		for c in cha:
-			self.chans.append(c.upper()) if c.upper() in RS.chns else printM(
-								'No channel %s found' % c.upper(), self.sender)
+		l = RS.chns
+		for c in l:
+			n = 0
+			for uch in cha:
+				if (uch.upper() in c) and (c not in str(self.chans)):
+					self.chans.append(c)
+				n += 1
+		if len(self.chans) < 1:
+			self.chans = RS.chns
+		printM('Plotting channels: %s' % self.chans)
 		self.totchns = RS.numchns
 		self.seconds = seconds
 		self.spectrogram = spectrogram

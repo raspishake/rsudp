@@ -6,7 +6,7 @@ import json
 from queue import Queue
 from rsudp import printM
 import rsudp.raspberryshake as RS
-from rsudp.c_consumer import Consumer, destinations
+from rsudp.c_consumer import Consumer
 from rsudp.c_printraw import PrintRaw
 from rsudp.c_alert import Alert
 from rsudp.c_write import Write
@@ -66,16 +66,24 @@ def run(settings):
 	RS.initRSlib(dport=settings['settings']['port'],
 				 rsstn=settings['settings']['station'])
 
-	queue = Queue(RS.qsize)
-	cons = Consumer(queue)
+	destinations, processes = [], []
 
-	cons.start()
+	def mk_q():
+		q = Queue(RS.qsize)
+		destinations.append(q)
+		return q
+	def mk_p(proc):
+		processes.append(proc)
+
 
 	if settings['printdata']['enabled']:
-		prnt = PrintRaw()
-		prnt.start()
+		# set up queue and process
+		q = mk_q()
+		prnt = PrintRaw(q)
+		mk_p(prnt)
 
 	if settings['alert']['enabled']:
+		# put settings in namespace
 		sta = settings['alert']['sta']
 		lta = settings['alert']['lta']
 		thresh = settings['alert']['threshold']
@@ -84,14 +92,19 @@ def run(settings):
 		win_ovr = settings['alert']['win_override']
 		debug = settings['alert']['debug']
 		ex = eqAlert if settings['alert']['exec'] in 'eqAlert' else settings['alert']['exec']
+		# set up queue and process
+		q = mk_q()
 		alrt = Alert(sta=sta, lta=lta, thresh=thresh, bp=bp, func=ex,
-							  cha=cha, win_ovr=win_ovr, debug=debug)
-		alrt.start()
+					 cha=cha, win_ovr=win_ovr, debug=debug, q=q)
+		mk_p(alrt)
 
 	if settings['write']['enabled']:
+		# put settings in namespace
 		outdir = settings['write']['outdir']
-		writer = Write(outdir=outdir)
-		writer.start()
+		# set up queue and process
+		q = mk_q()
+		writer = Write(outdir=outdir, q=q)
+		mk_p(writer)
 
 	if settings['plot']['enabled'] and mpl:
 		while True:
@@ -104,16 +117,25 @@ def run(settings):
 		sec = settings['plot']['duration']
 		spec = settings['plot']['spectrogram']
 		full = settings['plot']['fullscreen']
+		q = mk_q()
 		plotter = Plot(cha=cha, seconds=sec, spectrogram=spec,
-								fullscreen=full)
-		plotter.start()
+								fullscreen=full, q=q)
+		mk_p(plotter)
+
+	# master queue and consumer
+	queue = Queue(RS.qsize)
+	cons = Consumer(queue, destinations)
+	cons.start()
+
+	for p in processes:
+		p.start()
 
 	prod(queue)
 
 	for q in destinations:
 		q.join()
 	printM('Shutdown successful.', 'Main')
-	sys.exit(0)
+	sys.exit()
 
 
 def main():

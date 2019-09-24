@@ -1,37 +1,32 @@
 import os, sys
 from threading import Thread
-from queue import Queue
 import time
 import math
 import numpy as np
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as RS
-from rsudp.raspberryshake import qsize
-from rsudp.c_consumer import destinations
 from rsudp import printM
 import linecache
 sender = 'plot.py'
 try:		# test for matplotlib and exit if import fails
-	import matplotlib
+	from matplotlib import use
 	if 'armv' in os.uname().machine:	# test for Qt and fail over to Tk
-		matplotlib.use('TkAgg')
+		use('TkAgg')
 		qt = False
 	else:
-		matplotlib.use('Qt5Agg')
+		use('Qt5Agg')
 		qt = True
 	import matplotlib.pyplot as plt
 	plt.ion()
 	mpl = True
 except:
+	printM('[Plot] ERROR: Could not import matplotlib, plotting will not be available.', sender)
+	printM('[Plot]        Thread will exit now.', sender)
 	mpl = False
-	printM('ERROR: Could not import matplotlib, plotting will not be available.', sender)
-	printM('       Thread exiting.', sender)
-	sys.stdout.flush()
-	sys.exit()
 
 
 class Plot(Thread):
-	def __init__(self, cha='all',
+	def __init__(self, cha='all', q=False,
 				 seconds=30, spectrogram=False,
 				 fullscreen=False, qt=qt):
 		"""
@@ -40,17 +35,22 @@ class Plot(Thread):
 
 		"""
 		super().__init__()
-		global destinations
-
-		if not qt:
-			printM('WARNING: Running on %s architecture, using Tk instead of Qt' % (os.uname().machine), sender)
-
-		plotq = Queue(qsize)
-		destinations.append(plotq)
 		self.sender = 'Plot'
+
+		if mpl == False:
+			sys.stdout.flush()
+			sys.exit()
+		if qt == False:
+			printM('WARNING: Running on %s architecture, using Tk instead of Qt' % (os.uname().machine), self.sender)
+		if q:
+			self.queue = q
+		else:
+			printM('ERROR: no queue passed to consumer! Thread will exit now!', self.sender)
+			sys.stdout.flush()
+			sys.exit()
+
 		printM('Starting.', self.sender)
 
-		self.qno = len(destinations) - 1
 		self.stream = RS.Stream()
 		self.stn = RS.stn
 		self.net = RS.net
@@ -81,8 +81,8 @@ class Plot(Thread):
 		self.linecolor = '#c28285' # seismogram color
 
 	def getq(self):
-		d = destinations[self.qno].get()
-		destinations[self.qno].task_done()
+		d = self.queue.get()
+		self.queue.task_done()
 		if 'TERM' in str(d):
 			plt.close()
 			sys.exit()
@@ -296,13 +296,13 @@ class Plot(Thread):
 		for i in range((self.totchns)*2): # fill up a stream object
 			self.getq()
 		self.set_sps()
-
 		self.setup_plot()
+
 		i = 0	# number of plot events
 		u = -1	# number of queue calls
 		while True: # main loop
 			while True:
-				if destinations[self.qno].qsize() > 0:
+				if self.queue.qsize() > 0:
 					self.getq()
 					time.sleep(0.009)		# wait a ms to see if another packet will arrive
 				else:

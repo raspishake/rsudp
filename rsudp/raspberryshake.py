@@ -117,6 +117,7 @@ def set_params():
 	getTR(getCHNS()[0])
 	getSR(tf, data)
 	getTTLCHN()
+	printM('Available channels: %s' % chns, 'Init')
 	get_inventory()
 
 def getDATA():
@@ -207,7 +208,6 @@ def getCHNS():
 	for ch in chdict:
 		if chdict[ch] == True:
 			chns.append(ch)
-	printM('Available channels: %s' % chns, 'Init')
 	return chns
 
 def getTTLCHN():

@@ -1,10 +1,7 @@
 import sys, os
 from threading import Thread
-from queue import Queue
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as RS
-from rsudp.raspberryshake import qsize
-from rsudp.c_consumer import destinations
 from obspy.signal.trigger import recursive_sta_lta
 from rsudp import printM
 import numpy as np
@@ -20,7 +17,8 @@ class Alert(Thread):
 	choose to run a function of their own as well.
 	"""
 	def __init__(self, sta=5, lta=30, thresh=1.6, bp=False, func=None,
-				 debug=True, cha='HZ', win_ovr=False, *args, **kwargs):
+				 debug=True, cha='HZ', win_ovr=False, q=False,
+				 *args, **kwargs):
 		
 		"""
 		Initialize the alert thread with parameters to set up the recursive
@@ -37,7 +35,15 @@ class Alert(Thread):
 		:param str cha: listening channel (defaults to [S,E]HZ)
 		"""
 		super().__init__()
-		global destinations
+		self.sender = 'Alert'
+
+		if q:
+			self.queue = q
+		else:
+			printM('ERROR: no queue passed to consumer! Thread will exit now!', self.sender)
+			sys.stdout.flush()
+			sys.exit()
+
 		self.default_ch = 'HZ'
 		self.sta = sta
 		self.lta = lta
@@ -52,7 +58,6 @@ class Alert(Thread):
 		self.cha = cha if isinstance(cha, str) else cha[0]
 		self.sps = RS.sps
 		self.inv = RS.inv
-		self.sender = 'Alert'
 		if bp:
 			self.freqmin = bp[0]
 			self.freqmax = bp[1]
@@ -70,10 +75,6 @@ class Alert(Thread):
 				self.filt = 'bandpass'
 		else:
 			self.filt = False
-
-		alrtq = Queue(qsize)
-		destinations.append(alrtq)
-		self.qno = len(destinations) - 1
 
 		if (os.name in 'nt') and (not callable(self.func)) and (not self.win_ovr):
 			printM('ERROR: Using Windows with custom alert code! Your code MUST have UNIX/Mac newline characters!')
@@ -100,8 +101,8 @@ class Alert(Thread):
 					% (self.filt, modifier, self.freq), self.sender)
 
 	def getq(self):
-		d = destinations[self.qno].get(True, timeout=None)
-		destinations[self.qno].task_done()
+		d = self.queue.get(True, timeout=None)
+		self.queue.task_done()
 		if self.cha in str(d):
 			self.stream = RS.update_stream(
 				stream=self.stream, d=d, fill_value='latest')
@@ -130,7 +131,7 @@ class Alert(Thread):
 		n = 0
 		while True:
 			while True:
-				if destinations[self.qno].qsize() > 0:
+				if self.queue.qsize() > 0:
 					self.getq()		# get recent packets
 				else:
 					if self.getq():	# is this the specified channel? if so break

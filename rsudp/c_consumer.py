@@ -3,10 +3,9 @@ from threading import Thread
 from queue import Queue
 from rsudp import printM
 
-destinations = []				# list of queues to distribute to
 
 class Consumer(Thread):
-	def __init__(self, queue):
+	def __init__(self, queue, destinations):
 		"""
 		Initialize the process
 		"""
@@ -15,6 +14,7 @@ class Consumer(Thread):
 		self.sender = 'Consumer'
 		printM('Starting.', self.sender)
 		self.queue = queue
+		self.destinations = destinations
 		self.running = True
 
 	def run(self):
@@ -23,13 +23,12 @@ class Consumer(Thread):
 		it may be used to populate ObsPy streams for various things like
 		plotting, alert triggers, and ground motion calculation.
 		"""
-		global destinations
 		try:
 			while self.running:
 				p = self.queue.get()
 				self.queue.task_done()
 
-				for q in destinations:
+				for q in self.destinations:
 					q.put(p)
 
 				if 'TERM' in str(p):

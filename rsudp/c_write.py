@@ -1,30 +1,31 @@
 import sys, os
 from threading import Thread
-from queue import Queue
 import time
 from datetime import datetime, timedelta
 from obspy import UTCDateTime
 import rsudp.raspberryshake as RS
-from rsudp.raspberryshake import qsize
-from rsudp.c_consumer import destinations
 from rsudp import printM
 
 class Write(Thread):
-	def __init__(self, outdir='', debug=False):
+	def __init__(self, outdir='', q=False, debug=False):
 		"""
 		Initialize the process
 		"""
 		super().__init__()
-		global destinations
+		self.sender = 'Write'
 
-		wrteq = Queue(qsize)
-		destinations.append(wrteq)
+		if q:
+			self.queue = q
+		else:
+			printM('ERROR: no queue passed to consumer! Thread will exit now!', self.sender)
+			sys.stdout.flush()
+			sys.exit()
+
 		self.qno = len(destinations) - 1
 
 		self.stream = RS.Stream()
 		self.refcha = None
 		self.outdir = outdir
-		self.sender = 'Write'
 		self.debug = debug
 		self.numchns = RS.numchns
 		self.stime = 1/RS.sps
@@ -32,8 +33,8 @@ class Write(Thread):
 		printM('Starting.', self.sender)
 
 	def getq(self):
-		d = destinations[self.qno].get(True, timeout=None)
-		destinations[self.qno].task_done()
+		d = self.queue.get(True, timeout=None)
+		self.queue.task_done()
 		if 'TERM' in str(d):
 			sys.exit()
 		self.stream = RS.update_stream(
@@ -103,7 +104,7 @@ class Write(Thread):
 		n = 0
 		while True:
 			while True:
-				if destinations[self.qno].qsize() > 0:
+				if self.queue.qsize() > 0:
 					self.getq()
 					time.sleep(0.01)		# wait a few ms to see if another packet will arrive
 					n += 1

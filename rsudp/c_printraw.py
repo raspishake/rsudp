@@ -1,8 +1,5 @@
 import sys
 from threading import Thread
-from queue import Queue
-from rsudp.c_consumer import destinations
-from rsudp.raspberryshake import qsize
 from rsudp import printM
 
 
@@ -16,17 +13,20 @@ class PrintRaw(Thread):
 
 	"""
 
-	def __init__(self):
+	def __init__(self, q=False):
 		"""
 		Initialize the process
 		"""
 		super().__init__()
-		global destinations
-
-		prntq = Queue(qsize)
-		destinations.append(prntq)
-		self.qno = len(destinations) - 1
 		self.sender = 'Print'
+
+		if q:
+			self.queue = q
+		else:
+			printM('ERROR: no queue passed to consumer! Thread will exit now!', self.sender)
+			sys.stdout.flush()
+			sys.exit()
+
 		printM('Starting.', self.sender)
 
 	def run(self):
@@ -34,8 +34,8 @@ class PrintRaw(Thread):
 		Reads data from the queue and print to stdout
 		"""
 		while True:
-			d = destinations[self.qno].get()
-			destinations[self.qno].task_done()
+			d = self.queue.get()
+			self.queue.task_done()
 			if 'TERM' in str(d):
 				sys.exit()
 			print(str(d))

@@ -6,11 +6,11 @@ import json
 from queue import Queue
 from rsudp import printM
 import rsudp.raspberryshake as RS
-from rsudp.consumer import Consumer, destinations
-from rsudp.printraw import PrintRaw
-from rsudp.alert import Alert
-from rsudp.write import Write
-from rsudp.plot import Plot, mpl
+from rsudp.c_consumer import Consumer, destinations
+from rsudp.c_printraw import PrintRaw
+from rsudp.c_alert import Alert
+from rsudp.c_write import Write
+from rsudp.c_plot import Plot, mpl
 
 
 def eqAlert(blanklines=True,
@@ -74,16 +74,20 @@ def run(settings):
 	if settings['printdata']['enabled']:
 		prnt = PrintRaw()
 		prnt.start()
+
 	if settings['alert']['enabled']:
 		sta = settings['alert']['sta']
 		lta = settings['alert']['lta']
 		thresh = settings['alert']['threshold']
 		bp = [settings['alert']['highpass'], settings['alert']['lowpass']]
 		cha = settings['alert']['channel']
+		win_ovr = settings['alert']['win_override']
 		debug = settings['alert']['debug']
-		alrt = Alert(sta=sta, lta=lta, thresh=thresh, bp=bp, func=eqAlert,
-							  cha=cha, debug=debug)
+		ex = eqAlert if settings['alert']['exec'] in 'eqAlert' else settings['alert']['exec']
+		alrt = Alert(sta=sta, lta=lta, thresh=thresh, bp=bp, func=ex,
+							  cha=cha, win_ovr=win_ovr, debug=debug)
 		alrt.start()
+
 	if settings['write']['enabled']:
 		outdir = settings['write']['outdir']
 		writer = Write(outdir=outdir)
@@ -158,9 +162,11 @@ where OPTIONS := {
 	"sta": 6,
 	"lta": 30,
 	"threshold": 1.6,
+	"exec": "eqAlert",
 	"highpass": 0,
 	"lowpass": 50,
 	"channel": "HZ",
+	"win_override": false,
 	"debug": false},
 "write": {
 	"enabled": false,

@@ -1,21 +1,32 @@
-import sys
+import sys, os
 from threading import Thread
 from queue import Queue
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as RS
 from rsudp.raspberryshake import qsize
-from rsudp.consumer import destinations
+from rsudp.c_consumer import destinations
 from obspy.signal.trigger import recursive_sta_lta
 from rsudp import printM
 import numpy as np
 
 
 class Alert(Thread):
-	def __init__(self, sta=5, lta=30, thresh=1.6, bp=False, func='print',
-				 debug=True, cha='HZ', *args, **kwargs):
+	"""
+	An consumer class that listens to a specific incoming data channel
+	and calculates a recursive STA/LTA (short term average over long term 
+	average). If a threshold of STA/LTA ratio is exceeded, the class
+	activates a function of the user's choosing. By default, the function
+	simply prints a message to the terminal window, but the user can
+	choose to run a function of their own as well.
+	"""
+	def __init__(self, sta=5, lta=30, thresh=1.6, bp=False, func=None,
+				 debug=True, cha='HZ', win_ovr=False, *args, **kwargs):
 		
 		"""
-		A recursive STA-LTA 
+		Initialize the alert thread with parameters to set up the recursive
+		STA-LTA trigger, filtering, the function that is executed upon
+		trigger activation, and the channel used for listening.
+
 		:param float sta: short term average (STA) duration in seconds
 		:param float lta: long term average (LTA) duration in seconds
 		:param float thresh: threshold for STA/LTA trigger
@@ -32,6 +43,7 @@ class Alert(Thread):
 		self.lta = lta
 		self.thresh = thresh
 		self.func = func
+		self.win_ovr = win_ovr
 		self.debug = debug
 		self.args = args
 		self.kwargs = kwargs
@@ -62,6 +74,19 @@ class Alert(Thread):
 		alrtq = Queue(qsize)
 		destinations.append(alrtq)
 		self.qno = len(destinations) - 1
+
+		if (os.name in 'nt') and (not callable(self.func)) and (not self.win_ovr):
+			printM('ERROR: Using Windows with custom alert code! Your code MUST have UNIX/Mac newline characters!')
+			print('                                   Please use a conversion tool like dos2unix to convert line endings')
+			print('                                   (https://en.wikipedia.org/wiki/Unix2dos) to make your code file')
+			print('                                   readable to the Python interpreter.')
+			print('                                   Once you have done that, please set "win_override" to true')
+			print('                                   in the settings file.')
+			print('            (see also footnote [1] on this page: https://docs.python.org/3/library/functions.html#id2)')
+			printM('THREAD EXITING, please correct and restart!', self.sender)
+			sys.exit(2)
+		else:
+			pass
 
 		listen_ch = '?%s' % self.default_ch if self.cha == self.default_ch else self.cha
 		printM('Starting Alert trigger with sta=%ss, lta=%ss, and threshold=%s on channel=%s'
@@ -133,17 +158,17 @@ class Alert(Thread):
 					cft = recursive_sta_lta(self.stream[0],
 							int(self.sta * self.sps), int(self.lta * self.sps))
 				if cft.max() > self.thresh:
-					if self.func == 'print':
-						print()
-						printM('Event detected! Trigger threshold: %s, CFT: %s '
-								% (self.thresh, cft.max()), self.sender)
-						printM('Waiting %s sec for clear trigger'
-								% (self.lta), self.sender)
-					else:
-						print()
-						printM('Trigger threshold of %s exceeded: %s'
-								% (self.thresh, cft.max()), self.sender)
+					print()
+					printM('Trigger threshold of %s exceeded: %s'
+							% (self.thresh, cft.max()), self.sender)
+					if callable(self.func):
 						self.func(*self.args, **self.kwargs)
+					else:
+						printM('Attempting execution of custom script...')
+						try:
+							exec(self.func)
+						except Exception as e:
+							printM('Execution failed, error: %s' % e)
 					n = 1
 				self.stream = RS.copy(self.stream)
 

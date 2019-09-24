@@ -1,12 +1,21 @@
 import sys
 from threading import Thread
 from queue import Queue
-from rsudp.consumer import destinations
+from rsudp.c_consumer import destinations
 from rsudp.raspberryshake import qsize
 from rsudp import printM
 
 
 class PrintRaw(Thread):
+	"""
+	A sub-consumer class that simply prints incoming data to the terminal.
+	This is enabled by setting the "printdata" > "enabled" parameter to `true`
+	in the settings file. This is more of a debug feature than anything else,
+	meant to be a way to check that data is flowing into the port.
+
+
+	"""
+
 	def __init__(self):
 		"""
 		Initialize the process

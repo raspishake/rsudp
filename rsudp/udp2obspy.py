@@ -188,7 +188,6 @@ where OPTIONS := {
 		)[0]
 	for o, a in opts:
 		if o in ('-h, --help'):
-			h = True
 			print(hlp_txt)
 			exit(0)
 		if o in ('-d', '--dump'):

@@ -14,7 +14,6 @@ sender = 'plot.py'
 try:		# test for matplotlib and exit if import fails
 	import matplotlib
 	if 'armv' in os.uname().machine:	# test for Qt and fail over to Tk
-		printM('WARNING: Running on %s architecture, using Tk instead of Qt' % (os.uname().machine), sender)
 		matplotlib.use('TkAgg')
 		qt = False
 	else:
@@ -42,6 +41,9 @@ class Plot(Thread):
 		"""
 		super().__init__()
 		global destinations
+
+		if not qt:
+			printM('WARNING: Running on %s architecture, using Tk instead of Qt' % (os.uname().machine), sender)
 
 		plotq = Queue(qsize)
 		destinations.append(plotq)

@@ -175,7 +175,7 @@ where OPTIONS := {
 
 	default_settings = """{
 "settings": {
-	"port": 18004,
+	"port": 8888,
 	"station": "Z0000"},
 "printdata": {
 	"enabled": false},

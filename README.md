@@ -25,10 +25,10 @@ Generally, if you are sending data inside a local network, there will not be any
 
 ### On Linux & MacOS
 
-A UNIX installer script is available at `installer.sh`. This script checks whether or not you have Anaconda installed, then downloads and installs it if need be. This script has been tested on both `x86_64` and `armv7l` architectures (meaning that it can run on your home computer or a Raspberry Pi) and will download the appropriate Anaconda distribution, set up a virtual Python environment, and leave you ready to run the program. To install using this method:
+A UNIX installer script is available at `unix-install-rsudp.sh`. This script checks whether or not you have Anaconda installed, then downloads and installs it if need be. This script has been tested on both `x86_64` and `armv7l` architectures (meaning that it can run on your home computer or a Raspberry Pi) and will download the appropriate Anaconda distribution, set up a virtual Python environment, and leave you ready to run the program. To install using this method:
 
 ```bash
-$ bash installer.sh
+$ bash unix-install-rsudp.sh
 ```
 
 Once you've done this, your conda environment will be available by typing:
@@ -41,11 +41,18 @@ Your prompt should now look like the following:
 ```
 From here, you can begin using the program.
 
-**Note: the installer script will make the `conda` command executable by default, by appending the line below to your `~/.bashrc` file.** This is generally harmless, but if you have a specific objection to it, you can run the installer with the `-c` flag, which will run the script and install the environment without modifying your `~/.bashrc`. You will have to manually run the `conda` executable in this case, however. If you choose to do it manually later, the line appended to `~/.bashrc` is the following:
+**Note: the installer script will pause partway through to ask if you would like to make the `conda` command executable by default. This is done by appending the line below to your `~/.bashrc` file.** This is generally harmless, but if you have a specific objection to it, hitting any key other than "y" will cause the script to skip this step. You will have to manually run the `conda` executable in this case, however. If you choose to do it manually later, the line appended to the end of `~/.bashrc` is the following (architecture-dependent):
 
+On x86 systems:
 ```bash
 . $HOME/anaconda3/etc/profile.d/conda.sh
 ```
+or on raspbian/ARMv7 architecture:
+```bash
+. $HOME/berryconda3/etc/profile.d/conda.sh
+```
+*Note: You can run `uname -m` to check your computer's architecture.*
+
 where `$HOME` is the home directory of the current user (generally `/home/$USER` with `$USER` being your username).
 
 ### On Windows

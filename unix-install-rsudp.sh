@@ -27,19 +27,17 @@ read -n1 -rsp $'Press any key to continue...\n\n'
 
 # first we have to test if there is an existing anaconda installation
 # the simplest case, that the conda command works:
-command -v $conda >/dev/null 2>&1 &&
+command -v conda >/dev/null 2>&1 &&
+conda activate &&
 conda_exists=1
 
 if [ ! $conda_exists ]; then
   # if conda doesn't exist,
-  if [ -f "$CONDA_EXE" ]; then
-    # we test if an env variable can point us to an executable
+  if [ -f "$HOME/$release/bin/conda" ]; then
+    # now we look in the default install location
+    . $prefix/etc/profile.d/conda.sh &&
+    conda activate &&
     conda_exists=1
-    conda="$CONDA_EXE"
-  elif [ -f "$HOME/$release/bin/conda" ]; then
-    # and as a last-ditch effort we look in the default install location
-    conda_exists=1
-    conda="$HOME/$release/bin/conda"
   else
     echo "Cannot find conda executable; will try installing."
     conda="$prefix/bin/conda"
@@ -68,7 +66,7 @@ if [ ! $conda_exists ]; then
     fi
 
     wget "$arm_base_url$arm_exe" -O "$tmp_exe" && dl=1
-    env_install="$conda create -n rsudp python=3 numpy matplotlib future scipy lxml sqlalchemy -y"
+    env_install="conda create -n rsudp python=3 numpy matplotlib future scipy lxml sqlalchemy -y"
     postinstall="pip install matplotlib==3.1.1; pip install obspy"
 
   else
@@ -86,7 +84,7 @@ if [ ! $conda_exists ]; then
     fi
 
     wget "$x86_base_url$conda_installer" -O "$tmp_exe" && dl=1
-    env_install="$conda create -n rsudp python=3 matplotlib=3.1.1 numpy future scipy lxml sqlalchemy obspy -y"
+    env_install="conda create -n rsudp python=3 matplotlib=3.1.1 numpy future scipy lxml sqlalchemy obspy -y"
   fi
 
   if [ $dl ]; then
@@ -105,7 +103,7 @@ if [ ! $conda_exists ]; then
   if [ -f $prefix/etc/profile.d/conda.sh ]; then
     echo "----------------------------------------------"
     echo "The script will now append a sourcing line to your ~/.bashrc file in order to"
-    echo "make activating conda easier in the future (just type `conda activate` into a terminal)."
+    echo 'make activating conda easier in the future (just type "conda activate" into a terminal).'
     read -n1 -rsp $'Press the "y" key to proceed, or any other key to prevent this...\n' key
     echo $key
 
@@ -117,23 +115,27 @@ if [ ! $conda_exists ]; then
     fi
     echo "Sourcing..."
     . $prefix/etc/profile.d/conda.sh
+    echo "Activating Anaconda..."
+    conda activate && conda_exists=1
   else
     echo "Something went wrong; cannot find a conda profile to source. Exiting."
     exit 2
   fi
 else
-  echo "Using previously-installed conda executable $conda"
+    echo "Anaconda installation found at $(which conda)"
 fi
 
+if [ ! $conda_exists ]; then
+  echo "ERROR: Anaconda install failed. Check the error output and try again."
+  exit 2
+fi
 
-echo "Activating Anaconda..."
-$conda activate
 echo "Appending conda-forge to channels..."
-$conda config --append channels conda-forge
+conda config --append channels conda-forge
 echo "Creating and installing rsudp conda environment..."
-$env_install
+env_install
 echo "Activating rsudp environment..."
-$conda activate rsudp && echo "Success: rsudp environment activated."
+conda activate rsudp && echo "Success: rsudp environment activated."
 if [ $postinstall ]; then
   echo "Doing post-install tasks for rsudp environment..."
   $postinstall

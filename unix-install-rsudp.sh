@@ -23,7 +23,7 @@ echo "Ian Nesbitt; Raspberry Shake S.A., 2019"
 echo "---------------------------------------"
 echo "Please follow instructions in script."
 echo "---------------------------------------"
-read -n1 -rsp $'Press any key to continue...\n'
+read -n1 -rsp $'Press any key to continue...\n\n'
 
 # first we have to test if there is an existing anaconda installation
 # the simplest case, that the conda command works:
@@ -47,6 +47,10 @@ fi
 
 if [ ! $conda_exists ]; then
   # get ready to install anaconda or berryconda
+  echo "Found $os environment. Ready to download Anaconda from Continuum."
+  echo "This script will now get $conda_installer and install to $prefix."
+  echo "The download could be as large as 600 MB; so make sure this is not a metered connection."
+  read -n1 -rsp $'Press any key to continue or Ctrl+C to exit...\n\n'
 
   if [[ "$arch" == "armv"* ]]; then
     # installing on ARM architecture (RPi or similar)
@@ -79,11 +83,6 @@ if [ ! $conda_exists ]; then
       exit 1
     fi
 
-    echo "Found $os environment. Ready to download Anaconda from Continuum."
-    echo "This script will now get $conda_installer and install to $prefix."
-    echo "The download could be as large as 600 MB; so make sure this is not a metered connection."
-    read -n1 -rsp $'Press any key to continue or Ctrl+C to exit...\n'
-
     wget "$x86_base_url$conda_installer" -O "$tmp_exe" && dl=1
     env_install="$conda create -n rsudp python=3 matplotlib=3.1.1 numpy future scipy lxml sqlalchemy obspy -y"
   fi
@@ -102,8 +101,9 @@ if [ ! $conda_exists ]; then
   fi
 
   if [ -f $prefix/etc/profile.d/conda.sh ]; then
+    echo "----------------------------------------------"
     echo "The script will now append a sourcing line to your ~/.bashrc file in order to"
-    echo "make activating conda easier in the future (just type conda into a terminal)."
+    echo "make activating conda easier in the future (just type `conda activate` into a terminal)."
     read -n1 -rsp $'Press the "y" key to proceed, or any other key to prevent this...\n' key
     echo $key
 

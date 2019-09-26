@@ -4,21 +4,26 @@
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 arch=$(uname -m)
 os=$(uname -s)
+tmp="/tmp"
+
 command -v conda >/dev/null 2>&1 && conda_exists=1
 conda='conda'
 
+
+
 if [ ! $conda_exists ]; then
-  if [ ! -f $CONDA_EXE ]; then
-    echo "Cannot find conda executable; will try installing..."
-  else
-    echo "Using previously-installed conda executable $CONDA_EXE"
-    conda=$CONDA_EXE
+  if [ -f $CONDA_EXE ]; then
+    # test if the $CONDA_EXE system variable points anywhere
     conda_exists=1
+    conda=$CONDA_EXE
+    echo "Using previously-installed conda executable $CONDA_EXE"
+  else
+    echo "Cannot find conda executable; will try installing..."
   fi
 fi
 
 if [ ! $conda_exists ]; then
-  cd /tmp
+  cd $tmp
 
   if [ "armv" in $arch ]; then
     wget https://github.com/jjhelmus/berryconda/releases/download/v2.0.0/Berryconda3-2.0.0-Linux-armv7l.sh -O anaconda.sh
@@ -49,6 +54,7 @@ if [ ! $conda_exists ]; then
   chmod +x anaconda.sh
   echo "Installing Anaconda..."
   ./anaconda.sh -b
+  echo "Cleaning up temporary files..."
   rm anaconda.sh
   echo "Updating base conda environment..."
   $conda update conda -y

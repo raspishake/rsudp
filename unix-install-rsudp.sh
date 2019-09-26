@@ -42,6 +42,7 @@ if [ ! $conda_exists ]; then
     conda="$HOME/$release/bin/conda"
   else
     echo "Cannot find conda executable; will try installing."
+    conda="$prefix/bin/conda"
   fi
 fi
 

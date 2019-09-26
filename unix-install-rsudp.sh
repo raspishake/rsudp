@@ -48,8 +48,8 @@ fi
 if [ ! $conda_exists ]; then
   # get ready to install anaconda or berryconda
   echo "Found $os environment on $arch."
-  echo "Install location: $prefix."
-  echo "Ready to download Anaconda."
+  echo "Install location: $prefix"
+  echo "Ready to download $release"
   echo "The download could be as large as 600 MB, so make sure this is not a metered connection."
   read -n1 -rsp $'Press any key to continue or Ctrl+C to exit...\n\n'
 

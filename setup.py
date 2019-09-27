@@ -21,7 +21,7 @@ setuptools.setup(
             'shake_local=rsudp.shake_udp_local:main',
             'shake_remote=rsudp.shake_udp_remote:main',
             'shake_packetloss=rsudp.shake_udp_packetloss:main',
-            'rs-client=rsudp.udp2obspy:main',
+            'shake_client=rsudp.udp2obspy:main',
             ],
     },
     classifiers=[

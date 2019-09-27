@@ -44,7 +44,7 @@ if [ ! -z ${conda_exists+x} ]; then
   fi
 fi
 
-if [ ! -z ${conda_exists+x} ]; then
+if [ -z ${conda_exists+x} ]; then
   # get ready to install anaconda or berryconda
   echo "Found $os environment on $arch."
   echo "Install location: $prefix"

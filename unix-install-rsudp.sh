@@ -5,17 +5,20 @@ arch=$(uname -m)    # machine hardware
 os=$(uname -s)      # kernel name
 node=$(uname -n)    # node name
 tmp="/tmp"          # temporary directory for install file
-exe="anaconda.sh"   # install file name
+exe="conda-install.sh" # install file name
 tmp_exe="$tmp/$exe" # install file loc/name
 conda="conda"       # anaconda executable or alias
-macos_exe="Anaconda3-2019.07-MacOSX-x86_64.sh"
-linux_exe="Anaconda3-2019.07-Linux-x86_64.sh"
-arm_exe="Berryconda3-2.0.0-Linux-armv7l.sh"
-x86_base_url="https://repo.anaconda.com/archive/"
-arm_base_url="https://github.com/jjhelmus/berryconda/releases/download/v2.0.0/"
-if [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='anaconda3'; fi
-# anaconda install location:
-prefix="$HOME/$release" # $HOME/anaconda3 (x86) and $HOME/berryconda3 (ARM) are default
+macos_exe="Miniconda3-4.7.10-MacOSX-x86_64.sh"
+linux_exe="Miniconda3-4.7.10-Linux-x86_64.sh"
+arm_exe="Miniconda3-3.16.0-Linux-armv7l.sh"#"Berryconda3-2.0.0-Linux-armv7l.sh"
+x86_base_url="https://repo.anaconda.com/miniconda/"
+arm_base_url=$x86_base_url #"https://github.com/jjhelmus/berryconda/releases/download/v2.0.0/"
+if [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='miniconda3'; fi
+release="miniconda3"
+# conda install location:
+prefix="$HOME/$release"         # $HOME/miniconda3 is default location
+full="$HOME/anaconda3"          # full release install location
+berryconda="$HOME/berryconda3"  # berryconda install location
 
 echo "---------------------------------------"
 echo "Raspberry Shake UDP client installer"
@@ -32,24 +35,34 @@ conda activate &&
 conda_exists=1
 
 if [ -z ${conda_exists+x} ]; then
-  # if conda doesn't exist,
-  if [ -f "$HOME/$release/bin/conda" ]; then
+  # if conda command doesn't exist,
+  if [ -f "$prefix/bin/conda" ]; then
     # now we look in the default install location
     . $prefix/etc/profile.d/conda.sh &&
     conda activate &&
     conda_exists=1
+  elif [ -f "$berryconda/bin/conda" ]; then
+    # look for a berryconda release
+    . $berryconda/etc/profile.d/conda.sh &&
+    conda activate &&
+    conda_exists=1
+  elif [ -f "$full/bin/conda" ]; then
+    # finally, look for a full release
+    . $full/etc/profile.d/conda.sh &&
+    conda activate &&
+    conda_exists=1
   else
-    echo "Cannot find conda executable; will try installing."
     conda="$prefix/bin/conda"
   fi
 fi
 
 if [ -z ${conda_exists+x} ]; then
+  echo "Cannot find conda installation; will try installing."
   # get ready to install anaconda or berryconda
   echo "Found $os environment on $arch."
   echo "Install location: $prefix"
   echo "Ready to download $release"
-  echo "The download could be as large as 600 MB, so make sure this is not a metered connection."
+  echo "The download could be as large as 200 MB."
   read -n1 -rsp $'Press any key to continue or Ctrl+C to exit...\n\n'
 
   if [[ "$arch" == "armv"* ]]; then
@@ -86,14 +99,14 @@ if [ -z ${conda_exists+x} ]; then
 
   if [ ! -z ${dl+x} ]; then
     chmod +x "$tmp_exe"
-    echo "Installing Anaconda..."
+    echo "Installing Miniconda..."
     cd "$tmp" && ./$exe -b -p $prefix
     echo "Cleaning up temporary files..."
     rm "$tmp_exe"
     echo "Updating base conda environment..."
     $conda update conda -y
   else
-    echo "Something went wrong downloading Anaconda. Check the error and try again."
+    echo "Something went wrong downloading Anaconda/Miniconda. Check the error and try again."
     exit 2
   fi
 
@@ -114,7 +127,7 @@ if [ -z ${conda_exists+x} ]; then
     fi
     echo "Sourcing..."
     . $prefix/etc/profile.d/conda.sh
-    echo "Activating Anaconda..."
+    echo "Activating conda..."
     conda activate && conda_exists=1
   else
     echo "Something went wrong; cannot find a conda profile to source. Exiting."
@@ -132,7 +145,7 @@ fi
 if [[ "$arch" == "armv"* ]]; then
   env_install="conda create -n rsudp python=3 numpy matplotlib future scipy lxml sqlalchemy -y"
 else
-  env_install="conda create -n rsudp python=3 matplotlib=3.1.1 numpy future scipy lxml sqlalchemy obspy -y"
+  env_install="conda create -n rsudp python=3 matplotlib=3.1.1 numpy=1.16.4 future scipy lxml sqlalchemy obspy -y"
 fi
 
 # check for conda forge channel; if it's not there add it
@@ -151,6 +164,7 @@ if [ $success -eq "1" ]; then
   echo "rsudp has installed successfully!"
   echo 'You can enter the rsudp conda environment by typing "conda activate rsudp"'
   echo 'and then run rsudp by using the command "rs-client -h"'
+  echo 'You may need to tell your shell where to find conda by entering ". ~/miniconda3/etc/profile.d/conda.sh"'
   exit 0
 else
   echo "---------------------------------"

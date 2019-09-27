@@ -109,6 +109,8 @@ if [ ! $conda_exists ]; then
       echo ". $prefix/etc/profile.d/conda.sh" >> ~/.bashrc
     else
       echo "Not appending sourcing line to bashrc."
+      echo "You can add it later by adding the following line to the bottom of ~/.bashrc:"
+      echo ". $prefix/etc/profile.d/conda.sh"
     fi
     echo "Sourcing..."
     . $prefix/etc/profile.d/conda.sh
@@ -127,7 +129,7 @@ if [ ! $conda_exists ]; then
   exit 2
 fi
 
-if [ $arch == "armv"* ]; then
+if [ "$arch" == "armv"* ]; then
   env_install="conda create -n rsudp python=3 numpy matplotlib future scipy lxml sqlalchemy -y"
   postinstall="pip install matplotlib==3.1.1; pip install obspy"
 else
@@ -136,7 +138,7 @@ fi
 
 # check for conda forge channel; if it's not there add it
 cat ~/.condarc | grep "conda-forge" >/dev/null ||
-echo "Appending conda-forge to channels..." &&
+echo "Appending conda-forge to channels..." ||
 conda config --append channels conda-forge 
 echo "Creating and installing rsudp conda environment..."
 $env_install

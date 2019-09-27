@@ -76,6 +76,10 @@ class Alert(Thread):
 		else:
 			self.filt = False
 
+		if self.cha not in RS.chns:
+			printM('ERROR: Could not find channel %s in list of channels! Please correct and restart.' % self.cha, self.sender)
+			sys.exit(2)
+
 		if (os.name in 'nt') and (not callable(self.func)) and (not self.win_ovr):
 			printM('ERROR: Using Windows with custom alert code! Your code MUST have UNIX/Mac newline characters!')
 			print('                                   Please use a conversion tool like dos2unix to convert line endings')
@@ -89,7 +93,7 @@ class Alert(Thread):
 		else:
 			pass
 
-		listen_ch = '?%s' % self.default_ch if self.cha == self.default_ch else self.cha
+		listen_ch = '?%s' % self.cha
 		printM('Starting Alert trigger with sta=%ss, lta=%ss, and threshold=%s on channel=%s'
 				% (self.sta, self.lta, self.thresh, listen_ch), self.sender)
 		if self.filt == 'bandpass':
@@ -165,7 +169,7 @@ class Alert(Thread):
 					if callable(self.func):
 						self.func(*self.args, **self.kwargs)
 					else:
-						printM('Attempting execution of custom script...')
+						printM('Attempting execution of custom script. If something goes wrong, you may need to kill this process manually...')
 						try:
 							exec(self.func)
 						except Exception as e:

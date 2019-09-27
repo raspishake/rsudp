@@ -31,7 +31,7 @@ command -v conda >/dev/null 2>&1 &&
 conda activate &&
 conda_exists=1
 
-if [ ! -z ${conda_exists+x} ]; then
+if [ -z ${conda_exists+x} ]; then
   # if conda doesn't exist,
   if [ -f "$HOME/$release/bin/conda" ]; then
     # now we look in the default install location
@@ -124,7 +124,7 @@ else
     echo "Anaconda installation found at $(which conda)"
 fi
 
-if [ ! -z ${conda_exists+x} ]; then
+if [ -z ${conda_exists+x} ]; then
   echo "ERROR: Anaconda install failed. Check the error output and try again."
   exit 2
 fi

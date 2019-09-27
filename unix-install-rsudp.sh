@@ -131,7 +131,6 @@ fi
 
 if [[ "$arch" == "armv"* ]]; then
   env_install="conda create -n rsudp python=3 numpy matplotlib future scipy lxml sqlalchemy -y"
-  postinstall="pip install matplotlib==3.1.1 obspy"
 else
   env_install="conda create -n rsudp python=3 matplotlib=3.1.1 numpy future scipy lxml sqlalchemy obspy -y"
 fi
@@ -140,14 +139,10 @@ fi
 cat ~/.condarc | grep "conda-forge" >/dev/null ||
 echo "Appending conda-forge to channels..." ||
 conda config --append channels conda-forge 
-echo "Creating and installing rsudp conda environment..."
+echo "Creating and installing rsudp conda environment..." &&
 $env_install &&
 echo "Activating rsudp environment..." &&
 conda activate rsudp && echo "Success: rsudp environment activated." &&
-if [ ! -z ${postinstall+x} ]; then
-  echo "Doing post-install tasks for rsudp environment..."
-  $postinstall &&
-fi
 echo "Installing rsudp..." &&
 pip install $dir && success=1 || success=0
 

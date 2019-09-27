@@ -146,8 +146,8 @@ pip install rsudp && success=1 || success=0
 if [ $success -eq "1" ]; then
   echo "---------------------------------"
   echo "rsudp has installed successfully!"
-  echo "You can enter the rsudp conda environment by typing `conda activate rsudp`"
-  echo "and then run rsudp by using the command `shake_tool -h`"
+  echo 'You can enter the rsudp conda environment by typing "conda activate rsudp"'
+  echo 'and then run rsudp by using the command "shake_tool -h"'
   exit 0
 else
   echo "---------------------------------"

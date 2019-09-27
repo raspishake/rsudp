@@ -10,19 +10,19 @@ tmp_exe="$tmp/$exe" # install file loc/name
 conda="conda"       # anaconda executable or alias
 macos_exe="Miniconda3-4.7.10-MacOSX-x86_64.sh"
 linux_exe="Miniconda3-4.7.10-Linux-x86_64.sh"
-arm_exe="Miniconda3-3.16.0-Linux-armv7l.sh"#"Berryconda3-2.0.0-Linux-armv7l.sh"
+arm_exe="Berryconda3-2.0.0-Linux-armv7l.sh"
 x86_base_url="https://repo.anaconda.com/miniconda/"
-arm_base_url=$x86_base_url #"https://github.com/jjhelmus/berryconda/releases/download/v2.0.0/"
+arm_base_url="https://github.com/jjhelmus/berryconda/releases/download/v2.0.0/"
 if [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='miniconda3'; fi
-release="miniconda3"
 # conda install location:
 prefix="$HOME/$release"         # $HOME/miniconda3 is default location
 full="$HOME/anaconda3"          # full release install location
 berryconda="$HOME/berryconda3"  # berryconda install location
+miniconda="$HOME/miniconda3"    # miniconda install location
 
 echo "---------------------------------------"
 echo "Raspberry Shake UDP client installer"
-echo "Ian Nesbitt; Raspberry Shake S.A., 2019"
+echo "Ian Nesbitt, Raspberry Shake S.A., 2019"
 echo "---------------------------------------"
 echo "Please follow instructions in script."
 echo "---------------------------------------"
@@ -36,7 +36,7 @@ conda_exists=1
 
 if [ -z ${conda_exists+x} ]; then
   # if conda command doesn't exist,
-  if [ -f "$prefix/bin/conda" ]; then
+  if [ -f "$miniconda/bin/conda" ]; then
     # now we look in the default install location
     . $prefix/etc/profile.d/conda.sh &&
     conda activate &&

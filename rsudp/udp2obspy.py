@@ -161,7 +161,7 @@ def main():
 ##                                       ##
 ###########################################
 
-Usage: shake_tool [ OPTIONS ]
+Usage: rs-client [ OPTIONS ]
 where OPTIONS := {
     -h | --help
             display this help message

@@ -31,7 +31,7 @@ command -v conda >/dev/null 2>&1 &&
 conda activate &&
 conda_exists=1
 
-if [ ! $conda_exists ]; then
+if [ ! -z ${conda_exists+x} ]; then
   # if conda doesn't exist,
   if [ -f "$HOME/$release/bin/conda" ]; then
     # now we look in the default install location
@@ -44,7 +44,7 @@ if [ ! $conda_exists ]; then
   fi
 fi
 
-if [ ! $conda_exists ]; then
+if [ ! -z ${conda_exists+x} ]; then
   # get ready to install anaconda or berryconda
   echo "Found $os environment on $arch."
   echo "Install location: $prefix"
@@ -68,10 +68,10 @@ if [ ! $conda_exists ]; then
     wget "$arm_base_url$arm_exe" -O "$tmp_exe" && dl=1
 
   else
-    if [[ $os == "Linux" ]]; then
+    if [[ "$os" == "Linux" ]]; then
       conda_installer=$linux_exe
 
-    elif [[ $os == "Darwin" ]]; then
+    elif [[ "$os" == "Darwin" ]]; then
       conda_installer=$macos_exe
 
     else
@@ -84,7 +84,7 @@ if [ ! $conda_exists ]; then
     wget "$x86_base_url$conda_installer" -O "$tmp_exe" && dl=1
   fi
 
-  if [ $dl ]; then
+  if [ ! -z ${dl+x} ]; then
     chmod +x "$tmp_exe"
     echo "Installing Anaconda..."
     cd "$tmp" && ./$exe -b -p $prefix
@@ -104,7 +104,7 @@ if [ ! $conda_exists ]; then
     read -n1 -rsp $'Press the "y" key to proceed, or any other key to prevent this...\n' key
     echo $key
 
-    if [ "$key" == "y" ] || [ "$key" == "Y" ]; then
+    if [[ "$key" == "y" ]] || [[ "$key" == "Y" ]]; then
       echo "Appending sourcing line to bashrc..."
       echo ". $prefix/etc/profile.d/conda.sh" >> ~/.bashrc
     else
@@ -124,7 +124,7 @@ else
     echo "Anaconda installation found at $(which conda)"
 fi
 
-if [ ! $conda_exists ]; then
+if [ ! -z ${conda_exists+x} ]; then
   echo "ERROR: Anaconda install failed. Check the error output and try again."
   exit 2
 fi
@@ -144,7 +144,7 @@ echo "Creating and installing rsudp conda environment..."
 $env_install
 echo "Activating rsudp environment..."
 conda activate rsudp && echo "Success: rsudp environment activated."
-if [ $postinstall ]; then
+if [ ! -z ${postinstall+x} ]; then
   echo "Doing post-install tasks for rsudp environment..."
   $postinstall
 fi
@@ -155,7 +155,7 @@ if [ $success -eq "1" ]; then
   echo "---------------------------------"
   echo "rsudp has installed successfully!"
   echo 'You can enter the rsudp conda environment by typing "conda activate rsudp"'
-  echo 'and then run rsudp by using the command "shake_tool -h"'
+  echo 'and then run rsudp by using the command "rs-client -h"'
   exit 0
 else
   echo "---------------------------------"

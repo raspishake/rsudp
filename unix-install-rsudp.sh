@@ -129,7 +129,7 @@ if [ -z ${conda_exists+x} ]; then
   exit 2
 fi
 
-if [ "$arch" == "armv"* ]; then
+if [[ "$arch" == "armv"* ]]; then
   env_install="conda create -n rsudp python=3 numpy matplotlib future scipy lxml sqlalchemy -y"
   postinstall="pip install matplotlib==3.1.1; pip install obspy"
 else
@@ -149,7 +149,7 @@ if [ ! -z ${postinstall+x} ]; then
   $postinstall
 fi
 echo "Installing rsudp..."
-pip install rsudp && success=1 || success=0
+pip install $dir && success=1 || success=0
 
 if [ $success -eq "1" ]; then
   echo "---------------------------------"

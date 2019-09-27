@@ -164,7 +164,7 @@ if [ $success -eq "1" ]; then
   echo "rsudp has installed successfully!"
   echo 'You can enter the rsudp conda environment by typing "conda activate rsudp"'
   echo 'and then run rsudp by using the command "rs-client -h"'
-  echo 'You may need to tell your shell where to find conda by entering ". ~/miniconda3/etc/profile.d/conda.sh"'
+  echo 'You may need to tell your shell where to find conda by entering ". ~/'"$release"'/etc/profile.d/conda.sh"'
   exit 0
 else
   echo "---------------------------------"

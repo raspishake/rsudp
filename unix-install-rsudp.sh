@@ -66,8 +66,6 @@ if [ ! $conda_exists ]; then
     fi
 
     wget "$arm_base_url$arm_exe" -O "$tmp_exe" && dl=1
-    env_install="conda create -n rsudp python=3 numpy matplotlib future scipy lxml sqlalchemy -y"
-    postinstall="pip install matplotlib==3.1.1; pip install obspy"
 
   else
     if [[ $os == "Linux" ]]; then
@@ -84,7 +82,6 @@ if [ ! $conda_exists ]; then
     fi
 
     wget "$x86_base_url$conda_installer" -O "$tmp_exe" && dl=1
-    env_install="conda create -n rsudp python=3 matplotlib=3.1.1 numpy future scipy lxml sqlalchemy obspy -y"
   fi
 
   if [ $dl ]; then
@@ -130,10 +127,19 @@ if [ ! $conda_exists ]; then
   exit 2
 fi
 
-echo "Appending conda-forge to channels..."
-conda config --append channels conda-forge
+if [ $arch == "armv"* ]; then
+  env_install="conda create -n rsudp python=3 numpy matplotlib future scipy lxml sqlalchemy -y"
+  postinstall="pip install matplotlib==3.1.1; pip install obspy"
+else
+  env_install="conda create -n rsudp python=3 matplotlib=3.1.1 numpy future scipy lxml sqlalchemy obspy -y"
+fi
+
+# check for conda forge channel; if it's not there add it
+cat ~/.condarc | grep "conda-forge" >/dev/null ||
+echo "Appending conda-forge to channels..." &&
+conda config --append channels conda-forge 
 echo "Creating and installing rsudp conda environment..."
-env_install
+$env_install
 echo "Activating rsudp environment..."
 conda activate rsudp && echo "Success: rsudp environment activated."
 if [ $postinstall ]; then

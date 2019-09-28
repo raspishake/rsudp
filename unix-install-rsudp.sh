@@ -57,7 +57,7 @@ if [ -z ${conda_exists+x} ]; then
 fi
 
 if [ -z ${conda_exists+x} ]; then
-  echo "Cannot find conda installation; will try installing."
+  echo "Cannot find conda installation; will try installing $release."
   # get ready to install anaconda or berryconda
   echo "Found $os environment on $arch."
   echo "Install location: $prefix"
@@ -153,13 +153,17 @@ cat ~/.condarc | grep "conda-forge" >/dev/null ||
 echo "Appending conda-forge to channels..." ||
 conda config --append channels conda-forge 
 echo "Creating and installing rsudp conda environment..." &&
-$env_install &&
-echo "Activating rsudp environment..." &&
-conda activate rsudp && echo "Success: rsudp environment activated." &&
-echo "Installing rsudp..." &&
-pip install $dir && success=1 || success=0
+$env_install
+if [ -d $prefix/envs/rsudp ]; then
+  echo "Activating rsudp environment..." &&
+  conda activate rsudp && echo "Success: rsudp environment activated." &&
+  echo "Installing rsudp..." &&
+  pip install $dir && success=1
+else
+  echo "ERROR: rsudp failed to install."
+fi
 
-if [ $success -eq "1" ]; then
+if [ ! -z ${success+x} ]; then
   echo "---------------------------------"
   echo "rsudp has installed successfully!"
   echo 'You can enter the rsudp conda environment by typing "conda activate rsudp"'

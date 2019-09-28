@@ -76,7 +76,7 @@ class Alert(Thread):
 		else:
 			self.filt = False
 
-		if self.cha not in RS.chns:
+		if self.cha not in str(RS.chns):
 			printM('ERROR: Could not find channel %s in list of channels! Please correct and restart.' % self.cha, self.sender)
 			sys.exit(2)
 

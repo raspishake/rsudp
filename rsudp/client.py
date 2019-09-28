@@ -13,11 +13,10 @@ from rsudp.c_write import Write
 from rsudp.c_plot import Plot, mpl
 
 
-def eqAlert(blanklines=True,
-			printtext='Trigger threshold exceeded -- possible earthquake!',
-			other='Waiting for clear trigger...', *args, **kwargs):
-	printtext = str(printtext) + '\n' + str(other)
-	printM(printtext, sender='EQAlert function')
+def eqAlert(sender='EQAlert function', *args, **kwargs):
+	printM('Trigger threshold exceeded -- possible earthquake!', sender=sender)
+	printM('Waiting for clear trigger...', sender=sender)
+
 
 def prod(queue):
 	sender = 'Producer'

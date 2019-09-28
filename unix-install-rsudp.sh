@@ -99,14 +99,14 @@ if [ -z ${conda_exists+x} ]; then
 
   if [ ! -z ${dl+x} ]; then
     chmod +x "$tmp_exe"
-    echo "Installing Miniconda..."
+    echo "Installing $release..."
     cd "$tmp" && ./$exe -b -p $prefix
     echo "Cleaning up temporary files..."
     rm "$tmp_exe"
     echo "Updating base conda environment..."
     $conda update conda -y
   else
-    echo "Something went wrong downloading Anaconda/Miniconda. Check the error and try again."
+    echo "Something went wrong downloading $release. Check the error and try again."
     exit 2
   fi
 

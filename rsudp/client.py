@@ -15,7 +15,6 @@ from rsudp.c_plot import Plot, mpl
 
 def eqAlert(sender='EQAlert function', *args, **kwargs):
 	printM('Trigger threshold exceeded -- possible earthquake!', sender=sender)
-	printM('Waiting for clear trigger...', sender=sender)
 
 
 def prod(queue):
@@ -86,6 +85,7 @@ def run(settings):
 		sta = settings['alert']['sta']
 		lta = settings['alert']['lta']
 		thresh = settings['alert']['threshold']
+		reset = settings['alert']['reset']
 		bp = [settings['alert']['highpass'], settings['alert']['lowpass']]
 		cha = settings['alert']['channel']
 		win_ovr = settings['alert']['win_override']
@@ -93,7 +93,7 @@ def run(settings):
 		ex = eqAlert if settings['alert']['exec'] in 'eqAlert' else settings['alert']['exec']
 		# set up queue and process
 		q = mk_q()
-		alrt = Alert(sta=sta, lta=lta, thresh=thresh, bp=bp, func=ex,
+		alrt = Alert(sta=sta, lta=lta, thresh=thresh, reset=reset, bp=bp, func=ex,
 					 cha=cha, win_ovr=win_ovr, debug=debug, q=q)
 		mk_p(alrt)
 
@@ -183,6 +183,7 @@ where OPTIONS := {
 	"sta": 6,
 	"lta": 30,
 	"threshold": 1.6,
+	"reset": 1.55,
 	"exec": "eqAlert",
 	"highpass": 0,
 	"lowpass": 50,

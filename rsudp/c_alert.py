@@ -16,8 +16,8 @@ class Alert(Thread):
 	simply prints a message to the terminal window, but the user can
 	choose to run a function of their own as well.
 	"""
-	def __init__(self, sta=5, lta=30, thresh=1.6, bp=False, func=None,
-				 debug=True, cha='HZ', win_ovr=False, q=False,
+	def __init__(self, sta=5, lta=30, thresh=1.6, reset=1.55, bp=False,
+				 debug=True, cha='HZ', win_ovr=False, q=False, func=None,
 				 *args, **kwargs):
 		
 		"""
@@ -48,6 +48,7 @@ class Alert(Thread):
 		self.sta = sta
 		self.lta = lta
 		self.thresh = thresh
+		self.reset = reset
 		self.func = func
 		self.win_ovr = win_ovr
 		self.debug = debug
@@ -58,6 +59,10 @@ class Alert(Thread):
 		self.cha = cha if isinstance(cha, str) else cha[0]
 		self.sps = RS.sps
 		self.inv = RS.inv
+		self.stalta = np.ndarray(1)
+		self.maxstalta = 0
+
+		self.alarm = False
 		if bp:
 			self.freqmin = bp[0]
 			self.freqmax = bp[1]
@@ -123,7 +128,6 @@ class Alert(Thread):
 		"""
 
 		"""
-		cft, maxcft = np.zeros(1), 0
 		n = 0
 
 		wait_pkts = (self.lta) / (RS.tf / 1000)
@@ -149,53 +153,64 @@ class Alert(Thread):
 
 				if self.filt:
 					if self.filt in 'bandpass':
-						cft = recursive_sta_lta(
+						self.stalta = recursive_sta_lta(
 									self.stream[0].copy().filter(type=self.filt,
 									freqmin=self.freqmin, freqmax=self.freqmax),
 									int(self.sta * self.sps), int(self.lta * self.sps))
 					else:
-						cft = recursive_sta_lta(
+						self.stalta = recursive_sta_lta(
 									self.stream[0].copy().filter(type=self.filt,
 									freq=self.freq),
 									int(self.sta * self.sps), int(self.lta * self.sps))
 
 				else:
-					cft = recursive_sta_lta(self.stream[0],
+					self.stalta = recursive_sta_lta(self.stream[0],
 							int(self.sta * self.sps), int(self.lta * self.sps))
-				if cft.max() > self.thresh:
-					print()
-					printM('Trigger threshold of %s exceeded: %s'
-							% (self.thresh, cft.max()), self.sender)
-					if callable(self.func):
-						self.func(*self.args, **self.kwargs)
+				if self.stalta.max() > self.thresh:
+					if not self.alarm:
+						print(); print()
+						self.alarm = True
+						printM('Trigger threshold of %s exceeded: %s'
+								% (self.thresh, round(self.stalta.max(), 3)), self.sender)
+						if callable(self.func):
+							self.func(*self.args, **self.kwargs)
+						else:
+							printM('Attempting execution of custom script. If something goes wrong, you may need to kill this process manually...')
+							try:
+								exec(self.func)
+							except Exception as e:
+								printM('Execution failed, error: %s' % e)
+						printM('Trigger will reset when STA/LTA goes below %s...' % self.reset, sender=self.sender)
 					else:
-						printM('Attempting execution of custom script. If something goes wrong, you may need to kill this process manually...')
-						try:
-							exec(self.func)
-						except Exception as e:
-							printM('Execution failed, error: %s' % e)
-					n = 1
-				self.stream = RS.copy(self.stream)
+						pass
 
+					if self.stalta.max() > self.maxstalta:
+						self.maxstalta = self.stalta.max()
+
+				else:
+					if self.alarm:
+						if self.stalta[-1] < self.reset:
+							self.alarm = False
+							print()
+							printM('Max STA/LTA ratio reached in alarm state: %s' % (round(self.maxstalta, 3)),
+									self.sender)
+							printM('Earthquake trigger reset and active again.',
+									self.sender)
+							self.maxstalta = 0
+					else:
+						pass
+				self.stream = RS.copy(self.stream)
+				print('\rThreshold: %s; Current max STA/LTA: %s' % (self.thresh, round(np.max(self.stalta[-50:]), 2)), end="", flush=True)
 			elif n == 0:
 				printM('Listening to channel %s'
 						% (self.stream[0].stats.channel), self.sender)
 				printM('Earthquake trigger warmup time of %s seconds...'
 						% (self.lta), self.sender)
-				n += 1
 			elif n == wait_pkts:
-				if cft.max() == 0:
-					printM('Earthquake trigger up and running normally.',
-							self.sender)
-				else:
-					printM('Max STA/LTA ratio reached in alarm state: %s' % (maxcft),
-							self.sender)
-					printM('Earthquake trigger reset and active again.',
-							self.sender)
-					maxcft = 0
-				n += 1
+				printM('Earthquake trigger up and running normally.',
+						self.sender)
 			else:
-				if cft.max() > maxcft:
-					maxcft = cft.max()
-				n += 1
+				pass
+
+			n += 1
 			sys.stdout.flush()

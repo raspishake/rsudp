@@ -90,8 +90,8 @@ By default, the settings are as follows:
     "enabled": true,
     "sta": 6,
     "lta": 30,
-    "threshold": 1.6,
-    "reset": 1.55
+    "threshold": 1.7,
+    "reset": 1.6,
     "exec": "eqAlert",
     "highpass": 0,
     "lowpass": 50,

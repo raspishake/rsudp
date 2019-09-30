@@ -67,6 +67,7 @@ if [ -z ${conda_exists+x} ]; then
 
   if [[ "$arch" == "armv"* ]]; then
     # installing on ARM architecture (RPi or similar)
+    rpi="rpi"
 
     if [[ "$node" == "raspberryshake" ]]; then
       # warn the user about installing on a Shake
@@ -143,15 +144,24 @@ if [ -z ${conda_exists+x} ]; then
 fi
 
 if [[ "$arch" == "armv"* ]]; then
-  env_install="conda create -n rsudp python=3 numpy matplotlib future scipy lxml sqlalchemy -y"
+  env_install="conda create -n rsudp python=3.7.4 numpy matplotlib future scipy lxml sqlalchemy -y"
 else
-  env_install="conda create -n rsudp python=3 matplotlib=3.1.1 numpy=1.16.4 future scipy lxml sqlalchemy obspy -y"
+  env_install="conda create -n rsudp python=3.7.4 matplotlib=3.1.1 numpy=1.16.4 future scipy lxml sqlalchemy obspy -y"
 fi
 
 # check for conda forge channel; if it's not there add it
-cat ~/.condarc | grep "conda-forge" >/dev/null ||
+if [ -f $HOME/.condarc ]; then
+  echo "No $HOME/.condarc file exists. Creating..."
+  echo $'channels:\n  -\n   defaults\n  -\n   rpi\n  -\n   conda-forge\n' > $HOME/.condarc
+fi
+cat $HOME/.condarc | grep "conda-forge" ||
 (echo "Appending conda-forge to channels..." &&
 conda config --append channels conda-forge)
+if [ ! -z ${rpi+x} ]; then
+  cat $HOME/.condarc | grep "rpi" ||
+  (echo "Appending rpi to channels..." &&
+  conda config --append channels rpi)
+fi
 echo "Creating and installing rsudp conda environment..." &&
 $env_install
 if [ -d $prefix/envs/rsudp ]; then

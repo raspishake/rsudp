@@ -66,6 +66,14 @@ if [ -z ${conda_exists+x} ]; then
   echo "The download could be as large as 200 MB."
   read -n1 -rsp $'Press any key to continue or Ctrl+C to exit...\n\n'
 
+  if [ ! -z ${PYTHONPATH+x} ]; then
+    # conda does not like $PYTHONPATH, and $PYTHONPATH is depreciated,
+    # so we can get away with disabling it during installation.
+    # because it is sourced, it will come back when the user opens a new shell
+    # and conda will complain about it directly to the user.
+    unset $PYTHONPATH
+  fi
+
   if [[ "$arch" == "armv"* ]]; then
     # installing on ARM architecture (RPi or similar)
     rpi="rpi"

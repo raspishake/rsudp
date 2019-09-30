@@ -121,13 +121,9 @@ class Plot(Thread):
 			return b
 
 	def handle_close(self, evt):
-		printM('Plot has been closed; exiting!', self.sender)
-		plt.close("all")
-		del self.fig, self.ax, self.lines
-		import gc
-		gc.collect(2)
-		print('exited')
-		sys.exit()
+		printM('Plot has been closed, plot thread exiting!', self.sender)
+		printM('Other threads will continue to operate; press CTRL+C to stop.')
+		self.queue.put('TERM')
 
 	def setup_plot(self):
 		"""

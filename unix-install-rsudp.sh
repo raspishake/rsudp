@@ -144,7 +144,7 @@ if [ -z ${conda_exists+x} ]; then
 fi
 
 if [[ "$arch" == "armv"* ]]; then
-  env_install="conda create -n rsudp python=3.7 numpy matplotlib future scipy lxml sqlalchemy -y"
+  env_install="conda create -n rsudp python=3.6.6 numpy matplotlib future scipy lxml sqlalchemy -y"
 else
   env_install="conda create -n rsudp python=3.7.4 matplotlib=3.1.1 numpy=1.16.4 future scipy lxml sqlalchemy obspy -y"
 fi
@@ -154,14 +154,15 @@ if [ ! -f $HOME/.condarc ]; then
   echo "No $HOME/.condarc file exists. Creating..."
   echo $'channels:\n  -\n   defaults\n  -\n   rpi\n  -\n   conda-forge\n' > $HOME/.condarc
 fi
-cat $HOME/.condarc | grep "conda-forge" ||
-(echo "Appending conda-forge to conda channels..." &&
-conda config --append channels conda-forge)
 if [[ "$arch" == "armv"* ]]; then
-  cat $HOME/.condarc | grep "rpi" ||
+  cat $HOME/.condarc | grep "rpi" >/dev/null && echo "Found rpi channel in $HOME/.condarc" ||
   (echo "Appending rpi to conda channels..." &&
   conda config --append channels rpi)
 fi
+cat $HOME/.condarc | grep "conda-forge" >/dev/null && echo "Found conda-forge channel in $HOME/.condarc"  ||
+(echo "Appending conda-forge to conda channels..." &&
+conda config --append channels conda-forge)
+
 echo "Creating and installing rsudp conda environment..." &&
 $env_install
 if [ -d $prefix/envs/rsudp ]; then

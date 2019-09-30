@@ -150,8 +150,8 @@ fi
 
 # check for conda forge channel; if it's not there add it
 cat ~/.condarc | grep "conda-forge" >/dev/null ||
-echo "Appending conda-forge to channels..." ||
-conda config --append channels conda-forge 
+(echo "Appending conda-forge to channels..." &&
+conda config --append channels conda-forge)
 echo "Creating and installing rsudp conda environment..." &&
 $env_install
 if [ -d $prefix/envs/rsudp ]; then

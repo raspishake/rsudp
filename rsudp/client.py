@@ -162,13 +162,13 @@ def main():
 
 Usage: rs-client [ OPTIONS ]
 where OPTIONS := {
-	-h | --help
-			display this help message
-	-d | --dump
-			dump the default settings in a JSON-formatted string
-	-s | --settings=/path/to/settings/json
-			specify the path to a custom JSON-formatted settings file
-	}
+    -h | --help
+            display this help message
+    -d | --dump
+            dump the default settings in a JSON-formatted string
+    -s | --settings=/path/to/settings/json
+            specify the path to a custom JSON-formatted settings file
+    }
 
 '''
 

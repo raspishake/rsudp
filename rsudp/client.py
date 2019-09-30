@@ -162,13 +162,13 @@ def main():
 
 Usage: rs-client [ OPTIONS ]
 where OPTIONS := {
-    -h | --help
-            display this help message
-    -d | --dump
-            dump the default settings in a JSON-formatted string
-    -s | --settings=/path/to/settings/json
-            specify the path to a custom JSON-formatted settings file
-    }
+	-h | --help
+			display this help message
+	-d | --dump
+			dump the default settings in a JSON-formatted string
+	-s | --settings=/path/to/settings/json
+			specify the path to a custom JSON-formatted settings file
+	}
 
 '''
 
@@ -182,9 +182,9 @@ where OPTIONS := {
 	"enabled": true,
 	"sta": 6,
 	"lta": 30,
-    "threshold": 1.7,
-    "reset": 1.6,
-    "exec": "eqAlert",
+	"threshold": 1.7,
+	"reset": 1.6,
+	"exec": "eqAlert",
 	"highpass": 0,
 	"lowpass": 50,
 	"channel": "HZ",

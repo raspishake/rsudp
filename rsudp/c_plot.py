@@ -120,12 +120,18 @@ class Plot(Thread):
 		else:
 			return b
 
+	def handle_close(self, evt):
+		printM('Plot has been closed; exiting!', self.sender)
+		sys.exit(0)
+
 	def setup_plot(self):
 		"""
 		Matplotlib is not threadsafe, so things are a little weird here.
 		"""
 		# instantiate a figure and set basic params
 		self.fig = plt.figure(figsize=(8,3*self.num_chans))
+		self.fig.canvas.mpl_connect('close_event', self.handle_close)
+		
 		self.fig.patch.set_facecolor(self.bgcolor)	# background color
 		self.fig.suptitle('Raspberry Shake station %s.%s live output' # title
 					% (self.net, self.stn), fontsize=14, color=self.fgcolor)

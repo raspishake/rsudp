@@ -122,6 +122,7 @@ if [ -z ${conda_exists+x} ]; then
     if [[ "$key" == "y" ]] || [[ "$key" == "Y" ]]; then
       echo "Appending sourcing line to bashrc..."
       echo ". $prefix/etc/profile.d/conda.sh" >> ~/.bashrc
+      sourced=1
     else
       echo "Not appending sourcing line to bashrc."
       echo "You can add it later by adding the following line to the bottom of ~/.bashrc:"
@@ -136,6 +137,7 @@ if [ -z ${conda_exists+x} ]; then
     exit 2
   fi
 else
+    previous_conda=1
     echo "Anaconda installation found at $(which conda)"
 fi
 
@@ -178,10 +180,17 @@ fi
 if [ ! -z ${success+x} ]; then
   echo "---------------------------------"
   echo "rsudp has installed successfully!"
-  echo 'You can enter the rsudp conda environment by typing "conda activate rsudp"'
+  if [ -z ${previous_conda+x} ]: then
+    if [ -z ${sourced+x} ]; then
+      echo 'You will need to tell your shell where to find conda by entering ". ~/'"$release"'/etc/profile.d/conda.sh"'
+    else
+      echo 'To run conda, you will need to close this shell and open a new one.'
+    fi
+    echo 'You can then enter the command "conda activate rsudp" to activate the rsudp conda environment'
+  else
+    echo 'You can enter the rsudp conda environment by typing "conda activate rsudp"'
+  fi
   echo 'and then run rsudp by using the command "rs-client -h"'
-  echo 'If you chose to append the sourcing line to your .bashrc file, you may need to close this shell and open a new one.'
-  echo 'Otherwise, you may need to tell your shell where to find conda by entering ". ~/'"$release"'/etc/profile.d/conda.sh"'
   exit 0
 else
   echo "---------------------------------"

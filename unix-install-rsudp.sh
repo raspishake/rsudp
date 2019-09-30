@@ -190,7 +190,7 @@ if [ ! -z ${success+x} ]; then
   else
     echo 'You can enter the rsudp conda environment by typing "conda activate rsudp"'
   fi
-  echo 'and then run rsudp by using the command "rs-client -h"'
+  echo 'and then run rsudp by using the command "shake_client -h"'
   exit 0
 else
   echo "---------------------------------"

@@ -30,6 +30,7 @@ read -n1 -rsp $'Press any key to continue...\n\n'
 
 # first we have to test if there is an existing anaconda installation
 # the simplest case, that the conda command works:
+echo "Looking for conda installation..."
 command -v conda >/dev/null 2>&1 &&
 conda activate &&
 conda_exists=1
@@ -179,7 +180,8 @@ if [ ! -z ${success+x} ]; then
   echo "rsudp has installed successfully!"
   echo 'You can enter the rsudp conda environment by typing "conda activate rsudp"'
   echo 'and then run rsudp by using the command "rs-client -h"'
-  echo 'You may need to tell your shell where to find conda by entering ". ~/'"$release"'/etc/profile.d/conda.sh"'
+  echo 'If you chose to append the sourcing line to your .bashrc file, you may need to close this shell and open a new one.'
+  echo 'Otherwise, you may need to tell your shell where to find conda by entering ". ~/'"$release"'/etc/profile.d/conda.sh"'
   exit 0
 else
   echo "---------------------------------"

@@ -180,7 +180,7 @@ fi
 if [ ! -z ${success+x} ]; then
   echo "---------------------------------"
   echo "rsudp has installed successfully!"
-  if [ -z ${previous_conda+x} ]: then
+  if [ -z ${previous_conda+x} ]; then
     if [ -z ${sourced+x} ]; then
       echo 'You will need to tell your shell where to find conda by entering ". ~/'"$release"'/etc/profile.d/conda.sh"'
     else

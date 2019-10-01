@@ -131,8 +131,8 @@ def run(settings):
 
 	prod(queue)
 
-	for q in destinations:
-		q.join()
+	time.sleep(0.5)
+	print()
 	printM('Shutdown successful.', 'Main')
 	sys.exit()
 

@@ -85,6 +85,10 @@ class Plot(Thread):
 		self.queue.task_done()
 		if 'TERM' in str(d):
 			plt.close()
+			del self.queue
+			if 'SELF' in str(d):
+				printM('Plot has been closed, plot thread exiting.', self.sender)
+				printM('Other threads will continue to operate; press CTRL+C to stop.', self.sender)
 			sys.exit()
 		if RS.getCHN(d) in self.chans:
 			self.stream = RS.update_stream(
@@ -121,9 +125,8 @@ class Plot(Thread):
 			return b
 
 	def handle_close(self, evt):
-		printM('Plot has been closed, plot thread exiting!', self.sender)
-		printM('Other threads will continue to operate; press CTRL+C to stop.')
-		self.queue.put('TERM')
+		print()
+		self.queue.put('TERMSELF')
 
 	def setup_plot(self):
 		"""

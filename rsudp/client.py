@@ -17,10 +17,11 @@ def eqAlert(sender='EQAlert function', *args, **kwargs):
 	printM('Trigger threshold exceeded -- possible earthquake!', sender=sender)
 
 
-def prod(queue):
+def prod(queue, threads):
 	sender = 'Producer'
 	chns = []
 	numchns = 0
+	stop = False
 
 	"""
 	Receives data from one IP address and puts it in an async queue.
@@ -47,6 +48,11 @@ def prod(queue):
 				printM('Another IP (%s) is sending UDP data to this port. Ignoring...'
 						% (addr[0]), sender)
 				blocked.append(addr[0])
+		for thread in threads:
+			if not thread.alive:
+				stop = True
+		if stop:
+			break
 	
 	print()
 	printM('Sending TERM signal to threads...', sender)
@@ -64,14 +70,14 @@ def run(settings):
 	RS.initRSlib(dport=settings['settings']['port'],
 				 rsstn=settings['settings']['station'])
 
-	destinations, processes = [], []
+	destinations, threads = [], []
 
 	def mk_q():
 		q = Queue(RS.qsize)
 		destinations.append(q)
 		return q
 	def mk_p(proc):
-		processes.append(proc)
+		threads.append(proc)
 
 
 	if settings['printdata']['enabled']:
@@ -126,10 +132,10 @@ def run(settings):
 	cons = Consumer(queue, destinations)
 	cons.start()
 
-	for p in processes:
-		p.start()
+	for thread in threads:
+		thread.start()
 
-	prod(queue)
+	prod(queue, threads)
 
 	time.sleep(0.5)
 	print()

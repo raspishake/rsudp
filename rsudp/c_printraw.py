@@ -19,12 +19,14 @@ class PrintRaw(Thread):
 		"""
 		super().__init__()
 		self.sender = 'Print'
+		self.alive = True
 
 		if q:
 			self.queue = q
 		else:
 			printM('ERROR: no queue passed to consumer! Thread will exit now!', self.sender)
 			sys.stdout.flush()
+			self.alive = False
 			sys.exit()
 
 		printM('Starting.', self.sender)
@@ -40,3 +42,5 @@ class PrintRaw(Thread):
 				sys.exit()
 			print(str(d))
 			sys.stdout.flush()
+
+		self.alive = False

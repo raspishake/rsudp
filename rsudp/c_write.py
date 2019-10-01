@@ -13,6 +13,7 @@ class Write(Thread):
 		"""
 		super().__init__()
 		self.sender = 'Write'
+		self.alive = True
 
 		if q:
 			self.queue = q
@@ -36,6 +37,7 @@ class Write(Thread):
 		d = self.queue.get(True, timeout=None)
 		self.queue.task_done()
 		if 'TERM' in str(d):
+			self.alive = False
 			sys.exit()
 		self.stream = RS.update_stream(
 			stream=self.stream, d=d, fill_value=None)

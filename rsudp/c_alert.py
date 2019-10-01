@@ -36,6 +36,7 @@ class Alert(Thread):
 		"""
 		super().__init__()
 		self.sender = 'Alert'
+		self.alive = True
 
 		if q:
 			self.queue = q
@@ -117,6 +118,7 @@ class Alert(Thread):
 				stream=self.stream, d=d, fill_value='latest')
 			return True
 		elif 'TERM' in str(d):
+			self.alive = False
 			sys.exit()
 		else:
 			return False

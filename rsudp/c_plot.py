@@ -36,6 +36,7 @@ class Plot(Thread):
 		"""
 		super().__init__()
 		self.sender = 'Plot'
+		self.alive = True
 
 		if mpl == False:
 			sys.stdout.flush()
@@ -88,7 +89,7 @@ class Plot(Thread):
 			del self.queue
 			if 'SELF' in str(d):
 				printM('Plot has been closed, plot thread exiting.', self.sender)
-				printM('Other threads will continue to operate; press CTRL+C to stop.', self.sender)
+			self.alive = False
 			sys.exit()
 		if RS.getCHN(d) in self.chans:
 			self.stream = RS.update_stream(

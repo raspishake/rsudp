@@ -136,6 +136,7 @@ class Plot(Thread):
 		self.fig = plt.figure(figsize=(8,3*self.num_chans))
 		self.fig.canvas.mpl_connect('close_event', self.handle_close)
 
+		self.fig.canvas.set_window_title('Raspberry Shake Monitor') 
 		self.fig.patch.set_facecolor(self.bgcolor)	# background color
 		self.fig.suptitle('Raspberry Shake station %s.%s live output' # title
 					% (self.net, self.stn), fontsize=14, color=self.fgcolor)

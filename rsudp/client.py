@@ -174,32 +174,32 @@ where OPTIONS := {
 
 	default_settings = """{
 "settings": {
-	"port": 8888,
-	"station": "Z0000"},
+    "port": 8888,
+    "station": "Z0000"},
 "printdata": {
-	"enabled": false},
-"alert": {
-	"enabled": true,
-	"sta": 6,
-	"lta": 30,
-	"threshold": 1.7,
-	"reset": 1.6,
-	"exec": "eqAlert",
-	"highpass": 0,
-	"lowpass": 50,
-	"channel": "HZ",
-	"win_override": false,
-	"debug": false},
+    "enabled": false},
 "write": {
-	"enabled": false,
-	"outdir": "/home/pi",
-	"channels": "all"},
+    "enabled": false,
+    "outdir": "/home/pi",
+    "channels": "all"},
 "plot": {
-	"enabled": true,
-	"duration": 30,
-	"spectrogram": false,
-	"fullscreen": false,
-	"channels": ["HZ", "HDF"]}
+    "enabled": true,
+    "duration": 30,
+    "spectrogram": false,
+    "fullscreen": false,
+    "channels": ["HZ", "HDF"]},
+"alert": {
+    "enabled": true,
+    "sta": 6,
+    "lta": 30,
+    "threshold": 1.7,
+    "reset": 1.6,
+    "exec": "eqAlert",
+    "highpass": 0,
+    "lowpass": 50,
+    "channel": "HZ",
+    "win_override": false,
+    "debug": false}
 }
 """
 

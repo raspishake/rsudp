@@ -86,6 +86,16 @@ By default, the settings are as follows:
     "station": "Z0000"},
 "printdata": {
     "enabled": false},
+"write": {
+    "enabled": false,
+    "outdir": "/home/pi",
+    "channels": "all"},
+"plot": {
+    "enabled": true,
+    "duration": 30,
+    "spectrogram": false,
+    "fullscreen": false,
+    "channels": ["HZ", "HDF"]},
 "alert": {
     "enabled": true,
     "sta": 6,
@@ -97,17 +107,7 @@ By default, the settings are as follows:
     "lowpass": 50,
     "channel": "HZ",
     "win_override": false,
-    "debug": false},
-"write": {
-    "enabled": false,
-    "outdir": "/home/pi",
-    "channels": "all"},
-"plot": {
-    "enabled": true,
-    "duration": 30,
-    "spectrogram": false,
-    "fullscreen": false,
-    "channels": ["HZ", "HDF"]}
+    "debug": false}
 }
 ```
 

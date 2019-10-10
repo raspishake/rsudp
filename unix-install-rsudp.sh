@@ -24,7 +24,7 @@ echo "---------------------------------------"
 echo "Raspberry Shake UDP client installer"
 echo "Ian Nesbitt, Raspberry Shake S.A., 2019"
 echo "---------------------------------------"
-echo "Please follow instructions in script."
+echo "Please follow instructions in prompts."
 echo "---------------------------------------"
 read -n1 -rsp $'Press any key to continue...\n\n'
 
@@ -128,7 +128,9 @@ else
     echo "conda executable: $(which conda)"
 fi
 
+comment="# added by rsudp/conda installer"
 sourceline=". $prefix/etc/profile.d/conda.sh"
+
 if grep -Fxq "$sourceline" "$HOME/.bashrc"; then
   echo "Source line already exists in $HOME/.bashrc"
   sourced=1
@@ -136,12 +138,14 @@ else
   echo "----------------------------------------------"
   echo "The script will now append a sourcing line to your ~/.bashrc file in order to"
   echo 'make activating conda easier in the future (just type "conda activate" into a terminal).'
+  echo "This line is: $sourceline"
   read -n1 -rsp $'Press the "y" key to proceed, or any other key to prevent this...\n' key
   echo $key
 
   if [[ "$key" == "y" ]] || [[ "$key" == "Y" ]]; then
     echo "Appending sourcing line to bashrc..."
-    echo $sourceline >> ~/.bashrc
+    echo $comment >> $HOME/.bashrc
+    echo $sourceline >> $HOME/.bashrc
     sourced=1
   else
     echo "Not appending sourcing line to bashrc."

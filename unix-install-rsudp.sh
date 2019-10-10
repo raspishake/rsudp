@@ -33,7 +33,7 @@ read -n1 -rsp $'Press any key to continue...\n\n'
 echo "Looking for conda installation..."
 command -v conda >/dev/null 2>&1 &&
 conda activate >/dev/null 2>&1 &&
-conda_exists=1 &&
+conda_exists=1
 
 if [ -z ${conda_exists+x} ]; then
   # if conda command doesn't exist,
@@ -122,35 +122,36 @@ if [ -z ${conda_exists+x} ]; then
     exit 2
   fi
 
-  sourceline=". $prefix/etc/profile.d/conda.sh"
-  if ! grep -q $sourceline "$HOME/.bashrc"; then
-    echo "----------------------------------------------"
-    echo "The script will now append a sourcing line to your ~/.bashrc file in order to"
-    echo 'make activating conda easier in the future (just type "conda activate" into a terminal).'
-    read -n1 -rsp $'Press the "y" key to proceed, or any other key to prevent this...\n' key
-    echo $key
-
-    if [[ "$key" == "y" ]] || [[ "$key" == "Y" ]]; then
-      echo "Appending sourcing line to bashrc..."
-      echo $sourceline >> ~/.bashrc
-      sourced=1
-    else
-      echo "Not appending sourcing line to bashrc."
-      echo "You can add it later by adding the following line to the bottom of ~/.bashrc:"
-      echo $sourceline
-    fi
-    echo "Sourcing..."
-    $sourceline
-    echo "Activating conda..."
-    conda activate && conda_exists=1
-  else
-    echo "Something went wrong; cannot find a conda profile to source. Exiting."
-    exit 2
-  fi
 else
     previous_conda=1
     echo "Anaconda installation found at $prefix"
     echo "conda executable: $(which conda)"
+fi
+
+sourceline=". $prefix/etc/profile.d/conda.sh"
+if grep -Fxq "$sourceline" "$HOME/.bashrc"; then
+  echo "Source line already exists in $HOME/.bashrc"
+  sourced=1
+else
+  echo "----------------------------------------------"
+  echo "The script will now append a sourcing line to your ~/.bashrc file in order to"
+  echo 'make activating conda easier in the future (just type "conda activate" into a terminal).'
+  read -n1 -rsp $'Press the "y" key to proceed, or any other key to prevent this...\n' key
+  echo $key
+
+  if [[ "$key" == "y" ]] || [[ "$key" == "Y" ]]; then
+    echo "Appending sourcing line to bashrc..."
+    echo $sourceline >> ~/.bashrc
+    sourced=1
+  else
+    echo "Not appending sourcing line to bashrc."
+    echo "You can add it later by adding the following line to the bottom of ~/.bashrc:"
+    echo $sourceline
+  fi
+  echo "Sourcing..."
+  $sourceline
+  echo "Activating conda..."
+  conda activate && conda_exists=1
 fi
 
 if [ -z ${conda_exists+x} ]; then

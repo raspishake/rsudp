@@ -32,8 +32,8 @@ read -n1 -rsp $'Press any key to continue...\n\n'
 # the simplest case, that the conda command works:
 echo "Looking for conda installation..."
 command -v conda >/dev/null 2>&1 &&
-conda activate &&
-conda_exists=1
+conda activate >/dev/null 2>&1 &&
+conda_exists=1 &&
 
 if [ -z ${conda_exists+x} ]; then
   # if conda command doesn't exist,
@@ -55,6 +55,8 @@ if [ -z ${conda_exists+x} ]; then
   else
     conda="$prefix/bin/conda"
   fi
+else
+  prefix="$(cd $(dirname $(which conda))/../; pwd)"
 fi
 
 if [ -z ${conda_exists+x} ]; then
@@ -120,7 +122,8 @@ if [ -z ${conda_exists+x} ]; then
     exit 2
   fi
 
-  if [ -f $prefix/etc/profile.d/conda.sh ]; then
+  sourceline=". $prefix/etc/profile.d/conda.sh"
+  if ! grep -q $sourceline "$HOME/.bashrc"; then
     echo "----------------------------------------------"
     echo "The script will now append a sourcing line to your ~/.bashrc file in order to"
     echo 'make activating conda easier in the future (just type "conda activate" into a terminal).'
@@ -129,15 +132,15 @@ if [ -z ${conda_exists+x} ]; then
 
     if [[ "$key" == "y" ]] || [[ "$key" == "Y" ]]; then
       echo "Appending sourcing line to bashrc..."
-      echo ". $prefix/etc/profile.d/conda.sh" >> ~/.bashrc
+      echo $sourceline >> ~/.bashrc
       sourced=1
     else
       echo "Not appending sourcing line to bashrc."
       echo "You can add it later by adding the following line to the bottom of ~/.bashrc:"
-      echo ". $prefix/etc/profile.d/conda.sh"
+      echo $sourceline
     fi
     echo "Sourcing..."
-    . $prefix/etc/profile.d/conda.sh
+    $sourceline
     echo "Activating conda..."
     conda activate && conda_exists=1
   else
@@ -146,7 +149,8 @@ if [ -z ${conda_exists+x} ]; then
   fi
 else
     previous_conda=1
-    echo "Anaconda installation found at $(which conda)"
+    echo "Anaconda installation found at $prefix"
+    echo "conda executable: $(which conda)"
 fi
 
 if [ -z ${conda_exists+x} ]; then

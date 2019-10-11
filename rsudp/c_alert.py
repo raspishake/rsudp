@@ -177,7 +177,7 @@ class Alert(Thread):
 						printM('Trigger threshold of %s exceeded: %s'
 								% (self.thresh, round(self.stalta.max(), 3)), self.sender)
 						if callable(self.func):
-							self.func(sound=sound, *self.args, **self.kwargs)
+							self.func(sound=self.sound, *self.args, **self.kwargs)
 						else:
 							printM('Attempting execution of custom script. If something goes wrong, you may need to kill this process manually...')
 							try:

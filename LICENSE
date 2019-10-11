@@ -609,6 +609,16 @@ PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS),
 EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGES.
 
+  16b. Addendum Regarding Earthquake Detection and Alerts
+
+  It is extremely important that you do not rely on this code to save life
+or property. OSOP Raspberry Shake is not liable for earthquake detection
+false positives, false negatives, errors running the Alert module, or any
+other part of this library; it is meant for hobby and non-professional
+notification use only. If you need professional software meant to provide
+warning that saves life or property please contact Raspberry Shake
+directly or look elsewhere.
+
   17. Interpretation of Sections 15 and 16.
 
   If the disclaimer of warranty and limitation of liability provided

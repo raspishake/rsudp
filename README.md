@@ -106,6 +106,8 @@ By default, the settings are as follows:
     "highpass": 0,
     "lowpass": 50,
     "channel": "HZ",
+	"alertsound": false,
+	"mp3file": "rs_sounds/doorbell.mp3",
     "win_override": false,
     "debug": false}
 }
@@ -121,47 +123,24 @@ By default, the settings are as follows:
 
 - **`alert`** controls the alert module (please see [Disclaimer](#disclaimer) below). The alert module is a fast recursive STA/LTA sudden motion detector that utilizes obspy's [`recursive_sta_lta()`](https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#recursive-sta-lta) function. STA/LTA algorithms calculate a ratio of the short term average of station noise to the long term average. The data can be highpass, lowpass, or bandpass filtered by changing the `"highpass"` and `"lowpass"` parameters from their defaults (0 and 50 respectively). By default, the alert will be calculated on raw count data from the vertical geophone channel (either `"SHZ"` or `"EHZ"`). It will throw an error if there is no Z channel available (i.e. if you have a Raspberry Boom with no geophone). If you have a Boom and still would like to run this module, change the default channel `"HZ"` to `"HDF"`.
 
-  If the STA/LTA ratio goes above a certain value (`"threshold"`), then the module runs a function passed to it. By default, this function is `rsudp.client.eqAlert()` which just outputs some text. You can change the eqAlert function to do whatever you want. An example that adds a few lines of code to play a sound is given [below](#alert-sound-example). When the ratio goes back below the `"reset"` value, then the alarm is reset.
+  If the STA/LTA ratio goes above a certain value (`"threshold"`), then the module runs a function passed to it. By default, this function is `rsudp.client.eqAlert()` which just outputs some text, and optionally loads and plays an MP3 sound (if `"alertsound"` is `"true"` and you have either `ffmpeg` or `libav` installed). For details on installation of these dependencies, see [this page](https://github.com/jiaaro/pydub#dependencies)). When the ratio goes back below the `"reset"` value, the alarm is reset.
   
-  You can also change the  supply a path to executable Python code to run with the `exec()` function. Be very careful when using the `exec()` function, as it is known to have problems. Notably, it does not check the passed code for errors prior to running. If the code takes too long to execute, you could end up losing data packets, so keep it simple (sending a message or a tweet is really the intended purpose). In testing, we were able to get the pydub software to play 15 second-long sounds without losing any data packets. Theoretically you could run code that takes longer to process than that, but the issue is that the longer it takes the function to process code, the longer the module will go without processing data from the queue (the queue can hold up to 2048 packets, which for a RS4D works out to 128 seconds' worth of data).
+  If you have either `ffmpeg` or `libav` installed and would like to play an sound alert when the threshold is exceeded, the software will install several small MP3 files. The `"mp3file"` is `"rs_sounds/doorbell.mp3"` by default, but there are a few more aggressive alert sounds, including: a three-beep sound `rs_sounds/beeps.mp3`, a sequence of sonar pings `rs_sounds/sonar.mp3`, and a continuous alarm beeping for 5 seconds, `rs_sounds/alarm.mp3`. You can also point the `"mp3file"` field to an MP3 file somewhere in your filesystem. For example, if your username was `pi` and you had a file called `earthquake.mp3` in your Downloads folder, you would specify `"mp3file": "/home/pi/Downloads/earthquake.mp3"`. The program will throw an error if it can't find (or load) the specified MP3 file. It will also alert you if the software dependencies for playback are not installed.
+  
+  You can also change the `"exec"` field and supply a path to executable Python code to run with the `exec()` function. Be very careful when using the `exec()` function, as it is known to have problems. Notably, it does not check the passed code for errors prior to running. Additionally, if the code takes too long to execute, you could end up losing data packets, so keep it simple (sending a message or a tweet, which should either succeed or time out in a few seconds, is really the intended purpose). In testing, we were able to get the pydub software to play 30 second-long sounds without losing any data packets. Theoretically you could run code that takes longer to process than that, but the issue is that the longer it takes the function to process code, the longer the module will go without processing data from the queue (the queue can hold up to 2048 packets, which for a RS4D works out to 128 seconds' worth of data).
 
   If you are running Windows and have code you want to pass to the `exec()` feature, Python requires that your newline characters are in the UNIX style (`\n`), not the standard Windows style (`\r\n`). To convert, follow the instructions in one of the answers to this [stackoverflow question](https://stackoverflow.com/questions/17579553/windows-command-to-convert-unix-line-endings). If you're not sure what this means, please read about newline/line ending characters [here](https://en.wikipedia.org/wiki/Newline). If you are certain that your code file has no Windows newlines, you can set `"win_override"` to `true`.
 
 ## Disclaimer
 
-**NOTE: It is extremely important that you do not rely on this code to save life or property.** Raspberry Shake is not liable for errors running the Alert module or any other part of this library; it is meant for hobby and non-professional notification use only. If you need professional software meant to provide warning that saves life or property please contact Raspberry Shake directly or look elsewhere.
+**NOTE: It is extremely important that you do not rely on this code to save life or property.** Raspberry Shake is not liable for earthquake detection false positives, false negatives, errors running the Alert module, or any other part of this library; it is meant for hobby and non-professional notification use only. If you need professional software meant to provide warning that saves life or property please contact Raspberry Shake directly or look elsewhere. See sections 16 and 16b of the [License](LICENSE).
 
-## Alert sound example
+## pydub dependencies
 
-If you would like to play a sound when the STA/LTA trigger activates, you will need to take the following steps:
+If you would like to play sounds when the STA/LTA trigger activates, you will need to take the following steps:
 
 1. [Install the release version of this software](#installation) if you have not already.
-2. Clone this repository to your local machine.
-3. Activate the installation by entering `conda activate rsudp`
-4. Install the `pydub` module by entering `pip install pydub`
-5. Put a short MP3 file in a directory like `/path/to/earthquake.mp3`. Remember this location!
-6. Edit the file called `rsudp/client.py` and edit the `eqAlert` function so that instead of looking like this:
-
-  ```python
-  def eqAlert(sender='EQAlert function', *args, **kwargs):
-      printM('Trigger threshold exceeded -- possible earthquake!', sender=sender)
-      printM('Waiting for clear trigger...', sender=sender)
-  ```
-
-  Edit the following code to enter the MP3 location in quotes inside the `from_file` function so that it ends up looking like this:
-
-  ```python
-  from pydub import AudioSegment
-  from pydub.playback import play
-
-  sound = AudioSegment.from_file("/path/to/earthquake.mp3", format="mp3")
-
-  def eqAlert(sender='EQAlert function', *args, **kwargs):
-      play(sound)
-      printM('Trigger threshold exceeded -- possible earthquake!', sender=sender)
-      printM('Waiting for clear trigger...', sender=sender)
-  ```
-
-7. Install your newly edited rsudp software package by typing `pip install /path/to/rsudp`
-8. Start the rsudp client by typing `shake_client` or by pointing it at an existing settings file `shake_client -s /path/to/settings.json`
-9. Wait for the trigger to warm up, then stomp, jump, or Shake to hear the sound!
+2. [Install the dependencies for `pydub`](https://github.com/jiaaro/pydub#dependencies) which are available cross-platform using most package managers. (Linux users can simply type `sudo apt install ffmpeg`, and MacOS users with Homebrew can type `brew install ffmpeg`) but Windows users will have to follow more detailed instructions.
+3. Change `"alertsound"` from `false` to `true` in the settings file. (`~/.config/rsudp/rsudp_settings.json` on Mac and Linux, `C:\Program Files\RSHAKE\rsudp\rsudp_settings.json` on Windows)
+4. Start the rsudp client by typing `shake_client` or by pointing it at an existing settings file `shake_client -s /path/to/settings.json`
+5. Wait for the trigger to warm up, then stomp, jump, or Shake to hear the sound!

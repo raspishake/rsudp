@@ -1,1 +1,1 @@
-include rsudp/rs_sounds/bell.mp3
+include rsudp/rs_sounds/*.mp3

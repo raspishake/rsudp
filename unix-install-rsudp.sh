@@ -19,6 +19,8 @@ prefix="$HOME/$release"         # $HOME/miniconda3 is default location
 full="$HOME/anaconda3"          # full release install location
 berryconda="$HOME/berryconda3"  # berryconda install location
 miniconda="$HOME/miniconda3"    # miniconda install location
+config="$HOME/.config/rsudp"    # config location
+settings="$config/rsudp_settings.json"  # settings file
 
 echo "---------------------------------------"
 echo "Raspberry Shake UDP client installer"
@@ -195,13 +197,21 @@ else
 fi
 
 if [ ! -z ${success+x} ]; then
-  echo "---------------------------------"
   echo "rsudp has installed successfully!"
+  echo "Installing settings file to $settings..."
+  mkdir -p $config &&
+  shake_client -d >$settings &&
+  echo "Success." ||
+  echo "Failed to create settings file. Either the script could not create a folder at $config, or dumping the settings did not work." ||
+  echo "If you would like, you can dump the settings to a file manually by running the command" ||
+  echo "shake_client -d > rsudp_settings.json"
+
+
   if [ -z ${previous_conda+x} ]; then
     if [ -z ${sourced+x} ]; then
       echo 'You will need to tell your shell where to find conda by entering ". ~/'"$release"'/etc/profile.d/conda.sh"'
     else
-      echo 'To run conda, you will need to close this shell and open a new one.'
+      echo 'To run conda, you will need to open a new shell.'
     fi
     echo 'You can then enter the command "conda activate rsudp" to activate the rsudp conda environment'
   else

@@ -110,9 +110,9 @@ def run(settings):
 		alertsound = settings['alert']['alertsound']
 
 		if pydub_exists and alertsound:
-			soundloc = settings['alert']['mp3file']
-			if fnmatch.fnmatch(soundloc, 'rs_sounds/*.mp3'):
-				soundloc = pr.resource_filename('rsudp', soundloc)
+			soundloc = os.path.expanduser(settings['alert']['mp3file'])
+			if fnmatch.fnmatch(soundloc, 'rs_sounds'):
+				soundloc = pr.resource_filename('rsudp', os.path.normpath(soundloc))
 			try:
 				sound = AudioSegment.from_file(soundloc, format="mp3")
 				printM('Loaded %.2f sec alert sound from %s' % (len(sound)/1000., soundloc), sender='Alert')
@@ -180,6 +180,12 @@ def run(settings):
 	printM('Shutdown successful.', 'Main')
 	sys.exit()
 
+def dump_default(settings_loc, default_settings):
+	printM('Creating a default settings file at %s' % settings_loc, sender='Main')
+	with open(settings_loc, 'w+') as f:
+		f.write(default_settings)
+		f.write('\n')
+
 
 def main():
 	'''
@@ -243,32 +249,66 @@ where OPTIONS := {
     "lowpass": 50,
     "channel": "HZ",
 	"alertsound": false,
-	"mp3file": "rs_sounds/bell.mp3",
+	"mp3file": "rs_sounds/doorbell.mp3",
     "win_override": false,
     "debug": false}
 }
 """
 
 	settings = json.loads(default_settings)
+	default_loc = os.path.join(os.path.expanduser('~'), '.config', 'rsudp')
+	settings_loc = os.path.join(default_loc, 'rsudp_settings.json')
 
 	opts = getopt.getopt(sys.argv[1:], 'hds:',
 		['help', 'dump', 'settings=']
 		)[0]
+
+	if len(opts) == 0:
+		if not os.path.exists(default_loc):
+			printM('Could not find rsudp config directory, creating one at %s' % default_loc, sender='Main')
+			os.makedirs(default_loc)
+		if not os.path.exists(settings_loc):
+			printM('Could not find rsudp settings file, creating one at %s' % settings_loc, sender='Main')
+			dump_default(settings_loc, default_settings)
+		else:
+			with open(os.path.abspath(settings_loc), 'r') as f:
+				printM('Found default settings file: %s' % settings_loc)
+				try:
+					settings = json.load(f)
+				except Exception as e:
+					print('ERROR:  Could not load default settings file.')
+					print('DETAIL: %s' % e)
+					print('        Either correct the file, or dump the overwrite the default settings file using the command:')
+					print('        shake_client -d default')
+					exit(2)
+
 	for o, a in opts:
 		if o in ('-h, --help'):
 			print(hlp_txt)
 			exit(0)
 		if o in ('-d', '--dump'):
+			if a in 'default':
+				os.makedirs(default_loc)
+				dump_default(settings_loc, default_settings)
 			print(default_settings)
 			exit(0)
 		if o in ('-s', 'settings='):
-			if os.path.exists(os.path.abspath(a)):
-				with open(os.path.abspath(a), 'r') as f:
-					settings = json.load(f)
+			if os.path.exists(os.path.abspath(os.path.expanduser(a))):
+				with open(os.path.abspath(os.path.expanduser(a)), 'r') as f:
+					printM('Found settings file: %s' % settings_loc)
+					try:
+						settings = json.load(f)
+					except Exception as e:
+						print('ERROR:  Could not load settings file. Perhaps the JSON is malformed?')
+						print('DETAIL: %s' % e)
+						print('        If you would like to rebuild the file, you can enter the command below:')
+						print('shake_client -d %s' % a)
+						exit(2)
 			else:
-				print('ERROR: could not find the settings file you specified. Check the path and try again')
+				print('ERROR: could not find the settings file you specified. Check the path and try again.')
 				print()
 				exit(2)
+
 
 	run(settings)
 

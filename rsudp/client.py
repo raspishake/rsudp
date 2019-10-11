@@ -3,8 +3,9 @@ import signal
 import getopt
 import time
 import json
+import logging
 from queue import Queue
-from rsudp import printM
+from rsudp import printM, default_loc
 import rsudp.raspberryshake as RS
 from rsudp.c_consumer import Consumer
 from rsudp.c_printraw import PrintRaw
@@ -256,7 +257,6 @@ where OPTIONS := {
 """
 
 	settings = json.loads(default_settings)
-	default_loc = os.path.join(os.path.expanduser('~'), '.config', 'rsudp')
 	settings_loc = os.path.join(default_loc, 'rsudp_settings.json')
 
 	opts = getopt.getopt(sys.argv[1:], 'hds:',
@@ -264,9 +264,6 @@ where OPTIONS := {
 		)[0]
 
 	if len(opts) == 0:
-		if not os.path.exists(default_loc):
-			printM('Could not find rsudp config directory, creating one at %s' % default_loc, sender='Main')
-			os.makedirs(default_loc)
 		if not os.path.exists(settings_loc):
 			printM('Could not find rsudp settings file, creating one at %s' % settings_loc, sender='Main')
 			dump_default(settings_loc, default_settings)
@@ -276,10 +273,10 @@ where OPTIONS := {
 				try:
 					settings = json.load(f)
 				except Exception as e:
-					print('ERROR:  Could not load default settings file.')
-					print('DETAIL: %s' % e)
-					print('        Either correct the file, or dump the overwrite the default settings file using the command:')
-					print('        shake_client -d default')
+					printM('ERROR:  Could not load default settings file.')
+					printM('DETAIL: %s' % e)
+					printM('        Either correct the file, or dump the overwrite the default settings file using the command:')
+					printM('        shake_client -d default')
 					exit(2)
 
 	for o, a in opts:
@@ -299,13 +296,13 @@ where OPTIONS := {
 					try:
 						settings = json.load(f)
 					except Exception as e:
-						print('ERROR:  Could not load settings file. Perhaps the JSON is malformed?')
-						print('DETAIL: %s' % e)
-						print('        If you would like to rebuild the file, you can enter the command below:')
-						print('shake_client -d %s' % a)
+						printM('ERROR:  Could not load settings file. Perhaps the JSON is malformed?')
+						printM('DETAIL: %s' % e)
+						printM('        If you would like to rebuild the file, you can enter the command below:')
+						printM('shake_client -d %s' % a)
 						exit(2)
 			else:
-				print('ERROR: could not find the settings file you specified. Check the path and try again.')
+				printM('ERROR: could not find the settings file you specified. Check the path and try again.')
 				print()
 				exit(2)
 

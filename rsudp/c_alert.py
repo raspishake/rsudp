@@ -18,6 +18,7 @@ class Alert(Thread):
 	"""
 	def __init__(self, sta=5, lta=30, thresh=1.6, reset=1.55, bp=False,
 				 debug=True, cha='HZ', win_ovr=False, q=False, func=None,
+				 sound=False,
 				 *args, **kwargs):
 		
 		"""
@@ -64,6 +65,7 @@ class Alert(Thread):
 		self.maxstalta = 0
 
 		self.alarm = False
+		self.sound = sound
 		if bp:
 			self.freqmin = bp[0]
 			self.freqmax = bp[1]
@@ -175,7 +177,7 @@ class Alert(Thread):
 						printM('Trigger threshold of %s exceeded: %s'
 								% (self.thresh, round(self.stalta.max(), 3)), self.sender)
 						if callable(self.func):
-							self.func(*self.args, **self.kwargs)
+							self.func(sound=sound, *self.args, **self.kwargs)
 						else:
 							printM('Attempting execution of custom script. If something goes wrong, you may need to kill this process manually...')
 							try:

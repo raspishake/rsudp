@@ -11,10 +11,20 @@ from rsudp.c_printraw import PrintRaw
 from rsudp.c_alert import Alert
 from rsudp.c_write import Write
 from rsudp.c_plot import Plot, mpl
+import pkg_resources as pr
+import fnmatch
+try:
+	from pydub import AudioSegment
+	from pydub.playback import play
+	pydub_exists = True
+except ImportError:
+	pydub_exists = False
 
 
-def eqAlert(sender='EQAlert function', *args, **kwargs):
+def eqAlert(sound=False, sender='EQAlert function', *args, **kwargs):
 	printM('Trigger threshold exceeded -- possible earthquake!', sender=sender)
+	if sound and pydub_exists:
+		play(sound)
 
 
 def prod(queue, threads):
@@ -97,10 +107,29 @@ def run(settings):
 		win_ovr = settings['alert']['win_override']
 		debug = settings['alert']['debug']
 		ex = eqAlert if settings['alert']['exec'] in 'eqAlert' else settings['alert']['exec']
+		alertsound = settings['alert']['alertsound']
+
+		if pydub_exists and alertsound:
+			soundloc = settings['alert']['mp3file']
+			if fnmatch.fnmatch(soundloc, 'rs_sounds/*.mp3'):
+				soundloc = pr.resource_filename('rsudp', soundloc)
+			try:
+				sound = AudioSegment.from_file(soundloc, format="mp3")
+			except FileNotFoundError as e:
+				sound = False
+		elif [ not pydub_exists ] and [ alertsound ]:
+			sound = False
+			printM("You don't have pydub installed, so no sound will play.")
+			printM("        To install pydub, follow the instructions at:")
+			printM('        https://github.com/jiaaro/pydub#installation')
+			printM('        You will need ffmpeg or libav as well.')
+		else:
+			pass
+
 		# set up queue and process
 		q = mk_q()
 		alrt = Alert(sta=sta, lta=lta, thresh=thresh, reset=reset, bp=bp, func=ex,
-					 cha=cha, win_ovr=win_ovr, debug=debug, q=q)
+					 cha=cha, win_ovr=win_ovr, debug=debug, q=q, sound=sound)
 		mk_p(alrt)
 
 	if settings['write']['enabled']:
@@ -204,6 +233,8 @@ where OPTIONS := {
     "highpass": 0,
     "lowpass": 50,
     "channel": "HZ",
+	"alertsound": false,
+	"mp3file": "rs_sounds/bell.mp3",
     "win_override": false,
     "debug": false}
 }

@@ -275,9 +275,13 @@ where OPTIONS := {
 	settings = json.loads(default_settings)
 	settings_loc = os.path.join(default_loc, 'rsudp_settings.json')
 
-	opts = getopt.getopt(sys.argv[1:], 'hds:',
-		['help', 'dump', 'settings=']
-		)[0]
+	try:
+		opts = getopt.getopt(sys.argv[1:], 'hds:',
+			['help', 'dump', 'settings=']
+			)[0]
+	except Exception as e:
+		printM('ERROR: %s' % e, sender='Main')
+		print(hlp_txt)
 
 	if len(opts) == 0:
 		if not os.path.exists(settings_loc):

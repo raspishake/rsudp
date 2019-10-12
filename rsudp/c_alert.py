@@ -90,12 +90,12 @@ class Alert(Thread):
 
 		if (os.name in 'nt') and (not callable(self.func)) and (not self.win_ovr):
 			printM('ERROR: Using Windows with custom alert code! Your code MUST have UNIX/Mac newline characters!')
-			print('                                   Please use a conversion tool like dos2unix to convert line endings')
-			print('                                   (https://en.wikipedia.org/wiki/Unix2dos) to make your code file')
-			print('                                   readable to the Python interpreter.')
-			print('                                   Once you have done that, please set "win_override" to true')
-			print('                                   in the settings file.')
-			print('            (see also footnote [1] on this page: https://docs.python.org/3/library/functions.html#id2)')
+			printM('       Please use a conversion tool like dos2unix to convert line endings')
+			printM('       (https://en.wikipedia.org/wiki/Unix2dos) to make your code file')
+			printM('       readable to the Python interpreter.')
+			printM('       Once you have done that, please set "win_override" to true')
+			printM('       in the settings file.')
+			printM('       (see also footnote [1] on this page: https://docs.python.org/3/library/functions.html#id2)')
 			printM('THREAD EXITING, please correct and restart!', self.sender)
 			sys.exit(2)
 		else:
@@ -206,7 +206,7 @@ class Alert(Thread):
 				self.stream = RS.copy(self.stream)
 				print('\r%s [%s] Threshold: %s; Current max STA/LTA: %s'
 					  % (datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'), self.sender,
-					  self.thresh, round(np.max(self.stalta[-50:]), 3)), end="", flush=True)
+					  self.thresh, round(np.max(self.stalta[-50:]), 3)), end='', flush=True)
 			elif n == 0:
 				printM('Listening to channel %s'
 						% (self.stream[0].stats.channel), self.sender)

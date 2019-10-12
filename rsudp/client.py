@@ -9,9 +9,10 @@ from rsudp import printM, default_loc
 import rsudp.raspberryshake as RS
 from rsudp.c_consumer import Consumer
 from rsudp.c_printraw import PrintRaw
-from rsudp.c_alert import Alert
 from rsudp.c_write import Write
 from rsudp.c_plot import Plot, mpl
+from rsudp.c_forward import Forward
+from rsudp.c_alert import Alert
 import pkg_resources as pr
 import fnmatch
 try:
@@ -90,12 +91,45 @@ def run(settings):
 	def mk_p(proc):
 		threads.append(proc)
 
-
 	if settings['printdata']['enabled']:
 		# set up queue and process
 		q = mk_q()
 		prnt = PrintRaw(q)
 		mk_p(prnt)
+
+	if settings['write']['enabled']:
+		# put settings in namespace
+		outdir = settings['write']['outdir']
+		# set up queue and process
+		q = mk_q()
+		writer = Write(outdir=outdir, q=q)
+		mk_p(writer)
+
+	if settings['plot']['enabled'] and mpl:
+		while True:
+			if RS.numchns == 0:
+				time.sleep(0.01)
+				continue
+			else:
+				break
+		cha = settings['plot']['channels']
+		sec = settings['plot']['duration']
+		spec = settings['plot']['spectrogram']
+		full = settings['plot']['fullscreen']
+		q = mk_q()
+		plotter = Plot(cha=cha, seconds=sec, spectrogram=spec,
+								fullscreen=full, q=q)
+		mk_p(plotter)
+
+	if settings['forward']['enabled']:
+		# put settings in namespace
+		addr = settings['forward']['address']
+		port = settings['forward']['port']
+		chans = settings['forward']['channels']
+		# set up queue and process
+		q = mk_q()
+		forward = Forward(addr=addr, port=port, chans=chans, q=q)
+		mk_p(forward)
 
 	if settings['alert']['enabled']:
 		# put settings in namespace
@@ -142,29 +176,6 @@ def run(settings):
 					 cha=cha, win_ovr=win_ovr, debug=debug, q=q, sound=sound)
 		mk_p(alrt)
 
-	if settings['write']['enabled']:
-		# put settings in namespace
-		outdir = settings['write']['outdir']
-		# set up queue and process
-		q = mk_q()
-		writer = Write(outdir=outdir, q=q)
-		mk_p(writer)
-
-	if settings['plot']['enabled'] and mpl:
-		while True:
-			if RS.numchns == 0:
-				time.sleep(0.01)
-				continue
-			else:
-				break
-		cha = settings['plot']['channels']
-		sec = settings['plot']['duration']
-		spec = settings['plot']['spectrogram']
-		full = settings['plot']['fullscreen']
-		q = mk_q()
-		plotter = Plot(cha=cha, seconds=sec, spectrogram=spec,
-								fullscreen=full, q=q)
-		mk_p(plotter)
 
 	# master queue and consumer
 	queue = Queue(RS.qsize)
@@ -239,6 +250,11 @@ where OPTIONS := {
     "spectrogram": false,
     "fullscreen": false,
     "channels": ["HZ", "HDF"]},
+"forward": {
+    "enabled": false,
+    "address": "192.168.1.254",
+    "port": 8888,
+    "channels": "all"},
 "alert": {
     "enabled": true,
     "sta": 6,

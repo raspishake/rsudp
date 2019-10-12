@@ -96,6 +96,11 @@ By default, the settings are as follows:
     "spectrogram": false,
     "fullscreen": false,
     "channels": ["HZ", "HDF"]},
+"forward": {
+    "enabled": false,
+    "address": "192.168.1.254",
+    "port": 8888,
+    "channels": "all"},
 "alert": {
     "enabled": true,
     "sta": 6,

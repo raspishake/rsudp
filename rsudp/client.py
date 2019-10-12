@@ -111,9 +111,9 @@ def run(settings):
 		alertsound = settings['alert']['alertsound']
 
 		if pydub_exists and alertsound:
-			soundloc = os.path.expanduser(settings['alert']['mp3file'])
-			if fnmatch.fnmatch(soundloc, 'rs_sounds'):
-				soundloc = pr.resource_filename('rsudp', os.path.normpath(soundloc))
+			soundloc = os.path.expanduser(os.path.expanduser(settings['alert']['mp3file']))
+			if 'rs_sounds' in soundloc:
+				soundloc = pr.resource_filename('rsudp', soundloc)
 			try:
 				sound = AudioSegment.from_file(soundloc, format="mp3")
 				printM('Loaded %.2f sec alert sound from %s' % (len(sound)/1000., soundloc), sender='Alert')

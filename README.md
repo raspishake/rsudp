@@ -107,7 +107,7 @@ By default, the settings are as follows:
     "lowpass": 50,
     "channel": "HZ",
 	"alertsound": false,
-	"mp3file": "rs_sounds/doorbell.mp3",
+    "mp3file": "rs_sounds/doorbell.mp3",
     "win_override": false,
     "debug": false}
 }

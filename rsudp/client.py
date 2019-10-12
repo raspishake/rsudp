@@ -249,8 +249,8 @@ where OPTIONS := {
     "highpass": 0,
     "lowpass": 50,
     "channel": "HZ",
-	"alertsound": false,
-	"mp3file": "rs_sounds/doorbell.mp3",
+    "alertsound": false,
+    "mp3file": "rs_sounds/doorbell.mp3",
     "win_override": false,
     "debug": false}
 }

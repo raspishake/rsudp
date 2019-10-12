@@ -100,7 +100,7 @@ By default, the settings are as follows:
     "enabled": false,
     "address": "192.168.1.254",
     "port": 8888,
-    "channels": "all"},
+    "channels": ["all"]},
 "alert": {
     "enabled": true,
     "sta": 6,

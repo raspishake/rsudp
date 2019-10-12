@@ -5,7 +5,7 @@ from rsudp import printM
 import rsudp.raspberryshake as RS
 
 class Forward(Thread):
-	def __init__(self, addr, port, chans, q):
+	def __init__(self, addr, port, cha, q):
 		"""
 		Initialize the process
 		"""
@@ -16,7 +16,18 @@ class Forward(Thread):
 		self.queue = q
 		self.addr = addr
 		self.port = port
-		self.chans = chans
+		self.chans = []
+		cha = RS.chns if (cha == 'all') else cha
+		cha = list(cha) if isinstance(cha, str) else cha
+		l = RS.chns
+		for c in l:
+			n = 0
+			for uch in cha:
+				if (uch.upper() in c) and (c not in str(self.chans)):
+					self.chans.append(c)
+				n += 1
+		if len(self.chans) < 1:
+			self.chans = RS.chns
 		self.running = True
 		self.alive = True
 

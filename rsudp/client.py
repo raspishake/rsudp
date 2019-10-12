@@ -125,10 +125,10 @@ def run(settings):
 		# put settings in namespace
 		addr = settings['forward']['address']
 		port = settings['forward']['port']
-		chans = settings['forward']['channels']
+		cha = settings['forward']['channels']
 		# set up queue and process
 		q = mk_q()
-		forward = Forward(addr=addr, port=port, chans=chans, q=q)
+		forward = Forward(addr=addr, port=port, cha=cha, q=q)
 		mk_p(forward)
 
 	if settings['alert']['enabled']:
@@ -254,7 +254,7 @@ where OPTIONS := {
     "enabled": false,
     "address": "192.168.1.254",
     "port": 8888,
-    "channels": "all"},
+    "channels": ["all"]},
 "alert": {
     "enabled": true,
     "sta": 6,

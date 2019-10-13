@@ -5,7 +5,7 @@ import math
 import numpy as np
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as RS
-from rsudp import printM
+from rsudp import printM, screenshot_loc
 import linecache
 sender = 'plot.py'
 try:		# test for matplotlib and exit if import fails
@@ -28,7 +28,8 @@ except:
 class Plot(Thread):
 	def __init__(self, cha='all', q=False,
 				 seconds=30, spectrogram=False,
-				 fullscreen=False, qt=qt):
+				 fullscreen=False, qt=qt, deconv=False,
+				 screencap=False):
 		"""
 		Initialize the plot process
 
@@ -37,6 +38,7 @@ class Plot(Thread):
 		super().__init__()
 		self.sender = 'Plot'
 		self.alive = True
+		self.alarm = False
 
 		if mpl == False:
 			sys.stdout.flush()
@@ -53,6 +55,7 @@ class Plot(Thread):
 		printM('Starting.', self.sender)
 
 		self.stream = RS.Stream()
+		self.raw = RS.Stream()
 		self.stn = RS.stn
 		self.net = RS.net
 		self.chans = []
@@ -71,15 +74,36 @@ class Plot(Thread):
 		self.totchns = RS.numchns
 		self.seconds = seconds
 		self.spectrogram = spectrogram
+		self.deconv = deconv if (deconv == 'ACC') or (deconv == 'VEL') or (deconv == 'DISP') else False
+		if self.deconv and RS.inv:
+			deconv = deconv.upper()
+			self.units = 'Acceleration (m$^2$/s)' if (self.deconv == 'ACC') else False
+			self.units = 'Velocity (m/s)' if (self.deconv == 'VEL') else self.units
+			self.units = 'Displacement (m)' if (self.deconv == 'DISP') else self.units
+			printM('Signal deconvolution set to %s' % (self.deconv), self.sender)
+		else:
+			self.units = 'Voltage counts'
+			self.deconv = False
+		printM('Seismogram units are %s' % (self.units), self.sender)
+
 		self.per_lap = 0.9
 		self.fullscreen = fullscreen
 		self.qt = qt
 		self.num_chans = len(self.chans)
-		self.delay = 2 if (self.num_chans > 1) and (self.spectrogram) else 1
+		self.delay = RS.tr if (self.spectrogram) else 1
+
+		self.screencap = screencap
+		self.save = False
+		self.save_timer = 0
 		# plot stuff
 		self.bgcolor = '#202530' # background
 		self.fgcolor = '0.8' # axis and label color
 		self.linecolor = '#c28285' # seismogram color
+
+	def deconvolve(self):
+		self.stream = self.raw.copy()
+		if self.deconv:
+			self.stream.remove_response(inventory=RS.inv, pre_filt=[0.1, 0.5, 0.95*self.sps, self.sps], output=self.deconv)
 
 	def getq(self):
 		d = self.queue.get()
@@ -88,12 +112,19 @@ class Plot(Thread):
 			plt.close()
 			del self.queue
 			if 'SELF' in str(d):
+				print()
 				printM('Plot has been closed, plot thread exiting.', self.sender)
 			self.alive = False
 			sys.exit()
+		elif ('ALARM' in str(d)) and (self.screencap):
+			if self.save:
+				printM('Screenshot from a recent alarm has not yet been saved; saving now and resetting save timer.', sender=self.sender)
+				self.savefig()
+			self.save = True
+			self.save_timer = 0
 		if RS.getCHN(d) in self.chans:
-			self.stream = RS.update_stream(
-				stream=self.stream, d=d, fill_value='latest')
+			self.raw = RS.update_stream(
+				stream=self.raw, d=d, fill_value='latest')
 			return True
 		else:
 			return False
@@ -212,7 +243,7 @@ class Plot(Thread):
 										  top=np.max(self.stream[i].data-mean)
 										  +np.ptp(self.stream[i].data-mean)*0.1)
 			# we can set line plot labels here, but not imshow labels
-			self.ax[i*self.mult].set_ylabel('Voltage counts', color=self.fgcolor)
+			self.ax[i*self.mult].set_ylabel(self.units, color=self.fgcolor)
 			self.ax[i*self.mult].legend(loc='upper left')	# legend and location
 			if self.spectrogram:		# if the user wants a spectrogram, plot it
 				# add spectrogram to axes list
@@ -295,31 +326,47 @@ class Plot(Thread):
 		"""
 		self.fig.canvas.start_event_loop(0.005)
 
+	def savefig(self):
+		figname = os.path.join(screenshot_loc, '%s.png' % datetime.utcnow().strftime('%Y-%m-%d-%H%M%S'))
+		elapsed = self.save_timer / (RS.tr * RS.numchns)
+		print()	# distancing from \r line
+		printM('Saving plot %i seconds after last alarm' % (elapsed), sender=self.sender)
+		plt.savefig(figname, facecolor=self.fig.get_facecolor(), edgecolor='none')
+		print()	# distancing from \r line
+		printM('Saved %s' % (figname), sender=self.sender)
+
 	def run(self):
 		"""
 		The heart of the plotting routine.
 
 		Begins by updating the queue to populate a :py:`obspy.core.stream.Stream` object, then setting up the main plot.
 		The first time through the main loop, the plot is not drawn. After that, the plot is drawn every time all channels are updated.
-		Any plots containing a spectrogram and more than 1 channel are drawn at most every half second (500 ms).
+		Any plots containing a spectrogram and more than 1 channel are drawn at most every second (1000 ms).
 		All other plots are drawn at most every quarter second (250 ms).
 		"""
 		self.getq() # block until data is flowing from the consumer
 		for i in range((self.totchns)*2): # fill up a stream object
 			self.getq()
 		self.set_sps()
+		self.deconvolve()
 		self.setup_plot()
 
-		i = 0	# number of plot events
-		u = -1	# number of queue calls
+		pkts_in_period = RS.tr * RS.numchns * self.seconds	# theoretical number of packets received in self.seconds
+
+		n = 0	# number of iterations without plotting
+		i = 0	# number of plot events without clearing the linecache
+		u = -1	# number of blocked queue calls (must be -1 at startup)
 		while True: # main loop
 			while True:
+				n += 1
+				self.save_timer += 1
 				if self.queue.qsize() > 0:
 					self.getq()
 					time.sleep(0.009)		# wait a ms to see if another packet will arrive
 				else:
 					u += 1 if self.getq() else 0
-					if int(u/(self.num_chans*self.delay)) == float(u/(self.num_chans*self.delay)):
+					if n > (self.delay * RS.numchns):
+						n = 0
 						break
 
 			if i > 10:
@@ -327,11 +374,15 @@ class Plot(Thread):
 				i = 0
 			else:
 				i += 1
-			self.stream = RS.copy(self.stream)
+			self.raw = RS.copy(self.raw)
+			self.deconvolve()
 			self.update_plot()
 			if u >= 0:				# avoiding a matplotlib broadcast error
 				self.loop()
 
+			if (self.save) and (self.save_timer > 0.6 * (pkts_in_period)):
+				self.save = False
+				self.savefig()
 			u = 0
 			time.sleep(0.005)		# wait a ms to see if another packet will arrive
 			sys.stdout.flush()

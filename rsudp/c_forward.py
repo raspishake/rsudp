@@ -28,6 +28,7 @@ class Forward(Thread):
 				n += 1
 		if len(self.chans) < 1:
 			self.chans = RS.chns
+		self.alarm = False
 		self.running = True
 		self.alive = True
 

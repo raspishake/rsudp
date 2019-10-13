@@ -31,6 +31,7 @@ class Write(Thread):
 		self.numchns = RS.numchns
 		self.stime = 1/RS.sps
 		self.inv = RS.inv
+		self.alarm = False
 		printM('Starting.', self.sender)
 
 	def getq(self):
@@ -39,8 +40,11 @@ class Write(Thread):
 		if 'TERM' in str(d):
 			self.alive = False
 			sys.exit()
-		self.stream = RS.update_stream(
-			stream=self.stream, d=d, fill_value=None)
+		elif 'ALARM' in str(d):
+			pass
+		else:
+			self.stream = RS.update_stream(
+				stream=self.stream, d=d, fill_value=None)
 		if not self.refcha:
 			self.refcha = RS.getCHN(d)
 		if self.refcha in str(d):

@@ -26,6 +26,7 @@ chns = []				# list of channels
 numchns = 0
 
 tf = None				# transmission frequency in ms
+tr = None				# transmission rate in packets per second
 sps = None				# samples per second
 
 # construct a socket for either Windows or Unix
@@ -157,7 +158,7 @@ def getSTREAM(DP):
 def getTR(chn):				# DP transmission rate in msecs
 	'''Get the transmission rate in milliseconds.
 	Requires a getCHN() or a channel name string as argument.'''
-	global tf
+	global tf, tr
 	timeP1, timeP2 = 0.0, 0.0
 	done = False
 	while not done:
@@ -171,6 +172,7 @@ def getTR(chn):				# DP transmission rate in msecs
 				done = True
 	TR = timeP2*1000 - timeP1*1000
 	tf = int(TR)
+	tr = int(1000 / TR)
 	return tf
 
 def getSR(TR, DP):

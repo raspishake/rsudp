@@ -19,6 +19,7 @@ class PrintRaw(Thread):
 		"""
 		super().__init__()
 		self.sender = 'Print'
+		self.alarm = False
 		self.alive = True
 
 		if q:
@@ -40,7 +41,10 @@ class PrintRaw(Thread):
 			self.queue.task_done()
 			if 'TERM' in str(d):
 				sys.exit()
-			print(str(d))
+			elif 'ALARM' in str(d):
+				pass
+			else:
+				print(str(d))
 			sys.stdout.flush()
 
 		self.alive = False

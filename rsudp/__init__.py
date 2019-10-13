@@ -3,8 +3,10 @@ import logging
 from time import gmtime
 
 default_loc = os.path.join(os.path.expanduser('~'), '.config', 'rsudp')
-if not os.path.exists(default_loc):
-	os.makedirs(default_loc)
+screenshot_loc = os.path.join(default_loc, 'screenshots')
+
+os.makedirs(default_loc, exist_ok=True)
+os.makedirs(screenshot_loc, exist_ok=True)
 
 logging.Formatter.converter = gmtime
 f = logging.FileHandler(os.path.join(default_loc, 'rsudp.log'))

@@ -61,6 +61,11 @@ def prod(queue, threads):
 						% (addr[0]), sender)
 				blocked.append(addr[0])
 		for thread in threads:
+			if thread.alarm:
+				queue.put(b'ALARM')
+				print()
+				printM('%s thread has indicated alarm state, sending ALARM message to queues' % thread.sender, sender='Producer')
+				thread.alarm = False
 			if not thread.alive:
 				stop = True
 		if stop:
@@ -116,9 +121,15 @@ def run(settings):
 		sec = settings['plot']['duration']
 		spec = settings['plot']['spectrogram']
 		full = settings['plot']['fullscreen']
+		screencap = settings['plot']['eq_screenshots']
+		if settings['plot']['deconvolve']:
+			deconv = settings['plot']['units']
+		else:
+			deconv = False
 		q = mk_q()
 		plotter = Plot(cha=cha, seconds=sec, spectrogram=spec,
-								fullscreen=full, q=q)
+						fullscreen=full, deconv=deconv, q=q,
+						screencap=screencap)
 		mk_p(plotter)
 
 	if settings['forward']['enabled']:
@@ -144,7 +155,7 @@ def run(settings):
 		ex = eqAlert if settings['alert']['exec'] in 'eqAlert' else settings['alert']['exec']
 		alertsound = settings['alert']['alertsound']
 
-		if pydub_exists and alertsound:
+		if [ pydub_exists ] and [ alertsound == True ]:
 			soundloc = os.path.expanduser(os.path.expanduser(settings['alert']['mp3file']))
 			if 'rs_sounds' in soundloc:
 				soundloc = pr.resource_filename('rsudp', soundloc)
@@ -161,7 +172,7 @@ def run(settings):
 				else:
 					raise FileNotFoundError('MP3 file could not be found')
 				sound = False
-		elif [ not pydub_exists ] and [ alertsound ]:
+		elif [ not pydub_exists ] and [ alertsound == True ]:
 			sound = False
 			printM("WARNING: You don't have pydub installed, so no sound will play.", sender='Alert')
 			printM('         To install pydub, follow the instructions at:', sender='Alert')
@@ -249,7 +260,10 @@ where OPTIONS := {
     "duration": 30,
     "spectrogram": false,
     "fullscreen": false,
-    "channels": ["HZ", "HDF"]},
+    "eq_screenshots": false,
+    "channels": ["HZ", "HDF"],
+    "deconvolve": false,
+    "units": "ACC"},
 "forward": {
     "enabled": false,
     "address": "192.168.1.254",

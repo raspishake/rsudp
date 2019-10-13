@@ -65,6 +65,7 @@ class Alert(Thread):
 		self.maxstalta = 0
 
 		self.alarm = False
+		self.exceed = False
 		self.sound = sound
 		if bp:
 			self.freqmin = bp[0]
@@ -171,9 +172,10 @@ class Alert(Thread):
 					self.stalta = recursive_sta_lta(self.stream[0],
 							int(self.sta * self.sps), int(self.lta * self.sps))
 				if self.stalta.max() > self.thresh:
-					if not self.alarm:
+					if not self.exceed:
 						print(); print()
-						self.alarm = True
+						self.alarm = True	# raise a flag that the Producer can read and modify 
+						self.exceed = True	# the state machine; this one should not be touched from the outside, otherwise bad things will happen
 						printM('Trigger threshold of %s exceeded: %s'
 								% (self.thresh, round(self.stalta.max(), 3)), self.sender)
 						if callable(self.func):
@@ -192,9 +194,9 @@ class Alert(Thread):
 						self.maxstalta = self.stalta.max()
 
 				else:
-					if self.alarm:
+					if self.exceed:
 						if self.stalta[-1] < self.reset:
-							self.alarm = False
+							self.exceed = False
 							print()
 							printM('Max STA/LTA ratio reached in alarm state: %s' % (round(self.maxstalta, 3)),
 									self.sender)

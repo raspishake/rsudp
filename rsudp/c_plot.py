@@ -267,10 +267,10 @@ class Plot(Thread):
 		plt.draw()									# draw the canvas
 		self.fig.canvas.start_event_loop(0.005)		# wait for canvas to update
 		if self.fullscreen:		# carefully designed plot layout parameters
-			plt.tight_layout(pad=0, rect=[0.015, 0.01, 0.99, 0.955])	# [left, bottom, right, top]
+			plt.tight_layout(pad=0, h_pad=0.1, rect=[0.02, 0.01, 0.99, 0.92])	# [left, bottom, right, top]
 		else:	# carefully designed plot layout parameters
 			plt.tight_layout(pad=0, h_pad=0.1, w_pad=0,
-							 rect=[0.015, 0.01, 0.99, 0.885+(0.02*self.num_chans)])	# [left, bottom, right, top]
+							 rect=[0.02, 0.01, 0.99, 0.95])	# [left, bottom, right, top]
 
 	def update_plot(self):
 		obstart = self.stream[0].stats.endtime - timedelta(seconds=self.seconds)	# obspy time

@@ -103,7 +103,8 @@ class Plot(Thread):
 	def deconvolve(self):
 		self.stream = self.raw.copy()
 		if self.deconv:
-			self.stream.remove_response(inventory=RS.inv, pre_filt=[0.1, 0.5, 0.95*self.sps, self.sps], output=self.deconv)
+			self.stream.remove_response(inventory=RS.inv, pre_filt=[0.5, 1, 0.95*self.sps, self.sps],
+										output=self.deconv, water_level=4.5, taper=False)
 
 	def getq(self):
 		d = self.queue.get()
@@ -118,7 +119,8 @@ class Plot(Thread):
 			sys.exit()
 		elif ('ALARM' in str(d)) and (self.screencap):
 			if self.save:
-				printM('Screenshot from a recent alarm has not yet been saved; saving now and resetting save timer.', sender=self.sender)
+				printM('Screenshot from a recent alarm has not yet been saved; saving now and resetting save timer.',
+						sender=self.sender)
 				self.savefig()
 			self.save = True
 			self.save_timer = 0
@@ -284,6 +286,7 @@ class Plot(Thread):
 		start = np.datetime64(self.stream[0].stats.endtime
 							  )-np.timedelta64(self.seconds, 's')	# numpy time
 		end = np.datetime64(self.stream[0].stats.endtime)	# numpy time
+		self.raw = self.raw.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
 		self.stream = self.stream.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
 		i = 0
 		for i in range(self.num_chans):	# for each channel, update the plots

@@ -160,6 +160,15 @@ class Plot(Thread):
 		print()
 		self.queue.put('TERMSELF')
 
+	def handle_resize(self, evt=False):
+		if evt:
+			h = evt.height
+		else:
+			h = self.fig.get_size_inches()[1]*self.fig.dpi
+		plt.tight_layout(pad=0, h_pad=0.1, w_pad=0,
+					rect=[0.02, 0.01, 0.99, 0.92 + 0.04*(h/1080)])	# [left, bottom, right, top]
+
+
 	def setup_plot(self):
 		"""
 		Matplotlib is not threadsafe, so things are a little weird here.
@@ -167,6 +176,7 @@ class Plot(Thread):
 		# instantiate a figure and set basic params
 		self.fig = plt.figure(figsize=(8,3*self.num_chans))
 		self.fig.canvas.mpl_connect('close_event', self.handle_close)
+		self.fig.canvas.mpl_connect('resize_event', self.handle_resize)
 
 		self.fig.canvas.set_window_title('Raspberry Shake Monitor') 
 		self.fig.patch.set_facecolor(self.bgcolor)	# background color
@@ -256,21 +266,18 @@ class Plot(Thread):
 						extent=(self.seconds-(1/(self.sps/float(len(self.stream[i].data)))),
 								self.seconds,0,self.sps/2), aspect='auto')
 
+		self.handle_resize()
 		# update canvas and draw
 		if self.fullscreen: # set up fullscreen
 			figManager = plt.get_current_fig_manager()
-			if self.qt:	# try maximizing in Qt first
+			if self.qt:	# maximizing in Qt
 				figManager.window.showMaximized()
-			else:	# if Qt fails, try Tk
+			else:	# maximizing in Tk
 				figManager.resize(*figManager.window.maxsize())
 
 		plt.draw()									# draw the canvas
 		self.fig.canvas.start_event_loop(0.005)		# wait for canvas to update
-		if self.fullscreen:		# carefully designed plot layout parameters
-			plt.tight_layout(pad=0, h_pad=0.1, rect=[0.02, 0.01, 0.99, 0.92])	# [left, bottom, right, top]
-		else:	# carefully designed plot layout parameters
-			plt.tight_layout(pad=0, h_pad=0.1, w_pad=0,
-							 rect=[0.02, 0.01, 0.99, 0.95])	# [left, bottom, right, top]
+		self.handle_resize()
 
 	def update_plot(self):
 		obstart = self.stream[0].stats.endtime - timedelta(seconds=self.seconds)	# obspy time

@@ -381,6 +381,7 @@ class Plot(Thread):
 				i = 0
 			else:
 				i += 1
+			self.stream = RS.copy(self.stream)
 			self.raw = RS.copy(self.raw)
 			self.deconvolve()
 			self.update_plot()

@@ -17,6 +17,7 @@ try:		# test for matplotlib and exit if import fails
 		use('Qt5Agg')
 		qt = True
 	import matplotlib.pyplot as plt
+	import matplotlib.dates as mdates
 	plt.ion()
 	mpl = True
 except:
@@ -203,6 +204,7 @@ class Plot(Thread):
 							   1, 1, label=str(1)))
 				self.ax[0].set_facecolor(self.bgcolor)
 				self.ax[0].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
+				self.ax[0].xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S'))
 				if self.spectrogram:
 					self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
 								   1, 2, label=str(2)))#, sharex=ax[0]))
@@ -216,6 +218,7 @@ class Plot(Thread):
 							   1, s+1, sharex=self.ax[0], label=str(s+1)))
 				self.ax[s].set_facecolor(self.bgcolor)
 				self.ax[s].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
+				self.ax[s].xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S'))
 				if self.spectrogram:
 					# add a spectrogram and set colors
 					self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,

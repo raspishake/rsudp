@@ -319,7 +319,7 @@ where OPTIONS := {
 			exit(0)
 		if o in ('-d', '--dump'):
 			if a in 'default':
-				os.makedirs(default_loc)
+				os.makedirs(default_loc, exist_ok=True)
 				dump_default(settings_loc, default_settings)
 			print(default_settings)
 			exit(0)

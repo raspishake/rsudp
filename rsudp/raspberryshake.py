@@ -232,8 +232,8 @@ def get_inventory(sender='get_inventory'):
 		try:
 			printM('Fetching inventory for station %s.%s from Raspberry Shake FDSN.'
 					% (net, stn), sender)
-			inv = client.get_station(network=net, station=stn, level='response',
-									 startdate=UTCDateTime.now()-timedelta(seconds=14400))
+			inv = client.get_stations(network=net, station=stn, level='response',
+									 starttime=UTCDateTime.now()-timedelta(seconds=14400))
 			printM('Inventory fetch successful.', sender)
 		except (IndexError, HTTPError):
 			printM('WARNING: No inventory found for %s. Are you forwarding your Shake data?' % stn)

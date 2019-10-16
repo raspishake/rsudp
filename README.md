@@ -106,15 +106,17 @@ By default, the settings are as follows:
     "channels": ["all"]},
 "alert": {
     "enabled": true,
+    "highpass": 0,
+    "lowpass": 50,
+    "deconvolve": false,
+    "units": "ACC",
     "sta": 6,
     "lta": 30,
     "threshold": 1.7,
     "reset": 1.6,
     "exec": "eqAlert",
-    "highpass": 0,
-    "lowpass": 50,
     "channel": "HZ",
-	"alertsound": false,
+    "alertsound": false,
     "mp3file": "rs_sounds/doorbell.mp3",
     "win_override": false,
     "debug": false}
@@ -137,7 +139,7 @@ By default, the settings are as follows:
 
   If the STA/LTA ratio goes above a certain value (`"threshold"`), then the module runs a function passed to it. By default, this function is `rsudp.client.eqAlert()` which just outputs some text, and optionally loads and plays an MP3 sound (if `"alertsound"` is `"true"` and you have either `ffmpeg` or `libav` installed). For details on installation of these dependencies, see [this page](https://github.com/jiaaro/pydub#dependencies)). When the ratio goes back below the `"reset"` value, the alarm is reset.
   
-  If you have either `ffmpeg` or `libav` installed and would like to play an sound alert when the threshold is exceeded, the software will install several small MP3 files. The `"mp3file"` is `"rs_sounds/doorbell.mp3"` by default, but there are a few more aggressive alert sounds, including: a three-beep sound `rs_sounds/beeps.mp3`, a sequence of sonar pings `rs_sounds/sonar.mp3`, and a continuous alarm beeping for 5 seconds, `rs_sounds/alarm.mp3`. You can also point the `"mp3file"` field to an MP3 file somewhere in your filesystem. For example, if your username was `pi` and you had a file called `earthquake.mp3` in your Downloads folder, you would specify `"mp3file": "/home/pi/Downloads/earthquake.mp3"`. The program will throw an error if it can't find (or load) the specified MP3 file. It will also alert you if the software dependencies for playback are not installed.
+  If you have either `ffmpeg` or `libav` installed and would like to play an sound alert when the threshold is exceeded, the software will install several small MP3 files. The `"mp3file"` is `"doorbell"` by default, but there are a few more aggressive alert sounds, including: a three-beep sound `"beeps"`, a sequence of sonar pings `"sonar"`, and a continuous alarm beeping for 5 seconds, `"alarm"`. You can also point the `"mp3file"` field to an MP3 file somewhere in your filesystem. For example, if your username was `pi` and you had a file called `earthquake.mp3` in your Downloads folder, you would specify `"mp3file": "/home/pi/Downloads/earthquake.mp3"`. The program will throw an error if it can't find (or load) the specified MP3 file. It will also alert you if the software dependencies for playback are not installed.
   
   You can also change the `"exec"` field and supply a path to executable Python code to run with the `exec()` function. Be very careful when using the `exec()` function, as it is known to have problems. Notably, it does not check the passed code for errors prior to running. Additionally, if the code takes too long to execute, you could end up losing data packets, so keep it simple (sending a message or a tweet, which should either succeed or time out in a few seconds, is really the intended purpose). In testing, we were able to get the pydub software to play 30 second-long sounds without losing any data packets. Theoretically you could run code that takes longer to process than that, but the issue is that the longer it takes the function to process code, the longer the module will go without processing data from the queue (the queue can hold up to 2048 packets, which for a RS4D works out to 128 seconds' worth of data).
 

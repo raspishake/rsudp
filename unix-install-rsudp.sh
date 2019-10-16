@@ -198,6 +198,7 @@ fi
 
 if [ ! -z ${success+x} ]; then
   echo "rsudp has installed successfully!"
+  rm $settings
   echo "Installing settings file to $settings..."
   mkdir -p $config &&
   shake_client -d >$settings &&

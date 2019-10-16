@@ -271,13 +271,15 @@ where OPTIONS := {
     "channels": ["all"]},
 "alert": {
     "enabled": true,
+    "highpass": 0,
+    "lowpass": 50,
+    "deconvolve": false,
+    "units": "ACC",
     "sta": 6,
     "lta": 30,
     "threshold": 1.7,
     "reset": 1.6,
     "exec": "eqAlert",
-    "highpass": 0,
-    "lowpass": 50,
     "channel": "HZ",
     "alertsound": false,
     "mp3file": "rs_sounds/doorbell.mp3",
@@ -319,7 +321,7 @@ where OPTIONS := {
 			exit(0)
 		if o in ('-d', '--dump'):
 			if a in 'default':
-				os.makedirs(default_loc)
+				os.makedirs(default_loc, exist_ok=True)
 				dump_default(settings_loc, default_settings)
 			print(default_settings)
 			exit(0)

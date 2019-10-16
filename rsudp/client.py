@@ -305,13 +305,12 @@ where OPTIONS := {
 			dump_default(settings_loc, default_settings)
 		else:
 			with open(os.path.abspath(settings_loc), 'r') as f:
-				printM('Found default settings file: %s' % settings_loc)
 				try:
 					settings = json.load(f)
 				except Exception as e:
-					printM('ERROR:  Could not load default settings file.')
+					printM('ERROR:  Could not load default settings file from %s' % settings_loc)
 					printM('DETAIL: %s' % e)
-					printM('        Either correct the file, or dump the overwrite the default settings file using the command:')
+					printM('        Either correct the file, or overwrite the default settings file using the command:')
 					printM('        shake_client -d default')
 					exit(2)
 
@@ -327,20 +326,22 @@ where OPTIONS := {
 			exit(0)
 		if o in ('-s', 'settings='):
 			if os.path.exists(os.path.abspath(os.path.expanduser(a))):
-				with open(os.path.abspath(os.path.expanduser(a)), 'r') as f:
-					printM('Found settings file: %s' % settings_loc)
+				settings_loc = os.path.abspath(os.path.expanduser(a))
+				with open(settings_loc, 'r') as f:
 					try:
 						settings = json.load(f)
 					except Exception as e:
 						printM('ERROR:  Could not load settings file. Perhaps the JSON is malformed?')
 						printM('DETAIL: %s' % e)
-						printM('        If you would like to rebuild the file, you can enter the command below:')
+						printM('        If you would like to overwrite and rebuild the file, you can enter the command below:')
 						printM('shake_client -d %s' % a)
 						exit(2)
 			else:
 				printM('ERROR: could not find the settings file you specified. Check the path and try again.')
 				print()
 				exit(2)
+	printM('Using settings file: %s' % settings_loc)
+
 
 
 	run(settings)

@@ -18,7 +18,7 @@ class Alert(Thread):
 	"""
 	def __init__(self, sta=5, lta=30, thresh=1.6, reset=1.55, bp=False,
 				 debug=True, cha='HZ', win_ovr=False, q=False, func=None,
-				 sound=False,
+				 sound=False, 
 				 *args, **kwargs):
 		
 		"""
@@ -56,6 +56,7 @@ class Alert(Thread):
 		self.debug = debug
 		self.args = args
 		self.kwargs = kwargs
+		self.raw = RS.Stream()
 		self.stream = RS.Stream()
 		cha = self.default_ch if (cha == 'all') else cha
 		self.cha = cha if isinstance(cha, str) else cha[0]
@@ -63,6 +64,18 @@ class Alert(Thread):
 		self.inv = RS.inv
 		self.stalta = np.ndarray(1)
 		self.maxstalta = 0
+
+		self.deconv = deconv if (deconv == 'ACC') or (deconv == 'VEL') or (deconv == 'DISP') else False
+		if self.deconv and RS.inv:
+			deconv = deconv.upper()
+			self.units = 'Acceleration (m$^2$/s)' if (self.deconv == 'ACC') else False
+			self.units = 'Velocity (m/s)' if (self.deconv == 'VEL') else self.units
+			self.units = 'Displacement (m)' if (self.deconv == 'DISP') else self.units
+			printM('Signal deconvolution set to %s' % (self.deconv), self.sender)
+		else:
+			self.units = 'Voltage counts'
+			self.deconv = False
+		printM('Seismogram units are %s' % (self.units), self.sender)
 
 		self.alarm = False
 		self.exceed = False

@@ -75,6 +75,7 @@ class Plot(Thread):
 		self.totchns = RS.numchns
 		self.seconds = seconds
 		self.spectrogram = spectrogram
+
 		self.deconv = deconv if (deconv == 'ACC') or (deconv == 'VEL') or (deconv == 'DISP') else False
 		if self.deconv and RS.inv:
 			deconv = deconv.upper()
@@ -104,8 +105,28 @@ class Plot(Thread):
 	def deconvolve(self):
 		self.stream = self.raw.copy()
 		if self.deconv:
-			self.stream.remove_response(inventory=RS.inv, pre_filt=[0.5, 1, 0.95*self.sps, self.sps],
-										output=self.deconv, water_level=4.5, taper=False)
+			for trace in self.stream:
+				if ('HZ' in trace.stats.channel) or ('HE' in trace.stats.channel) or ('HN' in trace.stats.channel):
+					if 'DISP' in self.deconv:
+						trace = trace.filter('bandpass', freqmin=0.5, freqmax=50)
+						trace.data = np.polyint(trace.data)
+					trace.remove_response(inventory=RS.inv, pre_filt=[0.5, 1, 0.95*self.sps, self.sps],
+												output=self.deconv, water_level=4.5, taper=False)
+					if 'ACC' in self.deconv:
+						trace.data = np.gradient(trace.data, 1)
+					elif 'DISP' in self.deconv:
+						trace.data = np.polyint(trace.data)
+				elif ('NZ' in trace.stats.channel) or ('NE' in trace.stats.channel) or ('NN' in trace.stats.channel):
+					if 'VEL' in self.deconv:
+						trace.data = np.polyint(trace.data, m=1)
+					elif 'DISP' in self.deconv:
+						trace.data = np.polyint(trace.data, m=2)
+					trace.remove_response(inventory=RS.inv, pre_filt=[0.5, 1, 0.95*self.sps, self.sps],
+												output=self.deconv, water_level=4.5, taper=False)
+
+				else:
+					pass
+
 
 	def getq(self):
 		d = self.queue.get()

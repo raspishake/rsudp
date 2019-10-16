@@ -16,7 +16,7 @@ setuptools.setup(
     url="https://github.com/raspishake/rsudp",
     packages=setuptools.find_packages(),
     include_package_data=True,
-    install_requires=['obspy', 'numpy', 'matplotlib==3.1.1', 'pydub'],
+    install_requires=['obspy', 'numpy', 'matplotlib==3.1.1', 'pillow', 'pydub'],
     entry_points = {
         'console_scripts': [
             'shake_local=rsudp.shake_udp_local:main',

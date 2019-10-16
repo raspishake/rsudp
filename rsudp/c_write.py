@@ -22,8 +22,6 @@ class Write(Thread):
 			sys.stdout.flush()
 			sys.exit()
 
-		self.qno = len(destinations) - 1
-
 		self.stream = RS.Stream()
 		self.refcha = None
 		self.outdir = outdir

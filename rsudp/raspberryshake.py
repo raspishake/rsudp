@@ -7,11 +7,13 @@ import socket as s
 import signal
 from obspy import UTCDateTime
 from obspy.core.stream import Stream
+from obspy.clients.fdsn import Client
 from obspy import read_inventory
 from obspy.core.trace import Trace
 from rsudp import printM
 from requests.exceptions import HTTPError
 
+client = Client('https://fdsnws.raspberryshakedata.com/')
 
 initd, sockopen = False, False
 qsize = 2048 			# max queue size
@@ -230,8 +232,8 @@ def get_inventory(sender='get_inventory'):
 		try:
 			printM('Fetching inventory for station %s.%s from Raspberry Shake FDSN.'
 					% (net, stn), sender)
-			inv = read_inventory('https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&level=resp&format=xml'
-								 % (net, stn))
+			inv = client.get_station(network=net, station=stn, level='response',
+									 startdate=UTCDateTime.now()-timedelta(seconds=14400))
 			printM('Inventory fetch successful.', sender)
 		except (IndexError, HTTPError):
 			printM('WARNING: No inventory found for %s. Are you forwarding your Shake data?' % stn)

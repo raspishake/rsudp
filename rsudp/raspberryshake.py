@@ -230,15 +230,14 @@ def get_inventory(sender='get_inventory'):
 			printM('Fetching inventory for station %s.%s from Raspberry Shake FDSN.'
 					% (net, stn), sender)
 			
-			inv = read_inventory('https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&starttime=%s&level=resp&format=xml'
+			inv = read_inventory('https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&starttime=%s&level=resp&nodata=404&format=xml'
 								 % (net, stn, str(UTCDateTime.now()-timedelta(seconds=14400))))
 			printM('Inventory fetch successful.', sender)
 		except (IndexError, HTTPError):
-			printM('WARNING: No inventory found for %s. Are you forwarding your Shake data?' % stn)
-			print('                             Your inventory will only be available if data forwarding is on.')
-			print('                             Access the config page of the web front end for details.')
-			print('                             Falling back to station name "Z0000".')
-			stn = 'Z0000'
+			printM('WARNING: No inventory found for %s. Are you forwarding your Shake data?' % stn, sender)
+			printM('         Deconvolution will only be available if data forwarding is on.', sender)
+			printM('         Access the config page of the web front end for details.', sender)
+			printM('         More info at https://manual.raspberryshake.org/quickstart.html', sender)
 			inv = False
 		except Exception as e:
 			printM('ERROR: Inventory fetch failed!', sender)

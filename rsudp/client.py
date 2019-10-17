@@ -164,7 +164,7 @@ def run(settings):
 				try:
 					sound = AudioSegment.from_file(soundloc, format="mp3")
 					printM('Loaded %.2f sec alert sound from %s' % (len(sound)/1000., soundloc), sender='Alert')
-				except IndexError as e:#FileNotFoundError as e:
+				except FileNotFoundError as e:
 					if ['ffprobe' in str(e)] or ['avprobe' in str(e)]:
 						printM("WARNING: You have chosen to play a sound, but don't have ffmpeg or libav installed.", sender='Alert')
 						printM('         Sound playback requires one of these dependencies.', sender='Alert')

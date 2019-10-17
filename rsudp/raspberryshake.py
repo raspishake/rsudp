@@ -13,8 +13,6 @@ from obspy.core.trace import Trace
 from rsudp import printM
 from requests.exceptions import HTTPError
 
-client = Client('https://fdsnws.raspberryshakedata.com/')
-
 initd, sockopen = False, False
 qsize = 2048 			# max queue size
 port = 8888				# default listening port
@@ -232,6 +230,7 @@ def get_inventory(sender='get_inventory'):
 		try:
 			printM('Fetching inventory for station %s.%s from Raspberry Shake FDSN.'
 					% (net, stn), sender)
+			client = Client('https://fdsnws.raspberryshakedata.com/')
 			inv = client.get_stations(network=net, station=stn, level='response',
 									 starttime=UTCDateTime.now()-timedelta(seconds=14400))
 			printM('Inventory fetch successful.', sender)

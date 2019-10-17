@@ -106,30 +106,29 @@ class Plot(Thread):
 		self.stream = self.raw.copy()
 		if self.deconv:
 			for trace in self.stream:
+				trace.remove_response(inventory=RS.inv, pre_filt=[0.5, 1, 0.95*self.sps, self.sps],
+											output=self.deconv, water_level=4.5, taper=False)
+				trace.stats.units = self.units
 				if ('HZ' in trace.stats.channel) or ('HE' in trace.stats.channel) or ('HN' in trace.stats.channel):
-					if 'DISP' in self.deconv:
-						trace = trace.filter('bandpass', freqmin=0.5, freqmax=50)
-						trace.data = np.cumsum(trace.data)
-						trace.data -= np.mean(trace.data)
-					trace.remove_response(inventory=RS.inv, pre_filt=[0.5, 1, 0.95*self.sps, self.sps],
-												output=self.deconv, water_level=4.5, taper=False)
 					if 'ACC' in self.deconv:
 						trace.data = np.gradient(trace.data, 1)
 					elif 'DISP' in self.deconv:
 						trace.data = np.cumsum(trace.data)
-						trace.data -= np.mean(trace.data)
+						trace.taper(max_percentage=0.1, side='left', max_length=1)
+						trace.detrend(type='demean')
 				elif ('NZ' in trace.stats.channel) or ('NE' in trace.stats.channel) or ('NN' in trace.stats.channel):
+					trace.data = trace.data * -1	# trying something
 					if 'VEL' in self.deconv:
 						trace.data = np.cumsum(trace.data)
-						trace.data -= np.mean(trace.data)
+						trace.detrend(type='demean')
 					elif 'DISP' in self.deconv:
-						trace.data = np.cumsum(np.cumsum(trace.data))
-						trace.data -= np.mean(trace.data)
-					trace.remove_response(inventory=RS.inv, pre_filt=[0.5, 1, 0.95*self.sps, self.sps],
-												output=self.deconv, water_level=4.5, taper=False)
+						trace.data = np.cumsum(trace.data)
+						trace.data = np.cumsum(trace.data)
+						trace.detrend(type='linear')
+					trace.taper(max_percentage=0.1, side='left', max_length=1)
 
 				else:
-					pass
+					trace.stats.units = 'Voltage counts'	# if this is HDF
 
 
 	def getq(self):
@@ -283,7 +282,7 @@ class Plot(Thread):
 										  top=np.max(self.stream[i].data-mean)
 										  +np.ptp(self.stream[i].data-mean)*0.1)
 			# we can set line plot labels here, but not imshow labels
-			self.ax[i*self.mult].set_ylabel(self.units, color=self.fgcolor)
+			self.ax[i*self.mult].set_ylabel(self.stream[i].stats.units, color=self.fgcolor)
 			self.ax[i*self.mult].legend(loc='upper left')	# legend and location
 			if self.spectrogram:		# if the user wants a spectrogram, plot it
 				# add spectrogram to axes list

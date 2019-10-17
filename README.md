@@ -29,6 +29,7 @@ A UNIX installer script is available at `unix-install-rsudp.sh`. This script che
 
 ```bash
 $ bash unix-install-rsudp.sh
+$ source ~/.bashrc
 ```
 
 Once you've done this, your conda environment will be available by typing:

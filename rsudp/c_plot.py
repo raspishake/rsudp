@@ -109,18 +109,18 @@ class Plot(Thread):
 				if ('HZ' in trace.stats.channel) or ('HE' in trace.stats.channel) or ('HN' in trace.stats.channel):
 					if 'DISP' in self.deconv:
 						trace = trace.filter('bandpass', freqmin=0.5, freqmax=50)
-						trace.data = np.polyint(trace.data)
+						trace.data = np.cumsum(trace.data)
 					trace.remove_response(inventory=RS.inv, pre_filt=[0.5, 1, 0.95*self.sps, self.sps],
 												output=self.deconv, water_level=4.5, taper=False)
 					if 'ACC' in self.deconv:
 						trace.data = np.gradient(trace.data, 1)
 					elif 'DISP' in self.deconv:
-						trace.data = np.polyint(trace.data)
+						trace.data = np.cumsum(trace.data)
 				elif ('NZ' in trace.stats.channel) or ('NE' in trace.stats.channel) or ('NN' in trace.stats.channel):
 					if 'VEL' in self.deconv:
-						trace.data = np.polyint(trace.data, m=1)
+						trace.data = np.cumsum(trace.data)
 					elif 'DISP' in self.deconv:
-						trace.data = np.polyint(trace.data, m=2)
+						trace.data = np.cumsum(np.cumsum(trace.data))
 					trace.remove_response(inventory=RS.inv, pre_filt=[0.5, 1, 0.95*self.sps, self.sps],
 												output=self.deconv, water_level=4.5, taper=False)
 

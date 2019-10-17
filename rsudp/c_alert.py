@@ -18,7 +18,7 @@ class Alert(Thread):
 	"""
 	def __init__(self, sta=5, lta=30, thresh=1.6, reset=1.55, bp=False,
 				 debug=True, cha='HZ', win_ovr=False, q=False, func=None,
-				 sound=False, 
+				 sound=False, deconv=False,
 				 *args, **kwargs):
 		
 		"""

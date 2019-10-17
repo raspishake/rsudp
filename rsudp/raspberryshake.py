@@ -7,7 +7,6 @@ import socket as s
 import signal
 from obspy import UTCDateTime
 from obspy.core.stream import Stream
-from obspy.clients.fdsn import Client
 from obspy import read_inventory
 from obspy.core.trace import Trace
 from rsudp import printM

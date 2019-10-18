@@ -113,9 +113,9 @@ class Plot(Thread):
 
 	def deconvolve(self):
 		self.stream = self.raw.copy()
-		if self.deconv:
-			for trace in self.stream:
-				trace.stats.units = self.units
+		for trace in self.stream:
+			trace.stats.units = self.units
+			if self.deconv:
 				if ('HZ' in trace.stats.channel) or ('HE' in trace.stats.channel) or ('HN' in trace.stats.channel):
 					trace.remove_response(inventory=RS.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
 											output=self.deconv, water_level=4.5, taper=False)
@@ -138,7 +138,7 @@ class Plot(Thread):
 						trace.taper(max_percentage=0.1, side='left', max_length=1)
 
 				else:
-					trace.stats.units = 'Voltage counts'	# if this is HDF
+					pass	# if this is HDF
 
 
 	def getq(self):

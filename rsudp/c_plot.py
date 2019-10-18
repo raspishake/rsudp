@@ -1,4 +1,5 @@
 import os, sys
+import pkg_resources as pr
 from threading import Thread
 import time
 import math
@@ -6,6 +7,7 @@ import numpy as np
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as RS
 from rsudp import printM, screenshot_loc
+from PIL import Image
 import linecache
 sender = 'plot.py'
 try:		# test for matplotlib and exit if import fails
@@ -30,7 +32,7 @@ class Plot(Thread):
 	def __init__(self, cha='all', q=False,
 				 seconds=30, spectrogram=False,
 				 fullscreen=False, qt=qt, deconv=False,
-				 screencap=False):
+				 screencap=False, alert=False):
 		"""
 		Initialize the plot process
 
@@ -97,10 +99,14 @@ class Plot(Thread):
 		self.screencap = screencap
 		self.save = False
 		self.save_timer = 0
+		self.events = 0
+		self.event_text = ' - detected events: 0' if alert else ''
+		self.last_event = False
 		# plot stuff
 		self.bgcolor = '#202530' # background
 		self.fgcolor = '0.8' # axis and label color
 		self.linecolor = '#c28285' # seismogram color
+		self.figimage = False
 
 	def deconvolve(self):
 		self.stream = self.raw.copy()
@@ -144,12 +150,14 @@ class Plot(Thread):
 			self.alive = False
 			sys.exit()
 		elif ('ALARM' in str(d)) and (self.screencap):
+			self.events += 1
 			if self.save:
 				printM('Screenshot from a recent alarm has not yet been saved; saving now and resetting save timer.',
 						sender=self.sender)
-				self.savefig()
+				self._figsave()
 			self.save = True
 			self.save_timer = 0
+			self.last_event = RS.UTCDateTime.now().strftime('%Y-%m-%d %H:%M:%S UTC')
 		if RS.getCHN(d) in self.chans:
 			self.raw = RS.update_stream(
 				stream=self.raw, d=d, fill_value='latest')
@@ -194,12 +202,21 @@ class Plot(Thread):
 		else:
 			h = self.fig.get_size_inches()[1]*self.fig.dpi
 		plt.tight_layout(pad=0, h_pad=0.1, w_pad=0,
-					rect=[0.02, 0.01, 0.99, 0.92 + 0.04*(h/1080)])	# [left, bottom, right, top]
+					rect=[0.02, 0.03, 0.99, 0.92 + 0.04*(h/1080)])	# [left, bottom, right, top]
+
+	def _figsave(self):
+		self.fig.suptitle('%s.%s detected event - %s' # title
+						  % (self.net, self.stn, self.last_event),
+						  fontsize=14, color=self.fgcolor, x=0.52)
+		self.savefig()
+		self.fig.suptitle('%s.%s live output - detected events: %s' # title
+						  % (self.net, self.stn, self.events),
+						  fontsize=14, color=self.fgcolor, x=0.52)
 
 
 	def setup_plot(self):
 		"""
-		Matplotlib is not threadsafe, so things are a little weird here.
+		Matplotlib backends are not threadsafe, so things are a little weird here.
 		"""
 		# instantiate a figure and set basic params
 		self.fig = plt.figure(figsize=(8,3*self.num_chans))
@@ -208,8 +225,9 @@ class Plot(Thread):
 
 		self.fig.canvas.set_window_title('Raspberry Shake Monitor') 
 		self.fig.patch.set_facecolor(self.bgcolor)	# background color
-		self.fig.suptitle('Raspberry Shake station %s.%s live output' # title
-					% (self.net, self.stn), fontsize=14, color=self.fgcolor)
+		self.fig.suptitle('%s.%s live output%s' # title
+						  % (self.net, self.stn, self.event_text),
+						  fontsize=14, color=self.fgcolor,x=0.52)
 		self.ax, self.lines = [], []				# list for subplot axes and lines artists
 		self.mult = 1					# spectrogram selection multiplier
 		if self.spectrogram:
@@ -261,6 +279,15 @@ class Plot(Thread):
 							  )-np.timedelta64(self.seconds, 's')	# numpy time
 		end = np.datetime64(self.stream[0].stats.endtime)	# numpy time
 
+		# rs logo
+		im = Image.open(pr.resource_filename('rsudp', os.path.join('img', 'version1-01.png')))
+		imratio = im.size[0] / im.size[1]
+		scale = 0.2 if self.fullscreen else 0.1
+		h = self.fig.get_figheight() * self.fig.dpi * scale
+		logo = im.resize((int(round(h * imratio)), int(round(h))),
+							   resample=Image.LANCZOS)
+		logo = np.array(logo).astype(np.float) / 255
+		self.figimage = self.fig.figimage(logo, 0, 0, origin='upper')
 		# set up axes and artists
 		for i in range(self.num_chans): # create lines objects and modify axes
 			if len(self.stream[i].data) < int(self.sps*(1/self.per_lap)):
@@ -308,6 +335,7 @@ class Plot(Thread):
 		plt.draw()									# draw the canvas
 		self.fig.canvas.start_event_loop(0.005)		# wait for canvas to update
 		self.handle_resize()
+
 
 	def update_plot(self):
 		obstart = self.stream[0].stats.endtime - timedelta(seconds=self.seconds)	# obspy time

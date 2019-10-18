@@ -282,7 +282,7 @@ where OPTIONS := {
     "exec": "eqAlert",
     "channel": "HZ",
     "alertsound": false,
-    "mp3file": "rs_sounds/doorbell.mp3",
+    "mp3file": "doorbell",
     "win_override": false,
     "debug": false}
 }

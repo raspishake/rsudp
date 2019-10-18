@@ -282,7 +282,7 @@ class Plot(Thread):
 		# rs logo
 		im = Image.open(pr.resource_filename('rsudp', os.path.join('img', 'version1-01.png')))
 		imratio = im.size[0] / im.size[1]
-		scale = 0.2 if self.fullscreen else 0.1
+		scale = 0.175 if self.fullscreen else 0.1
 		h = self.fig.get_figheight() * self.fig.dpi * scale
 		logo = im.resize((int(round(h * imratio)), int(round(h))),
 							   resample=Image.LANCZOS)

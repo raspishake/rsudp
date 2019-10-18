@@ -30,6 +30,14 @@ echo "Please follow instructions in prompts."
 echo "---------------------------------------"
 read -n1 -rsp $'Press any key to continue...\n\n'
 
+echo "This script will need a directory to store miniSEED and screenshots."
+echo "Where would you like the rsudp output directory to be located?"
+read -p "" outdir
+mkdir -p outdir &&
+echo "Successfully created output folder at $outdir" ||
+echo "Could not create output folder in this location." ||
+exit 2
+
 # first we have to test if there is an existing anaconda installation
 # the simplest case, that the conda command works:
 echo "Looking for conda installation..."
@@ -201,11 +209,12 @@ if [ ! -z ${success+x} ]; then
   rm $settings
   echo "Installing settings file to $settings..."
   mkdir -p $config &&
-  shake_client -d >$settings &&
+  shake_client -d $settings &&
+  sed -i 's/@@DIR@@/'"$(echo $outdir | sed 's_/_\\/_g')"'/g' $settings &&
   echo "Success." ||
   echo "Failed to create settings file. Either the script could not create a folder at $config, or dumping the settings did not work." ||
   echo "If you would like, you can dump the settings to a file manually by running the command" ||
-  echo "shake_client -d > rsudp_settings.json"
+  echo "shake_client -d rsudp_settings.json"
 
 
   if [ -z ${previous_conda+x} ]; then

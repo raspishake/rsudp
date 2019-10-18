@@ -75,7 +75,7 @@ class Alert(Thread):
 		else:
 			self.units = 'Voltage counts'
 			self.deconv = False
-		printM('Seismogram units are %s' % (self.units), self.sender)
+		printM('Alert stream units are %s' % (self.units), self.sender)
 
 		self.alarm = False
 		self.exceed = False
@@ -126,21 +126,44 @@ class Alert(Thread):
 			printM('Alert stream will be %s filtered %s %s Hz'
 					% (self.filt, modifier, self.freq), self.sender)
 
-	def getq(self):
+	def _getq(self):
 		d = self.queue.get(True, timeout=None)
 		self.queue.task_done()
 		if self.cha in str(d):
-			self.stream = RS.update_stream(
-				stream=self.stream, d=d, fill_value='latest')
+			self.raw = RS.update_stream(stream=self.raw, d=d, fill_value='latest')
 			return True
 		elif 'TERM' in str(d):
 			self.alive = False
 			sys.exit()
 		else:
 			return False
-	
-	def set_sps(self):
-		self.sps = self.stream[0].stats.sampling_rate
+
+	def _deconvolve(self):
+		for trace in self.stream:
+			trace.stats.units = self.units
+			if ('HZ' in trace.stats.channel) or ('HE' in trace.stats.channel) or ('HN' in trace.stats.channel):
+				trace.remove_response(inventory=RS.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
+										output=self.deconv, water_level=4.5, taper=False)
+				if 'ACC' in self.deconv:
+					trace.data = np.gradient(trace.data, 1)
+				elif 'DISP' in self.deconv:
+					trace.data = np.cumsum(trace.data)
+					trace.taper(max_percentage=0.1, side='left', max_length=1)
+					trace.detrend(type='demean')
+			elif ('NZ' in trace.stats.channel) or ('NE' in trace.stats.channel) or ('NN' in trace.stats.channel):
+				trace.remove_response(inventory=RS.inv, pre_filt=[0.05, 5, 0.95*self.sps, self.sps],
+										output=self.deconv, water_level=4.5, taper=False)
+				if 'VEL' in self.deconv:
+					trace.data = np.cumsum(trace.data)
+					trace.detrend(type='demean')
+				elif 'DISP' in self.deconv:
+					trace.data = np.cumsum(np.cumsum(trace.data))
+					trace.detrend(type='linear')
+				if 'ACC' not in self.deconv:
+					trace.taper(max_percentage=0.1, side='left', max_length=1)
+
+			else:
+				trace.stats.units = 'Voltage counts'	# if this is HDF
 
 	def run(self):
 		"""
@@ -158,16 +181,21 @@ class Alert(Thread):
 		while True:
 			while True:
 				if self.queue.qsize() > 0:
-					self.getq()		# get recent packets
+					self._getq()		# get recent packets
 				else:
-					if self.getq():	# is this the specified channel? if so break
+					if self._getq():	# is this the specified channel? if so break
 						break
+
+			self.raw = RS.copy(self.raw)
+			self.stream = self.raw.copy()
+			if self.deconv:
+				self._deconvolve()
 
 			if n > wait_pkts:
 				obstart = self.stream[0].stats.endtime - timedelta(
 							seconds=self.lta)	# obspy time
-				self.stream = self.stream.slice(
-							starttime=obstart)	# slice the stream to the specified length (seconds variable)
+				self.raw = self.raw.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
+				self.stream = self.stream.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
 
 				if self.filt:
 					if self.filt in 'bandpass':

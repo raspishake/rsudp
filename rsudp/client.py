@@ -155,6 +155,10 @@ def run(settings):
 		ex = eqAlert if settings['alert']['exec'] in 'eqAlert' else settings['alert']['exec']
 		alertsound = settings['alert']['alertsound']
 		sound = False
+		if settings['alert']['deconvolve']:
+			deconv = settings['alert']['units']
+		else:
+			deconv = False
 
 		if alertsound:
 			if pydub_exists:
@@ -184,7 +188,8 @@ def run(settings):
 		# set up queue and process
 		q = mk_q()
 		alrt = Alert(sta=sta, lta=lta, thresh=thresh, reset=reset, bp=bp, func=ex,
-					 cha=cha, win_ovr=win_ovr, debug=debug, q=q, sound=sound)
+					 cha=cha, win_ovr=win_ovr, debug=debug, q=q, sound=sound,
+					 deconv=deconv)
 		mk_p(alrt)
 
 

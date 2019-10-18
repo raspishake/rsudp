@@ -5,7 +5,7 @@ import time
 import json
 import logging
 from queue import Queue
-from rsudp import printM, default_loc
+from rsudp import printM, default_loc, init_dirs, output_dir, add_debug_handler
 import rsudp.raspberryshake as RS
 from rsudp.c_consumer import Consumer
 from rsudp.c_printraw import PrintRaw
@@ -13,11 +13,11 @@ from rsudp.c_write import Write
 from rsudp.c_plot import Plot, mpl
 from rsudp.c_forward import Forward
 from rsudp.c_alert import Alert
+from rsudp.c_alertsound import AlertSound
 import pkg_resources as pr
 import fnmatch
 try:
 	from pydub import AudioSegment
-	from pydub.playback import play
 	pydub_exists = True
 except ImportError:
 	pydub_exists = False
@@ -25,8 +25,6 @@ except ImportError:
 
 def eqAlert(sound=False, sender='EQAlert function', *args, **kwargs):
 	printM('Trigger threshold exceeded -- possible earthquake!', sender=sender)
-	if sound and pydub_exists:
-		play(sound)
 
 
 def prod(queue, threads):
@@ -79,13 +77,20 @@ def prod(queue, threads):
 def handler(sig, frame):
 	RS.producer = False
 
-def run(settings):
+def run(settings, debug):
 
 	# handler for the exit signal
 	signal.signal(signal.SIGINT, handler)
 
 	RS.initRSlib(dport=settings['settings']['port'],
 				 rsstn=settings['settings']['station'])
+
+	output_dir = settings['settings']['output_dir']
+
+	screenshot_loc = os.path.join(output_dir, 'screenshots')
+	log_loc = os.path.join(output_dir)
+	os.makedirs(screenshot_loc, exist_ok=True)
+
 
 	destinations, threads = [], []
 
@@ -103,11 +108,9 @@ def run(settings):
 		mk_p(prnt)
 
 	if settings['write']['enabled']:
-		# put settings in namespace
-		outdir = settings['write']['outdir']
 		# set up queue and process
 		q = mk_q()
-		writer = Write(outdir=outdir, q=q)
+		writer = Write(q=q)
 		mk_p(writer)
 
 	if settings['plot']['enabled'] and mpl:
@@ -152,46 +155,49 @@ def run(settings):
 		bp = [settings['alert']['highpass'], settings['alert']['lowpass']]
 		cha = settings['alert']['channel']
 		win_ovr = settings['alert']['win_override']
-		debug = settings['alert']['debug']
 		ex = eqAlert if settings['alert']['exec'] in 'eqAlert' else settings['alert']['exec']
-		alertsound = settings['alert']['alertsound']
-		sound = False
 		if settings['alert']['deconvolve']:
 			deconv = settings['alert']['units']
 		else:
 			deconv = False
 
-		if alertsound:
-			if pydub_exists:
-				soundloc = os.path.expanduser(os.path.expanduser(settings['alert']['mp3file']))
-				if soundloc in ['doorbell', 'alarm', 'beeps', 'sonar']:
-					soundloc = pr.resource_filename('rsudp', os.path.join('rs_sounds', '%s.mp3' % soundloc))
-				try:
-					sound = AudioSegment.from_file(soundloc, format="mp3")
-					printM('Loaded %.2f sec alert sound from %s' % (len(sound)/1000., soundloc), sender='Alert')
-				except FileNotFoundError as e:
-					if ['ffprobe' in str(e)] or ['avprobe' in str(e)]:
-						printM("WARNING: You have chosen to play a sound, but don't have ffmpeg or libav installed.", sender='Alert')
-						printM('         Sound playback requires one of these dependencies.', sender='Alert')
-						printM("         To install either dependency, follow the instructions at:", sender='Alert')
-						printM('         https://github.com/jiaaro/pydub#playback', sender='Alert')
-						printM('         The program will now continue without sound playback.', sender='Alert')
-					else:
-						raise FileNotFoundError('MP3 file could not be found')
-					sound = False
-			else:
-				sound = False
-				printM("WARNING: You don't have pydub installed, so no sound will play.", sender='Alert')
-				printM('         To install pydub, follow the instructions at:', sender='Alert')
-				printM('         https://github.com/jiaaro/pydub#installation', sender='Alert')
-				printM('         Sound playback also requires you to install either ffmpeg or libav.', sender='Alert')
-
 		# set up queue and process
 		q = mk_q()
 		alrt = Alert(sta=sta, lta=lta, thresh=thresh, reset=reset, bp=bp, func=ex,
-					 cha=cha, win_ovr=win_ovr, debug=debug, q=q, sound=sound,
+					 cha=cha, win_ovr=win_ovr, debug=debug, q=q,
 					 deconv=deconv)
 		mk_p(alrt)
+
+	if settings['alertsound']['enabled']:
+		sender = 'AlertSound'
+		sound = False
+		if pydub_exists:
+			soundloc = os.path.expanduser(os.path.expanduser(settings['alertsound']['mp3file']))
+			if soundloc in ['doorbell', 'alarm', 'beeps', 'sonar']:
+				soundloc = pr.resource_filename('rsudp', os.path.join('rs_sounds', '%s.mp3' % soundloc))
+			try:
+				sound = AudioSegment.from_file(soundloc, format="mp3")
+				printM('Loaded %.2f sec alert sound from %s' % (len(sound)/1000., soundloc), sender='AlertSound')
+			except FileNotFoundError as e:
+				if ['ffprobe' in str(e)] or ['avprobe' in str(e)]:
+					printM("WARNING: You have chosen to play a sound, but don't have ffmpeg or libav installed.", sender='AlertSound')
+					printM('         Sound playback requires one of these dependencies.', sender='AlertSound')
+					printM("         To install either dependency, follow the instructions at:", sender='AlertSound')
+					printM('         https://github.com/jiaaro/pydub#playback', sender='AlertSound')
+					printM('         The program will now continue without sound playback.', sender='AlertSound')
+				else:
+					raise FileNotFoundError('MP3 file could not be found')
+				sound = False
+		else:
+			sound = False
+			printM("WARNING: You don't have pydub installed, so no sound will play.", sender='AlertSound')
+			printM('         To install pydub, follow the instructions at:', sender='AlertSound')
+			printM('         https://github.com/jiaaro/pydub#installation', sender='AlertSound')
+			printM('         Sound playback also requires you to install either ffmpeg or libav.', sender='AlertSound')
+
+		q = mk_q()
+		alsnd = AlertSound(q=q, sound=sound)
+		mk_p(alsnd)
 
 
 	# master queue and consumer
@@ -210,7 +216,7 @@ def run(settings):
 	sys.exit()
 
 def dump_default(settings_loc, default_settings):
-	printM('Creating a default settings file at %s' % settings_loc, sender='Main')
+	print('Creating a default settings file at %s' % settings_loc)
 	with open(settings_loc, 'w+') as f:
 		f.write(default_settings)
 		f.write('\n')
@@ -218,10 +224,10 @@ def dump_default(settings_loc, default_settings):
 
 def main():
 	'''
-	Loads port, station, network, and duration arguments to create a graph.
-	Supply -p, -s, -n, and/or -d to change the port and the output plot
-	parameters.
+	Loads settings to start the main client.
+	Supply -h to see help text.
 	'''
+	settings_loc = os.path.join(default_loc, 'rsudp_settings.json')
 
 	hlp_txt='''
 ###########################################
@@ -235,7 +241,7 @@ def main():
 ## to miniSEED.                          ##
 ##                                       ##
 ##  Requires:                            ##
-##  - numpy, obspy, matplotlib v3        ##
+##  - numpy, obspy, matplotlib 3, pydub  ##
 ##                                       ##
 ###########################################
 
@@ -243,23 +249,26 @@ Usage: rs-client [ OPTIONS ]
 where OPTIONS := {
     -h | --help
             display this help message
-    -d | --dump
-            dump the default settings in a JSON-formatted string
+    -d | --dump=default or /path/to/settings/json
+            dump the default settings to a JSON-formatted file
     -s | --settings=/path/to/settings/json
-            specify the path to a custom JSON-formatted settings file
+            specify the path to a JSON-formatted settings file
     }
 
-'''
+rs-client with no arguments will start the program with
+settings in %s
+''' % settings_loc
 
 	default_settings = """{
 "settings": {
     "port": 8888,
-    "station": "Z0000"},
+    "station": "Z0000",
+    "output_dir": "@@DIR@@",
+    "debug": false},
 "printdata": {
     "enabled": false},
 "write": {
     "enabled": false,
-    "outdir": "/home/pi",
     "channels": "all"},
 "plot": {
     "enabled": true,
@@ -287,27 +296,27 @@ where OPTIONS := {
     "reset": 1.6,
     "exec": "eqAlert",
     "channel": "HZ",
-    "alertsound": false,
-    "mp3file": "doorbell",
-    "win_override": false,
-    "debug": false}
+    "win_override": false},
+"alertsound": {
+    "enabled": false,
+    "mp3file": "doorbell"}
 }
 """
 
 	settings = json.loads(default_settings)
-	settings_loc = os.path.join(default_loc, 'rsudp_settings.json')
 
+	# get arguments
 	try:
-		opts = getopt.getopt(sys.argv[1:], 'hds:',
-			['help', 'dump', 'settings=']
+		opts = getopt.getopt(sys.argv[1:], 'hd:s:',
+			['help', 'dump=', 'settings=']
 			)[0]
 	except Exception as e:
-		printM('ERROR: %s' % e, sender='Main')
+		print('ERROR: %s' % e)
 		print(hlp_txt)
 
 	if len(opts) == 0:
 		if not os.path.exists(settings_loc):
-			printM('Could not find rsudp settings file, creating one at %s' % settings_loc, sender='Main')
+			print('Could not find rsudp settings file, creating one at %s' % settings_loc, sender='Main')
 			dump_default(settings_loc, default_settings)
 		else:
 			with open(os.path.abspath(settings_loc), 'r') as f:
@@ -324,11 +333,12 @@ where OPTIONS := {
 		if o in ('-h, --help'):
 			print(hlp_txt)
 			exit(0)
-		if o in ('-d', '--dump'):
-			if a in 'default':
+		if o in ('-d', '--dump='):
+			if str(a) in 'default':
 				os.makedirs(default_loc, exist_ok=True)
 				dump_default(settings_loc, default_settings)
-			print(default_settings)
+			else:
+				dump_default(os.path.abspath(os.path.expanduser(a)), default_settings)
 			exit(0)
 		if o in ('-s', 'settings='):
 			if os.path.exists(os.path.abspath(os.path.expanduser(a))):
@@ -337,20 +347,29 @@ where OPTIONS := {
 					try:
 						settings = json.load(f)
 					except Exception as e:
-						printM('ERROR:  Could not load settings file. Perhaps the JSON is malformed?')
-						printM('DETAIL: %s' % e)
-						printM('        If you would like to overwrite and rebuild the file, you can enter the command below:')
-						printM('shake_client -d %s' % a)
+						print('ERROR:  Could not load settings file. Perhaps the JSON is malformed?')
+						print('DETAIL: %s' % e)
+						print('        If you would like to overwrite and rebuild the file, you can enter the command below:')
+						print('shake_client -d %s' % a)
 						exit(2)
 			else:
-				printM('ERROR: could not find the settings file you specified. Check the path and try again.')
+				print('ERROR: could not find the settings file you specified. Check the path and try again.')
 				print()
 				exit(2)
+
+	debug = settings['settings']['debug']
+	if debug:
+		add_debug_handler()
+		printM('Logging initialized successfully.', sender='Main')
+
 	printM('Using settings file: %s' % settings_loc)
 
+	odir = os.path.abspath(os.path.expanduser(settings['settings']['output_dir']))
+	init_dirs(odir)
+	if debug:
+		printM('Output directory is: %s' % odir)
 
-
-	run(settings)
+	run(settings, debug=debug)
 
 if __name__ == '__main__':
 	main()

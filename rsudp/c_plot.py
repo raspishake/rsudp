@@ -6,7 +6,8 @@ import math
 import numpy as np
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as RS
-from rsudp import printM, screenshot_loc
+from rsudp import printM
+import rsudp
 import linecache
 sender = 'plot.py'
 try:		# test for matplotlib and exit if import fails
@@ -207,7 +208,7 @@ class Plot(Thread):
 		else:
 			h = self.fig.get_size_inches()[1]*self.fig.dpi
 		plt.tight_layout(pad=0, h_pad=0.1, w_pad=0,
-					rect=[0.02, 0.01, 0.99, 0.92 + 0.04*(h/1080)])	# [left, bottom, right, top]
+					rect=[0.02, 0.01, 0.99, 0.91 + 0.045*(h/1080)])	# [left, bottom, right, top]
 
 	def _figsave(self):
 		self.fig.suptitle('%s.%s detected event - %s' # title
@@ -215,6 +216,14 @@ class Plot(Thread):
 						  fontsize=14, color=self.fgcolor, x=0.52)
 		self.savefig()
 
+	def savefig(self):
+		figname = os.path.join(rsudp.scap_dir, '%s.png' % datetime.utcnow().strftime('%Y-%m-%d-%H%M%S'))
+		elapsed = self.save_timer / (RS.tr * RS.numchns)
+		print()	# distancing from \r line
+		printM('Saving plot %i seconds after last alarm' % (elapsed), sender=self.sender)
+		plt.savefig(figname, facecolor=self.fig.get_facecolor(), edgecolor='none')
+		print()	# distancing from \r line
+		printM('Saved %s' % (figname), sender=self.sender)
 
 	def setup_plot(self):
 		"""
@@ -392,14 +401,6 @@ class Plot(Thread):
 		"""
 		self.fig.canvas.start_event_loop(0.005)
 
-	def savefig(self):
-		figname = os.path.join(screenshot_loc, '%s.png' % datetime.utcnow().strftime('%Y-%m-%d-%H%M%S'))
-		elapsed = self.save_timer / (RS.tr * RS.numchns)
-		print()	# distancing from \r line
-		printM('Saving plot %i seconds after last alarm' % (elapsed), sender=self.sender)
-		plt.savefig(figname, facecolor=self.fig.get_facecolor(), edgecolor='none')
-		print()	# distancing from \r line
-		printM('Saved %s' % (figname), sender=self.sender)
 
 	def run(self):
 		"""

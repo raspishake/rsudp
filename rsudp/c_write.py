@@ -5,9 +5,10 @@ from datetime import datetime, timedelta
 from obspy import UTCDateTime
 import rsudp.raspberryshake as RS
 from rsudp import printM
+import rsudp
 
 class Write(Thread):
-	def __init__(self, outdir='', q=False, debug=False):
+	def __init__(self, q=False, debug=False):
 		"""
 		Initialize the process
 		"""
@@ -24,7 +25,7 @@ class Write(Thread):
 
 		self.stream = RS.Stream()
 		self.refcha = None
-		self.outdir = outdir
+		self.outdir = rsudp.data_dir
 		self.debug = debug
 		self.numchns = RS.numchns
 		self.stime = 1/RS.sps

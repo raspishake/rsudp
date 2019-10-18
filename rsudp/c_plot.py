@@ -106,10 +106,10 @@ class Plot(Thread):
 		self.stream = self.raw.copy()
 		if self.deconv:
 			for trace in self.stream:
-				trace.remove_response(inventory=RS.inv, pre_filt=[0.5, 1, 0.95*self.sps, self.sps],
-											output=self.deconv, water_level=4.5, taper=False)
 				trace.stats.units = self.units
 				if ('HZ' in trace.stats.channel) or ('HE' in trace.stats.channel) or ('HN' in trace.stats.channel):
+					trace.remove_response(inventory=RS.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
+											output=self.deconv, water_level=4.5, taper=False)
 					if 'ACC' in self.deconv:
 						trace.data = np.gradient(trace.data, 1)
 					elif 'DISP' in self.deconv:
@@ -117,15 +117,16 @@ class Plot(Thread):
 						trace.taper(max_percentage=0.1, side='left', max_length=1)
 						trace.detrend(type='demean')
 				elif ('NZ' in trace.stats.channel) or ('NE' in trace.stats.channel) or ('NN' in trace.stats.channel):
-					trace.data = trace.data * -1	# trying something
+					trace.remove_response(inventory=RS.inv, pre_filt=[0.1, 10, 0.95*self.sps, self.sps],
+											output=self.deconv, water_level=4.5, taper=False)
 					if 'VEL' in self.deconv:
 						trace.data = np.cumsum(trace.data)
 						trace.detrend(type='demean')
 					elif 'DISP' in self.deconv:
-						trace.data = np.cumsum(trace.data)
-						trace.data = np.cumsum(trace.data)
+						trace.data = np.cumsum(np.cumsum(trace.data))
 						trace.detrend(type='linear')
-					trace.taper(max_percentage=0.1, side='left', max_length=1)
+					if 'ACC' not in self.deconv:
+						trace.taper(max_percentage=0.1, side='left', max_length=1)
 
 				else:
 					trace.stats.units = 'Voltage counts'	# if this is HDF

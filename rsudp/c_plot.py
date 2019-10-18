@@ -7,7 +7,6 @@ import numpy as np
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as RS
 from rsudp import printM, screenshot_loc
-from PIL import Image
 import linecache
 sender = 'plot.py'
 try:		# test for matplotlib and exit if import fails
@@ -20,8 +19,11 @@ try:		# test for matplotlib and exit if import fails
 		qt = True
 	import matplotlib.pyplot as plt
 	import matplotlib.dates as mdates
+	import matplotlib.image as mpimg
 	plt.ion()
 	mpl = True
+	import warnings
+	warnings.filterwarnings("ignore", module="matplotlib")
 except:
 	printM('[Plot] ERROR: Could not import matplotlib, plotting will not be available.', sender)
 	printM('[Plot]        Thread will exit now.', sender)
@@ -149,12 +151,15 @@ class Plot(Thread):
 				printM('Plot has been closed, plot thread exiting.', self.sender)
 			self.alive = False
 			sys.exit()
-		elif ('ALARM' in str(d)) and (self.screencap):
+		elif 'ALARM' in str(d):
 			self.events += 1
-			if self.save:
+			if (self.save) and (self.screencap):
 				printM('Screenshot from a recent alarm has not yet been saved; saving now and resetting save timer.',
 						sender=self.sender)
 				self._figsave()
+			self.fig.suptitle('%s.%s live output - detected events: %s' # title
+							  % (self.net, self.stn, self.events),
+							  fontsize=14, color=self.fgcolor, x=0.52)
 			self.save = True
 			self.save_timer = 0
 			self.last_event = RS.UTCDateTime.now().strftime('%Y-%m-%d %H:%M:%S UTC')
@@ -202,16 +207,13 @@ class Plot(Thread):
 		else:
 			h = self.fig.get_size_inches()[1]*self.fig.dpi
 		plt.tight_layout(pad=0, h_pad=0.1, w_pad=0,
-					rect=[0.02, 0.03, 0.99, 0.92 + 0.04*(h/1080)])	# [left, bottom, right, top]
+					rect=[0.02, 0.01, 0.99, 0.92 + 0.04*(h/1080)])	# [left, bottom, right, top]
 
 	def _figsave(self):
 		self.fig.suptitle('%s.%s detected event - %s' # title
 						  % (self.net, self.stn, self.last_event),
 						  fontsize=14, color=self.fgcolor, x=0.52)
 		self.savefig()
-		self.fig.suptitle('%s.%s live output - detected events: %s' # title
-						  % (self.net, self.stn, self.events),
-						  fontsize=14, color=self.fgcolor, x=0.52)
 
 
 	def setup_plot(self):
@@ -280,14 +282,12 @@ class Plot(Thread):
 		end = np.datetime64(self.stream[0].stats.endtime)	# numpy time
 
 		# rs logo
-		im = Image.open(pr.resource_filename('rsudp', os.path.join('img', 'version1-01.png')))
-		imratio = im.size[0] / im.size[1]
-		scale = 0.175 if self.fullscreen else 0.1
-		h = self.fig.get_figheight() * self.fig.dpi * scale
-		logo = im.resize((int(round(h * imratio)), int(round(h))),
-							   resample=Image.LANCZOS)
-		logo = np.array(logo).astype(np.float) / 255
-		self.figimage = self.fig.figimage(logo, 0, 0, origin='upper')
+		im = mpimg.imread(pr.resource_filename('rsudp', os.path.join('img', 'version1-01.png')))
+		#imratio = im.size[0] / im.size[1]
+		scale = 0.1
+		self.imax = self.fig.add_axes([0, 0.95, 0.2, 0.05], anchor='NW') # [left, bottom, right, top]
+		self.imax.imshow(im, aspect='equal', interpolation='lanczos')
+		self.imax.axis('off')
 		# set up axes and artists
 		for i in range(self.num_chans): # create lines objects and modify axes
 			if len(self.stream[i].data) < int(self.sps*(1/self.per_lap)):

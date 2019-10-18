@@ -16,13 +16,13 @@ setuptools.setup(
     url="https://github.com/raspishake/rsudp",
     packages=setuptools.find_packages(),
     include_package_data=True,
-    install_requires=['obspy', 'numpy', 'matplotlib==3.1.1', 'pillow', 'pydub'],
+    install_requires=['obspy', 'numpy', 'matplotlib==3.1.1', 'pydub'],
     entry_points = {
         'console_scripts': [
-            'shake_local=rsudp.shake_udp_local:main',
-            'shake_remote=rsudp.shake_udp_remote:main',
-            'shake_packetloss=rsudp.shake_udp_packetloss:main',
-            'shake_client=rsudp.client:main',
+            'rs-local=rsudp.shake_udp_local:main',
+            'rs-remote=rsudp.shake_udp_remote:main',
+            'rs-packetloss=rsudp.shake_udp_packetloss:main',
+            'rs-client=rsudp.client:main',
             ],
     },
     classifiers=[

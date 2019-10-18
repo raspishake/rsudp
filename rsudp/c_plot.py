@@ -117,7 +117,7 @@ class Plot(Thread):
 						trace.taper(max_percentage=0.1, side='left', max_length=1)
 						trace.detrend(type='demean')
 				elif ('NZ' in trace.stats.channel) or ('NE' in trace.stats.channel) or ('NN' in trace.stats.channel):
-					trace.remove_response(inventory=RS.inv, pre_filt=[0.1, 10, 0.95*self.sps, self.sps],
+					trace.remove_response(inventory=RS.inv, pre_filt=[0.05, 5, 0.95*self.sps, self.sps],
 											output=self.deconv, water_level=4.5, taper=False)
 					if 'VEL' in self.deconv:
 						trace.data = np.cumsum(trace.data)

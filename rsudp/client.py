@@ -122,6 +122,7 @@ def run(settings):
 		spec = settings['plot']['spectrogram']
 		full = settings['plot']['fullscreen']
 		screencap = settings['plot']['eq_screenshots']
+		alert = settings['alert']['enabled']
 		if settings['plot']['deconvolve']:
 			deconv = settings['plot']['units']
 		else:
@@ -129,7 +130,7 @@ def run(settings):
 		q = mk_q()
 		plotter = Plot(cha=cha, seconds=sec, spectrogram=spec,
 						fullscreen=full, deconv=deconv, q=q,
-						screencap=screencap)
+						screencap=screencap, alert=alert)
 		mk_p(plotter)
 
 	if settings['forward']['enabled']:

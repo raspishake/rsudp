@@ -12,7 +12,7 @@ import linecache
 sender = 'plot.py'
 try:		# test for matplotlib and exit if import fails
 	from matplotlib import use
-	if True:#'armv' in os.uname().machine:	# test for Qt and fail over to Tk
+	if 'armv' in os.uname().machine:	# test for Qt and fail over to Tk
 		use('TkAgg')
 		from tkinter import PhotoImage
 		qt = False

@@ -124,7 +124,7 @@ By default, the settings are as follows:
 
 ## Modules
 
-- **`settings`** contains `"port"`, `"station"`, `"output_dir"`, and `"debug"` defaults. Change `"port"` if you are receiving the data at a different port than `8888`. If you would like to set your station name, change `"station"`. `"output_dir"` will contain folders for miniSEED data and plot screenshots, which are explained in the relevant sections (**`write`** and **`plot`**) below.
+- The **`settings`** portion of the settings file contains some basic items: `"port"`, `"station"`, `"output_dir"`, and `"debug"`. Change `"port"` if you are receiving the data at a different port than `8888`. If you would like to set your station name, change `"station"`. `"output_dir"` will contain folders for miniSEED data and plot screenshots, which are explained in the relevant sections (**`write`** and **`plot`**) below. `"debug"` controls how much text is sent to the command line STDOUT (even if this is `false`, output will always be sent to a log at `/tmp/rsudp/rsudp.log`).
 
 - **`printdata`** controls the data output module, which simply prints Shake data packets to stdout as it receives them. Change `"enabled"` to `true` to activate.
 
@@ -180,3 +180,6 @@ Some ideas for improvements are:
 - a way to save plot screenshots some time after an alert function trigger, to save and document earthquake seismogram/spectrograms
 - GPIO pin interactions (lights, motor control, buzzers, etc.)
 
+## Bugs
+
+If you find a bug in this program, please create a GitHub issue. Be sure to describe the problem clearly, attach your logs (`/tmp/rsudp/rsudp.log`) and/or copy/paste command line output in triple backticks \`\`\` like this \`\`\` to format it as code.

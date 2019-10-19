@@ -12,11 +12,13 @@ import linecache
 sender = 'plot.py'
 try:		# test for matplotlib and exit if import fails
 	from matplotlib import use
-	if 'armv' in os.uname().machine:	# test for Qt and fail over to Tk
+	if True:#'armv' in os.uname().machine:	# test for Qt and fail over to Tk
 		use('TkAgg')
+		from tkinter import PhotoImage
 		qt = False
 	else:
 		use('Qt5Agg')
+		from PyQt5 import QtGui
 		qt = True
 	import matplotlib.pyplot as plt
 	import matplotlib.dates as mdates
@@ -30,6 +32,8 @@ except:
 	printM('[Plot]        Thread will exit now.', sender)
 	mpl = False
 
+icon = 'icon.ico'
+icon2 = 'icon.png'
 
 class Plot(Thread):
 	def __init__(self, cha='all', q=False,
@@ -290,7 +294,24 @@ class Plot(Thread):
 							  )-np.timedelta64(self.seconds, 's')	# numpy time
 		end = np.datetime64(self.stream[0].stats.endtime)	# numpy time
 
-		# rs logo
+		# rs logos
+		mgr = plt.get_current_fig_manager()
+		ico = pr.resource_filename('rsudp', os.path.join('img', icon))
+		if qt:
+			mgr.window.setWindowIcon(QtGui.QIcon(ico))
+		else:
+			try:
+				ico = PhotoImage(file=ico)
+				mgr.window.tk.call('wm', 'iconphoto', mgr.window._w, ico)
+			except:
+				printM('WARNING: Failed to set PNG icon image, trying .ico instead', sender=self.sender)
+				try:
+					ico = pr.resource_filename('rsudp', os.path.join('img', icon2))
+					ico = PhotoImage(file=ico)
+					mgr.window.tk.call('wm', 'iconphoto', mgr.window._w, ico)
+				except:
+					printM('WARNING: Failed to set icon.')
+
 		im = mpimg.imread(pr.resource_filename('rsudp', os.path.join('img', 'version1-01-small.png')))
 		#imratio = im.size[0] / im.size[1]
 		scale = 0.1

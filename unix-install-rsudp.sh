@@ -28,15 +28,34 @@ echo "Ian Nesbitt, Raspberry Shake S.A., 2019"
 echo "---------------------------------------"
 echo "Please follow instructions in prompts."
 echo "---------------------------------------"
-read -n1 -rsp $'Press any key to continue...\n\n'
+read -rp $'Press Enter to continue...\n\n'
 
-echo "This script will need a directory to store miniSEED and screenshots."
+echo "This script will need to use or create a directory to store miniSEED data and screenshots."
+echo "Common choices might be $HOME/rsudp or $HOME/opt/rsudp"
 echo "Where would you like the rsudp output directory to be located?"
-read -p "" outdir
-mkdir -p outdir &&
-echo "Successfully created output folder at $outdir" ||
-echo "Could not create output folder in this location." ||
-exit 2
+echo "Press Enter when done. Hints: \$HOME and ~/ work and tab autocomplete is on:"
+read -e -p "" outdir
+# sanitize user input
+# replace $HOME with home dir
+outdir="${outdir/#\~/$HOME}"
+outdir="${outdir/#\$HOME/$HOME}"
+# first, strip underscores
+outdir=${outdir//_/}
+# next, replace spaces with underscores
+outdir=${outdir// /_}
+# now, clean out anything that's not alphanumeric or an underscore
+outdir=${outdir//[^a-zA-Z0-9_/]/}
+# finally, lowercase with TR
+outdir=`echo -n $outdir | tr A-Z a-z`
+
+if [ -d "$outdir" ]; then
+  echo "Using existing directory $outdir"
+else
+  mkdir -p $outdir &&
+  echo "Successfully created output folder $outdir" ||
+  echo "Could not create output folder in this location." ||
+  exit 2
+fi
 
 # first we have to test if there is an existing anaconda installation
 # the simplest case, that the conda command works:
@@ -76,7 +95,7 @@ if [ -z ${conda_exists+x} ]; then
   echo "Install location: $prefix"
   echo "Ready to download $release"
   echo "The download could be as large as 200 MB."
-  read -n1 -rsp $'Press any key to continue or Ctrl+C to exit...\n\n'
+  read -n1 -rp $'Press any key to continue or Ctrl+C to exit...\n\n'
 
   if [ ! -z ${PYTHONPATH+x} ]; then
     # conda does not like $PYTHONPATH, and $PYTHONPATH is depreciated,
@@ -97,7 +116,7 @@ if [ -z ${conda_exists+x} ]; then
       echo "Although this is possible, it is not tested or supported."
       echo "Raspberry Shake S.A. is not liable for strange Shake behavior"
       echo "if you choose to do this! Proceed at your own risk."
-      read -n1 -rsp $'Press any key to continue or Ctrl+C to exit...\n'
+      read -n1 -rp $'Press any key to continue or Ctrl+C to exit...\n'
     fi
 
     wget "$arm_base_url$arm_exe" -O "$tmp_exe" && dl=1
@@ -149,10 +168,9 @@ else
   echo "The script will now append a sourcing line to your ~/.bashrc file in order to"
   echo 'make activating conda easier in the future (just type "conda activate" into a terminal).'
   echo "This line is: $sourceline"
-  read -n1 -rsp $'Press the "y" key to proceed, or any other key to prevent this...\n' key
-  echo $key
+  read -rp $'Press Enter to prevent this, or type yes and press Enter to proceed...\n' key
 
-  if [[ "$key" == "y" ]] || [[ "$key" == "Y" ]]; then
+  if [[ "$key" == "yes" ]]; then
     echo "Appending sourcing line to bashrc..."
     echo $comment >> $HOME/.bashrc
     echo $sourceline >> $HOME/.bashrc
@@ -162,11 +180,11 @@ else
     echo "You can add it later by adding the following line to the bottom of ~/.bashrc:"
     echo $sourceline
   fi
-  echo "Sourcing..."
-  $sourceline
-  echo "Activating conda..."
-  conda activate && conda_exists=1
 fi
+echo "Sourcing..."
+$sourceline
+echo "Activating conda..."
+conda activate && conda_exists=1
 
 if [ -z ${conda_exists+x} ]; then
   echo "ERROR: Anaconda install failed. Check the error output and try again."
@@ -193,8 +211,22 @@ cat $HOME/.condarc | grep "conda-forge" >/dev/null && echo "Found conda-forge ch
 (echo "Appending conda-forge to conda channels..." &&
 conda config --append channels conda-forge)
 
-echo "Creating and installing rsudp conda environment..." &&
-$env_install
+if [ -d $prefix/envs/rsudp ]; then
+  echo "Another rsudp conda environment already exists at $prefix/envs/rsudp" &&
+  echo "Do you want to use it, or remove it and install a new one?"
+  read -rp $'Press Enter to use it, or type yes and press Enter to reinstall:\n' reinstall
+  
+  if [[ "$reinstall" == "yes" ]]; then
+    echo "Removing old environment..."
+    rm -r $prefix/envs/rsudp
+    echo "Reinstalling rsudp conda environment..." &&
+    $env_install
+  fi
+else
+  echo "Creating and installing rsudp conda environment..." &&
+  $env_install
+fi
+
 if [ -d $prefix/envs/rsudp ]; then
   echo "Activating rsudp environment..." &&
   conda activate rsudp && echo "Success: rsudp environment activated." &&
@@ -207,14 +239,14 @@ fi
 if [ ! -z ${success+x} ]; then
   echo "rsudp has installed successfully!"
   rm $settings
-  echo "Installing settings file to $settings..."
+  echo "Installing settings file..."
   mkdir -p $config &&
-  shake_client -d $settings &&
+  rs-client -d $settings &&
   sed -i 's/@@DIR@@/'"$(echo $outdir | sed 's_/_\\/_g')"'/g' $settings &&
   echo "Success." ||
   echo "Failed to create settings file. Either the script could not create a folder at $config, or dumping the settings did not work." ||
   echo "If you would like, you can dump the settings to a file manually by running the command" ||
-  echo "shake_client -d rsudp_settings.json"
+  echo "rs-client -d rsudp_settings.json"
 
 
   if [ -z ${previous_conda+x} ]; then
@@ -225,9 +257,13 @@ if [ ! -z ${success+x} ]; then
     fi
     echo 'You can then enter the command "conda activate rsudp" to activate the rsudp conda environment'
   else
-    echo 'You can enter the rsudp conda environment by typing "conda activate rsudp"'
+    if [ -z ${sourced+x} ]; then
+      echo 'You need to re-source your shell before using conda. To do this, type "source ~/.bashrc" or just open a new terminal window.'
+      then='then '
+    fi
+    echo 'You can'$then' enter the rsudp conda environment by typing "conda activate rsudp"'
   fi
-  echo 'and then run rsudp by using the command "shake_client -h"'
+  echo 'and then run rsudp by using the command "rs-client -h"'
   exit 0
 else
   echo "---------------------------------"

@@ -4,11 +4,13 @@
 ### Tools for receiving and interacting with Raspberry Shake UDP data
 *Written by Ian Nesbitt (@iannesbitt) and Richard Boaz (@ivor) for @osop*  
 
-`rsudp` is a tool for receiving and interacting with UDP data sent from a Raspberry Shake seismograph. It contains four main features:
+`rsudp` is a tool for receiving and interacting with UDP data sent from a Raspberry Shake seismograph. It contains six main features:
 1. Print - a debugging tool to output raw UDP output to the command line
-2. Alarm - an earthquake/sudden motion alert configured to run some code in the event of a recursive STA/LTA alarm trigger, complete with bandpass filter capability
-3. Writer - a miniSEED writer
-4. Plot - a live-plotting routine to display data as it arrives on the port
+2. Writer - a miniSEED writer
+3. Plot - a live-plotting routine to display data as it arrives on the port
+4. Forward - forward a data cast to another destination
+5. Alarm - an earthquake/sudden motion alert configured to run some code in the event of a recursive STA/LTA alarm trigger, complete with bandpass filter capability
+6. AlertSound - a thread that plays a MP3 audio file when the alarm is triggered
 
 `rsudp` is written in Python but requires no coding knowledge to run. Simply go to your Shake's web front end, point a UDP data cast at your computer's local IP address, and watch as the data rolls in.
 
@@ -175,7 +177,7 @@ If you would like to play sounds when the STA/LTA trigger activates, you will ne
 
 Contributions to this project are more than welcome. If you find ways to improve the efficiency of the library or the modules that use it, or come up with cool new modules to share with the community, we are eager to include them (provided, of course, that they are stable and achieve a clearly stated goal).
 
-Since the Producer function passes an `ALARM` queue message when it sees `Alert.alarm=True`, other modules can be programmed to do something when they see this message. This is to help make the addition of other action-based modules easy.
+Since the Producer function passes an `ALARM` queue message when it sees `Alert.alarm=True`, other modules can be easily added and programmed to do something when they see this message. This is to help make the addition of other action-based modules straightforward.
 
 Some ideas for improvements are:
 - a more efficient plotting routine

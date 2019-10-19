@@ -31,18 +31,7 @@ A UNIX installer script is available at `unix-install-rsudp.sh`. This script che
 
 ```bash
 $ bash unix-install-rsudp.sh
-$ source ~/.bashrc
 ```
-
-Once you've done this, your conda environment will be available by typing:
-```bash
-$ conda activate rsudp
-```
-Your prompt should now look like the following:
-```bash
-(rsudp) $
-```
-From here, you can begin using the program.
 
 **Note: the installer script will pause partway through to ask if you would like to make the `conda` command executable by default. This is done by appending the line below to your `~/.bashrc` file.** This is generally harmless, but if you have a specific objection to it, hitting any key other than "y" will cause the script to skip this step. You will have to manually run the `conda` executable in this case, however. If you choose to do it manually later, the line appended to the end of `~/.bashrc` is the following (architecture-dependent):
 
@@ -72,9 +61,15 @@ pip install rsudp
 ```
 ## Using this software
 
-First, you will need a data cast (formerly known as a UDP stream) pointed at an open port on the computer you plan to run this on. By default this port is 8888. To list the default settings used by the program, type `rs-client -d` to print the default settings. To dump these settings to a file for modification, type `rs-client -d rsudp_settings.json`. (To rebuild and overwrite the default settings file in `$HOME/.config/rsudp/rsudp_settings.json`, type `rs-client -d default`)
+1. First, to activate the conda environment, type `conda activate rsudp`.
 
-After modifying the settings file to your liking, type `rs-client -s rsudp_settings.json` to run.
+2. Next, you will need a data cast (formerly known as a UDP stream) pointed at an open port on the computer you plan to run this on. By default this port is 8888.
+
+3. The UNIX installer will create a settings file in `$HOME/.config/rsudp/rsudp_settings.json`. (Windows users will need to type `rsudp -d default` to dump the settings to a file the first time they run this program.) Change the settings in this file to control how the client operates.
+
+  To dump the default settings to a different location of your choosing, type `rs-client -d rsudp_settings.json`. (As stated above, to rebuild and overwrite the default settings file in `$HOME/.config/rsudp/rsudp_settings.json`, type `rs-client -d default`)
+
+4. After modifying the settings file to your liking, type `rs-client` to use the settings file at `$HOME/.config/rsudp/rsudp_settings.json`, or `rs-client -s rsudp_settings.json` to run with a different settings file.
 
 **Note:** This library can only handle incoming data from one Shake per port. If for some reason more than one Shake is sending data to the port, the software will only process data coming from the IP of the first Shake it sees sending data.
 

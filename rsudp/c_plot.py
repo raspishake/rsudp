@@ -291,11 +291,11 @@ class Plot(Thread):
 		end = np.datetime64(self.stream[0].stats.endtime)	# numpy time
 
 		# rs logo
-		im = mpimg.imread(pr.resource_filename('rsudp', os.path.join('img', 'version1-01.png')))
+		im = mpimg.imread(pr.resource_filename('rsudp', os.path.join('img', 'version1-01-small.png')))
 		#imratio = im.size[0] / im.size[1]
 		scale = 0.1
-		self.imax = self.fig.add_axes([0, 0.95, 0.2, 0.05], anchor='NW') # [left, bottom, right, top]
-		self.imax.imshow(im, aspect='equal', interpolation='lanczos')
+		self.imax = self.fig.add_axes([0, 0.945, 0.2, 0.055], anchor='NW') # [left, bottom, right, top]
+		self.imax.imshow(im, aspect='equal', interpolation='sinc')
 		self.imax.axis('off')
 		# set up axes and artists
 		for i in range(self.num_chans): # create lines objects and modify axes

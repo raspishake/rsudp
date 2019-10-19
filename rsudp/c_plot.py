@@ -471,7 +471,7 @@ class Plot(Thread):
 
 			if (self.save) and (self.save_timer > 0.6 * (pkts_in_period)):
 				self.save = False
-				self.savefig()
+				self._figsave()
 			u = 0
 			time.sleep(0.005)		# wait a ms to see if another packet will arrive
 			sys.stdout.flush()

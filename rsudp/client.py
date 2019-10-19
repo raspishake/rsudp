@@ -87,11 +87,6 @@ def run(settings, debug):
 
 	output_dir = settings['settings']['output_dir']
 
-	screenshot_loc = os.path.join(output_dir, 'screenshots')
-	log_loc = os.path.join(output_dir)
-	os.makedirs(screenshot_loc, exist_ok=True)
-
-
 	destinations, threads = [], []
 
 	def mk_q():
@@ -316,7 +311,8 @@ settings in %s
 
 	if len(opts) == 0:
 		if not os.path.exists(settings_loc):
-			print('Could not find rsudp settings file, creating one at %s' % settings_loc, sender='Main')
+			print('Could not find rsudp settings file, creating one at %s' % settings_loc)
+			print('You will have to change the "output_dir" directory in order to run this software.')
 			dump_default(settings_loc, default_settings)
 		else:
 			with open(os.path.abspath(settings_loc), 'r') as f:

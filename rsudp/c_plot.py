@@ -212,7 +212,7 @@ class Plot(Thread):
 		else:
 			h = self.fig.get_size_inches()[1]*self.fig.dpi
 		plt.tight_layout(pad=0, h_pad=0.1, w_pad=0,
-					rect=[0.02, 0.01, 0.99, 0.91 + 0.045*(h/1080)])	# [left, bottom, right, top]
+					rect=[0.02, 0.01, 0.99, 0.90 + 0.045*(h/1080)])	# [left, bottom, right, top]
 
 	def _figsave(self):
 		self.fig.suptitle('%s.%s detected event - %s' # title
@@ -315,7 +315,7 @@ class Plot(Thread):
 		im = mpimg.imread(pr.resource_filename('rsudp', os.path.join('img', 'version1-01-small.png')))
 		#imratio = im.size[0] / im.size[1]
 		scale = 0.1
-		self.imax = self.fig.add_axes([0, 0.945, 0.2, 0.055], anchor='NW') # [left, bottom, right, top]
+		self.imax = self.fig.add_axes([0.015, 0.944, 0.2, 0.056], anchor='NW') # [left, bottom, right, top]
 		self.imax.imshow(im, aspect='equal', interpolation='sinc')
 		self.imax.axis('off')
 		# set up axes and artists

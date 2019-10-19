@@ -1,5 +1,6 @@
 #!/bin/bash
 
+ver="v0.1"
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" # current directory
 arch=$(uname -m)    # machine hardware 
 os=$(uname -s)      # kernel name
@@ -8,8 +9,8 @@ tmp="/tmp"          # temporary directory for install file
 exe="conda-install.sh" # install file name
 tmp_exe="$tmp/$exe" # install file loc/name
 conda="conda"       # anaconda executable or alias
-macos_exe="Miniconda3-4.7.10-MacOSX-x86_64.sh"
-linux_exe="Miniconda3-4.7.10-Linux-x86_64.sh"
+macos_exe="Miniconda3-4.7.12-MacOSX-x86_64.sh"
+linux_exe="Miniconda3-4.7.12-Linux-x86_64.sh"
 arm_exe="Berryconda3-2.0.0-Linux-armv7l.sh"
 x86_base_url="https://repo.anaconda.com/miniconda/"
 arm_base_url="https://github.com/jjhelmus/berryconda/releases/download/v2.0.0/"
@@ -22,13 +23,12 @@ miniconda="$HOME/miniconda3"    # miniconda install location
 config="$HOME/.config/rsudp"    # config location
 settings="$config/rsudp_settings.json"  # settings file
 
-echo "---------------------------------------"
-echo "Raspberry Shake UDP client installer"
+echo "--------------------------------------------"
+echo "Raspberry Shake UDP client installer $ver"
 echo "Ian Nesbitt, Raspberry Shake S.A., 2019"
-echo "---------------------------------------"
+echo "--------------------------------------------"
 echo "Please follow instructions in prompts."
-echo "---------------------------------------"
-read -rp $'Press Enter to continue...\n\n'
+read -rp $'Press Enter to continue...\n'
 
 echo "This script will need to use or create a directory to store miniSEED data and screenshots."
 echo "Common choices might be $HOME/rsudp or $HOME/opt/rsudp"
@@ -252,10 +252,9 @@ if [ ! -z ${success+x} ]; then
   if [ -z ${previous_conda+x} ]; then
     if [ -z ${sourced+x} ]; then
       echo 'You will need to tell your shell where to find conda by entering ". ~/'"$release"'/etc/profile.d/conda.sh"'
-    else
-      echo 'To run conda, you will need to open a new shell.'
+      then='then '
     fi
-    echo 'You can then enter the command "conda activate rsudp" to activate the rsudp conda environment'
+    echo 'You can'$then' enter the command "conda activate rsudp" to activate the rsudp conda environment'
   else
     if [ -z ${sourced+x} ]; then
       echo 'You need to re-source your shell before using conda. To do this, type "source ~/.bashrc" or just open a new terminal window.'

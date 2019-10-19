@@ -5,6 +5,7 @@ dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" # curren
 arch=$(uname -m)    # machine hardware 
 os=$(uname -s)      # kernel name
 node=$(uname -n)    # node name
+gnu=$(uname -a | grep GNU)  # is this GNU?
 tmp="/tmp"          # temporary directory for install file
 exe="conda-install.sh" # install file name
 tmp_exe="$tmp/$exe" # install file loc/name
@@ -238,8 +239,13 @@ fi
 
 if [ ! -z ${success+x} ]; then
   echo "rsudp has installed successfully!"
-  rm $settings
-  echo "Installing settings file..."
+  echo "Backing up old settings file..."
+  if [ ! -z ${gnu+x} ]; then
+    mv --backup=numbered --force $settings $config"/"
+  else
+    mv $settings $settings".old"
+  fi
+  echo "Installing new settings file..."
   mkdir -p $config &&
   rs-client -d $settings &&
   sed -i 's/@@DIR@@/'"$(echo $outdir | sed 's_/_\\/_g')"'/g' $settings &&

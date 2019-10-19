@@ -48,7 +48,7 @@ outdir=${outdir// /_}
 outdir=${outdir//[^a-zA-Z0-9_/]/}
 # finally, lowercase with TR
 outdir=`echo -n $outdir | tr A-Z a-z`
-if [ -z "$var" ];
+if [ -z "$var" ]; then
   echo "No directory was provided, using $HOME/rsudp"
   outdir="$HOME/rsudp"
 fi

@@ -239,11 +239,13 @@ fi
 
 if [ ! -z ${success+x} ]; then
   echo "rsudp has installed successfully!"
-  echo "Backing up old settings file..."
-  if [ ! -z ${gnu+x} ]; then
-    mv --backup=numbered --force $settings $config"/"
-  else
-    mv $settings $settings".old"
+  if [ -f $settings ]; then
+    echo "Backing up old settings file..."
+    if [ ! -z ${gnu+x} ]; then
+      cp --backup=t --force $settings $settings
+    else
+      cp $settings $settings".old"
+    fi
   fi
   echo "Installing new settings file..."
   mkdir -p $config &&

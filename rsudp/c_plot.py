@@ -162,9 +162,6 @@ class Plot(Thread):
 				printM('Screenshot from a recent alarm has not yet been saved; saving now and resetting save timer.',
 						sender=self.sender)
 				self._figsave()
-			self.fig.suptitle('%s.%s live output - detected events: %s' # title
-							  % (self.net, self.stn, self.events),
-							  fontsize=14, color=self.fgcolor, x=0.52)
 			self.save = True
 			self.save_timer = 0
 			self.last_event = RS.UTCDateTime.now().strftime('%Y-%m-%d %H:%M:%S UTC')
@@ -219,6 +216,10 @@ class Plot(Thread):
 						  % (self.net, self.stn, self.last_event),
 						  fontsize=14, color=self.fgcolor, x=0.52)
 		self.savefig()
+		self.fig.suptitle('%s.%s live output - detected events: %s' # title
+						  % (self.net, self.stn, self.events),
+						  fontsize=14, color=self.fgcolor, x=0.52)
+
 
 	def savefig(self):
 		figname = os.path.join(rsudp.scap_dir, '%s.png' % datetime.utcnow().strftime('%Y-%m-%d-%H%M%S'))

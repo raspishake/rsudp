@@ -109,6 +109,7 @@ class Plot(Thread):
 		self.events = 0
 		self.event_text = ' - detected events: 0' if alert else ''
 		self.last_event = False
+		self.last_event_str = False
 		# plot stuff
 		self.bgcolor = '#202530' # background
 		self.fgcolor = '0.8' # axis and label color
@@ -164,7 +165,8 @@ class Plot(Thread):
 				self._figsave()
 			self.save = True
 			self.save_timer = 0
-			self.last_event = RS.UTCDateTime.now().strftime('%Y-%m-%d %H:%M:%S UTC')
+			self.last_event = RS.UTCDateTime.now()
+			self.last_event_str = self.last_event.strftime('%Y-%m-%d %H:%M:%S UTC')
 		if RS.getCHN(d) in self.chans:
 			self.raw = RS.update_stream(
 				stream=self.raw, d=d, fill_value='latest')
@@ -213,7 +215,7 @@ class Plot(Thread):
 
 	def _figsave(self):
 		self.fig.suptitle('%s.%s detected event - %s' # title
-						  % (self.net, self.stn, self.last_event),
+						  % (self.net, self.stn, self.last_event_str),
 						  fontsize=14, color=self.fgcolor, x=0.52)
 		self.savefig()
 		self.fig.suptitle('%s.%s live output - detected events: %s' # title
@@ -222,7 +224,7 @@ class Plot(Thread):
 
 
 	def savefig(self):
-		figname = os.path.join(rsudp.scap_dir, '%s.png' % datetime.utcnow().strftime('%Y-%m-%d-%H%M%S'))
+		figname = os.path.join(rsudp.scap_dir, '%s.png' % self.last_event.strftime('%Y-%m-%d-%H%M%S'))
 		elapsed = self.save_timer / (RS.tr * RS.numchns)
 		print()	# distancing from \r line
 		printM('Saving plot %i seconds after last alarm' % (elapsed), sender=self.sender)

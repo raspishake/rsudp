@@ -195,7 +195,7 @@ This plot of a M 4.2 earthquake 280 km away was saved automatically without user
     "deconvolve": true,
     "units": "ACC"},
 "forward": {
-    "enabled": true,
+    "enabled": false,
     "address": "127.0.0.1",
     "port": 13000,
     "channels": ["EHZ"]},

@@ -247,9 +247,9 @@ class Alert(Thread):
 					else:
 						pass
 				self.stream = RS.copy(self.stream)
-				print('\r%s [%s] Threshold: %s; Current max STA/LTA: %s'
+				print('\r%s [%s] Threshold: %s; Current max STA/LTA: %.4f'
 					  % (datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'), self.sender,
-					  self.thresh, round(np.max(self.stalta[-50:]), 3)), end='', flush=True)
+					  self.thresh, round(np.max(self.stalta[-50:]), 4)), end='', flush=True)
 			elif n == 0:
 				printM('Listening to channel %s'
 						% (self.stream[0].stats.channel), self.sender)

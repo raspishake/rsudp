@@ -171,7 +171,7 @@ If you would like to play sounds when the STA/LTA trigger activates, you will ne
 ## Plot + Alarm example
 ![Detected event](doc_imgs/event.png)
 
-This plot of a M 4.2 earthquake 280 km away was saved automatically without user intervention. Tired of searching through old data to find earthquakes? With a properly tuned alarm threshold and the `eq_screenshots` setting, rsudp can save images of alarm events for you to view and share later. The plot above was created with the following settings:
+This plot of a M 4.2 earthquake 80 km away was saved automatically without user intervention. Tired of searching through old data to find earthquakes? With a properly tuned alarm threshold and the `eq_screenshots` setting, rsudp can save images of alarm events for you to view and share later. The plot above was created with the following settings:
 
 ```json
 {

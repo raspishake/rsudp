@@ -1,5 +1,5 @@
-# rsudp
 ![Raspberry Shake logo](doc_imgs/raspbery-shake-logo-2x.png)
+# rsudp
 
 ### Tools for receiving and interacting with Raspberry Shake UDP data
 *Written by Ian Nesbitt (@iannesbitt) and Richard Boaz (@ivor) for @osop*  
@@ -168,6 +168,56 @@ If you would like to play sounds when the STA/LTA trigger activates, you will ne
 4. Start the rsudp client by typing `rs-client` or by pointing it at an existing settings file `rs-client -s /path/to/settings.json`
 5. Wait for the trigger to warm up, then stomp, jump, or Shake to hear the sound!
 
+## Plot + Alarm example
+![Detected event](doc_imgs/event.png)
+
+This plot of a M 4.2 earthquake 280 km away was saved automatically without user intervention. Tired of searching through old data to find earthquakes? With a properly tuned alarm threshold and the `eq_screenshots` setting, you can save images of alarm events to view and share later. The plot above was created with the following settings:
+
+```json
+{
+"settings": {
+    "port": 8888,
+    "station": "R24FA",
+    "output_dir": "/home/pi/rsudp",
+    "debug": true},
+"printdata": {
+    "enabled": false},
+"write": {
+    "enabled": false,
+    "channels": "all"},
+"plot": {
+    "enabled": true,
+    "duration": 300,
+    "spectrogram": true,
+    "fullscreen": true,
+    "eq_screenshots": true,
+    "channels": ["HZ", "HDF"],
+    "deconvolve": true,
+    "units": "ACC"},
+"forward": {
+    "enabled": true,
+    "address": "127.0.0.1",
+    "port": 13000,
+    "channels": ["EHZ"]},
+"alert": {
+    "enabled": true,
+    "highpass": 0,
+    "lowpass": 8,
+    "deconvolve": false,
+    "units": "ACC",
+    "sta": 6,
+    "lta": 30,
+    "threshold": 1.581,
+    "reset": 1.58,
+    "exec": "eqAlert",
+    "channel": "HZ",
+    "win_override": false},
+"alertsound": {
+    "enabled": true,
+    "mp3file": "doorbell"}
+}
+```
+
 # Contributing
 
 Contributions to this project are more than welcome. If you find ways to improve the efficiency of the library or the modules that use it, or come up with cool new modules to share with the community, we are eager to include them (provided, of course, that they are stable and achieve a clearly stated goal).
@@ -175,11 +225,12 @@ Contributions to this project are more than welcome. If you find ways to improve
 Since the Producer function passes an `ALARM` queue message when it sees `Alert.alarm=True`, other modules can be easily added and programmed to do something when they see this message. This is to help make the addition of other action-based modules straightforward.
 
 Some ideas for improvements are:
-- a more efficient plotting routine
 - a module that creates a twitter post when it reads the "ALARM" queue message
 - a way to save plot screenshots some time after an alert function trigger, to save and document earthquake seismogram/spectrograms
 - GPIO pin interactions (lights, motor control, buzzers, etc.)
+- a more efficient plotting routine
+- a way to optionally run the plot module with the `Agg` backend in matplotlib, which would allow the creation of screenshots without the need for a plot window to appear
 
 ## Bugs
 
-If you find a bug in this program, please create a GitHub issue. Be sure to describe the problem clearly, attach your logs (`/tmp/rsudp/rsudp.log`) and/or copy/paste command line output in triple backticks \`\`\` like this \`\`\` to format it as code.
+This software, like most, contains bugs and errors. If you find a bug, please create a GitHub issue. Be sure to describe the problem clearly, attach your logs (`/tmp/rsudp/rsudp.log`) and/or copy/paste command line output in triple backticks \`\`\` like this \`\`\` to format it as code.

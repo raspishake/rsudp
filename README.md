@@ -171,7 +171,7 @@ If you would like to play sounds when the STA/LTA trigger activates, you will ne
 ## Plot + Alarm example
 ![Detected event](doc_imgs/event.png)
 
-This plot of a M 4.2 earthquake 280 km away was saved automatically without user intervention. Tired of searching through old data to find earthquakes? With a properly tuned alarm threshold and the `eq_screenshots` setting, you can save images of alarm events to view and share later. The plot above was created with the following settings:
+This plot of a M 4.2 earthquake 280 km away was saved automatically without user intervention. Tired of searching through old data to find earthquakes? With a properly tuned alarm threshold and the `eq_screenshots` setting, rsudp can save images of alarm events for you to view and share later. The plot above was created with the following settings:
 
 ```json
 {
@@ -208,7 +208,7 @@ This plot of a M 4.2 earthquake 280 km away was saved automatically without user
     "sta": 6,
     "lta": 30,
     "threshold": 1.581,
-    "reset": 1.58,
+    "reset": 1.574,
     "exec": "eqAlert",
     "channel": "HZ",
     "win_override": false},
@@ -218,6 +218,8 @@ This plot of a M 4.2 earthquake 280 km away was saved automatically without user
 }
 ```
 
+One note to consider here is that the `"reset"` setting is nearly as important to earthquake detection as `"threshold"`. If `"reset"` is set too high, for example, you may end up with two trigger events: one for the P-wave and one for the S-wave. The taper on the trailing side of a big quake typically results in STA/LTA ratios well below 1, but setting it too low may result in the trigger not shutting off properly. Because each seismograph installation site is different, and no two earthquakes are exactly the same, there is no "right answer" for what to set these parameters to. Experimentation with the parameters is key!
+
 # Contributing
 
 Contributions to this project are more than welcome. If you find ways to improve the efficiency of the library or the modules that use it, or come up with cool new modules to share with the community, we are eager to include them (provided, of course, that they are stable and achieve a clearly stated goal).
@@ -226,7 +228,7 @@ Since the Producer function passes an `ALARM` queue message when it sees `Alert.
 
 Some ideas for improvements are:
 - a module that creates a twitter post when it reads the "ALARM" queue message
-- a way to save plot screenshots some time after an alert function trigger, to save and document earthquake seismogram/spectrograms
+- a way to plot trigger-on and trigger-off events using osbpy's [trigger_onset](https://docs.obspy.org/packages/autogen/obspy.signal.trigger.trigger_onset.html) ([example here](https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#advanced-example))
 - GPIO pin interactions (lights, motor control, buzzers, etc.)
 - a more efficient plotting routine
 - a way to optionally run the plot module with the `Agg` backend in matplotlib, which would allow the creation of screenshots without the need for a plot window to appear

@@ -185,6 +185,10 @@ class Plot(Thread):
 			self.save_timer = 0
 			self.last_event = RS.UTCDateTime.now()
 			self.last_event_str = self.last_event.strftime('%Y-%m-%d %H:%M:%S UTC')
+			self.fig.suptitle('%s.%s live output - detected events: %s' # title
+							% (self.net, self.stn, self.events),
+							fontsize=14, color=self.fgcolor, x=0.52)
+
 		if RS.getCHN(d) in self.chans:
 			self.raw = RS.update_stream(
 				stream=self.raw, d=d, fill_value='latest')

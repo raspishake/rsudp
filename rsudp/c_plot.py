@@ -12,7 +12,7 @@ import linecache
 sender = 'plot.py'
 try:		# test for matplotlib and exit if import fails
 	from matplotlib import use
-	if 'armv' in os.uname().machine:	# test for Qt and fail over to Tk
+	if 'armv' in os.uname().machine:	# test for arm use Tk on it (Qt isn't available)
 		use('TkAgg')
 		from tkinter import PhotoImage
 		qt = False
@@ -23,6 +23,8 @@ try:		# test for matplotlib and exit if import fails
 	import matplotlib.pyplot as plt
 	import matplotlib.dates as mdates
 	import matplotlib.image as mpimg
+	from matplotlib import rcParams
+	rcParams['toolbar'] = 'None'
 	plt.ion()
 	mpl = True
 	import warnings

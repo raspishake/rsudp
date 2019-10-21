@@ -275,7 +275,7 @@ settings in %s
     "eq_screenshots": false,
     "channels": ["HZ", "HDF"],
     "deconvolve": false,
-    "units": "ACC"},
+    "units": "CHAN"},
 "forward": {
     "enabled": false,
     "address": "192.168.1.254",
@@ -286,7 +286,7 @@ settings in %s
     "highpass": 0,
     "lowpass": 50,
     "deconvolve": false,
-    "units": "ACC",
+    "units": "VEL",
     "sta": 6,
     "lta": 30,
     "threshold": 1.7,

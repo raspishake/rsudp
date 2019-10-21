@@ -88,12 +88,14 @@ class Plot(Thread):
 		self.seconds = seconds
 		self.spectrogram = spectrogram
 
-		self.deconv = deconv if (deconv == 'ACC') or (deconv == 'VEL') or (deconv == 'DISP') else False
+		self.deconv = deconv if (deconv == 'ACC') or (deconv == 'VEL') or (deconv == 'DISP') or (deconv == 'CHAN') else False
 		if self.deconv and RS.inv:
 			deconv = deconv.upper()
-			self.units = 'Acceleration (m$^2$/s)' if (self.deconv == 'ACC') else False
+			self.units = 'Accel. (m$^2$/s)' if (self.deconv == 'ACC') else False
 			self.units = 'Velocity (m/s)' if (self.deconv == 'VEL') else self.units
-			self.units = 'Displacement (m)' if (self.deconv == 'DISP') else self.units
+			self.units = 'Displ. (m)' if (self.deconv == 'DISP') else self.units
+			if self.deconv == 'CHAN':
+				self.units = 'channel-specific'
 			printM('Signal deconvolution set to %s' % (self.deconv), self.sender)
 		else:
 			self.units = 'Voltage counts'
@@ -126,28 +128,40 @@ class Plot(Thread):
 			trace.stats.units = self.units
 			if self.deconv:
 				if ('HZ' in trace.stats.channel) or ('HE' in trace.stats.channel) or ('HN' in trace.stats.channel):
-					trace.remove_response(inventory=RS.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
-											output=self.deconv, water_level=4.5, taper=False)
+					if self.deconv not in 'CHAN':
+						trace.remove_response(inventory=RS.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
+											  output=self.deconv, water_level=4.5, taper=False)
+					else:
+						trace.remove_response(inventory=RS.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
+											  output='VEL', water_level=4.5, taper=False)
 					if 'ACC' in self.deconv:
 						trace.data = np.gradient(trace.data, 1)
 					elif 'DISP' in self.deconv:
 						trace.data = np.cumsum(trace.data)
 						trace.taper(max_percentage=0.1, side='left', max_length=1)
 						trace.detrend(type='demean')
+					else:
+						trace.stats.units = 'Velocity (m/s)'
 				elif ('NZ' in trace.stats.channel) or ('NE' in trace.stats.channel) or ('NN' in trace.stats.channel):
-					trace.remove_response(inventory=RS.inv, pre_filt=[0.05, 5, 0.95*self.sps, self.sps],
-											output=self.deconv, water_level=4.5, taper=False)
+					if self.deconv not in 'CHAN':
+						trace.remove_response(inventory=RS.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
+											  output=self.deconv, water_level=4.5, taper=False)
+					else:
+						trace.remove_response(inventory=RS.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
+											  output='ACC', water_level=4.5, taper=False)
 					if 'VEL' in self.deconv:
 						trace.data = np.cumsum(trace.data)
 						trace.detrend(type='demean')
 					elif 'DISP' in self.deconv:
 						trace.data = np.cumsum(np.cumsum(trace.data))
 						trace.detrend(type='linear')
-					if 'ACC' not in self.deconv:
+					else:
+						trace.stats.units = 'Accel. (m$^2$/s)'
+					if ('ACC' not in self.deconv) and ('CHAN' not in self.deconv):
 						trace.taper(max_percentage=0.1, side='left', max_length=1)
 
 				else:
-					pass	# if this is HDF
+					trace.stats.units = 'Voltage counts'	# if this is HDF
 
 
 	def getq(self):
@@ -228,7 +242,7 @@ class Plot(Thread):
 
 
 	def savefig(self):
-		figname = os.path.join(rsudp.scap_dir, '%s.png' % self.last_event.strftime('%Y-%m-%d-%H%M%S'))
+		figname = os.path.join(rsudp.scap_dir, '%s-%s.png' % (self.stn, self.last_event.strftime('%Y-%m-%d-%H%M%S')))
 		elapsed = self.save_timer / (RS.tr * RS.numchns)
 		print()	# distancing from \r line
 		printM('Saving plot %i seconds after last alarm' % (elapsed), sender=self.sender)

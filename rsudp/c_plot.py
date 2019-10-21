@@ -12,7 +12,7 @@ import linecache
 sender = 'plot.py'
 try:		# test for matplotlib and exit if import fails
 	from matplotlib import use
-	if True:#'armv' in os.uname().machine:	# test for arm use Tk on it (Qt isn't available)
+	if 'armv' in os.uname().machine:	# test for arm and use Tk with it (Qt isn't available)
 		use('TkAgg')
 		from tkinter import PhotoImage
 		qt = False
@@ -245,7 +245,7 @@ class Plot(Thread):
 		self.fig.canvas.mpl_connect('close_event', self.handle_close)
 		self.fig.canvas.mpl_connect('resize_event', self.handle_resize)
 
-		self.fig.canvas.set_window_title('Raspberry Shake Monitor') 
+		self.fig.canvas.set_window_title('%s.%s - Raspberry Shake Monitor' % (self.net, self.stn)) 
 		self.fig.patch.set_facecolor(self.bgcolor)	# background color
 		self.fig.suptitle('%s.%s live output%s' # title
 						  % (self.net, self.stn, self.event_text),

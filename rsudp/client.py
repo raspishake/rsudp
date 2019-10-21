@@ -119,6 +119,7 @@ def run(settings, debug):
 		sec = settings['plot']['duration']
 		spec = settings['plot']['spectrogram']
 		full = settings['plot']['fullscreen']
+		kiosk = settings['plot']['kiosk']
 		screencap = settings['plot']['eq_screenshots']
 		alert = settings['alert']['enabled']
 		if settings['plot']['deconvolve']:
@@ -127,7 +128,7 @@ def run(settings, debug):
 			deconv = False
 		q = mk_q()
 		plotter = Plot(cha=cha, seconds=sec, spectrogram=spec,
-						fullscreen=full, deconv=deconv, q=q,
+						fullscreen=full, kiosk=kiosk, deconv=deconv, q=q,
 						screencap=screencap, alert=alert)
 		mk_p(plotter)
 
@@ -270,6 +271,7 @@ settings in %s
     "duration": 30,
     "spectrogram": false,
     "fullscreen": false,
+    "kiosk": false,
     "eq_screenshots": false,
     "channels": ["HZ", "HDF"],
     "deconvolve": false,

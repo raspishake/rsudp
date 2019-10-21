@@ -94,6 +94,7 @@ By default, the settings are as follows:
     "duration": 30,
     "spectrogram": false,
     "fullscreen": false,
+    "kiosk": false,
     "eq_screenshots": false,
     "channels": ["HZ", "HDF"],
     "deconvolve": false,
@@ -130,7 +131,7 @@ By default, the settings are as follows:
 
 - **`write`** controls a very simple STEIM2 miniSEED writer. If `"enabled"` is `true`, seismic data is appended to a miniSEED file with a descriptive name in the `data` directory inside of `"output_dir"` every 10 seconds. By default, `"all"` channels will be written to their own files. You can change which channels are written by changing this to, for example, `["EHZ", "ENZ"]`, which will write the vertical geophone and accelerometer channels from RS4D output.
 
-- **`plot`** controls the thread containing the GUI plotting algorithm. This module can plot seismogram data from a list of 1-4 Shake channels, and optionally calculate and display a spectrogram alongside each (to do this, set `"spectrogram"` to `true`). By default the `"duration"` in seconds is `30`. The plot will refresh at most once per second, but slower processors may take longer. The longer the duration, the more processor power it will take to refresh the plot, especially when the spectrogram is enabled. To put the plot into fullscreen/kiosk mode, set `"fullscreen"` to `true`. On a Raspberry Pi 3B+ plotting 600 seconds' worth of data and a spectrogram from one channel, the update frequency is approximately once every 5 seconds, but more powerful processors will allow a higher refresh speed. Because the `plot` module is queue based, it should not drop any packets, no matter the processor. Dropped packets (if you experience them) are most likely a sign of network issues.
+- **`plot`** controls the thread containing the GUI plotting algorithm. This module can plot seismogram data from a list of 1-4 Shake channels, and optionally calculate and display a spectrogram alongside each (to do this, set `"spectrogram"` to `true`). By default the `"duration"` in seconds is `30`. The plot will refresh at most once per second, but slower processors may take longer. The longer the duration, the more processor power it will take to refresh the plot, especially when the spectrogram is enabled. To put the plot into fullscreen window mode, set `"fullscreen"` to `true`. To put the plot into kiosk mode, set `"kiosk"` to `true` (NB: kiosk mode will cause the plot to fill the entire screen and you will only be able to exit it by pressing Ctrl+W), On a Raspberry Pi 3B+ plotting 600 seconds' worth of data and a spectrogram from one channel, the update frequency is approximately once every 5 seconds, but more powerful processors will allow a higher refresh speed. Because the `plot` module is queue based, it should not drop any packets, no matter the processor. Dropped packets (if you experience them) are most likely a sign of network issues.
 
   By default, the `"channels"` field is `["HZ", "HDF"]`. This will resolve to at least one channel of any Shake input. "HZ" will match either "SHZ" or "EHZ" depending on your Shake digitizer model, and "HDF" will match the pressure transducer channel on a Raspberry Boom or Shake & Boom. If one of the channels in the list doesn't exist in the data sent to the port, it will be ignored.
 

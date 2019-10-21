@@ -12,7 +12,7 @@ import linecache
 sender = 'plot.py'
 try:		# test for matplotlib and exit if import fails
 	from matplotlib import use
-	if 'armv' in os.uname().machine:	# test for arm use Tk on it (Qt isn't available)
+	if True:#'armv' in os.uname().machine:	# test for arm use Tk on it (Qt isn't available)
 		use('TkAgg')
 		from tkinter import PhotoImage
 		qt = False
@@ -40,7 +40,8 @@ icon2 = 'icon.png'
 class Plot(Thread):
 	def __init__(self, cha='all', q=False,
 				 seconds=30, spectrogram=False,
-				 fullscreen=False, qt=qt, deconv=False,
+				 fullscreen=False, kiosk=False,
+				 qt=qt, deconv=False,
 				 screencap=False, alert=False):
 		"""
 		Initialize the plot process
@@ -101,6 +102,7 @@ class Plot(Thread):
 
 		self.per_lap = 0.9
 		self.fullscreen = fullscreen
+		self.kiosk = kiosk
 		self.qt = qt
 		self.num_chans = len(self.chans)
 		self.delay = RS.tr if (self.spectrogram) else 1
@@ -360,12 +362,16 @@ class Plot(Thread):
 
 		self.handle_resize()
 		# update canvas and draw
-		if self.fullscreen: # set up fullscreen
-			figManager = plt.get_current_fig_manager()
-			if self.qt:	# maximizing in Qt
-				figManager.window.showMaximized()
-			else:	# maximizing in Tk
-				figManager.resize(*figManager.window.maxsize())
+		figManager = plt.get_current_fig_manager()
+		if self.kiosk:
+			figManager.full_screen_toggle()
+		else:
+			if self.fullscreen:	# set fullscreen
+				if self.qt:	# maximizing in Qt
+					figManager.window.showMaximized()
+				else:	# maximizing in Tk
+					figManager.resize(*figManager.window.maxsize())
+
 
 		plt.draw()									# draw the canvas
 		self.fig.canvas.start_event_loop(0.005)		# wait for canvas to update

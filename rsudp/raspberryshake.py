@@ -108,8 +108,15 @@ def openSOCK(host=''):
 		raise IOError("Before opening a socket, you must initialize this raspberryshake library by calling initRSlib(dport=XXXXX, rssta='R0E05') first.")
 
 def set_params():
+	'''Read a data packet off the port.
+	On UNIX, alarm if no data is received within timeout.'''
 	global to
+	if os.name not in 'nt': 	# signal alarm not available on windows
+		signal.signal(signal.SIGALRM, handler)
+		signal.alarm(to)		# alarm time set with timeout value
 	data = sock.recv(4096)
+	if os.name not in 'nt':
+		signal.alarm(0)			# once data has been received, turn alarm completely off
 	to = 0						# otherwise it erroneously triggers after keyboardinterrupt
 	getTR(getCHNS()[0])
 	getSR(tf, data)
@@ -118,18 +125,10 @@ def set_params():
 	get_inventory()
 
 def getDATA():
-	'''Read a data packet off the port.
-	Alarm if no data is received within timeout.'''
+	'''Read a data packet off the port.'''
 	global to, firstaddr
 	if sockopen:
-		if os.name not in 'nt': # signal alarm not available on windows
-			signal.signal(signal.SIGALRM, handler)
-			signal.alarm(to)	# alarm time set with timeout value
-		data = sock.recv(4096)
-		if os.name not in 'nt':
-			signal.alarm(0)		# once data has been received, turn alarm completely off
-		to = 0					# otherwise it erroneously triggers after keyboardinterrupt
-		return data
+		return sock.recv(4096)
 	else:
 		if initd:
 			raise IOError("No socket is open. Please open a socket using this library's openSOCK() function.")

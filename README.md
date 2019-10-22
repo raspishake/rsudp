@@ -245,6 +245,7 @@ Some ideas for improvements are:
 - a more efficient plotting routine
 - a way to optionally run the plot module with the `Agg` backend in matplotlib, which would allow the creation of screenshots without the need for a plot window to appear
 - Windows install and update batch scripts
+- a way to plot in which Tk and Qt don't throw warnings and errors about plotting in a secondary thread. Plotting in another thread is technically bending the rules of Matplotlib backends. We are using tools that were not built for the job, but as it turns out there are very few Python tools suitable for this particular job...
 
 ## Bugs
 

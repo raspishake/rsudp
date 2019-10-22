@@ -2,7 +2,7 @@
 # rsudp
 
 ### Tools for receiving and interacting with Raspberry Shake UDP data
-*Written by Ian Nesbitt (@iannesbitt) and Richard Boaz (@ivor) for @osop*  
+*Written by Ian Nesbitt (@iannesbitt) and Richard Boaz (@ivor)*  
 
 `rsudp` is a tool for receiving and interacting with UDP data sent from a Raspberry Shake seismograph. It contains six main features:
 1. Print - a debugging tool to output raw UDP output to the command line
@@ -12,7 +12,7 @@
 5. Alarm - an earthquake/sudden motion alert configured to run some code in the event of a recursive STA/LTA alarm trigger, complete with bandpass filter capability
 6. AlertSound - a thread that plays a MP3 audio file when the alarm is triggered
 
-`rsudp` is written in Python but requires no coding knowledge to run. Simply go to your Shake's web front end, point a UDP data cast at your computer's local IP address, and watch as the data rolls in.
+`rsudp` is written in Python but requires no coding knowledge to run. Simply follow the instructions to install the software, go to your Shake's web front end, point a UDP data cast at your computer's local IP address, start rsudp from the command line, and watch as the data rolls in.
 
 ## Notes about `rsudp`
 

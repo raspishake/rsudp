@@ -2,7 +2,7 @@
 # rsudp
 
 ### Tools for receiving and interacting with Raspberry Shake UDP data
-*Written by Ian Nesbitt (@iannesbitt) and Richard Boaz (@ivor)*  
+*Written by Ian Nesbitt (@iannesbitt) and Richard Boaz (@ivor)*
 
 `rsudp` is a tool for receiving and interacting with UDP data sent from a Raspberry Shake seismograph. It contains six main features:
 1. Print - a debugging tool to output raw UDP output to the command line
@@ -93,7 +93,7 @@ By default, the settings are as follows:
     "port": 8888,
     "station": "Z0000",
     "output_dir": "@@DIR@@",
-    "debug": false},
+    "debug": true},
 "printdata": {
     "enabled": false},
 "write": {
@@ -102,7 +102,7 @@ By default, the settings are as follows:
 "plot": {
     "enabled": true,
     "duration": 30,
-    "spectrogram": false,
+    "spectrogram": true,
     "fullscreen": false,
     "kiosk": false,
     "eq_screenshots": false,
@@ -135,17 +135,17 @@ By default, the settings are as follows:
 
 ## Modules
 
-- The **`settings`** portion of the settings file contains some basic items: `"port"`, `"station"`, `"output_dir"`, and `"debug"`. Change `"port"` if you are receiving the data at a different port than `8888`. If you would like to set your station name, change `"station"`. `"output_dir"` will contain folders for miniSEED data and plot screenshots, which are explained in the relevant sections (**`write`** and **`plot`**) below. `"debug"` controls how much text is sent to the command line STDOUT (even if this is `false`, output will always be sent to a log at `/tmp/rsudp/rsudp.log`).
+- The **`settings`** portion of the settings file contains some basic items: `"port"`, `"station"`, `"output_dir"`, and `"debug"`. Change `"port"` if you are receiving the data at a different port than `8888`. If you would like to set your station name, change `"station"`. `"output_dir"` will contain folders for miniSEED data and plot screenshots, which are explained in the relevant sections (**`write`** and **`plot`**) below. The directory specified here will be created if it doesn't already exist. `"debug"` controls how much text is sent to the command line STDOUT (even if this is `false`, output will always be sent to a log at `/tmp/rsudp/rsudp.log`).
 
 - **`printdata`** controls the data output module, which simply prints Shake data packets to stdout as it receives them. Change `"enabled"` to `true` to activate.
 
 - **`write`** controls a very simple STEIM2 miniSEED writer. If `"enabled"` is `true`, seismic data is appended to a miniSEED file with a descriptive name in the `data` directory inside of `"output_dir"` every 10 seconds. By default, `"all"` channels will be written to their own files. You can change which channels are written by changing this to, for example, `["EHZ", "ENZ"]`, which will write the vertical geophone and accelerometer channels from RS4D output.
 
-- **`plot`** controls the thread containing the GUI plotting algorithm. This module can plot seismogram data from a list of 1-4 Shake channels, and optionally calculate and display a spectrogram alongside each (to do this, set `"spectrogram"` to `true`). By default the `"duration"` in seconds is `30`. The plot will refresh at most once per second, but slower processors may take longer. The longer the duration, the more processor power it will take to refresh the plot, especially when the spectrogram is enabled. To put the plot into fullscreen window mode, set `"fullscreen"` to `true`. To put the plot into kiosk mode, set `"kiosk"` to `true` (NB: kiosk mode will cause the plot will fill the entire screen and you will only be able to exit it by pressing Ctrl+W or pressing Alt+Tab (Command+Tab on Mac OS) to bring up a window switcher), On a Raspberry Pi 3B+ plotting 600 seconds' worth of data and a spectrogram from one channel, the update frequency is approximately once every 5 seconds, but more powerful processors will allow a higher refresh speed. Because the `plot` module is queue based, it should not drop any packets, no matter the processor. Dropped packets (if you experience them) are most likely a sign of network issues.
+- **`plot`** controls the thread containing the GUI plotting algorithm. This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and display a spectrogram alongside each. By default the `"duration"` in seconds is `30`. The plot will refresh at most once per second, but slower processors may take longer. The longer the duration, the more processor power it will take to refresh the plot, especially when the spectrogram is enabled. To disable the spectrogram, set `"spectrogram"` to `false` in the settings file. To put the plot into fullscreen window mode, set `"fullscreen"` to `true`. To put the plot into kiosk mode, set `"kiosk"` to `true` (NB: kiosk mode will cause the plot will fill the entire screen and you will only be able to exit it by pressing Ctrl+W or pressing Alt+Tab (Command+Tab on Mac OS) to bring up a window switcher), On a Raspberry Pi 3B+ plotting 600 seconds' worth of data and a spectrogram from one channel, the update frequency is approximately once every 5 seconds, but more powerful processors will allow a higher refresh speed. Because the `plot` module is queue based, it should not drop any packets, no matter the processor. Dropped packets (if you experience them) are most likely a sign of network issues.
 
   By default, the `"channels"` field is `["HZ", "HDF"]`. This will resolve to at least one channel of any Shake input. "HZ" will match either "SHZ" or "EHZ" depending on your Shake digitizer model, and "HDF" will match the pressure transducer channel on a Raspberry Boom or Shake & Boom. If one of the channels in the list doesn't exist in the data sent to the port, it will be ignored.
 
-  The program will use the Raspberry Shake FDSN service to search for an inventory response file for the Shake you specify in the `"station"` field. If it successfully finds an inventory, setting `"deconvolve"` to `true` will deconvolve the channels plotted to either `"ACC"` (acceleration in m/s^2), `"VEL"` (velocity in m/s), or `"DISP"` (displacement in m). The default is `"CHAN"` which lets the program deconvolve the channel to its native units (acceleration for accelerometers, and velocity for geophones). This means that the Shake must both have the 4.5 Hz geophone distributed by RS, and be forwarding data to the Shake server, in order to properly calculate deconvolution. The Raspberry Boom will always output in Voltage counts, which is not a deconvolved unit.
+  The program will use the Raspberry Shake FDSN service to search for an inventory response file for the Shake you specify in the `"station"` field. If it successfully finds an inventory, setting `"deconvolve"` to `true` will deconvolve the channels plotted to either `"ACC"` (acceleration in m/s^2), `"VEL"` (velocity in m/s), or `"DISP"` (displacement in m). The default is `"CHAN"` which lets the program deconvolve the channel to its native units (acceleration for accelerometers, and velocity for geophones). This means that the Shake must both have the 4.5 Hz geophone distributed by RS, and be forwarding data to the Shake server, in order to properly calculate deconvolution. The Raspberry Boom will always display in Voltage counts, which is not a deconvolved unit.
 
   If the alert module is enabled, setting `"eq_screenshots"` to `true` will result in screenshots being saved whenever there is an `ALARM` packet sent to the queue (see **alert** section below). The script will save one PNG figure per alert to the `screenshots` directory inside of `"output_dir"` when the leading edge of the quake is about 60% of the way across the plot window. This will only occur when the alarm gets triggered, however, so make sure to test your alert settings thoroughly.
 

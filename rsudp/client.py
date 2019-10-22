@@ -255,12 +255,13 @@ rs-client with no arguments will start the program with
 settings in %s
 ''' % settings_loc
 
-	default_settings = """{
+	def default_settings(output_dir=os.path.join(os.path.expanduser('~'), 'rsudp'), verbose=True):
+		def_settings = """{
 "settings": {
     "port": 8888,
     "station": "Z0000",
-    "output_dir": "@@DIR@@",
-    "debug": false},
+    "output_dir": "%s",
+    "debug": true},
 "printdata": {
     "enabled": false},
 "write": {
@@ -269,7 +270,7 @@ settings in %s
 "plot": {
     "enabled": true,
     "duration": 30,
-    "spectrogram": false,
+    "spectrogram": true,
     "fullscreen": false,
     "kiosk": false,
     "eq_screenshots": false,
@@ -298,14 +299,17 @@ settings in %s
     "enabled": false,
     "mp3file": "doorbell"}
 }
-"""
+""" % (output_dir)
+		if verbose:
+			print('By default output_dir is set to %s' % output_dir)
+		return def_settings
 
-	settings = json.loads(default_settings)
+	settings = json.loads(default_settings(verbose=False))
 
 	# get arguments
 	try:
-		opts = getopt.getopt(sys.argv[1:], 'hd:s:',
-			['help', 'dump=', 'settings=']
+		opts = getopt.getopt(sys.argv[1:], 'hid:s:',
+			['help', 'install' 'dump=', 'settings=']
 			)[0]
 	except Exception as e:
 		print('ERROR: %s' % e)
@@ -314,8 +318,7 @@ settings in %s
 	if len(opts) == 0:
 		if not os.path.exists(settings_loc):
 			print('Could not find rsudp settings file, creating one at %s' % settings_loc)
-			print('You will have to change the "output_dir" directory in order to run this software.')
-			dump_default(settings_loc, default_settings)
+			dump_default(settings_loc, default_settings())
 		else:
 			with open(os.path.abspath(settings_loc), 'r') as f:
 				try:
@@ -331,14 +334,27 @@ settings in %s
 		if o in ('-h, --help'):
 			print(hlp_txt)
 			exit(0)
+		if o in ('-i', '--install'):
+			'''
+			This is only meant to be used by the install script.
+			'''
+			os.makedirs(default_loc, exist_ok=True)
+			dump_default(settings_loc, default_settings(output_dir='@@DIR@@', verbose=False))
+			exit(0)
 		if o in ('-d', '--dump='):
+			'''
+			Dump the settings to a file, specified after the `-d` flag, or `-d default` to let the software decide where to put it.
+			'''
 			if str(a) in 'default':
 				os.makedirs(default_loc, exist_ok=True)
-				dump_default(settings_loc, default_settings)
+				dump_default(settings_loc, default_settings())
 			else:
-				dump_default(os.path.abspath(os.path.expanduser(a)), default_settings)
+				dump_default(os.path.abspath(os.path.expanduser(a)), default_settings())
 			exit(0)
 		if o in ('-s', 'settings='):
+			'''
+			Start the program with a specific settings file, for example: `-s settings.json`.
+			'''
 			if os.path.exists(os.path.abspath(os.path.expanduser(a))):
 				settings_loc = os.path.abspath(os.path.expanduser(a))
 				with open(settings_loc, 'r') as f:

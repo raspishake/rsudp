@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, platform
 import pkg_resources as pr
 from threading import Thread
 import time
@@ -12,7 +12,7 @@ import linecache
 sender = 'plot.py'
 try:		# test for matplotlib and exit if import fails
 	from matplotlib import use
-	if 'armv' in os.uname().machine:	# test for arm and use Tk with it (Qt isn't available)
+	if 'armv' in platform.machine():	# test for arm and use Tk with it (Qt isn't available)
 		use('TkAgg')
 		from tkinter import PhotoImage
 		qt = False
@@ -57,7 +57,7 @@ class Plot(Thread):
 			sys.stdout.flush()
 			sys.exit()
 		if qt == False:
-			printM('WARNING: Running on %s architecture, using Tk instead of Qt' % (os.uname().machine), self.sender)
+			printM('WARNING: Running on %s machine, using Tk instead of Qt' % (platform.machine()), self.sender)
 		if q:
 			self.queue = q
 		else:

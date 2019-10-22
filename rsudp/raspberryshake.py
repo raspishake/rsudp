@@ -109,10 +109,7 @@ def openSOCK(host=''):
 
 def set_params():
 	global to
-	signal.signal(signal.SIGALRM, handler)
-	signal.alarm(to)			# alarm time set with timeout value
 	data = sock.recv(4096)
-	signal.alarm(0)				# once data has been received, turn alarm completely off
 	to = 0						# otherwise it erroneously triggers after keyboardinterrupt
 	getTR(getCHNS()[0])
 	getSR(tf, data)
@@ -125,10 +122,12 @@ def getDATA():
 	Alarm if no data is received within timeout.'''
 	global to, firstaddr
 	if sockopen:
-		signal.signal(signal.SIGALRM, handler)
-		signal.alarm(to)		# alarm time set with timeout value
+		if os.name not in 'nt': # signal alarm not available on windows
+			signal.signal(signal.SIGALRM, handler)
+			signal.alarm(to)	# alarm time set with timeout value
 		data = sock.recv(4096)
-		signal.alarm(0)			# once data has been received, turn alarm completely off
+		if os.name not in 'nt':
+			signal.alarm(0)		# once data has been received, turn alarm completely off
 		to = 0					# otherwise it erroneously triggers after keyboardinterrupt
 		return data
 	else:

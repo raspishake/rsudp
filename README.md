@@ -47,6 +47,16 @@ or on ARMv7 architecture with Raspbian OS:
 
 where `$HOME` is the home directory of the current user.
 
+#### Updating
+
+Unix users can update the repository to the latest development version by running the following commands:
+
+```bash
+cd /rsudp/location
+git pull
+bash unix-update-rsudp.sh
+```
+
 ### On Windows
 
 1. Download and install [Anaconda](https://www.anaconda.com/distribution/#windows) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html).
@@ -234,6 +244,7 @@ Some ideas for improvements are:
 - GPIO pin interactions (lights, motor control, buzzers, etc.)
 - a more efficient plotting routine
 - a way to optionally run the plot module with the `Agg` backend in matplotlib, which would allow the creation of screenshots without the need for a plot window to appear
+- Windows install and update batch scripts
 
 ## Bugs
 

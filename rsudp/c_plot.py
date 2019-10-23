@@ -191,6 +191,7 @@ class Plot(Thread):
 			self.fig.suptitle('%s.%s live output - detected events: %s' # title
 							% (self.net, self.stn, self.events),
 							fontsize=14, color=self.fgcolor, x=0.52)
+			self.fig.canvas.set_window_title('(%s) %s.%s - Raspberry Shake Monitor' % (self.events, self.net, self.stn))
 
 		if RS.getCHN(d) in self.chans:
 			self.raw = RS.update_stream(
@@ -266,7 +267,7 @@ class Plot(Thread):
 		self.fig.canvas.mpl_connect('close_event', self.handle_close)
 		self.fig.canvas.mpl_connect('resize_event', self.handle_resize)
 
-		self.fig.canvas.set_window_title('%s.%s - Raspberry Shake Monitor' % (self.net, self.stn)) 
+		self.fig.canvas.set_window_title('%s.%s - Raspberry Shake Monitor' % (self.net, self.stn))
 		self.fig.patch.set_facecolor(self.bgcolor)	# background color
 		self.fig.suptitle('%s.%s live output%s' # title
 						  % (self.net, self.stn, self.event_text),

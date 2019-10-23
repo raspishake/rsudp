@@ -185,7 +185,7 @@ class Plot(Thread):
 			printM('Saving plot in about %i seconds' % (0.6 * (self.seconds)), self.sender)
 			self.save = True
 			self.save_timer = 0
-			self.last_event = RS.UTCDateTime.now()
+			self.last_event = RS.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')
 			self.last_event_str = self.last_event.strftime('%Y-%m-%d %H:%M:%S UTC')
 			self.fig.suptitle('%s.%s live output - detected events: %s' # title
 							% (self.net, self.stn, self.events),

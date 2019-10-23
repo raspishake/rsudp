@@ -1,8 +1,10 @@
-import sys
+import sys, os
 from threading import Thread
 from rsudp import printM
+import subprocess
+from tempfile import NamedTemporaryFile
 try:
-	from pydub.playback import play
+	from pydub.playback import play, PLAYER
 	pydub_exists = True
 except ImportError:
 	pydub_exists = False
@@ -38,6 +40,21 @@ class AlertSound(Thread):
 
 		printM('Starting.', self.sender)
 
+	def _play_quiet(self):
+		'''
+		if FFPlay is the player, suppress printed output
+		'''
+		with NamedTemporaryFile("w+b", suffix=".wav") as f:
+			self.sound.export(f.name, "wav")
+			devnull = open(os.devnull, 'w')
+			subprocess.call([PLAYER,"-nodisp", "-autoexit", "-hide_banner", f.name],stdout=devnull, stderr=devnull)
+
+	def _play(self):
+		if 'ffplay' in PLAYER:
+			self._play_quiet()
+		else:
+			play(self.sound)
+
 	def run(self):
 		"""
 		Reads data from the queue and print to stdout
@@ -50,7 +67,7 @@ class AlertSound(Thread):
 			elif 'ALARM' in str(d):
 				printM('Playing alert sound...', sender=self.sender)
 				if self.sound and pydub_exists:
-					play(self.sound)
+					self._play()
 
 				
 

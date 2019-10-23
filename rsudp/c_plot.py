@@ -178,11 +178,12 @@ class Plot(Thread):
 			sys.exit()
 		elif 'ALARM' in str(d):
 			self.events += 1
+			print()
 			if (self.save) and (self.screencap):
 				printM('Screenshot from a recent alarm has not yet been saved; saving now and resetting save timer.',
 						sender=self.sender)
 				self._figsave()
-			printM('Saving plot in about %i seconds' % (0.6 * (self.seconds)), self.sender)
+			printM('Saving png in about %i seconds' % (0.6 * (self.seconds)), self.sender)
 			self.save = True
 			self.save_timer = 0
 			self.last_event = RS.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')
@@ -249,9 +250,9 @@ class Plot(Thread):
 
 	def savefig(self):
 		figname = os.path.join(rsudp.scap_dir, '%s-%s.png' % (self.stn, self.last_event.strftime('%Y-%m-%d-%H%M%S')))
-		elapsed = (RS.UTCDateTime.now() - self.last_event).total_seconds()
+		elapsed = RS.UTCDateTime.now() - self.last_event
 		print()	# distancing from \r line
-		printM('Saving plot %i seconds after last event' % (elapsed), sender=self.sender)
+		printM('Saving png %i seconds after last event' % (elapsed), sender=self.sender)
 		plt.savefig(figname, facecolor=self.fig.get_facecolor(), edgecolor='none')
 		print()	# distancing from \r line
 		printM('Saved %s' % (figname), sender=self.sender)

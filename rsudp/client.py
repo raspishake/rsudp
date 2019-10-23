@@ -3,6 +3,7 @@ import signal
 import getopt
 import time
 import json
+import re
 import logging
 from queue import Queue
 from rsudp import printM, default_loc, init_dirs, output_dir, add_debug_handler
@@ -302,7 +303,7 @@ settings in %s
 """ % (output_dir)
 		if verbose:
 			print('By default output_dir is set to %s' % output_dir)
-		return def_settings
+		return def_settings.replace('\\', '\\\\')
 
 	settings = json.loads(default_settings(verbose=False))
 
@@ -322,7 +323,8 @@ settings in %s
 		else:
 			with open(os.path.abspath(settings_loc), 'r') as f:
 				try:
-					settings = json.load(f)
+					data = f.read().replace('\\', '\\\\')
+					settings = json.loads(data)
 				except Exception as e:
 					printM('ERROR:  Could not load default settings file from %s' % settings_loc)
 					printM('DETAIL: %s' % e)
@@ -359,7 +361,8 @@ settings in %s
 				settings_loc = os.path.abspath(os.path.expanduser(a))
 				with open(settings_loc, 'r') as f:
 					try:
-						settings = json.load(f)
+						data = f.read().replace('\\', '\\\\')
+						settings = json.loads(data)
 					except Exception as e:
 						print('ERROR:  Could not load settings file. Perhaps the JSON is malformed?')
 						print('DETAIL: %s' % e)

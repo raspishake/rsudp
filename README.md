@@ -7,10 +7,10 @@
 `rsudp` is a tool for receiving and interacting with UDP data sent from a Raspberry Shake seismograph. It contains six main features:
 1. Print - a debugging tool to output raw UDP output to the command line
 2. Writer - a miniSEED writer
-3. Plot - a live-plotting routine to display data as it arrives on the port
+3. Plot - a live-plotting routine to display data as it arrives on the port, with an option to save plots some time after an `ALARM` message is read from the queue
 4. Forward - forward a data cast to another destination
-5. Alarm - an earthquake/sudden motion alert configured to run some code in the event of a recursive STA/LTA alarm trigger, complete with bandpass filter capability
-6. AlertSound - a thread that plays a MP3 audio file when the alarm is triggered
+5. Alarm - an earthquake/sudden motion alert---complete with bandpass filter capability---configured to send an `ALARM` message to the queue in the event of a recursive STA/LTA alarm trigger, and optionally run some code
+6. AlertSound - a thread that plays a MP3 audio file when an `ALARM` message is read from the queue
 
 `rsudp` is written in Python but requires no coding knowledge to run. Simply follow the instructions to install the software, go to your Shake's web front end, point a UDP data cast at your computer's local IP address, start rsudp from the command line, and watch as the data rolls in.
 
@@ -244,7 +244,7 @@ Some ideas for improvements are:
 - GPIO pin interactions (lights, motor control, buzzers, etc.)
 - a more efficient plotting routine
 - a way to optionally run the plot module with the `Agg` backend in matplotlib, which would allow the creation of screenshots without the need for a plot window to appear
-- Windows install and update batch scripts
+- Windows batch scripts similar to the provided UNIX ones
 - a way to plot in which Tk and Qt don't throw warnings and errors about plotting in a secondary thread. Plotting in another thread is technically bending the rules of Matplotlib backends. We are using tools that were not built for the job, but as it turns out there are very few Python tools suitable for this particular job...
 
 ## Bugs

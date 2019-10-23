@@ -60,7 +60,7 @@ def prod(queue, threads):
 				blocked.append(addr[0])
 		for thread in threads:
 			if thread.alarm:
-				queue.put(b'ALARM')
+				queue.put(b'ALARM %s' % bytes(str(RS.UTCDateTime.now()), 'utf-8'))
 				print()
 				printM('%s thread has indicated alarm state, sending ALARM message to queues' % thread.sender, sender='Producer')
 				thread.alarm = False

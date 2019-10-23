@@ -257,7 +257,7 @@ settings in %s
 ''' % settings_loc
 
 	def default_settings(output_dir=os.path.join(os.path.expanduser('~'), 'rsudp'), verbose=True):
-		def_settings = """{
+		def_settings = r"""{
 "settings": {
     "port": 8888,
     "station": "Z0000",
@@ -303,7 +303,7 @@ settings in %s
 """ % (output_dir)
 		if verbose:
 			print('By default output_dir is set to %s' % output_dir)
-		return def_settings.replace('\\', '\\\\')
+		return def_settings
 
 	settings = json.loads(default_settings(verbose=False))
 

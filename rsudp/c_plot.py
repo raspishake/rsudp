@@ -86,6 +86,7 @@ class Plot(Thread):
 		printM('Plotting channels: %s' % self.chans, self.sender)
 		self.totchns = RS.numchns
 		self.seconds = seconds
+		self.pkts_in_period = RS.tr * RS.numchns * self.seconds	# theoretical number of packets received in self.seconds
 		self.spectrogram = spectrogram
 
 		self.deconv = deconv if (deconv == 'ACC') or (deconv == 'VEL') or (deconv == 'DISP') or (deconv == 'CHAN') else False
@@ -181,6 +182,7 @@ class Plot(Thread):
 				printM('Screenshot from a recent alarm has not yet been saved; saving now and resetting save timer.',
 						sender=self.sender)
 				self._figsave()
+			printM('Saving plot in about %i seconds' % (0.6 * (self.seconds)), self.sender)
 			self.save = True
 			self.save_timer = 0
 			self.last_event = RS.UTCDateTime.now()
@@ -247,9 +249,9 @@ class Plot(Thread):
 
 	def savefig(self):
 		figname = os.path.join(rsudp.scap_dir, '%s-%s.png' % (self.stn, self.last_event.strftime('%Y-%m-%d-%H%M%S')))
-		elapsed = self.save_timer / (RS.tr * RS.numchns)
+		elapsed = (RS.UTCDateTime.now() - self.last_event).total_seconds()
 		print()	# distancing from \r line
-		printM('Saving plot %i seconds after last alarm' % (elapsed), sender=self.sender)
+		printM('Saving plot %i seconds after last event' % (elapsed), sender=self.sender)
 		plt.savefig(figname, facecolor=self.fig.get_facecolor(), edgecolor='none')
 		print()	# distancing from \r line
 		printM('Saved %s' % (figname), sender=self.sender)
@@ -468,8 +470,6 @@ class Plot(Thread):
 		self.deconvolve()
 		self.setup_plot()
 
-		pkts_in_period = RS.tr * RS.numchns * self.seconds	# theoretical number of packets received in self.seconds
-
 		n = 0	# number of iterations without plotting
 		i = 0	# number of plot events without clearing the linecache
 		u = -1	# number of blocked queue calls (must be -1 at startup)
@@ -498,7 +498,7 @@ class Plot(Thread):
 			if u >= 0:				# avoiding a matplotlib broadcast error
 				self.loop()
 
-			if (self.save) and (self.save_timer > 0.6 * (pkts_in_period)):
+			if (self.save) and (self.save_timer > 0.6 * (self.pkts_in_period)):
 				self.save = False
 				self._figsave()
 			u = 0

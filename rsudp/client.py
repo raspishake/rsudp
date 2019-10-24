@@ -256,7 +256,7 @@ rs-client with no arguments will start the program with
 settings in %s
 ''' % settings_loc
 
-	def default_settings(output_dir=os.path.join(os.path.expanduser('~'), 'rsudp'), verbose=True):
+	def default_settings(output_dir='%s/rsudp'.replace('\\', '/') % os.path.expanduser('~'), verbose=True):
 		def_settings = r"""{
 "settings": {
     "port": 8888,
@@ -323,7 +323,7 @@ settings in %s
 		else:
 			with open(os.path.abspath(settings_loc), 'r') as f:
 				try:
-					data = f.read().replace('\\', '\\\\')
+					data = f.read().replace('\\', '/')
 					settings = json.loads(data)
 				except Exception as e:
 					printM('ERROR:  Could not load default settings file from %s' % settings_loc)
@@ -361,7 +361,7 @@ settings in %s
 				settings_loc = os.path.abspath(os.path.expanduser(a))
 				with open(settings_loc, 'r') as f:
 					try:
-						data = f.read().replace('\\', '\\\\')
+						data = f.read().replace('\\', '/')
 						settings = json.loads(data)
 					except Exception as e:
 						print('ERROR:  Could not load settings file. Perhaps the JSON is malformed?')

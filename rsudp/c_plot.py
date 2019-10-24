@@ -120,11 +120,12 @@ class Plot(Thread):
 		self.delay = RS.tr if (self.spectrogram) else 1
 
 		self.screencap = screencap
-		self.save = False
 		self.save_timer = 0
+		self.save_pct = 0.7
+		self.save = []
 		self.events = 0
 		self.event_text = ' - detected events: 0' if alert else ''
-		self.last_event = False
+		self.last_event = []
 		self.last_event_str = False
 		# plot stuff
 		self.bgcolor = '#202530' # background
@@ -188,15 +189,11 @@ class Plot(Thread):
 		elif 'ALARM' in str(d):
 			self.events += 1
 			print()
-			if (self.save) and (self.screencap):
-				printM('Screenshot from a recent alarm has not yet been saved; saving now and resetting save timer.',
-						sender=self.sender)
-				self._figsave()
-			printM('Saving png in about %i seconds' % (0.6 * (self.seconds)), self.sender)
-			self.save = True
-			self.save_timer = 0
-			self.last_event = RS.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')
-			self.last_event_str = self.last_event.strftime('%Y-%m-%d %H:%M:%S UTC')
+			printM('Saving png in about %i seconds' % (self.save_pct * (self.seconds)), self.sender)
+			event = [self.save_timer + int(self.save_pct*self.pkts_in_period),
+					 RS.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')]
+			self.save.append(event) # append 
+			self.last_event_str = event[1].strftime('%Y-%m-%d %H:%M:%S UTC')
 			self.fig.suptitle('%s.%s live output - detected events: %s' # title
 							% (self.net, self.stn, self.events),
 							fontsize=14, color=self.fgcolor, x=0.52)
@@ -248,24 +245,41 @@ class Plot(Thread):
 		plt.tight_layout(pad=0, h_pad=0.1, w_pad=0,
 					rect=[0.02, 0.01, 0.98, 0.90 + 0.045*(h/1080)])	# [left, bottom, right, top]
 
-	def _figsave(self):
+	def _eventsave(self):
+		self.save.reverse()
+		event = self.save.pop()
+		self.save.reverse()
+
+		event_time_str = event[1].strftime('%Y-%m-%d-%H%M%S')		# event time
+
+		# change title (just for a moment)
 		self.fig.suptitle('%s.%s detected event - %s' # title
-						  % (self.net, self.stn, self.last_event_str),
+						  % (self.net, self.stn, event_time_str),
 						  fontsize=14, color=self.fgcolor, x=0.52)
-		self.savefig()
+
+		# save figure
+		self.savefig(event_time=event[1], event_time_str=event_time_str)
+
+		# reset title
+		self._set_fig_title()
+
+
+	def savefig(self, event_time=RS.UTCDateTime.now(),
+				event_time_str=RS.UTCDateTime.now().strftime('%Y-%m-%d-%H%M%S')):
+		figname = os.path.join(rsudp.scap_dir, '%s-%s.png' % (self.stn, event_time_str))
+		elapsed = RS.UTCDateTime.now() - event_time
+		if int(elapsed) > 0:
+			print()	# distancing from \r line
+			printM('Saving png %i seconds after alarm' % (elapsed), sender=self.sender)
+		plt.savefig(figname, facecolor=self.fig.get_facecolor(), edgecolor='none')
+		print()	# distancing from \r line
+		printM('Saved %s' % (figname), sender=self.sender)
+
+	def _set_fig_title():
 		self.fig.suptitle('%s.%s live output - detected events: %s' # title
 						  % (self.net, self.stn, self.events),
 						  fontsize=14, color=self.fgcolor, x=0.52)
 
-
-	def savefig(self):
-		figname = os.path.join(rsudp.scap_dir, '%s-%s.png' % (self.stn, self.last_event.strftime('%Y-%m-%d-%H%M%S')))
-		elapsed = RS.UTCDateTime.now() - self.last_event
-		print()	# distancing from \r line
-		printM('Saving png %i seconds after last event' % (elapsed), sender=self.sender)
-		plt.savefig(figname, facecolor=self.fig.get_facecolor(), edgecolor='none')
-		print()	# distancing from \r line
-		printM('Saved %s' % (figname), sender=self.sender)
 
 	def setup_plot(self):
 		"""
@@ -278,7 +292,7 @@ class Plot(Thread):
 
 		self.fig.canvas.set_window_title('%s.%s - Raspberry Shake Monitor' % (self.net, self.stn))
 		self.fig.patch.set_facecolor(self.bgcolor)	# background color
-		self.fig.suptitle('%s.%s live output%s' # title
+		self.fig.suptitle('%s.%s live output%s'	# title
 						  % (self.net, self.stn, self.event_text),
 						  fontsize=14, color=self.fgcolor,x=0.52)
 		self.ax, self.lines = [], []				# list for subplot axes and lines artists
@@ -519,9 +533,9 @@ class Plot(Thread):
 			if u >= 0:				# avoiding a matplotlib broadcast error
 				self.loop()
 
-			if (self.save) and (self.save_timer > 0.6 * (self.pkts_in_period)):
-				self.save = False
-				self._figsave()
+			if self.save:
+				if (self.save_timer > self.save[0]):
+					self._eventsave()
 			u = 0
 			time.sleep(0.005)		# wait a ms to see if another packet will arrive
 			sys.stdout.flush()

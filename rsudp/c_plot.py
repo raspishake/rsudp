@@ -24,6 +24,7 @@ try:		# test for matplotlib and exit if import fails
 	import matplotlib.dates as mdates
 	import matplotlib.image as mpimg
 	from matplotlib import rcParams
+	from matplotlib.ticker import EngFormatter
 	rcParams['toolbar'] = 'None'
 	plt.ion()
 	mpl = True
@@ -92,14 +93,22 @@ class Plot(Thread):
 		self.deconv = deconv if (deconv == 'ACC') or (deconv == 'VEL') or (deconv == 'DISP') or (deconv == 'CHAN') else False
 		if self.deconv and RS.inv:
 			deconv = deconv.upper()
-			self.units = 'Accel. (m$^2$/s)' if (self.deconv == 'ACC') else False
-			self.units = 'Velocity (m/s)' if (self.deconv == 'VEL') else self.units
-			self.units = 'Displ. (m)' if (self.deconv == 'DISP') else self.units
-			if self.deconv == 'CHAN':
+			if self.deconv in 'ACC':
+				self.units = 'Acceleration'
+				self.unit = 'm$^2$/s'
+			if self.deconv in 'VEL':
+				self.units = 'Velocity'
+				self.unit = 'm/s'
+			if self.deconv in 'DISP':
+				self.units = 'Displacement'
+				self.unit = 'm'
+			if self.deconv in 'CHAN':
 				self.units = 'channel-specific'
+				self.unit = 'counts'
 			printM('Signal deconvolution set to %s' % (self.deconv), self.sender)
 		else:
 			self.units = 'Voltage counts'
+			self.unit = ' counts'
 			self.deconv = False
 		printM('Seismogram units are %s' % (self.units), self.sender)
 
@@ -142,7 +151,7 @@ class Plot(Thread):
 						trace.taper(max_percentage=0.1, side='left', max_length=1)
 						trace.detrend(type='demean')
 					else:
-						trace.stats.units = 'Velocity (m/s)'
+						trace.stats.units = 'Velocity'
 				elif ('NZ' in trace.stats.channel) or ('NE' in trace.stats.channel) or ('NN' in trace.stats.channel):
 					if self.deconv not in 'CHAN':
 						trace.remove_response(inventory=RS.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
@@ -157,7 +166,7 @@ class Plot(Thread):
 						trace.data = np.cumsum(np.cumsum(trace.data))
 						trace.detrend(type='linear')
 					else:
-						trace.stats.units = 'Accel. (m$^2$/s)'
+						trace.stats.units = 'Acceleration'
 					if ('ACC' not in self.deconv) and ('CHAN' not in self.deconv):
 						trace.taper(max_percentage=0.1, side='left', max_length=1)
 
@@ -237,7 +246,7 @@ class Plot(Thread):
 		else:
 			h = self.fig.get_size_inches()[1]*self.fig.dpi
 		plt.tight_layout(pad=0, h_pad=0.1, w_pad=0,
-					rect=[0.02, 0.01, 0.99, 0.90 + 0.045*(h/1080)])	# [left, bottom, right, top]
+					rect=[0.02, 0.01, 0.98, 0.90 + 0.045*(h/1080)])	# [left, bottom, right, top]
 
 	def _figsave(self):
 		self.fig.suptitle('%s.%s detected event - %s' # title
@@ -263,7 +272,7 @@ class Plot(Thread):
 		Matplotlib backends are not threadsafe, so things are a little weird here.
 		"""
 		# instantiate a figure and set basic params
-		self.fig = plt.figure(figsize=(8,3*self.num_chans))
+		self.fig = plt.figure(figsize=(10,3*self.num_chans))
 		self.fig.canvas.mpl_connect('close_event', self.handle_close)
 		self.fig.canvas.mpl_connect('resize_event', self.handle_resize)
 
@@ -292,6 +301,7 @@ class Plot(Thread):
 				self.ax[0].set_facecolor(self.bgcolor)
 				self.ax[0].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
 				self.ax[0].xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S'))
+				self.ax[0].yaxis.set_major_formatter(EngFormatter(unit=self.unit))
 				if self.spectrogram:
 					self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
 								   1, 2, label=str(2)))#, sharex=ax[0]))
@@ -306,6 +316,7 @@ class Plot(Thread):
 				self.ax[s].set_facecolor(self.bgcolor)
 				self.ax[s].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
 				self.ax[s].xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S'))
+				self.ax[s].yaxis.set_major_formatter(EngFormatter(unit=self.unit))
 				if self.spectrogram:
 					# add a spectrogram and set colors
 					self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
@@ -342,8 +353,6 @@ class Plot(Thread):
 					printM('WARNING: Failed to set icon.')
 
 		im = mpimg.imread(pr.resource_filename('rsudp', os.path.join('img', 'version1-01-small.png')))
-		#imratio = im.size[0] / im.size[1]
-		scale = 0.1
 		self.imax = self.fig.add_axes([0.015, 0.944, 0.2, 0.056], anchor='NW') # [left, bottom, right, top]
 		self.imax.imshow(im, aspect='equal', interpolation='sinc')
 		self.imax.axis('off')
@@ -421,6 +430,16 @@ class Plot(Thread):
 										  -np.ptp(self.stream[i].data-mean)*0.1,
 										  top=np.max(self.stream[i].data-mean)
 										  +np.ptp(self.stream[i].data-mean)*0.1)
+			if (self.deconv in 'CHAN'):
+				ch = self.stream[i].stats.channel
+				if ('HZ' in ch) or ('HN' in ch) or ('HE' in ch):
+					unit = 'm/s'
+				elif ('EN' in ch):
+					unit = 'm$^2$/s'
+				else:
+					unit = ' counts'
+				self.ax[i*self.mult].yaxis.set_major_formatter(EngFormatter(unit=unit))
+
 			if self.spectrogram:
 				self.nfft1 = self._nearest_pow_2(self.sps)	# FFTs run much faster if the number of transforms is a power of 2
 				self.nlap1 = self.nfft1 * self.per_lap

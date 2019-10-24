@@ -3,7 +3,7 @@ import logging
 import warnings
 from time import gmtime
 
-default_loc = '%s/.config/rsudp'.replace('\\', '/') % os.path.expanduser('~')
+default_loc = '%s/.config/rsudp' % os.path.expanduser('~').replace('\\', '/')
 os.makedirs(default_loc, exist_ok=True)
 log_dir = os.path.abspath('/tmp/rsudp')
 os.makedirs(log_dir, exist_ok=True)

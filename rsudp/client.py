@@ -224,7 +224,7 @@ def main():
 	Loads settings to start the main client.
 	Supply -h to see help text.
 	'''
-	settings_loc = os.path.join(default_loc, 'rsudp_settings.json')
+	settings_loc = os.path.join(default_loc, 'rsudp_settings.json').replace('\\', '/')
 
 	hlp_txt='''
 ###########################################
@@ -256,7 +256,7 @@ rs-client with no arguments will start the program with
 settings in %s
 ''' % settings_loc
 
-	def default_settings(output_dir='%s/rsudp'.replace('\\', '/') % os.path.expanduser('~'), verbose=True):
+	def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\', '/'), verbose=True):
 		def_settings = r"""{
 "settings": {
     "port": 8888,
@@ -358,7 +358,7 @@ settings in %s
 			Start the program with a specific settings file, for example: `-s settings.json`.
 			'''
 			if os.path.exists(os.path.abspath(os.path.expanduser(a))):
-				settings_loc = os.path.abspath(os.path.expanduser(a))
+				settings_loc = os.path.abspath(os.path.expanduser(a)).replace('\\', '/')
 				with open(settings_loc, 'r') as f:
 					try:
 						data = f.read().replace('\\', '/')

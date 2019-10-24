@@ -275,7 +275,7 @@ class Plot(Thread):
 		print()	# distancing from \r line
 		printM('Saved %s' % (figname), sender=self.sender)
 
-	def _set_fig_title():
+	def _set_fig_title(self):
 		self.fig.suptitle('%s.%s live output - detected events: %s' # title
 						  % (self.net, self.stn, self.events),
 						  fontsize=14, color=self.fgcolor, x=0.52)
@@ -534,7 +534,7 @@ class Plot(Thread):
 				self.loop()
 
 			if self.save:
-				if (self.save_timer > self.save[0]):
+				if (self.save_timer > self.save[0][0]):
 					self._eventsave()
 			u = 0
 			time.sleep(0.005)		# wait a ms to see if another packet will arrive

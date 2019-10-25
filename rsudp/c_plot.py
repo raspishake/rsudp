@@ -186,15 +186,18 @@ class Plot(Thread):
 				printM('Plot has been closed, plot thread exiting.', self.sender)
 			self.alive = False
 			sys.exit()
+
 		elif 'ALARM' in str(d):
-			self.events += 1
+			self.events += 1		# add event to count
+			self.save_timer -= 1	# don't push the save time forward if there are a large number of alarm events
+			event = [self.save_timer + int(self.save_pct*self.pkts_in_period),
+					 RS.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')]	# event = [save after count, datetime]
+			self.last_event_str = event[1].strftime('%Y-%m-%d %H:%M:%S UTC')
+			printM('Event time: %s' % (self.last_event_str), self.sender)		# show event time in the logs
 			if self.screencap:
 				print()
 				printM('Saving png in about %i seconds' % (self.save_pct * (self.seconds)), self.sender)
-				event = [self.save_timer + int(self.save_pct*self.pkts_in_period),
-						RS.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')]
 				self.save.append(event) # append 
-				self.last_event_str = event[1].strftime('%Y-%m-%d %H:%M:%S UTC')
 			self.fig.suptitle('%s.%s live output - detected events: %s' # title
 							% (self.net, self.stn, self.events),
 							fontsize=14, color=self.fgcolor, x=0.52)

@@ -188,12 +188,13 @@ class Plot(Thread):
 			sys.exit()
 		elif 'ALARM' in str(d):
 			self.events += 1
-			print()
-			printM('Saving png in about %i seconds' % (self.save_pct * (self.seconds)), self.sender)
-			event = [self.save_timer + int(self.save_pct*self.pkts_in_period),
-					 RS.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')]
-			self.save.append(event) # append 
-			self.last_event_str = event[1].strftime('%Y-%m-%d %H:%M:%S UTC')
+			if self.screencap:
+				print()
+				printM('Saving png in about %i seconds' % (self.save_pct * (self.seconds)), self.sender)
+				event = [self.save_timer + int(self.save_pct*self.pkts_in_period),
+						RS.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')]
+				self.save.append(event) # append 
+				self.last_event_str = event[1].strftime('%Y-%m-%d %H:%M:%S UTC')
 			self.fig.suptitle('%s.%s live output - detected events: %s' # title
 							% (self.net, self.stn, self.events),
 							fontsize=14, color=self.fgcolor, x=0.52)

@@ -68,7 +68,7 @@ class Alert(Thread):
 		self.deconv = deconv if (deconv == 'ACC') or (deconv == 'VEL') or (deconv == 'DISP') else False
 		if self.deconv and RS.inv:
 			deconv = deconv.upper()
-			self.units = 'Acceleration (m$^2$/s)' if (self.deconv == 'ACC') else False
+			self.units = 'Acceleration (m/s$^2$)' if (self.deconv == 'ACC') else False
 			self.units = 'Velocity (m/s)' if (self.deconv == 'VEL') else self.units
 			self.units = 'Displacement (m)' if (self.deconv == 'DISP') else self.units
 			printM('Signal deconvolution set to %s' % (self.deconv), self.sender)

@@ -95,7 +95,7 @@ class Plot(Thread):
 			deconv = deconv.upper()
 			if self.deconv in 'ACC':
 				self.units = 'Acceleration'
-				self.unit = 'm$^2$/s'
+				self.unit = 'm/s$^2$'
 			if self.deconv in 'VEL':
 				self.units = 'Velocity'
 				self.unit = 'm/s'
@@ -453,7 +453,7 @@ class Plot(Thread):
 				if ('HZ' in ch) or ('HN' in ch) or ('HE' in ch):
 					unit = 'm/s'
 				elif ('EN' in ch):
-					unit = 'm$^2$/s'
+					unit = 'm/s$^2$'
 				else:
 					unit = ' counts'
 				self.ax[i*self.mult].yaxis.set_major_formatter(EngFormatter(unit=unit))

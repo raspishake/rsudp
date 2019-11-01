@@ -84,6 +84,7 @@ if [ -z ${conda_exists+x} ]; then
   elif [ -f "$full/bin/conda" ]; then
     # finally, look for a full release
     . $full/etc/profile.d/conda.sh &&
+    prefix=$full &&
     conda activate &&
     conda_exists=1
   else

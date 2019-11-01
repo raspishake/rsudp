@@ -21,4 +21,4 @@ conda activate rsudp
 echo "Installing from the git directory..."
 pip install $( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd ) &>/tmp/rsudp/rsudp.log
 echo "Done."
-rs-client -s $settings
+rs-client -s $settings 2>/tmp/rsudp/rsudp.log

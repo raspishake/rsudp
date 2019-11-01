@@ -28,18 +28,36 @@ tf = None				# transmission frequency in ms
 tr = None				# transmission rate in packets per second
 sps = None				# samples per second
 
-# construct a socket
-socket_type =  s.SOCK_DGRAM
+# get an IP to report to the user
+# from https://stackoverflow.com/questions/166506/finding-local-ip-addresses-using-pythons-stdlib
+def get_ip():
+    testsock = s.socket(s.AF_INET, s.SOCK_DGRAM)
+    try:
+        # doesn't even have to be reachable
+        testsock.connect(('10.255.255.255', 1))
+        IP = testsock.getsockname()[0]
+    except:
+        IP = '127.0.0.1'
+    finally:
+        testsock.close()
+    return IP
+
+ip = get_ip()
+
+# construct a socket for either linux or non-linux
+socket_type =  s.SOCK_DGRAM | s.SO_REUSEADDR if platform.system() in 'Linux' else s.SOCK_DGRAM
 sock = s.socket(s.AF_INET, socket_type)
 if platform.system() not in 'Windows':
-	sock.setsockopt(s.SOL_SOCKET, s.SO_REUSEADDR, 1)
+	socket_type =  s.SOCK_DGRAM | s.SO_REUSEADDR
 
 
-def handler(signum, frame):
+def handler(signum, frame, ip=ip):
 	'''The signal handler for the nodata alarm.'''
+	global port
 	printM('ERROR: No data received in %s seconds; aborting.' % (to), sender='Init')
-	printM('       Check that no other program is using the port, and that the Shake', sender='Init')
-	printM('       is forwarding data to the port correctly.', sender='Init')
+	printM('       Check that the Shake is forwarding data to:', sender='Init')
+	printM('       IP address: %s    Port: %s' % (ip, port), sender='Init')
+	printM('       and that no firewall exists between the Shake and this computer.', sender='Init')
 	raise IOError('No data received')
 
 
@@ -104,8 +122,13 @@ def openSOCK(host=''):
 		HP = '%s:%s' % ('localhost',port)
 		printM("Opening socket on %s (HOST:PORT)"
 				% HP, 'openSOCK')
-		sock.bind((host, port))
-		sockopen = True
+		try:
+			sock.bind((host, port))
+			sockopen = True
+		except Exception as e:
+			printM('ERROR:  Could not bind to port. Is another program using it?')
+			printM('Detail: %s' % e)
+			raise OSError(e)
 	else:
 		raise IOError("Before opening a socket, you must initialize this raspberryshake library by calling initRSlib(dport=XXXXX, rssta='R0E05') first.")
 

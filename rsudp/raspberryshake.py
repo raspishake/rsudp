@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 import time
 import math
 import numpy as np
-import sys, os
+import sys, os, platform
 import socket as s
 import signal
 from obspy import UTCDateTime
@@ -28,16 +28,18 @@ tf = None				# transmission frequency in ms
 tr = None				# transmission rate in packets per second
 sps = None				# samples per second
 
-# construct a socket for either Windows or Unix
-socket_type = s.SOCK_DGRAM if os.name in 'nt' else s.SOCK_DGRAM | s.SO_REUSEADDR
+# construct a socket
+socket_type =  s.SOCK_DGRAM
 sock = s.socket(s.AF_INET, socket_type)
+if platform.system() not in 'Windows':
+	sock.setsockopt(s.SOL_SOCKET, s.SO_REUSEADDR, 1)
 
 
 def handler(signum, frame):
 	'''The signal handler for the nodata alarm.'''
-	printM('No data received in %s seconds; aborting.' % (to))
-	printM('Check that no other program is using the port, and that the Shake')
-	printM('is forwarding data to the port correctly.')
+	printM('ERROR: No data received in %s seconds; aborting.' % (to), sender='Init')
+	printM('       Check that no other program is using the port, and that the Shake', sender='Init')
+	printM('       is forwarding data to the port correctly.', sender='Init')
 	raise IOError('No data received')
 
 
@@ -95,7 +97,7 @@ def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 	set_params()				# get data and set parameters
 
 def openSOCK(host=''):
-	'''Initialize a socket at a port. Must be done after the above function is called.'''
+	'''Initialize a socket at a port. Must be done after the initRSlib function is called.'''
 	global sockopen
 	sockopen = False
 	if initd:

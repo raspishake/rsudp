@@ -10,16 +10,24 @@ from rsudp import printM
 import rsudp
 import linecache
 sender = 'plot.py'
+qt = False
 try:		# test for matplotlib and exit if import fails
 	from matplotlib import use
-	if 'armv' in platform.machine():	# test for arm and use Tk with it (Qt isn't available)
-		use('TkAgg')
-		from tkinter import PhotoImage
-		qt = False
-	else:
-		use('Qt5Agg')
+	try:	# no way to know what machines can handle what software, but Tk is more universal
+		use('Qt5Agg')	# try for Qt because it's better and has less threatening errors
 		from PyQt5 import QtGui
 		qt = True
+	except Exception as e:
+		printM('WARNING: Qt import failed. Trying Tk...')
+		printM('error detail: %s' % e)
+		try:	# fail over to the more reliable Tk
+			use('TkAgg')
+			from tkinter import PhotoImage
+		except Exception as e:
+			printM('ERROR: Could not import either Qt or Tk, and the plot module requires at least one of them to run.', sender)
+			printM('Please make sure either PyQt5 or Tkinter is installed.', sender)
+			printM('error detail: %s'% e, sender)
+			raise ImportError('Could not import either Qt or Tk, and the plot module requires at least one of them to run')
 	import matplotlib.pyplot as plt
 	import matplotlib.dates as mdates
 	import matplotlib.image as mpimg
@@ -30,9 +38,9 @@ try:		# test for matplotlib and exit if import fails
 	mpl = True
 	import warnings
 	warnings.filterwarnings("ignore", module="matplotlib")
-except:
-	printM('[Plot] ERROR: Could not import matplotlib, plotting will not be available.', sender)
-	printM('[Plot]        Thread will exit now.', sender)
+except Exception as e:
+	printM('ERROR: Could not import matplotlib, plotting will not be available.', sender)
+	printM('error detail: %s' % e, sender)
 	mpl = False
 
 icon = 'icon.ico'
@@ -293,7 +301,9 @@ class Plot(Thread):
 		self.fig = plt.figure(figsize=(10,3*self.num_chans))
 		self.fig.canvas.mpl_connect('close_event', self.handle_close)
 		self.fig.canvas.mpl_connect('resize_event', self.handle_resize)
-
+		
+		if qt:
+			self.fig.canvas.window().statusBar().setVisible(False) # remove bottom bar
 		self.fig.canvas.set_window_title('%s.%s - Raspberry Shake Monitor' % (self.net, self.stn))
 		self.fig.patch.set_facecolor(self.bgcolor)	# background color
 		self.fig.suptitle('%s.%s live output%s'	# title

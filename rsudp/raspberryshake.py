@@ -44,12 +44,11 @@ def get_ip():
 
 ip = get_ip()
 
-# construct a socket for either linux or non-linux
-socket_type =  s.SOCK_DGRAM | s.SO_REUSEADDR if platform.system() in 'Linux' else s.SOCK_DGRAM
+# construct a socket
+socket_type =  s.SOCK_DGRAM
 sock = s.socket(s.AF_INET, socket_type)
 if platform.system() not in 'Windows':
-	socket_type =  s.SOCK_DGRAM | s.SO_REUSEADDR
-
+    sock.setsockopt(s.SOL_SOCKET, s.SO_REUSEADDR, 1)
 
 def handler(signum, frame, ip=ip):
 	'''The signal handler for the nodata alarm.'''

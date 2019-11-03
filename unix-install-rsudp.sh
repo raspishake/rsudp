@@ -255,7 +255,7 @@ if [ ! -z ${success+x} ]; then
   echo "Installing new settings file..."
   mkdir -p $config &&
   rs-client -i &&      # secret install mode
-  sed -i 's/@@DIR@@/'"$(echo $outdir | sed 's_/_\\/_g')"'/g' $settings &&
+  sed -i.bak 's/@@DIR@@/'"$(echo $outdir | sed 's_/_\\/_g')"'/g' "$settings" && rm "$settings.bak" &&   # this sed command should work on both GNU and BSD
   echo "Success." ||
   echo "Failed to create settings file. Either the script could not create a folder at $config, or dumping the settings did not work." ||
   echo "If you would like, you can dump the settings to a file manually by running the command" ||

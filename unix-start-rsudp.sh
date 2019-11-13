@@ -1,5 +1,7 @@
 #!/bin/bash
 
+arch=$(uname -m)    # machine hardware 
+
 # settings file (change this to start with a different settings file)
 settings="$HOME/.config/rsudp/rsudp_settings.json"
 

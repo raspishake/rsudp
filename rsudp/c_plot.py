@@ -458,15 +458,16 @@ class Plot(Thread):
 										  -np.ptp(self.stream[i].data-mean)*0.1,
 										  top=np.max(self.stream[i].data-mean)
 										  +np.ptp(self.stream[i].data-mean)*0.1)
-			if (self.deconv in 'CHAN'):
-				ch = self.stream[i].stats.channel
-				if ('HZ' in ch) or ('HN' in ch) or ('HE' in ch):
-					unit = 'm/s'
-				elif ('EN' in ch):
-					unit = 'm/s$^2$'
-				else:
-					unit = ' counts'
-				self.ax[i*self.mult].yaxis.set_major_formatter(EngFormatter(unit=unit))
+			if self.deconv:
+				if (self.deconv in 'CHAN'):
+					ch = self.stream[i].stats.channel
+					if ('HZ' in ch) or ('HN' in ch) or ('HE' in ch):
+						unit = 'm/s'
+					elif ('EN' in ch):
+						unit = 'm/s$^2$'
+					else:
+						unit = ' counts'
+					self.ax[i*self.mult].yaxis.set_major_formatter(EngFormatter(unit=unit))
 
 			if self.spectrogram:
 				self.nfft1 = self._nearest_pow_2(self.sps)	# FFTs run much faster if the number of transforms is a power of 2

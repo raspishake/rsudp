@@ -1,8 +1,11 @@
 ![Raspberry Shake logo](doc_imgs/raspbery-shake-logo-2x.png)
 # rsudp
-
 ### Tools for receiving and interacting with Raspberry Shake UDP data
 *Written by Ian Nesbitt (@iannesbitt) and Richard Boaz (@ivor)*
+
+![PyPI](https://img.shields.io/pypi/v/rsudp)
+![GitHub](https://img.shields.io/github/license/raspishake/rsudp)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/rsudp)
 
 `rsudp` is a tool for receiving and interacting with UDP data sent from a Raspberry Shake seismograph. It contains six main features:
 1. Print - a debugging tool to output raw UDP output to the command line

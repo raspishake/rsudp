@@ -31,6 +31,7 @@ class Consumer(Thread):
 					q.put(p)
 
 				if 'TERM' in str(p):
+					printM('Exiting.', self.sender)
 					sys.exit()
 		except Exception as e:
 			return e

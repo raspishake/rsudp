@@ -40,6 +40,8 @@ class PrintRaw(Thread):
 			d = self.queue.get()
 			self.queue.task_done()
 			if 'TERM' in str(d):
+				self.alive = False
+				printM('Exiting.', self.sender)
 				sys.exit()
 			elif 'ALARM' in str(d):
 				pass

@@ -9,6 +9,7 @@ from queue import Queue
 from rsudp import printM, default_loc, init_dirs, output_dir, add_debug_handler
 import rsudp.raspberryshake as RS
 from rsudp.c_consumer import Consumer
+from rsudp.p_producer import Producer
 from rsudp.c_printraw import PrintRaw
 from rsudp.c_write import Write
 from rsudp.c_plot import Plot, mpl
@@ -26,54 +27,6 @@ except ImportError:
 
 def eqAlert(sound=False, sender='EQAlert function', *args, **kwargs):
 	printM('Trigger threshold exceeded -- possible earthquake!', sender=sender)
-
-
-def prod(queue, threads):
-	sender = 'Producer'
-	chns = []
-	numchns = 0
-	stop = False
-
-	"""
-	Receives data from one IP address and puts it in an async queue.
-	Prints each sending address to STDOUT so the user can troubleshoot.
-	This will work best on local networks where a router does not obscure
-	multiple devices behind one sending IP.
-	Remember, RS UDP packets cannot be differentiated by sending instrument.
-	Their identifiers are per channel (EHZ, HDF, ENE, SHZ, etc.)
-	and not per Shake (R4989, R52CD, R24FA, RCB43, etc.). To avoid problems,
-	please use a separate port for each Shake.
-	"""
-	firstaddr = ''
-	blocked = []
-	RS.producer = True
-	while RS.producer:
-		data, addr = RS.sock.recvfrom(4096)
-		if firstaddr == '':
-			firstaddr = addr[0]
-			printM('Receiving UDP data from %s' % (firstaddr), sender)
-		if (firstaddr != '') and (addr[0] == firstaddr):
-			queue.put(data)
-		else:
-			if addr[0] not in blocked:
-				printM('Another IP (%s) is sending UDP data to this port. Ignoring...'
-						% (addr[0]), sender)
-				blocked.append(addr[0])
-		for thread in threads:
-			if thread.alarm:
-				queue.put(b'ALARM %s' % bytes(str(RS.UTCDateTime.now()), 'utf-8'))
-				print()
-				printM('%s thread has indicated alarm state, sending ALARM message to queues' % thread.sender, sender='Producer')
-				thread.alarm = False
-			if not thread.alive:
-				stop = True
-		if stop:
-			break
-	
-	print()
-	printM('Sending TERM signal to threads...', sender)
-	queue.put(b'TERM')
-	queue.join()
 
 def handler(sig, frame):
 	RS.producer = False
@@ -127,9 +80,9 @@ def run(settings, debug):
 			deconv = settings['plot']['units']
 		else:
 			deconv = False
-		q = mk_q()
+		pq = mk_q()
 		plotter = Plot(cha=cha, seconds=sec, spectrogram=spec,
-						fullscreen=full, kiosk=kiosk, deconv=deconv, q=q,
+						fullscreen=full, kiosk=kiosk, deconv=deconv, q=pq,
 						screencap=screencap, alert=alert)
 		mk_p(plotter)
 
@@ -205,7 +158,11 @@ def run(settings, debug):
 	for thread in threads:
 		thread.start()
 
-	prod(queue, threads)
+	prod = Producer(queue, threads)
+	prod.start()
+
+	while not prod.stop:
+		time.sleep(0.1)
 
 	time.sleep(0.5)
 	print()

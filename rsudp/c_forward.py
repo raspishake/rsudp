@@ -48,6 +48,8 @@ class Forward(Thread):
 				self.queue.task_done()	# close the queue
 
 				if 'TERM' in str(p):	# shutdown if there's a TERM message on the queue
+					self.alive = False
+					printM('Exiting.', self.sender)
 					sys.exit()
 
 				if RS.getCHN(p) in self.chans:

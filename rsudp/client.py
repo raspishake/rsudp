@@ -81,10 +81,9 @@ def run(settings, debug):
 		else:
 			deconv = False
 		pq = mk_q()
-		plotter = Plot(cha=cha, seconds=sec, spectrogram=spec,
+		Plotter = Plot(cha=cha, seconds=sec, spectrogram=spec,
 						fullscreen=full, kiosk=kiosk, deconv=deconv, q=pq,
 						screencap=screencap, alert=alert)
-		mk_p(plotter)
 
 	if settings['forward']['enabled']:
 		# put settings in namespace
@@ -161,10 +160,14 @@ def run(settings, debug):
 	prod = Producer(queue, threads)
 	prod.start()
 
-	while not prod.stop:
-		time.sleep(0.1)
+	if settings['plot']['enabled'] and mpl:
+		Plotter.run()
+	else:
+		while not prod.stop:
+			time.sleep(0.1)
 
 	time.sleep(0.5)
+
 	print()
 	printM('Shutdown successful.', 'Main')
 	sys.exit()

@@ -8,6 +8,9 @@ from rsudp import printM
 import rsudp
 
 class Write(Thread):
+	"""
+	A simple routine to write daily miniSEED data to `output_dir/data`.
+	"""
 	def __init__(self, q=False, debug=False):
 		"""
 		Initialize the process

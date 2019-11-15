@@ -9,7 +9,7 @@ import numpy as np
 
 class Alert(Thread):
 	"""
-	An consumer class that listens to a specific incoming data channel
+	A data consumer class that listens to a specific incoming data channel
 	and calculates a recursive STA/LTA (short term average over long term 
 	average). If a threshold of STA/LTA ratio is exceeded, the class
 	activates a function of the user's choosing. By default, the function
@@ -192,9 +192,9 @@ class Alert(Thread):
 				self._deconvolve()
 
 			if n > wait_pkts:
-				obstart = self.stream[0].stats.endtime - timedelta(
-							seconds=self.lta)	# obspy time
-				self.raw = self.raw.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
+				obstart = self.stream[0].stats.endtime - 
+							timedelta(seconds=self.lta)				# obspy time
+				self.raw = self.raw.slice(starttime=obstart)		# slice the stream to the specified length (seconds variable)
 				self.stream = self.stream.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
 
 				if self.filt:

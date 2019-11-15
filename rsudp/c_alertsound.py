@@ -15,7 +15,7 @@ class AlertSound(Thread):
 	A sub-consumer class that simply prints incoming data to the terminal.
 	This is enabled by setting the "printdata" > "enabled" parameter to `true`
 	in the settings file. This is more of a debug feature than anything else,
-	meant to be a way to check that data is flowing into the port.
+	meant as a way to check that data is flowing into the port as expected.
 
 
 	"""
@@ -33,7 +33,7 @@ class AlertSound(Thread):
 		if q:
 			self.queue = q
 		else:
-			printM('ERROR: no queue passed to consumer! Thread will exit now!', self.sender)
+			printM('ERROR: no queue passed to the consumer thread! We will exit now!', self.sender)
 			sys.stdout.flush()
 			self.alive = False
 			sys.exit()

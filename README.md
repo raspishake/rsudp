@@ -4,23 +4,23 @@
 ### Tools for receiving and interacting with Raspberry Shake UDP data
 *Written by Ian Nesbitt (@iannesbitt) and Richard Boaz (@ivor)*
 
-`rsudp` is a tool for receiving and interacting with UDP data sent from a Raspberry Shake seismograph. It contains six main features:
-1. Print - a debugging tool to output raw UDP output to the command line
-2. Writer - a miniSEED writer
-3. Plot - a live-plotting routine to display data as it arrives on the port, with an option to save plots some time after an `ALARM` message is read from the queue
-4. Forward - forward a data cast to another destination
-5. Alarm - an earthquake/sudden motion alert---complete with bandpass filter capability---configured to send an `ALARM` message to the queue in the event of a recursive STA/LTA alarm trigger, and optionally run some code
+`rsudp` is a tool for receiving and interacting with UDP data sent from a Raspberry Shake seismograph. It contains six main types of output:
+1. Print - a debugging tool to output raw UDP data to the command line
+2. Writer - a miniSEED format file writer
+3. Plot - a live-plotting routine to display data as it arrives, with an option to save plots at some prescribed time after an `ALARM` message is received
+4. Forward - forward a data cast to another machine:port combination / destination
+5. Alarm - an earthquake / sudden motion alert---complete with bandpass filter capability---configured to send an `ALARM` message to the queue in the event of a recursive STA/LTA alarm trigger, and optionally run some code
 6. AlertSound - a thread that plays a MP3 audio file when an `ALARM` message is read from the queue
 
-`rsudp` is written in Python but requires no coding knowledge to run. Simply follow the instructions to install the software, go to your Shake's web front end, point a UDP data cast at your computer's local IP address, start rsudp from the command line, and watch as the data rolls in.
+`rsudp` is written in Python but requires no coding knowledge to run. Simply follow the instructions to install the software, go to your Shake's web front end, configure a UDP datacast to your computer's local IP address, start rsudp from the command line, and watch the data roll in.
 
 ## Notes about `rsudp`
 
 **Note: The port you send data to must be open on the receiving end.** In Windows, this may mean clicking "allow" on a firewall popup. On most other machines, the port you send UDP data to (8888 or 18001 are common choices) must be open to UDP traffic.
 
-Generally, if you are sending data inside a local network, there will not be any router firewall to pass data through. If you are sending data to another network, you will almost certainly have to forward data through a firewall in order to receive it. Raspberry Shake cannot help you figure out how to set up your router to do this. Contact your ISP or network administrator, or consult your router's manual for help setting up port forwarding.
+Generally, if you are sending data within a local network, there will be no router firewall to have to pass data through. If you are sending data to another network, you will almost certainly have to forward data through a firewall in order to receive it. You should contact your ISP or network administrator, or consult your router's manual for help setting up port-forwarding.
 
-**Note: this program has not been tested to run on the Raspberry Shake itself.** Raspberry Shake is not liable to provide support for any strange Shake behavior should you choose to do this. This program is intended to run on a separate RPi or workstation, and for the Raspberry Shake to cast data to that computer.
+**Note: this program has not been tested to run on the Raspberry Shake itself.** Raspberry Shake is not liable nor can we provide support for any strange Shake behavior should you choose to do this. This program is intended to run on a separate RPi or workstation, while the Raspberry Shake is meant to cast data to that computer.
 
 
 ## Installation
@@ -73,7 +73,7 @@ pip install rsudp
 
 1. First, to activate the conda environment, type `conda activate rsudp`.
 
-2. Next, you will need a data cast (formerly known as a UDP stream) pointed at an open port on the computer you plan to run this on. By default this port is 8888.
+2. Next, configure a datacast stream (formerly known as a UDP stream) to forward data to an open port on the computer where this program is running. By default this port is 8888.
 
 3. The UNIX installer will create a settings file in `$HOME/.config/rsudp/rsudp_settings.json`. (Windows users will need to type `rsudp -d default` to dump the settings to a file the first time they run this program.) Change the settings in this file to control how the client operates.
 
@@ -81,7 +81,7 @@ pip install rsudp
 
 4. After modifying the settings file to your liking, type `rs-client` to use the settings file at `$HOME/.config/rsudp/rsudp_settings.json`, or `rs-client -s rsudp_settings.json` to run with a different settings file.
 
-**Note:** This library can only handle incoming data from one Shake per port. If for some reason more than one Shake is sending data to the port, the software will only process data coming from the IP of the first Shake it sees sending data.
+**Note:** This library can only handle incoming data from one Shake per port. If for some reason more than one Shake is sending data to the port, the software will only process data coming from the IP of the first Shake it sees sending data.  All data coming from any other Shake(s) will be ignored.
 
 ## Settings
 
@@ -141,23 +141,23 @@ By default, the settings are as follows:
 
 - **`write`** controls a very simple STEIM2 miniSEED writer. If `"enabled"` is `true`, seismic data is appended to a miniSEED file with a descriptive name in the `data` directory inside of `"output_dir"` every 10 seconds. By default, `"all"` channels will be written to their own files. You can change which channels are written by changing this to, for example, `["EHZ", "ENZ"]`, which will write the vertical geophone and accelerometer channels from RS4D output.
 
-- **`plot`** controls the thread containing the GUI plotting algorithm. This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and display a spectrogram alongside each. By default the `"duration"` in seconds is `30`. The plot will refresh at most once per second, but slower processors may take longer. The longer the duration, the more processor power it will take to refresh the plot, especially when the spectrogram is enabled. To disable the spectrogram, set `"spectrogram"` to `false` in the settings file. To put the plot into fullscreen window mode, set `"fullscreen"` to `true`. To put the plot into kiosk mode, set `"kiosk"` to `true` (NB: kiosk mode will cause the plot will fill the entire screen and you will only be able to exit it by pressing Ctrl+W or pressing Alt+Tab (Command+Tab on Mac OS) to bring up a window switcher), On a Raspberry Pi 3B+ plotting 600 seconds' worth of data and a spectrogram from one channel, the update frequency is approximately once every 5 seconds, but more powerful processors will allow a higher refresh speed. Because the `plot` module is queue based, it should not drop any packets, no matter the processor. Dropped packets (if you experience them) are most likely a sign of network issues.
+- **`plot`** controls the thread containing the GUI plotting algorithm. This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and display a spectrogram beneath each. By default the `"duration"` in seconds is `30`. The plot will refresh at most once per second, but slower processors may take longer. The longer the duration, the more processor power it will take to refresh the plot, especially when the spectrogram is enabled. To disable the spectrogram, set `"spectrogram"` to `false` in the settings file. To put the plot into fullscreen window mode, set `"fullscreen"` to `true`. To put the plot into kiosk mode, set `"kiosk"` to `true` (NB: kiosk mode will force the plot to fill the entire screen.  To exit, press Ctrl+W or Alt+Tab (Command+Tab on Mac OS) to bring up a window switcher). On a Raspberry Pi 3B+, plotting 600 seconds of data and a spectrogram from one channel, the update frequency is approximately once every 5 seconds, but more powerful processors will be able to accommodate a higher refresh speed. Because the `plot` module is queue-based, it will not drop any packets received, no matter the processor. Dropped packets (if you experience them) are most likely a sign of network issues where the missing data never actually arrives at the receiving machine.
 
   By default, the `"channels"` field is `["HZ", "HDF"]`. This will resolve to at least one channel of any Shake input. "HZ" will match either "SHZ" or "EHZ" depending on your Shake digitizer model, and "HDF" will match the pressure transducer channel on a Raspberry Boom or Shake & Boom. If one of the channels in the list doesn't exist in the data sent to the port, it will be ignored.
 
-  The program will use the Raspberry Shake FDSN service to search for an inventory response file for the Shake you specify in the `"station"` field. If it successfully finds an inventory, setting `"deconvolve"` to `true` will deconvolve the channels plotted to either `"ACC"` (acceleration in m/s^2), `"VEL"` (velocity in m/s), or `"DISP"` (displacement in m). The default is `"CHAN"` which lets the program deconvolve the channel to its native units (acceleration for accelerometers, and velocity for geophones). This means that the Shake must both have the 4.5 Hz geophone distributed by RS, and be forwarding data to the Shake server, in order to properly calculate deconvolution. The Raspberry Boom will always display in Voltage counts, which is not a deconvolved unit.
+  The program will use the Raspberry Shake FDSN service to search for an inventory response file for the Shake you specify in the `"station"` field. If it successfully finds an inventory, setting `"deconvolve"` to `true` will deconvolve the channels plotted to either `"ACC"` (acceleration in m/s^2), `"VEL"` (velocity in m/s), or `"DISP"` (displacement in m). The default is `"CHAN"` which lets the program deconvolve the channel to its native units (acceleration for accelerometers, and velocity for geophones). This means that the Shake must both have the 4.5 Hz geophone distributed by RS, and be forwarding data to the Shake server, in order to deconvolve successfully. The Raspberry Boom will always display in counts of Voltage, i.e., not a deconvolved unit.
 
-  If the alert module is enabled, setting `"eq_screenshots"` to `true` will result in screenshots being saved whenever there is an `ALARM` packet sent to the queue (see **alert** section below). The script will save one PNG figure per alert to the `screenshots` directory inside of `"output_dir"` when the leading edge of the quake is about 60% of the way across the plot window. This will only occur when the alarm gets triggered, however, so make sure to test your alert settings thoroughly.
+  If the alert module is enabled, setting `"eq_screenshots"` to `true` will result in screenshots being saved whenever there is an `ALARM` is internally forwarded for further processing (see **alert** section below). The script will save one PNG figure per alert to the `screenshots` directory inside of `"output_dir"` when the leading edge of the quake is about 60% of the way across the plot window. This will only occur when the alarm gets triggered, however, so make sure to test your alert settings thoroughly.
 
-- **`forward`** controls a UDP data cast forwarding module. You can forward a list of channels from a data cast to the `"address"` and `"port"` specified, just like you would from the Shake's web front end. By default, `["all"]` channels are forwarded.
+- **`forward`** controls a UDP datacast forwarding module. You can forward a list of channels from a datacast to the `"address"` and `"port"` specified, just like you would from the Shake's web front end. By default, `["all"]` channels are forwarded.
 
 - **`alert`** controls the alert module (please see [Disclaimer](#disclaimer) below). The alert module is a fast recursive STA/LTA sudden motion detector that utilizes obspy's [`recursive_sta_lta()`](https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#recursive-sta-lta) function. STA/LTA algorithms calculate a ratio of the short term average of station noise to the long term average. The data can be highpass, lowpass, or bandpass filtered by changing the `"highpass"` and `"lowpass"` parameters from their defaults (0 and 50 respectively). By default, the alert will be calculated on raw count data from the vertical geophone channel (either `"SHZ"` or `"EHZ"`). It will throw an error if there is no Z channel available (i.e. if you have a Raspberry Boom with no geophone). If you have a Boom and still would like to run this module, change the default channel `"HZ"` to `"HDF"`.
 
-  Like in the plot module, the alert module will deconvolve the instrument response if a response file exists for your `"station"` on the Raspberry Shake FDSN server. Same as above, if the response file exists, setting `"deconvolve"` to `true` will cause the alert function to calculate the STA/LTA ratio on deconvolved data (again `"ACC"`, `"VEL"`, or `"DISP"`).
+  Like in the plot module, the alert module deconvolves the instrument response if a response file exists for your `"station"` on the Raspberry Shake FDSN server. Same as above, if the response file exists, setting `"deconvolve"` to `true` will cause the alert function to calculate the STA/LTA ratio on deconvolved data (again `"ACC"`, `"VEL"`, or `"DISP"`).
 
-  If the STA/LTA ratio goes above a certain value (defined by `"threshold"`), then the module will cause the Producer loop to out an `ALARM` packet on the queue, which will be distributed to every consumer module. In addition to sending `ALARM` packets, `alert` can also run a function passed to it (see the explanation of `exec()` in the paragraph below). By default, this function is `rsudp.client.eqAlert()` which just outputs some text to the logger. To play a sound, see the `alarmsound` module. When the ratio goes back below the `"reset"` value, the alarm is reset.
+  If the STA/LTA ratio goes above a certain value (defined by `"threshold"`), then the module will generate an `ALARM` "event packet", to be distributed to every consumer module. In addition to sending `ALARM` packets, `alert` can also run a function passed to it (see the explanation of `exec()` in the paragraph below). By default, this function is `rsudp.client.eqAlert()` which, in this version, merely outputs some text to the logger. To play a sound, see the `alarmsound` module. When the ratio goes back below the `"reset"` value, the alarm is reset.
 
-  You can change the `"exec"` field and supply a path to executable Python code to run with the `exec()` function. Be very careful when using the `exec()` function, as it is known to have problems. Notably, it does not check the passed code for errors prior to running. Additionally, if the code takes too long to execute, you could end up losing data packets, so keep it simple (sending a message or a tweet, which should either succeed or time out in a few seconds, is really the intended purpose). In testing, we were able to run scripts with execution times of 30 seconds without losing any data packets. Theoretically you could run code that takes longer to process than that, but the issue is that the longer it takes the function to process code, the longer the module will go without processing data from the queue (the queue can hold up to 2048 packets, which for a RS4D works out to 128 seconds' worth of data). Another way of saying this is: you will miss whatever subsequent earthquakes occur while `exec()` is running. A much better way to run your own code would be to fork this repository and create a new thread that sits idle until it sees an `ALARM` data packet on the queue. That way, the `alert` module can process more queue packets simultaneously to the execution of alarm-state code.
+  You can change the `"exec"` field and supply a path to executable Python code to run with the `exec()` function. Be very careful when using the `exec()` function, as it is known to have problems. Notably, it does not check the passed code for errors prior to running. Additionally, if the code takes too long to execute, you could end up losing data packets, so keep it simple (sending a message or a tweet, which should either succeed or time out in a few seconds, is really the intended purpose). In testing, we were able to run scripts with execution times of 30 seconds without losing any data packets. Theoretically you could run code that takes longer to process than that, but the issue is that the longer it takes the function to process code, the longer the module will go without processing data from the queue (the queue can hold up to 2048 packets, which for a RS4D works out to 128 seconds of data). Another way of saying this is: you will miss whatever subsequent earthquakes occur while `exec()` is running. A much better way to run your own code would be to fork this repository and create a new thread that sits idle until it sees an `ALARM` data packet on the queue. That way, the `alert` module can process more queue packets simultaneously to the execution of alarm-state code.
 
   If you are running Windows and have code you want to pass to the `exec()` feature, Python requires that your newline characters are in the UNIX style (`\n`), not the standard Windows style (`\r\n`). To convert, follow the instructions in one of the answers to this [stackoverflow question](https://stackoverflow.com/questions/17579553/windows-command-to-convert-unix-line-endings). If you're not sure what this means, please read about newline/line ending characters [here](https://en.wikipedia.org/wiki/Newline). If you are certain that your code file has no Windows newlines, you can set `"win_override"` to `true`.
 
@@ -167,14 +167,14 @@ By default, the settings are as follows:
 
 ## Disclaimer
 
-**NOTE: It is extremely important that you do not rely on this code to save life or property.** Raspberry Shake is not liable for earthquake detection false positives, false negatives, errors running the Alert module, or any other part of this library; it is meant for hobby and non-professional notification use only. If you need professional software meant to provide warning that saves life or property please contact Raspberry Shake directly or look elsewhere. See sections 16 and 16b of the [License](LICENSE).
+**NOTE: It is extremely important that you do not rely on this code to save life or property.** Raspberry Shake is not liable for earthquake detection of false positives, false negatives, errors running the Alert module, or any other part of this library; it is meant for hobby and non-professional notification use only. If you need professional software meant to provide a warning intended to save life or property please contact Raspberry Shake directly or look elsewhere. See sections 16 and 16b of the [License](LICENSE) for further details.
 
 ## pydub dependencies
 
-If you would like to play sounds when the STA/LTA trigger activates, you will need to take the following steps:
+If you would like to play sounds when the STA/LTA trigger activates, you will need to take the following installation steps beforehand:
 
-1. [Install the release version of this software](#installation) if you have not already.
-2. [Install the dependencies for `pydub`](https://github.com/jiaaro/pydub#dependencies) which are available cross-platform using most package managers. (Linux users can simply type `sudo apt install ffmpeg`, and MacOS users with Homebrew can type `brew install ffmpeg`) but Windows users will have to follow more detailed instructions.
+1. [Install the release version of this software](#installation).
+2. [Install the dependencies for `pydub`](https://github.com/jiaaro/pydub#dependencies) which are available across multiple platforms using most package managers. (Linux users can simply type `sudo apt install ffmpeg`, and MacOS users with Homebrew can type `brew install ffmpeg`).  Windows users, however, will have to follow more detailed instructions.
 3. Change `"alertsound"` from `false` to `true` in the settings file. (`~/.config/rsudp/rsudp_settings.json` on Mac and Linux, `C:\Program Files\RSHAKE\rsudp\rsudp_settings.json` on Windows)
 4. Start the rsudp client by typing `rs-client` or by pointing it at an existing settings file `rs-client -s /path/to/settings.json`
 5. Wait for the trigger to warm up, then stomp, jump, or Shake to hear the sound!
@@ -230,7 +230,7 @@ This plot of a M 3.0 earthquake 50 km away was saved automatically without user 
 }
 ```
 
-One note to consider here is that the `"reset"` setting is nearly as important to earthquake detection as `"threshold"`. If `"reset"` is set too high, for example, you may end up with two trigger events: one for the P-wave and one for the S-wave. The taper on the trailing side of a big quake typically results in STA/LTA ratios well below 1, but setting it too low may result in the trigger not shutting off properly. Because each seismograph installation site is different, and no two earthquakes are exactly the same, there is no "right answer" for what to set these parameters to. Experimentation with the parameters is key!
+One note to consider here is that the `"reset"` setting is nearly as important to earthquake detection as `"threshold"`. If `"reset"` is set too high, for example, you may end up with two trigger events: one for the P-wave and one for the S-wave. The taper on the trailing side of a big quake typically results in STA/LTA ratios well below 1, but setting it too low may result in the trigger not shutting off properly. Because each seismograph installation site is different, and no two earthquakes are exactly the same, there is no "right answer" for what to set these parameters to. Experimenting with the parameters is key!
 
 # Contributing
 
@@ -245,7 +245,6 @@ Some ideas for improvements are:
 - a more efficient plotting routine
 - a way to optionally run the plot module with the `Agg` backend in matplotlib, which would allow the creation of screenshots without the need for a plot window to appear
 - Windows batch scripts similar to the provided UNIX ones
-- a way to plot in which Tk and Qt don't throw warnings and errors about plotting in a secondary thread. Plotting in another thread is technically bending the rules of Matplotlib backends. We are using tools that were not built for the job, but as it turns out there are very few Python tools suitable for this particular job...
 
 ## Bugs
 

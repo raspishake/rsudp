@@ -248,8 +248,7 @@ Some ideas for improvements are:
 - a more efficient plotting routine
 - a way to optionally run the plot module with the `Agg` backend in matplotlib, which would allow the creation of screenshots without the need for a plot window to appear
 - Windows batch scripts similar to the provided UNIX ones
-- a way to plot in which Tk and Qt don't throw warnings and errors about plotting in a secondary thread. Plotting in another thread is technically bending the rules of Matplotlib backends. We are using tools that were not built for the job, but as it turns out there are very few Python tools suitable for this particular job...
 
 ## Bugs
 
-This software, like most, contains bugs and errors. If you find a bug, please create a GitHub issue. Be sure to describe the problem clearly, attach your logs (`/tmp/rsudp/rsudp.log`) and/or copy/paste command line output in triple backticks \`\`\` like this \`\`\` to format it as code.
+This software, like most, contains bugs and errors. If you find a bug, please [create a GitHub issue](https://github.com/raspishake/rsudp/issues/new). Be sure to describe the problem clearly, attach your logs (`/tmp/rsudp/rsudp.log`) and/or copy/paste command line output in triple backticks \`\`\` like this \`\`\` to format it as code.

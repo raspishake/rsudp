@@ -1,6 +1,5 @@
 import os, sys, platform
 import pkg_resources as pr
-from threading import Thread
 import time
 import math
 import numpy as np
@@ -46,7 +45,7 @@ except Exception as e:
 icon = 'icon.ico'
 icon2 = 'icon.png'
 
-class Plot(Thread):
+class Plot:
 	def __init__(self, cha='all', q=False,
 				 seconds=30, spectrogram=False,
 				 fullscreen=False, kiosk=False,
@@ -188,12 +187,11 @@ class Plot(Thread):
 		self.queue.task_done()
 		if 'TERM' in str(d):
 			plt.close()
-			del self.queue
 			if 'SELF' in str(d):
 				print()
-				printM('Plot has been closed, plot thread exiting.', self.sender)
+				printM('Plot has been closed, plot thread will exit.', self.sender)
 			self.alive = False
-			sys.exit()
+			RS.producer = False
 
 		elif 'ALARM' in str(d):
 			self.events += 1		# add event to count
@@ -247,7 +245,7 @@ class Plot(Thread):
 
 	def handle_close(self, evt):
 		print()
-		self.queue.put('TERMSELF')
+		self.queue.put(b'TERMSELF')
 
 	def handle_resize(self, evt=False):
 		if evt:
@@ -295,7 +293,7 @@ class Plot(Thread):
 
 	def setup_plot(self):
 		"""
-		Matplotlib backends are not threadsafe, so things are a little weird here.
+		Matplotlib backends are not threadsafe, so things are a little weird.
 		"""
 		# instantiate a figure and set basic params
 		self.fig = plt.figure(figsize=(10,3*self.num_chans))
@@ -458,15 +456,16 @@ class Plot(Thread):
 										  -np.ptp(self.stream[i].data-mean)*0.1,
 										  top=np.max(self.stream[i].data-mean)
 										  +np.ptp(self.stream[i].data-mean)*0.1)
-			if (self.deconv in 'CHAN'):
-				ch = self.stream[i].stats.channel
-				if ('HZ' in ch) or ('HN' in ch) or ('HE' in ch):
-					unit = 'm/s'
-				elif ('EN' in ch):
-					unit = 'm/s$^2$'
-				else:
-					unit = ' counts'
-				self.ax[i*self.mult].yaxis.set_major_formatter(EngFormatter(unit=unit))
+			if self.deconv:
+				if (self.deconv in 'CHAN'):
+					ch = self.stream[i].stats.channel
+					if ('HZ' in ch) or ('HN' in ch) or ('HE' in ch):
+						unit = 'm/s'
+					elif ('EN' in ch):
+						unit = 'm/s$^2$'
+					else:
+						unit = ' counts'
+					self.ax[i*self.mult].yaxis.set_major_formatter(EngFormatter(unit=unit))
 
 			if self.spectrogram:
 				self.nfft1 = self._nearest_pow_2(self.sps)	# FFTs run much faster if the number of transforms is a power of 2
@@ -524,6 +523,8 @@ class Plot(Thread):
 		u = -1	# number of blocked queue calls (must be -1 at startup)
 		while True: # main loop
 			while True:
+				if self.alive == False:	# break if the user has closed the plot
+					break
 				n += 1
 				self.save_timer += 1
 				if self.queue.qsize() > 0:
@@ -534,6 +535,10 @@ class Plot(Thread):
 					if n > (self.delay * RS.numchns):
 						n = 0
 						break
+
+			if self.alive == False:	# break if the user has closed the plot
+				printM('Exiting.', self.sender)
+				break
 
 			if i > 10:
 				linecache.clearcache()
@@ -553,3 +558,4 @@ class Plot(Thread):
 			u = 0
 			time.sleep(0.005)		# wait a ms to see if another packet will arrive
 			sys.stdout.flush()
+		return

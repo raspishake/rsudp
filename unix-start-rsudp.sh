@@ -1,5 +1,7 @@
 #!/bin/bash
 
+arch=$(uname -m)    # machine hardware 
+
 # settings file (change this to start with a different settings file)
 settings="$HOME/.config/rsudp/rsudp_settings.json"
 
@@ -23,4 +25,4 @@ mkdir -p /tmp/rsudp
 touch /tmp/rsudp/rsudp.log
 pip install $( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd ) &>/tmp/rsudp/rsudp.log
 echo "Done."
-rs-client -s $settings 2>/tmp/rsudp/rsudp.log
+rs-client -s $settings 2> >(tee -a /tmp/rsudp/rsudp.log >&2 2>&1)

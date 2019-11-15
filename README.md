@@ -1,16 +1,19 @@
 ![Raspberry Shake logo](doc_imgs/raspbery-shake-logo-2x.png)
 # rsudp
-
 ### Tools for receiving and interacting with Raspberry Shake UDP data
 *Written by Ian Nesbitt (@iannesbitt) and Richard Boaz (@ivor)*
 
-`rsudp` is a tool for receiving and interacting with UDP data sent from a Raspberry Shake seismograph. It contains six main types of output:
-1. Print - a debugging tool to output raw UDP data to the command line
-2. Writer - a miniSEED format file writer
-3. Plot - a live-plotting routine to display data as it arrives, with an option to save plots at some prescribed time after an `ALARM` message is received
-4. Forward - forward a data cast to another machine:port combination / destination
-5. Alarm - an earthquake / sudden motion alert---complete with bandpass filter capability---configured to send an `ALARM` message to the queue in the event of a recursive STA/LTA alarm trigger, and optionally run some code
-6. AlertSound - a thread that plays a MP3 audio file when an `ALARM` message is read from the queue
+![PyPI](https://img.shields.io/pypi/v/rsudp)
+![GitHub](https://img.shields.io/github/license/raspishake/rsudp)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/rsudp)
+
+`rsudp` is a tool for receiving and interacting with UDP data sent from a Raspberry Shake seismograph. It contains six main features:
+1. Print - a debugging tool to output raw UDP output to the command line
+2. Writer - a miniSEED writer
+3. Plot - a live-plotting routine to display data as it arrives on the port, with an option to save plots some time after an `ALARM` message is read from the queue
+4. Forward - forward a data cast to another destination
+5. Alarm - an earthquake/sudden motion alert---complete with bandpass filter capability---configured to send an `ALARM` message to the queue in the event of a recursive STA/LTA alarm trigger, and optionally run some code
+hea6. AlertSound - a thread that plays a MP3 audio file when an `ALARM` message is read from the queue
 
 `rsudp` is written in Python but requires no coding knowledge to run. Simply follow the instructions to install the software, go to your Shake's web front end, configure a UDP datacast to your computer's local IP address, start rsudp from the command line, and watch the data roll in.
 
@@ -248,4 +251,4 @@ Some ideas for improvements are:
 
 ## Bugs
 
-This software, like most, contains bugs and errors. If you find a bug, please create a GitHub issue. Be sure to describe the problem clearly, attach your logs (`/tmp/rsudp/rsudp.log`) and/or copy/paste command line output in triple backticks \`\`\` like this \`\`\` to format it as code.
+This software, like most, contains bugs and errors. If you find a bug, please [create a GitHub issue](https://github.com/raspishake/rsudp/issues/new). Be sure to describe the problem clearly, attach your logs (`/tmp/rsudp/rsudp.log`) and/or copy/paste command line output in triple backticks \`\`\` like this \`\`\` to format it as code.

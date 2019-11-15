@@ -134,6 +134,7 @@ class Alert(Thread):
 			return True
 		elif 'TERM' in str(d):
 			self.alive = False
+			printM('Exiting.', self.sender)
 			sys.exit()
 		else:
 			return False

@@ -12,12 +12,8 @@ except ImportError:
 
 class AlertSound(Thread):
 	"""
-	A sub-consumer class that simply prints incoming data to the terminal.
-	This is enabled by setting the "printdata" > "enabled" parameter to `true`
-	in the settings file. This is more of a debug feature than anything else,
-	meant as a way to check that data is flowing into the port as expected.
-
-
+	A consumer class that plays an alert sound when an ALARM message arrives on the queue.
+	self.sound is a pydub AudioSegment object and is passed from the client.
 	"""
 
 	def __init__(self, sound=False, q=False):
@@ -57,7 +53,7 @@ class AlertSound(Thread):
 
 	def run(self):
 		"""
-		Reads data from the queue and print to stdout
+		Reads data from the queue and plays self.sound if it sees an ALARM message
 		"""
 		while True:
 			d = self.queue.get()

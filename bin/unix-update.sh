@@ -1,7 +1,7 @@
 #!/bin/bash
 
-ver="v0.1"
-dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" # current directory
+ver="v0.2"
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." >/dev/null 2>&1 && pwd )" # current directory
 arch=$(uname -m)    # machine hardware 
 os=$(uname -s)      # kernel name
 node=$(uname -n)    # node name

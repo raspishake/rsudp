@@ -141,46 +141,7 @@ class Plot:
 		self.figimage = False
 
 	def deconvolve(self):
-		self.stream = self.raw.copy()
-		for trace in self.stream:
-			trace.stats.units = self.units
-			if self.deconv:
-				if ('HZ' in trace.stats.channel) or ('HE' in trace.stats.channel) or ('HN' in trace.stats.channel):
-					if self.deconv not in 'CHAN':
-						trace.remove_response(inventory=RS.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
-											  output=self.deconv, water_level=4.5, taper=False)
-					else:
-						trace.remove_response(inventory=RS.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
-											  output='VEL', water_level=4.5, taper=False)
-					if 'ACC' in self.deconv:
-						trace.data = np.gradient(trace.data, 1)
-					elif 'DISP' in self.deconv:
-						trace.data = np.cumsum(trace.data)
-						trace.taper(max_percentage=0.1, side='left', max_length=1)
-						trace.detrend(type='demean')
-					else:
-						trace.stats.units = 'Velocity'
-				elif ('NZ' in trace.stats.channel) or ('NE' in trace.stats.channel) or ('NN' in trace.stats.channel):
-					if self.deconv not in 'CHAN':
-						trace.remove_response(inventory=RS.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
-											  output=self.deconv, water_level=4.5, taper=False)
-					else:
-						trace.remove_response(inventory=RS.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
-											  output='ACC', water_level=4.5, taper=False)
-					if 'VEL' in self.deconv:
-						trace.data = np.cumsum(trace.data)
-						trace.detrend(type='demean')
-					elif 'DISP' in self.deconv:
-						trace.data = np.cumsum(np.cumsum(trace.data))
-						trace.detrend(type='linear')
-					else:
-						trace.stats.units = 'Acceleration'
-					if ('ACC' not in self.deconv) and ('CHAN' not in self.deconv):
-						trace.taper(max_percentage=0.1, side='left', max_length=1)
-
-				else:
-					trace.stats.units = 'Voltage counts'	# if this is HDF
-
+		RS.deconvolve(self)
 
 	def getq(self):
 		d = self.queue.get()

@@ -306,6 +306,7 @@ def update_stream(stream, d, **kwargs):
 		except TypeError:
 			pass
 
+
 def copy(orig):
 	"""
 	True copy a stream by creating a new stream and copying old attributes to it.
@@ -325,6 +326,48 @@ def copy(orig):
 		trace.stats.starttime = orig[t].stats.starttime
 		stream.append(trace).merge(fill_value=None)
 	return stream.copy()
+
+
+def deconvolve(self):
+	self.stream = self.raw.copy()
+	for trace in self.stream:
+		trace.stats.units = self.units
+		if self.deconv:
+			if ('HZ' in trace.stats.channel) or ('HE' in trace.stats.channel) or ('HN' in trace.stats.channel):
+				if self.deconv not in 'CHAN':
+					trace.remove_response(inventory=inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
+											output=self.deconv, water_level=4.5, taper=False)
+				else:
+					trace.remove_response(inventory=inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
+											output='VEL', water_level=4.5, taper=False)
+				if 'ACC' in self.deconv:
+					trace.data = np.gradient(trace.data, 1)
+				elif 'DISP' in self.deconv:
+					trace.data = np.cumsum(trace.data)
+					trace.taper(max_percentage=0.1, side='left', max_length=1)
+					trace.detrend(type='demean')
+				else:
+					trace.stats.units = 'Velocity'
+			elif ('NZ' in trace.stats.channel) or ('NE' in trace.stats.channel) or ('NN' in trace.stats.channel):
+				if self.deconv not in 'CHAN':
+					trace.remove_response(inventory=inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
+											output=self.deconv, water_level=4.5, taper=False)
+				else:
+					trace.remove_response(inventory=inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
+											output='ACC', water_level=4.5, taper=False)
+				if 'VEL' in self.deconv:
+					trace.data = np.cumsum(trace.data)
+					trace.detrend(type='demean')
+				elif 'DISP' in self.deconv:
+					trace.data = np.cumsum(np.cumsum(trace.data))
+					trace.detrend(type='linear')
+				else:
+					trace.stats.units = 'Acceleration'
+				if ('ACC' not in self.deconv) and ('CHAN' not in self.deconv):
+					trace.taper(max_percentage=0.1, side='left', max_length=1)
+
+			else:
+				trace.stats.units = 'Voltage counts'	# if this is HDF
 
 
 if __name__ == '__main__':

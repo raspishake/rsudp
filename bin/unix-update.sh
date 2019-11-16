@@ -20,37 +20,16 @@ echo "--------------------------------------------"
 echo "Raspberry Shake UDP client updater $ver"
 echo "Ian Nesbitt, Raspberry Shake S.A., 2019"
 echo "--------------------------------------------"
-echo "Please follow instructions in prompts."
 read -rp $'Press Enter to continue...\n'
 
-echo "This script will need to use or create a directory to store miniSEED data and screenshots."
-echo "Common choices might be $HOME/rsudp or $HOME/opt/rsudp"
-echo "Where would you like the rsudp output directory to be located? You can use an existing one if you would like."
-echo "Press Enter when done (if no input is given, the script will use $HOME/rsudp):"
-read -e -p "" outdir
-# sanitize user input
-# replace $HOME with home dir
-outdir="${outdir/#\~/$HOME}"
-outdir="${outdir/#\$HOME/$HOME}"
-# first, strip underscores
-outdir=${outdir//_/}
-# next, replace spaces with underscores
-outdir=${outdir// /_}
-# now, clean out anything that's not alphanumeric or an underscore
-outdir=${outdir//[^a-zA-Z0-9_/]/}
-# finally, lowercase with TR
-outdir=`echo -n $outdir | tr A-Z a-z`
-if [ -z "$var" ]; then
-  echo "No directory was provided, using $HOME/rsudp"
-  outdir="$HOME/rsudp"
-fi
+outdir=$(grep -oP '(?<="output_dir": ").*?[^\\](?=",)' $HOME/.config/rsudp/rsudp_settings.json)
+echo "Output directory is $outdir"
 
 if [ -d "$outdir" ]; then
-  echo "Using existing directory $outdir"
+  echo "$outdir exists"
 else
-  mkdir -p $outdir &&
-  echo "Successfully created output folder $outdir" ||
-  echo "Could not create output folder in this location." ||
+  echo "Could not find an output folder in this location."
+  echo "Please check that the output_dir field in $HOME/.config/rsudp/rsudp_settings.json is correct."
   exit 2
 fi
 
@@ -102,10 +81,9 @@ echo "Activating conda..."
 conda activate && conda_exists=1
 
 if [ -d $prefix/envs/rsudp ]; then
-  echo "A rsudp conda environment exists at $prefix/envs/rsudp" &&
-  echo "Do you want to update it?"
-  read -rp $'Press Enter to use it or Ctrl+C to quit:\n' reinstall
+  echo "A rsudp conda environment exists at $prefix/envs/rsudp"
 else
+  # theoretically this case should never happen but keeping it around just because
   echo "No rsudp environment exists. Please use the installer script."
   echo "Exiting now."
   exit 2

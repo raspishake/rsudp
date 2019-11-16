@@ -5,7 +5,7 @@ dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." >/dev/null 2>&1 && pwd )" # cur
 arch=$(uname -m)    # machine hardware 
 os=$(uname -s)      # kernel name
 node=$(uname -n)    # node name
-gnu=$(uname -a | grep GNU)  # is this GNU?
+bsd=$(uname -a | grep BSD || uname -a | grep Darwin)  # is this a BSD variant?
 conda="conda"       # anaconda executable or alias
 if [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='miniconda3'; fi
 # conda install location:
@@ -23,7 +23,13 @@ echo "--------------------------------------------"
 read -rp $'Press Enter to continue...\n'
 
 if [ -f "$HOME/.config/rsudp/rsudp_settings.json" ]; then
-  outdir=$(grep -oP '(?<="output_dir": ").*?[^\\](?=",)' $HOME/.config/rsudp/rsudp_settings.json)
+  if [ -z ${bsd+x} ]; then
+    # use BSD grep
+    outdir=$(grep -oE '(?<="output_dir": ").*?[^\\](?=",)' $HOME/.config/rsudp/rsudp_settings.json)
+  else
+    # use GNU grep
+    outdir=$(grep -oP '(?<="output_dir": ").*?[^\\](?=",)' $HOME/.config/rsudp/rsudp_settings.json)
+  fi
   echo "Output directory is $outdir"
 else
   echo "Could not find a settings file at $HOME/.config/rsudp/rsudp_settings.json"

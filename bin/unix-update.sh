@@ -22,8 +22,14 @@ echo "Ian Nesbitt, Raspberry Shake S.A., 2019"
 echo "--------------------------------------------"
 read -rp $'Press Enter to continue...\n'
 
-outdir=$(grep -oP '(?<="output_dir": ").*?[^\\](?=",)' $HOME/.config/rsudp/rsudp_settings.json)
-echo "Output directory is $outdir"
+if [ -f "$HOME/.config/rsudp/rsudp_settings.json" ]; then
+  outdir=$(grep -oP '(?<="output_dir": ").*?[^\\](?=",)' $HOME/.config/rsudp/rsudp_settings.json)
+  echo "Output directory is $outdir"
+else
+  echo "Could not find a settings file at $HOME/.config/rsudp/rsudp_settings.json"
+  echo "Please copy your settings file there and re-run this script."
+  exit 2
+fi
 
 if [ -d "$outdir" ]; then
   echo "$outdir exists"

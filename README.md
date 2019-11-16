@@ -1,4 +1,4 @@
-![Raspberry Shake logo](doc_imgs/raspbery-shake-logo-2x.png)
+![Raspberry Shake logo](https://raw.githubusercontent.com/raspishake/rsudp/master/doc_imgs/raspbery-shake-logo-2x.png)
 # rsudp
 ### Tools for receiving and interacting with Raspberry Shake UDP data
 *Written by Ian Nesbitt (@iannesbitt) and Richard Boaz (@ivor)*
@@ -183,7 +183,7 @@ If you would like to play sounds when the STA/LTA trigger activates, you will ne
 5. Wait for the trigger to warm up, then stomp, jump, or Shake to hear the sound!
 
 ## Plot + Alarm example
-![Detected event](doc_imgs/event.png)
+![Detected event](https://raw.githubusercontent.com/raspishake/rsudp/master/doc_imgs/event.png)
 
 This plot of a M 3.0 earthquake 50 km away was saved automatically without user intervention. Tired of searching through old data to find earthquakes? With a properly tuned alarm threshold and the `eq_screenshots` setting, rsudp can save images of alarm events for you to view and share later. The plot above was created with the following settings:
 

@@ -30,6 +30,8 @@ Generally, if you are sending data within a local network, there will be no rout
 
 ### On Linux & MacOS
 
+This is covered in our installation tutorial video: https://youtu.be/e-kyg55GZyA
+
 A UNIX installer script is available at `unix-install-rsudp.sh`. This script checks whether or not you have Anaconda installed, then downloads and installs it if need be. This script has been tested on both `x86_64` and `armv7l` architectures (meaning that it can run on your home computer or a Raspberry Pi) and will download the appropriate Anaconda distribution, set up a virtual Python environment, and leave you ready to run the program. To install using this method:
 
 ```bash
@@ -57,7 +59,7 @@ Unix users can update the repository to the latest development version by runnin
 ```bash
 cd /rsudp/location
 git pull
-bash unix-update-rsudp.sh
+bash unix-install-rsudp.sh
 ```
 
 ### On Windows
@@ -73,6 +75,17 @@ conda activate rsudp
 pip install rsudp
 ```
 ## Using this software
+
+### Starting `rsudp` on Unix
+
+Unix users may prefer the easy-to-use start script available in the git repository:
+```bash
+bash unix-start-rsudp.sh
+```
+
+### Starting on Windows, or manually on Unix
+
+This start method is covered in our tutorial video here: https://youtu.be/HA9k3CzmgLI
 
 1. First, to activate the conda environment, type `conda activate rsudp`.
 

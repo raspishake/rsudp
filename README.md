@@ -13,7 +13,7 @@
 3. Plot - a live-plotting routine to display data as it arrives on the port, with an option to save plots some time after an `ALARM` message is read from the queue
 4. Forward - forward a data cast to another destination
 5. Alarm - an earthquake/sudden motion alert---complete with bandpass filter capability---configured to send an `ALARM` message to the queue in the event of a recursive STA/LTA alarm trigger, and optionally run some code
-hea6. AlertSound - a thread that plays a MP3 audio file when an `ALARM` message is read from the queue
+6. AlertSound - a thread that plays a MP3 audio file when an `ALARM` message is read from the queue
 
 `rsudp` is written in Python but requires no coding knowledge to run. Simply follow the instructions to install the software, go to your Shake's web front end, configure a UDP datacast to your computer's local IP address, start rsudp from the command line, and watch the data roll in.
 

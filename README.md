@@ -91,7 +91,7 @@ This start method is covered in our tutorial video here: https://youtu.be/HA9k3C
 
 2. Next, configure a datacast stream (formerly known as a UDP stream) to forward data to an open port on the computer where this program is running. By default this port is 8888.
 
-3. The UNIX installer will create a settings file in `$HOME/.config/rsudp/rsudp_settings.json`. (Windows users will need to type `rsudp -d default` to dump the settings to a file the first time they run this program.) Change the settings in this file to control how the client operates.
+3. The UNIX installer will create a settings file in `$HOME/.config/rsudp/rsudp_settings.json`. (Windows users will need to type `rs-client -d default` to dump the settings to a file the first time they run this program.) Change the settings in this file to control how the client operates.
 
   To dump the default settings to a different location of your choosing, type `rs-client -d rsudp_settings.json`. (As stated above, to rebuild and overwrite the default settings file in `$HOME/.config/rsudp/rsudp_settings.json`, type `rs-client -d default`)
 

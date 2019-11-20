@@ -130,9 +130,11 @@ if [ -z ${conda_exists+x} ]; then
   else
     if [[ "$os" == "Linux" ]]; then
       conda_installer=$linux_exe
+      wget "$x86_base_url$conda_installer" -O "$tmp_exe" && dl=1
 
     elif [[ "$os" == "Darwin" ]]; then
       conda_installer=$macos_exe
+      curl "$x86_base_url$conda_installer" -o "$tmp_exe"
 
     else
       echo "ERROR: Script does not support this OS."
@@ -141,7 +143,6 @@ if [ -z ${conda_exists+x} ]; then
       exit 1
     fi
 
-    wget "$x86_base_url$conda_installer" -O "$tmp_exe" && dl=1
   fi
 
   if [ ! -z ${dl+x} ]; then

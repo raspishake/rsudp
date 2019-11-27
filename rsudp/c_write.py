@@ -60,7 +60,7 @@ class Write(Thread):
 		else:
 			if RS.getCHN(d) in self.chans:
 				self.stream = RS.update_stream(
-					stream=self.stream, d=d, fill_value=0)
+					stream=self.stream, d=d, fill_value=None)
 				return True
 			else:
 				return False
@@ -89,6 +89,8 @@ class Write(Thread):
 
 		for t in stream:
 			enc = 'STEIM2'	# encoding
+			if isinstance(t.data, np.ma.masked_array):
+				t.data = t.data.filled(fill_value=0) # fill array (to avoid obspy write error)
 			outfile = self.outdir + '/%s.%s.00.%s.D.%s.%s' % (t.stats.network,
 								t.stats.station, t.stats.channel, self.y, self.j)
 			if os.path.exists(os.path.abspath(outfile)):

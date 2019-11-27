@@ -47,7 +47,7 @@ class Write(Thread):
 			pass
 		else:
 			self.stream = RS.update_stream(
-				stream=self.stream, d=d, fill_value=None)
+				stream=self.stream, d=d, fill_value=0)
 		if not self.refcha:
 			self.refcha = RS.getCHN(d)
 		if self.refcha in str(d):

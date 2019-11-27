@@ -11,7 +11,7 @@ class Write(Thread):
 	"""
 	A simple routine to write daily miniSEED data to `output_dir/data`.
 	"""
-	def __init__(self, q=False, debug=False):
+	def __init__(self, q=False, debug=False, cha='all'):
 		"""
 		Initialize the process
 		"""
@@ -27,9 +27,21 @@ class Write(Thread):
 			sys.exit()
 
 		self.stream = RS.Stream()
-		self.refcha = None
 		self.outdir = rsudp.data_dir
 		self.debug = debug
+		self.chans = []
+		cha = RS.chns if (cha == 'all') else cha
+		cha = list(cha) if isinstance(cha, str) else cha
+		l = RS.chns
+		for c in l:
+			n = 0
+			for uch in cha:
+				if (uch.upper() in c) and (c not in str(self.chans)):
+					self.chans.append(c)
+				n += 1
+		if len(self.chans) < 1:
+			self.chans = RS.chns
+		printM('Writing channels: %s' % self.chans, self.sender)
 		self.numchns = RS.numchns
 		self.stime = 1/RS.sps
 		self.inv = RS.inv
@@ -46,14 +58,12 @@ class Write(Thread):
 		elif 'ALARM' in str(d):
 			pass
 		else:
-			self.stream = RS.update_stream(
-				stream=self.stream, d=d, fill_value=0)
-		if not self.refcha:
-			self.refcha = RS.getCHN(d)
-		if self.refcha in str(d):
-			return True
-		else:
-			return False
+			if RS.getCHN(d) in self.chans:
+				self.stream = RS.update_stream(
+					stream=self.stream, d=d, fill_value=0)
+				return True
+			else:
+				return False
 	
 	def set_sps(self):
 		self.sps = self.stream[0].stats.sampling_rate
@@ -100,10 +110,13 @@ class Write(Thread):
 
 		self.getq()
 		self.set_sps()
+		self.getq()
 		printM('miniSEED output directory: %s' % (self.outdir), self.sender)
 		if self.inv:
-			printM('Writing inventory to output directory.', self.sender)
-			self.inv.write('%s/%s.%s.00' % (self.outdir,
+			printM('Writing inventory file: %s/%s.%s.00.xml' % (self.outdir,
+					self.stream[0].stats.network,
+					self.stream[0].stats.station), self.sender)
+			self.inv.write('%s/%s.%s.00.xml' % (self.outdir,
 					self.stream[0].stats.network,
 					self.stream[0].stats.station),
 					format='STATIONXML')

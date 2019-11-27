@@ -58,8 +58,9 @@ def run(settings, debug):
 
 	if settings['write']['enabled']:
 		# set up queue and process
+		cha = settings['write']['channels']
 		q = mk_q()
-		writer = Write(q=q)
+		writer = Write(q=q, cha=cha)
 		mk_p(writer)
 
 	if settings['plot']['enabled'] and mpl:

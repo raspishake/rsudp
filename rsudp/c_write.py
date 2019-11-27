@@ -89,7 +89,7 @@ class Write(Thread):
 
 		for t in stream:
 			enc = 'STEIM2'	# encoding
-			if isinstance(t.data, np.ma.masked_array):
+			if isinstance(t.data, RS.np.ma.masked_array):
 				t.data = t.data.filled(fill_value=0) # fill array (to avoid obspy write error)
 			outfile = self.outdir + '/%s.%s.00.%s.D.%s.%s' % (t.stats.network,
 								t.stats.station, t.stats.channel, self.y, self.j)

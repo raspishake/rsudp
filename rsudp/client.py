@@ -228,7 +228,7 @@ settings in %s
     "enabled": false},
 "write": {
     "enabled": false,
-    "channels": "all"},
+    "channels": ["all"]},
 "plot": {
     "enabled": true,
     "duration": 30,

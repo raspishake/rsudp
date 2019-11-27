@@ -125,6 +125,7 @@ class Plot:
 		self.qt = qt
 		self.num_chans = len(self.chans)
 		self.delay = RS.tr if (self.spectrogram) else 1
+		self.delay = 0.5 if (self.chans == ['SHZ']) else self.delay
 
 		self.screencap = screencap
 		self.save_timer = 0

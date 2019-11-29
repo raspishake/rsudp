@@ -7,13 +7,14 @@
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/rsudp)](https://pypi.org/project/rsudp/)
 [![GitHub](https://img.shields.io/github/license/raspishake/rsudp)](https://github.com/raspishake/rsudp/blob/master/LICENSE)
 
-`rsudp` is a tool for receiving and interacting with UDP data sent from a Raspberry Shake seismograph. It contains six main features:
+`rsudp` is a tool for receiving and interacting with UDP data sent from a Raspberry Shake seismograph. It contains seven main features:
 1. Print - a debugging tool to output raw UDP output to the command line
 2. Writer - a miniSEED writer
 3. Plot - a live-plotting routine to display data as it arrives on the port, with an option to save plots some time after an `ALARM` message is read from the queue
 4. Forward - forward a data cast to another destination
 5. Alarm - an earthquake/sudden motion alert---complete with bandpass filter capability---configured to send an `ALARM` message to the queue in the event of a recursive STA/LTA alarm trigger, and optionally run some code
 6. AlertSound - a thread that plays a MP3 audio file when an `ALARM` message is read from the queue
+7. Tweeter - a thread that tweets when an `ALARM` message is read from the queue, and optionally can tweet saved plots from the plot module
 
 `rsudp` is written in Python but requires no coding knowledge to run. Simply follow the instructions to install the software, go to your Shake's web front end, configure a UDP datacast to your computer's local IP address, start rsudp from the command line, and watch the data roll in.
 
@@ -60,6 +61,12 @@ Unix users can update the repository to the latest development version by runnin
 cd /rsudp/location
 git pull
 bash unix-install-rsudp.sh
+```
+
+The update script will replace the previous default settings file (`~/.config/rsudp/rsudp_settings.json`) with a new settings file. If you use the default settings file, you will need to copy some old values over to the new file. The reason for this is that the default settings file may change (i.e. add or modify sections of values) and thus must be rewritten when updating. On Linux, backed up settings files will be named `~/.config/rsudp/rsudp_settings.json.~x~`, where `x` is an integer. On Mac, the backed up file will simply be named `~/.config/rsudp/rsudp_settings.json~`. To back up the settings file yourself to a location that will not be overwritten, you can do a command similar to the following:
+
+```bash
+cp ~/.config/rsudp/rsudp_settings.json ~/.config/rsudp/rsudp_settings.json.bak
 ```
 
 ### On Windows
@@ -145,7 +152,14 @@ By default, the settings are as follows:
     "win_override": false},
 "alertsound": {
     "enabled": false,
-    "mp3file": "doorbell"}
+    "mp3file": "doorbell"},
+"tweets": {
+    "enabled": false,
+    "tweet_images": true,
+    "api_key": "n/a",
+    "api_secret": "n/a",
+    "access_token": "n/a",
+    "access_secret": "n/a"}
 }
 ```
 
@@ -180,6 +194,8 @@ By default, the settings are as follows:
 - **`alarmsound`** if `"enabled"` is `true` and you have either `ffmpeg` or `libav` installed, this module plays an MP3 sound every time it receives an `ALARM` queue message. For details on installation of these dependencies, see [this page](https://github.com/jiaaro/pydub#dependencies)).
 
   The software will install several small MP3 files. The `"mp3file"` is `"doorbell"` (two doorbell chimes) by default, but there are a few more aggressive alert sounds, including: a three-beep sound `"beeps"`, a sequence of sonar pings `"sonar"`, and a continuous alarm beeping for 5 seconds, `"alarm"`. You can also point the `"mp3file"` field to an MP3 file somewhere in your filesystem. For example, if your username was pi and you had a file called earthquake.mp3 in your Downloads folder, you would specify `"mp3file": "/home/pi/Downloads/earthquake.mp3"`. The program will throw an error if it can't find (or load) the specified MP3 file. It will also alert you if the software dependencies for playback are not installed.
+
+- **`tweets`** if `"enabled"` is `true`, and all API keys have been generated and are correctly entered, then this module will use the Twitter API to create tweets when an `ALARM` message arrives on the queue. If `"tweet_images"` is `true`, then the module will also tweet a saved image of the event, if `"eq_screenshots"` is set to `true` in the `"plot"` module. Note that in order for this to work, the user has to create 1) a [twitter profile for automatically tweeting alerts](https://twitter.com/signup) (or use an existing account), 2) a [Twitter developer account](https://developer.twitter.com/en.html), 3) a [Twitter API app](https://opensource.com/article/17/8/raspberry-pi-twitter-bot) inside said developer account, and 4) consumer keys and API keys for that app. Once you have generated the four API keys required for authentication (consumer API key, consumer API secret, access token, and access token secret), you may enter them into your settings file in the appropriate fields: `"api_key"`, `"api_secret"`, `"access_token"`, and `"access_secret"`.
 
 ## Disclaimer
 
@@ -242,7 +258,14 @@ This plot of a M 3.0 earthquake 50 km away was saved automatically without user 
     "win_override": false},
 "alertsound": {
     "enabled": true,
-    "mp3file": "doorbell"}
+    "mp3file": "doorbell"},
+"tweets": {
+    "enabled": false,
+    "tweet_images": true,
+    "api_key": "n/a",
+    "api_secret": "n/a",
+    "access_token": "n/a",
+    "access_secret": "n/a"}
 }
 ```
 
@@ -255,7 +278,6 @@ Contributions to this project are more than welcome. If you find ways to improve
 Since the Producer function passes an `ALARM` queue message when it sees `Alert.alarm=True`, other modules can be easily added and programmed to do something when they see this message. This is to help make the addition of other action-based modules straightforward.
 
 Some ideas for improvements are:
-- a module that creates a twitter post when it reads the "ALARM" queue message
 - a way to plot trigger-on and trigger-off events using osbpy's [trigger_onset](https://docs.obspy.org/packages/autogen/obspy.signal.trigger.trigger_onset.html) ([example here](https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#advanced-example))
 - GPIO pin interactions (lights, motor control, buzzers, etc.)
 - a more efficient plotting routine

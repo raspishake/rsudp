@@ -73,6 +73,7 @@ class Plot:
 			sys.stdout.flush()
 			sys.exit()
 
+		self.master_queue = None	# careful with this, this goes directly to the master consumer. gets set by main thread.
 		printM('Starting.', self.sender)
 
 		self.stream = RS.Stream()
@@ -139,7 +140,6 @@ class Plot:
 		self.bgcolor = '#202530' # background
 		self.fgcolor = '0.8' # axis and label color
 		self.linecolor = '#c28285' # seismogram color
-		self.figimage = False
 
 	def deconvolve(self):
 		RS.deconvolve(self)
@@ -223,10 +223,11 @@ class Plot:
 		self.save.reverse()
 
 		event_time_str = event[1].strftime('%Y-%m-%d-%H%M%S')		# event time
+		title_time_str = event[1].strftime('%Y-%m-%d %H:%M:%S')
 
 		# change title (just for a moment)
-		self.fig.suptitle('%s.%s detected event - %s' # title
-						  % (self.net, self.stn, event_time_str),
+		self.fig.suptitle('%s.%s detected event - %s UTC' # title
+						  % (self.net, self.stn, title_time_str),
 						  fontsize=14, color=self.fgcolor, x=0.52)
 
 		# save figure
@@ -246,6 +247,8 @@ class Plot:
 		plt.savefig(figname, facecolor=self.fig.get_facecolor(), edgecolor='none')
 		print()	# distancing from \r line
 		printM('Saved %s' % (figname), sender=self.sender)
+		printM('%s thread has saved an image, sending IMGPATH message to queues' % self.sender, sender=self.sender)
+		self.master_queue.put(b'IMGPATH %s %s' % (bytes(str(event_time), 'utf-8'), bytes(str(figname), 'utf-8')))
 
 	def _set_fig_title(self):
 		self.fig.suptitle('%s.%s live output - detected events: %s' # title

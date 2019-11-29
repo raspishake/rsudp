@@ -16,6 +16,7 @@ from rsudp.c_plot import Plot, mpl
 from rsudp.c_forward import Forward
 from rsudp.c_alert import Alert
 from rsudp.c_alertsound import AlertSound
+from rsudp.c_tweet import Tweeter
 import pkg_resources as pr
 import fnmatch
 try:
@@ -149,6 +150,19 @@ def run(settings, debug):
 		alsnd = AlertSound(q=q, sound=sound)
 		mk_p(alsnd)
 
+	if settings['tweets']['enabled']:
+		consumer_key = settings['tweets']['api_key']
+		consumer_secret = settings['tweets']['api_secret']
+		access_token = settings['tweets']['access_token']
+		access_token_secret = settings['tweets']['access_secret']
+		tweet_images = settings['tweets']['tweet_images']
+
+		q = mk_q()
+		tweet = Tweeter(q=q, consumer_key=consumer_key, consumer_secret=consumer_secret,
+						access_token=access_token, access_token_secret=access_token_secret,
+						tweet_images=tweet_images)
+		mk_p(tweet)
+
 
 	# master queue and consumer
 	queue = Queue(RS.qsize)
@@ -162,10 +176,12 @@ def run(settings, debug):
 	prod.start()
 
 	if settings['plot']['enabled'] and mpl:
+		Plotter.master_queue = queue
 		Plotter.run()
 	else:
 		while not prod.stop:
 			time.sleep(0.1)
+
 
 	time.sleep(0.5)
 
@@ -259,7 +275,14 @@ settings in %s
     "win_override": false},
 "alertsound": {
     "enabled": false,
-    "mp3file": "doorbell"}
+    "mp3file": "doorbell"},
+"tweets": {
+    "enabled": false,
+    "tweet_images": true,
+    "api_key": "n/a",
+    "api_secret": "n/a",
+    "access_token": "n/a",
+    "access_secret": "n/a"}
 }
 """ % (output_dir)
 		if verbose:

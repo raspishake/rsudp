@@ -72,7 +72,8 @@ class Write(Thread):
 		self.st = UTCDateTime.now()
 		self.y, self.m, self.d = self.st.year, self.st.month, self.st.day
 		self.j = self.st.strftime('%j')
-		self.newday = UTCDateTime(self.y, self.m, self.d + 1, 0, 0)
+		self.newday = UTCDateTime(self.y, self.m, self.d, 0, 0) + timedelta(days=1.1)
+		self.newday = UTCDateTime(self.newday.year, self.newday.month, self.newday.day, 0, 0)
 		if new:
 			self.last = self.newday
 		else:

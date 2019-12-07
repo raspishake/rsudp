@@ -24,6 +24,7 @@ class Tweeter(Thread):
 		self.alive = True
 		self.tweet_images = tweet_images
 		self.fmt = '%Y-%m-%d %H:%M:%S UTC'
+		self.region = ' - region: %s' % RS.region.title() if RS.region else ''
 
 		if q:
 			self.queue = q
@@ -39,8 +40,8 @@ class Tweeter(Thread):
 			access_token,
 			access_token_secret
 		)
-		self.message0 = '(Raspberry Shake station %s.%s) Event detected at' % (RS.net, RS.stn)
-		self.message1 = '(Raspberry Shake station %s.%s) Image of event detected at' % (RS.net, RS.stn)
+		self.message0 = '(Raspberry Shake station %s.%s%s) Event detected at' % (RS.net, RS.stn, self.region)
+		self.message1 = '(Raspberry Shake station %s.%s%s) Image of event detected at' % (RS.net, RS.stn, self.region)
 
 		printM('Starting.', self.sender)
 	

@@ -8,6 +8,7 @@ import signal
 from obspy import UTCDateTime
 from obspy.core.stream import Stream
 from obspy import read_inventory
+from obspy.geodetics.flinnengdahl import FlinnEngdahl
 from obspy.core.trace import Trace
 from rsudp import printM
 from requests.exceptions import HTTPError
@@ -18,6 +19,7 @@ port = 8888				# default listening port
 to = 10					# socket test timeout
 firstaddr = ''			# the first address data is received from
 inv = False				# station inventory
+region = False
 producer = False 		# flag for producer status
 stn = 'Z0000'			# station name
 net = 'AM'				# network (this will always be AM)
@@ -241,7 +243,7 @@ def getTTLCHN():
 
 
 def get_inventory(sender='get_inventory'):
-	global inv, stn
+	global inv, stn, region
 	sender = 'get_inventory'
 	if 'Z0000' in stn:
 		printM('No station name given, continuing without inventory.',
@@ -254,17 +256,20 @@ def get_inventory(sender='get_inventory'):
 			
 			inv = read_inventory('https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&starttime=%s&level=resp&nodata=404&format=xml'
 								 % (net, stn, str(UTCDateTime.now()-timedelta(seconds=14400))))
-			printM('Inventory fetch successful.', sender)
+			region = FlinnEngdahl().get_region(inv[0][0].longitude, inv[0][0].latitude)
+			printM('Inventory fetch successful. Station region is %s' % (region), sender)
 		except (IndexError, HTTPError):
 			printM('WARNING: No inventory found for %s. Are you forwarding your Shake data?' % stn, sender)
 			printM('         Deconvolution will only be available if data forwarding is on.', sender)
 			printM('         Access the config page of the web front end for details.', sender)
 			printM('         More info at https://manual.raspberryshake.org/quickstart.html', sender)
 			inv = False
+			region = False
 		except Exception as e:
 			printM('ERROR: Inventory fetch failed!', sender)
 			printM('       Error detail: %s' % e, sender)
 			inv = False
+			region = False
 	return inv
 
 

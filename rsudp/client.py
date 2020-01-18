@@ -126,21 +126,21 @@ def run(settings, debug):
 			soundloc = os.path.expanduser(os.path.expanduser(settings['alertsound']['mp3file']))
 			if soundloc in ['doorbell', 'alarm', 'beeps', 'sonar']:
 				soundloc = pr.resource_filename('rsudp', os.path.join('rs_sounds', '%s.mp3' % soundloc))
-			try:
-				sound = AudioSegment.from_file(soundloc, format="mp3")
-				printM('Loaded %.2f sec alert sound from %s' % (len(sound)/1000., soundloc), sender='AlertSound')
-			except FileNotFoundError as e:
-				if ['ffprobe' in str(e)] or ['avprobe' in str(e)]:
+			if os.path.exists(soundloc):
+				try:
+					sound = AudioSegment.from_file(soundloc, format="mp3")
+					printM('Loaded %.2f sec alert sound from %s' % (len(sound)/1000., soundloc), sender='AlertSound')
+				except FileNotFoundError as e:
 					printM("WARNING: You have chosen to play a sound, but don't have ffmpeg or libav installed.", sender='AlertSound')
 					printM('         Sound playback requires one of these dependencies.', sender='AlertSound')
 					printM("         To install either dependency, follow the instructions at:", sender='AlertSound')
 					printM('         https://github.com/jiaaro/pydub#playback', sender='AlertSound')
 					printM('         The program will now continue without sound playback.', sender='AlertSound')
-				else:
-					raise FileNotFoundError('MP3 file could not be found')
-				sound = False
+					sound = False
+			else:
+				printM("WARNING: The file %s could not be found." % (soundloc), sender='AlertSound')
+				printM('         The program will now continue without sound playback.', sender='AlertSound')
 		else:
-			sound = False
 			printM("WARNING: You don't have pydub installed, so no sound will play.", sender='AlertSound')
 			printM('         To install pydub, follow the instructions at:', sender='AlertSound')
 			printM('         https://github.com/jiaaro/pydub#installation', sender='AlertSound')

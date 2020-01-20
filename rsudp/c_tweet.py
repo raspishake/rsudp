@@ -40,8 +40,8 @@ class Tweeter(Thread):
 			access_token,
 			access_token_secret
 		)
-		self.message0 = '(Raspberry Shake station %s.%s%s) Event detected at' % (RS.net, RS.stn, self.region)
-		self.message1 = '(Raspberry Shake station %s.%s%s) Image of event detected at' % (RS.net, RS.stn, self.region)
+		self.message0 = '(#RaspberryShake station %s.%s%s) Event detected at' % (RS.net, RS.stn, self.region)
+		self.message1 = '(#RaspberryShake station %s.%s%s) Image of event detected at' % (RS.net, RS.stn, self.region)
 
 		printM('Starting.', self.sender)
 	

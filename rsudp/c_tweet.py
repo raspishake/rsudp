@@ -53,37 +53,51 @@ class Tweeter(Thread):
 			self.alive = False
 			printM('Exiting.', self.sender)
 			sys.exit()
-
-		elif 'ALARM' in str(d):
-			event_time = RS.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')
-			self.last_event_str = event_time.strftime(self.fmt)
-			message = '%s %s' % (self.message0, self.last_event_str)
-			printM('Sending tweet...', sender=self.sender)
-			self.twitter.update_status(status=message)
-			print()
-			printM('Tweeted: %s' % (message), sender=self.sender)
-
-		elif 'IMGPATH' in str(d):
-			if self.tweet_images:
-				imgdetails = d.decode('utf-8').split(' ')
-				imgtime = RS.UTCDateTime.strptime(imgdetails[1], '%Y-%m-%dT%H:%M:%S.%fZ')
-				message = '%s %s' % (self.message1, imgtime.strftime(self.fmt))
-				print()
-				if os.path.exists(imgdetails[2]):
-					with open(imgdetails[2], 'rb') as image:
-						printM('Uploading image to Twitter %s' % (imgdetails[2]), self.sender)
-						response = self.twitter.upload_media(media=image)
-						print()
-						printM('Sending tweet...', sender=self.sender)
-						self.twitter.update_status(status=message, media_ids=response['media_id'])
-					print()
-					printM('Tweeted with image: %s' % (message), sender=self.sender)
-				else:
-					printM('Could not find image: %s' % (imgdetails[2]), sender=self.sender)
+		else:
+			return d
 
 	def run(self):
 		"""
-		Reads data from the queue and plays self.sound if it sees an ALARM message
+		Reads data from the queue and tweets a message if it sees an ALARM or IMGPATH message
 		"""
 		while True:
-			self.getq()
+			d = self.getq()
+
+			if 'ALARM' in str(d):
+				event_time = RS.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')
+				self.last_event_str = event_time.strftime(self.fmt)
+				message = '%s %s' % (self.message0, self.last_event_str)
+				response = None
+				try:
+					printM('Sending tweet...', sender=self.sender)
+					response = self.twitter.update_status(status=message)
+					print()
+					printM('Tweeted: %s' % (message), sender=self.sender)
+				except Exception as e:
+					printM('ERROR: could not send alert tweet - %s' % (e))
+					response = None
+
+
+			elif 'IMGPATH' in str(d):
+				if self.tweet_images:
+					imgdetails = d.decode('utf-8').split(' ')
+					imgtime = RS.UTCDateTime.strptime(imgdetails[1], '%Y-%m-%dT%H:%M:%S.%fZ')
+					message = '%s %s' % (self.message1, imgtime.strftime(self.fmt))
+					response = None
+					print()
+					if os.path.exists(imgdetails[2]):
+						with open(imgdetails[2], 'rb') as image:
+							try:
+								printM('Uploading image to Twitter %s' % (imgdetails[2]), self.sender)
+								response = self.twitter.upload_media(media=image)
+								print()
+								printM('Sending tweet...', sender=self.sender)
+								response = self.twitter.update_status(status=message, media_ids=response['media_id'])
+							except Exception as e:
+								printM('ERROR: could not send multimedia tweet - %s' % (e))
+								response = None
+
+						print()
+						printM('Tweeted with image: %s' % (message), sender=self.sender)
+					else:
+						printM('Could not find image: %s' % (imgdetails[2]), sender=self.sender)

@@ -40,6 +40,7 @@ class Tweeter(Thread):
 			access_token,
 			access_token_secret
 		)
+		self.livelink = 'live feed ➡️ https://raspberryshake.net/stationview/#?net=%s&sta=%s' % (RS.net, RS.stn)
 		self.message0 = '(#RaspberryShake station %s.%s%s) Event detected at' % (RS.net, RS.stn, self.region)
 		self.message1 = '(#RaspberryShake station %s.%s%s) Image of event detected at' % (RS.net, RS.stn, self.region)
 
@@ -66,16 +67,34 @@ class Tweeter(Thread):
 			if 'ALARM' in str(d):
 				event_time = RS.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')
 				self.last_event_str = event_time.strftime(self.fmt)
-				message = '%s %s' % (self.message0, self.last_event_str)
+				message = '%s %s - %s' % (self.message0, self.last_event_str, self.livelink)
 				response = None
 				try:
 					printM('Sending tweet...', sender=self.sender)
-					response = self.twitter.update_status(status=message)
+					response = self.twitter.update_status(status=message, lat=RS.inv[0][0].latitude,
+														  long=RS.inv[0][0].longitude,
+														  geo_enabled=True, display_coordinates=True)
+														  # location will only stick to tweets on accounts that have location enabled in Settings
 					print()
 					printM('Tweeted: %s' % (message), sender=self.sender)
+					url = 'https://twitter.com/%s/status/%s' % (response['user']['screen_name'], response['id_str'])
+					printM('Tweet URL: %s' % url)
+
 				except Exception as e:
 					printM('ERROR: could not send alert tweet - %s' % (e))
-					response = None
+					try:
+						printM('Trying to send tweet again...', sender=self.sender)
+						response = self.twitter.update_status(status=message, lat=RS.inv[0][0].latitude,
+															  long=RS.inv[0][0].longitude,
+															  geo_enabled=True, display_coordinates=True)
+															  # location will only stick to tweets on accounts that have location enabled in Settings
+						print()
+						printM('Tweeted: %s' % (message), sender=self.sender)
+						url = 'https://twitter.com/%s/status/%s' % (response['user']['screen_name'], response['id_str'])
+						printM('Tweet URL: %s' % url)
+					except Exception as e:
+						printM('ERROR: could not send alert tweet - %s' % (e))
+						response = None
 
 
 			elif 'IMGPATH' in str(d):
@@ -92,12 +111,34 @@ class Tweeter(Thread):
 								response = self.twitter.upload_media(media=image)
 								print()
 								printM('Sending tweet...', sender=self.sender)
-								response = self.twitter.update_status(status=message, media_ids=response['media_id'])
+								response = self.twitter.update_status(status=message, media_ids=response['media_id'],
+																	  lat=RS.inv[0][0].latitude, long=RS.inv[0][0].longitude,
+																	  geo_enabled=True, display_coordinates=True)
+																	  # location will only stick to tweets on accounts that have location enabled in Settings
+								print()
+								printM('Tweeted with image: %s' % (message), sender=self.sender)
+								url = 'https://twitter.com/%s/status/%s' % (response['user']['screen_name'], response['id_str'])
+								printM('Tweet URL: %s' % url)
 							except Exception as e:
 								printM('ERROR: could not send multimedia tweet - %s' % (e))
-								response = None
+								try:
+									printM('Trying to send tweet again...', sender=self.sender)
+									printM('Uploading image to Twitter (2nd try) %s' % (imgdetails[2]), self.sender)
+									response = self.twitter.upload_media(media=image)
+									print()
+									printM('Sending tweet...', sender=self.sender)
+									response = self.twitter.update_status(status=message, media_ids=response['media_id'],
+																		  lat=RS.inv[0][0].latitude, long=RS.inv[0][0].longitude,
+																		  geo_enabled=True, display_coordinates=True)
+																		  # location will only stick to tweets on accounts that have location enabled in Settings
+									print()
+									printM('Tweeted with image: %s' % (message), sender=self.sender)
+									url = 'https://twitter.com/%s/status/%s' % (response['user']['screen_name'], response['id_str'])
+									printM('Tweet URL: %s' % url)
 
-						print()
-						printM('Tweeted with image: %s' % (message), sender=self.sender)
+								except Exception as e:
+									printM('ERROR: could not send alert tweet - %s' % (e))
+									response = None
+
 					else:
 						printM('Could not find image: %s' % (imgdetails[2]), sender=self.sender)

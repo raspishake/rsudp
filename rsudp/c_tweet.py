@@ -83,7 +83,8 @@ class Tweeter(Thread):
 				except Exception as e:
 					printM('ERROR: could not send alert tweet - %s' % (e))
 					try:
-						printM('Trying to send tweet again...', sender=self.sender)
+						printM('Waiting 5 seconds and trying to send tweet again...', sender=self.sender)
+						time.sleep(5.1)
 						response = self.twitter.update_status(status=message, lat=RS.inv[0][0].latitude,
 															  long=RS.inv[0][0].longitude,
 															  geo_enabled=True, display_coordinates=True)
@@ -110,6 +111,7 @@ class Tweeter(Thread):
 								printM('Uploading image to Twitter %s' % (imgdetails[2]), self.sender)
 								response = self.twitter.upload_media(media=image)
 								print()
+								time.sleep(5.1)
 								printM('Sending tweet...', sender=self.sender)
 								response = self.twitter.update_status(status=message, media_ids=response['media_id'],
 																	  lat=RS.inv[0][0].latitude, long=RS.inv[0][0].longitude,
@@ -122,10 +124,12 @@ class Tweeter(Thread):
 							except Exception as e:
 								printM('ERROR: could not send multimedia tweet - %s' % (e))
 								try:
-									printM('Trying to send tweet again...', sender=self.sender)
+									printM('Waiting 5 seconds and trying to send tweet again...', sender=self.sender)
+									time.sleep(5.1)
 									printM('Uploading image to Twitter (2nd try) %s' % (imgdetails[2]), self.sender)
 									response = self.twitter.upload_media(media=image)
 									print()
+									time.sleep(5.1)
 									printM('Sending tweet...', sender=self.sender)
 									response = self.twitter.update_status(status=message, media_ids=response['media_id'],
 																		  lat=RS.inv[0][0].latitude, long=RS.inv[0][0].longitude,

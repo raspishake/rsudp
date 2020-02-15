@@ -25,6 +25,10 @@ class Tweeter(Thread):
 		self.tweet_images = tweet_images
 		self.fmt = '%Y-%m-%d %H:%M:%S UTC'
 		self.region = ' - region: %s' % RS.region.title() if RS.region else ''
+		self.consumer_key = consumer_key
+		self.consumer_secret = consumer_secret
+		self.access_token = access_token
+		self.access_token_secret = access_token_secret
 
 		if q:
 			self.queue = q
@@ -46,6 +50,15 @@ class Tweeter(Thread):
 
 		printM('Starting.', self.sender)
 	
+	def auth(self):
+		self.twitter = Twython(
+			self.consumer_key,
+			self.consumer_secret,
+			self.access_token,
+			self.access_token_secret
+		)
+
+
 	def getq(self):
 		d = self.queue.get()
 		self.queue.task_done()
@@ -85,6 +98,7 @@ class Tweeter(Thread):
 					try:
 						printM('Waiting 5 seconds and trying to send tweet again...', sender=self.sender)
 						time.sleep(5.1)
+						self.auth()
 						response = self.twitter.update_status(status=message, lat=RS.inv[0][0].latitude,
 															  long=RS.inv[0][0].longitude,
 															  geo_enabled=True, display_coordinates=True)
@@ -126,6 +140,7 @@ class Tweeter(Thread):
 								try:
 									printM('Waiting 5 seconds and trying to send tweet again...', sender=self.sender)
 									time.sleep(5.1)
+									self.auth()
 									printM('Uploading image to Twitter (2nd try) %s' % (imgdetails[2]), self.sender)
 									response = self.twitter.upload_media(media=image)
 									print()

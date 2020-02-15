@@ -5,8 +5,7 @@ from datetime import datetime, timedelta
 import rsudp.raspberryshake as RS
 from rsudp import printM
 import rsudp
-import telegram
-
+import telepot as tg
 
 class Telegrammer(Thread):
 	def __init__(self, token, chat_id,
@@ -33,13 +32,16 @@ class Telegrammer(Thread):
 			self.alive = False
 			sys.exit()
 
-		self.telegram = telegram.Bot(token=self.token)
+		self.telegram = tg.Bot(token=self.token)
 
 		self.livelink = 'live feed ➡️ https://raspberryshake.net/stationview/#?net=%s&sta=%s' % (RS.net, RS.stn)
 		self.message0 = '(Raspberry Shake station %s.%s%s) Event detected at' % (RS.net, RS.stn, self.region)
 
 		printM('Starting.', self.sender)
 	
+	def auth(self):
+		self.telegram = tg.Bot(token=self.token)
+
 	def getq(self):
 		d = self.queue.get()
 		self.queue.task_done()
@@ -74,6 +76,7 @@ class Telegrammer(Thread):
 					try:
 						printM('Waiting 5 seconds and trying to send again...', sender=self.sender)
 						time.sleep(5)
+						self.auth()
 						response = self.telegram.sendMessage(chat_id=self.chat_id, text=message)
 						print()
 						printM('Sent Telegram: %s' % (message), sender=self.sender)
@@ -99,6 +102,7 @@ class Telegrammer(Thread):
 								try:
 									printM('Waiting 5 seconds and trying to send again...', sender=self.sender)
 									time.sleep(5.1)
+									self.auth()
 									printM('Uploading image to Telegram (2nd try) %s' % (imgdetails[2]), self.sender)
 									response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
 									print()

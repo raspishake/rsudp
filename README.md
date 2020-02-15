@@ -15,6 +15,7 @@
 5. Alarm - an earthquake/sudden motion alert---complete with bandpass filter capability---configured to send an `ALARM` message to the queue in the event of a recursive STA/LTA alarm trigger, and optionally run some code
 6. AlertSound - a thread that plays a MP3 audio file when an `ALARM` message is read from the queue
 7. Tweeter - a thread that tweets when an `ALARM` message is read from the queue, and optionally can tweet saved plots from the plot module
+8. Telegrammer - a thread similar to the Tweeter module that sends a [Telegram](https://telegram.org) alert message when an ALARM message is read from the queue, which also can send saved images
 
 `rsudp` is written in Python but requires no coding knowledge to run. Simply follow the instructions to install the software, go to your Shake's web front end, configure a UDP datacast to your computer's local IP address, start rsudp from the command line, and watch the data roll in.
 
@@ -159,7 +160,12 @@ By default, the settings are as follows:
     "api_key": "n/a",
     "api_secret": "n/a",
     "access_token": "n/a",
-    "access_secret": "n/a"}
+    "access_secret": "n/a"},
+"telegram": {
+    "enabled": false,
+    "send_images": true,
+    "token": "n/a",
+    "chat_id": "n/a"}
 }
 ```
 
@@ -196,6 +202,9 @@ By default, the settings are as follows:
   The software will install several small MP3 files. The `"mp3file"` is `"doorbell"` (two doorbell chimes) by default, but there are a few more aggressive alert sounds, including: a three-beep sound `"beeps"`, a sequence of sonar pings `"sonar"`, and a continuous alarm beeping for 5 seconds, `"alarm"`. You can also point the `"mp3file"` field to an MP3 file somewhere in your filesystem. For example, if your username was pi and you had a file called earthquake.mp3 in your Downloads folder, you would specify `"mp3file": "/home/pi/Downloads/earthquake.mp3"`. The program will throw an error if it can't find (or load) the specified MP3 file. It will also alert you if the software dependencies for playback are not installed.
 
 - **`tweets`** if `"enabled"` is `true`, and all API keys have been generated and are correctly entered, then this module will use the Twitter API to create tweets when an `ALARM` message arrives on the queue. If `"tweet_images"` is `true`, then the module will also tweet a saved image of the event, if `"eq_screenshots"` is set to `true` in the `"plot"` module. Note that in order for this to work, the user has to create 1) a [twitter profile for automatically tweeting alerts](https://twitter.com/signup) (or use an existing account), 2) a [Twitter developer account](https://developer.twitter.com/en.html), 3) a [Twitter API app](https://opensource.com/article/17/8/raspberry-pi-twitter-bot) inside said developer account, and 4) consumer keys and API keys for that app. Once you have generated the four API keys required for authentication (consumer API key, consumer API secret, access token, and access token secret), you may enter them into your settings file in the appropriate fields: `"api_key"`, `"api_secret"`, `"access_token"`, and `"access_secret"`.
+
+- **`telegram`** if `"enabled"` is `true`, and bot `"token"` key is correctly entered, this module will use the Telegram bot API to create alerts when an `ALARM` message arrives on the queue. If `"send_images"` is `true`, then the module will also send a saved image of the event, if `"eq_screenshots"` is set to `true` in the `"plot"` module. Note that in order for this to work, the user has to create 1) a [Telegram profile](https://telegram.org), 2) [a Telegram bot](https://developer.twitter.com/en.html), and 3) to enter the bot's access token in the `"token"` field of the settings json file. You will also need a user or group ID to enter into `"chat_id"`, which you can find by following the [instructions here](https://stackoverflow.com/a/32572159). (If you wish to post to a group, add the bot to the group using your user account first, then follow the instructions in the previous link, where you will see the group chat ID appear as a field in the last JSON entry. This ID may be negative, in which case you must enter the negative sign into `"chat_id"` as well.)
+
 
 ## Disclaimer
 
@@ -265,7 +274,12 @@ This plot of a M 3.0 earthquake 50 km away was saved automatically without user 
     "api_key": "n/a",
     "api_secret": "n/a",
     "access_token": "n/a",
-    "access_secret": "n/a"}
+    "access_secret": "n/a"},
+"telegram": {
+    "enabled": false,
+    "send_images": true,
+    "token": "n/a",
+    "chat_id": "n/a"}
 }
 ```
 

@@ -17,6 +17,7 @@ from rsudp.c_forward import Forward
 from rsudp.c_alert import Alert
 from rsudp.c_alertsound import AlertSound
 from rsudp.c_tweet import Tweeter
+from rsudp.c_telegram import Telegrammer
 import pkg_resources as pr
 import fnmatch
 try:
@@ -163,6 +164,17 @@ def run(settings, debug):
 						tweet_images=tweet_images)
 		mk_p(tweet)
 
+	if settings['telegram']['enabled']:
+		token = settings['telegram']['token']
+		chat_id = settings['telegram']['chat_id']
+		send_images = settings['telegram']['send_images']
+
+		q = mk_q()
+		telegram = Telegrammer(q=q, token=token, chat_id=chat_id,
+							   send_images=send_images)
+		mk_p(telegram)
+
+
 
 	# master queue and consumer
 	queue = Queue(RS.qsize)
@@ -282,8 +294,14 @@ settings in %s
     "api_key": "n/a",
     "api_secret": "n/a",
     "access_token": "n/a",
-    "access_secret": "n/a"}
+    "access_secret": "n/a"},
+"telegram": {
+    "enabled": false,
+    "send_images": true,
+    "token": "n/a",
+    "chat_id": "n/a"}
 }
+
 """ % (output_dir)
 		if verbose:
 			print('By default output_dir is set to %s' % output_dir)

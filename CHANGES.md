@@ -1,4 +1,8 @@
 # Changelog
+## changes in 0.4.3
+- added and expanded explicit docstrings and comments, as well as Sphinx `conf.py` file
+- turned off alert module STA/LTA live printed output when `settings['settings']['debug']` is `False` in order to keep systemd log file size down
+- streamlined alert sound module operation; no longer writes temporary sound file on every alert when using `ffplay`
 
 ## changes in 0.4.2
 - the station's [Flinn-Engdahl region](https://en.wikipedia.org/wiki/Flinn%E2%80%93Engdahl_regions) is added to tweets when the station inventory is available through FDSN

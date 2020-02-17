@@ -2,6 +2,10 @@ import os, sys
 import logging
 import warnings
 from time import gmtime
+import pkg_resources
+
+name = 'rsudp'
+__version__ = pkg_resources.require(name)[0].version
 
 default_loc = '%s/.config/rsudp' % os.path.expanduser('~').replace('\\', '/')
 os.makedirs(default_loc, exist_ok=True)

@@ -18,7 +18,7 @@ class AlertSound(Thread):
 	`self.sound` is a pydub.AudioSegment_ object and is passed from the client.
 	"""
 
-	def __init__(self, sound=False, q=False):
+	def __init__(self, sound=False, soundloc=False, q=False):
 		"""
 		.. _pydub.AudioSegment: https://github.com/jiaaro/pydub/blob/master/API.markdown#audiosegment
 
@@ -37,6 +37,7 @@ class AlertSound(Thread):
 		self.sound = sound
 		self.tmpfile = None
 		self.devnull = open(os.devnull, 'w')
+		self.wavloc = '%s.wav' % os.path.splitext(soundloc)[0]
 
 		if q:
 			self.queue = q
@@ -53,16 +54,12 @@ class AlertSound(Thread):
 		'''
 		if FFPlay is the player, suppress printed output.
 		'''
-		if os.path.isfile(self.tmpfile):
-			subprocess.call([PLAYER,"-nodisp", "-autoexit", "-hide_banner",
-							self.tmpfile],stdout=devnull, stderr=devnull)
-		else:
+		if not os.path.isfile(self.wavloc):
+			self.sound.export(self.wavloc, format="wav")
+			printM('Wrote wav version of sound file %s' % (self.wavloc), self.sender)
 
-			with NamedTemporaryFile("w+b", suffix=".wav", delete=False) as f:
-				self.sound.export(f.name, "wav")
-				subprocess.call([PLAYER,"-nodisp", "-autoexit", "-hide_banner",
-								f.name],stdout=devnull, stderr=devnull)
-				self.tmpfile = f.name
+		subprocess.call([PLAYER,"-nodisp", "-autoexit", "-hide_banner",
+						self.wavloc], stdout=self.devnull, stderr=self.devnull)
 
 	def _play(self):
 		if 'ffplay' in PLAYER:
@@ -79,8 +76,6 @@ class AlertSound(Thread):
 			d = self.queue.get()
 			self.queue.task_done()
 			if 'TERM' in str(d):
-				if os.path.isfile(self.tmpfile):
-					os.remove(self.tmpfile)
 				self.alive = False
 				printM('Exiting.', self.sender)
 				sys.exit()
@@ -88,7 +83,5 @@ class AlertSound(Thread):
 				printM('Playing alert sound...', sender=self.sender)
 				if self.sound and pydub_exists:
 					self._play()
-
-				
 
 		self.alive = False

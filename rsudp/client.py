@@ -180,7 +180,7 @@ def run(settings, debug):
 			printM('         Sound playback also requires you to install either ffmpeg or libav.', sender='AlertSound')
 
 		q = mk_q()
-		alsnd = AlertSound(q=q, sound=sound)
+		alsnd = AlertSound(q=q, sound=sound, soundloc=soundloc)
 		mk_p(alsnd)
 
 	if settings['tweets']['enabled']:

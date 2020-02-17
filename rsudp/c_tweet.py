@@ -150,8 +150,8 @@ class Tweeter(Thread):
 							try:
 								printM('Uploading image to Twitter %s' % (imgdetails[2]), self.sender)
 								response = self.twitter.upload_media(media=image)
-								print()
 								time.sleep(5.1)
+								print()
 								printM('Sending tweet...', sender=self.sender)
 								response = self.twitter.update_status(status=message, media_ids=response['media_id'],
 																	  lat=RS.inv[0][0].latitude, long=RS.inv[0][0].longitude,
@@ -167,10 +167,11 @@ class Tweeter(Thread):
 									printM('Waiting 5 seconds and trying to send tweet again...', sender=self.sender)
 									time.sleep(5.1)
 									self.auth()
+									print()
 									printM('Uploading image to Twitter (2nd try) %s' % (imgdetails[2]), self.sender)
 									response = self.twitter.upload_media(media=image)
-									print()
 									time.sleep(5.1)
+									print()
 									printM('Sending tweet...', sender=self.sender)
 									response = self.twitter.update_status(status=message, media_ids=response['media_id'],
 																		  lat=RS.inv[0][0].latitude, long=RS.inv[0][0].longitude,

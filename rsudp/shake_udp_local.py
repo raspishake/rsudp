@@ -9,6 +9,9 @@ RS.initRSlib(dport=port)
 RS.openSOCK(host)
 
 def main():
+	'''
+	Simple function to print data to the command line until CTRL+C is pressed.
+	'''
 	try:
 		while 1:								# loop forever
 			print(RS.getDATA())

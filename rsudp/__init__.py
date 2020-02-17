@@ -20,6 +20,9 @@ logformat = '%(asctime)-15s %(msg)s'
 formatter = logging.Formatter(fmt=logformat, datefmt=TIME_FORMAT)               
 
 def init_dirs(odir):
+	'''
+	Initialize the write directories if they do not already exist.
+	'''
 	global output_dir, data_dir, scap_dir
 	output_dir = odir
 	data_dir = os.path.join(odir, 'data')
@@ -34,11 +37,15 @@ def init_dirs(odir):
 		exit(2)
 
 def add_debug_handler():
+	'''
+	Creates an additional handler for logging to the command line.
+	'''
 	s = logging.StreamHandler(sys.stdout)
 	s.setLevel('INFO')
 	s.setFormatter(formatter)
 	logging.getLogger().addHandler(s)
 
+# this initializes logging to file
 f = logging.FileHandler(os.path.join(log_dir, 'rsudp.log'))
 f.setLevel('INFO')
 f.setFormatter(formatter)
@@ -49,6 +56,8 @@ warnings.filterwarnings('ignore', category=UserWarning, module='rsudp')
 warnings.filterwarnings('ignore', category=FutureWarning, module='obspy')
 
 def printM(msg, sender=''):
-	'''Prints messages with datetime stamp.'''
+	'''
+	Prints messages with datetime stamp and sends their output to the logging handlers.
+	'''
 	msg = '[%s] %s' % (sender, msg) if sender != '' else msg
 	logging.info(msg)

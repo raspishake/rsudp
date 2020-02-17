@@ -53,7 +53,9 @@ if platform.system() not in 'Windows':
     sock.setsockopt(s.SOL_SOCKET, s.SO_REUSEADDR, 1)
 
 def handler(signum, frame, ip=ip):
-	'''The signal handler for the nodata alarm.'''
+	'''
+	The signal handler for the nodata alarm.
+	'''
 	global port
 	printM('ERROR: No data received in %s seconds; aborting.' % (to), sender='Init')
 	printM('       Check that the Shake is forwarding data to:', sender='Init')
@@ -116,7 +118,9 @@ def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 	set_params()				# get data and set parameters
 
 def openSOCK(host=''):
-	'''Initialize a socket at a port. Must be done after the initRSlib function is called.'''
+	'''
+	Initialize a socket at a port. Must be done after the initRSlib function is called.
+	'''
 	global sockopen
 	sockopen = False
 	if initd:
@@ -134,8 +138,10 @@ def openSOCK(host=''):
 		raise IOError("Before opening a socket, you must initialize this raspberryshake library by calling initRSlib(dport=XXXXX, rssta='R0E05') first.")
 
 def set_params():
-	'''Read a data packet off the port.
-	On UNIX, alarm if no data is received within timeout.'''
+	'''
+	Read a data packet off the port.
+	On UNIX, alarm if no data is received within timeout.
+	'''
 	global to
 	if os.name not in 'nt': 	# signal alarm not available on windows
 		signal.signal(signal.SIGALRM, handler)
@@ -151,7 +157,9 @@ def set_params():
 	get_inventory()
 
 def getDATA():
-	'''Read a data packet off the port.'''
+	'''
+	Read a data packet off the port.
+	'''
 	global to, firstaddr
 	if sockopen:
 		return sock.recv(4096)
@@ -162,25 +170,33 @@ def getDATA():
 			raise IOError('No socket is open. Please initialize the library then open a socket using openSOCK().')
 	
 def getCHN(DP):
-	'''Extract the channel information from the data packet.
-	Requires getDATA() packet as argument.'''
+	'''
+	Extract the channel information from the data packet.
+	Requires getDATA() packet as argument.
+	'''
 	return str(DP.decode('utf-8').split(",")[0][1:]).strip("\'")
 	
 def getTIME(DP):
-	'''Extract the timestamp from the data packet.
+	'''
+	Extract the timestamp from the data packet.
 	Timestamp is seconds since 1970-01-01 00:00:00Z,
 	which can be passed directly to an obspy UTCDateTime object.
-	Requires getDATA() packet as argument.'''
+	Requires getDATA() packet as argument.
+	'''
 	return float(DP.split(b",")[1])
 
 def getSTREAM(DP):
-	'''Get the samples in a data packet as a list object.
-	Requires getDATA() packet as argument.'''
+	'''
+	Get the samples in a data packet as a list object.
+	Requires getDATA() packet as argument.
+	'''
 	return list(map(int, DP.decode('utf-8').replace('}','').split(',')[2:]))
 
 def getTR(chn):				# DP transmission rate in msecs
-	'''Get the transmission rate in milliseconds.
-	Requires a getCHN() or a channel name string as argument.'''
+	'''
+	Get the transmission rate in milliseconds.
+	Requires a getCHN() or a channel name string as argument.
+	'''
 	global tf, tr
 	timeP1, timeP2 = 0.0, 0.0
 	done = False
@@ -199,14 +215,18 @@ def getTR(chn):				# DP transmission rate in msecs
 	return tf
 
 def getSR(TR, DP):
-	'''Get the sample rate in samples per second.
-	Requires an integer transmission rate and a data packet as arguments.'''
+	'''
+	Get the sample rate in samples per second.
+	Requires an integer transmission rate and a data packet as arguments.
+	'''
 	global sps
 	sps = int((DP.count(b",") - 1) * 1000 / TR)
 	return sps
 	
 def getCHNS():
-	'''Get a list of channels sent to the port.	'''
+	'''
+	Get a list of channels sent to the port.
+	'''
 	global chns
 	chdict = {'EHZ': False, 'EHN': False, 'EHE': False,
 			  'ENZ': False, 'ENN': False, 'ENE': False, 'HDF': False}
@@ -236,13 +256,19 @@ def getCHNS():
 	return chns
 
 def getTTLCHN():
-	'''Calculate total number of channels received.'''
+	'''
+	Calculate total number of channels received.
+	'''
 	global numchns
 	numchns = len(getCHNS())
 	return numchns
 
 
 def get_inventory(sender='get_inventory'):
+	'''
+	Downloads the station inventory from the Raspberry Shake FDSN and stores
+	it as an :py:class:`obspy.Inventory` object which is available globally.
+	'''
 	global inv, stn, region
 	sender = 'get_inventory'
 	if 'Z0000' in stn:
@@ -274,7 +300,9 @@ def get_inventory(sender='get_inventory'):
 
 
 def make_trace(d):
-	'''Makes a trace and assigns it some values using a data packet.'''
+	'''
+	Makes a trace and assigns it some values using a data packet.
+	'''
 	global producer
 	ch = getCHN(d)						# channel
 	if ch:
@@ -304,7 +332,9 @@ def make_trace(d):
 
 # Then make repeated calls to this, to continue adding trace data to the stream
 def update_stream(stream, d, **kwargs):
-	'''Returns an updated trace object with new data, merged down to one trace per available channel.'''
+	'''
+	Returns an updated trace object with new data, merged down to one trace per available channel.
+	'''
 	while True:
 		try:
 			return stream.append(make_trace(d)).merge(**kwargs)
@@ -334,6 +364,11 @@ def copy(orig):
 
 
 def deconvolve(self):
+	'''
+	A helper function for sub-consumers that need to deconvolve their raw data to physical units.
+
+	:param self self: The self object of the sub-consumer class calling this function.
+	'''
 	self.stream = self.raw.copy()
 	for trace in self.stream:
 		trace.stats.units = self.units

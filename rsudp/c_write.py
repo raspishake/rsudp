@@ -49,6 +49,12 @@ class Write(Thread):
 		printM('Starting.', self.sender)
 
 	def getq(self):
+		'''
+		Reads data from the queue and updates the stream.
+
+		:rtype: bool
+		:return: Returns True if stream is updated, otherwise False.
+		'''
 		d = self.queue.get(True, timeout=None)
 		self.queue.task_done()
 		if 'TERM' in str(d):
@@ -66,9 +72,17 @@ class Write(Thread):
 				return False
 	
 	def set_sps(self):
+		'''
+		Sets samples per second.
+		'''
 		self.sps = self.stream[0].stats.sampling_rate
 
 	def elapse(self, new=False):
+		'''
+		Ticks self variables over into a new day for file naming purposes.
+
+		:param bool new: If False, the program is starting. If True, the UTC date just elapsed.
+		'''
 		self.st = UTCDateTime.now()
 		self.y, self.m, self.d = self.st.year, self.st.month, self.st.day
 		self.j = self.st.strftime('%j')
@@ -80,9 +94,20 @@ class Write(Thread):
 			self.last = self.st
 
 	def slicestream(self):
+		'''
+		Causes the stream to slice down to the time the last write operation was made.
+		'''
 		self.stream.slice(starttime=self.last)
 
 	def write(self, stream=False):
+		'''
+		Writes a segment of the stream to disk as miniSEED, and appends it to the
+		file in question. If there is no file (i.e. if the program is just starting
+		or a new UTC day has just started, then this function writes to a new file).
+
+		:type obspy.Stream or bool
+		:param stream: The stream segment to write. If False, the program has just started.
+		'''
 		if not stream:
 			self.last = self.stream[0].stats.endtime - timedelta(seconds=5)
 			stream = self.stream.copy().slice(
@@ -108,6 +133,7 @@ class Write(Thread):
 
 	def run(self):
 		"""
+		Reads packets and coordinates write operations.
 		"""
 		self.elapse()
 
@@ -124,7 +150,7 @@ class Write(Thread):
 					self.stream[0].stats.station),
 					format='STATIONXML')
 		printM('Beginning miniSEED output.', self.sender)
-		wait_pkts = (self.numchns * 10) / (RS.tf / 1000) 		# comes out to 10 seconds (tf is in ms)
+		wait_pkts = (self.numchns * 10) / (RS.tf / 1000) 	# comes out to 10 seconds (tf is in ms)
 
 		n = 0
 		while True:

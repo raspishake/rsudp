@@ -12,24 +12,37 @@ except ImportError:
 
 class AlertSound(Thread):
 	"""
-	A consumer class that plays an alert sound when an ALARM message arrives on the queue.
-	self.sound is a pydub AudioSegment object and is passed from the client.
+	.. _pydub.AudioSegment: https://github.com/jiaaro/pydub/blob/master/API.markdown#audiosegment
+
+	A consumer class that plays an alert sound when an `ALARM` message arrives on the queue.
+	`self.sound` is a pydub.AudioSegment_ object and is passed from the client.
 	"""
 
 	def __init__(self, sound=False, q=False):
 		"""
-		Initialize the process
+		.. _pydub.AudioSegment: https://github.com/jiaaro/pydub/blob/master/API.markdown#audiosegment
+
+		Initializes the alert sound listener thread.
+		Needs a pydub.AudioSegment_ to play and a :class:`queue.Queue` to listen on.
+
+		:param sta: short term average (STA) duration in seconds
+		:type sta: bool or pydub.AudioSegment_ 
+		:param queue.Queue q: Queue to listen for alerts on
+
 		"""
 		super().__init__()
 		self.sender = 'AlertSound'
 		self.alarm = False
 		self.alive = True
 		self.sound = sound
+		self.tmpfile = None
+		self.devnull = open(os.devnull, 'w')
 
 		if q:
 			self.queue = q
 		else:
-			printM('ERROR: no queue passed to the consumer thread! We will exit now!', self.sender)
+			printM('ERROR: no queue passed to the consumer thread! We will exit now!',
+				   self.sender)
 			sys.stdout.flush()
 			self.alive = False
 			sys.exit()
@@ -38,12 +51,18 @@ class AlertSound(Thread):
 
 	def _play_quiet(self):
 		'''
-		if FFPlay is the player, suppress printed output
+		if FFPlay is the player, suppress printed output.
 		'''
-		with NamedTemporaryFile("w+b", suffix=".wav") as f:
-			self.sound.export(f.name, "wav")
-			devnull = open(os.devnull, 'w')
-			subprocess.call([PLAYER,"-nodisp", "-autoexit", "-hide_banner", f.name],stdout=devnull, stderr=devnull)
+		if os.path.isfile(self.tmpfile):
+			subprocess.call([PLAYER,"-nodisp", "-autoexit", "-hide_banner",
+							self.tmpfile],stdout=devnull, stderr=devnull)
+		else:
+
+			with NamedTemporaryFile("w+b", suffix=".wav", delete=False) as f:
+				self.sound.export(f.name, "wav")
+				subprocess.call([PLAYER,"-nodisp", "-autoexit", "-hide_banner",
+								f.name],stdout=devnull, stderr=devnull)
+				self.tmpfile = f.name
 
 	def _play(self):
 		if 'ffplay' in PLAYER:
@@ -53,12 +72,15 @@ class AlertSound(Thread):
 
 	def run(self):
 		"""
-		Reads data from the queue and plays self.sound if it sees an ALARM message
+		Reads data from the queue and plays self.sound if it sees an `ALARM` message.
+		Quits if it sees a `TERM` message.
 		"""
 		while True:
 			d = self.queue.get()
 			self.queue.task_done()
 			if 'TERM' in str(d):
+				if os.path.isfile(self.tmpfile):
+					os.remove(self.tmpfile)
 				self.alive = False
 				printM('Exiting.', self.sender)
 				sys.exit()

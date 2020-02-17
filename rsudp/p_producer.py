@@ -7,7 +7,13 @@ import rsudp.raspberryshake as RS
 class Producer(Thread):
 	def __init__(self, queue, threads):
 		"""
-		Initialize the process
+		Initializing the Producer. The producer also looks for flags in each consumer
+		that indicate whether they are :py:data:`alive==False`. If so, the Producer will
+		quit gracefully and put a TERM message on the queue, which should stop all running
+		consumers.
+
+		:param queue.Queue queue: The master queue
+		:param list threads: The list of :py:class:`threading.Thread`s to monitor for status changes
 		"""
 		super().__init__()
 
@@ -43,7 +49,8 @@ class Producer(Thread):
 				if thread.alarm:
 					self.queue.put(b'ALARM %s' % bytes(str(RS.UTCDateTime.now()), 'utf-8'))
 					print()
-					printM('%s thread has indicated alarm state, sending ALARM message to queues' % thread.sender, sender=self.sender)
+					printM('%s thread has indicated alarm state, sending ALARM message to queues'
+						   % thread.sender, sender=self.sender)
 					thread.alarm = False
 				if not thread.alive:
 					self.stop = True

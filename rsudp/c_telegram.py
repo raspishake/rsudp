@@ -8,11 +8,26 @@ import rsudp
 import telepot as tg
 
 class Telegrammer(Thread):
+	'''
+	`Telegram <https://t.me/>`_ is a free messaging service which,
+	among other things, is suited to quickly broadcasting automatic
+	notifications via an API.
+	It is `used <https://t.me/sasmex>`_ by the Mexican Early Warning
+	System (SASMEX) and PanamaIGC.
+
+	
+	'''
 	def __init__(self, token, chat_id,
 				 q=False, send_images=False,
 				 ):
 		"""
-		Initialize the process
+		Initializing the Telegram message posting thread.
+
+		:param str token: bot token from Telegram bot creation
+		:param str chat_id: Telegram chat ID number that this module will post to
+		:param bool send_images: whether or not to send images. if False, only alerts will be sent.
+		:param queue.Queue q: queue of data and messages sent by :class:`rsudp.p_producer.Producer`
+
 		"""
 		super().__init__()
 		self.sender = 'Telegram'

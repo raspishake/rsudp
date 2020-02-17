@@ -12,6 +12,32 @@ from twython import Twython
 
 
 class Tweeter(Thread):
+	'''
+	Twitter is a social media platform sometimes used for quickly
+	distributing public alert information. It is used by many agencies
+	including `Raspberry Shake <https://twitter.com/raspishakeq`_,
+	`USGS <https://twitter.com/USGSBigQuakes`_, and
+	`EMSC <https://twitter.com/LastQuake`_.
+
+	.. note::
+		Twitter is more difficult and stricter when it comes to making
+		`API bots <https://developer.twitter.com/apps>`_ than many services.
+		First, you must go through a relatively rigorous process of applying for
+		a developer account, then making a Twitter "app", and then giving the app
+		permission to post on your behalf.
+
+		Once you've gone through that process, Twitter limits posting and makes
+		its rules on rate limiting relatively difficult to nail down.
+		Generally, the early 2020 rate limit for posting is 300 in a 3-hour span,
+		however that can vary depending on whether or not Twitter thinks there is
+		suspicious activity coming from your account.
+
+		In general, if you are looking for a simple multi-platform notification
+		service, it may be easier and more reliable to use the Telegram service
+		instead. rsudp has a telegram module at
+		:py:class:rsudp.c_telegram.Telegram:.
+
+	'''
 	def __init__(self, consumer_key, consumer_secret, access_token, access_token_secret,
 				 q=False, tweet_images=False,
 				 ):

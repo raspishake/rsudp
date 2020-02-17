@@ -28,16 +28,33 @@ except ImportError:
 
 
 def eqAlert(sound=False, sender='EQAlert function', *args, **kwargs):
+	'''
+	Function called by :py:class:`rsudp.c_alert.Alert` upon detecting
+	sudden motion. This function doesn't do anything except print a
+	line to the console or log files timestamping the alert. If the
+	user can configures the rsudp config to run custom code, this
+	function is no longer used.
+
+	:param str sender: String corresponding to the function printing the line.
+
+	'''
 	printM('Trigger threshold exceeded -- possible earthquake!', sender=sender)
 
 def handler(sig, frame):
+	'''
+	Function passed to :py:class:`signal.signal` to handle close events
+	'''
 	RS.producer = False
 
 def run(settings, debug):
-
+	'''
+	Main setup function. Takes configuration values and passes them to
+	the appropriate threads and functions.
+	'''
 	# handler for the exit signal
 	signal.signal(signal.SIGINT, handler)
 
+	# initialize the central library
 	RS.initRSlib(dport=settings['settings']['port'],
 				 rsstn=settings['settings']['station'])
 
@@ -46,10 +63,24 @@ def run(settings, debug):
 	destinations, threads = [], []
 
 	def mk_q():
+		'''
+		Makes a queue and appends it to the :py:data:`destinations`
+		variable to be passed to the master consumer thread
+		:py:class:`rsudp.c_consumer.Consumer`.
+
+		:rtype: queue.Queue
+		:return: Returns the queue to pass to the sub-consumer.
+		'''
 		q = Queue(RS.qsize)
 		destinations.append(q)
 		return q
+
 	def mk_p(proc):
+		'''
+		Appends a process to the list of threads to start and stop.
+
+		:param threading.Thread proc: The process thread to append to the list of threads.
+		'''
 		threads.append(proc)
 
 	if settings['printdata']['enabled']:
@@ -87,6 +118,7 @@ def run(settings, debug):
 		Plotter = Plot(cha=cha, seconds=sec, spectrogram=spec,
 						fullscreen=full, kiosk=kiosk, deconv=deconv, q=pq,
 						screencap=screencap, alert=alert)
+		# no mk_p() here because the plotter must be controlled by the main thread (this one)
 
 	if settings['forward']['enabled']:
 		# put settings in namespace
@@ -188,20 +220,29 @@ def run(settings, debug):
 	prod.start()
 
 	if settings['plot']['enabled'] and mpl:
+		# give the plotter the master queue
+		# so that it can issue a TERM signal if closed
 		Plotter.master_queue = queue
+		# start plotting (in this thread, not a separate one)
 		Plotter.run()
 	else:
 		while not prod.stop:
-			time.sleep(0.1)
+			time.sleep(0.1) # wait until processes end
 
 
-	time.sleep(0.5)
+	time.sleep(0.5) # give threads time to exit
 
 	print()
 	printM('Shutdown successful.', 'Main')
 	sys.exit()
 
 def dump_default(settings_loc, default_settings):
+	'''
+	Dumps a default settings file to a specified location.
+
+	:param str settings_loc: The location to create the new settings JSON.
+	:param str default_settings: The default settings to dump to file.
+	'''
 	print('Creating a default settings file at %s' % settings_loc)
 	with open(settings_loc, 'w+') as f:
 		f.write(default_settings)

@@ -7,7 +7,15 @@ import rsudp.raspberryshake as RS
 class Forward(Thread):
 	def __init__(self, addr, port, cha, q):
 		"""
-		Initialize the process
+		Initializes single-destination data forwarding. This consumer reads
+		queue messages from the :class:`rsudp.c_consumer.Consumer`
+		and forwards those messages to a specified address and port.
+
+		:param str addr: IP address to pass UDP data to
+		:param str port: network port to pass UDP data to (at specified address)
+		:param cha: channel(s) to forward. others will be ignored.
+		:type cha: str or list
+		:param queue.Queue q: queue of data and messages sent by :class:`rsudp.p_producer.Producer`
 		"""
 		super().__init__()
 
@@ -34,13 +42,14 @@ class Forward(Thread):
 
 	def run(self):
 		"""
-		Distributes queue objects to another address and port on the network.
+		Gets and distributes queue objects to another address and port on the network.
 		"""
 		printM('Opening socket...', sender=self.sender)
 		socket_type = s.SOCK_DGRAM if os.name in 'nt' else s.SOCK_DGRAM | s.SO_REUSEADDR
 		sock = s.socket(s.AF_INET, socket_type)
 
-		printM('Forwarding %s data to %s:%s' % (self.chans, self.addr, self.port), sender=self.sender)
+		printM('Forwarding %s data to %s:%s' % (self.chans, self.addr, self.port),
+			   sender=self.sender)
 
 		try:
 			while self.running:

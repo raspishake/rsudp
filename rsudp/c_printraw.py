@@ -15,7 +15,9 @@ class PrintRaw(Thread):
 
 	def __init__(self, q=False):
 		"""
-		Initialize the process
+		Initializing the data printing process.
+
+		:param queue.Queue q: queue of data and messages sent by :class:`rsudp.p_producer.Producer`
 		"""
 		super().__init__()
 		self.sender = 'Print'
@@ -34,7 +36,7 @@ class PrintRaw(Thread):
 
 	def run(self):
 		"""
-		Reads data from the queue and print to stdout
+		Reads data from the queue and print to stdout.
 		"""
 		while True:
 			d = self.queue.get()

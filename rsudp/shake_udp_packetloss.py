@@ -5,6 +5,9 @@ import signal
 from . import raspberryshake
 
 def signal_handler(signal, frame):
+	'''
+	The signal handler for the CTRL+C keystroke.
+	'''
 	print()
 	raspberryshake.printM("Quitting...")
 	sys.exit(0)
@@ -131,4 +134,7 @@ def main():
 
 
 if __name__== "__main__":
+	'''
+	Calls the main function.
+	'''
 	main()

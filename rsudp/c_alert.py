@@ -22,7 +22,7 @@ class Alert(Thread):
 				 *args, **kwargs):
 		
 		"""
-		Initialize the alert thread with parameters to set up the recursive
+		Initializing the alert thread with parameters to set up the recursive
 		STA-LTA trigger, filtering, the function that is executed upon
 		trigger activation, and the channel used for listening.
 
@@ -127,6 +127,12 @@ class Alert(Thread):
 					% (self.filt, modifier, self.freq), self.sender)
 
 	def _getq(self):
+		'''
+		Reads data from the queue and updates the stream.
+
+		:rtype: bool
+		:return: Returns True if stream is updated, otherwise False.
+		'''
 		d = self.queue.get(True, timeout=None)
 		self.queue.task_done()
 		if self.cha in str(d):
@@ -144,7 +150,10 @@ class Alert(Thread):
 
 	def run(self):
 		"""
-
+		Reads data from the queue into a :class:`obspy.Stream` object,
+		then runs a :func:`obspy.signal.trigger.recursive_sta_lta` function to
+		determine whether to raise an alert flag (`self.alarm`).
+		The producer reads this flag and uses it to notify other consumers.
 		"""
 		n = 0
 
@@ -223,9 +232,10 @@ class Alert(Thread):
 					else:
 						pass
 				self.stream = RS.copy(self.stream)
-				print('\r%s [%s] Threshold: %s; Current max STA/LTA: %.4f'
-					  % (datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'), self.sender,
-					  self.thresh, round(np.max(self.stalta[-50:]), 4)), end='', flush=True)
+				if self.debug:
+					print('\r%s [%s] Threshold: %s; Current max STA/LTA: %.4f'
+						% (datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'), self.sender,
+						self.thresh, round(np.max(self.stalta[-50:]), 4)), end='', flush=True)
 			elif n == 0:
 				printM('Listening to channel %s'
 						% (self.stream[0].stats.channel), self.sender)

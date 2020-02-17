@@ -47,13 +47,25 @@ icon2 = 'icon.png'
 
 class Plot:
 	def __init__(self, cha='all', q=False,
-				 seconds=30, spectrogram=False,
+				 seconds=30, spectrogram=True,
 				 fullscreen=False, kiosk=False,
 				 qt=qt, deconv=False,
-				 screencap=False, alert=False):
+				 screencap=False, alert=True):
 		"""
 		Initialize the plot process
 
+		:param cha: channels to plot. Defaults to "all" but can be passed a list of channel names as strings.
+		:type cha: str or list
+		:param int seconds: number of seconds to plot. Defaults to 30.
+		:param bool spectrogram: whether to plot the spectrogram. Defaults to True.
+		:param bool fullscreen: whether to plot in a fullscreen window. Defaults to False.
+		:param bool kiosk: whether to plot in kiosk mode (true fullscreen). Defaults to False.
+		:param bool qt: whether Qt is on this system. Defaults to False.
+		:param deconv: whether to deconvolve the signal. Defaults to False.
+		:type deconv: str or bool
+		:param bool screencap: whether or not to save screenshots of events. Defaults to False.
+		:param bool alert: whether to draw the number of events at startup. Defaults to True.
+		:param queue.Queue q: queue of data and messages sent by :class:`rsudp.p_producer.Producer`
 
 		"""
 		super().__init__()
@@ -142,9 +154,19 @@ class Plot:
 		self.linecolor = '#c28285' # seismogram color
 
 	def deconvolve(self):
+		'''
+		Send the streams to the central library deconvolve function.
+		'''
 		RS.deconvolve(self)
 
 	def getq(self):
+		'''
+		Get data from the queue and test for whether it has certain strings.
+		ALARM and TERM both trigger specific behavior.
+		ALARM messages cause the event counter to increment, and if
+		:py:data:`screencap==True` then aplot image will be saved when the
+		event is :py:data:`self.save_pct` of the way across the plot.
+		'''
 		d = self.queue.get()
 		self.queue.task_done()
 		if 'TERM' in str(d):
@@ -179,6 +201,9 @@ class Plot:
 			return False
 		
 	def set_sps(self):
+		'''
+		Get samples per second from the main library.
+		'''
 		self.sps = RS.sps
 
 	# from https://docs.obspy.org/_modules/obspy/imaging/spectrogram.html#_nearest_pow_2:
@@ -196,7 +221,7 @@ class Plot:
 		:rtype: Int
 		:return: Nearest power of 2 to x
 
-		Adapted from the obspy library
+		Adapted from the `obspy <https://obspy.org>`_ library
 		"""
 		a = math.pow(2, math.ceil(np.log2(x)))
 		b = math.pow(2, math.floor(np.log2(x)))
@@ -206,10 +231,18 @@ class Plot:
 			return b
 
 	def handle_close(self, evt):
+		'''
+		Handles a plot close event.
+		This will trigger a full shutdown of all other processes related to rsudp.
+		'''
 		print()
 		self.queue.put(b'TERMSELF')
 
 	def handle_resize(self, evt=False):
+		'''
+		Handles a plot window resize event.
+		This will allow the plot to resize dynamically.
+		'''
 		if evt:
 			h = evt.height
 		else:
@@ -218,6 +251,12 @@ class Plot:
 					rect=[0.02, 0.01, 0.98, 0.90 + 0.045*(h/1080)])	# [left, bottom, right, top]
 
 	def _eventsave(self):
+		'''
+		This function takes the next event in line and pops it out of the list,
+		so that it can be saved and others preserved.
+		Then, it sets the title to something having to do with the event,
+		then calls the save figure function, and finally resets the title.
+		'''
 		self.save.reverse()
 		event = self.save.pop()
 		self.save.reverse()
@@ -239,6 +278,13 @@ class Plot:
 
 	def savefig(self, event_time=RS.UTCDateTime.now(),
 				event_time_str=RS.UTCDateTime.now().strftime('%Y-%m-%d-%H%M%S')):
+		'''
+		Saves the figure and puts an IMGPATH message on the master queue.
+		This message can be used to upload the image to various services.
+
+		:param obspy.UTCDateTime event_time: Event time as an obspy UTCDateTime object.
+		:param str event_time_str: Event time as a string. This is used to set the filename.
+		'''
 		figname = os.path.join(rsudp.scap_dir, '%s-%s.png' % (self.stn, event_time_str))
 		elapsed = RS.UTCDateTime.now() - event_time
 		if int(elapsed) > 0:
@@ -251,6 +297,9 @@ class Plot:
 		self.master_queue.put(b'IMGPATH %s %s' % (bytes(str(event_time), 'utf-8'), bytes(str(figname), 'utf-8')))
 
 	def _set_fig_title(self):
+		'''
+		Sets the figure title back to something that makes sense for the live viewer.
+		'''
 		self.fig.suptitle('%s.%s live output - detected events: %s' # title
 						  % (self.net, self.stn, self.events),
 						  fontsize=14, color=self.fgcolor, x=0.52)
@@ -258,7 +307,9 @@ class Plot:
 
 	def setup_plot(self):
 		"""
+		Sets up the plot. Quite a lot of stuff happens in this function.
 		Matplotlib backends are not threadsafe, so things are a little weird.
+		See code comments for details.
 		"""
 		# instantiate a figure and set basic params
 		self.fig = plt.figure(figsize=(10,3*self.num_chans))
@@ -401,6 +452,12 @@ class Plot:
 
 
 	def update_plot(self):
+		'''
+		Redraw the plot with new data.
+		Called on every nth loop after the plot is set up, where n is
+		the number of channels times the data packet arrival rate in Hz.
+		This has the effect of making the plot update once per second.
+		'''
 		obstart = self.stream[0].stats.endtime - timedelta(seconds=self.seconds)	# obspy time
 		start = np.datetime64(self.stream[0].stats.endtime
 							  )-np.timedelta64(self.seconds, 's')	# numpy time
@@ -461,8 +518,7 @@ class Plot:
 	def loop(self):
 		"""
 		Let some time elapse in order for the plot canvas to draw properly.
-		Must be separate from :func:`update_plot()` to avoid a broadcast error early in plotting.
-		Takes no arguments except :py:code:`self`.
+		Must be separate from :py:func:`update_plot()` to avoid a broadcast error early in plotting.
 		"""
 		self.fig.canvas.start_event_loop(0.005)
 
@@ -471,7 +527,7 @@ class Plot:
 		"""
 		The heart of the plotting routine.
 
-		Begins by updating the queue to populate a :py:`obspy.core.stream.Stream` object, then setting up the main plot.
+		Begins by updating the queue to populate a :py:class:`obspy.core.stream.Stream` object, then setting up the main plot.
 		The first time through the main loop, the plot is not drawn. After that, the plot is drawn every time all channels are updated.
 		Any plots containing a spectrogram and more than 1 channel are drawn at most every second (1000 ms).
 		All other plots are drawn at most every quarter second (250 ms).
@@ -510,8 +566,8 @@ class Plot:
 				i = 0
 			else:
 				i += 1
-			self.stream = RS.copy(self.stream)
-			self.raw = RS.copy(self.raw)
+			self.stream = RS.copy(self.stream)	# essential, otherwise the stream has a memory leak
+			self.raw = RS.copy(self.raw)		# and could eventually crash the machine
 			self.deconvolve()
 			self.update_plot()
 			if u >= 0:				# avoiding a matplotlib broadcast error

@@ -1,12 +1,8 @@
 name: rsudp
 channels:
-  - conda-forge
   - defaults
 dependencies:
-  - obspy
-  - numpy=1.16.4
   - pip
   - pip:
-    - rsudp
     - matplotlib==3.1.1
-
+    - git+https://github.com/raspishake/rsudp.git#egg=rsudp

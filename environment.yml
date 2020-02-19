@@ -4,9 +4,10 @@ channels:
   - rpi
   - conda-forge
 dependencies:
-  - python=3.7.4
-  - matplotlib=3.1.1
-  - numpy=1.16.4
+  - python==3.7.4
+  - pip==20.0.2
+  - matplotlib==3.1.1
+  - numpy==1.16.4
   - future
   - scipy
   - lxml

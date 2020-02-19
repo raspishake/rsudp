@@ -20,4 +20,4 @@ formats: all
 
 # anaconda environment
 conda:
-  environment: environment.yml
+  environment: rtd-env.yml

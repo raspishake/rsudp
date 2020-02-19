@@ -1,4 +1,4 @@
-:py:data:`rsudp.raspberryshake` (master consumer)
+:py:data:`rsudp.raspberryshake` (main library)
 =====================================================
 
 .. automodule:: rsudp.raspberryshake

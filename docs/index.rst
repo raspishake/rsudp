@@ -33,7 +33,6 @@ The project's source repository is `here <https://github.com/raspishake/rsudp>`_
     c_forward
     c_write
     raspberryshake
-    shake_udp_local
     shake_udp_packetloss
 
 Indices and tables

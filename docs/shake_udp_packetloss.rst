@@ -1,4 +1,4 @@
-:py:data:`rsudp.shake_udp_packetloss` (master consumer)
+:py:data:`rsudp.shake_udp_packetloss` (track packets)
 =====================================================
 
 .. automodule:: rsudp.shake_udp_packetloss

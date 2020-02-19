@@ -1,4 +1,4 @@
-:py:data:`rsudp.shake_udp_local` (master consumer)
+:py:data:`rsudp.shake_udp_local` (local Shake print)
 =====================================================
 
 .. automodule:: rsudp.shake_udp_local

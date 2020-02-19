@@ -1,4 +1,4 @@
-:py:data:`rsudp.c_forward` (master consumer)
+:py:data:`rsudp.c_forward` (forward data)
 =====================================================
 
 .. automodule:: rsudp.c_forward

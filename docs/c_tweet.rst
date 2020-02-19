@@ -1,4 +1,4 @@
-:py:data:`rsudp.c_tweet` (master consumer)
+:py:data:`rsudp.c_tweet` (Tweet alerts)
 =====================================================
 
 .. automodule:: rsudp.c_tweet

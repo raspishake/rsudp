@@ -1,4 +1,4 @@
-:py:data:`rsudp.c_alert` (master consumer)
+:py:data:`rsudp.c_alert` (STA/LTA alarm)
 =====================================================
 
 .. automodule:: rsudp.c_alert

@@ -1,4 +1,4 @@
-:py:data:`rsudp.c_telegram` (master consumer)
+:py:data:`rsudp.c_telegram` (Telegram alerts)
 =====================================================
 
 .. automodule:: rsudp.c_telegram

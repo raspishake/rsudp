@@ -1,4 +1,4 @@
-:py:data:`rsudp.c_plot` (master consumer)
+:py:data:`rsudp.c_plot` (plot data)
 =====================================================
 
 .. automodule:: rsudp.c_plot

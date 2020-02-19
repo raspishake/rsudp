@@ -17,7 +17,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     include_package_data=True,
     install_requires=['obspy', 'numpy', 'matplotlib==3.1.1', 'pydub', 'twython',
-                      'telepot', 'urllib3==1.24.2'],
+                      'python-telegram-bot'],
     entry_points = {
         'console_scripts': [
             'rs-local=rsudp.shake_udp_local:main',

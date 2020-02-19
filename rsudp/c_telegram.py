@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 import rsudp.raspberryshake as RS
 from rsudp import printM
 import rsudp
-import telepot as tg
+import telegram as tg
 
 class Telegrammer(Thread):
 	'''

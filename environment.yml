@@ -85,5 +85,4 @@ dependencies:
     - twython==3.7.0
     - urllib3==1.24.2
     - yarl==1.4.2
-prefix: /home/ian/miniconda3/envs/rsudp
 

@@ -16,7 +16,7 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 from datetime import datetime
-import readgssi
+import rsudp
 
 
 # -- Project information -----------------------------------------------------

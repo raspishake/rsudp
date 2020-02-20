@@ -14,7 +14,7 @@ class Producer(Thread):
 	consumers.
 
 	:param queue.Queue queue: The master queue, used to pass data to :py:class:`rsudp.c_consumer.Consumer`
-	:param list threads: The list of :py:class:`threading.Thread`s to monitor for status changes
+	:param list threads: The list of :py:class:`threading.Thread` s to monitor for status changes
 	'''
 
 	def __init__(self, queue, threads):

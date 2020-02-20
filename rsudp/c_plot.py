@@ -69,7 +69,7 @@ class Plot:
 	:type deconv: str or bool
 	:param bool screencap: whether or not to save screenshots of events. Defaults to False.
 	:param bool alert: whether to draw the number of events at startup. Defaults to True.
-	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.p_producer.Producer`
+	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 	'''
 
 	def __init__(self, cha='all', q=False,

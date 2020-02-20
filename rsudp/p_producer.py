@@ -13,7 +13,7 @@ class Producer(Thread):
 	quit gracefully and put a TERM message on the queue, which should stop all running
 	consumers.
 
-	:param queue.Queue queue: The master queue
+	:param queue.Queue queue: The master queue, used to pass data to :py:class:`rsudp.c_consumer.Consumer`
 	:param list threads: The list of :py:class:`threading.Thread`s to monitor for status changes
 	'''
 

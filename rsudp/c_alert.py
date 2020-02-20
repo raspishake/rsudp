@@ -24,6 +24,7 @@ class Alert(Thread):
 	:param func func: the function or path to python script to run in the event of an alert.
 	:param bool debug: whether or not to display max STA/LTA calculation live to the console.
 	:param str cha: listening channel (defaults to [S,E]HZ)
+	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 
 	"""
 	def __init__(self, sta=5, lta=30, thresh=1.6, reset=1.55, bp=False,

@@ -19,7 +19,7 @@ class AlertSound(Thread):
 
 	:param sta: short term average (STA) duration in seconds.
 	:type sta: bool or pydub.AudioSegment_ 
-	:param queue.Queue q: Queue to listen for alerts on.
+	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`.
 
 	"""
 

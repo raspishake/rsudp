@@ -13,7 +13,7 @@ class Write(Thread):
 
 	:param cha: channel(s) to forward. others will be ignored.
 	:type cha: str or list
-	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.p_producer.Producer`
+	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 	:param bool debug: whether or not to display messages when writing data to disk.
 
 	"""

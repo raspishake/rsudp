@@ -305,6 +305,7 @@ If :json:`"send_images"` is :json:`true`, then the module will also send a saved
 if :json:`"eq_screenshots"` is set to :json:`true` in the :json:`"plot"` module.
 
 Note that in order for this to work, the user has to:
+
 #. `download Telegram <https://telegram.org/>`_, create a profile, and sign in
 #. create a Telegram bot by sending the :code:`/start` message to the :code:`BotFather` account
 and following the instructions. Your messages to :code:`@BotFather` should look something like the following:
@@ -333,6 +334,7 @@ If "tweet_images" is true, then the module will also tweet a saved image of the 
 if "eq_screenshots" is set to :json:`true` in the "plot" module.
 
 Note that in order for this to work, the user has to:
+
 #. `create a twitter profile <https://twitter.com/signup>`_
 for automatically tweeting alerts (or use an existing account)
 #. register this account as a `Twitter developer account <https://developer.twitter.com/en.html>`_

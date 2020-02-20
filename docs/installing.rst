@@ -84,12 +84,12 @@ On Windows
 #. Open an Anaconda Prompt.
 #. Execute the following lines of code:
 
-    .. code-block:: bash
+.. code-block:: bash
 
-        conda config --append channels conda-forge
-        conda create -n rsudp python=3 matplotlib=3.1.1 numpy=1.16.4 future scipy lxml sqlalchemy obspy
-        conda activate rsudp
-        pip install rsudp
+    conda config --append channels conda-forge
+    conda create -n rsudp python=3 matplotlib=3.1.1 numpy=1.16.4 future scipy lxml sqlalchemy obspy
+    conda activate rsudp
+    pip install rsudp
 
 If you wish to play sounds on Windows, please follow steps 1-8 in
 `this tutorial <https://windowsloop.com/install-ffmpeg-windows-10/>`_

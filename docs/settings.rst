@@ -98,8 +98,8 @@ This will only occur when the alarm gets triggered, however, so make sure to tes
 .. warning::
 
     It is extremely important that you do not rely on this code to save life or property.
-    Although this software can detect earthquakes and sudden motion events,
 
+    lthough this software can detect earthquakes and sudden motion events,
     Raspberry Shake makes no guarantee and provides no warranty in any way,
     implied or explicit, for the performance of this software in earthquake detection.
 

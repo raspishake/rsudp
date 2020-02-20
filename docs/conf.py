@@ -22,7 +22,7 @@ import rsudp
 # -- Project information -----------------------------------------------------
 
 project = 'rsudp'
-copyright = '%s, Raspberry Shake, S.A.' % datetime.now().year
+copyright = '%s, Raspberry Shake S.A.' % datetime.now().year
 author = 'Ian Nesbitt, Richard Boaz'
 
 # The short X.Y version

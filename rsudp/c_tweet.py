@@ -13,6 +13,8 @@ from twython import Twython
 
 class Tweeter(Thread):
 	'''
+	 .. versionadded:: 0.4.1
+
 	Twitter is a social media platform sometimes used for quickly
 	distributing public alert information. It is used by many agencies
 	including `Raspberry Shake <https://twitter.com/raspishakeq`_,

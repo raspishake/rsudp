@@ -9,6 +9,8 @@ import telegram as tg
 
 class Telegrammer(Thread):
 	'''
+	 .. versionadded:: 0.4.2
+
 	`Telegram <https://t.me/>`_ is a free messaging service which,
 	among other things, is suited to quickly broadcasting automatic
 	notifications via an API.

@@ -11,7 +11,7 @@ On Linux & MacOS
 *********************************
 
 A UNIX installer script is available at :bash:`unix-install-rsudp.sh`.
-This script checks whether or not you have Anaconda installed,
+This script checks whether or not you have Anaconda or Miniconda installed,
 then downloads and installs it if need be.
 This script has been tested on both :bash:`x86_64` and :bash:`armv7l`
 architectures (meaning that it can run on your home computer or a Raspberry Pi)
@@ -21,6 +21,12 @@ and leave you ready to run the program. To install using this method:
 .. code-block:: bash
 
     bash unix-install-rsudp.sh
+
+.. warning::
+    In order for this installer to work correctly,
+    your Anaconda/Miniconda base directory must be in your home folder,
+    for example: :bash:`~/anaconda3` or :bash:`~/miniconda3`.
+    If this is not the case, you could end up with a second conda installation overriding your first.
 
 .. note::
     **The installer script will pause partway through to ask if you would like to make the**
@@ -49,7 +55,7 @@ and leave you ready to run the program. To install using this method:
 .. note::
     You can run :bash:`uname -m` to check your computer's architecture.
 
-You are now ready to proceed to the next section, settings_.
+You are now ready to proceed to the next section, :ref:`settings`.
 
 Updating
 ---------------------------------
@@ -80,9 +86,9 @@ you can do a command similar to the following:
 On Windows
 *********************************
 
-#. Download and install Anaconda or Miniconda.
-#. Open an Anaconda Prompt.
-#. Execute the following lines of code:
+1. Download and install Anaconda or Miniconda.
+2. Open an Anaconda Prompt.
+3. Execute the following lines of code:
 
 .. code-block:: bash
 
@@ -96,7 +102,7 @@ If you wish to play sounds on Windows, please follow steps 1-8 in
 in order to install :code:`ffmpeg` and add it to your system's path variable.
 
 
-You are now ready to proceed to the next section, settings_.
+You are now ready to proceed to the next section, :ref:`settings`.
 
 
 `Back to top ↑ <#top>`_

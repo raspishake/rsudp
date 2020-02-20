@@ -1,4 +1,6 @@
-Modules and settings
+.. _settings:
+
+Modules and Settings
 #################################################
 
 .. role:: bash(code)
@@ -13,8 +15,11 @@ Modules and settings
 You will need to adjust the settings file before running :bash:`rsudp` in order to
 both receive data and suit your earthquake detection and notification needs.
 
+By default, the rsudp settings file will live in :bash:`$HOME/.config/rsudp/rsudp_settings.json`.
+To output default settings to a different location, see :ref:`running-manually`.
 
-:json:`"settings"` (general settings)
+
+:json:`settings` (general settings)
 *************************************************
 
 The :json:`"settings"` portion of the settings file contains some basic items:
@@ -27,7 +32,8 @@ The directory specified here will be created if it doesn't already exist.
 :json:`"debug"` controls how much text is sent to the command line STDOUT
 (even if this is false, output will always be sent to a log at :code:`/tmp/rsudp/rsudp.log`).
 
-:json:`"plot"`
+
+:json:`plot`
 *************************************************
 
 :json:`"plot"` controls the thread containing the GUI plotting algorithm.
@@ -82,8 +88,10 @@ The script will save one PNG figure per alert to the :code:`screenshots` directo
 inside of :json:`"output_dir"` when the leading edge of the quake is about 70% of the way across the plot window.
 This will only occur when the alarm gets triggered, however, so make sure to test your alert settings thoroughly.
 
+`Back to top ↑ <#top>`_
 
-:json:`"alert"` (STA/LTA earthquake detection trigger)
+
+:json:`alert` (STA/LTA earthquake detection trigger)
 *********************************************************************************
 
 .. warning::
@@ -234,8 +242,10 @@ If you're not sure what this means,
 please read about newline/line ending characters `here <https://en.wikipedia.org/wiki/Newline>`_.
 If you are certain that your code file has no Windows newlines, you can set :json:`"win_override"` to true.
 
+`Back to top ↑ <#top>`_
 
-:json:`"alarmsound"` (play sounds upon alerts)
+
+:json:`alarmsound` (play sounds upon alerts)
 *************************************************
 
 If alarmsound's :json:`"enabled"` is :json:`true` and you have either :bash:`ffmpeg` or :bash:`libav` installed,
@@ -288,8 +298,10 @@ Following steps 1-8 in
 `this installation guide <https://windowsloop.com/install-ffmpeg-windows-10/>`_
 should be sufficient to get things working.
 
+`Back to top ↑ <#top>`_
 
-:json:`"telegram"` (Telegram notification module)
+
+:json:`telegram` (Telegram notification module)
 *************************************************
 
 `Telegram <https://telegram.org/>`_ is a free and open source messaging and notification system,
@@ -306,8 +318,8 @@ if :json:`"eq_screenshots"` is set to :json:`true` in the :json:`"plot"` module.
 
 Note that in order for this to work, the user has to:
 
-#. `download Telegram <https://telegram.org/>`_, create a profile, and sign in
-#. create a Telegram bot by sending the :code:`/start` message to the :code:`BotFather` account
+1. `download Telegram <https://telegram.org/>`_, create a profile, and sign in
+2. create a Telegram bot by sending the :code:`/start` message to the :code:`BotFather` account
 and following the instructions. Your messages to :code:`@BotFather` should look something like the following:
 .. code-block::
     /start
@@ -315,8 +327,8 @@ and following the instructions. Your messages to :code:`@BotFather` should look 
     Your Shake Bot Name
     your_shake_bot_id
 :code:`@BotFather` will then give you an access token for your new bot.
-#. enter the bot's access token in the :json:`"token"` field of the settings file.
-#. enter a user or group ID into the :json:`"chat_id"` field, which you can find by following the instructions
+3. enter the bot's access token in the :json:`"token"` field of the settings file.
+4. enter a user or group ID into the :json:`"chat_id"` field, which you can find by following the instructions
 `here <https://stackoverflow.com/a/32572159>`_.
 
 If you wish to post to a group, first add the bot to the group using your user account,
@@ -324,8 +336,10 @@ then follow the instructions in the previous link,
 where you will see the group chat ID appear as a field in the last JSON entry.
 This chat ID may be negative, in which case you must enter the negative sign into :json:`"chat_id"` as well.
 
+`Back to top ↑ <#top>`_
 
-:json:`"tweets"` (Twitter notification module)
+
+:json:`tweets` (Twitter notification module)
 *************************************************
 
 tweets if "enabled" is true, and all API keys have been generated and are correctly entered,
@@ -335,20 +349,22 @@ if "eq_screenshots" is set to :json:`true` in the "plot" module.
 
 Note that in order for this to work, the user has to:
 
-#. `create a twitter profile <https://twitter.com/signup>`_
+1. `create a twitter profile <https://twitter.com/signup>`_
 for automatically tweeting alerts (or use an existing account)
-#. register this account as a `Twitter developer account <https://developer.twitter.com/en.html>`_
-#. create a `Twitter API app <https://opensource.com/article/17/8/raspberry-pi-twitter-bot>`_
+2. register this account as a `Twitter developer account <https://developer.twitter.com/en.html>`_
+3. create a `Twitter API app <https://opensource.com/article/17/8/raspberry-pi-twitter-bot>`_
 inside said developer account
-#. generate consumer keys and API keys for that app.
+4. generate consumer keys and API keys for that app.
 
 Once you have generated the four API keys required for authentication
 (consumer API key, consumer API secret, access token, and access token secret),
 you may enter them into your settings file in the appropriate fields:
 :json:`"api_key"`, :json:`"api_secret"`, :json:`"access_token"`, and :json:`"access_secret"`.
 
+`Back to top ↑ <#top>`_
 
-:json:`"write"` (miniSEED writer)
+
+:json:`write` (miniSEED writer)
 *************************************************
 
 :json:`"write"` controls a very simple STEIM2 miniSEED writer.
@@ -358,21 +374,29 @@ By default, :json:`"all"` channels will be written to their own files.
 You can change which channels are written by changing this to, for example, :json:`["EHZ", "ENZ"]`,
 which will write the vertical geophone and accelerometer channels from RS4D output.
 
+`Back to top ↑ <#top>`_
 
-:json:`"forward"` (datacast forwarding)
+
+:json:`forward` (datacast forwarding)
 *************************************************
 
 The :json:`"forward"` module controls a UDP datacast forwarding module.
 You can forward UDP packets for a list of channels from a datacast to the :json:`"address"` and :json:`"port"` specified,
 just like you would from the Shake's web front end. By default, :json:`["all"]` channels are forwarded.
 
+`Back to top ↑ <#top>`_
 
-:json:`"printdata"` (print data to console)
+
+:json:`printdata` (print data to console)
 *************************************************
 
 :json:`"printdata"` controls the data output module, which simply prints Shake data packets to stdout as it receives them.
 Change :json:`"enabled"` to :json:`true` to activate.
 
+`Back to top ↑ <#top>`_
+
+
+You are now ready to proceed to the next section, :ref:`running`.
 
 
 Defaults

@@ -1,10 +1,430 @@
 Modules and settings
 #################################################
 
+.. role:: bash(code)
+    :language: bash
+
+.. role:: json(code)
+    :language: json
+
+.. role:: pycode(code)
+    :language: python
+
+You will need to adjust the settings file before running :bash:`rsudp` in order to both receive data and suit your earthquake detection and notification needs.
+
 Module overview
 *************************************************
 
-Settings
+:json:`"settings"` (general settings)
+-------------------------------------------------
+
+The :json:`"settings"` portion of the settings file contains some basic items: :json:`"port"`, :json:`"station"`, :json:`"output_dir"`, and :json:`"debug"`.
+Change :json:`"port"` if you are receiving the data at a different port than :json:`8888`.
+To set your station name, change the value set for :json:`"station"`.
+:json:`"output_dir"` will contain folders for miniSEED data and plot screenshots, which are explained in the relevant sections (write and plot) below.
+The directory specified here will be created if it doesn't already exist.
+:json:`"debug"` controls how much text is sent to the command line STDOUT (even if this is false, output will always be sent to a log at :json:`/tmp/rsudp/rsudp.log`).
+
+:json:`"plot"`
+-------------------------------------------------
+
+:json:`"plot"` controls the thread containing the GUI plotting algorithm.
+This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and display a spectrogram beneath each.
+
+By default the plotted :json:`"duration"` in seconds is :json:`30`.
+The plot will refresh at most once per second, but slower processors may take longer.
+The longer the duration, the more processor power it will take to refresh the plot, especially when the spectrogram is enabled.
+To disable the spectrogram, set :json:`"spectrogram"` to :json:`false` in the settings file.
+To put the plot into fullscreen window mode, set :json:`"fullscreen"` to :json:`true`.
+To put the plot into kiosk mode, set :json:`"kiosk"` to :json:`true`.
+
+.. note::
+
+    Kiosk mode will force the plot to fill the entire screen.
+    To exit, press Ctrl+W or Alt+Tab (Command+Tab on Mac OS) to bring up a window switcher).
+
+.. note::
+
+    On a Raspberry Pi 3B+, plotting 600 seconds of data and a spectrogram from one channel,
+    the update frequency is approximately once every 5 seconds, but more powerful processors will be able to accommodate a higher refresh speed.
+
+.. note::
+
+    Because the plot module is queue-based, it will not drop any packets received, no matter the processor.
+    Dropped packets (if you experience them) are most likely a sign of network issues where the missing data never actually arrives at the receiving machine.
+
+By default, the :json:`"channels"` field is :json:`["HZ", "HDF"]`.
+This will resolve to at least one channel of any Shake input.
+:json:`"HZ"` will match either :json:`"SHZ"` or :json:`"EHZ"` depending on your Shake digitizer model,
+and :json:`"HDF"` will match the pressure transducer channel on a Raspberry Boom or Shake & Boom.
+If one of the channels in the list doesn't exist in the data sent to the port, it will be ignored.
+
+The program will use the Raspberry Shake FDSN service to search for an inventory response file
+for the Shake you specify in the :json:`"station"` field.
+If it successfully finds an inventory,
+setting "deconvolve" to :json:`true` will deconvolve the channels plotted to either :json:`"ACC"` (acceleration in m/s^2),
+:json:`"VEL"` (velocity in m/s), or :json:`"DISP"` (displacement in m).
+The default is :json:`"CHAN"` which lets the program deconvolve the channel
+to its native units (acceleration for accelerometers, and velocity for geophones).
+This means that the Shake must both have the 4.5 Hz geophone distributed by RS,
+and be forwarding data to the Shake server, in order to deconvolve successfully.
+For the time being, the Raspberry Boom will display in counts of Voltage, i.e., not a deconvolved unit.
+
+If the alert module is enabled, setting :json:`"eq_screenshots"` to :json:`true`
+will result in screenshots being saved whenever there is an :code:`ALARM`
+is internally forwarded for further processing (see Alert section below).
+The script will save one PNG figure per alert to the :code:`screenshots` directory
+inside of :json:`"output_dir"` when the leading edge of the quake is about 70% of the way across the plot window.
+This will only occur when the alarm gets triggered, however, so make sure to test your alert settings thoroughly.
+
+
+:json:`"alert"` (STA/LTA earthquake detection trigger)
+---------------------------------------------------------
+
+.. warning::
+
+    It is extremely important that you do not rely on this code to save life or property.
+    Although this software can detect earthquakes and sudden motion events,
+    Raspberry Shake makes no guarantee and provides no warranty in any way,
+    implied or explicit, for the performance of this software in earthquake detection.
+    Raspberry Shake assumes no liability for false positives, false negatives,
+    errors running the Alert module, or any other part of this library;
+    it is meant for hobby and non-professional notification use only.
+    If you need professional software to provide a warning intended to save life
+    or property, please contact Raspberry Shake directly or look elsewhere.
+    See sections 16 and 16b of the
+    `License<https://github.com/raspishake/rsudp/blob/master/LICENSE>`_ for further details.
+
+
+
+:json:`"alert"` controls the alert module (please see Warning above).
+The alert module is a fast recursive STA/LTA sudden motion detector that utilizes obspy's
+`recursive_sta_lta() https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#recursive-sta-lta` function.
+STA/LTA algorithms calculate a ratio of the short term average of station noise to the long term average.
+The data can be highpass, lowpass, or bandpass filtered by changing the :json:`"highpass"`
+and :json:`"lowpass"` parameters from their defaults (:json:`0` and :json:`50` respectively).
+By default, the alert will be calculated on raw count data from the vertical geophone channel (either :json:`"SHZ"` or :json:`"EHZ"`).
+It will throw an error if there is no Z channel available (i.e. if you have a Raspberry Boom with no geophone).
+If you have a Boom and still would like to run this module, change the default channel :json:`"HZ"` to :json:`"HDF"`.
+
+Like in the plot module, the alert module deconvolves the instrument response if a response file exists
+for your :json:`"station"` on the Raspberry Shake FDSN server.
+Same as above, if the response file exists,
+setting :json:`"deconvolve"` to :json:`true` will cause the alert function to
+calculate the STA/LTA ratio on deconvolved data (again :json:`"ACC"`, :json:`"VEL"`, or :json:`"DISP"`).
+
+If the STA/LTA ratio goes above a certain value (defined by :json:`"threshold"`),
+then the module will generate an :code:`ALARM` "event packet", to be distributed to every consumer module.
+In addition to sending :code:`ALARM` packets to other modules,
+alert can also run a function passed to it (see the explanation of :json:`"exec"` in the section below).
+By default, this function is :class:`rsudp.client.eqAlert()` which,
+in this version, merely outputs some text to the console or the log.
+To play a sound, see the :json:`"alarmsound"` module.
+When the ratio goes back below the :json:`"reset"` value, the alarm is reset.
+
+Recommendations
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The detection and filtering settings that we've found work well are below for different scenarios.
+
+General use
+"""""""""""""""""""""""""""""""""""
+
+For a station with sudden motion (footsteps nearby occasionally),
+or one atop unconsolidated sediment:
+
+.. code-block:: json
+
+    "alert": {
+        "enabled": true,
+        "highpass": 0.8,
+        "lowpass": 9,
+        "deconvolve": false,
+        "units": "VEL",
+        "sta": 6,
+        "lta": 30,
+        "threshold": 4.5,
+        "reset": 0.5,
+        "exec": "eqAlert",
+        "channel": "HZ",
+        "win_override": false},
+
+Quiet vault
+"""""""""""""""""""""""""""""""""""
+
+For a very quiet station placed atop bedrock:
+
+.. code-block:: json
+
+    "alert": {
+        "enabled": true,
+        "highpass": 0.8,
+        "lowpass": 9,
+        "deconvolve": false,
+        "units": "VEL",
+        "sta": 6,
+        "lta": 30,
+        "threshold": 1,
+        "reset": 0.2,
+        "exec": "eqAlert",
+        "channel": "HZ",
+        "win_override": false},
+
+Classroom demonstrations
+"""""""""""""""""""""""""""""""""""
+
+For a classroom looking to detect jumps but not necessarily earthquakes:
+
+.. code-block:: json
+
+    "alert": {
+        "enabled": true,
+        "highpass": 0,
+        "lowpass": 50,
+        "deconvolve": false,
+        "units": "VEL",
+        "sta": 6,
+        "lta": 30,
+        "threshold": 1.7,
+        "reset": 1.6,
+        "exec": "eqAlert",
+        "channel": "HZ",
+        "win_override": false},
+
+Using :json:`"exec"`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. deprecated:: 0.4.3
+
+    You can change the :json:`"exec"` field and supply a path to executable Python code to run with the :py:func:`exec` function.
+    :py:func:`exec` functionality will move to its own module in version 0.4.3, and this part of the alert module will be
+    fully removed in a future release.
+
+Be very careful when using the :py:func:`exec` function, as it is known to have problems.
+Notably, it does not check the passed code for errors prior to running.
+Additionally, if the code takes too long to execute,
+you could end up losing data packets from the queue, so keep it simple.
+Sending a message or a tweet, which should either succeed or time out in a few seconds,
+is really the intended purpose, and this can typically be achieved by setting up a different module anyway
+(see Twitter and Telegram modules).
+In testing, we were able to run scripts with execution times of 30 seconds without losing any data packets.
+Theoretically you could run code that takes longer to process than that,
+but the issue is that the longer it takes the function to process code,
+the longer the module will go without processing data from the queue
+(the queue can hold up to 2048 packets, which for a RS4D works out to 128 seconds of data).
+Another way of saying this is: you will miss whatever subsequent earthquakes occur while :pycode:`exec()` is running.
+A much better way to run your own code would be to fork this repository
+and create a new thread that sits idle until it sees an ALARM data packet on the queue.
+That way, the alert module can process more queue packets simultaneously to the execution of alarm-state code.
+
+If you are running Windows and have code you want to pass to the :py:func:`exec` function,
+Python requires that your newline characters are in the UNIX style (:code:`\n`), not the standard Windows style (:code:`\r\n`).
+To convert, follow the instructions in one of the answers to
+`this stackoverflow question<https://stackoverflow.com/questions/17579553/windows-command-to-convert-unix-line-endings>`_.
+If you're not sure what this means, please read about newline/line ending characters `here<https://en.wikipedia.org/wiki/Newline>`_.
+If you are certain that your code file has no Windows newlines, you can set :json:`"win_override"` to true.
+
+
+:json:`"alarmsound"` (play sounds upon alerts)
+-------------------------------------------------
+
+If alarmsound's :json:`"enabled"` is :json:`true` and you have either :bash:`ffmpeg` or :bash:`libav` installed,
+this module plays an MP3 sound every time it receives an :code:`ALARM` queue message.
+For details on installation of these dependencies,
+see `this page<https://github.com/jiaaro/pydub#dependencies>`_.
+
+The software will install several small MP3 files.
+The :json:`"mp3file"` is :json:`"doorbell"` (two doorbell chimes) by default,
+but there are a few more aggressive alert sounds, including: a three-beep sound :json:`"beeps"`,
+a sequence of sonar pings :json:`"sonar"`,
+and a continuous alarm beeping for 5 seconds, :json:`"alarm"`.
+You can also point the :json:`"mp3file"` field to an MP3 file somewhere in your filesystem.
+For example, if your username was :code:`pi` and you had a file called `earthquake.mp3` in your Downloads folder,
+you would specify :json:`"mp3file": "/home/pi/Downloads/earthquake.mp3"`.
+The program will throw an error if it can't find (or load) the specified MP3 file.
+It will also alert you if the software dependencies for playback are not installed.
+
+To test the sound output, ensure you have the correct dependencies installed (see below),
+change :json:`"enabled"` to :json:`true`, start rsudp,
+wait for the trigger to warm up, then stomp, jump, or Shake to trigger the sound.
+
+Installing :code:`pydub` dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you would like to play sounds when the STA/LTA trigger activates,
+you will need to take the following installation steps beforehand:
+
+On Linux
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+`ffmpeg<http://ffmpeg.org/>`_ comes installed by default on some OS flavors
+and is available on most Linux package managers.
+
+Debian and Raspbian users can simply type :bash:`sudo apt update; sudo apt install ffmpeg`
+
+On MacOS
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Users with Homebrew can install by doing :bash:`brew install ffmpeg`
+
+Users without Homebrew will need to install using a binary build
+`on the ffmpeg website<http://ffmpeg.org/download.html#build-mac>`_
+
+On Windows
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Windows users will need to do a couple of extra steps to get :code:`ffmpeg` installed.
+Following steps 1-8 in
+`this installation guide<https://windowsloop.com/install-ffmpeg-windows-10/>`_
+should be sufficient to get things working.
+
+
+:json:`"telegram"` (Telegram notification module)
+-------------------------------------------------
+
+`Telegram<https://telegram.org/>`_ is a free and open source messaging and notification system,
+used by several earthquake notification agencies including the
+Mexican national early warning system (`SASMEX<https://sasmex.net/>`_).
+It has the bonus of being much, much easier to set up than Twitter,
+and will not lock your account out if there happen to be many posts in a short time period
+(whereas Twitter will).
+
+If :json:`"enabled"` is :json:`true`, and bot :json:`"token"` key is correctly entered,
+this module will use the Telegram bot API to create alerts when an :code:`ALARM` message arrives on the queue.
+If :json:`"send_images"` is :json:`true`, then the module will also send a saved image of the event,
+if :json:`"eq_screenshots"` is set to :json:`true` in the :json:`"plot"` module.
+
+Note that in order for this to work, the user has to:
+#. `download Telegram<https://telegram.org/>`_, create a profile, and sign in
+#. create a Telegram bot by sending the :code:`/start` message to the :code:`BotFather` account
+and following the instructions. Your messages to :code:`@BotFather` should look something like the following:
+.. code-block::
+    /start
+    /newbot
+    Your Shake Bot Name
+    your_shake_bot_id
+:code:`@BotFather` will then give you an access token for your new bot.
+#. enter the bot's access token in the :json:`"token"` field of the settings file.
+#. enter a user or group ID into the :json:`"chat_id"` field, which you can find by following the instructions
+`here<https://stackoverflow.com/a/32572159>`_.
+
+If you wish to post to a group, first add the bot to the group using your user account,
+then follow the instructions in the previous link,
+where you will see the group chat ID appear as a field in the last JSON entry.
+This chat ID may be negative, in which case you must enter the negative sign into :json:`"chat_id"` as well.
+
+
+:json:`"tweets"` (Twitter notification module)
+-------------------------------------------------
+
+tweets if "enabled" is true, and all API keys have been generated and are correctly entered,
+then this module will use the Twitter API to create tweets when an ALARM message arrives on the queue.
+If "tweet_images" is true, then the module will also tweet a saved image of the event,
+if "eq_screenshots" is set to :json:`true` in the "plot" module.
+
+Note that in order for this to work, the user has to:
+#. `create a twitter profile<https://twitter.com/signup>`_
+for automatically tweeting alerts (or use an existing account)
+#. register this account as a `Twitter developer account<https://developer.twitter.com/en.html>`_
+#. create a `Twitter API app<https://opensource.com/article/17/8/raspberry-pi-twitter-bot>`_
+inside said developer account
+#. generate consumer keys and API keys for that app.
+
+Once you have generated the four API keys required for authentication
+(consumer API key, consumer API secret, access token, and access token secret),
+you may enter them into your settings file in the appropriate fields:
+:json:`"api_key"`, :json:`"api_secret"`, :json:`"access_token"`, and :json:`"access_secret"`.
+
+
+:json:`"write"` (miniSEED writer)
+-------------------------------------------------
+
+:json:`"write"` controls a very simple STEIM2 miniSEED writer.
+If :json:`"enabled"` is :json:`true`, seismic data is appended to a miniSEED file with a
+descriptive name in the data directory inside of :json:`"output_dir"` every 10 seconds.
+By default, :json:`"all"` channels will be written to their own files.
+You can change which channels are written by changing this to, for example, :json:`["EHZ", "ENZ"]`,
+which will write the vertical geophone and accelerometer channels from RS4D output.
+
+
+:json:`"forward"` (datacast forwarding)
+-------------------------------------------------
+
+The :json:`"forward"` module controls a UDP datacast forwarding module.
+You can forward UDP packets for a list of channels from a datacast to the :json:`"address"` and :json:`"port"` specified,
+just like you would from the Shake's web front end. By default, :json:`["all"]` channels are forwarded.
+
+
+:json:`"printdata"` (print data to console)
+-------------------------------------------------
+
+:json:`"printdata"` controls the data output module, which simply prints Shake data packets to stdout as it receives them.
+Change :json:`"enabled"` to :json:`true` to activate.
+
+
+
+Defaults
 *************************************************
+
+By default, the settings are as follows:
+
+.. code-block:: json
+
+    {
+    "settings": {
+        "port": 8888,
+        "station": "Z0000",
+        "output_dir": "@@DIR@@",
+        "debug": true},
+    "printdata": {
+        "enabled": false},
+    "write": {
+        "enabled": false,
+        "channels": ["all"]},
+    "plot": {
+        "enabled": true,
+        "duration": 30,
+        "spectrogram": true,
+        "fullscreen": false,
+        "kiosk": false,
+        "eq_screenshots": false,
+        "channels": ["HZ", "HDF"],
+        "deconvolve": false,
+        "units": "CHAN"},
+    "forward": {
+        "enabled": false,
+        "address": "192.168.1.254",
+        "port": 8888,
+        "channels": ["all"]},
+    "alert": {
+        "enabled": true,
+        "highpass": 0,
+        "lowpass": 50,
+        "deconvolve": false,
+        "units": "VEL",
+        "sta": 6,
+        "lta": 30,
+        "threshold": 1.7,
+        "reset": 1.6,
+        "exec": "eqAlert",
+        "channel": "HZ",
+        "win_override": false},
+    "alertsound": {
+        "enabled": false,
+        "mp3file": "doorbell"},
+    "tweets": {
+        "enabled": false,
+        "tweet_images": true,
+        "api_key": "n/a",
+        "api_secret": "n/a",
+        "access_token": "n/a",
+        "access_secret": "n/a"},
+    "telegram": {
+        "enabled": false,
+        "send_images": true,
+        "token": "n/a",
+        "chat_id": "n/a"}
+    }
+
 
 `Back to top ↑ <#top>`_

@@ -10,6 +10,12 @@ import rsudp
 class Write(Thread):
 	"""
 	A simple routine to write daily miniSEED data to `output_dir/data`.
+
+	:param cha: channel(s) to forward. others will be ignored.
+	:type cha: str or list
+	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.p_producer.Producer`
+	:param bool debug: whether or not to display messages when writing data to disk.
+
 	"""
 	def __init__(self, q=False, debug=False, cha='all'):
 		"""

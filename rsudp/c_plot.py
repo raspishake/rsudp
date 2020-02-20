@@ -46,26 +46,39 @@ icon = 'icon.ico'
 icon2 = 'icon.png'
 
 class Plot:
+	'''
+	GUI plotting algorithm, compatible with multiple :py:`matplotlib` backends.
+	This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and display a spectrogram beneath each.
+
+	By default the plotted :json:`"duration"` in seconds is :json:`30`.
+	The plot will refresh at most once per second, but slower processors may take longer.
+	The longer the duration, the more processor power it will take to refresh the plot,
+	especially when the spectrogram is enabled.
+	To disable the spectrogram, set :json:`"spectrogram"` to :json:`false` in the settings file.
+	To put the plot into fullscreen window mode, set :json:`"fullscreen"` to :json:`true`.
+	To put the plot into kiosk mode, set :json:`"kiosk"` to :json:`true`.
+
+	:param cha: channels to plot. Defaults to "all" but can be passed a list of channel names as strings.
+	:type cha: str or list
+	:param int seconds: number of seconds to plot. Defaults to 30.
+	:param bool spectrogram: whether to plot the spectrogram. Defaults to True.
+	:param bool fullscreen: whether to plot in a fullscreen window. Defaults to False.
+	:param bool kiosk: whether to plot in kiosk mode (true fullscreen). Defaults to False.
+	:param bool qt: whether Qt is on this system. Defaults to False.
+	:param deconv: whether to deconvolve the signal. Defaults to False.
+	:type deconv: str or bool
+	:param bool screencap: whether or not to save screenshots of events. Defaults to False.
+	:param bool alert: whether to draw the number of events at startup. Defaults to True.
+	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.p_producer.Producer`
+	'''
+
 	def __init__(self, cha='all', q=False,
 				 seconds=30, spectrogram=True,
 				 fullscreen=False, kiosk=False,
 				 qt=qt, deconv=False,
 				 screencap=False, alert=True):
 		"""
-		Initialize the plot process
-
-		:param cha: channels to plot. Defaults to "all" but can be passed a list of channel names as strings.
-		:type cha: str or list
-		:param int seconds: number of seconds to plot. Defaults to 30.
-		:param bool spectrogram: whether to plot the spectrogram. Defaults to True.
-		:param bool fullscreen: whether to plot in a fullscreen window. Defaults to False.
-		:param bool kiosk: whether to plot in kiosk mode (true fullscreen). Defaults to False.
-		:param bool qt: whether Qt is on this system. Defaults to False.
-		:param deconv: whether to deconvolve the signal. Defaults to False.
-		:type deconv: str or bool
-		:param bool screencap: whether or not to save screenshots of events. Defaults to False.
-		:param bool alert: whether to draw the number of events at startup. Defaults to True.
-		:param queue.Queue q: queue of data and messages sent by :class:`rsudp.p_producer.Producer`
+		Initialize the plot process.
 
 		"""
 		super().__init__()

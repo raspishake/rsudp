@@ -5,17 +5,22 @@ from rsudp import printM
 import rsudp.raspberryshake as RS
 
 class Forward(Thread):
+	"""
+	Single-destination data forwarding. This consumer reads
+	queue messages from the :class:`rsudp.c_consumer.Consumer`
+	and forwards those messages to a specified address and port.
+
+	:param str addr: IP address to pass UDP data to
+	:param str port: network port to pass UDP data to (at specified address)
+	:param cha: channel(s) to forward. others will be ignored.
+	:type cha: str or list
+	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.p_producer.Producer`
+	"""
+
 	def __init__(self, addr, port, cha, q):
 		"""
-		Initializes single-destination data forwarding. This consumer reads
-		queue messages from the :class:`rsudp.c_consumer.Consumer`
-		and forwards those messages to a specified address and port.
-
-		:param str addr: IP address to pass UDP data to
-		:param str port: network port to pass UDP data to (at specified address)
-		:param cha: channel(s) to forward. others will be ignored.
-		:type cha: str or list
-		:param queue.Queue q: queue of data and messages sent by :class:`rsudp.p_producer.Producer`
+		Initializes data forwarding module.
+		
 		"""
 		super().__init__()
 

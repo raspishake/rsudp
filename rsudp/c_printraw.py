@@ -10,14 +10,13 @@ class PrintRaw(Thread):
 	in the settings file. This is more of a debug feature than anything else,
 	meant to be a way to check that data is flowing into the port as expected.
 
-
+	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.p_producer.Producer`
 	"""
 
 	def __init__(self, q=False):
 		"""
 		Initializing the data printing process.
 
-		:param queue.Queue q: queue of data and messages sent by :class:`rsudp.p_producer.Producer`
 		"""
 		super().__init__()
 		self.sender = 'Print'

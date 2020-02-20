@@ -4,14 +4,20 @@ from rsudp import printM
 
 
 class Consumer(Thread):
+	"""
+	The main consumer process. This consumer reads
+	queue messages from the :class:`rsudp.p_producer.Producer`
+	and distributes those messages to each sub-consumer in :param:`destinations`.
+
+	:param queue.Queue queue: queue of data and messages sent by :class:`rsudp.p_producer.Producer`
+	:param list destinations: list of :py:class:`queue.Queue` objects to pass data to
+	"""
+
+
 	def __init__(self, queue, destinations):
 		"""
-		Initializes the main consumer process. This consumer reads
-		queue messages from the :class:`rsudp.p_producer.Producer`
-		and distributes those messages to each consumer in `destinations`.
-
-		:param queue.Queue queue: queue of data and messages sent by :class:`rsudp.p_producer.Producer`
-		:param list destinations: list of :py:class:`queue.Queue` objects to pass data to
+		Initializes the main consumer. 
+		
 		"""
 		super().__init__()
 

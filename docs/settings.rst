@@ -98,8 +98,9 @@ This will only occur when the alarm gets triggered, however, so make sure to tes
 .. warning::
 
     It is extremely important that you do not rely on this code to save life or property.
+    It is not a substitute for earthquake early warning (EEW) systems.
 
-    lthough this software can detect earthquakes and sudden motion events,
+    Although this software can detect earthquakes and sudden motion events,
     Raspberry Shake makes no guarantee and provides no warranty in any way,
     implied or explicit, for the performance of this software in earthquake detection.
 
@@ -212,11 +213,11 @@ For a classroom looking to detect jumps but not necessarily earthquakes:
 Using :code:`"exec"`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. deprecated:: 0.4.3
+    .. deprecated:: 0.4.3
 
-    You can change the :json:`"exec"` field and supply a path to executable Python code to run with the :py:func:`exec` function.
-    :py:func:`exec` functionality will move to its own module in version 0.4.3, and this part of the alert module will be
-    fully removed in a future release.
+        You can change the :json:`"exec"` field and supply a path to executable Python code to run with the :py:func:`exec` function.
+        :py:func:`exec` functionality will move to its own module in version 0.4.3, and this part of the alert module will be
+        fully removed in a future release.
 
 Be very careful when using the :py:func:`exec` function, as it is known to have problems.
 Notably, it does not check the passed code for errors prior to running.
@@ -317,7 +318,13 @@ this module will use the Telegram bot API to create alerts when an :code:`ALARM`
 If :json:`"send_images"` is :json:`true`, then the module will also send a saved image of the event,
 if :json:`"eq_screenshots"` is set to :json:`true` in the :json:`"plot"` module.
 
-Note that in order for this to work, the user has to:
+.. _setting-up-telegram:
+
+Setting up a Telegram Bot
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Here is a brief overview of the steps to set up a Telegram bot in order to make and distribute
+Telegram alerts from rsudp.
 
 1. `download Telegram <https://telegram.org/>`_, create a profile, and sign in
 2. create a Telegram bot by sending the :code:`/start` message to the :code:`BotFather` account
@@ -348,7 +355,13 @@ then this module will use the Twitter API to create tweets when an ALARM message
 If "tweet_images" is true, then the module will also tweet a saved image of the event,
 if "eq_screenshots" is set to :json:`true` in the "plot" module.
 
-Note that in order for this to work, the user has to:
+.. _setting-up-twitter:
+
+Setting up Twitter Apps
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Here is a brief overview of the steps to set up a Twitter app (also known as an API bot)
+in order to make and distribute tweets from rsudp.
 
 1. `create a twitter profile <https://twitter.com/signup>`_
 for automatically tweeting alerts (or use an existing account)

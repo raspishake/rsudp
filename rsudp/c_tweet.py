@@ -26,7 +26,7 @@ class Tweeter(Thread):
 		`API bots <https://developer.twitter.com/apps>`_ than many services.
 		First, you must go through a relatively rigorous process of applying for
 		a developer account, then making a Twitter "app", and then giving the app
-		permission to post on your behalf.
+		permission to post on your behalf. See :ref:`setting-up-twitter` for details.
 
 		Once you've gone through that process, Twitter limits posting and makes
 		its rules on rate limiting relatively difficult to nail down.
@@ -37,7 +37,15 @@ class Tweeter(Thread):
 		In general, if you are looking for a simple multi-platform notification
 		service, it may be easier and more reliable to use the Telegram service
 		instead. rsudp has a telegram module at
-		:py:class:rsudp.c_telegram.Telegram:.
+		:py:class:rsudp.c_telegram.Telegram:. See :ref:`setting-up-telegram` for details.
+
+	:param str consumer_key: Twitter calls this the "consumer key"
+	:param str consumer_secret: Twitter calls this the "consumer key secret"
+	:param str access_token: Twitter calls this the "consumer access token"
+	:param str access_secret: Twitter calls this the "consumer access secret"
+	:param bool send_images: whether or not to send images. if False, only alerts will be sent.
+	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
+
 
 	'''
 	def __init__(self, consumer_key, consumer_secret, access_token, access_token_secret,

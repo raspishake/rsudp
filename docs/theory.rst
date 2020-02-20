@@ -1,6 +1,8 @@
 Program architecture and flow
 #################################################
 
+.. _producer-consumer:
+
 Producer-consumer problem
 *************************************************
 

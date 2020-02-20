@@ -5,15 +5,22 @@ import rsudp.raspberryshake as RS
 
 
 class Producer(Thread):
+	'''
+	Data Producer thread (see :ref:`producer-consumer`) which receives data from the port
+	and puts it on the queue to be passed to the master consumer (:py:class:`rsudp.c_consumer.Consumer`).
+	The producer also looks for flags in each consumer
+	that indicate whether they are :py:data:`alive==False`. If so, the Producer will
+	quit gracefully and put a TERM message on the queue, which should stop all running
+	consumers.
+
+	:param queue.Queue queue: The master queue
+	:param list threads: The list of :py:class:`threading.Thread`s to monitor for status changes
+	'''
+
 	def __init__(self, queue, threads):
 		"""
-		Initializing the Producer. The producer also looks for flags in each consumer
-		that indicate whether they are :py:data:`alive==False`. If so, the Producer will
-		quit gracefully and put a TERM message on the queue, which should stop all running
-		consumers.
-
-		:param queue.Queue queue: The master queue
-		:param list threads: The list of :py:class:`threading.Thread`s to monitor for status changes
+		Initializing Producer thread. 
+		
 		"""
 		super().__init__()
 

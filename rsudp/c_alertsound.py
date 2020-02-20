@@ -15,7 +15,12 @@ class AlertSound(Thread):
 	.. _pydub.AudioSegment: https://github.com/jiaaro/pydub/blob/master/API.markdown#audiosegment
 
 	A consumer class that plays an alert sound when an `ALARM` message arrives on the queue.
-	`self.sound` is a pydub.AudioSegment_ object and is passed from the client.
+	:pycode:`self.sound` is a pydub.AudioSegment_ object and is passed from the client.
+
+	:param sta: short term average (STA) duration in seconds.
+	:type sta: bool or pydub.AudioSegment_ 
+	:param queue.Queue q: Queue to listen for alerts on.
+
 	"""
 
 	def __init__(self, sound=False, soundloc=False, q=False):
@@ -24,10 +29,6 @@ class AlertSound(Thread):
 
 		Initializes the alert sound listener thread.
 		Needs a pydub.AudioSegment_ to play and a :class:`queue.Queue` to listen on.
-
-		:param sta: short term average (STA) duration in seconds
-		:type sta: bool or pydub.AudioSegment_ 
-		:param queue.Queue q: Queue to listen for alerts on
 
 		"""
 		super().__init__()

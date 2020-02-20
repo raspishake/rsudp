@@ -10,30 +10,33 @@ Modules and settings
 .. role:: pycode(code)
     :language: python
 
-You will need to adjust the settings file before running :bash:`rsudp` in order to both receive data and suit your earthquake detection and notification needs.
+You will need to adjust the settings file before running :bash:`rsudp` in order to
+both receive data and suit your earthquake detection and notification needs.
 
-Module overview
-*************************************************
 
 :json:`"settings"` (general settings)
--------------------------------------------------
+*************************************************
 
-The :json:`"settings"` portion of the settings file contains some basic items: :json:`"port"`, :json:`"station"`, :json:`"output_dir"`, and :json:`"debug"`.
+The :json:`"settings"` portion of the settings file contains some basic items:
+:json:`"port"`, :json:`"station"`, :json:`"output_dir"`, and :json:`"debug"`.
 Change :json:`"port"` if you are receiving the data at a different port than :json:`8888`.
 To set your station name, change the value set for :json:`"station"`.
-:json:`"output_dir"` will contain folders for miniSEED data and plot screenshots, which are explained in the relevant sections (write and plot) below.
+:json:`"output_dir"` will contain folders for miniSEED data and plot screenshots,
+which are explained in the relevant sections (write and plot) below.
 The directory specified here will be created if it doesn't already exist.
-:json:`"debug"` controls how much text is sent to the command line STDOUT (even if this is false, output will always be sent to a log at :json:`/tmp/rsudp/rsudp.log`).
+:json:`"debug"` controls how much text is sent to the command line STDOUT
+(even if this is false, output will always be sent to a log at :code:`/tmp/rsudp/rsudp.log`).
 
 :json:`"plot"`
--------------------------------------------------
+*************************************************
 
 :json:`"plot"` controls the thread containing the GUI plotting algorithm.
 This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and display a spectrogram beneath each.
 
 By default the plotted :json:`"duration"` in seconds is :json:`30`.
 The plot will refresh at most once per second, but slower processors may take longer.
-The longer the duration, the more processor power it will take to refresh the plot, especially when the spectrogram is enabled.
+The longer the duration, the more processor power it will take to refresh the plot,
+especially when the spectrogram is enabled.
 To disable the spectrogram, set :json:`"spectrogram"` to :json:`false` in the settings file.
 To put the plot into fullscreen window mode, set :json:`"fullscreen"` to :json:`true`.
 To put the plot into kiosk mode, set :json:`"kiosk"` to :json:`true`.
@@ -46,12 +49,14 @@ To put the plot into kiosk mode, set :json:`"kiosk"` to :json:`true`.
 .. note::
 
     On a Raspberry Pi 3B+, plotting 600 seconds of data and a spectrogram from one channel,
-    the update frequency is approximately once every 5 seconds, but more powerful processors will be able to accommodate a higher refresh speed.
+    the update frequency is approximately once every 5 seconds,
+    but more powerful processors will be able to accommodate a higher refresh speed.
 
 .. note::
 
     Because the plot module is queue-based, it will not drop any packets received, no matter the processor.
-    Dropped packets (if you experience them) are most likely a sign of network issues where the missing data never actually arrives at the receiving machine.
+    Dropped packets (if you experience them) are most likely a sign of network issues
+    where the missing data never actually arrives at the receiving machine.
 
 By default, the :json:`"channels"` field is :json:`["HZ", "HDF"]`.
 This will resolve to at least one channel of any Shake input.
@@ -79,18 +84,21 @@ This will only occur when the alarm gets triggered, however, so make sure to tes
 
 
 :json:`"alert"` (STA/LTA earthquake detection trigger)
----------------------------------------------------------
+*********************************************************************************
 
 .. warning::
 
     It is extremely important that you do not rely on this code to save life or property.
     Although this software can detect earthquakes and sudden motion events,
+
     Raspberry Shake makes no guarantee and provides no warranty in any way,
     implied or explicit, for the performance of this software in earthquake detection.
+
     Raspberry Shake assumes no liability for false positives, false negatives,
     errors running the Alert module, or any other part of this library;
     it is meant for hobby and non-professional notification use only.
-    If you need professional software to provide a warning intended to save life
+
+    If you need professional-grade software to provide a warning intended to save life
     or property, please contact Raspberry Shake directly or look elsewhere.
     See sections 16 and 16b of the
     `License <https://github.com/raspishake/rsudp/blob/master/LICENSE>`_ for further details.
@@ -99,11 +107,12 @@ This will only occur when the alarm gets triggered, however, so make sure to tes
 
 :json:`"alert"` controls the alert module (please see Warning above).
 The alert module is a fast recursive STA/LTA sudden motion detector that utilizes obspy's
-`recursive_sta_lta() https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#recursive-sta-lta` function.
+`recursive_sta_lta() https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#recursive-sta-lta`_ function.
 STA/LTA algorithms calculate a ratio of the short term average of station noise to the long term average.
 The data can be highpass, lowpass, or bandpass filtered by changing the :json:`"highpass"`
 and :json:`"lowpass"` parameters from their defaults (:json:`0` and :json:`50` respectively).
-By default, the alert will be calculated on raw count data from the vertical geophone channel (either :json:`"SHZ"` or :json:`"EHZ"`).
+By default, the alert will be calculated on raw count data
+from the vertical geophone channel (either :json:`"SHZ"` or :json:`"EHZ"`).
 It will throw an error if there is no Z channel available (i.e. if you have a Raspberry Boom with no geophone).
 If you have a Boom and still would like to run this module, change the default channel :json:`"HZ"` to :json:`"HDF"`.
 
@@ -221,12 +230,13 @@ If you are running Windows and have code you want to pass to the :py:func:`exec`
 Python requires that your newline characters are in the UNIX style (:code:`\n`), not the standard Windows style (:code:`\r\n`).
 To convert, follow the instructions in one of the answers to
 `this stackoverflow question <https://stackoverflow.com/questions/17579553/windows-command-to-convert-unix-line-endings>`_.
-If you're not sure what this means, please read about newline/line ending characters `here <https://en.wikipedia.org/wiki/Newline>`_.
+If you're not sure what this means,
+please read about newline/line ending characters `here <https://en.wikipedia.org/wiki/Newline>`_.
 If you are certain that your code file has no Windows newlines, you can set :json:`"win_override"` to true.
 
 
 :json:`"alarmsound"` (play sounds upon alerts)
--------------------------------------------------
+*************************************************
 
 If alarmsound's :json:`"enabled"` is :json:`true` and you have either :bash:`ffmpeg` or :bash:`libav` installed,
 this module plays an MP3 sound every time it receives an :code:`ALARM` queue message.
@@ -280,7 +290,7 @@ should be sufficient to get things working.
 
 
 :json:`"telegram"` (Telegram notification module)
--------------------------------------------------
+*************************************************
 
 `Telegram <https://telegram.org/>`_ is a free and open source messaging and notification system,
 used by several earthquake notification agencies including the
@@ -315,7 +325,7 @@ This chat ID may be negative, in which case you must enter the negative sign int
 
 
 :json:`"tweets"` (Twitter notification module)
--------------------------------------------------
+*************************************************
 
 tweets if "enabled" is true, and all API keys have been generated and are correctly entered,
 then this module will use the Twitter API to create tweets when an ALARM message arrives on the queue.
@@ -337,7 +347,7 @@ you may enter them into your settings file in the appropriate fields:
 
 
 :json:`"write"` (miniSEED writer)
--------------------------------------------------
+*************************************************
 
 :json:`"write"` controls a very simple STEIM2 miniSEED writer.
 If :json:`"enabled"` is :json:`true`, seismic data is appended to a miniSEED file with a
@@ -348,7 +358,7 @@ which will write the vertical geophone and accelerometer channels from RS4D outp
 
 
 :json:`"forward"` (datacast forwarding)
--------------------------------------------------
+*************************************************
 
 The :json:`"forward"` module controls a UDP datacast forwarding module.
 You can forward UDP packets for a list of channels from a datacast to the :json:`"address"` and :json:`"port"` specified,
@@ -356,7 +366,7 @@ just like you would from the Shake's web front end. By default, :json:`["all"]` 
 
 
 :json:`"printdata"` (print data to console)
--------------------------------------------------
+*************************************************
 
 :json:`"printdata"` controls the data output module, which simply prints Shake data packets to stdout as it receives them.
 Change :json:`"enabled"` to :json:`true` to activate.

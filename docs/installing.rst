@@ -49,7 +49,7 @@ and leave you ready to run the program. To install using this method:
 .. note::
     You can run :bash:`uname -m` to check your computer's architecture.
 
-You are now ready to proceed to the next section, `settings`_.
+You are now ready to proceed to the next section, settings_.
 
 Updating
 ---------------------------------
@@ -96,7 +96,7 @@ If you wish to play sounds on Windows, please follow steps 1-8 in
 in order to install :code:`ffmpeg` and add it to your system's path variable.
 
 
-You are now ready to proceed to the next section, `settings`_.
+You are now ready to proceed to the next section, settings_.
 
 
 `Back to top ↑ <#top>`_

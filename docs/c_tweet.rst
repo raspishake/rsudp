@@ -1,4 +1,4 @@
-:py:data:`rsudp.c_tweet` (Tweet alerts)
+:py:data:`rsudp.c_tweet` (Twitter alerts)
 =====================================================
 
 .. automodule:: rsudp.c_tweet

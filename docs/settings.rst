@@ -1,10 +1,10 @@
-Running rsudp
+Modules and settings
 #################################################
 
-Starting rsudp on Unix
+Module overview
 *************************************************
 
-Starting on Windows, or manually on Unix
+Settings
 *************************************************
 
 `Back to top ↑ <#top>`_

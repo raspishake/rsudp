@@ -12,9 +12,11 @@ The project's source repository is `here <https://github.com/raspishake/rsudp>`_
     :maxdepth: 2
     :caption: Tutorial
 
+    about
     installing
+    settings
     running
-    detail
+    theory
     troubleshooting
     contributing
 

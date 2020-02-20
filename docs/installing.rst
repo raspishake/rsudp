@@ -10,13 +10,27 @@ Installation is covered in `our installation tutorial video <https://youtu.be/e-
 On Linux & MacOS
 *********************************
 
-A UNIX installer script is available at :bash:`unix-install-rsudp.sh`. This script checks whether or not you have Anaconda installed, then downloads and installs it if need be. This script has been tested on both :bash:`x86_64` and :bash:`armv7l` architectures (meaning that it can run on your home computer or a Raspberry Pi) and will download the appropriate Anaconda distribution, set up a virtual Python environment, and leave you ready to run the program. To install using this method:
+A UNIX installer script is available at :bash:`unix-install-rsudp.sh`.
+This script checks whether or not you have Anaconda installed,
+then downloads and installs it if need be.
+This script has been tested on both :bash:`x86_64` and :bash:`armv7l`
+architectures (meaning that it can run on your home computer or a Raspberry Pi)
+and will download the appropriate Anaconda distribution, set up a virtual Python environment,
+and leave you ready to run the program. To install using this method:
 
 .. code-block:: bash
 
     bash unix-install-rsudp.sh
 
-.. note:: **The installer script will pause partway through to ask if you would like to make the :bash:`conda` command executable by default. This is done by appending the line below to your :bash:`~/.bashrc` file.** This is generally harmless, but if you have a specific objection to it, hitting any key other than "y" will cause the script to skip this step. You will have to manually run the :bash:`conda` executable in this case, however. If you choose to do it manually later, the line appended to the end of :bash:`~/.bashrc` is the following (architecture-dependent):
+.. note::
+    **The installer script will pause partway through to ask if you would like to make the**
+    :bash:`conda` **command executable by default.**
+    **This is done by appending the line below to your** :bash:`~/.bashrc` **file.**
+    This is generally harmless, but if you have a specific objection to it,
+    hitting any key other than "y" will cause the script to skip this step.
+    You will have to manually run the :bash:`conda` executable in this case, however.
+    If you choose to do it manually later,
+    the line appended to the end of :bash:`~/.bashrc` is the following (architecture-dependent):
 
     On x86 systems:
 
@@ -32,7 +46,8 @@ A UNIX installer script is available at :bash:`unix-install-rsudp.sh`. This scri
 
     where :bash:`$HOME` is the home directory of the current user.
 
-.. note:: You can run :bash:`uname -m` to check your computer's architecture.*
+.. note::
+    You can run :bash:`uname -m` to check your computer's architecture.
 
 You are now ready to proceed to the next section, `settings`_.
 
@@ -47,7 +62,15 @@ Unix users can update the repository to the latest development version by runnin
     git pull
     bash unix-install-rsudp.sh
 
-The update script will replace the previous default settings file (:bash:`~/.config/rsudp/rsudp_settings.json`) with a new settings file. If you use the default settings file, you will need to copy some old values over to the new file. The reason for this is that the default settings file may change (i.e. add or modify sections of values) and thus must be rewritten when updating. On Linux, backed up settings files will be named :bash:`~/.config/rsudp/rsudp_settings.json.~x~`, where :bash:`x` is an integer. On Mac, the backed up file will simply be named :bash:`~/.config/rsudp/rsudp_settings.json~`. To back up the settings file yourself to a location that will not be overwritten, you can do a command similar to the following:
+The update script will replace the previous default settings file
+(:bash:`~/.config/rsudp/rsudp_settings.json`) with a new settings file.
+If you use the default settings file, you will need to copy some old values over to the new file.
+The reason for this is that the default settings file may change (i.e. add or modify sections of values)
+and thus must be rewritten when updating. On Linux, backed up settings files will be named
+:bash:`~/.config/rsudp/rsudp_settings.json.~x~`, where :bash:`x` is an integer.
+On Mac, the backed up file will simply be named :bash:`~/.config/rsudp/rsudp_settings.json~`.
+To back up the settings file yourself to a location that will not be overwritten,
+you can do a command similar to the following:
 
 .. code-block:: bash
 
@@ -68,7 +91,9 @@ On Windows
         conda activate rsudp
         pip install rsudp
 
-If you wish to play sounds on Windows, please follow steps 1-8 in `this tutorial <https://windowsloop.com/install-ffmpeg-windows-10/>`_ in order to install :code:`ffmpeg` and add it to your system's path variable.
+If you wish to play sounds on Windows, please follow steps 1-8 in
+`this tutorial <https://windowsloop.com/install-ffmpeg-windows-10/>`_
+in order to install :code:`ffmpeg` and add it to your system's path variable.
 
 
 You are now ready to proceed to the next section, `settings`_.

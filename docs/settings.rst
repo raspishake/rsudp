@@ -93,7 +93,7 @@ This will only occur when the alarm gets triggered, however, so make sure to tes
     If you need professional software to provide a warning intended to save life
     or property, please contact Raspberry Shake directly or look elsewhere.
     See sections 16 and 16b of the
-    `License<https://github.com/raspishake/rsudp/blob/master/LICENSE>`_ for further details.
+    `License <https://github.com/raspishake/rsudp/blob/master/LICENSE>`_ for further details.
 
 
 
@@ -220,8 +220,8 @@ That way, the alert module can process more queue packets simultaneously to the 
 If you are running Windows and have code you want to pass to the :py:func:`exec` function,
 Python requires that your newline characters are in the UNIX style (:code:`\n`), not the standard Windows style (:code:`\r\n`).
 To convert, follow the instructions in one of the answers to
-`this stackoverflow question<https://stackoverflow.com/questions/17579553/windows-command-to-convert-unix-line-endings>`_.
-If you're not sure what this means, please read about newline/line ending characters `here<https://en.wikipedia.org/wiki/Newline>`_.
+`this stackoverflow question <https://stackoverflow.com/questions/17579553/windows-command-to-convert-unix-line-endings>`_.
+If you're not sure what this means, please read about newline/line ending characters `here <https://en.wikipedia.org/wiki/Newline>`_.
 If you are certain that your code file has no Windows newlines, you can set :json:`"win_override"` to true.
 
 
@@ -231,7 +231,7 @@ If you are certain that your code file has no Windows newlines, you can set :jso
 If alarmsound's :json:`"enabled"` is :json:`true` and you have either :bash:`ffmpeg` or :bash:`libav` installed,
 this module plays an MP3 sound every time it receives an :code:`ALARM` queue message.
 For details on installation of these dependencies,
-see `this page<https://github.com/jiaaro/pydub#dependencies>`_.
+see `this page <https://github.com/jiaaro/pydub#dependencies>`_.
 
 The software will install several small MP3 files.
 The :json:`"mp3file"` is :json:`"doorbell"` (two doorbell chimes) by default,
@@ -257,7 +257,7 @@ you will need to take the following installation steps beforehand:
 On Linux
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 
-`ffmpeg<http://ffmpeg.org/>`_ comes installed by default on some OS flavors
+`ffmpeg <http://ffmpeg.org/>`_ comes installed by default on some OS flavors
 and is available on most Linux package managers.
 
 Debian and Raspbian users can simply type :bash:`sudo apt update; sudo apt install ffmpeg`
@@ -268,23 +268,23 @@ On MacOS
 Users with Homebrew can install by doing :bash:`brew install ffmpeg`
 
 Users without Homebrew will need to install using a binary build
-`on the ffmpeg website<http://ffmpeg.org/download.html#build-mac>`_
+`on the ffmpeg website <http://ffmpeg.org/download.html#build-mac>`_
 
 On Windows
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 
 Windows users will need to do a couple of extra steps to get :code:`ffmpeg` installed.
 Following steps 1-8 in
-`this installation guide<https://windowsloop.com/install-ffmpeg-windows-10/>`_
+`this installation guide <https://windowsloop.com/install-ffmpeg-windows-10/>`_
 should be sufficient to get things working.
 
 
 :json:`"telegram"` (Telegram notification module)
 -------------------------------------------------
 
-`Telegram<https://telegram.org/>`_ is a free and open source messaging and notification system,
+`Telegram <https://telegram.org/>`_ is a free and open source messaging and notification system,
 used by several earthquake notification agencies including the
-Mexican national early warning system (`SASMEX<https://sasmex.net/>`_).
+Mexican national early warning system (`SASMEX <https://sasmex.net/>`_).
 It has the bonus of being much, much easier to set up than Twitter,
 and will not lock your account out if there happen to be many posts in a short time period
 (whereas Twitter will).
@@ -295,7 +295,7 @@ If :json:`"send_images"` is :json:`true`, then the module will also send a saved
 if :json:`"eq_screenshots"` is set to :json:`true` in the :json:`"plot"` module.
 
 Note that in order for this to work, the user has to:
-#. `download Telegram<https://telegram.org/>`_, create a profile, and sign in
+#. `download Telegram <https://telegram.org/>`_, create a profile, and sign in
 #. create a Telegram bot by sending the :code:`/start` message to the :code:`BotFather` account
 and following the instructions. Your messages to :code:`@BotFather` should look something like the following:
 .. code-block::
@@ -306,7 +306,7 @@ and following the instructions. Your messages to :code:`@BotFather` should look 
 :code:`@BotFather` will then give you an access token for your new bot.
 #. enter the bot's access token in the :json:`"token"` field of the settings file.
 #. enter a user or group ID into the :json:`"chat_id"` field, which you can find by following the instructions
-`here<https://stackoverflow.com/a/32572159>`_.
+`here <https://stackoverflow.com/a/32572159>`_.
 
 If you wish to post to a group, first add the bot to the group using your user account,
 then follow the instructions in the previous link,
@@ -323,10 +323,10 @@ If "tweet_images" is true, then the module will also tweet a saved image of the 
 if "eq_screenshots" is set to :json:`true` in the "plot" module.
 
 Note that in order for this to work, the user has to:
-#. `create a twitter profile<https://twitter.com/signup>`_
+#. `create a twitter profile <https://twitter.com/signup>`_
 for automatically tweeting alerts (or use an existing account)
-#. register this account as a `Twitter developer account<https://developer.twitter.com/en.html>`_
-#. create a `Twitter API app<https://opensource.com/article/17/8/raspberry-pi-twitter-bot>`_
+#. register this account as a `Twitter developer account <https://developer.twitter.com/en.html>`_
+#. create a `Twitter API app <https://opensource.com/article/17/8/raspberry-pi-twitter-bot>`_
 inside said developer account
 #. generate consumer keys and API keys for that app.
 

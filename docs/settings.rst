@@ -330,6 +330,8 @@ Telegram alerts from rsudp.
 
 2. create a Telegram bot by sending the :code:`/start` message to the :code:`BotFather` account
 and following the instructions. Your messages to :code:`@BotFather` should look something like the following:
+
+    .. code-block::
         /start
         /newbot
         Your Shake Bot Name

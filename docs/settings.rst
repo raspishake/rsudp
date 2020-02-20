@@ -326,9 +326,9 @@ Setting up a Telegram Bot
 Here is a brief overview of the steps to set up a Telegram bot in order to make and distribute
 Telegram alerts from rsudp.
 
-#. `download Telegram <https://telegram.org/>`_, create a profile, and sign in
-#. Create a Telegram bot by sending the :code:`/start` message to the :code:`BotFather` account.
-#. Follow the instructions. Your messages to :code:`@BotFather` should look be something like the following:
+#. `Download Telegram <https://telegram.org/>`_, create a profile, and sign in.
+#. Create a Telegram bot by sending the :code:`/start` message to the :code:`@BotFather` account.
+#. Follow the instructions. Your messages to :code:`@BotFather` should look something like the following:
 
     #. :code:`/start`
 
@@ -338,11 +338,12 @@ Telegram alerts from rsudp.
 
     #. :code:`your_shake_bot_id`
 
-#. :code:`@BotFather` will then give you an access token for your new bot.
-#. Enter the bot's access token in the :json:`"token"` field of the settings file.
+    #. :code:`@BotFather` will then give you an access token for your new bot.
+
+#. Enter your bot's access token in the :json:`"token"` field of the settings file.
 #. Enter a user or group ID into the :json:`"chat_id"` field, which you can find by following the instructions `here <https://stackoverflow.com/a/32572159>`_.
 
-If you wish to post to a group, first add the bot to the group using your user account,
+If you wish to broadcast telegrams to a group or a channel, first add the bot to the group using your user account,
 then follow the instructions in the previous link,
 where you will see the group chat ID appear as a field in the last JSON entry.
 This chat ID may be negative, in which case you must enter the negative sign into :json:`"chat_id"` as well.

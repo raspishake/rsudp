@@ -327,9 +327,9 @@ Here is a brief overview of the steps to set up a Telegram bot in order to make 
 Telegram alerts from rsudp.
 
 1. `download Telegram <https://telegram.org/>`_, create a profile, and sign in
+
 2. create a Telegram bot by sending the :code:`/start` message to the :code:`BotFather` account
-    and following the instructions. Your messages to :code:`@BotFather` should look something like the following:
-    .. code-block::
+and following the instructions. Your messages to :code:`@BotFather` should look something like the following:
         /start
         /newbot
         Your Shake Bot Name
@@ -337,6 +337,7 @@ Telegram alerts from rsudp.
     :code:`@BotFather` will then give you an access token for your new bot.
 
 3. enter the bot's access token in the :json:`"token"` field of the settings file.
+
 4. enter a user or group ID into the :json:`"chat_id"` field, which you can find by following the instructions
 `here <https://stackoverflow.com/a/32572159>`_.
 
@@ -365,12 +366,12 @@ Here is a brief overview of the steps to set up a Twitter app (also known as an 
 in order to make and distribute tweets from rsudp.
 
 1. `create a twitter profile <https://twitter.com/signup>`_
-    for automatically tweeting alerts (or use an existing account)
+for automatically tweeting alerts (or use an existing account)
 
 2. register this account as a `Twitter developer account <https://developer.twitter.com/en.html>`_
 
 3. create a `Twitter API app <https://opensource.com/article/17/8/raspberry-pi-twitter-bot>`_
-    inside said developer account
+inside said developer account
 
 4. generate consumer keys and API keys for that app.
 

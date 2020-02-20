@@ -15,6 +15,16 @@ class Alert(Thread):
 	activates a function of the user's choosing. By default, the function
 	simply prints a message to the terminal window, but the user can
 	choose to run a function of their own as well.
+
+	:param float sta: short term average (STA) duration in seconds
+	:param float lta: long term average (LTA) duration in seconds
+	:param float thresh: threshold for STA/LTA trigger
+	:type bp: :py:class:`bool` or :py:class:`list`
+	:param bp: bandpass filter parameters
+	:param func func: threshold for STA/LTA trigger
+	:param bool debug: threshold for STA/LTA trigger
+	:param str cha: listening channel (defaults to [S,E]HZ)
+
 	"""
 	def __init__(self, sta=5, lta=30, thresh=1.6, reset=1.55, bp=False,
 				 debug=True, cha='HZ', win_ovr=False, q=False, func=None,
@@ -26,14 +36,6 @@ class Alert(Thread):
 		STA-LTA trigger, filtering, the function that is executed upon
 		trigger activation, and the channel used for listening.
 
-		:param float sta: short term average (STA) duration in seconds
-		:param float lta: long term average (LTA) duration in seconds
-		:param float thresh: threshold for STA/LTA trigger
-		:type bp: :py:class:`bool` or :py:class:`list`
-		:param bp: bandpass filter parameters
-		:param func func: threshold for STA/LTA trigger
-		:param bool debug: threshold for STA/LTA trigger
-		:param str cha: listening channel (defaults to [S,E]HZ)
 		"""
 		super().__init__()
 		self.sender = 'Alert'

@@ -17,9 +17,9 @@ class Tweeter(Thread):
 
 	Twitter is a social media platform sometimes used for quickly
 	distributing public alert information. It is used by many agencies
-	including `Raspberry Shake <https://twitter.com/raspishakeq`_,
-	`USGS <https://twitter.com/USGSBigQuakes`_, and
-	`EMSC <https://twitter.com/LastQuake`_.
+	including `Raspberry Shake <https://twitter.com/raspishakeq>`_,
+	`USGS <https://twitter.com/USGSBigQuakes>`_, and
+	`EMSC <https://twitter.com/LastQuake>`_.
 
 	.. note::
 		Twitter is more difficult and stricter when it comes to making

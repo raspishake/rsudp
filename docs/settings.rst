@@ -19,7 +19,7 @@ By default, the rsudp settings file will live in :bash:`$HOME/.config/rsudp/rsud
 To output default settings to a different location, see :ref:`running-manually`.
 
 
-:json:`settings` (general settings)
+:code:`settings` (general settings)
 *************************************************
 
 The :json:`"settings"` portion of the settings file contains some basic items:
@@ -33,7 +33,7 @@ The directory specified here will be created if it doesn't already exist.
 (even if this is false, output will always be sent to a log at :code:`/tmp/rsudp/rsudp.log`).
 
 
-:json:`plot`
+:code:`plot` (live data plot)
 *************************************************
 
 :json:`"plot"` controls the thread containing the GUI plotting algorithm.
@@ -81,7 +81,7 @@ This means that the Shake must both have the 4.5 Hz geophone distributed by RS,
 and be forwarding data to the Shake server, in order to deconvolve successfully.
 For the time being, the Raspberry Boom will display in counts of Voltage, i.e., not a deconvolved unit.
 
-If the alert module is enabled, setting :json:`"eq_screenshots"` to :json:`true`
+If the :ref:`alert` module is enabled, setting :json:`"eq_screenshots"` to :json:`true`
 will result in screenshots being saved whenever there is an :code:`ALARM`
 is internally forwarded for further processing (see Alert section below).
 The script will save one PNG figure per alert to the :code:`screenshots` directory
@@ -90,8 +90,9 @@ This will only occur when the alarm gets triggered, however, so make sure to tes
 
 `Back to top ↑ <#top>`_
 
+.. _alert:
 
-:json:`alert` (STA/LTA earthquake detection trigger)
+:code:`alert` (STA/LTA earthquake detection trigger)
 *********************************************************************************
 
 .. warning::
@@ -208,7 +209,7 @@ For a classroom looking to detect jumps but not necessarily earthquakes:
         "channel": "HZ",
         "win_override": false},
 
-Using :json:`"exec"`
+Using :code:`"exec"`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. deprecated:: 0.4.3
@@ -245,7 +246,7 @@ If you are certain that your code file has no Windows newlines, you can set :jso
 `Back to top ↑ <#top>`_
 
 
-:json:`alarmsound` (play sounds upon alerts)
+:code:`alarmsound` (play sounds upon alerts)
 *************************************************
 
 If alarmsound's :json:`"enabled"` is :json:`true` and you have either :bash:`ffmpeg` or :bash:`libav` installed,
@@ -301,7 +302,7 @@ should be sufficient to get things working.
 `Back to top ↑ <#top>`_
 
 
-:json:`telegram` (Telegram notification module)
+:code:`telegram` (Telegram notification module)
 *************************************************
 
 `Telegram <https://telegram.org/>`_ is a free and open source messaging and notification system,
@@ -339,7 +340,7 @@ This chat ID may be negative, in which case you must enter the negative sign int
 `Back to top ↑ <#top>`_
 
 
-:json:`tweets` (Twitter notification module)
+:code:`tweets` (Twitter notification module)
 *************************************************
 
 tweets if "enabled" is true, and all API keys have been generated and are correctly entered,
@@ -364,7 +365,7 @@ you may enter them into your settings file in the appropriate fields:
 `Back to top ↑ <#top>`_
 
 
-:json:`write` (miniSEED writer)
+:code:`write` (miniSEED writer)
 *************************************************
 
 :json:`"write"` controls a very simple STEIM2 miniSEED writer.
@@ -377,7 +378,7 @@ which will write the vertical geophone and accelerometer channels from RS4D outp
 `Back to top ↑ <#top>`_
 
 
-:json:`forward` (datacast forwarding)
+:code:`forward` (datacast forwarding)
 *************************************************
 
 The :json:`"forward"` module controls a UDP datacast forwarding module.
@@ -387,7 +388,7 @@ just like you would from the Shake's web front end. By default, :json:`["all"]` 
 `Back to top ↑ <#top>`_
 
 
-:json:`printdata` (print data to console)
+:code:`printdata` (print data to console)
 *************************************************
 
 :json:`"printdata"` controls the data output module, which simply prints Shake data packets to stdout as it receives them.

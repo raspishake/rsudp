@@ -458,11 +458,12 @@ def copy(orig):
 
 def deconvolve(self):
 	'''
-	A helper function for sub-consumers that need to deconvolve their raw data to physical units.
-	Consumers with Stream objects in :py:data:`self.stream` can use this to deconvolve data
+	A central helper function for sub-consumers (i.e. :py:class:`rsudp.c_plot.Plot` or :py:class:`rsudp.c_alert.Alert`)
+	that need to deconvolve their raw data to metric units.
+	Consumers with :py:class:`obspy.core.stream.Stream` objects in :py:data:`self.stream` can use this to deconvolve data
 	if this library's :py:data:`inv` contains a valid :py:class:`obspy.core.inventory.inventory.Inventory` object.
 
-	:param self self: The self object of the sub-consumer class calling this function.
+	:param self self: The self object of the sub-consumer class calling this function. Must contain :py:data:`self.stream` as a :py:class:`obspy.core.stream.Stream` object.
 	'''
 	self.stream = self.raw.copy()
 	for trace in self.stream:

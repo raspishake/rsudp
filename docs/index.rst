@@ -90,8 +90,10 @@ The modules available in rsudp are organized by type below.
 Indices and tables
 ==================
 
+Need to look something up?
+
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
+.. * :ref:`modindex`
 
 `Back to top ↑ <#top>`_

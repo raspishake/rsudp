@@ -15,7 +15,6 @@ rsudp aims to achieve both of these things,
 while maintaining a codebase lean enough to run on Raspberry Pi
 but intuitive enough that users can learn the theory of
 real time continuous data processing and contribute code of their own.
-
 The project's source repository is `here <https://github.com/raspishake/rsudp>`_.
 
 In order to get a feel for what rsudp can do, check out our YouTube tutorials:

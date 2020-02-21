@@ -11,7 +11,7 @@ and be notified in various ways when their instrument detects sudden motion.
 
 The demands of real-time seismic processing, as in many types of scientific operations,
 require that calculations must be made quickly and
-calculations remain stable for weeks or months without user intervention.
+remain stable for weeks or months without user intervention.
 rsudp aims to achieve both of these things,
 while maintaining a codebase lean enough to run on Raspberry Pi
 but intuitive enough that users can learn the theory of

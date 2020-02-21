@@ -86,7 +86,7 @@ def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 
 	:param int dport: The local port the Raspberry Shake is sending UDP data packets to. Defaults to :py:data:`8888`.
 	:param str rsstn: The name of the station (something like :py:data:`'RCB43'` or :py:data:`'S0CDE'`)
-	:param ibt timeout: The number of seconds to wait for data before an error is raised (set to zero for unlimited wait)
+	:param int timeout: The number of seconds to wait for data before an error is raised (set to zero for unlimited wait)
 	:rtype: str
 	:return: Returns the instrument channel as a string.
 

@@ -162,7 +162,7 @@ def openSOCK(host=''):
 	Initialize a socket at the port specified by :pycode:`rsudp.raspberryshake.port`.
 	Called by :py:func:`rsudp.raspberryshake.initRSlib`, must be done before :py:func:`rsudp.raspberryshake.set_params`.
 
-	:param str host: self-referential location (i.e. :pycode:'localhost') at which to open a listening port
+	:param str host: self-referential location at which to open a listening port (defaults to :pycode:`''` which resolves to :pycode:`'localhost'`)
 	:raise IOError: if the library is not initialized (:py:func:`rsudp.raspberryshake.initRSlib`) prior to running this function
 	:raise OSError: if the program cannot bind to the specified port number
 

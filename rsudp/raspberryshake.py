@@ -82,8 +82,12 @@ def handler(signum, frame, ip=ip):
 
 def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 	'''
+	.. role:: pycode(code)
+		:language: python
+
 	Initializes this library (:py:func:`rsudp.raspberryshake`).
 	Set values for data port, station, network, and port timeout prior to opening the socket.
+	Calls both :py:func:`rsudp.raspberryshake.openSOCK` and :py:func:`rsudp.raspberryshake.set_params`.
 
 	.. code-block:: python
 
@@ -97,8 +101,8 @@ def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 		>>> rs.initd
 		True
 
-	:param int dport: The local port the Raspberry Shake is sending UDP data packets to. Defaults to :py:data:`8888`.
-	:param str rsstn: The name of the station (something like :py:data:`'RCB43'` or :py:data:`'S0CDE'`)
+	:param int dport: The local port the Raspberry Shake is sending UDP data packets to. Defaults to :pycode:`8888`.
+	:param str rsstn: The name of the station (something like :pycode:`'RCB43'` or :pycode:`'S0CDE'`)
 	:param int timeout: The number of seconds for :py:func:`rsudp.raspberryshake.set_params` to wait for data before an error is raised (zero for unlimited wait)
 
 	:rtype: str
@@ -152,8 +156,11 @@ def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 
 def openSOCK(host=''):
 	'''
-	Initialize a socket at a port.
-	Must be done after the :py:func:`rsudp.raspberryshake.initRSlib` function is called.
+	.. role:: pycode(code)
+		:language: python
+
+	Initialize a socket at the port specified by :pycode:`rsudp.raspberryshake.port`.
+	Called by :py:func:`rsudp.raspberryshake.initRSlib`, must be done before :py:func:`rsudp.raspberryshake.set_params`.
 
 	:param str host: self-referential location (i.e. 'localhost') at which to open a listening port
 	:raise IOError: if the library is not initialized (:py:func:`rsudp.raspberryshake.initRSlib`) prior to running this function
@@ -178,9 +185,15 @@ def openSOCK(host=''):
 
 def set_params():
 	'''
+	.. role:: pycode(code)
+		:language: python
+
 	Read a data packet off the port.
-	Must only be called after :py:func:`rsudp.raspberryshake.openSOCK`.
-	Will wait :py:data:`rsudp.raspberryshake.to` seconds for data before raising a no data exception.
+	Called by :py:func:`rsudp.raspberryshake.initRSlib`,
+	must be done after :py:func:`rsudp.raspberryshake.openSOCK`
+	but before :py:func:`rsudp.raspberryshake.getDATA`.
+	Will wait :pycode:`rsudp.raspberryshake.to` seconds for data before raising a no data exception
+	(only available with UNIX socket types).
 
 	'''
 	global to
@@ -444,6 +457,9 @@ def getTTLCHN():
 
 def get_inventory(sender='get_inventory'):
 	'''
+	.. role:: pycode(code)
+		:language: python
+
 	Downloads the station inventory from the Raspberry Shake FDSN and stores
 	it as an :py:class:`obspy.core.inventory.inventory.Inventory` object which is available globally.
 
@@ -467,7 +483,7 @@ def get_inventory(sender='get_inventory'):
 	:param sender: The name of the function calling the :py:func:`rsudp.printM` logging function
 	:type str: str or None
 	:rtype: obspy.core.inventory.inventory.Inventory or bool
-	:return: The inventory of the Raspberry Shake station in the :py:data:`rsudp.raspberryshake.stn` variable.
+	:return: The inventory of the Raspberry Shake station in the :pycode:`rsudp.raspberryshake.stn` variable.
 	'''
 	global inv, stn, region
 	sender = 'get_inventory'
@@ -623,12 +639,16 @@ def copy(orig):
 
 def deconvolve(self):
 	'''
+	.. role:: pycode(code)
+		:language: python
+	
 	A central helper function for sub-consumers (i.e. :py:class:`rsudp.c_plot.Plot` or :py:class:`rsudp.c_alert.Alert`)
 	that need to deconvolve their raw data to metric units.
-	Consumers with :py:class:`obspy.core.stream.Stream` objects in :py:data:`self.stream` can use this to deconvolve data
-	if this library's :py:data:`inv` contains a valid :py:class:`obspy.core.inventory.inventory.Inventory` object.
+	Consumers with :py:class:`obspy.core.stream.Stream` objects in :pycode:`self.stream` can use this to deconvolve data
+	if this library's :pycode:`rsudp.raspberryshake.inv` variable
+	contains a valid :py:class:`obspy.core.inventory.inventory.Inventory` object.
 
-	:param self self: The self object of the sub-consumer class calling this function. Must contain :py:data:`self.stream` as a :py:class:`obspy.core.stream.Stream` object.
+	:param self self: The self object of the sub-consumer class calling this function. Must contain :pycode:`self.stream` as a :py:class:`obspy.core.stream.Stream` object.
 	'''
 	self.stream = self.raw.copy()
 	for trace in self.stream:

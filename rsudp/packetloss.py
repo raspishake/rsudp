@@ -88,7 +88,10 @@ def main():
 
 	for example, to report packet loss statistics every hour, run the following command:
 
-	`python shake-UDP-packetLoss.py -s 3600 -p 18001`
+	.. code-block:: bash
+
+		python shake-UDP-packetLoss.py -s 3600 -p 18001
+
 	'''
 
 	hlp_txt = '''

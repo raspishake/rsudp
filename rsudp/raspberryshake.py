@@ -201,8 +201,8 @@ def getCHN(DP):
 	Extract the channel information from the data packet.
 	Requires :py:func:`rsudp.raspberryshake.getDATA` packet as argument.
 
-	:param DP: The Raspberry Shake UDP data packet to parse channel information from
-	:type DP: rsudp.raspberryshake.getDATA or bytes
+	:param DP: The Raspberry Shake UDP data packet (:py:func:`rsudp.raspberryshake.getDATA`) to parse channel information from
+	:type DP: bytes
 	:rtype: str
 	:return: Returns the instrument channel as a string.
 	'''
@@ -215,8 +215,8 @@ def getTIME(DP):
 	which can be passed directly to an obspy UTCDateTime object.
 	Requires :py:func:`rsudp.raspberryshake.getDATA` packet as argument.
 
-	:param DP: The Raspberry Shake UDP data packet to parse time information from
-	:type DP: rsudp.raspberryshake.getDATA or bytes
+	:param DP: The Raspberry Shake UDP data packet (:py:func:`rsudp.raspberryshake.getDATA`) to parse time information from
+	:type DP: bytes
 	:rtype: float
 	:return: Timestamp in decimal seconds since 1970-01-01 00:00:00Z
 	'''
@@ -227,8 +227,8 @@ def getSTREAM(DP):
 	Get the samples in a data packet as a list object.
 	Requires :py:func:`rsudp.raspberryshake.getDATA` packet as argument.
 
-	:param DP: The Raspberry Shake UDP data packet to parse stream information from
-	:type DP: rsudp.raspberryshake.getDATA or bytes
+	:param DP: The Raspberry Shake UDP data packet (:py:func:`rsudp.raspberryshake.getDATA`) to parse stream information from
+	:type DP: bytes
 	:rtype: list
 	:return: List of data samples in the packet
 	'''
@@ -240,7 +240,8 @@ def getTR(chn):				# DP transmission rate in msecs
 	Must wait to receive a second packet from the same channel.
 	Requires a :py:func:`rsudp.raspberryshake.getCHN` or a channel name string as argument.
 
-	:param rsudp.raspberryshake.getCHN or str: The seismic instrument channel to calculate transmission rate information from
+	:param chn: The seismic instrument channel (:py:func:`rsudp.raspberryshake.getCHN`) to calculate transmission rate information from
+	:type chn: str
 	:rtype: int
 	:return: Transmission rate in milliseconds between consecutive packets from a specific channel
 	'''
@@ -266,10 +267,10 @@ def getSR(TR, DP):
 	Get the sample rate in samples per second.
 	Requires an integer transmission frequency and a data packet as arguments.
 
-	:param TR: The transmission frequency in milliseconds between packets
-	:type TR: rsudp.raspberryshake.getTR or int
-	:param DP: The seismic instrument channel to calculate sample rate information from
-	:type DP: rsudp.raspberryshake.getDATA or bytes
+	:param TR: The transmission frequency (:py:func:`rsudp.raspberryshake.getTR`) in milliseconds between packets
+	:type TR: int
+	:param DP: The Raspberry Shake UDP data packet (:py:func:`rsudp.raspberryshake.getDATA`) calculate sample rate information from
+	:type DP: bytes
 	:rtype: int
 	:return: The sample rate in samples per second from a specific channel
 	'''
@@ -369,7 +370,7 @@ def make_trace(d):
 	'''
 	Makes a trace and assigns it some values using a data packet.
 
-	:param d: The Raspberry Shake UDP data packet to parse Trace information from
+	:param d: The Raspberry Shake UDP data packet  to parse Trace information from
 	:type d: rsudp.raspberryshake.getDATA or bytes
 	:rtype: obspy.Trace
 	:return: A fully formed Trace object to build a Stream with
@@ -407,9 +408,9 @@ def update_stream(stream, d, **kwargs):
 	Returns an updated Stream object with new data, merged down to one trace per available channel.
 	Most consumers call this each time they receive data packets in order to keep their obspy stream current.
 
-	:param obspy.Stream stream: The Raspberry Shake UDP data packet to parse Stream information from
-	:param d: The Raspberry Shake UDP data packet to parse Stream information from
-	:type d: rsudp.raspberryshake.getDATA or bytes
+	:param obspy.Stream stream: The stream to update
+	:param d: The Raspberry Shake UDP data packet (:py:func:`rsudp.raspberryshake.getDATA`) to parse Stream information from
+	:type d: bytes
 	:rtype: obspy.Stream
 	:return: A seismic data stream
 	'''

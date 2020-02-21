@@ -55,6 +55,11 @@ if platform.system() not in 'Windows':
 def handler(signum, frame, ip=ip):
 	'''
 	The signal handler for the nodata alarm.
+	Raises a :py:class:`IOError` if no data is received for the timeout specified in :py:func:`rsudp.raspberryshake.initRSlib`.
+
+	:param int signum: signal number
+	:param int frame: frame number
+	:param str ip: the IP of the box this program is running on (i.e. the device the Raspberry Shake should send data to)
 	'''
 	global port
 	printM('ERROR: No data received in %s seconds; aborting.' % (to), sender='Init')
@@ -66,11 +71,15 @@ def handler(signum, frame, ip=ip):
 
 def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 	'''
-	Set values for data port, station, network, and data port timeout prior to opening the socket.
-	Defaults:
-	dport=8888		# this is the port number to be opened
-	rsstn='Z0000'	# the name of the station (something like R0E05)
-	timeout=10		# the number of seconds to wait for data before an error is raised (zero for unlimited wait)
+	Initializes the :py:module:`rsudp.raspberryshake` library.
+	Set values for data port, station, network, and port timeout prior to opening the socket.
+
+	:param int dport: The local port the Raspberry Shake is sending UDP data packets to. Defaults to :py:data:`8888`.
+	:param str rsstn: The name of the station (something like :py:data:`'RCB43'` or :py:data:`'S0CDE'`)
+	:param ibt timeout: The number of seconds to wait for data before an error is raised (set to zero for unlimited wait)
+	:rtype: str
+	:return: Returns the instrument channel as a string.
+
 	'''
 	global port, stn, to, initd, port
 	global producer
@@ -119,7 +128,10 @@ def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 
 def openSOCK(host=''):
 	'''
-	Initialize a socket at a port. Must be done after the initRSlib function is called.
+	Initialize a socket at a port.
+	Must be done after the :py:func:`rsudp.raspberryshake.initRSlib` function is called.
+
+	:param str host: self-referential location (i.e. 'localhost') at which to open a listening port
 	'''
 	global sockopen
 	sockopen = False
@@ -140,7 +152,8 @@ def openSOCK(host=''):
 def set_params():
 	'''
 	Read a data packet off the port.
-	On UNIX, alarm if no data is received within timeout.
+	On UNIX, an :py:class:`IOError` alarm is raised if no data is received within timeout.
+	Must only be called after :py:func:`rsudp.raspberryshake.openSOCK`.
 	'''
 	global to
 	if os.name not in 'nt': 	# signal alarm not available on windows
@@ -159,6 +172,10 @@ def set_params():
 def getDATA():
 	'''
 	Read a data packet off the port.
+
+	:rtype: bytes
+	:return: Returns a data packet as an encoded bytes object.
+
 	'''
 	global to, firstaddr
 	if sockopen:
@@ -172,7 +189,12 @@ def getDATA():
 def getCHN(DP):
 	'''
 	Extract the channel information from the data packet.
-	Requires getDATA() packet as argument.
+	Requires :py:func:`rsudp.raspberryshake.getDATA` packet as argument.
+
+	:param DP: The Raspberry Shake UDP data packet to parse channel information from
+	:type DP: rsudp.raspberryshake.getDATA or bytes
+	:rtype: str
+	:return: Returns the instrument channel as a string.
 	'''
 	return str(DP.decode('utf-8').split(",")[0][1:]).strip("\'")
 	
@@ -181,21 +203,36 @@ def getTIME(DP):
 	Extract the timestamp from the data packet.
 	Timestamp is seconds since 1970-01-01 00:00:00Z,
 	which can be passed directly to an obspy UTCDateTime object.
-	Requires getDATA() packet as argument.
+	Requires :py:func:`rsudp.raspberryshake.getDATA` packet as argument.
+
+	:param DP: The Raspberry Shake UDP data packet to parse time information from
+	:type DP: rsudp.raspberryshake.getDATA or bytes
+	:rtype: float
+	:return: Timestamp in decimal seconds since 1970-01-01 00:00:00Z
 	'''
 	return float(DP.split(b",")[1])
 
 def getSTREAM(DP):
 	'''
 	Get the samples in a data packet as a list object.
-	Requires getDATA() packet as argument.
+	Requires :py:func:`rsudp.raspberryshake.getDATA` packet as argument.
+
+	:param DP: The Raspberry Shake UDP data packet to parse stream information from
+	:type DP: rsudp.raspberryshake.getDATA or bytes
+	:rtype: list
+	:return: List of data samples in the packet
 	'''
 	return list(map(int, DP.decode('utf-8').replace('}','').split(',')[2:]))
 
 def getTR(chn):				# DP transmission rate in msecs
 	'''
-	Get the transmission rate in milliseconds.
-	Requires a getCHN() or a channel name string as argument.
+	Get the transmission rate in milliseconds between consecutive packets from the same channel.
+	Must wait to receive a second packet from the same channel.
+	Requires a :py:func:`rsudp.raspberryshake.getCHN` or a channel name string as argument.
+
+	:param rsudp.raspberryshake.getCHN or str: The seismic instrument channel to calculate transmission rate information from
+	:rtype: int
+	:return: Transmission rate in milliseconds between consecutive packets from a specific channel
 	'''
 	global tf, tr
 	timeP1, timeP2 = 0.0, 0.0
@@ -217,7 +254,14 @@ def getTR(chn):				# DP transmission rate in msecs
 def getSR(TR, DP):
 	'''
 	Get the sample rate in samples per second.
-	Requires an integer transmission rate and a data packet as arguments.
+	Requires an integer transmission frequency and a data packet as arguments.
+
+	:param TR: The transmission frequency in milliseconds between packets
+	:type TR: rsudp.raspberryshake.getTR or int
+	:param DP: The seismic instrument channel to calculate sample rate information from
+	:type DP: rsudp.raspberryshake.getDATA or bytes
+	:rtype: int
+	:return: The sample rate in samples per second from a specific channel
 	'''
 	global sps
 	sps = int((DP.count(b",") - 1) * 1000 / TR)
@@ -226,6 +270,9 @@ def getSR(TR, DP):
 def getCHNS():
 	'''
 	Get a list of channels sent to the port.
+
+	:rtype: list
+	:return: The list of channels being sent to the port (from the single IP address sending data)
 	'''
 	global chns
 	chdict = {'EHZ': False, 'EHN': False, 'EHE': False,
@@ -257,7 +304,11 @@ def getCHNS():
 
 def getTTLCHN():
 	'''
-	Calculate total number of channels received.
+	Calculate total number of channels received,
+	by counting the number of channels returned by :py:func:`rsudp.raspberryshake.getCHNS`.
+
+	:rtype: int
+	:return: The number of channels being sent to the port (from the single IP address sending data)
 	'''
 	global numchns
 	numchns = len(getCHNS())
@@ -268,6 +319,11 @@ def get_inventory(sender='get_inventory'):
 	'''
 	Downloads the station inventory from the Raspberry Shake FDSN and stores
 	it as an :py:class:`obspy.Inventory` object which is available globally.
+
+	:param sender: The name of the function calling the :py:func:`rsudp.printM` logging function
+	:type str: str or None
+	:rtype: obspy.Inventory or bool
+	:return: The inventory of the Raspberry Shake station in the :py:data:`rsudp.raspberryshake.stn` variable.
 	'''
 	global inv, stn, region
 	sender = 'get_inventory'
@@ -302,6 +358,11 @@ def get_inventory(sender='get_inventory'):
 def make_trace(d):
 	'''
 	Makes a trace and assigns it some values using a data packet.
+
+	:param d: The Raspberry Shake UDP data packet to parse Trace information from
+	:type d: rsudp.raspberryshake.getDATA or bytes
+	:rtype: obspy.Trace
+	:return: A fully formed Trace object to build a Stream with
 	'''
 	global producer
 	ch = getCHN(d)						# channel
@@ -333,7 +394,14 @@ def make_trace(d):
 # Then make repeated calls to this, to continue adding trace data to the stream
 def update_stream(stream, d, **kwargs):
 	'''
-	Returns an updated trace object with new data, merged down to one trace per available channel.
+	Returns an updated Stream object with new data, merged down to one trace per available channel.
+	Most consumers call this each time they receive data packets in order to keep their obspy stream current.
+
+	:param obspy.Stream stream: The Raspberry Shake UDP data packet to parse Stream information from
+	:param d: The Raspberry Shake UDP data packet to parse Stream information from
+	:type d: rsudp.raspberryshake.getDATA or bytes
+	:rtype: obspy.Stream
+	:return: A seismic data stream
 	'''
 	while True:
 		try:
@@ -344,11 +412,16 @@ def update_stream(stream, d, **kwargs):
 
 def copy(orig):
 	"""
-	True copy a stream by creating a new stream and copying old attributes to it.
+	True-copy a stream by creating a new stream and copying old attributes to it.
 	This is necessary because the old stream accumulates *something* that causes
 	CPU usage to increase over time as more data is added. This is a bug in obspy
 	that I intend to find--or at the very least report--but until then this hack
-	works fine.
+	works fine and is plenty fast enough.
+
+	:param obspy.Stream orig: The data Stream to copy information from
+	:rtype: obspy.Stream
+	:return: A seismic data stream
+
 	"""
 	stream = Stream()
 	for t in range(len(orig)):
@@ -366,6 +439,8 @@ def copy(orig):
 def deconvolve(self):
 	'''
 	A helper function for sub-consumers that need to deconvolve their raw data to physical units.
+	Consumers with Stream objects in :py:data:`self.stream` can use this to deconvolve data
+	if this library's :py:data:`inv` contains a valid :py:class:`obspy.Inventory` object.
 
 	:param self self: The self object of the sub-consumer class calling this function.
 	'''

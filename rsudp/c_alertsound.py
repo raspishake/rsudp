@@ -12,6 +12,9 @@ except ImportError:
 
 class AlertSound(Thread):
 	"""
+	.. role:: pycode(code)
+		:language: pycode
+
 	.. _pydub.AudioSegment: https://github.com/jiaaro/pydub/blob/master/API.markdown#audiosegment
 
 	A consumer class that plays an alert sound when an `ALARM` message arrives on the queue.

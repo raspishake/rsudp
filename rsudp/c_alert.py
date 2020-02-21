@@ -155,7 +155,7 @@ class Alert(Thread):
 		"""
 		Reads data from the queue into a :class:`obspy.Stream` object,
 		then runs a :func:`obspy.signal.trigger.recursive_sta_lta` function to
-		determine whether to raise an alert flag (`self.alarm`).
+		determine whether to raise an alert flag (:py:data:`self.alarm`).
 		The producer reads this flag and uses it to notify other consumers.
 		"""
 		n = 0

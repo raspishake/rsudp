@@ -51,7 +51,7 @@ class Plot:
 		:language: json
 
 	GUI plotting algorithm, compatible with both :py:module:`matplotlib.backends.backend_qt5agg`
-	and :py:module:`matplotlib.backends.backend_tkagg`.
+	and :py:module:`matplotlib.backends.backend_qt5agg`.
 	This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and display a spectrogram beneath each.
 
 	By default the plotted :json:`"duration"` in seconds is :json:`30`.
@@ -74,6 +74,8 @@ class Plot:
 	:param bool screencap: whether or not to save screenshots of events. Defaults to False.
 	:param bool alert: whether to draw the number of events at startup. Defaults to True.
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
+	:raise ImportError: if the module cannot import either of the Matplotlib Qt (:py:module:`matplotlib.backends.backend_qt5agg`) or Tk (:py:module:`matplotlib.backends.backend_qt5agg`) backends
+
 	'''
 
 	def __init__(self, cha='all', q=False,

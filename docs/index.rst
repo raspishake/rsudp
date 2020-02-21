@@ -60,7 +60,7 @@ Modules
 
 .. toctree::
     :maxdepth: 2
-    :caption: Clients
+    :caption: Client
 
     client
     packetloss
@@ -74,7 +74,7 @@ Modules
 
 .. toctree::
     :maxdepth: 2
-    :caption: Sub-Consumers
+    :caption: Sub-Consumer
 
     c_alert
     c_alertsound

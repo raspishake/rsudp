@@ -85,6 +85,16 @@ def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 	Initializes this library (:py:func:`rsudp.raspberryshake`).
 	Set values for data port, station, network, and port timeout prior to opening the socket.
 
+	.. code-block:: python
+		>>> import rsudp.raspberryshake as rs
+		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
+
+	The library is now initialized:
+
+	.. code-block:: python
+		>>> rs.initd
+		True
+
 	:param int dport: The local port the Raspberry Shake is sending UDP data packets to. Defaults to :py:data:`8888`.
 	:param str rsstn: The name of the station (something like :py:data:`'RCB43'` or :py:data:`'S0CDE'`)
 	:param int timeout: The number of seconds for :py:func:`rsudp.raspberryshake.set_params` to wait for data before an error is raised (zero for unlimited wait)
@@ -189,6 +199,18 @@ def getDATA():
 	'''
 	Read a data packet off the port.
 
+	In this example, we get a Shake 1Dv7 data packet:
+
+	.. code-block:: python
+		>>> import rsudp.raspberryshake as rs
+		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
+		>>> d = rs.getDATA()
+		>>> d
+		b"{'EHZ', 1582315130.292, 14168, 14927, 16112, 17537, 18052, 17477,
+		15418, 13716, 15604, 17825, 19637, 20985, 17325, 10439, 11510, 17678,
+		20027, 20207, 18481, 15916, 13836, 13073, 14462, 17628, 19388}"
+
+
 	:rtype: bytes
 	:return: Returns a data packet as an encoded bytes object.
 
@@ -210,6 +232,15 @@ def getCHN(DP):
 	Extract the channel information from the data packet.
 	Requires :py:func:`rsudp.raspberryshake.getDATA` packet as argument.
 
+	In this example, we get the channel code from a Shake 1Dv7 data packet:
+
+	.. code-block:: python
+		>>> import rsudp.raspberryshake as rs
+		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
+		>>> d = rs.getDATA()
+		>>> rs.getCHN(d)
+		'EHZ'
+
 	:param DP: The Raspberry Shake UDP data packet (:py:func:`rsudp.raspberryshake.getDATA`) to parse channel information from
 	:type DP: bytes
 	:rtype: str
@@ -221,8 +252,21 @@ def getTIME(DP):
 	'''
 	Extract the timestamp from the data packet.
 	Timestamp is seconds since 1970-01-01 00:00:00Z,
-	which can be passed directly to an obspy UTCDateTime object.
-	Requires :py:func:`rsudp.raspberryshake.getDATA` packet as argument.
+	which can be passed directly to an :py:class:`obspy.UTCDateTime` object:
+
+	In this example, we get the timestamp of a Shake 1Dv7 data packet and convert it to a UTCDateTime:
+
+	.. code-block:: python
+		>>> import rsudp.raspberryshake as rs
+		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
+		>>> from obspy import UTCDateTime
+		>>> d = rs.getDATA()
+		>>> t = rs.getTIME(d)
+		>>> t
+		1582315130.292
+		>>> dt = obspy.UTCDateTime(t)
+		>>> dt
+		UTCDateTime(2020, 2, 21, 19, 58, 50, 292000)
 
 	:param DP: The Raspberry Shake UDP data packet (:py:func:`rsudp.raspberryshake.getDATA`) to parse time information from
 	:type DP: bytes
@@ -236,6 +280,18 @@ def getSTREAM(DP):
 	Get the samples in a data packet as a list object.
 	Requires :py:func:`rsudp.raspberryshake.getDATA` packet as argument.
 
+	In this example, we get a list of samples from a Shake 1Dv7 data packet:
+
+	.. code-block:: python
+		>>> import rsudp.raspberryshake as rs
+		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
+		>>> d = rs.getDATA()
+		>>> s = rs.getSTREAM(d)
+		>>> s
+		[14168, 14927, 16112, 17537, 18052, 17477, 15418, 13716, 15604,
+		 17825, 19637, 20985, 17325, 10439, 11510, 17678, 20027, 20207,
+		 18481, 15916, 13836, 13073, 14462, 17628, 19388]
+
 	:param DP: The Raspberry Shake UDP data packet (:py:func:`rsudp.raspberryshake.getDATA`) to parse stream information from
 	:type DP: bytes
 	:rtype: list
@@ -248,6 +304,16 @@ def getTR(chn):				# DP transmission rate in msecs
 	Get the transmission rate in milliseconds between consecutive packets from the same channel.
 	Must wait to receive a second packet from the same channel.
 	Requires a :py:func:`rsudp.raspberryshake.getCHN` or a channel name string as argument.
+
+	In this example, we calculate the transmission frequency of a Shake 1Dv7:
+
+	.. code-block:: python
+		>>> import rsudp.raspberryshake as rs
+		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
+		>>> d = rs.getDATA()
+		>>> tr = rs.getTR(rs.getCHN(d))
+		>>> tr
+		250
 
 	:param chn: The seismic instrument channel (:py:func:`rsudp.raspberryshake.getCHN`) to calculate transmission rate information from
 	:type chn: str
@@ -276,6 +342,20 @@ def getSR(TR, DP):
 	Get the sample rate in samples per second.
 	Requires an integer transmission frequency and a data packet as arguments.
 
+	In this example, we calculate the number of samples per second from a Shake 1Dv7:
+
+	.. code-block:: python
+		>>> import rsudp.raspberryshake as rs
+		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
+		>>> d = rs.getDATA()
+		>>> tr = rs.getTR(rs.getCHN(d))
+		>>> tr
+		250
+		>>> sps = rs.getSR(tr, d)
+		>>> sps
+		100
+
+
 	:param TR: The transmission frequency (:py:func:`rsudp.raspberryshake.getTR`) in milliseconds between packets
 	:type TR: int
 	:param DP: The Raspberry Shake UDP data packet (:py:func:`rsudp.raspberryshake.getDATA`) calculate sample rate information from
@@ -290,6 +370,15 @@ def getSR(TR, DP):
 def getCHNS():
 	'''
 	Get a list of channels sent to the port.
+
+	In this example, we list channels from a Boom:
+
+	.. code-block:: python
+		>>> import rsudp.raspberryshake as rs
+		>>> rs.initRSlib(dport=8888, rsstn='R940D')
+		>>> rs.getCHNS()
+		['EHZ', 'HDF']
+
 
 	:rtype: list
 	:return: The list of channels being sent to the port (from the single IP address sending data)
@@ -327,6 +416,14 @@ def getTTLCHN():
 	Calculate total number of channels received,
 	by counting the number of channels returned by :py:func:`rsudp.raspberryshake.getCHNS`.
 
+	In this example, we get the number of channels from a Shake & Boom:
+
+	.. code-block:: python
+		>>> import rsudp.raspberryshake as rs
+		>>> rs.initRSlib(dport=8888, rsstn='R940D')
+		>>> rs.getTTLCHN()
+		2
+
 	:rtype: int
 	:return: The number of channels being sent to the port (from the single IP address sending data)
 	'''
@@ -339,6 +436,22 @@ def get_inventory(sender='get_inventory'):
 	'''
 	Downloads the station inventory from the Raspberry Shake FDSN and stores
 	it as an :py:class:`obspy.core.inventory.inventory.Inventory` object which is available globally.
+
+	.. code-block:: python
+		>>> import rsudp.raspberryshake as rs
+		>>> rs.initRSlib(dport=8888, rsstn='R940D')
+		>>> inv = rs.get_inventory()
+		>>> print(inv)
+		Inventory created at 2020-02-21T20:37:34.246777Z
+			Sending institution: SeisComP3 (gempa testbed)
+			Contains:
+				Networks (1):
+					AM
+				Stations (1):
+					AM.R940D (Raspberry Shake Citizen Science Station)
+				Channels (2):
+					AM.R940D.00.EHZ, AM.R940D.00.HDF
+
 
 	:param sender: The name of the function calling the :py:func:`rsudp.printM` logging function
 	:type str: str or None
@@ -379,6 +492,14 @@ def make_trace(d):
 	'''
 	Makes a trace and assigns it some values using a data packet.
 
+	.. code-block:: python
+		>>> import rsudp.raspberryshake as rs
+		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
+		>>> d = rs.getDATA()
+		>>> t = rs.make_trace(d)
+		>>> print(t)
+		AM.R3BCF.00.EHZ | 2020-02-21T19:58:50.292000Z - 2020-02-21T19:58:50.532000Z | 100.0 Hz, 25 samples
+
 	:param d: The Raspberry Shake UDP data packet (:py:func:`rsudp.raspberryshake.getDATA`) to parse Trace information from
 	:type d: bytes
 	:rtype: obspy.core.trace.Trace
@@ -415,7 +536,20 @@ def make_trace(d):
 def update_stream(stream, d, **kwargs):
 	'''
 	Returns an updated Stream object with new data, merged down to one trace per available channel.
-	Most consumers call this each time they receive data packets in order to keep their obspy stream current.
+	Most sub-consumers call this each time they receive data packets in order to keep their obspy stream current.
+
+	.. code-block:: python
+		>>> import rsudp.raspberryshake as rs
+		>>> from obspy.core.stream import Stream
+		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
+		>>> s = Stream()
+		>>> d = rs.getDATA()
+		>>> t = rs.make_trace(d)
+		>>> s = rs.update_stream(s, d)
+		>>> print(s)
+		1 Trace(s) in Stream:
+		AM.R3BCF.00.EHZ | 2020-02-21T19:58:50.292000Z - 2020-02-21T19:58:50.532000Z | 100.0 Hz, 25 samples
+
 
 	:param obspy.core.stream.Stream stream: The stream to update
 	:param d: The Raspberry Shake UDP data packet (:py:func:`rsudp.raspberryshake.getDATA`) to parse Stream information from
@@ -438,9 +572,26 @@ def copy(orig):
 	that I intend to find--or at the very least report--but until then this hack
 	works fine and is plenty fast enough.
 
-	:param obspy.core.stream.Stream orig: The data Stream to copy information from
+	.. code-block:: python
+		>>> import rsudp.raspberryshake as rs
+		>>> from obspy.core.stream import Stream
+		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
+		>>> s = Stream()
+		>>> d = rs.getDATA()
+		>>> t = rs.make_trace(d)
+		>>> s = rs.update_stream(s, d)
+		>>> s
+		1 Trace(s) in Stream:
+		AM.R3BCF.00.EHZ | 2020-02-21T19:58:50.292000Z - 2020-02-21T19:58:50.532000Z | 100.0 Hz, 25 samples
+		>>> s = rs.copy(s)
+		>>> s
+		1 Trace(s) in Stream:
+		AM.R3BCF.00.EHZ | 2020-02-21T19:58:50.292000Z - 2020-02-21T19:58:50.532000Z | 100.0 Hz, 25 samples
+
+
+	:param obspy.core.stream.Stream orig: The data stream to copy information from
 	:rtype: obspy.core.stream.Stream
-	:return: A seismic data stream
+	:return: A low-memory copy of the passed data stream
 
 	"""
 	stream = Stream()

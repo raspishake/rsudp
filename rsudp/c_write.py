@@ -111,7 +111,7 @@ class Write(Thread):
 		file in question. If there is no file (i.e. if the program is just starting
 		or a new UTC day has just started, then this function writes to a new file).
 
-		:type stream: obspy.Stream or bool
+		:type stream: obspy.core.stream.Stream or bool
 		:param stream: The stream segment to write. If False, the program has just started.
 		'''
 		if not stream:

@@ -42,7 +42,7 @@ def eqAlert(sound=False, sender='EQAlert function', *args, **kwargs):
 
 def handler(sig, frame):
 	'''
-	Function passed to :py:class:`signal.signal` to handle close events
+	Function passed to :py:func:`signal.signal` to handle close events
 	'''
 	RS.producer = False
 

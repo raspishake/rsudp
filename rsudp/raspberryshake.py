@@ -372,7 +372,7 @@ def make_trace(d):
 
 	:param d: The Raspberry Shake UDP data packet  to parse Trace information from
 	:type d: rsudp.raspberryshake.getDATA or bytes
-	:rtype: obspy.Trace
+	:rtype: obspy.core.trace.Trace
 	:return: A fully formed Trace object to build a Stream with
 	'''
 	global producer
@@ -408,10 +408,10 @@ def update_stream(stream, d, **kwargs):
 	Returns an updated Stream object with new data, merged down to one trace per available channel.
 	Most consumers call this each time they receive data packets in order to keep their obspy stream current.
 
-	:param obspy.Stream stream: The stream to update
+	:param obspy.core.stream.Stream stream: The stream to update
 	:param d: The Raspberry Shake UDP data packet (:py:func:`rsudp.raspberryshake.getDATA`) to parse Stream information from
 	:type d: bytes
-	:rtype: obspy.Stream
+	:rtype: obspy.core.stream.Stream
 	:return: A seismic data stream
 	'''
 	while True:
@@ -429,8 +429,8 @@ def copy(orig):
 	that I intend to find--or at the very least report--but until then this hack
 	works fine and is plenty fast enough.
 
-	:param obspy.Stream orig: The data Stream to copy information from
-	:rtype: obspy.Stream
+	:param obspy.core.stream.Stream orig: The data Stream to copy information from
+	:rtype: obspy.core.stream.Stream
 	:return: A seismic data stream
 
 	"""

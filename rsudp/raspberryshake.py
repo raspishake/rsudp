@@ -55,7 +55,7 @@ if platform.system() not in 'Windows':
 def handler(signum, frame, ip=ip):
 	'''
 	The signal handler for the nodata alarm.
-	Raises a :py:class:`IOError` if no data is received for the timeout specified in :py:func:`rsudp.raspberryshake.initRSlib`.
+	Raises a :py:exception:`IOError` if no data is received for the timeout specified in :py:func:`rsudp.raspberryshake.initRSlib`.
 
 	:param int signum: signal number
 	:param int frame: frame number
@@ -152,7 +152,7 @@ def openSOCK(host=''):
 def set_params():
 	'''
 	Read a data packet off the port.
-	On UNIX, an :py:class:`IOError` alarm is raised if no data is received within timeout.
+	On UNIX, an :py:exception:`IOError` alarm is raised if no data is received within timeout.
 	Must only be called after :py:func:`rsudp.raspberryshake.openSOCK`.
 	'''
 	global to

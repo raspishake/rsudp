@@ -1,8 +1,7 @@
 `rsudp` |version|
 #####################################
-**Python tools for receiving and interacting with Raspberry Shake UDP data**
-
-*by Ian M. Nesbitt and Richard I. Boaz*
+|**Python tools for receiving and interacting with Raspberry Shake UDP data**
+|*by Ian M. Nesbitt and Richard I. Boaz*
 
 Welcome to rsudp's documentation.
 This program was written to parse and process live UDP data streams from Raspberry Shake personal seismographs.

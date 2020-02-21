@@ -371,8 +371,8 @@ def make_trace(d):
 	'''
 	Makes a trace and assigns it some values using a data packet.
 
-	:param d: The Raspberry Shake UDP data packet  to parse Trace information from
-	:type d: rsudp.raspberryshake.getDATA or bytes
+	:param d: The Raspberry Shake UDP data packet (:py:func:`rsudp.raspberryshake.getDATA`) to parse Trace information from
+	:type d: bytes
 	:rtype: obspy.core.trace.Trace
 	:return: A fully formed Trace object to build a Stream with
 	'''

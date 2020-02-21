@@ -65,8 +65,11 @@ if platform.system() not in 'Windows':
 
 def handler(signum, frame, ip=ip):
 	'''
+	.. py:exception:: IOError
+		:module: exceptions
+
 	The signal handler for the nodata alarm.
-	Raises a :py:exception:`exceptions.IOError` if no data is received for the timeout specified in :py:func:`rsudp.raspberryshake.initRSlib`.
+	Raises a `IOError`_ if no data is received for the timeout specified in :py:func:`rsudp.raspberryshake.initRSlib`.
 
 	:param int signum: signal number
 	:param int frame: frame number

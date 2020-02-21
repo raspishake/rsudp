@@ -35,7 +35,8 @@ sps = None				# samples per second
 def get_ip():
 	'''
 	Return a reliable network IP to report to the user when there is no data received.
-	This helps the user set their Raspberry Shake's datacast streams to point to the correct location.
+	This helps the user set their Raspberry Shake's datacast streams to point to the correct location
+	if the library raises a "no data received" error.
 	Solution adapted from
 	`this stackoverflow answer <https://stackoverflow.com/questions/166506/finding-local-ip-addresses-using-pythons-stdlib>`_.
 
@@ -65,7 +66,7 @@ if platform.system() not in 'Windows':
 def handler(signum, frame, ip=ip):
 	'''
 	The signal handler for the nodata alarm.
-	Raises a :py:exception:`IOError` if no data is received for the timeout specified in :py:func:`rsudp.raspberryshake.initRSlib`.
+	Raises a :py:exception:`exceptions.IOError` if no data is received for the timeout specified in :py:func:`rsudp.raspberryshake.initRSlib`.
 
 	:param int signum: signal number
 	:param int frame: frame number
@@ -81,7 +82,7 @@ def handler(signum, frame, ip=ip):
 
 def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 	'''
-	Initializes the :py:module:`rsudp.raspberryshake` library.
+	Initializes this library (:py:func:`rsudp.raspberryshake`).
 	Set values for data port, station, network, and port timeout prior to opening the socket.
 
 	:param int dport: The local port the Raspberry Shake is sending UDP data packets to. Defaults to :py:data:`8888`.
@@ -162,7 +163,7 @@ def openSOCK(host=''):
 def set_params():
 	'''
 	Read a data packet off the port.
-	On UNIX, an :py:exception:`IOError` alarm is raised if no data is received within timeout.
+	On UNIX, an :py:exception:`exceptions.IOError` alarm is raised if no data is received within timeout.
 	Must only be called after :py:func:`rsudp.raspberryshake.openSOCK`.
 	'''
 	global to

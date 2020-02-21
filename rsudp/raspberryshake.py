@@ -86,12 +86,14 @@ def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 	Set values for data port, station, network, and port timeout prior to opening the socket.
 
 	.. code-block:: python
+
 		>>> import rsudp.raspberryshake as rs
 		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
 
 	The library is now initialized:
 
 	.. code-block:: python
+
 		>>> rs.initd
 		True
 
@@ -202,6 +204,7 @@ def getDATA():
 	In this example, we get a Shake 1Dv7 data packet:
 
 	.. code-block:: python
+
 		>>> import rsudp.raspberryshake as rs
 		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
 		>>> d = rs.getDATA()
@@ -235,6 +238,7 @@ def getCHN(DP):
 	In this example, we get the channel code from a Shake 1Dv7 data packet:
 
 	.. code-block:: python
+
 		>>> import rsudp.raspberryshake as rs
 		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
 		>>> d = rs.getDATA()
@@ -257,6 +261,7 @@ def getTIME(DP):
 	In this example, we get the timestamp of a Shake 1Dv7 data packet and convert it to a UTCDateTime:
 
 	.. code-block:: python
+
 		>>> import rsudp.raspberryshake as rs
 		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
 		>>> from obspy import UTCDateTime
@@ -283,6 +288,7 @@ def getSTREAM(DP):
 	In this example, we get a list of samples from a Shake 1Dv7 data packet:
 
 	.. code-block:: python
+
 		>>> import rsudp.raspberryshake as rs
 		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
 		>>> d = rs.getDATA()
@@ -308,6 +314,7 @@ def getTR(chn):				# DP transmission rate in msecs
 	In this example, we calculate the transmission frequency of a Shake 1Dv7:
 
 	.. code-block:: python
+
 		>>> import rsudp.raspberryshake as rs
 		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
 		>>> d = rs.getDATA()
@@ -345,6 +352,7 @@ def getSR(TR, DP):
 	In this example, we calculate the number of samples per second from a Shake 1Dv7:
 
 	.. code-block:: python
+
 		>>> import rsudp.raspberryshake as rs
 		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
 		>>> d = rs.getDATA()
@@ -374,6 +382,7 @@ def getCHNS():
 	In this example, we list channels from a Boom:
 
 	.. code-block:: python
+
 		>>> import rsudp.raspberryshake as rs
 		>>> rs.initRSlib(dport=8888, rsstn='R940D')
 		>>> rs.getCHNS()
@@ -419,6 +428,7 @@ def getTTLCHN():
 	In this example, we get the number of channels from a Shake & Boom:
 
 	.. code-block:: python
+
 		>>> import rsudp.raspberryshake as rs
 		>>> rs.initRSlib(dport=8888, rsstn='R940D')
 		>>> rs.getTTLCHN()
@@ -438,6 +448,7 @@ def get_inventory(sender='get_inventory'):
 	it as an :py:class:`obspy.core.inventory.inventory.Inventory` object which is available globally.
 
 	.. code-block:: python
+
 		>>> import rsudp.raspberryshake as rs
 		>>> rs.initRSlib(dport=8888, rsstn='R940D')
 		>>> inv = rs.get_inventory()
@@ -493,6 +504,7 @@ def make_trace(d):
 	Makes a trace and assigns it some values using a data packet.
 
 	.. code-block:: python
+
 		>>> import rsudp.raspberryshake as rs
 		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
 		>>> d = rs.getDATA()
@@ -539,6 +551,7 @@ def update_stream(stream, d, **kwargs):
 	Most sub-consumers call this each time they receive data packets in order to keep their obspy stream current.
 
 	.. code-block:: python
+
 		>>> import rsudp.raspberryshake as rs
 		>>> from obspy.core.stream import Stream
 		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')
@@ -573,6 +586,7 @@ def copy(orig):
 	works fine and is plenty fast enough.
 
 	.. code-block:: python
+
 		>>> import rsudp.raspberryshake as rs
 		>>> from obspy.core.stream import Stream
 		>>> rs.initRSlib(dport=8888, rsstn='R3BCF')

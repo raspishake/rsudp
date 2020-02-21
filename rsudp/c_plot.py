@@ -50,7 +50,8 @@ class Plot:
 	.. role:: json(code)
 		:language: json
 
-	GUI plotting algorithm, compatible with multiple :py:module:`matplotlib` backends.
+	GUI plotting algorithm, compatible with both :py:module:`matplotlib.backends.backend_qt5agg`
+	and :py:module:`matplotlib.backends.backend_tkagg`.
 	This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and display a spectrogram beneath each.
 
 	By default the plotted :json:`"duration"` in seconds is :json:`30`.

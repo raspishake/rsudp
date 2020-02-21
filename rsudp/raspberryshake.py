@@ -33,16 +33,26 @@ sps = None				# samples per second
 # get an IP to report to the user
 # from https://stackoverflow.com/questions/166506/finding-local-ip-addresses-using-pythons-stdlib
 def get_ip():
-    testsock = s.socket(s.AF_INET, s.SOCK_DGRAM)
-    try:
-        # doesn't even have to be reachable
-        testsock.connect(('10.255.255.255', 1))
-        IP = testsock.getsockname()[0]
-    except:
-        IP = '127.0.0.1'
-    finally:
-        testsock.close()
-    return IP
+	'''
+	Return a reliable network IP to report to the user when there is no data received.
+	This helps the user set their Raspberry Shake's datacast streams to point to the correct location.
+	Solution adapted from
+	`this stackoverflow answer <https://stackoverflow.com/questions/166506/finding-local-ip-addresses-using-pythons-stdlib>`_.
+
+	:rtype: str
+	:return: The network IP of the machine that this program is running on
+	'''
+
+	testsock = s.socket(s.AF_INET, s.SOCK_DGRAM)
+	try:
+		# doesn't even have to be reachable
+		testsock.connect(('10.255.255.255', 1))
+		IP = testsock.getsockname()[0]
+	except:
+		IP = '127.0.0.1'
+	finally:
+		testsock.close()
+	return IP
 
 ip = get_ip()
 
@@ -318,11 +328,11 @@ def getTTLCHN():
 def get_inventory(sender='get_inventory'):
 	'''
 	Downloads the station inventory from the Raspberry Shake FDSN and stores
-	it as an :py:class:`obspy.Inventory` object which is available globally.
+	it as an :py:class:`obspy.core.inventory.inventory.Inventory` object which is available globally.
 
 	:param sender: The name of the function calling the :py:func:`rsudp.printM` logging function
 	:type str: str or None
-	:rtype: obspy.Inventory or bool
+	:rtype: obspy.core.inventory.inventory.Inventory or bool
 	:return: The inventory of the Raspberry Shake station in the :py:data:`rsudp.raspberryshake.stn` variable.
 	'''
 	global inv, stn, region
@@ -440,7 +450,7 @@ def deconvolve(self):
 	'''
 	A helper function for sub-consumers that need to deconvolve their raw data to physical units.
 	Consumers with Stream objects in :py:data:`self.stream` can use this to deconvolve data
-	if this library's :py:data:`inv` contains a valid :py:class:`obspy.Inventory` object.
+	if this library's :py:data:`inv` contains a valid :py:class:`obspy.core.inventory.inventory.Inventory` object.
 
 	:param self self: The self object of the sub-consumer class calling this function.
 	'''

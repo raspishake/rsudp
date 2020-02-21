@@ -162,7 +162,7 @@ def openSOCK(host=''):
 	Initialize a socket at the port specified by :pycode:`rsudp.raspberryshake.port`.
 	Called by :py:func:`rsudp.raspberryshake.initRSlib`, must be done before :py:func:`rsudp.raspberryshake.set_params`.
 
-	:param str host: self-referential location (i.e. 'localhost') at which to open a listening port
+	:param str host: self-referential location (i.e. :pycode:'localhost') at which to open a listening port
 	:raise IOError: if the library is not initialized (:py:func:`rsudp.raspberryshake.initRSlib`) prior to running this function
 	:raise OSError: if the program cannot bind to the specified port number
 
@@ -269,7 +269,7 @@ def getTIME(DP):
 	'''
 	Extract the timestamp from the data packet.
 	Timestamp is seconds since 1970-01-01 00:00:00Z,
-	which can be passed directly to an :py:class:`obspy.UTCDateTime` object:
+	which can be passed directly to an :py:class:`obspy.core.utcdatetime.UTCDateTime` object:
 
 	In this example, we get the timestamp of a Shake 1Dv7 data packet and convert it to a UTCDateTime:
 
@@ -463,6 +463,8 @@ def get_inventory(sender='get_inventory'):
 	Downloads the station inventory from the Raspberry Shake FDSN and stores
 	it as an :py:class:`obspy.core.inventory.inventory.Inventory` object which is available globally.
 
+	In this example, we get the R940D station inventory from the Raspberry Shake FDSN:
+
 	.. code-block:: python
 
 		>>> import rsudp.raspberryshake as rs
@@ -480,7 +482,7 @@ def get_inventory(sender='get_inventory'):
 					AM.R940D.00.EHZ, AM.R940D.00.HDF
 
 
-	:param sender: The name of the function calling the :py:func:`rsudp.printM` logging function
+	:param sender: `(optional)` The name of the function calling the :py:func:`rsudp.printM` logging function
 	:type str: str or None
 	:rtype: obspy.core.inventory.inventory.Inventory or bool
 	:return: The inventory of the Raspberry Shake station in the :pycode:`rsudp.raspberryshake.stn` variable.
@@ -518,6 +520,8 @@ def get_inventory(sender='get_inventory'):
 def make_trace(d):
 	'''
 	Makes a trace and assigns it some values using a data packet.
+
+	In this example, we make a trace object with some RS 1Dv7 data:
 
 	.. code-block:: python
 
@@ -566,6 +570,8 @@ def update_stream(stream, d, **kwargs):
 	Returns an updated Stream object with new data, merged down to one trace per available channel.
 	Most sub-consumers call this each time they receive data packets in order to keep their obspy stream current.
 
+	In this example, we make a stream object with some RS 1Dv7 data:
+
 	.. code-block:: python
 
 		>>> import rsudp.raspberryshake as rs
@@ -600,6 +606,8 @@ def copy(orig):
 	CPU usage to increase over time as more data is added. This is a bug in obspy
 	that I intend to find--or at the very least report--but until then this hack
 	works fine and is plenty fast enough.
+
+	In this example, we make a stream object with some RS 1Dv7 data and then copy it to a new stream:
 
 	.. code-block:: python
 

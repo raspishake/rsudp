@@ -50,8 +50,7 @@ class Plot:
 	.. role:: json(code)
 		:language: json
 
-	GUI plotting algorithm, compatible with both :py:module:`matplotlib.backends.backend_qt5agg`
-	and :py:module:`matplotlib.backends.backend_qt5agg`.
+	GUI plotting algorithm, compatible with both Qt5 and TkAgg backends (see :py:func:`matplotlib.use`).
 	This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and display a spectrogram beneath each.
 
 	By default the plotted :json:`"duration"` in seconds is :json:`30`.
@@ -74,7 +73,7 @@ class Plot:
 	:param bool screencap: whether or not to save screenshots of events. Defaults to False.
 	:param bool alert: whether to draw the number of events at startup. Defaults to True.
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
-	:raise ImportError: if the module cannot import either of the Matplotlib Qt (:py:module:`matplotlib.backends.backend_qt5agg`) or Tk (:py:module:`matplotlib.backends.backend_qt5agg`) backends
+	:raise ImportError: if the module cannot import either of the Matplotlib Qt5 or TkAgg backends
 
 	'''
 
@@ -301,7 +300,7 @@ class Plot:
 		Saves the figure and puts an IMGPATH message on the master queue.
 		This message can be used to upload the image to various services.
 
-		:param obspy.UTCDateTime event_time: Event time as an obspy UTCDateTime object.
+		:param obspy.core.utcdatetime.UTCDateTime event_time: Event time as an obspy UTCDateTime object.
 		:param str event_time_str: Event time as a string. This is used to set the filename.
 		'''
 		figname = os.path.join(rsudp.scap_dir, '%s-%s.png' % (self.stn, event_time_str))

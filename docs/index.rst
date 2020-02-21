@@ -33,6 +33,7 @@ The project's source repository is `here <https://github.com/raspishake/rsudp>`_
     :maxdepth: 2
     :caption: Modules
 
+    raspberryshake
     client
     p_producer
     c_consumer
@@ -43,7 +44,6 @@ The project's source repository is `here <https://github.com/raspishake/rsudp>`_
     c_telegram
     c_forward
     c_write
-    raspberryshake
     packetloss
 
 Indices and tables

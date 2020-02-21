@@ -70,7 +70,7 @@ def handler(signum, frame, ip=ip):
 	:param int signum: signal number
 	:param int frame: frame number
 	:param str ip: the IP of the box this program is running on (i.e. the device the Raspberry Shake should send data to)
-	:raise IOError: on UNIX systems if no data is received for the timeout specified in :py:func:`rsudp.raspberryshake.initRSlib`
+	:raise IOError: on UNIX systems if no data is received
 	'''
 	global port
 	printM('ERROR: No data received in %s seconds; aborting.' % (to), sender='Init')
@@ -87,9 +87,10 @@ def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 
 	:param int dport: The local port the Raspberry Shake is sending UDP data packets to. Defaults to :py:data:`8888`.
 	:param str rsstn: The name of the station (something like :py:data:`'RCB43'` or :py:data:`'S0CDE'`)
-	:param int timeout: The number of seconds to wait for data before an error is raised (set to zero for unlimited wait)
+	:param int timeout: The number of seconds for :py:func:`rsudp.raspberryshake.set_params` to wait for data before an error is raised (zero for unlimited wait)
+
 	:rtype: str
-	:return: Returns the instrument channel as a string.
+	:return: The instrument channel as a string
 
 	'''
 	global port, stn, to, initd, port
@@ -143,6 +144,9 @@ def openSOCK(host=''):
 	Must be done after the :py:func:`rsudp.raspberryshake.initRSlib` function is called.
 
 	:param str host: self-referential location (i.e. 'localhost') at which to open a listening port
+	:raise IOError: if the library is not initialized (:py:func:`rsudp.raspberryshake.initRSlib`) prior to running this function
+	:raise OSError: if the program cannot bind to the specified port number
+
 	'''
 	global sockopen
 	sockopen = False
@@ -164,8 +168,8 @@ def set_params():
 	'''
 	Read a data packet off the port.
 	Must only be called after :py:func:`rsudp.raspberryshake.openSOCK`.
+	Will wait :py:data:`rsudp.raspberryshake.to` seconds for data before raising a no data exception.
 
-	:raise IOError: on UNIX systems if no data is received for the timeout specified in :py:func:`rsudp.raspberryshake.initRSlib`
 	'''
 	global to
 	if os.name not in 'nt': 	# signal alarm not available on windows
@@ -188,6 +192,9 @@ def getDATA():
 	:rtype: bytes
 	:return: Returns a data packet as an encoded bytes object.
 
+	:raise IOError: if no socket is open (:py:func:`rsudp.raspberryshake.openSOCK`) prior to running this function
+	:raise IOError: if the library is not initialized (:py:func:`rsudp.raspberryshake.initRSlib`) prior to running this function
+
 	'''
 	global to, firstaddr
 	if sockopen:
@@ -196,7 +203,7 @@ def getDATA():
 		if initd:
 			raise IOError("No socket is open. Please open a socket using this library's openSOCK() function.")
 		else:
-			raise IOError('No socket is open. Please initialize the library then open a socket using openSOCK().')
+			raise IOError('No socket is open. Please initialize the library using initRSlib() then open a socket using openSOCK().')
 	
 def getCHN(DP):
 	'''

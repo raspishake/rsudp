@@ -65,15 +65,12 @@ if platform.system() not in 'Windows':
 
 def handler(signum, frame, ip=ip):
 	'''
-	.. py:exception:: IOError
-		:module: exceptions
-
 	The signal handler for the nodata alarm.
-	Raises a `IOError`_ if no data is received for the timeout specified in :py:func:`rsudp.raspberryshake.initRSlib`.
 
 	:param int signum: signal number
 	:param int frame: frame number
 	:param str ip: the IP of the box this program is running on (i.e. the device the Raspberry Shake should send data to)
+	:raise IOError: on UNIX systems if no data is received for the timeout specified in :py:func:`rsudp.raspberryshake.initRSlib`
 	'''
 	global port
 	printM('ERROR: No data received in %s seconds; aborting.' % (to), sender='Init')
@@ -166,8 +163,9 @@ def openSOCK(host=''):
 def set_params():
 	'''
 	Read a data packet off the port.
-	On UNIX, an :py:exception:`exceptions.IOError` alarm is raised if no data is received within timeout.
 	Must only be called after :py:func:`rsudp.raspberryshake.openSOCK`.
+
+	:raise IOError: on UNIX systems if no data is received for the timeout specified in :py:func:`rsudp.raspberryshake.initRSlib`
 	'''
 	global to
 	if os.name not in 'nt': 	# signal alarm not available on windows

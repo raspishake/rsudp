@@ -1,5 +1,8 @@
-`rsudp` |version| documentation
+`rsudp` |version|
 #####################################
+**Python tools for receiving and interacting with Raspberry Shake UDP data**
+
+*by Ian M. Nesbitt and Richard I. Boaz*
 
 Welcome to rsudp's documentation.
 This program was written to parse and process live UDP data streams from Raspberry Shake personal seismographs.
@@ -16,6 +19,21 @@ real time continuous data processing and contribute code of their own.
 
 The project's source repository is `here <https://github.com/raspishake/rsudp>`_.
 
+In order to get a feel for what rsudp can do, check out our YouTube tutorials:
+
+==============================  ==============================
+  Video                                  Link
+==============================  ==============================
+1. Installation                  https://youtu.be/e-kyg55GZyA
+2. Adjust settings and run       https://youtu.be/HA9k3CzmgLI
+3. YouTube streaming tutorial    (coming soon)
+==============================  ==============================
+
+If you prefer to read in-depth documentation, follow our :ref:`tutorial`.
+Or, if you know what you're looking for, find it in :ref:`modules`.
+
+.. _tutorial:
+
 .. toctree::
     :numbered:
     :maxdepth: 2
@@ -29,14 +47,35 @@ The project's source repository is `here <https://github.com/raspishake/rsudp>`_
     troubleshooting
     contributing
 
+.. _modules:
+
+Modules
+==========================
+
 .. toctree::
     :maxdepth: 2
-    :caption: Modules
+    :caption: Library
 
     raspberryshake
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Clients
+
     client
+    packetloss
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Producer and Consumer
+
     p_producer
     c_consumer
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Sub-Consumers
+
     c_alert
     c_alertsound
     c_plot
@@ -44,7 +83,7 @@ The project's source repository is `here <https://github.com/raspishake/rsudp>`_
     c_telegram
     c_forward
     c_write
-    packetloss
+
 
 Indices and tables
 ==================

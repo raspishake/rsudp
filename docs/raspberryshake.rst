@@ -4,7 +4,7 @@
 .. note::
     If you are starting this program from a command line by using
     :bash:`rs-client` or a start script, the functions in this
-    library will be executed by the :func:`rsudp.client` automatically.
+    library will be executed by the :mod:`rsudp.client` automatically.
     See :ref:`running` for details.
 
     If you are a developer looking for helper functions to create a new module,
@@ -26,7 +26,7 @@ this library must be initialized using :func:`rsudp.raspberryshake.initRSlib`:
 .. note:: This request will time out if there is no data being sent to the port.
 
 After initializing the library, the :func:`rsudp.raspberryshake.getDATA`
-function and its derivatives are available for use.
+function and its derivatives will be available for use.
 
 
 .. automodule:: rsudp.raspberryshake

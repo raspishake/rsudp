@@ -36,7 +36,7 @@ The directory specified here will be created if it doesn't already exist.
 :code:`plot` (live data plot)
 *************************************************
 
-:json:`"plot"` controls the thread containing the GUI plotting algorithm.
+:json:`"plot"` controls :class:`rsudp.c_plot.Plot`, the thread containing the GUI plotting algorithm.
 This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and display a spectrogram beneath each.
 
 By default the plotted :json:`"duration"` in seconds is :json:`30`.
@@ -115,7 +115,7 @@ This will only occur when the alarm gets triggered, however, so make sure to tes
 
 
 
-:json:`"alert"` controls the alert module (please see Warning above).
+:json:`"alert"` controls the :class:`rsudp.c_alert.Alert` module (please see Warning above).
 The alert module is a fast recursive STA/LTA sudden motion detector that utilizes obspy's
 `recursive_sta_lta() https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#recursive-sta-lta`_ function.
 STA/LTA algorithms calculate a ratio of the short term average of station noise to the long term average.
@@ -251,7 +251,7 @@ If you are certain that your code file has no Windows newlines, you can set :jso
 *************************************************
 
 If alarmsound's :json:`"enabled"` is :json:`true` and you have either :bash:`ffmpeg` or :bash:`libav` installed,
-this module plays an MP3 sound every time it receives an :code:`ALARM` queue message.
+:class:`rsudp.c_alertsound.AlertSound` plays an MP3 sound every time it receives an :code:`ALARM` queue message.
 For details on installation of these dependencies,
 see `this page <https://github.com/jiaaro/pydub#dependencies>`_.
 
@@ -314,7 +314,7 @@ and will not lock your account out if there happen to be many posts in a short t
 (whereas Twitter will).
 
 If :json:`"enabled"` is :json:`true`, and bot :json:`"token"` key is correctly entered,
-this module will use the Telegram bot API to create alerts when an :code:`ALARM` message arrives on the queue.
+:class:`rsudp.c_telegram.Telegram` will use the Telegram bot API to create alerts when an :code:`ALARM` message arrives on the queue.
 If :json:`"send_images"` is :json:`true`, then the module will also send a saved image of the event,
 if :json:`"eq_screenshots"` is set to :json:`true` in the :json:`"plot"` module.
 
@@ -354,8 +354,9 @@ This chat ID may be negative, in which case you must enter the negative sign int
 :code:`tweets` (Twitter notification module)
 *************************************************
 
-tweets if "enabled" is true, and all API keys have been generated and are correctly entered,
-then this module will use the Twitter API to create tweets when an ALARM message arrives on the queue.
+If "enabled" is true, and all API keys have been generated and are correctly entered,
+then the :class:`rsudp.c_tweet.Tweeter` class will use the Twitter API to
+create tweets when an ALARM message arrives on the queue.
 If "tweet_images" is true, then the module will also tweet a saved image of the event,
 if "eq_screenshots" is set to :json:`true` in the "plot" module.
 
@@ -383,7 +384,7 @@ you may enter them into your settings file in the appropriate fields:
 :code:`write` (miniSEED writer)
 *************************************************
 
-:json:`"write"` controls a very simple STEIM2 miniSEED writer.
+:json:`"write"` controls :class:`rsudp.c_write.Write`, a very simple STEIM2 miniSEED writer class.
 If :json:`"enabled"` is :json:`true`, seismic data is appended to a miniSEED file with a
 descriptive name in the data directory inside of :json:`"output_dir"` every 10 seconds.
 By default, :json:`"all"` channels will be written to their own files.
@@ -396,7 +397,7 @@ which will write the vertical geophone and accelerometer channels from RS4D outp
 :code:`forward` (datacast forwarding)
 *************************************************
 
-The :json:`"forward"` module controls a UDP datacast forwarding module.
+The :json:`"forward"` module controls :class:`rsudp.c_forward.Forward` a UDP datacast forwarding module.
 You can forward UDP packets for a list of channels from a datacast to the :json:`"address"` and :json:`"port"` specified,
 just like you would from the Shake's web front end. By default, :json:`["all"]` channels are forwarded.
 
@@ -406,7 +407,8 @@ just like you would from the Shake's web front end. By default, :json:`["all"]` 
 :code:`printdata` (print data to console)
 *************************************************
 
-:json:`"printdata"` controls the data output module, which simply prints Shake data packets to stdout as it receives them.
+:json:`"printdata"` controls the data output module :class:`rsudp.c_printraw.PrintRaw`,
+which simply prints Shake data packets to stdout as it receives them.
 Change :json:`"enabled"` to :json:`true` to activate.
 
 `Back to top ↑ <#top>`_

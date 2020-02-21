@@ -50,7 +50,11 @@ Or, if you know what you're looking for, find it in :ref:`modules`.
 .. _modules:
 
 Modules
-==========================
+========================
+
+The modules available in rsudp are organized by type below.
+
+------------
 
 .. toctree::
     :maxdepth: 2

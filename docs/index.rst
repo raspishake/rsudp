@@ -20,10 +20,10 @@ The project's source repository is `here <https://github.com/raspishake/rsudp>`_
 In order to get a feel for what rsudp can do, check out our YouTube tutorials:
 
 ===============================  ==============================
-  Video                                  Link
+  Topic                                  Video
 ===============================  ==============================
- 1. Installation                  https://youtu.be/e-kyg55GZyA
- 2. Adjust settings and run       https://youtu.be/HA9k3CzmgLI
+ 1. Installation                  <iframe width="400" height="286" src="https://www.youtube-nocookie.com/embed/e-kyg55GZyA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+ 2. Adjust settings and run       <iframe width="400" height="286" src="https://www.youtube-nocookie.com/embed/HA9k3CzmgLI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
  3. YouTube streaming tutorial    (coming soon)
 ===============================  ==============================
 

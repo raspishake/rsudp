@@ -19,24 +19,18 @@ If you have suggestions for feature addition of a new module, please open a
 If you're a developer or feeling adventurous, here are some fun potential projects:
 
 - Windows batch scripts similar to the provided UNIX ones
+- plot `trigger on-off events <https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#advanced-example>`_ using :py:func:`obspy.signal.trigger.trigger_onset` and :py:func:`matplotlib.pyplot.axvline`::
 
-- a way to plot trigger-on and trigger-off events on screen using
-    :py:func:`obspy.signal.trigger.trigger_onset`
-    (`example here <https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#advanced-example>`_)
-    and :py:func:`matplotlib.pyplot.axvline` like the following::
-
-        on_events = [UTCDateTime1, UTCDateTime3]
-        for time in on_events:
-            plt.axvline(x=time, color='r', linestyle=(0, (14,14)), linewidth=1, alpha=0.7)
-        off_events = [UTCDateTime2, UTCDateTime4]
-        for time in off_events:
-            plt.axvline(x=time, color='g', linestyle=(0, (14,14)), linewidth=1, alpha=0.7)
+    on_events = [UTCDateTime1, UTCDateTime3]
+    for time in on_events:
+        plt.axvline(x=time, color='r', linestyle=(0, (14,14)), linewidth=1, alpha=0.7)
+    off_events = [UTCDateTime2, UTCDateTime4]
+    for time in off_events:
+        plt.axvline(x=time, color='g', linestyle=(0, (14,14)), linewidth=1, alpha=0.7)
 
 - GPIO pin interaction module (lights, motor control, buzzers, etc.)
 - a more efficient plotting routine
-
-- a way to optionally run the plot module with the Agg backend in matplotlib,
-    which would allow the creation of screenshots without the need for a plot window to appear
+- a way to run the plot module with the Agg backend in matplotlib, allowing for the creation of screenshots without the need for a plot window
 
 
 Bugs

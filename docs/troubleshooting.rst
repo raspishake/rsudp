@@ -40,7 +40,7 @@ the Shake side to cast data to the address ``192.168.1.118`` and port ``8888``
 — see :ref:`local`.
 
 If you are sending data to a different port than 8888, check the ``"port"``
-value in your settings file (`~/.config/rsudp/rsudp_settings.json`) reflects
+value in your settings file (``~/.config/rsudp/rsudp_settings.json``) reflects
 the port to which data is being sent.
 
 Finally, if you are for example sending data from a location outside your home
@@ -100,9 +100,9 @@ Your computer   192.168.1.118    Private
 ============== ================ ======================
 
 In this case, you must configure your Shake to forward UDP data to address
-28.14.122.178 at, for example, port 8888 (this is port 8888 on the external side
+``28.14.122.178`` at, for example, port ``8888`` (i.e. port 8888 on the external side
 of your router). Then, configure your router to forward data on external UDP port
-8888 to internal address 192.168.1.118 and port 8888.
+``8888`` to internal address ``192.168.1.118`` and port ``8888``.
 
 You should then be able to receive data on your computer.
 
@@ -110,8 +110,8 @@ You should then be able to receive data on your computer.
 
     Some internet service providers (ISPs) do not let you change your router's
     settings yourself. In this case, you will need to call them and ask them to
-    configure port forwarding for external port 8888 to forward data to the same
-    port at the internal IP address 192.168.1.18.
+    configure port forwarding for external port ``8888`` to forward data to the same
+    port at the internal IP address ``192.168.1.118``.
 
 .. _school-net:
 

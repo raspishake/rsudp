@@ -127,4 +127,20 @@ They may be able to help with configuration of the setup as well, although they
 usually have difficult jobs, so don't be too hard on them!
 
 
+Other issues
+=================================================
+
+If you are having an issue other than the one described above, please post the
+issue you are having to our forum at https://community.raspberryshake.org. We
+would be glad to help you solve your issue there.
+
+If it turns out that we cannot solve it without a bug fix in the code, please
+`submit a new issue <https://github.com/raspishake/rsudp/issues/new>`_.
+Be sure to describe the problem clearly, attach your logs
+(:code:`/tmp/rsudp/rsudp.log`) and/or copy/paste command line output
+in triple backticks \`\`\` like this \`\`\` to format it as code.
+
+Our small team thanks you for your patience and cooperation!
+
+
 `Back to top ↑ <#top>`_

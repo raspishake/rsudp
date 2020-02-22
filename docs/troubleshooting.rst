@@ -92,8 +92,10 @@ you will need to tell your router to let that data through and where to send it.
 
 First of all, you will need to know your router's IP address. There are many
 online services that will do this. One of the safer ways to figure it out is just
-`searching on DuckDuckGo <https://duckduckgo.com/?q=what+is+my+IP&t=canonical&ia=answer>`_.
-DuckDuckGo will not store your information, while many sites will.
+`searching "what is my IP" on DuckDuckGo
+<https://duckduckgo.com/?q=what+is+my+IP&t=canonical&ia=answer>`_
+(DuckDuckGo will not store your information, while many other sites will).
+Your IP should appear right under the search bar.
 
 Let's say DuckDuckGo tells you that your IP address is ``28.14.122.178``.
 

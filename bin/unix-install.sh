@@ -199,7 +199,7 @@ if [ -z ${conda_exists+x} ]; then
 fi
 
 if [[ "$arch" == "armv"* ]]; then
-  env_install="conda create -n rsudp python=3.6.6 numpy matplotlib future scipy lxml sqlalchemy -y"
+  env_install="conda create -n rsudp python=3.6.6 numpy matplotlib future scipy lxml cffi sqlalchemy -y"
 else
   env_install="conda create -n rsudp python=3.7.4 matplotlib=3.1.1 numpy=1.16.4 future scipy lxml sqlalchemy obspy -y"
 fi

@@ -18,7 +18,7 @@ Remote (rsudp) side
 No data received
 =================================================
 
-If you are getting an ``IOError: No data received``, most likely one of three
+If you are getting an ``IOError('No data received')``, most likely one of three
 things is wrong:
 
 #. Your Shake is not forwarding to the correct address and port — see :ref:`local`

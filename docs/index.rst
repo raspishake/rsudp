@@ -24,17 +24,24 @@ and be notified in various ways when their instrument detects sudden motion.
     installing
     settings
     running
-    theory
     troubleshooting
-    contributing
+    daemon
 
 .. toctree::
     :caption: Video resources
 
     youtube
 
-.. _modules:
+.. toctree::
+    :numbered:
+    :maxdepth: 2
+    :caption: Developers' guide
 
+    theory
+    contributing
+
+
+.. _modules:
 
 Code documentation
 ========================

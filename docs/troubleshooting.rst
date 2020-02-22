@@ -21,9 +21,9 @@ No data received
 If you are getting an ``IOError: No data received``, most likely one of three
 things is wrong:
 
-#. Your Shake is not forwarding to the correct address and port (see :ref:`local`)
+#. Your Shake is not forwarding to the correct address and port — see :ref:`local`
 #. rsudp is configured to listen on the wrong port
-#. There is a firewall between your computer and the Shake (see :ref:`middle`)
+#. There is a firewall between your computer and the Shake — see :ref:`middle`
 
 In an error like this, your rsudp output will display some helpful info just
 above the error text. Scroll up to where you see something like this:
@@ -37,7 +37,7 @@ above the error text. Scroll up to where you see something like this:
 
 First, check to make sure the address and port have been configured on
 the Shake side to cast data to the address ``192.168.1.118`` and port ``8888``
-(see :ref:`local`).
+— see :ref:`local`.
 
 If you are sending data to a different port than 8888, check the ``"port"``
 value in your settings file (`~/.config/rsudp/rsudp_settings.json`) reflects

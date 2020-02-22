@@ -128,7 +128,7 @@ usually have difficult jobs, so don't be too hard on them!
 
 
 Other issues
-=================================================
+*************************************************
 
 If you are having an issue other than the one described above, please post the
 issue you are having to our forum at https://community.raspberryshake.org. We

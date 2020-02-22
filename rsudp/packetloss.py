@@ -22,7 +22,7 @@ def printTTLS(CHAN, TR):
 	'''
 	Report packets lost.
 
-	:param int CHAN: 
+	:param int CHAN: The name of the channel to report packetloss statistics for
 	:param int TR: Transmission rate in milliseconds between consecutive packets from a specific channel
 	:rtype: bool
 	:return: ``False`` if no time has elapsed since starting the program, otherwise ``True``

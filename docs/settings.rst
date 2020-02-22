@@ -481,4 +481,10 @@ By default, the settings are as follows:
     }
 
 
+................
+
+* :ref:`genindex`
+* :ref:`search`
+.. * :ref:`modindex`
+
 `Back to top ↑ <#top>`_

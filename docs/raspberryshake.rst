@@ -35,7 +35,7 @@ function and its derivatives will be available for use.
 ................
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
+.. * :ref:`modindex`
 
 `Back to top ↑ <#top>`_

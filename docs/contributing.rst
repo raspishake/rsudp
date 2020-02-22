@@ -39,7 +39,13 @@ If you're a developer or feeling adventurous, here are some fun potential projec
     which would allow the creation of screenshots without the need for a plot window to appear
 
 
+Bugs
+***********************
 
-
+This software, like most, contains bugs and errors.
+If you find a bug, please create a GitHub issue.
+Be sure to describe the problem clearly, attach your logs
+(:py:code:`/tmp/rsudp/rsudp.log`) and/or copy/paste command line output
+in triple backticks \`\`\` like this \`\`\` to format it as code.
 
 `Back to top ↑ <#top>`_

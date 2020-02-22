@@ -50,6 +50,39 @@ network to somewhere inside your home network, your router may not be letting
 data come through the port you specified, and you may need to specify rsudp to
 send data to the router's public (externally facing) IP address.
 
+Data stops flowing or is inconsistent
+=================================================
+
+This may be due to network problems. rsudp is designed to be able to ingest all
+data sent to it by the Shake. However, since the Shake uses UDP, which is not a
+guaranteed delivery protocol, some packets may be dropped.
+
+There are several reasons why this might happen.
+
+#. You are using WiFi and there is an unstable connection
+#. The router nodes between the Shake and your computer may restart or be overloaded
+#. The Shake may be a great distance from your computer (across the globe)
+#. The Shake or your computer may have a slow connection
+
+Typically, if the Shake is connected via Ethernet, and sending to a computer that
+also uses Ethernet, you will experience on average zero dropped packets in a given
+24 hour period. However, if you are sending data across an unstable connection,
+you could experience 40% or more dropped packets.
+
+To monitor packet loss over time, you can run our :py:mod:`rsudp.packetloss` script.
+For example, to report dropped packets on port 8888 in periods of 1 hour at a time:
+
+.. code-block:: bash
+
+    conda activate rsudp
+    rs-packetloss -p 8888 -f 3600
+
+where ``-p 8888`` specifies port 8888 and ``-f 3600`` specifies 3600 seconds between
+reports.
+
+This will run indefinitely until the CTRL+C keys are pressed.
+
+
 .. _local:
 
 Shake (local) side

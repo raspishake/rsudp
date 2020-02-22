@@ -35,6 +35,8 @@ above the error text. Scroll up to where you see something like this:
     2020-02-22 21:49:01 [Init]        IP address: 192.168.1.118    Port: 8888
     2020-02-22 21:49:01 [Init]        and that no firewall exists between the Shake and this computer.
 
+Make note of the values after **IP address** and **Port**.
+
 First, check to make sure the address and port have been configured on
 the Shake side to cast data to the address ``192.168.1.118`` and port ``8888``
 — see :ref:`local`.
@@ -87,6 +89,13 @@ IP address.
 In rsudp's case: if we assume your Shake is somewhere else (i.e. not on your home
 network) then it will be forwarding data to the external side of your router, and
 you will need to tell your router to let that data through and where to send it.
+
+First of all, you will need to know your router's IP address. There are many
+online services that will do this. One of the safer ways to figure it out is just
+`searching on DuckDuckGo <https://duckduckgo.com/?q=what+is+my+IP&t=canonical&ia=answer>`_.
+DuckDuckGo will not store your information, while many sites will.
+
+Let's say DuckDuckGo tells you that your IP address is ``28.14.122.178``.
 
 Let's look at the following configuration:
 

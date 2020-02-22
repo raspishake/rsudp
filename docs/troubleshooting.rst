@@ -26,7 +26,9 @@ things is wrong:
 #. There is a firewall between your computer and the Shake (see :ref:`middle`)
 
 In an error like this, your rsudp output will display some helpful info just
-above the error text. Scroll up to where you see something like this::
+above the error text. Scroll up to where you see something like this:
+
+.. code-block:: bash
 
     2020-02-22 21:49:01 [Init] ERROR: No data received in 10 seconds; aborting.
     2020-02-22 21:49:01 [Init]        Check that the Shake is forwarding data to:

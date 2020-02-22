@@ -2,7 +2,8 @@ About rsudp
 #####################################
 
 rsudp is a program built to actively monitor and
-plot UDP data output from Raspberry Shake seismographs.
+plot UDP data output from
+`Raspberry Shake <https://raspberryshake.org>`_ seismographs.
 
 Broad overview
 *************************************

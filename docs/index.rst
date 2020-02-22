@@ -4,7 +4,9 @@
 | *by Ian M. Nesbitt and Richard I. Boaz*
 
 Welcome to rsudp's documentation.
-This program was written to parse and process live UDP data streams from Raspberry Shake personal seismographs.
+This program was written to parse and process live UDP data streams from
+`Raspberry Shake <https://raspberryshake.org>`_ personal seismographs and
+Raspberry Boom pressure transducer instruments.
 rsudp allows users the options to see their data in real time, create alert parameters,
 and be notified in various ways when their instrument detects sudden motion.
 

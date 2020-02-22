@@ -1,14 +1,17 @@
+.. _daemon:
+
 rsudp as a ``systemctl`` daemon
 ################################################
-
-Setup instructions
-=====================
 
 If you need rsudp to restart every time your Debain/Ubuntu machine boots,
 this tutorial will work well for you.
 This includes both raspbian (Raspberry Pi) and Ubuntu-like systems.
 If you have an OS other than Linux, you will need to look elsewhere for
 documentation regarding the creation and activation of daemon programs.
+
+
+Setup instructions
+=====================
 
 First of all, clone rsudp to ``~/bin/rsudp``:
 

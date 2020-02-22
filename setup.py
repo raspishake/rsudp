@@ -20,9 +20,7 @@ setuptools.setup(
                       'python-telegram-bot'],
     entry_points = {
         'console_scripts': [
-            'rs-local=rsudp.shake_udp_local:main',
-            'rs-remote=rsudp.shake_udp_remote:main',
-            'rs-packetloss=rsudp.shake_udp_packetloss:main',
+            'rs-packetloss=rsudp.packetloss:main',
             'rs-client=rsudp.client:main',
             ],
     },

@@ -63,7 +63,7 @@ Due to the limitations of the Raspberry Pi 3B's RAM modules, rsudp will run but 
 suffer from memory errors if the plotting module is enabled.
 It can be programmed as a daemon in order to restart in the event of one of these errors,
 which means that its monitoring capability may have brief periods of non-availability
-on these devices (see :ref:`daemon`).
+on these devices (after :ref:`installing`, see :ref:`daemon`).
 The Raspberry Pi 4B does not seem to suffer nearly as much from this issue,
 but this has not been tested extensively.
 

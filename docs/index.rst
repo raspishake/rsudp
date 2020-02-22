@@ -24,8 +24,8 @@ and be notified in various ways when their instrument detects sudden motion.
     installing
     settings
     running
-    troubleshooting
     daemon
+    troubleshooting
 
 .. toctree::
     :caption: Video resources

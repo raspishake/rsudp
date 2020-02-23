@@ -59,7 +59,7 @@ class Write(Thread):
 		Reads data from the queue and updates the stream.
 
 		:rtype: bool
-		:return: Returns True if stream is updated, otherwise False.
+		:return: Returns ``True`` if stream is updated, otherwise ``False``.
 		'''
 		d = self.queue.get(True, timeout=None)
 		self.queue.task_done()
@@ -87,7 +87,7 @@ class Write(Thread):
 		'''
 		Ticks self variables over into a new day for file naming purposes.
 
-		:param bool new: If False, the program is starting. If True, the UTC date just elapsed.
+		:param bool new: If ``False``, the program is starting. If ``True``, the UTC date just elapsed.
 		'''
 		self.st = UTCDateTime.now()
 		self.y, self.m, self.d = self.st.year, self.st.month, self.st.day
@@ -112,7 +112,7 @@ class Write(Thread):
 		or a new UTC day has just started, then this function writes to a new file).
 
 		:type stream: obspy.core.stream.Stream or bool
-		:param stream: The stream segment to write. If False, the program has just started.
+		:param stream: The stream segment to write. If ``False``, the program has just started.
 		'''
 		if not stream:
 			self.last = self.stream[0].stats.endtime - timedelta(seconds=5)

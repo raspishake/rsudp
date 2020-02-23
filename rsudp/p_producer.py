@@ -9,7 +9,7 @@ class Producer(Thread):
 	Data Producer thread (see :ref:`producer-consumer`) which receives data from the port
 	and puts it on the queue to be passed to the master consumer (:py:class:`rsudp.c_consumer.Consumer`).
 	The producer also looks for flags in each consumer
-	that indicate whether they are :py:data:`alive==False`. If so, the Producer will
+	that indicate whether they are ``alive==False``. If so, the Producer will
 	quit gracefully and put a TERM message on the queue, which should stop all running
 	consumers.
 

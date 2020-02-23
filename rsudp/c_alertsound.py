@@ -12,13 +12,10 @@ except ImportError:
 
 class AlertSound(Thread):
 	"""
-	.. role:: pycode(code)
-		:language: pycode
-
 	.. _pydub.AudioSegment: https://github.com/jiaaro/pydub/blob/master/API.markdown#audiosegment
 
-	A consumer class that plays an alert sound when an `ALARM` message arrives on the queue.
-	:pycode:`self.sound` is a pydub.AudioSegment_ object and is passed from the client.
+	A consumer class that plays an alert sound when an ``ALARM`` message arrives on the queue.
+	``rsudp.c_alertsound.AlertSound.sound`` is a pydub.AudioSegment_ object and is passed from the client.
 
 	:param sta: short term average (STA) duration in seconds.
 	:type sta: bool or pydub.AudioSegment_ 
@@ -73,8 +70,8 @@ class AlertSound(Thread):
 
 	def run(self):
 		"""
-		Reads data from the queue and plays self.sound if it sees an `ALARM` message.
-		Quits if it sees a `TERM` message.
+		Reads data from the queue and plays self.sound if it sees an ``ALARM`` message.
+		Quits if it sees a ``TERM`` message.
 		"""
 		while True:
 			d = self.queue.get()

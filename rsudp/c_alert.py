@@ -134,7 +134,7 @@ class Alert(Thread):
 		Reads data from the queue and updates the stream.
 
 		:rtype: bool
-		:return: Returns True if stream is updated, otherwise False.
+		:return: Returns ``True`` if stream is updated, otherwise ``False``.
 		'''
 		d = self.queue.get(True, timeout=None)
 		self.queue.task_done()
@@ -155,7 +155,7 @@ class Alert(Thread):
 		"""
 		Reads data from the queue into a :class:`obspy.core.stream.Stream` object,
 		then runs a :func:`obspy.signal.trigger.recursive_sta_lta` function to
-		determine whether to raise an alert flag (:py:data:`self.alarm`).
+		determine whether to raise an alert flag (:py:data:`rsudp.c_alert.Alert.alarm`).
 		The producer reads this flag and uses it to notify other consumers.
 		"""
 		n = 0

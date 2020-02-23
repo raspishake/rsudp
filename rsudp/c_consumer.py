@@ -7,7 +7,7 @@ class Consumer(Thread):
 	"""
 	The main consumer process. This consumer reads
 	queue messages from the :class:`rsudp.p_producer.Producer`
-	and distributes those messages to each sub-consumer in :py:data:`destinations`.
+	and distributes those messages to each sub-consumer in ``destinations``.
 
 	:param queue.Queue queue: queue of data and messages sent by :class:`rsudp.p_producer.Producer`
 	:param list destinations: list of :py:class:`queue.Queue` objects to pass data to

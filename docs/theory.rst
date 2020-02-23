@@ -18,7 +18,7 @@ independently of one another.
 
 First, the :py:mod:`rsudp.client` (the "main" or "parent" thread) gathers
 and parses settings. The client then instantiates the relevant
-:py:class`threading.Thread` objects as and passes settings and queues to
+:py:class:`threading.Thread` objects as and passes settings and queues to
 them. Next, it starts each of these consumer threads as "child" threads,
 then finally the producer, also as a child thread.
 

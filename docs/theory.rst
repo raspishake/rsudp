@@ -43,16 +43,20 @@ passes them to each sub-consumer queue destination in a list. At the
 other end of each of these queues is a sub-consumer module, denoted
 with a :py:data:`c_` before its module name.
 
-Sub-consumers read messages from their queues 
+Sub-consumers read messages from their queues and process data in
+their logic loops. Some build :py:class:`obspy.core.stream.Stream` with
+the data passed to them, while some ignore the data and watch for
+status messages.
 
 Message types
 =================================================
 
-Currently, the message types are as follows
+Currently, the message types are as follows.
 
 ========= ==========================================
  Message              Format example
 ========= ==========================================
+ data      ``b"{'EHZ', 1582315130.292, 14168, 14927, 16112, 17537, 18052, 17477, 15418, 13716, 15604, 17825, 19637, 20985, 17325, 10439, 11510, 17678, 20027, 20207, 18481, 15916, 13836, 13073, 14462, 17628, 19388}"``
  ALARM     ``b'ALARM 2020-02-23T06:56:40.598944Z'``
  IMGPATH   ``b'IMGPATH 2020-02-23T06:59:19.211704Z /home/pi/rsudp/screenshots/R24FA-2020-02-23-065919.png'``
 ========= ==========================================
@@ -63,15 +67,15 @@ when it sees the :py:data:`rsudp.c_consumer.Alert.alarm` flag set to
 :py:class:`rsudp.c_alertsound.AlertSound` module is enabled and sees
 this message, it uses ffmpeg or libav to play a sound. The social media
 classes :py:class:`rsudp.c_tweet.Tweeter` and
-:py:class:`rsudp.c_telegram.Telegram` both use this message to instantly
-broadcast to their respective platforms.
+:py:class:`rsudp.c_telegram.Telegrammer` both use this message to
+instantly broadcast to their respective platforms.
 
 **IMGPATH** messages are placed on the master queue by the
 :py:func:`rsudp.c_plot.Plot.savefig` function, if and when a screenshot
 figure is saved to disk. This is currently only used by the social media
 modules, :py:class:`rsudp.c_tweet.Tweeter` and
-:py:class:`rsudp.c_telegram.Telegram` which then send the saved image to
-their respective social media platforms' APIs for broadcast.
+:py:class:`rsudp.c_telegram.Telegrammer` which then send the saved image
+to their respective social media platforms' APIs for broadcast.
 
 Adding your own consumer modules
 *************************************************

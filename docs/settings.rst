@@ -314,7 +314,7 @@ and will not lock your account out if there happen to be many posts in a short t
 (whereas Twitter will).
 
 If :json:`"enabled"` is :json:`true`, and bot :json:`"token"` key is correctly entered,
-:class:`rsudp.c_telegram.Telegram` will use the Telegram bot API to create alerts when an :code:`ALARM` message arrives on the queue.
+:class:`rsudp.c_telegram.Telegrammer` will use the Telegram bot API to create alerts when an :code:`ALARM` message arrives on the queue.
 If :json:`"send_images"` is :json:`true`, then the module will also send a saved image of the event,
 if :json:`"eq_screenshots"` is set to :json:`true` in the :json:`"plot"` module.
 

@@ -10,7 +10,7 @@
 
 `rsudp` is a tool for receiving and interacting with UDP data sent from a [Raspberry Shake](https://raspberryshake.org) personal seismographs and Raspberry Boom pressure transducer instruments.
 
-`rsudp` has full documentation at https://rsudp.readthedocs.io/. [Tutorial instructions](https://rsudp.readthedocs.io/en/latest/index.html#tutorial) to install, set up, and run rsudp are there. There are also [YouTube walkthroughs](https://rsudp.readthedocs.io/en/latest/youtube.html), a brief [Developer's guide](https://rsudp.readthedocs.io/en/latest/theory.html), and [module documentation](https://rsudp.readthedocs.io/en/latest/index.html#code-documentation).
+`rsudp` has [full documentation](https://rsudp.readthedocs.io/) at Read the Docs. [Tutorial instructions](https://rsudp.readthedocs.io/en/latest/index.html#tutorial) to install, set up, and run rsudp are there. There are also [YouTube walkthroughs](https://rsudp.readthedocs.io/en/latest/youtube.html), a brief [Developer's guide](https://rsudp.readthedocs.io/en/latest/theory.html), and [module documentation](https://rsudp.readthedocs.io/en/latest/index.html#code-documentation).
 
 `rsudp` contains eight main features:
 1. **Alarm** - an earthquake/sudden motion alert---complete with bandpass filter capability---configured to send an `ALARM` message to the queue in the event of a recursive STA/LTA alarm trigger, and optionally run some code

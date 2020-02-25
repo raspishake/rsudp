@@ -1,14 +1,15 @@
 About rsudp
 #####################################
 
-rsudp is a program built to actively monitor and
+rsudp is an open source program built to actively monitor and
 plot UDP data output from
 `Raspberry Shake <https://raspberryshake.org>`_ seismographs.
 
 Broad overview
 *************************************
 
-rsudp is a collection of monitoring and notification tools to accompany the Raspberry Shake.
+rsudp is a collection of python monitoring and notification tools
+to accompany Raspberry Shake seismographs and pressure transducers.
 It contains code for continuous plotting, continuous monitoring of sudden motion,
 and distribution of alert notifications via multiple media including audible sound
 and the Telegram and Twitter social media platforms.
@@ -37,10 +38,20 @@ We have tried to keep dependencies to a minimum and installation simple
 across multiple platforms.
 
 In addition, we spent many hours making rsudp's plotting routines a beautiful
-and informative way to explore the vibrations that move through Earth's crust.
+and informative way to explore the vibrations that move through Earth's crust
+(see event_ figure below).
 Whether looking at an earthquake trace from far away or a car going by on a street,
 the plots are designed to show the user the character of the vibration in an easy
 to grasp yet informative format.
+
+
+.. _4d-event:
+.. figure::  _static/4d-event.png
+    :align:   center
+
+    An earthquake event on vertical (accelerometer and geophone) channels of a
+    Raspberry Shake 4D, recorded by rsudp and saved by its plotting module.
+
 
 While the plotting may be the centerpiece of the program,
 perhaps the most useful aspect of rsudp is its ability to monitor sudden motion

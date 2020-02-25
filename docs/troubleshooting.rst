@@ -176,9 +176,10 @@ usually have difficult jobs, so don't be too hard on them!
 Other issues
 *************************************************
 
-If you are having an issue other than the one described above, please post the
-issue you are having to our forum at https://community.raspberryshake.org. We
-would be glad to help you solve your issue there.
+If you are having a technical support issue other than the one described above,
+please post the issue you are having to our forum at
+https://community.raspberryshake.org. We would be glad to help you solve your
+issue there.
 
 If it turns out that we cannot solve it without a bug fix in the code, please
 `submit a new issue <https://github.com/raspishake/rsudp/issues/new>`_.

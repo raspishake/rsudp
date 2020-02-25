@@ -1,5 +1,6 @@
 `rsudp` |version|
 #####################################
+| https://github.com/raspishake/rsudp
 | **Python tools for receiving and interacting with Raspberry Shake UDP data**
 | *by Ian M. Nesbitt and Richard I. Boaz*
 
@@ -13,6 +14,7 @@ and be notified in various ways when their instrument detects sudden motion.
 | In order to get a feel for what rsudp can do, check out our :ref:`youtube` page.
 | If you prefer to read in-depth documentation, follow our written :ref:`tutorial`.
 | Or, if you know what you're looking for, find it in :ref:`modules`.
+
 
 
 .. _tutorial:

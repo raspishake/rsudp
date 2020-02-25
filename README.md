@@ -1,4 +1,4 @@
-![Raspberry Shake event logo](https://raw.githubusercontent.com/raspishake/rsudp/master/docs/_static/event.png)
+![Raspberry Shake event logo](https://raw.githubusercontent.com/raspishake/rsudp/master/docs/_static/logo.png)
 # rsudp
 ### Tools for receiving and interacting with Raspberry Shake UDP data
 *Written by Ian Nesbitt (@iannesbitt) and Richard Boaz (@ivor)*

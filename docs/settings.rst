@@ -97,6 +97,8 @@ This will only occur when the alarm gets triggered, however, so make sure to tes
 
 .. warning::
 
+    **Standard performance disclaimer**
+
     It is extremely important that you do not rely on this code to save life or property.
     It is not a substitute for earthquake early warning (EEW), or state or local official
     communication and alert systems.
@@ -106,7 +108,7 @@ This will only occur when the alarm gets triggered, however, so make sure to tes
     implied or explicit, for the performance of this software in earthquake detection.
 
     Raspberry Shake assumes no liability for false positives, false negatives,
-    errors running the Alert module, or any other part of this library;
+    errors running the Alert module, or any other part of this software;
     it is meant for hobby and non-professional notification use only.
 
     If you need professional-grade software to provide a warning intended to save life

@@ -98,7 +98,8 @@ This will only occur when the alarm gets triggered, however, so make sure to tes
 .. warning::
 
     It is extremely important that you do not rely on this code to save life or property.
-    It is not a substitute for earthquake early warning (EEW) systems.
+    It is not a substitute for earthquake early warning (EEW), or state or local official
+    communication and alert systems.
 
     Although this software can detect earthquakes and sudden motion events,
     Raspberry Shake makes no guarantee and provides no warranty in any way,

@@ -39,7 +39,7 @@ across multiple platforms.
 
 In addition, we spent many hours making rsudp's plotting routines a beautiful
 and informative way to explore the vibrations that move through Earth's crust
-(see event_ figure below).
+(see 4d-event_ figure below).
 Whether looking at an earthquake trace from far away or a car going by on a street,
 the plots are designed to show the user the character of the vibration in an easy
 to grasp yet informative format.
@@ -64,6 +64,26 @@ which brings easy-to-use open-source monitoring to low cost instrumentation.
 
 What can't rsudp do?
 *************************************
+
+.. warning::
+
+    It is extremely important that you do not rely on this code to save life or property.
+    It is not a substitute for earthquake early warning (EEW), or state or local official
+    communication and alert systems.
+
+    Although this software can detect earthquakes and sudden motion events,
+    Raspberry Shake makes no guarantee and provides no warranty in any way,
+    implied or explicit, for the performance of this software in earthquake detection.
+
+    Raspberry Shake assumes no liability for false positives, false negatives,
+    errors running the Alert module, or any other part of this library;
+    it is meant for hobby and non-professional notification use only.
+
+    If you need professional-grade software to provide a warning intended to save life
+    or property, please contact Raspberry Shake directly or look elsewhere.
+    See sections 16 and 16b of the
+    `License <https://github.com/raspishake/rsudp/blob/master/LICENSE>`_ for further details.
+
 
 As noted in the `license <https://github.com/raspishake/rsudp/blob/master/LICENSE>`_
 Raspberry Shake S.A. does not assume any liability or make any guarantee regarding

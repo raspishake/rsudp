@@ -8,7 +8,7 @@
 [![GitHub](https://img.shields.io/github/license/raspishake/rsudp)](https://github.com/raspishake/rsudp/blob/master/LICENSE)
 [![Documentation Status](https://readthedocs.org/projects/rsudp/badge/?version=latest)](https://rsudp.readthedocs.io/en/latest/?badge=latest)
 
-`rsudp` is a tool for receiving and interacting with UDP data sent from a [Raspberry Shake](https://raspberryshake.org) personal seismographs and Raspberry Boom pressure transducer instruments.
+`rsudp` is a tool for receiving and interacting with data casts from [Raspberry Shake](https://raspberryshake.org) personal seismographs and Raspberry Boom pressure transducer instruments.
 
 `rsudp` has [full documentation](https://rsudp.readthedocs.io/) at Read the Docs. We also have [tutorial instructions](https://rsudp.readthedocs.io/en/latest/index.html#tutorial) to install, set up, and run rsudp there. Additionally, our documentation features [YouTube walkthroughs](https://rsudp.readthedocs.io/en/latest/youtube.html), a brief [Developer's guide](https://rsudp.readthedocs.io/en/latest/theory.html), and [module documentation](https://rsudp.readthedocs.io/en/latest/index.html#code-documentation).
 

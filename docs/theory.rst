@@ -9,6 +9,20 @@ data hierarchy. This allows the program to distribute data and messages
 between different modules efficiently while maintaining programmatic
 integrity required by the rsudp's dependencies.
 
+.. _flow_diagram:
+.. figure::  _static/rsudp-flow.png
+    :align:   center
+
+    Data and (inset) thread hierarchies for rsudp.
+    This figure shows a flow chart of data as it makes its way through
+    rsudp's producer-consumer architecture,
+    and eventually to the end-consumer processing the data.
+    Thread hierarchies are shown in the inset chart.
+    If you are looking to add a module to rsudp,
+    it will be a worker class (red) and will receive data from
+    the master consumer like the rest of the workers.
+
+
 Thread layout
 *************************************************
 

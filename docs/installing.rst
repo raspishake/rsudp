@@ -4,7 +4,11 @@ Installing rsudp
 .. role:: bash(code)
    :language: bash
 
-Installation is covered in `our installation tutorial video <https://youtu.be/e-kyg55GZyA>`_.
+.. |installation_video| raw:: html
+
+   <a href="https://youtu.be/e-kyg55GZyA" target="_blank">installation tutorial video</a>
+
+Installation is covered in our |installation_video|.
 
 
 On Linux & MacOS
@@ -97,8 +101,11 @@ On Windows
     conda activate rsudp
     pip install rsudp
 
-If you wish to play sounds on Windows, please follow steps 1-8 in
-`this tutorial <https://windowsloop.com/install-ffmpeg-windows-10/>`_
+.. |windows_tutorial| raw:: html
+
+   <a href="https://windowsloop.com/install-ffmpeg-windows-10/" target="_blank">this tutorial</a>
+
+If you wish to play sounds on Windows, please follow steps 1-8 in |windows_tutorial|
 in order to install :code:`ffmpeg` and add it to your system's path variable.
 
 

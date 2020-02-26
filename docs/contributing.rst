@@ -1,6 +1,14 @@
 Contributing to this project
 #####################################
 
+.. |newissue| raw:: html
+
+   <a href="https://github.com/raspishake/rsudp/issues/new" target="_blank">new issue</a>
+
+.. |trigger_on_off| raw:: html
+
+   <a href="https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#advanced-example" target="_blank">trigger on-off events</a>
+
 Code contributions
 *********************************
 
@@ -17,7 +25,7 @@ other modules can be easily added and programmed to do something when they see t
 
 The :py:class:`rsudp.c_custom.Custom` class makes running custom code easy.
 If you have suggestions for feature addition of a new module, please open a
-`new issue <https://github.com/raspishake/rsudp/issues/new>`_ with the "enhancement" tag.
+|newissue| with the "enhancement" tag.
 
 If you're a developer or feeling adventurous, here are some fun potential projects:
 
@@ -25,7 +33,7 @@ If you're a developer or feeling adventurous, here are some fun potential projec
 - GPIO pin interaction module (lights, motor control, buzzers, etc.)
 - IFTTT integration
 - Integration into other social media apps beyond Telegram and Twitter
-- plot `trigger on-off events <https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#advanced-example>`_ using :py:func:`obspy.signal.trigger.trigger_onset` and :py:func:`matplotlib.pyplot.axvline`::
+- plot |trigger_on_off| using :py:func:`obspy.signal.trigger.trigger_onset` and :py:func:`matplotlib.pyplot.axvline`::
 
     on_events = [UTCDateTime1, UTCDateTime3]
     for time in on_events:

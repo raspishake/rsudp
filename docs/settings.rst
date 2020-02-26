@@ -95,6 +95,10 @@ This will only occur when the alarm gets triggered, however, so make sure to tes
 :code:`alert` (STA/LTA earthquake detection trigger)
 *********************************************************************************
 
+.. |license| raw:: html
+
+   <a href="https://github.com/raspishake/rsudp/blob/master/LICENSE" target="_blank">license</a>
+
 .. warning::
 
     **Standard performance disclaimer**
@@ -113,8 +117,7 @@ This will only occur when the alarm gets triggered, however, so make sure to tes
 
     If you need professional-grade software to provide a warning intended to save life
     or property, please contact Raspberry Shake directly or look elsewhere.
-    See sections 16 and 16b of the
-    `License <https://github.com/raspishake/rsudp/blob/master/LICENSE>`_ for further details.
+    See sections 16 and 16b of the |license| for further details.
 
 
 
@@ -309,9 +312,22 @@ should be sufficient to get things working.
 :code:`telegram` (Telegram notification module)
 *************************************************
 
-`Telegram <https://telegram.org/>`_ is a free and open source messaging and notification system,
+.. |telegram| raw:: html
+
+    <a href="https://t.me/" target="_blank">Telegram</a>
+
+.. |sasmex| raw:: html
+
+    <a href="https://sasmex.net/" target="_blank">SASMEX</a>
+
+.. |sasmex_telegram| raw:: html
+
+    <a href="https://t.me/sasmex" target="_blank">Telegram channel here</a>
+
+
+|telegram| is a free and open source messaging and notification system,
 used by several earthquake notification agencies including the
-Mexican national early warning system (`SASMEX <https://sasmex.net/>`_).
+Mexican national early warning system (|sasmex|, |sasmex_telegram|).
 It has the bonus of being much, much easier to set up than Twitter,
 and will not lock your account out if there happen to be many posts in a short time period
 (whereas Twitter will).
@@ -329,7 +345,12 @@ Setting up a Telegram Bot
 Here is a brief overview of the steps to set up a Telegram bot in order to make and distribute
 Telegram alerts from rsudp.
 
-#. `Download Telegram <https://telegram.org/>`_, create a profile, and sign in.
+.. |so_answer| raw:: html
+
+    <a href="https://stackoverflow.com/a/32572159" target="_blank">this stackoverflow answer</a>
+
+
+#. Download |telegram|, create a profile, and sign in.
 #. Create a Telegram bot by sending the :code:`/start` message to the :code:`@BotFather` account.
 #. Follow the instructions. Your messages to :code:`@BotFather` should look something like the following:
 
@@ -344,7 +365,7 @@ Telegram alerts from rsudp.
     #. :code:`@BotFather` will then give you an access token for your new bot.
 
 #. Enter your bot's access token in the :json:`"token"` field of the settings file.
-#. Enter a user or group ID into the :json:`"chat_id"` field, which you can find by following the instructions `here <https://stackoverflow.com/a/32572159>`_.
+#. Enter a user or group ID into the :json:`"chat_id"` field, which you can find by following the instructions in |so_answer|.
 
 If you wish to broadcast telegrams to a group or a channel, first add the bot to the group using your user account,
 then follow the instructions in the previous link,
@@ -371,9 +392,21 @@ Setting up Twitter Apps
 Here is a brief overview of the steps to set up a Twitter app (also known as an API bot)
 in order to make and distribute tweets from rsudp.
 
-#. `Create a twitter profile <https://twitter.com/signup>`_ (or use an existing account).
-#. Register this account as a `Twitter developer account <https://developer.twitter.com/en.html>`_.
-#. Create a `Twitter API app <https://opensource.com/article/17/8/raspberry-pi-twitter-bot>`_ inside said developer account.
+.. |tw_signup| raw:: html
+
+    <a href="https://twitter.com/signup" target="_blank">Create a twitter profile</a>
+
+.. |tw_dev| raw:: html
+
+    <a href="https://developer.twitter.com/en.html" target="_blank">Twitter developer account</a>
+
+.. |tw_api_app| raw:: html
+
+    <a href="https://opensource.com/article/17/8/raspberry-pi-twitter-bot" target="_blank">Twitter API app</a>
+
+#. |tw_signup| (or use an existing account).
+#. Register this account as a |tw_dev|.
+#. Create a |tw_api_app| inside said developer account.
 #. Generate consumer keys and API keys for that app.
 
 Once you have generated the four API keys required for authentication

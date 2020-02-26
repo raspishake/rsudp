@@ -181,8 +181,12 @@ please post the issue you are having to our forum at
 https://community.raspberryshake.org. We would be glad to help you solve your
 issue there.
 
+.. |newissue| raw:: html
+
+   <a href="https://github.com/raspishake/rsudp/issues/new" target="_blank">new issue</a>
+
 If it turns out that we cannot solve it without a bug fix in the code, please
-`submit a new issue <https://github.com/raspishake/rsudp/issues/new>`_.
+submit a |newissue| on GitHub.
 Be sure to describe the problem clearly, attach your logs
 (:code:`/tmp/rsudp/rsudp.log`) and/or copy/paste command line output
 in triple backticks \`\`\` like this \`\`\` to format it as code.

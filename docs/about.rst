@@ -1,9 +1,16 @@
 About rsudp
 #####################################
 
+.. |raspberryshake| raw:: html
+
+   <a href="https://raspberryshake.org" target="_blank">Raspberry Shake</a>
+
+.. |github| raw:: html
+
+   <a href="https://github.com/raspishake/rsudp" target="_blank">here</a>
+
 rsudp is an open source program built to actively monitor and
-plot UDP data cast output from
-`Raspberry Shake <https://raspberryshake.org>`_ seismographs.
+plot UDP data cast output from |raspberryshake| seismographs.
 
 Broad overview
 *************************************
@@ -30,7 +37,7 @@ rsudp aims to achieve both of these things,
 while maintaining a codebase lean enough to run on Raspberry Pi
 but intuitive enough that users can learn the theory of
 real time continuous data processing and contribute code of their own.
-The project's source repository is `here <https://github.com/raspishake/rsudp>`_.
+The project's source repository is |github|.
 
 Programs that do similar tasks are usually not as fully-featured, cost money,
 are unmaintained, or are complex to set up and run.
@@ -65,6 +72,10 @@ which brings easy-to-use open-source monitoring to low cost instrumentation.
 What can't rsudp do?
 *************************************
 
+.. |license| raw:: html
+
+   <a href="https://github.com/raspishake/rsudp/blob/master/LICENSE" target="_blank">license</a>
+
 .. warning::
 
     **Standard performance disclaimer**
@@ -83,8 +94,7 @@ What can't rsudp do?
 
     If you need professional-grade software to provide a warning intended to save life
     or property, please contact Raspberry Shake directly or look elsewhere.
-    See sections 16 and 16b of the
-    `License <https://github.com/raspishake/rsudp/blob/master/LICENSE>`_ for further details.
+    See sections 16 and 16b of the |license| for further details.
 
 
 As noted in the `license <https://github.com/raspishake/rsudp/blob/master/LICENSE>`_

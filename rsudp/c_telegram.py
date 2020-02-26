@@ -11,10 +11,18 @@ class Telegrammer(Thread):
 	'''
 	 .. versionadded:: 0.4.2
 
-	`Telegram <https://t.me/>`_ is a free messaging service which,
+	.. |telegram| raw:: html
+
+		<a href="https://t.me/" target="_blank">Telegram</a>
+
+	.. |sasmex_use| raw:: html
+
+		<a href="https://t.me/sasmex" target="_blank">used by</a>
+
+	|telegram| is a free messaging service which,
 	among other things, is suited to quickly broadcasting automatic
 	notifications via an API.
-	It is `used <https://t.me/sasmex>`_ by the Mexican Early Warning
+	It is |saxmex_use| the Mexican Early Warning
 	System (SASMEX) and PanamaIGC.
 
 	:param str token: bot token from Telegram bot creation

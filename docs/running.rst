@@ -21,7 +21,11 @@ Unix users may prefer the easy-to-use start script available in the git reposito
 Starting on Windows, or manually on Unix
 *************************************************
 
-This start method is covered in our `rsudp start/run tutorial video <https://youtu.be/HA9k3CzmgLI>`_.
+.. |start_run_tutorial| raw:: html
+
+   <a href="https://youtu.be/HA9k3CzmgLI" target="_blank">rsudp start/run tutorial video</a>
+
+This start method is covered in our |start_run_tutorial|.
 
 1. First, to activate the conda environment, type :bash:`conda activate rsudp`.
 2. Next, configure a datacast stream (formerly known as a UDP stream)

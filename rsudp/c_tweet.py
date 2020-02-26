@@ -15,15 +15,29 @@ class Tweeter(Thread):
 	'''
 	 .. versionadded:: 0.4.1
 
+	.. |raspishakeq| raw:: html
+
+		<a href="https://twitter.com/raspishakeq" target="_blank">Raspberry Shake</a>
+
+	.. |usgsbigquakes| raw:: html
+
+		<a href="https://twitter.com/USGSBigQuakes" target="_blank">USGS</a>
+
+	.. |emsc_lastquake| raw:: html
+
+		<a href="https://twitter.com/LastQuake" target="_blank">EMSC</a>
+
 	Twitter is a social media platform sometimes used for quickly
 	distributing public alert information. It is used by many agencies
-	including `Raspberry Shake <https://twitter.com/raspishakeq>`_,
-	`USGS <https://twitter.com/USGSBigQuakes>`_, and
-	`EMSC <https://twitter.com/LastQuake>`_.
+	including |raspishakeq|, |usgsbigquakes|, and |emsc_lastquake|.
+
+	.. |tw_api_bots| raw:: html
+
+		<a href="https://developer.twitter.com/apps" target="_blank">API bots</a>
 
 	.. note::
 		Twitter is more difficult and stricter when it comes to making
-		`API bots <https://developer.twitter.com/apps>`_ than many services.
+		|tw_api_bots| than many services.
 		First, you must go through a relatively rigorous process of applying for
 		a developer account, then making a Twitter "app", and then giving the app
 		permission to post on your behalf. See :ref:`setting-up-twitter` for details.

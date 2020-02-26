@@ -18,7 +18,11 @@ YouTube walkthroughs
 
         <iframe width="560" height="400" src="https://www.youtube-nocookie.com/embed/HA9k3CzmgLI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-3. rsudp detects `an earthquake <https://www.emsc-csem.org/Earthquake/earthquake.php?id=806235>`_!
+.. |earthquake| raw:: html
+
+   <a href="https://www.emsc-csem.org/Earthquake/earthquake.php?id=806235" target="_blank">an earthquake</a>
+
+3. rsudp detects |earthquake|!
 
     .. raw:: html
 

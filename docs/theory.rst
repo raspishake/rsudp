@@ -7,7 +7,8 @@ softwares, but which may be unfamiliar to some developers.
 The program's organization relies on two hierarchies: thread hierarchy and
 data hierarchy. This allows the program to distribute data and messages
 between different modules efficiently while maintaining programmatic
-integrity required by the rsudp's dependencies.
+integrity required by rsudp's dependencies (:py:mod:`matplotlib` objects,
+for example, can only be owned by the master thread).
 
 .. _flow_diagram:
 .. figure::  _static/rsudp-flow.png

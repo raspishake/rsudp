@@ -166,8 +166,8 @@ If you are on a school or university network, often security is much more strict
 In your home network, data is usually free to move around internally on the
 network. On school networks, individual devices are usually not allowed to talk
 much to each other. So even if your Shake is on the internal network, you may
-still need to talk to the school's IT team in order to give your Shake permission
-to send data to another computer on the network.
+still need to notify the school's IT team to give your Shake permission to send
+data to another computer on the network.
 
 They may be able to help with configuration of the setup as well, although they
 usually have difficult jobs, so don't be too hard on them!

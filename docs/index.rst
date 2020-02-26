@@ -1,7 +1,7 @@
 `rsudp` |version|
 #####################################
 .. image:: https://img.shields.io/github/stars/raspishake/rsudp?style=social
-| https://github.com/raspishake/rsudp
+| |github|
 | **Python tools for receiving and interacting with Raspberry Shake UDP data**
 | *by Ian M. Nesbitt and Richard I. Boaz*
 

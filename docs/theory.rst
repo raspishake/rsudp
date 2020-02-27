@@ -88,6 +88,11 @@ classes :py:class:`rsudp.c_tweet.Tweeter` and
 :py:class:`rsudp.c_telegram.Telegrammer` both use this message to
 instantly broadcast to their respective platforms.
 
+**RESET** messages are sent by :py:class:`rsudp.p_producer.Producer`
+when it sees the :py:data:`rsudp.c_consumer.Alert.alarm` flag set to
+``True``. Similar to ALARM messages, consumers can be programmed for
+an essentially infinite number of things upon seeing this message.
+
 **IMGPATH** messages are placed on the master queue by the
 :py:func:`rsudp.c_plot.Plot.savefig` function, if and when a screenshot
 figure is saved to disk. This is currently only used by the social media

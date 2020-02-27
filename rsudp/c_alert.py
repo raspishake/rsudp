@@ -12,9 +12,11 @@ class Alert(Thread):
 	A data consumer class that listens to a specific incoming data channel
 	and calculates a recursive STA/LTA (short term average over long term 
 	average). If a threshold of STA/LTA ratio is exceeded, the class
-	raises the :py:data:`alarm` flag to True. By default, the function
-	simply prints a message to the terminal window, but the user can
-	choose to run a function of their own as well.
+	raises the :py:data:`alarm` flag to True.
+	The :py:class:`rsudp.p_producer.Producer` will see this flag
+	and send an :code:`ALARM` message to the queues.
+	Likewise, when the :py:data:`alarm_reset` flag is :code:`True`,
+	the Producer will send a :code:`RESET` message to the queues.
 
 	:param float sta: short term average (STA) duration in seconds.
 	:param float lta: long term average (LTA) duration in seconds.

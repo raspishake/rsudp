@@ -178,14 +178,14 @@ def run(settings, debug):
 			if f == 'n/a':
 				f = False
 			runcustom = True
-	except ValueError as e:
+	except KeyError as e:
 		if settings['alert']['exec'] != 'eqAlert':
 			printM('WARNING: the custom code function has moved to its own module (rsudp.c_custom)', sender='Custom')
 			f = settings['alert']['exec']
 			win_ovr = settings['alert']['win_override']
 			runcustom = True
 		else:
-			raise ValueError(e)
+			raise KeyError(e)
 	if runcustom:
 		# set up queue and process
 		q = mk_q()

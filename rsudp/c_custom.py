@@ -56,9 +56,9 @@ class Custom(Thread):
 				self.codefile = os.path.expanduser(codefile)
 				printM('Custom code file to run: %s' % self.codefile, sender=self.sender)
 			else:
-				printM('No python file exists at %s. No custom code will be run during alarms.' % codefile, sender=self.sender)
+				printM('WARNING: No python file exists at %s. No custom code will be run during alarms.' % codefile, sender=self.sender)
 		else:
-			printM('No custom code file set. No custom code will be run during alarms.', sender=self.sender)
+			printM('WARNING: No custom code file set. No custom code will be run during alarms.', sender=self.sender)
 
 		if (os.name in 'nt') and (not self.win_ovr):
 			printM('ERROR: Using Windows with custom alert code! Your code MUST have UNIX/Mac newline characters!')
@@ -96,7 +96,7 @@ class Custom(Thread):
 				# do something if it fails
 				printM('Code execution failed. Error: %s' % e, sender=self.sender)
 		else:
-			printM('No code to run, codefile variable not set correctly.', sender=self.sender)
+			printM('WARNING: No code to run, codefile variable not set correctly.', sender=self.sender)
 
 
 	def run(self):

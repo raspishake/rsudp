@@ -95,6 +95,7 @@ The modules available in rsudp are organized by type below.
     c_telegram
     c_forward
     c_write
+    c_custom
 
 
 Function index

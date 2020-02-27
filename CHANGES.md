@@ -1,5 +1,6 @@
 # Changelog
 ## changes in 0.4.3
+- added `rsudp.c_custom` as an independent thread to run custom code
 - added and expanded explicit docstrings and comments, as well as Sphinx `conf.py` file
 - turned off alert module STA/LTA live printed output when `settings['settings']['debug']` is `False` in order to keep systemd log file size down
 - streamlined alert sound module operation; no longer writes temporary sound file on every alert when using `ffplay`

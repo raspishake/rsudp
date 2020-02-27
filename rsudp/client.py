@@ -16,6 +16,7 @@ from rsudp.c_plot import Plot, mpl
 from rsudp.c_forward import Forward
 from rsudp.c_alert import Alert
 from rsudp.c_alertsound import AlertSound
+from rsudp.c_custom import Custom
 from rsudp.c_tweet import Tweeter
 from rsudp.c_telegram import Telegrammer
 import pkg_resources as pr
@@ -29,6 +30,8 @@ except ImportError:
 
 def eqAlert(sound=False, sender='EQAlert function', *args, **kwargs):
 	'''
+	.. depreciated:: 0.4.3
+
 	Function called by :py:class:`rsudp.c_alert.Alert` upon detecting
 	sudden motion. This function doesn't do anything except print a
 	line to the console or log files timestamping the alert. If the
@@ -36,6 +39,17 @@ def eqAlert(sound=False, sender='EQAlert function', *args, **kwargs):
 	function is no longer used.
 
 	:param str sender: String corresponding to the function printing the line.
+
+	.. warning::
+
+		If you are running Windows and have code you want to pass to the :py:func:`exec` function,
+		Python requires that your newline characters are in the UNIX style (:code:`\n`), not the standard Windows style (:code:`\r\n`).
+		To convert, follow the instructions in one of the answers to |lineendings_howto|.
+		If you're not sure what this means, please read about newline/line ending characters |lineendings_wiki|.
+		If you are certain that your code file has no Windows newlines, you can set :json:`"win_override"` to true.
+
+		Read more warnings at :ref:`customcode`.
+
 
 	'''
 	printM('Trigger threshold exceeded -- possible earthquake!', sender=sender)
@@ -183,6 +197,17 @@ def run(settings, debug):
 		alsnd = AlertSound(q=q, sound=sound, soundloc=soundloc)
 		mk_p(alsnd)
 
+	if settings['custom']['enabled']:
+		# put settings in namespace
+		f = settings['custom']['codefile']
+		win_ovr = settings['custom']['win_override']
+		if f == 'n/a':
+			f = False
+		# set up queue and process
+		q = mk_q()
+		cstm = Custom(q=q, codefile=f, win_ovr=win_ovr)
+		mk_p(cstm)
+
 	if settings['tweets']['enabled']:
 		consumer_key = settings['tweets']['api_key']
 		consumer_secret = settings['tweets']['api_secret']
@@ -329,6 +354,10 @@ settings in %s
 "alertsound": {
     "enabled": false,
     "mp3file": "doorbell"},
+"custom": {
+    "enabled": false,
+    "codefile": "n/a",
+    "win_override": false},
 "tweets": {
     "enabled": false,
     "tweet_images": true,

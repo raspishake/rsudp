@@ -221,34 +221,12 @@ Using :code:`"exec"`
 
     .. deprecated:: 0.4.3
 
-        You can change the :json:`"exec"` field and supply a path to executable Python code to run with the :py:func:`exec` function.
-        :py:func:`exec` functionality will move to its own module in version 0.4.3, and this part of the alert module will be
-        fully removed in a future release.
+        You can change the :json:`"exec"` field and supply a path to
+        executable Python code to run with the :py:func:`exec` function.
+        :py:func:`exec` functionality will move to its own module in version 0.4.3
+        (see :ref:`customcode` and the :py:class:`rsudp.c_custom.Custom` class),
+        and this part of the alert module will be fully removed in a future release.
 
-Be very careful when using the :py:func:`exec` function, as it is known to have problems.
-Notably, it does not check the passed code for errors prior to running.
-Additionally, if the code takes too long to execute,
-you could end up losing data packets from the queue, so keep it simple.
-Sending a message or a tweet, which should either succeed or time out in a few seconds,
-is really the intended purpose, and this can typically be achieved by setting up a different module anyway
-(see Twitter and Telegram modules).
-In testing, we were able to run scripts with execution times of 30 seconds without losing any data packets.
-Theoretically you could run code that takes longer to process than that,
-but the issue is that the longer it takes the function to process code,
-the longer the module will go without processing data from the queue
-(the queue can hold up to 2048 packets, which for a RS4D works out to 128 seconds of data).
-Another way of saying this is: you will miss whatever subsequent earthquakes occur while :pycode:`exec()` is running.
-A much better way to run your own code would be to fork this repository
-and create a new thread that sits idle until it sees an ALARM data packet on the queue.
-That way, the alert module can process more queue packets simultaneously to the execution of alarm-state code.
-
-If you are running Windows and have code you want to pass to the :py:func:`exec` function,
-Python requires that your newline characters are in the UNIX style (:code:`\n`), not the standard Windows style (:code:`\r\n`).
-To convert, follow the instructions in one of the answers to
-`this stackoverflow question <https://stackoverflow.com/questions/17579553/windows-command-to-convert-unix-line-endings>`_.
-If you're not sure what this means,
-please read about newline/line ending characters `here <https://en.wikipedia.org/wiki/Newline>`_.
-If you are certain that your code file has no Windows newlines, you can set :json:`"win_override"` to true.
 
 `Back to top ↑ <#top>`_
 
@@ -439,6 +417,56 @@ just like you would from the Shake's web front end. By default, :json:`["all"]` 
 
 `Back to top ↑ <#top>`_
 
+.. _customcode:
+
+:code:`custom` (run custom code)
+*************************************************
+
+.. versionadded:: 0.4.3
+
+.. warning:: Do not use this module unless you understand the implications of running unchecked code.
+
+:json:`"custom"` controls the execution of a custom python code file specified by the :json:`"codefile"` field.
+If :json:`"enabled"` is :json:`true` and a python file is found at the path specified,
+this thread will run the specified file using python's :py:func:`exec` function.
+
+Be very careful when using this module, as the :py:func:`exec` function is known to have problems.
+Notably, python's :py:func:`exec` function does not check the passed file for errors prior to running.
+Also, the passed file cannot have Windows line endings (see warning below).
+Additionally, if the code takes too long to execute,
+you could end up losing data packets from the queue, so keep it simple.
+Sending a message or a tweet, which should either succeed or time out in a few seconds,
+is really the intended purpose, and this can typically be achieved by setting up a different module anyway
+(see Twitter and Telegram modules).
+
+In testing, we were able to run scripts with execution times of 30 seconds without losing any data packets.
+Theoretically you could run code that takes longer to process than that,
+but the issue is that the longer it takes the function to process code,
+the longer the module will go without processing data from the queue
+(the queue can hold up to 2048 packets, which for a RS4D works out to ~128 seconds of data).
+Another way of saying this is: you could miss whatever subsequent earthquakes occur while :pycode:`exec()` is running.
+A better way to run your own code would be to fork this repository
+and create a new thread that does the thing you want when it sees an ALARM data packet on the queue.
+That way, the code will be checked for errors prior to running.
+
+.. |lineendings_howto| raw:: html
+
+   <a href="https://stackoverflow.com/questions/17579553/windows-command-to-convert-unix-line-endings" target="_blank">this stackoverflow question</a>
+
+.. |lineendings_wiki| raw:: html
+
+   <a href="https://en.wikipedia.org/wiki/Newline" target="_blank">here</a>
+
+.. warning::
+
+    If you are running Windows and have code you want to pass to the :py:func:`exec` function,
+    Python requires that your newline characters are in the UNIX style (:code:`\n`), not the standard Windows style (:code:`\r\n`).
+    To convert, follow the instructions in one of the answers to |lineendings_howto|.
+    If you're not sure what this means, please read about newline/line ending characters |lineendings_wiki|.
+    If you are certain that your code file has no Windows newlines, you can set :json:`"win_override"` to :json:`true`.
+
+    Code will not execute on Windows unless this field is set to :json:`true`.
+
 
 :code:`printdata` (print data to console)
 *************************************************
@@ -502,6 +530,10 @@ By default, the settings are as follows:
     "alertsound": {
         "enabled": false,
         "mp3file": "doorbell"},
+    "custom": {
+        "enabled": false,
+        "codefile": "n/a",
+        "win_override": false},
     "tweets": {
         "enabled": false,
         "tweet_images": true,

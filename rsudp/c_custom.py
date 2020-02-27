@@ -10,20 +10,20 @@ class Custom(Thread):
 	A consumer class that runs custom code from a python file passed to it.
 	Please read the disclaimers and warnings at :ref:`customcode` prior to using this module.
 
-	:param codefile: string of the python (.py) file to run, or False if none.
-	:type codefile: str or bool
-	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`.
-
 	.. warning::
 
 		If you are running Windows and have code you want to pass to the :py:func:`exec` function,
-		Python requires that your newline characters are in the UNIX style (:code:`\n`),
-		not the standard Windows style (:code:`\r\n`).
+		Python requires that your newline characters are in the UNIX style (:code:`\\n`),
+		not the standard Windows style (:code:`\\r\\n`).
 		To convert, follow the instructions in one of the answers to |lineendings_howto|.
 		If you're not sure what this means, please read about newline/line ending characters |lineendings_wiki|.
 		If you are certain that your code file has no Windows newlines, you can set :json:`"win_override"` to true.
 
 		Read more warnings about this module at :ref:`customcode`.
+
+	:param codefile: string of the python (.py) file to run, or False if none.
+	:type codefile: str or bool
+	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`.
 
 	"""
 

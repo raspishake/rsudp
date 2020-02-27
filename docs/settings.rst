@@ -417,6 +417,7 @@ just like you would from the Shake's web front end. By default, :json:`["all"]` 
 
 `Back to top ↑ <#top>`_
 
+
 .. _customcode:
 
 :code:`custom` (run custom code)
@@ -431,7 +432,7 @@ If :json:`"enabled"` is :json:`true` and a python file is found at the path spec
 this thread will run the specified file using python's :py:func:`exec` function.
 
 Be very careful when using this module, as the :py:func:`exec` function is known to have problems.
-Notably, python's :py:func:`exec` function does not check the passed file for errors prior to running.
+Notably, :py:func:`exec` does not check the passed file for errors prior to running.
 Also, the passed file cannot have Windows line endings (see warning below).
 Additionally, if the code takes too long to execute,
 you could end up losing data packets from the queue, so keep it simple.
@@ -466,6 +467,8 @@ That way, the code will be checked for errors prior to running.
     If you are certain that your code file has no Windows newlines, you can set :json:`"win_override"` to :json:`true`.
 
     Code will not execute on Windows unless this field is set to :json:`true`.
+
+`Back to top ↑ <#top>`_
 
 
 :code:`printdata` (print data to console)

@@ -30,7 +30,29 @@ except ImportError:
 
 def eqAlert(sound=False, sender='EQAlert function', *args, **kwargs):
 	'''
-	.. depreciated:: 0.4.3
+	.. deprecated:: 0.4.3
+
+	.. |lineendings_howto| raw:: html
+
+		<a href="https://stackoverflow.com/questions/17579553/windows-command-to-convert-unix-line-endings" target="_blank">this stackoverflow question</a>
+
+	.. |lineendings_wiki| raw:: html
+
+		<a href="https://en.wikipedia.org/wiki/Newline" target="_blank">here</a>
+
+	.. role:: json(code)
+		:language: json
+
+	.. warning::
+
+		If you are running Windows and have code you want to pass to the :py:func:`exec` function,
+		Python requires that your newline characters are in the UNIX style (:code:`\\n`), not the standard Windows style (:code:`\\r\\n`).
+		To convert, follow the instructions in one of the answers to |lineendings_howto|.
+		If you're not sure what this means, please read about newline/line ending characters |lineendings_wiki|.
+		If you are certain that your code file has no Windows newlines, you can set :json:`"win_override"` to true.
+
+		Read more warnings at :ref:`customcode`.
+
 
 	Function called by :py:class:`rsudp.c_alert.Alert` upon detecting
 	sudden motion. This function doesn't do anything except print a
@@ -39,16 +61,6 @@ def eqAlert(sound=False, sender='EQAlert function', *args, **kwargs):
 	function is no longer used.
 
 	:param str sender: String corresponding to the function printing the line.
-
-	.. warning::
-
-		If you are running Windows and have code you want to pass to the :py:func:`exec` function,
-		Python requires that your newline characters are in the UNIX style (:code:`\n`), not the standard Windows style (:code:`\r\n`).
-		To convert, follow the instructions in one of the answers to |lineendings_howto|.
-		If you're not sure what this means, please read about newline/line ending characters |lineendings_wiki|.
-		If you are certain that your code file has no Windows newlines, you can set :json:`"win_override"` to true.
-
-		Read more warnings at :ref:`customcode`.
 
 
 	'''

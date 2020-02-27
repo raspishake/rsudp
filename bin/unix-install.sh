@@ -104,7 +104,7 @@ if [ -z ${conda_exists+x} ]; then
   read -n1 -rp $'Press any key to continue or Ctrl+C to exit...\n\n'
 
   if [ ! -z ${PYTHONPATH+x} ]; then
-    # conda does not like $PYTHONPATH, and $PYTHONPATH is depreciated,
+    # conda does not like $PYTHONPATH, and $PYTHONPATH is deprecated,
     # so we can get away with disabling it during installation.
     # because it is sourced, it will come back when the user opens a new shell
     # and conda will complain about it directly to the user.

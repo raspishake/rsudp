@@ -15,7 +15,8 @@ Modules and Settings
 You will need to adjust the settings file before running :bash:`rsudp` in order to
 both receive data and suit your earthquake detection and notification needs.
 
-By default, the rsudp settings file will live in :bash:`$HOME/.config/rsudp/rsudp_settings.json`.
+By default, the rsudp settings file will live in :bash:`$HOME/.config/rsudp/rsudp_settings.json`,
+where :bash:`$HOME` is your home directory (often shortened to :bash:`~/`).
 To output default settings to a different location, see :ref:`running-manually`.
 
 
@@ -119,11 +120,14 @@ This will only occur when the alarm gets triggered, however, so make sure to tes
     or property, please contact Raspberry Shake directly or look elsewhere.
     See sections 16 and 16b of the |license| for further details.
 
+.. |obspy_stalta| raw:: html
 
+   <a href="https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#recursive-sta-lta" target="_blank">here</a>
 
 :json:`"alert"` controls the :class:`rsudp.c_alert.Alert` module (please see Warning above).
 The alert module is a fast recursive STA/LTA sudden motion detector that utilizes obspy's
-`recursive_sta_lta() https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#recursive-sta-lta`_ function.
+:py:func:`obspy.signal.trigger.recursive_sta_lta` function
+(more detailed information on how to use that function |obspy_stalta|).
 STA/LTA algorithms calculate a ratio of the short term average of station noise to the long term average.
 The data can be highpass, lowpass, or bandpass filtered by changing the :json:`"highpass"`
 and :json:`"lowpass"` parameters from their defaults (:json:`0` and :json:`50` respectively).
@@ -235,10 +239,13 @@ Using :code:`"exec"`
 :code:`alarmsound` (play sounds upon alerts)
 *************************************************
 
+.. |pydub_deps| raw:: html
+
+   <a href="https://github.com/jiaaro/pydub#dependencies" target="_blank">this page</a>
+
 If alarmsound's :json:`"enabled"` is :json:`true` and you have either :bash:`ffmpeg` or :bash:`libav` installed,
 :class:`rsudp.c_alertsound.AlertSound` plays an MP3 sound every time it receives an :code:`ALARM` queue message.
-For details on installation of these dependencies,
-see `this page <https://github.com/jiaaro/pydub#dependencies>`_.
+For details on installation of these dependencies, see |pydub_deps|.
 
 The software will install several small MP3 files.
 The :json:`"mp3file"` is :json:`"doorbell"` (two doorbell chimes) by default,
@@ -264,7 +271,15 @@ you will need to take the following installation steps beforehand:
 On Linux
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 
-`ffmpeg <http://ffmpeg.org/>`_ comes installed by default on some OS flavors
+.. |ffmpeg| raw:: html
+
+   <a href="http://ffmpeg.org/" target="_blank">ffmpeg</a>
+
+.. |ffmpeg_dl| raw:: html
+
+   <a href="http://ffmpeg.org/download.html#build-mac" target="_blank">from the ffmpeg website</a>
+
+|ffmpeg| comes installed by default on some OS flavors
 and is available on most Linux package managers.
 
 Debian and Raspbian users can simply type :bash:`sudo apt update; sudo apt install ffmpeg`
@@ -274,16 +289,17 @@ On MacOS
 
 Users with Homebrew can install by doing :bash:`brew install ffmpeg`
 
-Users without Homebrew will need to install using a binary build
-`on the ffmpeg website <http://ffmpeg.org/download.html#build-mac>`_
+Users without Homebrew will need to install using a binary build |ffmpeg_dl|.
 
 On Windows
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 
+.. |ffmpeg_win| raw:: html
+
+   <a href="https://windowsloop.com/install-ffmpeg-windows-10/" target="_blank">this installation guide</a>
+
 Windows users will need to do a couple of extra steps to get :code:`ffmpeg` installed.
-Following steps 1-8 in
-`this installation guide <https://windowsloop.com/install-ffmpeg-windows-10/>`_
-should be sufficient to get things working.
+Following steps 1-8 in |ffmpeg_win| should be sufficient to get things working.
 
 `Back to top ↑ <#top>`_
 

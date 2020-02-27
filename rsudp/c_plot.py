@@ -89,7 +89,8 @@ class Plot:
 		super().__init__()
 		self.sender = 'Plot'
 		self.alive = True
-		self.alarm = False
+		self.alarm = False			# don't touch this
+		self.alarm_reset = False	# don't touch this
 
 		if mpl == False:
 			sys.stdout.flush()

@@ -70,7 +70,8 @@ class Tweeter(Thread):
 		"""
 		super().__init__()
 		self.sender = 'Tweeter'
-		self.alarm = False
+		self.alarm = False			# don't touch this
+		self.alarm_reset = False	# don't touch this
 		self.alive = True
 		self.tweet_images = tweet_images
 		self.fmt = '%Y-%m-%d %H:%M:%S UTC'

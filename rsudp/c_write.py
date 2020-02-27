@@ -51,7 +51,8 @@ class Write(Thread):
 		self.numchns = RS.numchns
 		self.stime = 1/RS.sps
 		self.inv = RS.inv
-		self.alarm = False
+		self.alarm = False			# don't touch this
+		self.alarm_reset = False	# don't touch this
 		printM('Starting.', self.sender)
 
 	def getq(self):

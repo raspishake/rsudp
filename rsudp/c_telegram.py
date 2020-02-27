@@ -40,7 +40,8 @@ class Telegrammer(Thread):
 		"""
 		super().__init__()
 		self.sender = 'Telegram'
-		self.alarm = False
+		self.alarm = False			# don't touch this
+		self.alarm_reset = False	# don't touch this
 		self.alive = True
 		self.send_images = send_images
 		self.token = token

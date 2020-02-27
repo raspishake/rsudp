@@ -33,7 +33,8 @@ class AlertSound(Thread):
 		"""
 		super().__init__()
 		self.sender = 'AlertSound'
-		self.alarm = False
+		self.alarm = False			# don't touch this
+		self.alarm_reset = False	# don't touch this
 		self.alive = True
 		self.sound = sound
 		self.tmpfile = None

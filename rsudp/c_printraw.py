@@ -20,7 +20,8 @@ class PrintRaw(Thread):
 		"""
 		super().__init__()
 		self.sender = 'Print'
-		self.alarm = False
+		self.alarm = False			# don't touch this
+		self.alarm_reset = False	# don't touch this
 		self.alive = True
 
 		if q:

@@ -59,6 +59,12 @@ class Producer(Thread):
 					printM('%s thread has indicated alarm state, sending ALARM message to queues'
 						   % thread.sender, sender=self.sender)
 					thread.alarm = False
+				if thread.alarm_reset:
+					self.queue.put(b'RESET %s' % bytes(str(RS.UTCDateTime.now()), 'utf-8'))
+					print()
+					printM('%s thread has indicated alarm reset, sending RESET message to queues'
+						   % thread.sender, sender=self.sender)
+					thread.alarm_reset = False
 				if not thread.alive:
 					self.stop = True
 			if self.stop:

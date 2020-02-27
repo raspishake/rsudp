@@ -7,6 +7,19 @@ class Custom(Thread):
 	"""
 	.. versionadded:: 0.4.3
 
+	.. |lineendings_howto| raw:: html
+
+		<a href="https://stackoverflow.com/questions/17579553/windows-command-to-convert-unix-line-endings" target="_blank">this stackoverflow question</a>
+
+	.. |lineendings_wiki| raw:: html
+
+		<a href="https://en.wikipedia.org/wiki/Newline" target="_blank">here</a>
+
+	.. role:: json(code)
+		:language: json
+
+
+
 	A consumer class that runs custom code from a python file passed to it.
 	Please read the disclaimers and warnings at :ref:`customcode` prior to using this module.
 
@@ -21,9 +34,10 @@ class Custom(Thread):
 
 		Read more warnings about this module at :ref:`customcode`.
 
+	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`.
 	:param codefile: string of the python (.py) file to run, or False if none.
 	:type codefile: str or bool
-	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`.
+	:param bool win_ovr: user check to make sure that line ending format is correct (see warning above)
 
 	"""
 

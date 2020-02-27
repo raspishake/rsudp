@@ -180,7 +180,7 @@ def run(settings, debug):
 			runcustom = True
 	except ValueError as e:
 		if settings['alert']['exec'] != 'eqAlert':
-			printM('WARNING: the custom code function has moved to its own module (rsudp.c_custom)' sender='Custom')
+			printM('WARNING: the custom code function has moved to its own module (rsudp.c_custom)', sender='Custom')
 			f = settings['alert']['exec']
 			win_ovr = settings['alert']['win_override']
 			runcustom = True

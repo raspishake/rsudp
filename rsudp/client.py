@@ -28,44 +28,6 @@ except ImportError:
 	pydub_exists = False
 
 
-def eqAlert(sound=False, sender='EQAlert function', *args, **kwargs):
-	'''
-	.. deprecated:: 0.4.3
-
-	.. |lineendings_howto| raw:: html
-
-		<a href="https://stackoverflow.com/questions/17579553/windows-command-to-convert-unix-line-endings" target="_blank">this stackoverflow question</a>
-
-	.. |lineendings_wiki| raw:: html
-
-		<a href="https://en.wikipedia.org/wiki/Newline" target="_blank">here</a>
-
-	.. role:: json(code)
-		:language: json
-
-	.. warning::
-
-		If you are running Windows and have code you want to pass to the :py:func:`exec` function,
-		Python requires that your newline characters are in the UNIX style (:code:`\\n`), not the standard Windows style (:code:`\\r\\n`).
-		To convert, follow the instructions in one of the answers to |lineendings_howto|.
-		If you're not sure what this means, please read about newline/line ending characters |lineendings_wiki|.
-		If you are certain that your code file has no Windows newlines, you can set :json:`"win_override"` to true.
-
-		Read more warnings at :ref:`customcode`.
-
-
-	Function called by :py:class:`rsudp.c_alert.Alert` upon detecting
-	sudden motion. This function doesn't do anything except print a
-	line to the console or log files timestamping the alert. If the
-	user can configures the rsudp config to run custom code, this
-	function is no longer used.
-
-	:param str sender: String corresponding to the function printing the line.
-
-
-	'''
-	printM('Trigger threshold exceeded -- possible earthquake!', sender=sender)
-
 def handler(sig, frame):
 	'''
 	Function passed to :py:func:`signal.signal` to handle close events
@@ -164,8 +126,6 @@ def run(settings, debug):
 		reset = settings['alert']['reset']
 		bp = [settings['alert']['highpass'], settings['alert']['lowpass']]
 		cha = settings['alert']['channel']
-		win_ovr = settings['alert']['win_override']
-		ex = eqAlert if settings['alert']['exec'] in 'eqAlert' else settings['alert']['exec']
 		if settings['alert']['deconvolve']:
 			deconv = settings['alert']['units']
 		else:
@@ -173,8 +133,8 @@ def run(settings, debug):
 
 		# set up queue and process
 		q = mk_q()
-		alrt = Alert(sta=sta, lta=lta, thresh=thresh, reset=reset, bp=bp, func=ex,
-					 cha=cha, win_ovr=win_ovr, debug=debug, q=q,
+		alrt = Alert(sta=sta, lta=lta, thresh=thresh, reset=reset, bp=bp,
+					 cha=cha, debug=debug, q=q,
 					 deconv=deconv)
 		mk_p(alrt)
 
@@ -209,16 +169,29 @@ def run(settings, debug):
 		alsnd = AlertSound(q=q, sound=sound, soundloc=soundloc)
 		mk_p(alsnd)
 
-	if settings['custom']['enabled']:
-		# put settings in namespace
-		f = settings['custom']['codefile']
-		win_ovr = settings['custom']['win_override']
-		if f == 'n/a':
-			f = False
+	runcustom = False
+	try:
+		if settings['custom']['enabled']:
+			# put settings in namespace
+			f = settings['custom']['codefile']
+			win_ovr = settings['custom']['win_override']
+			if f == 'n/a':
+				f = False
+			runcustom = True
+	except ValueError as e:
+		if settings['alert']['exec'] != 'eqAlert':
+			printM('WARNING: the custom code function has moved to its own module (rsudp.c_custom)' sender='Custom')
+			f = settings['alert']['exec']
+			win_ovr = settings['alert']['win_override']
+			runcustom = True
+		else:
+			raise ValueError(e)
+	if runcustom:
 		# set up queue and process
 		q = mk_q()
 		cstm = Custom(q=q, codefile=f, win_ovr=win_ovr)
 		mk_p(cstm)
+
 
 	if settings['tweets']['enabled']:
 		consumer_key = settings['tweets']['api_key']
@@ -360,9 +333,7 @@ settings in %s
     "lta": 30,
     "threshold": 1.7,
     "reset": 1.6,
-    "exec": "eqAlert",
-    "channel": "HZ",
-    "win_override": false},
+    "channel": "HZ"},
 "alertsound": {
     "enabled": false,
     "mp3file": "doorbell"},

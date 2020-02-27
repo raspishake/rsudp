@@ -12,7 +12,7 @@ class Alert(Thread):
 	A data consumer class that listens to a specific incoming data channel
 	and calculates a recursive STA/LTA (short term average over long term 
 	average). If a threshold of STA/LTA ratio is exceeded, the class
-	activates a function of the user's choosing. By default, the function
+	raises the :py:data:`alarm` flag to True. By default, the function
 	simply prints a message to the terminal window, but the user can
 	choose to run a function of their own as well.
 
@@ -21,21 +21,18 @@ class Alert(Thread):
 	:param float thresh: threshold for STA/LTA trigger.
 	:type bp: :py:class:`bool` or :py:class:`list`
 	:param bp: bandpass filter parameters.
-	:param func func: the function or path to python script to run in the event of an alert.
 	:param bool debug: whether or not to display max STA/LTA calculation live to the console.
 	:param str cha: listening channel (defaults to [S,E]HZ)
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 
 	"""
 	def __init__(self, sta=5, lta=30, thresh=1.6, reset=1.55, bp=False,
-				 debug=True, cha='HZ', win_ovr=False, q=False, func=None,
-				 sound=False, deconv=False,
+				 debug=True, cha='HZ', q=False, sound=False, deconv=False,
 				 *args, **kwargs):
 		
 		"""
 		Initializing the alert thread with parameters to set up the recursive
-		STA-LTA trigger, filtering, the function that is executed upon
-		trigger activation, and the channel used for listening.
+		STA-LTA trigger, filtering, and the channel used for listening.
 
 		"""
 		super().__init__()
@@ -54,8 +51,6 @@ class Alert(Thread):
 		self.lta = lta
 		self.thresh = thresh
 		self.reset = reset
-		self.func = func
-		self.win_ovr = win_ovr
 		self.debug = debug
 		self.args = args
 		self.kwargs = kwargs
@@ -81,6 +76,7 @@ class Alert(Thread):
 		printM('Alert stream units are %s' % (self.units), self.sender)
 
 		self.alarm = False
+		self.alarm_reset = False
 		self.exceed = False
 		self.sound = sound
 		if bp:
@@ -104,19 +100,6 @@ class Alert(Thread):
 		if self.cha not in str(RS.chns):
 			printM('ERROR: Could not find channel %s in list of channels! Please correct and restart.' % self.cha, self.sender)
 			sys.exit(2)
-
-		if (os.name in 'nt') and (not callable(self.func)) and (not self.win_ovr):
-			printM('ERROR: Using Windows with custom alert code! Your code MUST have UNIX/Mac newline characters!')
-			printM('       Please use a conversion tool like dos2unix to convert line endings')
-			printM('       (https://en.wikipedia.org/wiki/Unix2dos) to make your code file')
-			printM('       readable to the Python interpreter.')
-			printM('       Once you have done that, please set "win_override" to true')
-			printM('       in the settings file.')
-			printM('       (see also footnote [1] on this page: https://docs.python.org/3/library/functions.html#id2)')
-			printM('THREAD EXITING, please correct and restart!', self.sender)
-			sys.exit(2)
-		else:
-			pass
 
 		listen_ch = '?%s' % self.cha
 		printM('Starting Alert trigger with sta=%ss, lta=%ss, and threshold=%s on channel=%s'
@@ -207,14 +190,6 @@ class Alert(Thread):
 						self.exceed = True	# the state machine; this one should not be touched from the outside, otherwise bad things will happen
 						printM('Trigger threshold of %s exceeded: %s'
 								% (self.thresh, round(self.stalta.max(), 3)), self.sender)
-						if callable(self.func):
-							self.func(sound=self.sound, *self.args, **self.kwargs)
-						else:
-							printM('Attempting execution of custom script. If something goes wrong, you may need to kill this process manually...')
-							try:
-								exec(self.func)
-							except Exception as e:
-								printM('Execution failed, error: %s' % e)
 						printM('Trigger will reset when STA/LTA goes below %s...' % self.reset, sender=self.sender)
 					else:
 						pass
@@ -225,6 +200,7 @@ class Alert(Thread):
 				else:
 					if self.exceed:
 						if self.stalta[-1] < self.reset:
+							self.alarm_reset = True
 							self.exceed = False
 							print()
 							printM('Max STA/LTA ratio reached in alarm state: %s' % (round(self.maxstalta, 3)),

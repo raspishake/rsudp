@@ -19,7 +19,6 @@ class Custom(Thread):
 		:language: json
 
 
-
 	A consumer class that runs custom code from a python file passed to it.
 	Please read the disclaimers and warnings at :ref:`customcode` prior to using this module.
 

@@ -199,7 +199,11 @@ For a very quiet station placed atop bedrock:
 Classroom demonstrations
 """""""""""""""""""""""""""""""""""
 
-For a classroom looking to detect jumps but not necessarily earthquakes:
+For a classroom looking to detect jumps but not necessarily earthquakes is below.
+The main difference here is that there is no bandpass filter applied to the signal
+before it is put into the STA/LTA algorithm, which changes the calculation needed
+for exceedence of the threshold. Adjust the :json:`"threshold"` downward, closer to 
+:json:`1.7` if :json:`1.8` is too high.
 
 .. code-block:: json
 
@@ -208,10 +212,10 @@ For a classroom looking to detect jumps but not necessarily earthquakes:
         "channel": "HZ",
         "sta": 6,
         "lta": 30,
-        "threshold": 2.0,
+        "threshold": 1.8,
         "reset": 1.6,
         "highpass": 0,
-        "lowpass": 50
+        "lowpass": 50,
         "deconvolve": false,
         "units": "VEL"},
 

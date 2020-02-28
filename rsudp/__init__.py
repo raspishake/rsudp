@@ -16,16 +16,22 @@ output_dir = False
 data_dir = False
 scap_dir = False
 
-handlers = []
-logging.getLogger().setLevel(logging.INFO)
-logging.Formatter.converter = gmtime
-TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
-logformat = '%(asctime)-15s %(msg)s'                 
-formatter = logging.Formatter(fmt=logformat, datefmt=TIME_FORMAT)               
+COLOR = {
+	'purple': '\033[95m',
+	'blue': '\033[94m',
+	'green': '\033[92m',
+	'yellow': '\033[93m',
+	'red': '\033[91m',
+	'white': '\033[0m',
+	'bold': "\033[1m"
+}
+
 
 def init_dirs(odir):
 	'''
 	Initialize the write directories if they do not already exist.
+
+	:param str odir: output directory
 	'''
 	global output_dir, data_dir, scap_dir
 	output_dir = odir
@@ -36,25 +42,66 @@ def init_dirs(odir):
 		os.makedirs(data_dir, exist_ok=True)
 		os.makedirs(scap_dir, exist_ok=True)
 	except OSError as e:
-		print('Error creating output directory structure. Are you sure you have permission to write to the output folder?')
-		print('More info: %s' % e)
+		print(COLOR['red'] + 'Error creating output directory structure. Are you sure you have permission to write to the output folder?' + COLOR['white'])
+		print(COLOR['red'] + 'More info: %s' + COLOR['white'] % e)
 		exit(2)
 
-def add_debug_handler():
-	'''
-	Creates an additional handler for logging to the command line.
-	'''
-	s = logging.StreamHandler(sys.stdout)
-	s.setLevel('INFO')
-	s.setFormatter(formatter)
-	logging.getLogger().addHandler(s)
+
+class LevelFormatter(logging.Formatter):
+	def __init__(self, fmt=None, datefmt=None, level_fmts={}):
+		self._level_formatters = {}
+		for level, format in level_fmts.items():
+			# Could optionally support level names too
+			self._level_formatters[level] = logging.Formatter(fmt=format, datefmt=datefmt)
+		# self._fmt will be the default format
+		super(LevelFormatter, self).__init__(fmt=fmt, datefmt=datefmt)
+	# format records
+	def format(self, record):
+		if record.levelno in self._level_formatters:
+			return self._level_formatters[record.levelno].format(record)
+		return super(LevelFormatter, self).format(record)
+
+
+# set time formatter type
+logging.Formatter.converter = gmtime
+
+log = logging.getLogger('main')
+log.setLevel('INFO')
+# logging formatters
+TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+logformat = '%(asctime)-15s %(msg)s'
+formatter = logging.Formatter(fmt=logformat, datefmt=TIME_FORMAT)
 
 # this initializes logging to file
 f = logging.FileHandler(os.path.join(log_dir, 'rsudp.log'))
 f.setLevel('INFO')
 f.setFormatter(formatter)
-handlers.append(f)
-logging.basicConfig(handlers=handlers)
+# warnings also go to file
+# initialize logging
+log.addHandler(f)
+
+
+def add_debug_handler():
+	'''
+	Creates an additional handler for logging info and warnings to the command line.
+	'''
+	# terminal formats
+	termformat = '\x1b[2K\r' + logformat		# note '\x1b[2K' erases current line and \r returns to home
+	# warning format
+	warnformat = '\x1b[2K\r' + COLOR['yellow'] + logformat + COLOR['white']
+	# error format
+	failformat = '\x1b[2K\r' + COLOR['red'] + logformat + COLOR['white']
+	termformatter = LevelFormatter(fmt=logformat,
+								   datefmt=TIME_FORMAT,
+								   level_fmts={logging.INFO: termformat,
+											   logging.WARNING: warnformat,
+											   logging.ERROR: failformat},)
+	s = logging.StreamHandler(sys.stdout)
+	s.setLevel('INFO')
+	s.setFormatter(termformatter)
+	logging.getLogger('main').addHandler(s)
+
+
 
 warnings.filterwarnings('ignore', category=UserWarning, module='rsudp')
 warnings.filterwarnings('ignore', category=FutureWarning, module='obspy')
@@ -62,6 +109,51 @@ warnings.filterwarnings('ignore', category=FutureWarning, module='obspy')
 def printM(msg, sender=''):
 	'''
 	Prints messages with datetime stamp and sends their output to the logging handlers.
+
+	:param str msg: message to log
+	:param str sender: the name of the class or function sending the message
 	'''
 	msg = '[%s] %s' % (sender, msg) if sender != '' else msg
-	logging.info(msg)
+	log.info(msg)
+
+def printW(msg, sender='', announce=True, spaces=False):
+	'''
+	Prints warnings with datetime stamp and sends their output to the logging handlers.
+
+	:param str msg: message to log
+	:param str sender: the name of the class or function sending the message
+	:param bool announce: whether or not to display "WARNING" before the message
+	:param bool spaces: whether or not to display formatting spaces before the message
+	'''
+	if spaces:
+		announce = False
+
+	if announce:
+		msg = '[%s] WARNING: %s' % (sender, msg) if sender != '' else msg
+	else:
+		if spaces:
+			msg = '[%s]          %s' % (sender, msg) if sender != '' else msg
+		else:
+			msg = '[%s] %s' % (sender, msg) if sender != '' else msg
+	log.warning(msg)
+
+def printE(msg, sender='', announce=True, spaces=False):
+	'''
+	Prints errors with datetime stamp and sends their output to the logging handlers.
+
+	:param str msg: message to log
+	:param str sender: the name of the class or function sending the message
+	:param bool announce: whether or not to display "WARNING" before the message
+	:param bool spaces: whether or not to display formatting spaces before the message
+	'''
+	if spaces:
+		announce = False
+
+	if announce:
+		msg = '[%s] ERROR: %s' % (sender, msg) if sender != '' else msg
+	else:
+		if spaces:
+			msg = '[%s]       %s' % (sender, msg) if sender != '' else msg
+		else:
+			msg = '[%s] %s' % (sender, msg) if sender != '' else msg
+	log.error(msg)

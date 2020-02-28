@@ -6,7 +6,7 @@ import json
 import re
 import logging
 from queue import Queue
-from rsudp import printM, default_loc, init_dirs, output_dir, add_debug_handler
+from rsudp import printM, printW, printE, default_loc, init_dirs, output_dir, add_debug_handler, COLOR
 import rsudp.raspberryshake as RS
 from rsudp.c_consumer import Consumer
 from rsudp.p_producer import Producer
@@ -150,20 +150,20 @@ def run(settings, debug):
 					sound = AudioSegment.from_file(soundloc, format="mp3")
 					printM('Loaded %.2f sec alert sound from %s' % (len(sound)/1000., soundloc), sender='AlertSound')
 				except FileNotFoundError as e:
-					printM("WARNING: You have chosen to play a sound, but don't have ffmpeg or libav installed.", sender='AlertSound')
-					printM('         Sound playback requires one of these dependencies.', sender='AlertSound')
-					printM("         To install either dependency, follow the instructions at:", sender='AlertSound')
-					printM('         https://github.com/jiaaro/pydub#playback', sender='AlertSound')
-					printM('         The program will now continue without sound playback.', sender='AlertSound')
+					printW("You have chosen to play a sound, but don't have ffmpeg or libav installed.", sender='AlertSound')
+					printW('Sound playback requires one of these dependencies.', sender='AlertSound', spaces=True)
+					printW("To install either dependency, follow the instructions at:", sender='AlertSound', spaces=True)
+					printW('https://github.com/jiaaro/pydub#playback', sender='AlertSound', spaces=True)
+					printW('The program will now continue without sound playback.', sender='AlertSound', spaces=True)
 					sound = False
 			else:
-				printM("WARNING: The file %s could not be found." % (soundloc), sender='AlertSound')
-				printM('         The program will now continue without sound playback.', sender='AlertSound')
+				printW("The file %s could not be found." % (soundloc), sender='AlertSound')
+				printW('The program will now continue without sound playback.', sender='AlertSound', spaces=True)
 		else:
-			printM("WARNING: You don't have pydub installed, so no sound will play.", sender='AlertSound')
-			printM('         To install pydub, follow the instructions at:', sender='AlertSound')
-			printM('         https://github.com/jiaaro/pydub#installation', sender='AlertSound')
-			printM('         Sound playback also requires you to install either ffmpeg or libav.', sender='AlertSound')
+			printW("You don't have pydub installed, so no sound will play.", sender='AlertSound')
+			printW('To install pydub, follow the instructions at:', sender='AlertSound', spaces=True)
+			printW('https://github.com/jiaaro/pydub#installation', sender='AlertSound', spaces=True)
+			printW('Sound playback also requires you to install either ffmpeg or libav.', sender='AlertSound', spaces=True)
 
 		q = mk_q()
 		alsnd = AlertSound(q=q, sound=sound, soundloc=soundloc)
@@ -180,7 +180,7 @@ def run(settings, debug):
 			runcustom = True
 	except KeyError as e:
 		if settings['alert']['exec'] != 'eqAlert':
-			printM('WARNING: the custom code function has moved to its own module (rsudp.c_custom)', sender='Custom')
+			printW('the custom code function has moved to its own module (rsudp.c_custom)', sender='Custom')
 			f = settings['alert']['exec']
 			win_ovr = settings['alert']['win_override']
 			runcustom = True
@@ -242,8 +242,8 @@ def run(settings, debug):
 
 	time.sleep(0.5) # give threads time to exit
 
-	print()
 	printM('Shutdown successful.', 'Main')
+	print()
 	sys.exit()
 
 def dump_default(settings_loc, default_settings):
@@ -368,12 +368,12 @@ settings in %s
 			['help', 'install' 'dump=', 'settings=']
 			)[0]
 	except Exception as e:
-		print('ERROR: %s' % e)
+		print(COLOR['red'] + 'ERROR: %s' % e + COLOR['white'])
 		print(hlp_txt)
 
 	if len(opts) == 0:
 		if not os.path.exists(settings_loc):
-			print('Could not find rsudp settings file, creating one at %s' % settings_loc)
+			print(COLOR['yellow'] + 'Could not find rsudp settings file, creating one at %s' % settings_loc + COLOR['white'])
 			dump_default(settings_loc, default_settings())
 		else:
 			with open(os.path.abspath(settings_loc), 'r') as f:
@@ -381,10 +381,10 @@ settings in %s
 					data = f.read().replace('\\', '/')
 					settings = json.loads(data)
 				except Exception as e:
-					printM('ERROR:  Could not load default settings file from %s' % settings_loc)
-					printM('DETAIL: %s' % e)
-					printM('        Either correct the file, or overwrite the default settings file using the command:')
-					printM('        shake_client -d default')
+					print(COLOR['red'] + 'ERROR: Could not load default settings file from %s' % settings_loc + COLOR['white'])
+					print(COLOR['red'] + '       detail: %s' % e + COLOR['white'])
+					print(COLOR['red'] + '       Either correct the file, or overwrite the default settings file using the command:' + COLOR['white'])
+					print(COLOR['bold'] + '       shake_client -d default' + COLOR['white'])
 					exit(2)
 
 	for o, a in opts:
@@ -419,13 +419,13 @@ settings in %s
 						data = f.read().replace('\\', '/')
 						settings = json.loads(data)
 					except Exception as e:
-						print('ERROR:  Could not load settings file. Perhaps the JSON is malformed?')
-						print('DETAIL: %s' % e)
-						print('        If you would like to overwrite and rebuild the file, you can enter the command below:')
-						print('shake_client -d %s' % a)
+						print(COLOR['red'] + 'ERROR: Could not load settings file. Perhaps the JSON is malformed?' + COLOR['white'])
+						print(COLOR['red'] + '       detail: %s' % e + COLOR['white'])
+						print(COLOR['red'] + '       If you would like to overwrite and rebuild the file, you can enter the command below:' + COLOR['white'])
+						print(COLOR['bold'] + '       shake_client -d %s' % a + COLOR['white'])
 						exit(2)
 			else:
-				print('ERROR: could not find the settings file you specified. Check the path and try again.')
+				print(COLOR['red'] + 'ERROR: could not find the settings file you specified. Check the path and try again.' + COLOR['white'])
 				print()
 				exit(2)
 

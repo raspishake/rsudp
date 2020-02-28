@@ -5,7 +5,7 @@ import math
 import numpy as np
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as RS
-from rsudp import printM
+from rsudp import printM, printW, printE
 import rsudp
 import linecache
 sender = 'plot.py'
@@ -17,15 +17,15 @@ try:		# test for matplotlib and exit if import fails
 		from PyQt5 import QtGui
 		qt = True
 	except Exception as e:
-		printM('WARNING: Qt import failed. Trying Tk...')
-		printM('error detail: %s' % e)
+		printW('Qt import failed. Trying Tk...')
+		printW('detail: %s' % e, spaces=True)
 		try:	# fail over to the more reliable Tk
 			use('TkAgg')
 			from tkinter import PhotoImage
 		except Exception as e:
-			printM('ERROR: Could not import either Qt or Tk, and the plot module requires at least one of them to run.', sender)
-			printM('Please make sure either PyQt5 or Tkinter is installed.', sender)
-			printM('error detail: %s'% e, sender)
+			printE('Could not import either Qt or Tk, and the plot module requires at least one of them to run.', sender)
+			printE('Please make sure either PyQt5 or Tkinter is installed.', sender, spaces=True)
+			printE('detail: %s'% e, sender, spaces=True)
 			raise ImportError('Could not import either Qt or Tk, and the plot module requires at least one of them to run')
 	import matplotlib.pyplot as plt
 	import matplotlib.dates as mdates
@@ -38,8 +38,8 @@ try:		# test for matplotlib and exit if import fails
 	import warnings
 	warnings.filterwarnings("ignore", module="matplotlib")
 except Exception as e:
-	printM('ERROR: Could not import matplotlib, plotting will not be available.', sender)
-	printM('error detail: %s' % e, sender)
+	printE('Could not import matplotlib, plotting will not be available.', sender)
+	printE('detail: %s' % e, sender, spaces=True)
 	mpl = False
 
 icon = 'icon.ico'
@@ -96,11 +96,11 @@ class Plot:
 			sys.stdout.flush()
 			sys.exit()
 		if qt == False:
-			printM('WARNING: Running on %s machine, using Tk instead of Qt' % (platform.machine()), self.sender)
+			printW('Running on %s machine, using Tk instead of Qt' % (platform.machine()), self.sender)
 		if q:
 			self.queue = q
 		else:
-			printM('ERROR: no queue passed to consumer! Thread will exit now!', self.sender)
+			printE('no queue passed to consumer! Thread will exit now!', self.sender)
 			sys.stdout.flush()
 			sys.exit()
 
@@ -191,7 +191,6 @@ class Plot:
 		if 'TERM' in str(d):
 			plt.close()
 			if 'SELF' in str(d):
-				print()
 				printM('Plot has been closed, plot thread will exit.', self.sender)
 			self.alive = False
 			RS.producer = False
@@ -204,7 +203,6 @@ class Plot:
 			self.last_event_str = event[1].strftime('%Y-%m-%d %H:%M:%S UTC')
 			printM('Event time: %s' % (self.last_event_str), self.sender)		# show event time in the logs
 			if self.screencap:
-				print()
 				printM('Saving png in about %i seconds' % (self.save_pct * (self.seconds)), self.sender)
 				self.save.append(event) # append 
 			self.fig.suptitle('%s.%s live output - detected events: %s' # title
@@ -254,7 +252,6 @@ class Plot:
 		Handles a plot close event.
 		This will trigger a full shutdown of all other processes related to rsudp.
 		'''
-		print()
 		self.queue.put(b'TERMSELF')
 
 	def handle_resize(self, evt=False):
@@ -307,10 +304,8 @@ class Plot:
 		figname = os.path.join(rsudp.scap_dir, '%s-%s.png' % (self.stn, event_time_str))
 		elapsed = RS.UTCDateTime.now() - event_time
 		if int(elapsed) > 0:
-			print()	# distancing from \r line
 			printM('Saving png %i seconds after alarm' % (elapsed), sender=self.sender)
 		plt.savefig(figname, facecolor=self.fig.get_facecolor(), edgecolor='none')
-		print()	# distancing from \r line
 		printM('Saved %s' % (figname), sender=self.sender)
 		printM('%s thread has saved an image, sending IMGPATH message to queues' % self.sender, sender=self.sender)
 		self.master_queue.put(b'IMGPATH %s %s' % (bytes(str(event_time), 'utf-8'), bytes(str(figname), 'utf-8')))
@@ -405,13 +400,13 @@ class Plot:
 				ico = PhotoImage(file=ico)
 				mgr.window.tk.call('wm', 'iconphoto', mgr.window._w, ico)
 			except:
-				printM('WARNING: Failed to set PNG icon image, trying .ico instead', sender=self.sender)
+				printW('Failed to set PNG icon image, trying .ico instead', sender=self.sender)
 				try:
 					ico = pr.resource_filename('rsudp', os.path.join('img', icon2))
 					ico = PhotoImage(file=ico)
 					mgr.window.tk.call('wm', 'iconphoto', mgr.window._w, ico)
 				except:
-					printM('WARNING: Failed to set icon.')
+					printE('Failed to set window icon.')
 
 		im = mpimg.imread(pr.resource_filename('rsudp', os.path.join('img', 'version1-01-small.png')))
 		self.imax = self.fig.add_axes([0.015, 0.944, 0.2, 0.056], anchor='NW') # [left, bottom, right, top]

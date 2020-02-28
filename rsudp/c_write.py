@@ -4,7 +4,7 @@ import time
 from datetime import datetime, timedelta
 from obspy import UTCDateTime
 import rsudp.raspberryshake as RS
-from rsudp import printM
+from rsudp import printM, printW, printE
 import rsudp
 
 class Write(Thread):

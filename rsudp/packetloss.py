@@ -2,7 +2,7 @@ import sys
 import getopt
 import datetime as dt
 import signal
-from rsudp import raspberryshake, printM, add_debug_handler
+from rsudp import raspberryshake, printM, printW, printE, add_debug_handler
 
 def signal_handler(signal, frame):
 	'''

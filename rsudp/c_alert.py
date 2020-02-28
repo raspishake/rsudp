@@ -3,8 +3,11 @@ from threading import Thread
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as RS
 from obspy.signal.trigger import recursive_sta_lta
-from rsudp import printM
+from rsudp import printM, printW, printE, COLOR
 import numpy as np
+
+# set the terminal text color to green
+COLOR['current'] = COLOR['green']
 
 
 class Alert(Thread):
@@ -44,7 +47,7 @@ class Alert(Thread):
 		if q:
 			self.queue = q
 		else:
-			printM('ERROR: no queue passed to consumer! Thread will exit now!', self.sender)
+			printE('no queue passed to consumer! Thread will exit now!', self.sender)
 			sys.stdout.flush()
 			sys.exit()
 
@@ -100,7 +103,7 @@ class Alert(Thread):
 			self.filt = False
 
 		if self.cha not in str(RS.chns):
-			printM('ERROR: Could not find channel %s in list of channels! Please correct and restart.' % self.cha, self.sender)
+			printE('Could not find channel %s in list of channels! Please correct and restart.' % self.cha, self.sender)
 			sys.exit(2)
 
 		listen_ch = '?%s' % self.cha
@@ -187,12 +190,12 @@ class Alert(Thread):
 							int(self.sta * self.sps), int(self.lta * self.sps))
 				if self.stalta.max() > self.thresh:
 					if not self.exceed:
-						print(); print()
 						self.alarm = True	# raise a flag that the Producer can read and modify 
 						self.exceed = True	# the state machine; this one should not be touched from the outside, otherwise bad things will happen
 						printM('Trigger threshold of %s exceeded: %s'
 								% (self.thresh, round(self.stalta.max(), 3)), self.sender)
 						printM('Trigger will reset when STA/LTA goes below %s...' % self.reset, sender=self.sender)
+						COLOR['current'] = COLOR['purple']
 					else:
 						pass
 
@@ -204,19 +207,20 @@ class Alert(Thread):
 						if self.stalta[-1] < self.reset:
 							self.alarm_reset = True
 							self.exceed = False
-							print()
 							printM('Max STA/LTA ratio reached in alarm state: %s' % (round(self.maxstalta, 3)),
 									self.sender)
 							printM('Earthquake trigger reset and active again.',
 									self.sender)
 							self.maxstalta = 0
+							COLOR['current'] = COLOR['green']
 					else:
 						pass
 				self.stream = RS.copy(self.stream)
 				if self.debug:
-					print('\r%s [%s] Threshold: %s; Current max STA/LTA: %.4f'
-						% (datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'), self.sender,
-						self.thresh, round(np.max(self.stalta[-50:]), 4)), end='', flush=True)
+					msg = '\r%s [%s] Threshold: %s; Current max STA/LTA: %.4f' % (
+							datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'), self.sender,
+							self.thresh, round(np.max(self.stalta[-50:]), 4))
+					print(COLOR['current'] + COLOR['bold'] + msg + COLOR['white'], end='', flush=True)
 			elif n == 0:
 				printM('Listening to channel %s'
 						% (self.stream[0].stats.channel), self.sender)

@@ -6,7 +6,7 @@ from threading import Thread
 import numpy as np
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as RS
-from rsudp import printM
+from rsudp import printM, printW, printE
 import rsudp
 from twython import Twython
 

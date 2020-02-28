@@ -1,6 +1,6 @@
 import sys, os
 from threading import Thread
-from rsudp import printM
+from rsudp import printM, printW, printE
 import subprocess
 from tempfile import NamedTemporaryFile
 try:
@@ -44,7 +44,7 @@ class AlertSound(Thread):
 		if q:
 			self.queue = q
 		else:
-			printM('ERROR: no queue passed to the consumer thread! We will exit now!',
+			printE('no queue passed to the consumer thread! We will exit now!',
 				   self.sender)
 			sys.stdout.flush()
 			self.alive = False

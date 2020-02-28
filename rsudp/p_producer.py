@@ -1,6 +1,6 @@
 import sys
 from threading import Thread
-from rsudp import printM
+from rsudp import printM, printW, printE
 import rsudp.raspberryshake as RS
 
 

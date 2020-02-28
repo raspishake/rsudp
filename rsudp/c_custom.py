@@ -1,6 +1,6 @@
 import sys, os
 from threading import Thread
-from rsudp import printM
+from rsudp import printM, printW, printE
 
 
 class Custom(Thread):
@@ -56,19 +56,19 @@ class Custom(Thread):
 				self.codefile = os.path.expanduser(codefile)
 				printM('Custom code file to run: %s' % self.codefile, sender=self.sender)
 			else:
-				printM('WARNING: No python file exists at %s. No custom code will be run during alarms.' % codefile, sender=self.sender)
+				printW('No python file exists at %s. No custom code will be run during alarms.' % codefile, sender=self.sender)
 		else:
 			printM('WARNING: No custom code file set. No custom code will be run during alarms.', sender=self.sender)
 
 		if (os.name in 'nt') and (not self.win_ovr):
-			printM('ERROR: Using Windows with custom alert code! Your code MUST have UNIX/Mac newline characters!')
-			printM('       Please use a conversion tool like dos2unix to convert line endings')
-			printM('       (https://en.wikipedia.org/wiki/Unix2dos) to make your code file')
-			printM('       readable to the Python interpreter.')
-			printM('       Once you have done that, please set "win_override" to true')
-			printM('       in the settings file.')
-			printM('       (see also footnote [1] on this page: https://docs.python.org/3/library/functions.html#id2)')
-			printM('THREAD EXITING, please correct and restart!', self.sender)
+			printE('Using Windows with custom alert code! Your code MUST have UNIX/Mac newline characters!')
+			printE('Please use a conversion tool like dos2unix to convert line endings', spaces=True)
+			printE('(https://en.wikipedia.org/wiki/Unix2dos) to make your code file', spaces=True)
+			printE('readable to the Python interpreter.', spaces=True)
+			printE('Once you have done that, please set "win_override" to true', spaces=True)
+			printE('in the settings file.', spaces=True)
+			printE('(see also footnote [1] on this page: https://docs.python.org/3/library/functions.html#id2)', spaces=True)
+			printE('THREAD EXITING, please correct and restart!', self.sender, spaces=True)
 			sys.exit(2)
 		else:
 			pass
@@ -77,7 +77,7 @@ class Custom(Thread):
 		if q:
 			self.queue = q
 		else:
-			printM('ERROR: no queue passed to the consumer thread! We will exit now!',
+			printE('no queue passed to the consumer thread! We will exit now!',
 				   self.sender)
 			sys.stdout.flush()
 			self.alive = False
@@ -94,9 +94,9 @@ class Custom(Thread):
 				exec(self.codefile)
 			except Exception as e:
 				# do something if it fails
-				printM('Code execution failed. Error: %s' % e, sender=self.sender)
+				printE('Code execution failed. Error: %s' % e, sender=self.sender, announce=False)
 		else:
-			printM('WARNING: No code to run, codefile variable not set correctly.', sender=self.sender)
+			printW('No code to run, codefile variable not set correctly.', sender=self.sender)
 
 
 	def run(self):

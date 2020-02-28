@@ -1,7 +1,7 @@
 import os, sys
 import socket as s
 from threading import Thread
-from rsudp import printM
+from rsudp import printM, printW, printE
 import rsudp.raspberryshake as RS
 
 class Forward(Thread):
@@ -72,6 +72,6 @@ class Forward(Thread):
 
 		except Exception as e:
 			self.alive = False
-			printM('ERROR: %s' % e, sender=self.sender)
+			printE('%s' % e, sender=self.sender)
 			sys.exit(2)
 

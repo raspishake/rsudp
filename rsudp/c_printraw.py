@@ -1,6 +1,6 @@
 import sys
 from threading import Thread
-from rsudp import printM
+from rsudp import printM, printW, printE
 
 
 class PrintRaw(Thread):
@@ -27,7 +27,7 @@ class PrintRaw(Thread):
 		if q:
 			self.queue = q
 		else:
-			printM('ERROR: no queue passed to consumer! Thread will exit now!', self.sender)
+			printE('no queue passed to consumer! Thread will exit now!', self.sender)
 			sys.stdout.flush()
 			self.alive = False
 			sys.exit()

@@ -3,7 +3,7 @@ import time
 from threading import Thread
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as RS
-from rsudp import printM
+from rsudp import printM, printW, printE
 import rsudp
 import telegram as tg
 

@@ -10,7 +10,7 @@ from obspy.core.stream import Stream
 from obspy import read_inventory
 from obspy.geodetics.flinnengdahl import FlinnEngdahl
 from obspy.core.trace import Trace
-from rsudp import printM
+from rsudp import printM, printW, printE
 from requests.exceptions import HTTPError
 
 initd, sockopen = False, False
@@ -73,10 +73,10 @@ def handler(signum, frame, ip=ip):
 	:raise IOError: on UNIX systems if no data is received
 	'''
 	global port
-	printM('ERROR: No data received in %s seconds; aborting.' % (to), sender='Init')
-	printM('       Check that the Shake is forwarding data to:', sender='Init')
-	printM('       IP address: %s    Port: %s' % (ip, port), sender='Init')
-	printM('       and that no firewall exists between the Shake and this computer.', sender='Init')
+	printE('No data received in %s seconds; aborting.' % (to), sender='Init')
+	printE('Check that the Shake is forwarding data to:', sender='Init', announce=False, spaces=True)
+	printE('IP address: %s    Port: %s' % (ip, port), sender='Init', announce=False, spaces=True)
+	printE('and that no firewall exists between the Shake and this computer.', sender='Init', announce=False, spaces=True)
 	raise IOError('No data received')
 
 
@@ -118,36 +118,32 @@ def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 			port = int(dport)
 		else:
 			port = int(dport)
-			printM('WARNING: Supplied port value was converted to integer. Non-integer port numbers are invalid.')
-	except ValueError as e:
-		printM('ERROR: You likely supplied a non-integer as the port value. Your value: %s'
-				% dport)
-		printM('Error details: %s' % e)
+			printW('Supplied port value was converted to integer. Non-integer port numbers are invalid.')
 	except Exception as e:
-		printM('ERROR. Details: ' + e)
+		printE('Details - %s' % e)
 
 	try:						# set station name
 		if len(rsstn) == 5:
 			stn = str(rsstn).upper()
 		else:
 			stn = str(rsstn).upper()
-			printM('WARNING: Station name does not follow Raspberry Shake naming convention.')
+			printW('Station name does not follow Raspberry Shake naming convention.')
 	except ValueError as e:
-		printM('ERROR: Invalid station name supplied.')
-		printM('Error details: %s' % e)
+		printE('Invalid station name supplied. Details: %s' % e)
+		printE('reverting to station name Z0000', announce=False, spaces=True)
 	except Exception as e:
-		printM('ERROR. Details:' % e)
+		printE('Details - %s' % e)
 	
 	try:						# set timeout value 
 		to = int(timeout)
 	except ValueError as e:
-		printM('ERROR: You likely supplied a non-integer as the timeout value. Your value was: %s'
+		printW('You likely supplied a non-integer as the timeout value. Your value was: %s'
 				% timeout)
-		printM('       Continuing with default timeout of %s sec'
-				% (to))
-		printM('Error details: %s' % e)
+		printW('Continuing with default timeout of %s sec'
+				% (to), announce=False, spaces=True)
+		printW('details: %s' % e, announce=False, spaces=True)
 	except Exception as e:
-		printM('ERROR. Details: ' + e)
+		printE('Details - %s' % e)
 
 	initd = True				# if initialization goes correctly, set initd to true
 	openSOCK()					# open a socket
@@ -177,8 +173,8 @@ def openSOCK(host=''):
 			sock.bind((host, port))
 			sockopen = True
 		except Exception as e:
-			printM('ERROR:  Could not bind to port. Is another program using it?')
-			printM('Detail: %s' % e)
+			printE('Could not bind to port %s. Is another program using it?' % port)
+			printE('Detail: %s' % e, announce=False)
 			raise OSError(e)
 	else:
 		raise IOError("Before opening a socket, you must initialize this raspberryshake library by calling initRSlib(dport=XXXXX, rssta='R0E05') first.")
@@ -490,7 +486,7 @@ def get_inventory(sender='get_inventory'):
 	global inv, stn, region
 	sender = 'get_inventory'
 	if 'Z0000' in stn:
-		printM('No station name given, continuing without inventory.',
+		printW('No station name given, continuing without inventory.',
 				sender)
 		inv = False
 	else:
@@ -503,15 +499,15 @@ def get_inventory(sender='get_inventory'):
 			region = FlinnEngdahl().get_region(inv[0][0].longitude, inv[0][0].latitude)
 			printM('Inventory fetch successful. Station region is %s' % (region), sender)
 		except (IndexError, HTTPError):
-			printM('WARNING: No inventory found for %s. Are you forwarding your Shake data?' % stn, sender)
-			printM('         Deconvolution will only be available if data forwarding is on.', sender)
-			printM('         Access the config page of the web front end for details.', sender)
-			printM('         More info at https://manual.raspberryshake.org/quickstart.html', sender)
+			printW('No inventory found for %s. Are you forwarding your Shake data?' % stn, sender)
+			printW('Deconvolution will only be available if data forwarding is on.', sender, spaces=True)
+			printW('Access the config page of the web front end for details.', sender, spaces=True)
+			printW('More info at https://manual.raspberryshake.org/quickstart.html', sender, spaces=True)
 			inv = False
 			region = False
 		except Exception as e:
-			printM('ERROR: Inventory fetch failed!', sender)
-			printM('       Error detail: %s' % e, sender)
+			printE('Inventory fetch failed!', sender)
+			printE('Error detail: %s' % e, sender, spaces=True)
 			inv = False
 			region = False
 	return inv
@@ -554,12 +550,12 @@ def make_trace(d):
 				tr.attach_response(inv)
 			except:
 				if producer:
-					printM('ERROR: Could not attach inventory response.')
-					print('                           Are you sure you set the station name correctly?')
-					print('                           This could indicate a mismatch in the number of data channels')
-					print('                           between the inventory and the stream. For example,')
-					print('                           if you are receiving RS4D data, please make sure')
-					print('                           the inventory you download has 4 channels.')
+					printE('Could not attach inventory response.')
+					printE('Are you sure you set the station name correctly?', spaces=True)
+					printE('This could indicate a mismatch in the number of data channels', spaces=True)
+					printE('between the inventory and the stream. For example,', spaces=True)
+					printE('if you are receiving RS4D data, please make sure', spaces=True)
+					printE('the inventory you download has 4 channels.', spaces=True)
 				producer = False
 		return tr
 

@@ -167,17 +167,15 @@ or one atop unconsolidated sediment:
 
     "alert": {
         "enabled": true,
-        "highpass": 0.8,
-        "lowpass": 9,
-        "deconvolve": false,
-        "units": "VEL",
+        "channel": "HZ",
         "sta": 6,
         "lta": 30,
         "threshold": 4.5,
         "reset": 0.5,
-        "exec": "eqAlert",
-        "channel": "HZ",
-        "win_override": false},
+        "highpass": 0.8,
+        "lowpass": 9,
+        "deconvolve": false,
+        "units": "VEL"},
 
 Quiet vault
 """""""""""""""""""""""""""""""""""
@@ -188,17 +186,15 @@ For a very quiet station placed atop bedrock:
 
     "alert": {
         "enabled": true,
-        "highpass": 0.8,
-        "lowpass": 9,
-        "deconvolve": false,
-        "units": "VEL",
+        "channel": "HZ",
         "sta": 6,
         "lta": 30,
         "threshold": 1,
         "reset": 0.2,
-        "exec": "eqAlert",
-        "channel": "HZ",
-        "win_override": false},
+        "highpass": 0.8,
+        "lowpass": 9,
+        "deconvolve": false,
+        "units": "VEL"},
 
 Classroom demonstrations
 """""""""""""""""""""""""""""""""""
@@ -209,17 +205,15 @@ For a classroom looking to detect jumps but not necessarily earthquakes:
 
     "alert": {
         "enabled": true,
-        "highpass": 0,
-        "lowpass": 50,
-        "deconvolve": false,
-        "units": "VEL",
+        "channel": "HZ",
         "sta": 6,
         "lta": 30,
-        "threshold": 1.7,
+        "threshold": 2.0,
         "reset": 1.6,
-        "exec": "eqAlert",
-        "channel": "HZ",
-        "win_override": false},
+        "highpass": 0,
+        "lowpass": 50
+        "deconvolve": false,
+        "units": "VEL"},
 
 Using :code:`"exec"`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -536,17 +530,15 @@ By default, the settings are as follows:
         "channels": ["all"]},
     "alert": {
         "enabled": true,
-        "highpass": 0,
-        "lowpass": 50,
-        "deconvolve": false,
-        "units": "VEL",
+        "channel": "HZ",
         "sta": 6,
         "lta": 30,
         "threshold": 1.7,
         "reset": 1.6,
-        "exec": "eqAlert",
-        "channel": "HZ",
-        "win_override": false},
+        "highpass": 0,
+        "lowpass": 50,
+        "deconvolve": false,
+        "units": "VEL"},
     "alertsound": {
         "enabled": false,
         "mp3file": "doorbell"},

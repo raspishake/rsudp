@@ -247,7 +247,7 @@ If alarmsound's :json:`"enabled"` is :json:`true` and you have either :bash:`ffm
 :class:`rsudp.c_alertsound.AlertSound` plays an MP3 sound every time it receives an :code:`ALARM` queue message.
 For details on installation of these dependencies, see |pydub_deps|.
 
-The software will install several small MP3 files.
+The rsudp software will install several small MP3 files.
 The :json:`"mp3file"` is :json:`"doorbell"` (two doorbell chimes) by default,
 but there are a few more aggressive alert sounds, including: a three-beep sound :json:`"beeps"`,
 a sequence of sonar pings :json:`"sonar"`,
@@ -324,8 +324,8 @@ Following steps 1-8 in |ffmpeg_win| should be sufficient to get things working.
 used by several earthquake notification agencies including the
 Mexican national early warning system (|sasmex|, |sasmex_telegram|).
 It has the bonus of being much, much easier to set up than Twitter,
-and will not lock your account out if there happen to be many posts in a short time period
-(whereas Twitter will).
+and will not as readily lock your account if there happen to be many posts in a short time period
+(in comparison to Twitter).
 
 If :json:`"enabled"` is :json:`true`, and bot :json:`"token"` key is correctly entered,
 :class:`rsudp.c_telegram.Telegrammer` will use the Telegram bot API to create alerts when an :code:`ALARM` message arrives on the queue.
@@ -373,11 +373,11 @@ This chat ID may be negative, in which case you must enter the negative sign int
 :code:`tweets` (Twitter notification module)
 *************************************************
 
-If "enabled" is true, and all API keys have been generated and are correctly entered,
+If :json:`"enabled"` is :json:`true`, and all API keys have been generated and are correctly entered,
 then the :class:`rsudp.c_tweet.Tweeter` class will use the Twitter API to
 create tweets when an ALARM message arrives on the queue.
-If "tweet_images" is true, then the module will also tweet a saved image of the event,
-if "eq_screenshots" is set to :json:`true` in the "plot" module.
+If :json:`"tweet_images"` is :json:`true`, then the module will also tweet a saved image of the event,
+if :json:`"eq_screenshots"` is set to :json:`true` in the "plot" module.
 
 .. _setting-up-twitter:
 

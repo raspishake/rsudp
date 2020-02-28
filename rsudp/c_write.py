@@ -28,7 +28,7 @@ class Write(Thread):
 		if q:
 			self.queue = q
 		else:
-			printM('ERROR: no queue passed to consumer! Thread will exit now!', self.sender)
+			printE('no queue passed to consumer! Thread will exit now!', self.sender)
 			sys.stdout.flush()
 			sys.exit()
 

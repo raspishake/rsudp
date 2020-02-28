@@ -84,7 +84,7 @@ class Tweeter(Thread):
 		if q:
 			self.queue = q
 		else:
-			printM('ERROR: no queue passed to consumer! Thread will exit now!', self.sender)
+			printE('no queue passed to consumer! Thread will exit now!', self.sender)
 			sys.stdout.flush()
 			self.alive = False
 			sys.exit()
@@ -145,9 +145,9 @@ class Tweeter(Thread):
 					printM('Tweet URL: %s' % url)
 
 				except Exception as e:
-					printM('ERROR: could not send alert tweet - %s' % (e))
+					printE('could not send alert tweet - %s' % (e))
 					try:
-						printM('Waiting 5 seconds and trying to send tweet again...', sender=self.sender)
+						printE('Waiting 5 seconds and trying to send tweet again...', sender=self.sender, spaces=True)
 						time.sleep(5.1)
 						self.auth()
 						response = self.twitter.update_status(status=message, lat=RS.inv[0][0].latitude,
@@ -159,7 +159,7 @@ class Tweeter(Thread):
 						url = 'https://twitter.com/%s/status/%s' % (response['user']['screen_name'], response['id_str'])
 						printM('Tweet URL: %s' % url)
 					except Exception as e:
-						printM('ERROR: could not send alert tweet - %s' % (e))
+						printE('could not send alert tweet - %s' % (e))
 						response = None
 
 
@@ -187,7 +187,7 @@ class Tweeter(Thread):
 								url = 'https://twitter.com/%s/status/%s' % (response['user']['screen_name'], response['id_str'])
 								printM('Tweet URL: %s' % url)
 							except Exception as e:
-								printM('ERROR: could not send multimedia tweet - %s' % (e))
+								printE('could not send multimedia tweet - %s' % (e))
 								try:
 									printM('Waiting 5 seconds and trying to send tweet again...', sender=self.sender)
 									time.sleep(5.1)
@@ -208,7 +208,7 @@ class Tweeter(Thread):
 									printM('Tweet URL: %s' % url)
 
 								except Exception as e:
-									printM('ERROR: could not send alert tweet - %s' % (e))
+									printE('could not send multimedia tweet (2nd try) - %s' % (e))
 									response = None
 
 					else:

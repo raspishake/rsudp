@@ -52,7 +52,7 @@ class Telegrammer(Thread):
 		if q:
 			self.queue = q
 		else:
-			printM('ERROR: no queue passed to consumer! Thread will exit now!', self.sender)
+			printE('no queue passed to consumer! Thread will exit now!', self.sender)
 			sys.stdout.flush()
 			self.alive = False
 			sys.exit()
@@ -97,16 +97,16 @@ class Telegrammer(Thread):
 					printM('Sent Telegram: %s' % (message), sender=self.sender)
 
 				except Exception as e:
-					printM('ERROR: could not send alert - %s' % (e))
+					printE('could not send alert - %s' % (e))
 					try:
-						printM('Waiting 5 seconds and trying to send again...', sender=self.sender)
+						printE('Waiting 5 seconds and trying to send again...', sender=self.sender, spaces=True)
 						time.sleep(5)
 						self.auth()
 						response = self.telegram.sendMessage(chat_id=self.chat_id, text=message)
 						print()
 						printM('Sent Telegram: %s' % (message), sender=self.sender)
 					except Exception as e:
-						printM('ERROR: could not send alert - %s' % (e))
+						printE('could not send alert - %s' % (e))
 						response = None
 
 
@@ -123,7 +123,7 @@ class Telegrammer(Thread):
 								print()
 								printM('Sent image', sender=self.sender)
 							except Exception as e:
-								printM('ERROR: could not send photo - %s' % (e))
+								printE('could not send image - %s' % (e))
 								try:
 									printM('Waiting 5 seconds and trying to send again...', sender=self.sender)
 									time.sleep(5.1)
@@ -134,7 +134,7 @@ class Telegrammer(Thread):
 									printM('Sent image', sender=self.sender)
 
 								except Exception as e:
-									printM('ERROR: could not send alert - %s' % (e))
+									printE('could not send image - %s' % (e))
 									response = None
 
 					else:

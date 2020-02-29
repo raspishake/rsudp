@@ -58,7 +58,7 @@ class Custom(Thread):
 			else:
 				printW('No python file exists at %s. No custom code will be run during alarms.' % codefile, sender=self.sender)
 		else:
-			printM('WARNING: No custom code file set. No custom code will be run during alarms.', sender=self.sender)
+			printW('No custom code file set. No custom code will be run during alarms.', sender=self.sender)
 
 		if (os.name in 'nt') and (not self.win_ovr):
 			printE('Using Windows with custom alert code! Your code MUST have UNIX/Mac newline characters!')

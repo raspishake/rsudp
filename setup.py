@@ -22,6 +22,7 @@ setuptools.setup(
         'console_scripts': [
             'rs-packetloss=rsudp.packetloss:main',
             'rs-client=rsudp.client:main',
+            'rs-test=rsudp.test:main',
             ],
     },
     classifiers=[

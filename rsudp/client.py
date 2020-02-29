@@ -6,7 +6,8 @@ import json
 import re
 import logging
 from queue import Queue
-from rsudp import printM, printW, printE, default_loc, init_dirs, output_dir, add_debug_handler, COLOR
+from rsudp import printM, printW, printE, default_loc, init_dirs, output_dir, add_debug_handler, start_logging
+from rsudp import COLOR, TESTING
 import rsudp.raspberryshake as RS
 from rsudp.c_consumer import Consumer
 from rsudp.p_producer import Producer
@@ -28,17 +29,88 @@ except ImportError:
 	pydub_exists = False
 
 
+DESTINATIONS, THREADS = [], []
+PROD = False
+PLOTTER = False
+SOUND = False
+
 def handler(sig, frame):
 	'''
 	Function passed to :py:func:`signal.signal` to handle close events
 	'''
 	RS.producer = False
 
+def _xit():
+	sys.exit(0)
+
+def mk_q():
+	'''
+	Makes a queue and appends it to the :py:data:`destinations`
+	variable to be passed to the master consumer thread
+	:py:class:`rsudp.c_consumer.Consumer`.
+
+	:rtype: queue.Queue
+	:return: Returns the queue to pass to the sub-consumer.
+	'''
+	q = Queue(RS.qsize)
+	DESTINATIONS.append(q)
+	return q
+
+def mk_p(proc):
+	'''
+	Appends a process to the list of threads to start and stop.
+
+	:param threading.Thread proc: The process thread to append to the list of threads.
+	'''
+	THREADS.append(proc)
+
+
+def start(settings, threads=THREADS, destinations=DESTINATIONS):
+	'''
+	Start Consumer, Threads, and Producer.
+
+	:param list threads: list of :py:class:`threading.Thread` objects to start
+	:param list destinations: list of :py:class:`queue.Queue` objects to pass to :py:class:`rsudp.c_consumer.Consumer` for data distribution
+	'''
+	global PROD
+	# master queue and consumer
+	queue = Queue(RS.qsize)
+	cons = Consumer(queue, destinations)
+	cons.start()
+
+	for thread in threads:
+		thread.start()
+
+	PROD = Producer(queue, threads)
+	PROD.start()
+
+	if settings['plot']['enabled'] and mpl:
+		# give the plotter the master queue
+		# so that it can issue a TERM signal if closed
+		PLOTTER.master_queue = queue
+		# start plotting (in this thread, not a separate one)
+		PLOTTER.run()
+	else:
+		if not TESTING:
+			while not PROD.stop:
+				time.sleep(0.1) # wait until processes end
+
+			time.sleep(0.5) # give threads time to exit
+
+			printM('Shutdown successful.', 'Main')
+			print()
+			_xit()
+
+
 def run(settings, debug):
 	'''
 	Main setup function. Takes configuration values and passes them to
 	the appropriate threads and functions.
+
+	:param dict settings: settings dictionary (see :ref:`defaults` for guidance)
+	:param bool debug: whether or not to show debug output (should be turned off if starting as daemon)
 	'''
+	global PLOTTER, SOUND
 	# handler for the exit signal
 	signal.signal(signal.SIGINT, handler)
 
@@ -48,28 +120,6 @@ def run(settings, debug):
 
 	output_dir = settings['settings']['output_dir']
 
-	destinations, threads = [], []
-
-	def mk_q():
-		'''
-		Makes a queue and appends it to the :py:data:`destinations`
-		variable to be passed to the master consumer thread
-		:py:class:`rsudp.c_consumer.Consumer`.
-
-		:rtype: queue.Queue
-		:return: Returns the queue to pass to the sub-consumer.
-		'''
-		q = Queue(RS.qsize)
-		destinations.append(q)
-		return q
-
-	def mk_p(proc):
-		'''
-		Appends a process to the list of threads to start and stop.
-
-		:param threading.Thread proc: The process thread to append to the list of threads.
-		'''
-		threads.append(proc)
 
 	if settings['printdata']['enabled']:
 		# set up queue and process
@@ -103,7 +153,7 @@ def run(settings, debug):
 		else:
 			deconv = False
 		pq = mk_q()
-		Plotter = Plot(cha=cha, seconds=sec, spectrogram=spec,
+		PLOTTER = Plot(cha=cha, seconds=sec, spectrogram=spec,
 						fullscreen=full, kiosk=kiosk, deconv=deconv, q=pq,
 						screencap=screencap, alert=alert)
 		# no mk_p() here because the plotter must be controlled by the main thread (this one)
@@ -140,22 +190,22 @@ def run(settings, debug):
 
 	if settings['alertsound']['enabled']:
 		sender = 'AlertSound'
-		sound = False
+		SOUND = False
 		if pydub_exists:
 			soundloc = os.path.expanduser(os.path.expanduser(settings['alertsound']['mp3file']))
 			if soundloc in ['doorbell', 'alarm', 'beeps', 'sonar']:
 				soundloc = pr.resource_filename('rsudp', os.path.join('rs_sounds', '%s.mp3' % soundloc))
 			if os.path.exists(soundloc):
 				try:
-					sound = AudioSegment.from_file(soundloc, format="mp3")
-					printM('Loaded %.2f sec alert sound from %s' % (len(sound)/1000., soundloc), sender='AlertSound')
+					SOUND = AudioSegment.from_file(soundloc, format="mp3")
+					printM('Loaded %.2f sec alert sound from %s' % (len(SOUND)/1000., soundloc), sender='AlertSound')
 				except FileNotFoundError as e:
 					printW("You have chosen to play a sound, but don't have ffmpeg or libav installed.", sender='AlertSound')
 					printW('Sound playback requires one of these dependencies.', sender='AlertSound', spaces=True)
 					printW("To install either dependency, follow the instructions at:", sender='AlertSound', spaces=True)
 					printW('https://github.com/jiaaro/pydub#playback', sender='AlertSound', spaces=True)
 					printW('The program will now continue without sound playback.', sender='AlertSound', spaces=True)
-					sound = False
+					SOUND = False
 			else:
 				printW("The file %s could not be found." % (soundloc), sender='AlertSound')
 				printW('The program will now continue without sound playback.', sender='AlertSound', spaces=True)
@@ -166,7 +216,7 @@ def run(settings, debug):
 			printW('Sound playback also requires you to install either ffmpeg or libav.', sender='AlertSound', spaces=True)
 
 		q = mk_q()
-		alsnd = AlertSound(q=q, sound=sound, soundloc=soundloc)
+		alsnd = AlertSound(q=q, sound=SOUND, soundloc=soundloc)
 		mk_p(alsnd)
 
 	runcustom = False
@@ -216,35 +266,10 @@ def run(settings, debug):
 							   send_images=send_images)
 		mk_p(telegram)
 
+	if not TESTING:
+		# start the producer, consumer, and activated modules
+		start(settings, THREADS, DESTINATIONS)
 
-
-	# master queue and consumer
-	queue = Queue(RS.qsize)
-	cons = Consumer(queue, destinations)
-	cons.start()
-
-	for thread in threads:
-		thread.start()
-
-	prod = Producer(queue, threads)
-	prod.start()
-
-	if settings['plot']['enabled'] and mpl:
-		# give the plotter the master queue
-		# so that it can issue a TERM signal if closed
-		Plotter.master_queue = queue
-		# start plotting (in this thread, not a separate one)
-		Plotter.run()
-	else:
-		while not prod.stop:
-			time.sleep(0.1) # wait until processes end
-
-
-	time.sleep(0.5) # give threads time to exit
-
-	printM('Shutdown successful.', 'Main')
-	print()
-	sys.exit()
 
 def dump_default(settings_loc, default_settings):
 	'''
@@ -253,51 +278,18 @@ def dump_default(settings_loc, default_settings):
 	:param str settings_loc: The location to create the new settings JSON.
 	:param str default_settings: The default settings to dump to file.
 	'''
-	print('Creating a default settings file at %s' % settings_loc)
+	if not TESTING:
+		print('Creating a default settings file at %s' % settings_loc)
 	with open(settings_loc, 'w+') as f:
 		f.write(default_settings)
 		f.write('\n')
 
+	if TESTING:
+		return True
 
-def main():
-	'''
-	Loads settings to start the main client.
-	Supply -h to see help text.
-	'''
-	settings_loc = os.path.join(default_loc, 'rsudp_settings.json').replace('\\', '/')
 
-	hlp_txt='''
-###########################################
-##     R A S P B E R R Y  S H A K E      ##
-##           UDP Data Library            ##
-##            by Ian Nesbitt             ##
-##            GNU GPLv3 2019             ##
-##                                       ##
-## Do various tasks with Shake data      ##
-## like plot, trigger alerts, and write  ##
-## to miniSEED.                          ##
-##                                       ##
-##  Requires:                            ##
-##  - numpy, obspy, matplotlib 3, pydub  ##
-##                                       ##
-###########################################
-
-Usage: rs-client [ OPTIONS ]
-where OPTIONS := {
-    -h | --help
-            display this help message
-    -d | --dump=default or /path/to/settings/json
-            dump the default settings to a JSON-formatted file
-    -s | --settings=/path/to/settings/json
-            specify the path to a JSON-formatted settings file
-    }
-
-rs-client with no arguments will start the program with
-settings in %s
-''' % settings_loc
-
-	def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\', '/'), verbose=True):
-		def_settings = r"""{
+def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\', '/'), verbose=True):
+	def_settings = r"""{
 "settings": {
     "port": 8888,
     "station": "Z0000",
@@ -356,9 +348,48 @@ settings in %s
 }
 
 """ % (output_dir)
-		if verbose:
-			print('By default output_dir is set to %s' % output_dir)
-		return def_settings
+	if verbose:
+		print('By default output_dir is set to %s' % output_dir)
+	return def_settings
+
+
+def main():
+	'''
+	Loads settings to start the main client.
+	Supply -h to see help text.
+	'''
+	settings_loc = os.path.join(default_loc, 'rsudp_settings.json').replace('\\', '/')
+
+	hlp_txt='''
+###########################################
+##     R A S P B E R R Y  S H A K E      ##
+##           UDP Data Library            ##
+##            by Ian Nesbitt             ##
+##            GNU GPLv3 2019             ##
+##                                       ##
+## Do various tasks with Shake data      ##
+## like plot, trigger alerts, and write  ##
+## to miniSEED.                          ##
+##                                       ##
+##  Requires:                            ##
+##  - numpy, obspy, matplotlib 3, pydub  ##
+##                                       ##
+###########################################
+
+Usage: rs-client [ OPTIONS ]
+where OPTIONS := {
+    -h | --help
+            display this help message
+    -d | --dump=default or /path/to/settings/json
+            dump the default settings to a JSON-formatted file
+    -s | --settings=/path/to/settings/json
+            specify the path to a JSON-formatted settings file
+    }
+
+rs-client with no arguments will start the program with
+settings in %s
+''' % settings_loc
+
 
 	settings = json.loads(default_settings(verbose=False))
 
@@ -429,6 +460,7 @@ settings in %s
 				print()
 				exit(2)
 
+	start_logging()
 	debug = settings['settings']['debug']
 	if debug:
 		add_debug_handler()

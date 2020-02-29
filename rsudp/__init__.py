@@ -12,9 +12,17 @@ os.makedirs(default_loc, exist_ok=True)
 log_dir = os.path.abspath('/tmp/rsudp')
 os.makedirs(log_dir, exist_ok=True)
 
+# formatter settings
+logging.Formatter.converter = gmtime
+LOG = logging.getLogger('main')
+LOGFORMAT = '%(asctime)-15s %(msg)s'
+TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+
 output_dir = False
 data_dir = False
 scap_dir = False
+
+TESTING = False
 
 COLOR = {
 	'purple': '\033[95m',
@@ -26,6 +34,9 @@ COLOR = {
 	'bold': "\033[1m"
 }
 
+def test_mode(mode):
+	global TESTING
+	TESTING = mode
 
 def init_dirs(odir):
 	'''
@@ -46,6 +57,9 @@ def init_dirs(odir):
 		print(COLOR['red'] + 'More info: %s' + COLOR['white'] % e)
 		exit(2)
 
+	if TESTING:
+		return True
+
 
 class LevelFormatter(logging.Formatter):
 	def __init__(self, fmt=None, datefmt=None, level_fmts={}):
@@ -61,24 +75,27 @@ class LevelFormatter(logging.Formatter):
 			return self._level_formatters[record.levelno].format(record)
 		return super(LevelFormatter, self).format(record)
 
+def start_logging():
+	global LOG, LOGFORMAT
+	LOG.setLevel('INFO')
+	# logging formatters
+	
+	if TESTING:
+		LOGFORMAT = '%(asctime)-15s TESTING %(msg)s'
 
-# set time formatter type
-logging.Formatter.converter = gmtime
+	formatter = logging.Formatter(fmt=LOGFORMAT, datefmt=TIME_FORMAT)
 
-log = logging.getLogger('main')
-log.setLevel('INFO')
-# logging formatters
-TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
-logformat = '%(asctime)-15s %(msg)s'
-formatter = logging.Formatter(fmt=logformat, datefmt=TIME_FORMAT)
+	# this initializes logging to file
+	f = logging.FileHandler(os.path.join(log_dir, 'rsudp.log'))
+	f.setLevel('INFO')
+	f.setFormatter(formatter)
+	# warnings also go to file
+	# initialize logging
+	LOG.addHandler(f)
+	printM('Logging for test module initialized successfully.', sender='Init')
+	if TESTING:
+		return True
 
-# this initializes logging to file
-f = logging.FileHandler(os.path.join(log_dir, 'rsudp.log'))
-f.setLevel('INFO')
-f.setFormatter(formatter)
-# warnings also go to file
-# initialize logging
-log.addHandler(f)
 
 
 def add_debug_handler():
@@ -86,12 +103,12 @@ def add_debug_handler():
 	Creates an additional handler for logging info and warnings to the command line.
 	'''
 	# terminal formats
-	termformat = '\x1b[2K\r' + logformat		# note '\x1b[2K' erases current line and \r returns to home
+	termformat = '\x1b[2K\r' + LOGFORMAT		# note '\x1b[2K' erases current line and \r returns to home
 	# warning format
-	warnformat = '\x1b[2K\r' + COLOR['yellow'] + logformat + COLOR['white']
+	warnformat = '\x1b[2K\r' + COLOR['yellow'] + LOGFORMAT + COLOR['white']
 	# error format
-	failformat = '\x1b[2K\r' + COLOR['red'] + logformat + COLOR['white']
-	termformatter = LevelFormatter(fmt=logformat,
+	failformat = '\x1b[2K\r' + COLOR['red'] + LOGFORMAT + COLOR['white']
+	termformatter = LevelFormatter(fmt=LOGFORMAT,
 								   datefmt=TIME_FORMAT,
 								   level_fmts={logging.INFO: termformat,
 											   logging.WARNING: warnformat,
@@ -100,6 +117,8 @@ def add_debug_handler():
 	s.setLevel('INFO')
 	s.setFormatter(termformatter)
 	logging.getLogger('main').addHandler(s)
+	if TESTING:
+		return True
 
 
 
@@ -114,7 +133,7 @@ def printM(msg, sender=''):
 	:param str sender: the name of the class or function sending the message
 	'''
 	msg = '[%s] %s' % (sender, msg) if sender != '' else msg
-	log.info(msg)
+	LOG.info(msg)
 
 def printW(msg, sender='', announce=True, spaces=False):
 	'''
@@ -135,7 +154,7 @@ def printW(msg, sender='', announce=True, spaces=False):
 			msg = '[%s]          %s' % (sender, msg) if sender != '' else msg
 		else:
 			msg = '[%s] %s' % (sender, msg) if sender != '' else msg
-	log.warning(msg)
+	LOG.warning(msg)
 
 def printE(msg, sender='', announce=True, spaces=False):
 	'''
@@ -156,4 +175,4 @@ def printE(msg, sender='', announce=True, spaces=False):
 			msg = '[%s]       %s' % (sender, msg) if sender != '' else msg
 		else:
 			msg = '[%s] %s' % (sender, msg) if sender != '' else msg
-	log.error(msg)
+	LOG.error(msg)

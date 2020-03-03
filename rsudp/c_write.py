@@ -53,6 +53,7 @@ class Write(Thread):
 		self.inv = RS.inv
 		self.alarm = False			# don't touch this
 		self.alarm_reset = False	# don't touch this
+
 		printM('Starting.', self.sender)
 
 	def getq(self):

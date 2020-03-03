@@ -91,15 +91,19 @@ def start(settings, threads=THREADS, destinations=DESTINATIONS):
 		# start plotting (in this thread, not a separate one)
 		PLOTTER.run()
 	else:
-		if not TESTING:
-			while not PROD.stop:
-				time.sleep(0.1) # wait until processes end
+		while not PROD.stop:
+			time.sleep(0.1) # wait until processes end
 
-			time.sleep(0.5) # give threads time to exit
+	time.sleep(0.5) # give threads time to exit
+	PROD.stop = True
 
-			printM('Shutdown successful.', 'Main')
-			print()
-			_xit()
+	printM('Shutdown successful.', 'Main')
+	if not TESTING:
+		print()
+		_xit()
+	else:
+		for thread in threads:
+			print(thread.sender + ' alive: ' + str(thread.alive))
 
 
 def run(settings, debug):

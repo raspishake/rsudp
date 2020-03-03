@@ -105,7 +105,6 @@ class Plot:
 			sys.exit()
 
 		self.master_queue = None	# careful with this, this goes directly to the master consumer. gets set by main thread.
-		printM('Starting.', self.sender)
 
 		self.stream = RS.Stream()
 		self.raw = RS.Stream()
@@ -171,6 +170,8 @@ class Plot:
 		self.bgcolor = '#202530' # background
 		self.fgcolor = '0.8' # axis and label color
 		self.linecolor = '#c28285' # seismogram color
+
+		printM('Starting.', self.sender)
 
 	def deconvolve(self):
 		'''

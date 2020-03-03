@@ -25,13 +25,14 @@ class Producer(Thread):
 		super().__init__()
 
 		self.sender = 'Producer'
-		printM('Starting.', self.sender)
 		self.queue = queue
 		self.threads = threads
 		self.stop = False
 
 		self.firstaddr = ''
 		self.blocked = []
+
+		printM('Starting.', self.sender)
 
 	def run(self):
 		"""
@@ -47,6 +48,9 @@ class Producer(Thread):
 				printM('Receiving UDP data from %s' % (self.firstaddr), self.sender)
 			if (self.firstaddr != '') and (addr[0] == self.firstaddr):
 				self.queue.put(data)
+				if data.decode('utf-8') == 'TERM':
+					RS.producer = False
+					self.stop = True
 			else:
 				if addr[0] not in self.blocked:
 					printM('Another IP (%s) is sending UDP data to this port. Ignoring...'
@@ -71,8 +75,8 @@ class Producer(Thread):
 				RS.producer = False
 				break
 
-		print()
 		printM('Sending TERM signal to threads...', self.sender)
 		self.queue.put(b'TERM')
 		self.queue.join()
 		self.stop = True
+		sys.exit()

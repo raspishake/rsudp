@@ -22,10 +22,11 @@ class Consumer(Thread):
 		super().__init__()
 
 		self.sender = 'Consumer'
-		printM('Starting.', self.sender)
 		self.queue = queue
 		self.destinations = destinations
 		self.running = True
+
+		printM('Starting.', self.sender)
 
 	def run(self):
 		"""
@@ -43,6 +44,8 @@ class Consumer(Thread):
 
 				if 'TERM' in str(p):
 					printM('Exiting.', self.sender)
-					sys.exit()
+					break
 		except Exception as e:
 			return e
+
+		sys.exit()

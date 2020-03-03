@@ -1,7 +1,7 @@
 import os, sys
 from threading import Thread, Timer
 import socket as s
-from rsudp import printM, printE
+from rsudp import printM, printW
 import rsudp.raspberryshake as rs
 import time
 from queue import Empty
@@ -13,7 +13,7 @@ class TestData(Thread):
 	'''
 	def __init__(self, q, data_file, port):
 		"""
-		Initializes the custom code execution thread.
+		Initializes the data supplier thread.
 		"""
 		super().__init__()
 		self.sender = 'TestData'
@@ -26,29 +26,32 @@ class TestData(Thread):
 		self.sock = False
 		self.alive = True
 
+		printW('Sending test data from %s' % self.data_file, sender=self.sender, announce=False)
+
 	def send(self):
 		'''
 
 		'''
 		l = self.f.readline()
-
-		if 'TERM' in str(l):
-			self.sock.sendto('TERM', (self.addr, self.port))
-			printM('End of file. Exiting.', self.sender)
+		if ('TERM' in l.decode('utf-8')) or (l.decode('utf-8') == ''):
+			self.sock.sendto(b'TERM', (self.addr, self.port))
+			printM('End of file.', self.sender)
 			self.f.close()
-			sys.exit()
+			self.alive = False
+		else:
+			ts = rs.getTIME(l)
+			self.sock.sendto(l, (self.addr, self.port))
 
-		ts = rs.getTIME(l)
-		self.sock.sendto(l, (self.addr, self.port))
-
-		while True:
-			self.pos = self.f.tell()
-			l = self.f.readline()
-			if rs.getTIME(l) == ts:
-				self.sock.sendto(l, (self.addr, self.port))
-			else:
-				self.f.seek(self.pos)
-				break
+			while True:
+				self.pos = self.f.tell()
+				l = self.f.readline()
+				if 'TERM' in l.decode('utf-8'):
+					break
+				if rs.getTIME(l) == ts:
+					self.sock.sendto(l, (self.addr, self.port))
+				else:
+					self.f.seek(self.pos)
+					break
 
 
 	def run(self):
@@ -66,23 +69,23 @@ class TestData(Thread):
 
 		self.speed = rs.getTIME(l2) - rs.getTIME(l)
 
-		printM('Opening test socket...', sender=self.sender)
+		printW('Opening test socket...', sender=self.sender, announce=False)
 		socket_type = s.SOCK_DGRAM if os.name in 'nt' else s.SOCK_DGRAM | s.SO_REUSEADDR
 		self.sock = s.socket(s.AF_INET, socket_type)
 
-		printM('Sending data to %s:%s every %s seconds' % (self.addr, self.port, self.speed),
-			   sender=self.sender)
+		printW('Sending data to %s:%s every %s seconds' % (self.addr, self.port, self.speed),
+			   sender=self.sender, announce=False)
 
 		while True:
 			try:
 				q = self.queue.get_nowait()
 				self.queue.task_done()
-				if 'ENDTEST' in q:
-					printM('End of test. Exiting.', self.sender)
-					self.f.close()
-					break
+				printW('Exiting.', self.sender, announce=False)
+				break
 			except Empty:
-				self.send()
+				if self.alive:
+					self.send()
 				time.sleep(self.speed)
 
-
+		self.alive = False
+		sys.exit()

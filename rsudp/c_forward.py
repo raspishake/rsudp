@@ -25,7 +25,6 @@ class Forward(Thread):
 		super().__init__()
 
 		self.sender = 'Forward'
-		printM('Starting.', self.sender)
 		self.queue = q
 		self.addr = addr
 		self.port = port
@@ -45,6 +44,8 @@ class Forward(Thread):
 		self.alarm_reset = False	# don't touch this
 		self.running = True
 		self.alive = True
+
+		printM('Starting.', self.sender)
 
 	def run(self):
 		"""

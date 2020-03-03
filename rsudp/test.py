@@ -11,11 +11,12 @@ import json
 import time
 import pkg_resources as pr
 
+SENDER = 'test.py'
 TEST = {
 	# permissions
 	'p_log_dir':			['log directory               ', False],
+	'p_log_std':			['stdout logging              ', False],
 	'p_log_file':			['logging to file             ', False],
-	'p_log_std':			['logging stdout              ', False],
 	'p_output_dirs':		['output directory structure  ', False],
 	'p_screenshot_dir':		['screenshot directory        ', False],
 	'p_data_dir':			['data directory              ', False],
@@ -36,7 +37,10 @@ TEST = {
 	'c_TERM':				['TERM message                ', False],
 }
 
-TRANS = {True: 'PASS', False: 'FAIL'}
+TRANS = {
+	True: COLOR['green'] + 'PASS' + COLOR['white'],
+	False: COLOR['red'] + 'FAIL' + COLOR['white']
+}
 
 PORT = 18888
 
@@ -164,8 +168,8 @@ def main():
 
 	# initialize the test data to read information from file and put it on the port
 	p = Queue()		# separate from client library because this is a private queue
-	tp = TestData(q=p, data_file=data, port=settings['settings']['port'])
-	tp.start()
+	tdata = TestData(q=p, data_file=data, port=settings['settings']['port'])
+	tdata.start()
 
 	# initialize standard modules
 	client.run(settings=settings, debug=True)
@@ -174,25 +178,31 @@ def main():
 	test = Testing(q=q, threads=client.THREADS, test=TEST)
 	client.mk_p(test)
 
-	TEST['d_pydub'][1] = client.SOUND
-
-
+	# run
 	client.start(settings)
 
-	while not client.PROD.stop:
-		time.sleep(0.1)	# if plotting is down, wait until processes end
+	printW('Client has exited, ending tests...', sender=SENDER, announce=False)
 
 	del client.PLOTTER	# necessary, not sure why
+
 	TEST = test.test
+	if client.SOUND:
+		TEST['d_pydub'][1] = True
+
 
 	# shut down the testing module
-	tp.queue.put('ENDTEST')
+	tdata.queue.put('ENDTEST')
 
-	time.sleep(0.5) # give threads time to exit
+	time.sleep(0.3) # give threads time to exit
 
-	printM('Shutdown successful.', 'test.py')
+	printW('Test finished.', sender=SENDER, announce=False)
 	print()
+	printM('Test results:')
+	for t in TEST:
+		printM('%s: %s' % (TEST[t][0],TRANS[TEST[t][1]]))
+
 	client._xit()
+	sys.exit()
 
 
 

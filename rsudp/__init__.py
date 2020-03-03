@@ -172,7 +172,7 @@ def printE(msg, sender='', announce=True, spaces=False):
 		msg = '[%s] ERROR: %s' % (sender, msg) if sender != '' else msg
 	else:
 		if spaces:
-			msg = '[%s]       %s' % (sender, msg) if sender != '' else msg
+			msg = '[%s]        %s' % (sender, msg) if sender != '' else msg
 		else:
 			msg = '[%s] %s' % (sender, msg) if sender != '' else msg
 	LOG.error(msg)

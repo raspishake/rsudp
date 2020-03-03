@@ -1,2 +1,3 @@
 include rsudp/rs_sounds/*.mp3
 include rsudp/img/*
+include rsudp/test/testdata

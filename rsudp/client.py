@@ -396,7 +396,7 @@ settings in %s
 	# get arguments
 	try:
 		opts = getopt.getopt(sys.argv[1:], 'hid:s:',
-			['help', 'install' 'dump=', 'settings=']
+			['help', 'install', 'dump=', 'settings=']
 			)[0]
 	except Exception as e:
 		print(COLOR['red'] + 'ERROR: %s' % e + COLOR['white'])
@@ -419,7 +419,7 @@ settings in %s
 					exit(2)
 
 	for o, a in opts:
-		if o in ('-h, --help'):
+		if o in ('-h', '--help'):
 			print(hlp_txt)
 			exit(0)
 		if o in ('-i', '--install'):

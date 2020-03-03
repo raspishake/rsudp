@@ -31,6 +31,9 @@ class Testing(Thread):
 			if 'TERM' in str(d):
 				printM('Got TERM message...', sender=self.sender)
 				self.test['c_TERM'][1] = True
+				self.alive = False
+				printM('Exiting.', self.sender)
+				break
 			elif 'ALARM' in str(d):
 				printM('Got ALARM message...', sender=self.sender)
 				self.test['c_ALARM'][1] = True
@@ -40,10 +43,6 @@ class Testing(Thread):
 			elif 'IMGPATH' in str(d):
 				printM('Got IMGPATH message...', sender=self.sender)
 				self.test['c_IMGPATH'][1] = True
-			elif 'ENDTEST' in str(d):
-				self.alive = False
-				printM('Exiting.', self.sender)
-				break
 
 
 		self.alive = False

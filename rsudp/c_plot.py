@@ -4,7 +4,7 @@ import time
 import math
 import numpy as np
 from datetime import datetime, timedelta
-import rsudp.raspberryshake as RS
+import rsudp.raspberryshake as rs
 from rsudp import printM, printW, printE
 import rsudp
 import linecache
@@ -106,14 +106,14 @@ class Plot:
 
 		self.master_queue = None	# careful with this, this goes directly to the master consumer. gets set by main thread.
 
-		self.stream = RS.Stream()
-		self.raw = RS.Stream()
-		self.stn = RS.stn
-		self.net = RS.net
+		self.stream = rs.Stream()
+		self.raw = rs.Stream()
+		self.stn = rs.stn
+		self.net = rs.net
 		self.chans = []
-		cha = RS.chns if (cha == 'all') else cha
+		cha = rs.chns if (cha == 'all') else cha
 		cha = list(cha) if isinstance(cha, str) else cha
-		l = RS.chns
+		l = rs.chns
 		for c in l:
 			n = 0
 			for uch in cha:
@@ -121,32 +121,23 @@ class Plot:
 					self.chans.append(c)
 				n += 1
 		if len(self.chans) < 1:
-			self.chans = RS.chns
+			self.chans = rs.chns
 		printM('Plotting channels: %s' % self.chans, self.sender)
-		self.totchns = RS.numchns
+		self.totchns = rs.numchns
 		self.seconds = seconds
-		self.pkts_in_period = RS.tr * RS.numchns * self.seconds	# theoretical number of packets received in self.seconds
+		self.pkts_in_period = rs.tr * rs.numchns * self.seconds	# theoretical number of packets received in self.seconds
 		self.spectrogram = spectrogram
 
-		self.deconv = deconv if (deconv == 'ACC') or (deconv == 'VEL') or (deconv == 'DISP') or (deconv == 'CHAN') else False
-		if self.deconv and RS.inv:
+		self.deconv = deconv if (deconv in rs.UNITS) else False
+		if self.deconv and rs.inv:
 			deconv = deconv.upper()
-			if self.deconv in 'ACC':
-				self.units = 'Acceleration'
-				self.unit = 'm/s$^2$'
-			if self.deconv in 'VEL':
-				self.units = 'Velocity'
-				self.unit = 'm/s'
-			if self.deconv in 'DISP':
-				self.units = 'Displacement'
-				self.unit = 'm'
-			if self.deconv in 'CHAN':
-				self.units = 'channel-specific'
-				self.unit = 'counts'
+			if self.deconv in rs.UNITS:
+				self.units = rs.UNITS[self.deconv][0]
+				self.unit = rs.UNITS[self.deconv][1]
 			printM('Signal deconvolution set to %s' % (self.deconv), self.sender)
 		else:
-			self.units = 'Voltage counts'
-			self.unit = ' counts'
+			self.units = rs.UNITS['CHAN'][0]
+			self.unit = rs.UNITS['CHAN'][1]
 			self.deconv = False
 		printM('Seismogram units are %s' % (self.units), self.sender)
 
@@ -155,7 +146,7 @@ class Plot:
 		self.kiosk = kiosk
 		self.qt = qt
 		self.num_chans = len(self.chans)
-		self.delay = RS.tr if (self.spectrogram) else 1
+		self.delay = rs.tr if (self.spectrogram) else 1
 		self.delay = 0.5 if (self.chans == ['SHZ']) else self.delay
 
 		self.screencap = screencap
@@ -177,7 +168,7 @@ class Plot:
 		'''
 		Send the streams to the central library deconvolve function.
 		'''
-		RS.deconvolve(self)
+		rs.deconvolve(self)
 
 	def getq(self):
 		'''
@@ -194,13 +185,13 @@ class Plot:
 			if 'SELF' in str(d):
 				printM('Plot has been closed, plot thread will exit.', self.sender)
 			self.alive = False
-			RS.producer = False
+			rs.producer = False
 
 		elif 'ALARM' in str(d):
 			self.events += 1		# add event to count
 			self.save_timer -= 1	# don't push the save time forward if there are a large number of alarm events
 			event = [self.save_timer + int(self.save_pct*self.pkts_in_period),
-					 RS.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')]	# event = [save after count, datetime]
+					 rs.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')]	# event = [save after count, datetime]
 			self.last_event_str = event[1].strftime('%Y-%m-%d %H:%M:%S UTC')
 			printM('Event time: %s' % (self.last_event_str), self.sender)		# show event time in the logs
 			if self.screencap:
@@ -211,8 +202,8 @@ class Plot:
 							fontsize=14, color=self.fgcolor, x=0.52)
 			self.fig.canvas.set_window_title('(%s) %s.%s - Raspberry Shake Monitor' % (self.events, self.net, self.stn))
 
-		if RS.getCHN(d) in self.chans:
-			self.raw = RS.update_stream(
+		if rs.getCHN(d) in self.chans:
+			self.raw = rs.update_stream(
 				stream=self.raw, d=d, fill_value='latest')
 			return True
 		else:
@@ -222,7 +213,7 @@ class Plot:
 		'''
 		Get samples per second from the main library.
 		'''
-		self.sps = RS.sps
+		self.sps = rs.sps
 
 	# from https://docs.obspy.org/_modules/obspy/imaging/spectrogram.html#_nearest_pow_2:
 	def _nearest_pow_2(self, x):
@@ -293,8 +284,8 @@ class Plot:
 		self._set_fig_title()
 
 
-	def savefig(self, event_time=RS.UTCDateTime.now(),
-				event_time_str=RS.UTCDateTime.now().strftime('%Y-%m-%d-%H%M%S')):
+	def savefig(self, event_time=rs.UTCDateTime.now(),
+				event_time_str=rs.UTCDateTime.now().strftime('%Y-%m-%d-%H%M%S')):
 		'''
 		Saves the figure and puts an IMGPATH message on the master queue.
 		This message can be used to upload the image to various services.
@@ -303,7 +294,7 @@ class Plot:
 		:param str event_time_str: Event time as a string. This is used to set the filename.
 		'''
 		figname = os.path.join(rsudp.scap_dir, '%s-%s.png' % (self.stn, event_time_str))
-		elapsed = RS.UTCDateTime.now() - event_time
+		elapsed = rs.UTCDateTime.now() - event_time
 		if int(elapsed) > 0:
 			printM('Saving png %i seconds after alarm' % (elapsed), sender=self.sender)
 		plt.savefig(figname, facecolor=self.fig.get_facecolor(), edgecolor='none')
@@ -358,7 +349,7 @@ class Plot:
 				self.ax[0].set_facecolor(self.bgcolor)
 				self.ax[0].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
 				self.ax[0].xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S'))
-				self.ax[0].yaxis.set_major_formatter(EngFormatter(unit=self.unit))
+				self.ax[0].yaxis.set_major_formatter(EngFormatter(unit='%s' % self.unit.lower()))
 				if self.spectrogram:
 					self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
 								   1, 2, label=str(2)))#, sharex=ax[0]))
@@ -373,7 +364,7 @@ class Plot:
 				self.ax[s].set_facecolor(self.bgcolor)
 				self.ax[s].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
 				self.ax[s].xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S'))
-				self.ax[s].yaxis.set_major_formatter(EngFormatter(unit=self.unit))
+				self.ax[s].yaxis.set_major_formatter(EngFormatter(unit='%s' % self.unit.lower()))
 				if self.spectrogram:
 					# add a spectrogram and set colors
 					self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
@@ -497,12 +488,12 @@ class Plot:
 				if (self.deconv in 'CHAN'):
 					ch = self.stream[i].stats.channel
 					if ('HZ' in ch) or ('HN' in ch) or ('HE' in ch):
-						unit = 'm/s'
+						unit = rs.UNITS['VEL'][1]
 					elif ('EN' in ch):
-						unit = 'm/s$^2$'
+						unit = rs.UNITS['ACC'][1]
 					else:
-						unit = ' counts'
-					self.ax[i*self.mult].yaxis.set_major_formatter(EngFormatter(unit=unit))
+						unit = rs.UNITS['CHAN'][1]
+					self.ax[i*self.mult].yaxis.set_major_formatter(EngFormatter(unit='%s' % unit.lower()))
 
 			if self.spectrogram:
 				self.nfft1 = self._nearest_pow_2(self.sps)	# FFTs run much faster if the number of transforms is a power of 2
@@ -568,7 +559,7 @@ class Plot:
 					time.sleep(0.009)		# wait a ms to see if another packet will arrive
 				else:
 					u += 1 if self.getq() else 0
-					if n > (self.delay * RS.numchns):
+					if n > (self.delay * rs.numchns):
 						n = 0
 						break
 
@@ -581,8 +572,8 @@ class Plot:
 				i = 0
 			else:
 				i += 1
-			self.stream = RS.copy(self.stream)	# essential, otherwise the stream has a memory leak
-			self.raw = RS.copy(self.raw)		# and could eventually crash the machine
+			self.stream = rs.copy(self.stream)	# essential, otherwise the stream has a memory leak
+			self.raw = rs.copy(self.raw)		# and could eventually crash the machine
 			self.deconvolve()
 			self.update_plot()
 			if u >= 0:				# avoiding a matplotlib broadcast error

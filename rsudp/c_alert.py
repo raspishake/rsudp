@@ -1,7 +1,7 @@
 import sys, os
 from threading import Thread
 from datetime import datetime, timedelta
-import rsudp.raspberryshake as RS
+import rsudp.raspberryshake as rs
 from obspy.signal.trigger import recursive_sta_lta
 from rsudp import printM, printW, printE, COLOR
 import numpy as np
@@ -59,24 +59,22 @@ class Alert(Thread):
 		self.debug = debug
 		self.args = args
 		self.kwargs = kwargs
-		self.raw = RS.Stream()
-		self.stream = RS.Stream()
+		self.raw = rs.Stream()
+		self.stream = rs.Stream()
 		cha = self.default_ch if (cha == 'all') else cha
 		self.cha = cha if isinstance(cha, str) else cha[0]
-		self.sps = RS.sps
-		self.inv = RS.inv
+		self.sps = rs.sps
+		self.inv = rs.inv
 		self.stalta = np.ndarray(1)
 		self.maxstalta = 0
-
-		self.deconv = deconv if (deconv == 'ACC') or (deconv == 'VEL') or (deconv == 'DISP') else False
-		if self.deconv and RS.inv:
-			deconv = deconv.upper()
-			self.units = 'Acceleration (m/s$^2$)' if (self.deconv == 'ACC') else False
-			self.units = 'Velocity (m/s)' if (self.deconv == 'VEL') else self.units
-			self.units = 'Displacement (m)' if (self.deconv == 'DISP') else self.units
+		
+		deconv = deconv.upper() if deconv else False
+		self.deconv = self.deconv if (deconv in rs.UNITS) else False
+		if self.deconv and rs.inv:
+			self.units = '%s (%s)' % (rs.UNITS[0], rs.UNITS[1]) if (self.deconv in rs.UNITS) else False
 			printM('Signal deconvolution set to %s' % (self.deconv), self.sender)
 		else:
-			self.units = 'Voltage counts'
+			self.units = rs.UNITS['CHAN'][1]
 			self.deconv = False
 		printM('Alert stream units are %s' % (self.units), self.sender)
 
@@ -102,7 +100,7 @@ class Alert(Thread):
 		else:
 			self.filt = False
 
-		if self.cha not in str(RS.chns):
+		if self.cha not in str(rs.chns):
 			printE('Could not find channel %s in list of channels! Please correct and restart.' % self.cha, self.sender)
 			sys.exit(2)
 
@@ -127,7 +125,7 @@ class Alert(Thread):
 		d = self.queue.get(True, timeout=None)
 		self.queue.task_done()
 		if self.cha in str(d):
-			self.raw = RS.update_stream(stream=self.raw, d=d, fill_value='latest')
+			self.raw = rs.update_stream(stream=self.raw, d=d, fill_value='latest')
 			return True
 		elif 'TERM' in str(d):
 			self.alive = False
@@ -137,7 +135,7 @@ class Alert(Thread):
 			return False
 
 	def _deconvolve(self):
-		RS.deconvolve(self)
+		rs.deconvolve(self)
 
 	def run(self):
 		"""
@@ -148,7 +146,7 @@ class Alert(Thread):
 		"""
 		n = 0
 
-		wait_pkts = (self.lta) / (RS.tf / 1000)
+		wait_pkts = (self.lta) / (rs.tf / 1000)
 
 		while n > 3:
 			self.getq()
@@ -163,7 +161,7 @@ class Alert(Thread):
 					if self._getq():	# is this the specified channel? if so break
 						break
 
-			self.raw = RS.copy(self.raw)
+			self.raw = rs.copy(self.raw)
 			self.stream = self.raw.copy()
 			if self.deconv:
 				self._deconvolve()
@@ -215,7 +213,7 @@ class Alert(Thread):
 							COLOR['current'] = COLOR['green']
 					else:
 						pass
-				self.stream = RS.copy(self.stream)
+				self.stream = rs.copy(self.stream)
 				if self.debug:
 					msg = '\r%s [%s] Threshold: %s; Current max STA/LTA: %.4f' % (
 							datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'), self.sender,

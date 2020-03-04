@@ -8,7 +8,7 @@ import logging
 from queue import Queue
 from rsudp import printM, printW, printE, default_loc, init_dirs, output_dir, add_debug_handler, start_logging
 from rsudp import COLOR, TESTING
-import rsudp.raspberryshake as RS
+import rsudp.raspberryshake as rs
 from rsudp.c_consumer import Consumer
 from rsudp.p_producer import Producer
 from rsudp.c_printraw import PrintRaw
@@ -38,7 +38,7 @@ def handler(sig, frame):
 	'''
 	Function passed to :py:func:`signal.signal` to handle close events
 	'''
-	RS.producer = False
+	rs.producer = False
 
 def _xit():
 	sys.exit(0)
@@ -52,7 +52,7 @@ def mk_q():
 	:rtype: queue.Queue
 	:return: Returns the queue to pass to the sub-consumer.
 	'''
-	q = Queue(RS.qsize)
+	q = Queue(rs.qsize)
 	DESTINATIONS.append(q)
 	return q
 
@@ -74,7 +74,7 @@ def start(settings, threads=THREADS, destinations=DESTINATIONS):
 	'''
 	global PROD
 	# master queue and consumer
-	queue = Queue(RS.qsize)
+	queue = Queue(rs.qsize)
 	cons = Consumer(queue, destinations)
 	cons.start()
 
@@ -119,7 +119,7 @@ def run(settings, debug):
 	signal.signal(signal.SIGINT, handler)
 
 	# initialize the central library
-	RS.initRSlib(dport=settings['settings']['port'],
+	rs.initRSlib(dport=settings['settings']['port'],
 				 rsstn=settings['settings']['station'])
 
 	output_dir = settings['settings']['output_dir']
@@ -140,7 +140,7 @@ def run(settings, debug):
 
 	if settings['plot']['enabled'] and mpl:
 		while True:
-			if RS.numchns == 0:
+			if rs.numchns == 0:
 				time.sleep(0.01)
 				continue
 			else:
@@ -153,7 +153,10 @@ def run(settings, debug):
 		screencap = settings['plot']['eq_screenshots']
 		alert = settings['alert']['enabled']
 		if settings['plot']['deconvolve']:
-			deconv = settings['plot']['units']
+			if settings['plot']['units'].upper() in rs.UNITS:
+				deconv = settings['plot']['units'].upper()
+			else:
+				deconv = 'CHAN'
 		else:
 			deconv = False
 		pq = mk_q()
@@ -181,7 +184,10 @@ def run(settings, debug):
 		bp = [settings['alert']['highpass'], settings['alert']['lowpass']]
 		cha = settings['alert']['channel']
 		if settings['alert']['deconvolve']:
-			deconv = settings['alert']['units']
+			if settings['alert']['units'].upper() in rs.UNITS:
+				deconv = settings['alert']['units'].upper()
+			else:
+				deconv = 'CHAN'
 		else:
 			deconv = False
 
@@ -270,9 +276,11 @@ def run(settings, debug):
 							   send_images=send_images)
 		mk_p(telegram)
 
-	if not TESTING:
-		# start the producer, consumer, and activated modules
-		start(settings, THREADS, DESTINATIONS)
+	# start the producer, consumer, and activated modules
+	start(settings, THREADS, DESTINATIONS)
+	
+	sys.exit(0)
+
 
 
 def dump_default(settings_loc, default_settings):

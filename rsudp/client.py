@@ -7,7 +7,8 @@ import re
 import logging
 from queue import Queue
 from rsudp import printM, printW, printE, default_loc, init_dirs, output_dir, add_debug_handler, start_logging
-from rsudp import COLOR, TESTING
+from rsudp import COLOR
+import rsudp.test as t
 import rsudp.raspberryshake as rs
 from rsudp.c_consumer import Consumer
 from rsudp.p_producer import Producer
@@ -20,6 +21,8 @@ from rsudp.c_alertsound import AlertSound
 from rsudp.c_custom import Custom
 from rsudp.c_tweet import Tweeter
 from rsudp.c_telegram import Telegrammer
+from rsudp.c_testing import Testing
+from rsudp.t_testdata import TestData
 import pkg_resources as pr
 import fnmatch
 try:
@@ -33,14 +36,33 @@ DESTINATIONS, THREADS = [], []
 PROD = False
 PLOTTER = False
 SOUND = False
+TESTING = False
+TESTQUEUE = False
+SENDER = 'Main'
+
+def test_mode(mode):
+	global TESTING
+	TESTING = mode
 
 def handler(sig, frame):
 	'''
 	Function passed to :py:func:`signal.signal` to handle close events
 	'''
+	if TESTING:
+		TESTQUEUE.put('ENDTEST')
 	rs.producer = False
 
 def _xit():
+	'''
+	End 
+	'''
+	# global PLOTTER
+	# del PLOTTER
+	for thread in THREADS:
+		del thread
+	
+	printM('Shutdown successful.', sender=SENDER)
+	print()
 	sys.exit(0)
 
 def mk_q():
@@ -72,7 +94,7 @@ def start(settings, threads=THREADS, destinations=DESTINATIONS):
 	:param list threads: list of :py:class:`threading.Thread` objects to start
 	:param list destinations: list of :py:class:`queue.Queue` objects to pass to :py:class:`rsudp.c_consumer.Consumer` for data distribution
 	'''
-	global PROD
+	global PROD, PLOTTER
 	# master queue and consumer
 	queue = Queue(rs.qsize)
 	cons = Consumer(queue, destinations)
@@ -94,16 +116,9 @@ def start(settings, threads=THREADS, destinations=DESTINATIONS):
 		while not PROD.stop:
 			time.sleep(0.1) # wait until processes end
 
+
 	time.sleep(0.5) # give threads time to exit
 	PROD.stop = True
-
-	printM('Shutdown successful.', 'Main')
-	if not TESTING:
-		print()
-		_xit()
-	else:
-		for thread in threads:
-			print(thread.sender + ' alive: ' + str(thread.alive))
 
 
 def run(settings, debug):
@@ -118,9 +133,21 @@ def run(settings, debug):
 	# handler for the exit signal
 	signal.signal(signal.SIGINT, handler)
 
+	if TESTING:
+		global TESTQUEUE
+		# initialize the test data to read information from file and put it on the port
+		data = pr.resource_filename('rsudp', os.path.join('test', 'testdata'))
+		TESTQUEUE = Queue()		# separate from client library because this is not downstream of the producer
+		tdata = TestData(q=TESTQUEUE, data_file=data, port=settings['settings']['port'])
+		tdata.start()
+
 	# initialize the central library
 	rs.initRSlib(dport=settings['settings']['port'],
 				 rsstn=settings['settings']['station'])
+
+	if TESTING:
+		t.TEST['n_port'][1] = True	# port has been opened
+
 
 	output_dir = settings['settings']['output_dir']
 
@@ -276,11 +303,26 @@ def run(settings, debug):
 							   send_images=send_images)
 		mk_p(telegram)
 
+	if TESTING:
+		# initialize test consumer
+		q = mk_q()
+		test = Testing(q=q)
+		mk_p(test)
+
+
 	# start the producer, consumer, and activated modules
 	start(settings, THREADS, DESTINATIONS)
-	
-	sys.exit(0)
 
+	PLOTTER = False
+	if not TESTING:
+		_xit()
+	else:
+		printW('Client has exited, ending tests...', sender=SENDER, announce=False)
+		if SOUND:
+			t.TEST['d_pydub'][1] = True
+
+		test.queue.put('ENDTEST')
+		time.sleep(0.3) # give threads time to exit
 
 
 def dump_default(settings_loc, default_settings):
@@ -476,7 +518,7 @@ settings in %s
 	debug = settings['settings']['debug']
 	if debug:
 		add_debug_handler()
-		printM('Logging initialized successfully.', sender='Main')
+		printM('Logging initialized successfully.', sender=SENDER)
 
 	printM('Using settings file: %s' % settings_loc)
 
@@ -486,6 +528,39 @@ settings in %s
 		printM('Output directory is: %s' % odir)
 
 	run(settings, debug=debug)
+
+def test():
+	'''
+	Set up tests, run modules, report test results
+	'''
+	test_mode(True)
+
+	t.TEST['p_log_dir'][1] = t.logdir_permissions()
+	t.TEST['p_log_file'][1] = t.start_logging(testing=True)
+	t.TEST['p_log_std'][1] = t.add_debug_handler(testing=True)
+
+	t.TEST['n_internet'][1] = t.is_connected('www.google.com')
+
+	settings = t.make_test_settings(inet=t.TEST['n_internet'][1])
+
+	t.TEST['p_output_dirs'][1] = t.init_dirs(os.path.expanduser(settings['settings']['output_dir']))
+	t.TEST['p_data_dir'][1] = t.datadir_permissions(os.path.expanduser(settings['settings']['output_dir']))
+	t.TEST['p_screenshot_dir'][1] = t.ss_permissions(os.path.expanduser(settings['settings']['output_dir']))
+
+	if mpl:
+		t.TEST['d_matplotlib'][1] = True
+	else:
+		printW('matplotlib backend failed to load')
+
+	run(settings, debug=True)
+
+	printW('Test finished.', sender=SENDER, announce=False)
+	print()
+	printM('Test results:')
+	for i in t.TEST:
+		printM('%s: %s' % (t.TEST[i][0], t.TRANS[t.TEST[i][1]]))
+	_xit()
+
 
 if __name__ == '__main__':
 	main()

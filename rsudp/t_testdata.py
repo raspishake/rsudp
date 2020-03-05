@@ -36,7 +36,6 @@ class TestData(Thread):
 		if ('TERM' in l.decode('utf-8')) or (l.decode('utf-8') == ''):
 			self.sock.sendto(b'TERM', (self.addr, self.port))
 			printM('End of file.', self.sender)
-			self.f.close()
 			self.alive = False
 		else:
 			ts = rs.getTIME(l)
@@ -53,6 +52,13 @@ class TestData(Thread):
 					self.f.seek(self.pos)
 					break
 
+	def _getq(self):
+		'''
+
+		'''
+		q = self.queue.get_nowait()
+		self.queue.task_done()
+		return q
 
 	def run(self):
 		'''
@@ -76,16 +82,16 @@ class TestData(Thread):
 		printW('Sending data to %s:%s every %s seconds' % (self.addr, self.port, self.speed),
 			   sender=self.sender, announce=False)
 
-		while True:
+		while self.alive:
 			try:
-				q = self.queue.get_nowait()
-				self.queue.task_done()
-				printW('Exiting.', self.sender, announce=False)
-				break
+				q = self._getq()
+				if str(q) in 'ENDTEST':
+					self.alive = False
+					break
 			except Empty:
-				if self.alive:
-					self.send()
+				self.send()
 				time.sleep(self.speed)
 
-		self.alive = False
+		self.f.close()
+		printW('Exiting.', self.sender, announce=False)
 		sys.exit()

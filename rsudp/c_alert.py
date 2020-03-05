@@ -190,6 +190,7 @@ class Alert(Thread):
 					if not self.exceed:
 						self.alarm = True	# raise a flag that the Producer can read and modify 
 						self.exceed = True	# the state machine; this one should not be touched from the outside, otherwise bad things will happen
+						print()
 						printM('Trigger threshold of %s exceeded: %s'
 								% (self.thresh, round(self.stalta.max(), 3)), self.sender)
 						printM('Trigger will reset when STA/LTA goes below %s...' % self.reset, sender=self.sender)
@@ -205,6 +206,7 @@ class Alert(Thread):
 						if self.stalta[-1] < self.reset:
 							self.alarm_reset = True
 							self.exceed = False
+							print()
 							printM('Max STA/LTA ratio reached in alarm state: %s' % (round(self.maxstalta, 3)),
 									self.sender)
 							printM('Earthquake trigger reset and active again.',

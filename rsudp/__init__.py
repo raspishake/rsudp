@@ -22,7 +22,6 @@ output_dir = False
 data_dir = False
 scap_dir = False
 
-TESTING = False
 
 COLOR = {
 	'purple': '\033[95m',
@@ -34,9 +33,6 @@ COLOR = {
 	'bold': "\033[1m"
 }
 
-def test_mode(mode):
-	global TESTING
-	TESTING = mode
 
 def init_dirs(odir):
 	'''
@@ -57,8 +53,7 @@ def init_dirs(odir):
 		print(COLOR['red'] + 'More info: %s' + COLOR['white'] % e)
 		exit(2)
 
-	if TESTING:
-		return True
+	return True
 
 
 class LevelFormatter(logging.Formatter):
@@ -75,12 +70,12 @@ class LevelFormatter(logging.Formatter):
 			return self._level_formatters[record.levelno].format(record)
 		return super(LevelFormatter, self).format(record)
 
-def start_logging():
+def start_logging(testing=False):
 	global LOG, LOGFORMAT
 	LOG.setLevel('INFO')
 	# logging formatters
 	
-	if TESTING:
+	if testing:
 		LOGFORMAT = '%(asctime)-15s TESTING %(msg)s'
 
 	formatter = logging.Formatter(fmt=LOGFORMAT, datefmt=TIME_FORMAT)
@@ -93,12 +88,12 @@ def start_logging():
 	# initialize logging
 	LOG.addHandler(f)
 	printM('Logging for test module initialized successfully.', sender='Init')
-	if TESTING:
+	if testing:
 		return True
 
 
 
-def add_debug_handler():
+def add_debug_handler(testing=False):
 	'''
 	Creates an additional handler for logging info and warnings to the command line.
 	'''
@@ -117,7 +112,7 @@ def add_debug_handler():
 	s.setLevel('INFO')
 	s.setFormatter(termformatter)
 	logging.getLogger('main').addHandler(s)
-	if TESTING:
+	if testing:
 		return True
 
 

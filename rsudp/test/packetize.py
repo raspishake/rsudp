@@ -35,17 +35,20 @@ def packetize(inf, outf):
 
 
 def main():
+	inf, outf = False, False
 	opts = getopt.getopt(sys.argv[1:], 'i:o:',
 			['in=', 'out=',]
 			)[0]
 
 	for opt, arg in opts:
-		if opt in ('-i', 'out='):
+		if opt in ('-i', 'in='):
 			inf = arg
 		if opt in ('-o', 'out='):
 			outf = arg
-	
-	packetize(inf=inf, outf=outf)
+	if inf and outf:
+		packetize(inf=inf, outf=outf)
+	else:
+		print('Usage: packetize.py -i infile.ms -o testdata')
 
 if __name__ == '__main__':
 	main()

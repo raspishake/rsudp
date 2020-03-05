@@ -1,7 +1,6 @@
 import os, sys
 from rsudp import default_loc, init_dirs, output_dir, start_logging, add_debug_handler
-from rsudp import COLOR, printM, printW, printE, test_mode
-test_mode(True)
+from rsudp import COLOR, printM, printW, printE
 import rsudp.client as client
 from rsudp.c_testing import Testing
 from rsudp.t_testdata import TestData
@@ -53,17 +52,20 @@ def make_test_settings(inet=False):
 	'''
 	settings = json.loads(client.default_settings())
 
-	settings['settings']['port'] = 18888
+	settings['settings']['port'] = PORT
 	if settings['settings']['station'] == 'Z0000':
 		if inet:
-			settings['settings']['station'] = 'R3BCF'
+			settings['settings']['station'] = 'R24FA'
 
 	settings['alert']['threshold'] = 2
 	settings['alert']['reset'] = 0.5
 	settings['alert']['lowpass'] = 9
 	settings['alert']['highpass'] = 0.8
 
+	settings['plot']['channels'] = ['all']
 	settings['plot']['deconvolve'] = True
+	settings['plot']['units'] = 'CHAN'
+	settings['plot']['eq_screenshots'] = True
 
 	settings['alertsound']['enabled'] = True
 
@@ -140,74 +142,3 @@ def is_connected(hostname):
 		pass
 	return False
 
-def main():
-	'''
-	Set up tests, run modules, report test results
-	'''
-	global TEST
-
-	TEST['p_log_dir'][1] = logdir_permissions()
-	TEST['p_log_file'][1] = start_logging()
-	TEST['p_log_std'][1] = add_debug_handler()
-
-	TEST['n_internet'][1] = is_connected('www.google.com')
-
-	settings = make_test_settings(inet=TEST['n_internet'][1])
-
-	TEST['p_output_dirs'][1] = init_dirs(os.path.expanduser(settings['settings']['output_dir']))
-	TEST['p_data_dir'][1] = datadir_permissions(os.path.expanduser(settings['settings']['output_dir']))
-	TEST['p_screenshot_dir'][1] = ss_permissions(os.path.expanduser(settings['settings']['output_dir']))
-
-	if client.mpl:
-		TEST['d_matplotlib'][1] = True
-	else:
-		printW('matplotlib backend failed to load')
-
-
-	data = pr.resource_filename('rsudp', os.path.join('test', 'testdata'))
-
-	# initialize the test data to read information from file and put it on the port
-	p = Queue()		# separate from client library because this is a private queue
-	tdata = TestData(q=p, data_file=data, port=settings['settings']['port'])
-	tdata.start()
-
-	# initialize standard modules
-	client.run(settings=settings, debug=True)
-	# initialize test consumer
-	q = client.mk_q()
-	test = Testing(q=q, threads=client.THREADS, test=TEST)
-	client.mk_p(test)
-
-	# run
-	client.start(settings)
-
-	printW('Client has exited, ending tests...', sender=SENDER, announce=False)
-
-	del client.PLOTTER	# necessary, not sure why
-
-	TEST = test.test
-	if client.SOUND:
-		TEST['d_pydub'][1] = True
-
-
-	# shut down the testing module
-	tdata.queue.put('ENDTEST')
-
-	time.sleep(0.3) # give threads time to exit
-
-	printW('Test finished.', sender=SENDER, announce=False)
-	print()
-	printM('Test results:')
-	for t in TEST:
-		printM('%s: %s' % (TEST[t][0],TRANS[TEST[t][1]]))
-
-	client._xit()
-	sys.exit()
-
-
-
-
-
-
-if __name__ == '__main__':
-	main()

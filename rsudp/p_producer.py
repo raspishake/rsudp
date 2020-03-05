@@ -59,13 +59,11 @@ class Producer(Thread):
 			for thread in self.threads:
 				if thread.alarm:
 					self.queue.put(b'ALARM %s' % bytes(str(RS.UTCDateTime.now()), 'utf-8'))
-					print()
 					printM('%s thread has indicated alarm state, sending ALARM message to queues'
 						   % thread.sender, sender=self.sender)
 					thread.alarm = False
 				if thread.alarm_reset:
 					self.queue.put(b'RESET %s' % bytes(str(RS.UTCDateTime.now()), 'utf-8'))
-					print()
 					printM('%s thread has indicated alarm reset, sending RESET message to queues'
 						   % thread.sender, sender=self.sender)
 					thread.alarm_reset = False
@@ -75,8 +73,8 @@ class Producer(Thread):
 				RS.producer = False
 				break
 
+		print()
 		printM('Sending TERM signal to threads...', self.sender)
 		self.queue.put(b'TERM')
-		self.queue.join()
 		self.stop = True
 		sys.exit()

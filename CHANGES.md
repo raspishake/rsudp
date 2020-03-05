@@ -1,5 +1,10 @@
 # Changelog
 ## changes in 0.4.3
+- added earth gravity fraction deconvolution option ("GRAV", which is basically "ACC"/9.81)
+- added a testing module
+- added a script to translate seismic data to Raspberry Shake UDP packet format for testing
+- changed warning and error message colors in terminal stdout
+- alert module stdout STA/LTA messages now colorized
 - added `rsudp.c_custom` as an independent thread to run custom code
 - added and expanded explicit docstrings and comments, as well as Sphinx `conf.py` file
 - turned off alert module STA/LTA live printed output when `settings['settings']['debug']` is `False` in order to keep systemd log file size down

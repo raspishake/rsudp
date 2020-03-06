@@ -67,16 +67,17 @@ class Alert(Thread):
 		self.inv = rs.inv
 		self.stalta = np.ndarray(1)
 		self.maxstalta = 0
+		self.units = 'counts'
 		
 		deconv = deconv.upper() if deconv else False
 		self.deconv = self.deconv if (deconv in rs.UNITS) else False
 		if self.deconv and rs.inv:
-			self.units = '%s (%s)' % (rs.UNITS[0], rs.UNITS[1]) if (self.deconv in rs.UNITS) else False
+			self.units = '%s (%s)' % (rs.UNITS[0], rs.UNITS[1]) if (self.deconv in rs.UNITS) else self.units
 			printM('Signal deconvolution set to %s' % (self.deconv), self.sender)
 		else:
 			self.units = rs.UNITS['CHAN'][1]
 			self.deconv = False
-		printM('Alert stream units are %s' % (self.units), self.sender)
+		printM('Alert stream units are %s' % (self.units.strip(' ').lower()), self.sender)
 
 		self.alarm = False
 		self.alarm_reset = False

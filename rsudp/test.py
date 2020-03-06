@@ -63,11 +63,16 @@ def make_test_settings(inet=False):
 	settings['alert']['highpass'] = 0.8
 
 	settings['plot']['channels'] = ['all']
+	settings['plot']['duration'] = 60
 	settings['plot']['deconvolve'] = True
 	settings['plot']['units'] = 'CHAN'
 	settings['plot']['eq_screenshots'] = True
 
 	settings['alertsound']['enabled'] = True
+
+	settings['tweets']['enabled'] = False
+	settings['telegram']['enabled'] = False
+
 
 	return settings
 

@@ -1,8 +1,5 @@
 import os, sys
-from rsudp import default_loc, init_dirs, output_dir, start_logging, add_debug_handler
 from rsudp import COLOR, printM, printW, printE
-from rsudp.c_testing import Testing
-from rsudp.t_testdata import TestData
 from queue import Queue
 import socket
 import json

@@ -1,0 +1,13 @@
+:py:data:`rsudp.t_testdata` (test pre-producer)
+=====================================================
+
+.. automodule:: rsudp.t_testdata
+    :members:
+
+................
+
+* :ref:`genindex`
+* :ref:`search`
+.. * :ref:`modindex`
+
+`Back to top ↑ <#top>`_

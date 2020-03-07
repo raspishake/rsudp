@@ -40,6 +40,7 @@ and be notified in various ways when their instrument detects sudden motion.
     running
     daemon
     troubleshooting
+    testing
 
 .. toctree::
     :caption: Video resources
@@ -96,6 +97,16 @@ The modules available in rsudp are organized by type below.
     c_forward
     c_write
     c_custom
+
+.. toctree::
+    :numbered:
+    :maxdepth: 2
+    :caption: Testing
+
+    t_testdata
+    c_testing
+    test
+
 
 
 Function index

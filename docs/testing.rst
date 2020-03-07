@@ -1,0 +1,87 @@
+Testing and demoing rsudp
+#################################################
+
+The testing functions are useful for figuring out local problems.
+That is, the testing capabilities of rsudp are meant to discover
+whether or not the software can feed data to `itself`.
+It does test whether it can see the internet at large,
+and whether it can send data to its own port
+(we've chosen 18888 as a test port).
+
+If you can run this testing program without any problems
+but you are having issues getting the software to see data from
+your own Raspberry Shake or boom, see the :ref:`troubleshooting`
+page.
+
+
+Using the testing functionality
+=================================================
+
+The testing modules of this software are designed to read a small
+data file from disk and send its contents to the test port one
+line at a time. The program functions essentially as it would if
+it were receiving remote data, but instead it is feeding data
+to itself.
+
+This means that you can demo the software even if you don't have
+a Raspberry Shake, or even use the testing functionality to check
+whether or not an arbitrary piece of archival Raspberry Shake
+data will trigger an alarm in the software.
+
+To run this software, make sure you have installed this software
+using the instructions in :ref:`install`, and that you can enter
+your conda environment (typically by typing
+``conda activate rsudp`` in a command window.
+
+Once you have done that, the test command ``rs-test`` will become
+available.
+
+Type ``rs-test`` to watch earthquake detection in
+action. The test will last about 120 seconds, over which time
+various bits of functionality will be tested, including ports,
+directory permissions, internet, processing routines,
+alert functionality, sound-playing capability, and more.
+
+
+Data flow
+=================================================
+
+During testing, the typical data flow as depicted in our
+:ref:`flow_diagram` must be created artificially.
+So, instead of getting data from the Raspberry Shake as usual,
+the :py:class:`rsudp.t_testdata.TestData` thread reads a file and
+sends the individual lines in that file to the data port.
+The Producer then reads that data and data flow through the rest
+of the architecture continues as normal.
+
+
+Using your own data
+=================================================
+
+.. |canread| raw:: html
+
+   <a href="https://docs.obspy.org/packages/autogen/obspy.core.stream.read.html#supported-formats" target="_blank">can read</a>
+
+
+Included in this software is a small script that will convert
+small seismic data files (basically anything that obspy |canread|)
+to the UDP packet format required by rsudp.
+This file is available at ``rsudp/test/packetize.py``
+and can be run from the command line by doing
+
+.. code-block:: bash
+
+    conda activate rsudp
+    python packetize.py -i input.mseed -o testdata
+
+Then, running ``rs-test`` will use your own data for plots
+and alerts.
+
+.. note::
+
+    Currently, the rsudp testing module only reads the test file
+    at ``rsudp/test/testdata``, so your output file from the
+    ``packetize.py`` script must end up there. 
+
+
+`Back to top ↑ <#top>`_

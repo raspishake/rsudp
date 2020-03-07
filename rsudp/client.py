@@ -40,9 +40,19 @@ TESTING = False
 TESTQUEUE = False
 SENDER = 'Main'
 
-def test_mode(mode):
+def test_mode(mode=None):
+	'''
+	Sets the TESTING global variable to ``True`` to indicate that
+	testing-specific actions should be taken in routines.
+
+	:param bool mode: if ``True`` or ``False``, sets testing mode state. if anything else, returns state only.
+	:return: testing mode state
+	:rtype: bool
+	'''
 	global TESTING
-	TESTING = mode
+	if (mode == True) or (mode == False):
+		TESTING = mode
+	return TESTING
 
 def handler(sig, frame):
 	'''
@@ -52,7 +62,7 @@ def handler(sig, frame):
 
 def _xit():
 	'''
-	End 
+	End the program. Called after all running threads have stopped.
 	'''
 	# global PLOTTER
 	# del PLOTTER
@@ -338,6 +348,14 @@ def dump_default(settings_loc, default_settings):
 
 
 def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\', '/'), verbose=True):
+	'''
+	Returns a formatted json string of default settings.
+
+	:param str output_dir: the user's specified output location. defaults to ``~/rsudp``.
+	:param bool verbose: if ``True``, displays some information as the string is created.
+	:return: default settings string in formatted json
+	:rtype: str
+	'''
 	def_settings = r"""{
 "settings": {
     "port": 8888,
@@ -526,7 +544,7 @@ settings in %s
 
 def test():
 	'''
-	Set up tests, run modules, report test results
+	Set up tests, run modules, report test results.
 	'''
 	test_mode(True)
 

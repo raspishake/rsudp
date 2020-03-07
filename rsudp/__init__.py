@@ -4,6 +4,10 @@ import warnings
 from time import gmtime
 import pkg_resources
 
+'''
+Contains logging and formatting resources for command line and logfile output of rsudp.
+'''
+
 name = 'rsudp'
 __version__ = pkg_resources.require(name)[0].version
 
@@ -22,6 +26,8 @@ output_dir = False
 data_dir = False
 scap_dir = False
 
+warnings.filterwarnings('ignore', category=UserWarning, module='rsudp')
+warnings.filterwarnings('ignore', category=FutureWarning, module='obspy')
 
 COLOR = {
 	'purple': '\033[95m',
@@ -34,11 +40,40 @@ COLOR = {
 }
 
 
+class LevelFormatter(logging.Formatter):
+	'''
+	A class that formats messages differently depending on their level.
+
+	:param fmt: Format of message strings (see :py:mod:`logging`; example: ``'%(asctime)-15s %(msg)s'``)
+	:type fmt: str or None
+	:param datefmt: Date strings in strftime format (see :py:mod:`logging` example: ``'%Y-%m-%d %H:%M:%S'``)
+	:type datefmt: str or None
+	:param level_fmts: Dictionary of log levels and associated formats ``{logging.INFO: 'infoformat', logging.WARNING: 'warnformat', logging.ERROR: 'errformat'}``
+	:type level_fmts: dict
+
+	'''
+
+	def __init__(self, fmt=None, datefmt=None, level_fmts={}):
+		self._level_formatters = {}
+		for level, format in level_fmts.items():
+			# Could optionally support level names too
+			self._level_formatters[level] = logging.Formatter(fmt=format, datefmt=datefmt)
+		# self._fmt will be the default format
+		super(LevelFormatter, self).__init__(fmt=fmt, datefmt=datefmt)
+	# format records
+	def format(self, record):
+		if record.levelno in self._level_formatters:
+			return self._level_formatters[record.levelno].format(record)
+		return super(LevelFormatter, self).format(record)
+
+
 def init_dirs(odir):
 	'''
 	Initialize the write directories if they do not already exist.
 
 	:param str odir: output directory
+	:return: ``True``
+	:rtype: bool
 	'''
 	global output_dir, data_dir, scap_dir
 	output_dir = odir
@@ -56,21 +91,15 @@ def init_dirs(odir):
 	return True
 
 
-class LevelFormatter(logging.Formatter):
-	def __init__(self, fmt=None, datefmt=None, level_fmts={}):
-		self._level_formatters = {}
-		for level, format in level_fmts.items():
-			# Could optionally support level names too
-			self._level_formatters[level] = logging.Formatter(fmt=format, datefmt=datefmt)
-		# self._fmt will be the default format
-		super(LevelFormatter, self).__init__(fmt=fmt, datefmt=datefmt)
-	# format records
-	def format(self, record):
-		if record.levelno in self._level_formatters:
-			return self._level_formatters[record.levelno].format(record)
-		return super(LevelFormatter, self).format(record)
-
 def start_logging(testing=False):
+	'''
+	Creates a handler for logging info and warnings to file.
+
+	:param bool testing: whether or not testing is active (adds a "TESTING" label to messages)
+	:return: ``True``
+	:rtype: bool
+	'''
+
 	global LOG, LOGFORMAT
 	LOG.setLevel('INFO')
 	# logging formatters
@@ -88,15 +117,21 @@ def start_logging(testing=False):
 	# initialize logging
 	LOG.addHandler(f)
 	printM('Logging initialized successfully.', sender='Init')
-	if testing:
-		return True
+	return True
 
 
-
-def add_debug_handler(testing=False):
+def add_debug_handler(testing=True):
 	'''
 	Creates an additional handler for logging info and warnings to the command line.
+
+	:param bool testing: whether or not testing is active (adds a "TESTING" label to messages)
+	:return: ``True``
+	:rtype: bool
 	'''
+
+	if testing:
+		LOGFORMAT = '%(asctime)-15s TESTING %(msg)s'
+
 	# terminal formats
 	termformat = '\x1b[2K\r' + LOGFORMAT		# note '\x1b[2K' erases current line and \r returns to home
 	# warning format
@@ -112,13 +147,8 @@ def add_debug_handler(testing=False):
 	s.setLevel('INFO')
 	s.setFormatter(termformatter)
 	logging.getLogger('main').addHandler(s)
-	if testing:
-		return True
+	return True
 
-
-
-warnings.filterwarnings('ignore', category=UserWarning, module='rsudp')
-warnings.filterwarnings('ignore', category=FutureWarning, module='obspy')
 
 def printM(msg, sender=''):
 	'''
@@ -129,6 +159,7 @@ def printM(msg, sender=''):
 	'''
 	msg = '[%s] %s' % (sender, msg) if sender != '' else msg
 	LOG.info(msg)
+
 
 def printW(msg, sender='', announce=True, spaces=False):
 	'''
@@ -150,6 +181,7 @@ def printW(msg, sender='', announce=True, spaces=False):
 		else:
 			msg = '[%s] %s' % (sender, msg) if sender != '' else msg
 	LOG.warning(msg)
+
 
 def printE(msg, sender='', announce=True, spaces=False):
 	'''

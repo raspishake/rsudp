@@ -15,10 +15,12 @@ class Alert(Thread):
 	A data consumer class that listens to a specific incoming data channel
 	and calculates a recursive STA/LTA (short term average over long term 
 	average). If a threshold of STA/LTA ratio is exceeded, the class
-	raises the :py:data:`alarm` flag to True.
+	sets the :py:data:`alarm` flag to the alarm time as a
+	:py:class:`obspy.core.utcdatetime.UTCDateTime` object.
 	The :py:class:`rsudp.p_producer.Producer` will see this flag
-	and send an :code:`ALARM` message to the queues.
-	Likewise, when the :py:data:`alarm_reset` flag is :code:`True`,
+	and send an :code:`ALARM` message to the queues with the time set here.
+	Likewise, when the :py:data:`alarm_reset` flag is set with a
+	:py:class:`obspy.core.utcdatetime.UTCDateTime`,
 	the Producer will send a :code:`RESET` message to the queues.
 
 	:param float sta: short term average (STA) duration in seconds.
@@ -136,6 +138,9 @@ class Alert(Thread):
 			return False
 
 	def _deconvolve(self):
+		'''
+		Deconvolves the stream associated with this class.
+		'''
 		rs.deconvolve(self)
 
 	def run(self):

@@ -87,7 +87,7 @@ def start_logging(testing=False):
 	# warnings also go to file
 	# initialize logging
 	LOG.addHandler(f)
-	printM('Logging for test module initialized successfully.', sender='Init')
+	printM('Logging initialized successfully.', sender='Init')
 	if testing:
 		return True
 

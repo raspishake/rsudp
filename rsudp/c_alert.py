@@ -2,7 +2,7 @@ import sys, os
 from threading import Thread
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as rs
-from obspy.signal.trigger import recursive_sta_lta
+from obspy.signal.trigger import recursive_sta_lta, trigger_onset
 from rsudp import printM, printW, printE, COLOR
 import numpy as np
 
@@ -157,12 +157,12 @@ class Alert(Thread):
 		while True:
 			while True:
 				if self.queue.qsize() > 0:
-					self._getq()		# get recent packets
+					self._getq()			# get recent packets
 				else:
-					if self._getq():	# is this the specified channel? if so break
+					if self._getq():		# is this the specified channel? if so break
 						break
 
-			self.raw = rs.copy(self.raw)
+			self.raw = rs.copy(self.raw)	# necessary to avoid memory leak
 			self.stream = self.raw.copy()
 			if self.deconv:
 				self._deconvolve()
@@ -189,11 +189,13 @@ class Alert(Thread):
 							int(self.sta * self.sps), int(self.lta * self.sps))
 				if self.stalta.max() > self.thresh:
 					if not self.exceed:
-						self.alarm = True	# raise a flag that the Producer can read and modify 
+						# raise a flag that the Producer can read and modify 
+						self.alarm = self.stream[0].stats.starttime + timedelta(seconds=
+									 trigger_onset(self.stalta, self.thresh, self.reset)[-1][0] * self.stream[0].stats.delta)
 						self.exceed = True	# the state machine; this one should not be touched from the outside, otherwise bad things will happen
 						print()
-						printM('Trigger threshold of %s exceeded: %s'
-								% (self.thresh, round(self.stalta.max(), 3)), self.sender)
+						printM('Trigger threshold of %s exceeded at %s.%s'
+							   % (self.thresh, self.alarm.strftime('%Y-%m-%d %H:%M:%S'), rs.fsec(self.alarm)), self.sender)
 						printM('Trigger will reset when STA/LTA goes below %s...' % self.reset, sender=self.sender)
 						COLOR['current'] = COLOR['purple']
 					else:
@@ -205,7 +207,7 @@ class Alert(Thread):
 				else:
 					if self.exceed:
 						if self.stalta[-1] < self.reset:
-							self.alarm_reset = True
+							self.alarm_reset = rs.UTCDateTime.now()
 							self.exceed = False
 							print()
 							printM('Max STA/LTA ratio reached in alarm state: %s' % (round(self.maxstalta, 3)),

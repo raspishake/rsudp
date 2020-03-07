@@ -46,7 +46,7 @@ class Telegrammer(Thread):
 		self.send_images = send_images
 		self.token = token
 		self.chat_id = chat_id
-		self.fmt = '%Y-%m-%d %H:%M:%S UTC'
+		self.fmt = '%Y-%m-%d %H:%M:%S'
 		self.region = ' - region: %s' % RS.region.title() if RS.region else ''
 
 		if q:
@@ -87,8 +87,8 @@ class Telegrammer(Thread):
 
 			if 'ALARM' in str(d):
 				event_time = RS.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')
-				self.last_event_str = event_time.strftime(self.fmt)
-				message = '%s %s - %s' % (self.message0, self.last_event_str, self.livelink)
+				self.last_event_str = '%s.%s' % (event_time.strftime(self.fmt), RS.fsec(event_time))
+				message = '%s %s - %s UTC' % (self.message0, self.last_event_str, self.livelink)
 				response = None
 				try:
 					printM('Sending alert...', sender=self.sender)

@@ -648,6 +648,38 @@ def copy(orig):
 		stream.append(trace).merge(fill_value=None)
 	return stream.copy()
 
+def fsec(etime):
+	'''
+	Calculates the first digit of the fraction of a second represented in a
+	:py:class:`obspy.core.utcdatetime.UTCDateTime` or :py:class:`datetime.datetime` object,
+	so that it can be assembled nicely into a string.
+
+	This is necessary because datetime objects in Python are strange and confusing, and
+	strftime doesn't support fractional returns, only the full integer microsecond field
+	which is right-padded with zeroes. This function takes the left two integers in the
+	microsecond field, concatenates them to a string, then converts to float, then returns
+	a rounded single integer which represents the first digit after the decimal.
+
+	For example:
+
+	.. code-block:: python
+
+		>>> from obspy import UTCDateTime
+		>>> t = UTCDateTime(2020, 1, 1, 0, 0, 0, 59)
+		>>> fsec(t)
+		6
+
+	:param etime:
+	:type etime: obspy.core.utcdatetime.UTCDateTime or datetime.datetime
+	:return: the rounded first digit of the microsecond field of the time object passed
+	:rtype: int
+	'''
+	# time in python is weird and confusing, so this is necessarily hacky
+	try:
+		return round(float('%s.%s' % (str(etime.microsecond)[0],str(etime.microsecond)[1])))
+	except IndexError:
+		return etime.microsecond
+
 
 def deconvolve(self):
 	'''

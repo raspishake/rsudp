@@ -74,7 +74,7 @@ class Tweeter(Thread):
 		self.alarm_reset = False	# don't touch this
 		self.alive = True
 		self.tweet_images = tweet_images
-		self.fmt = '%Y-%m-%d %H:%M:%S UTC'
+		self.fmt = '%Y-%m-%d %H:%M:%S'
 		self.region = ' - region: %s' % RS.region.title() if RS.region else ''
 		self.consumer_key = consumer_key
 		self.consumer_secret = consumer_secret
@@ -130,8 +130,8 @@ class Tweeter(Thread):
 
 			if 'ALARM' in str(d):
 				event_time = RS.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')
-				self.last_event_str = event_time.strftime(self.fmt)
-				message = '%s %s - %s' % (self.message0, self.last_event_str, self.livelink)
+				self.last_event_str = '%s.%s' % (event_time.strftime(self.fmt), RS.fsec(event_time))
+				message = '%s %s - %s UTC' % (self.message0, self.last_event_str, self.livelink)
 				response = None
 				try:
 					printM('Sending tweet...', sender=self.sender)
@@ -167,7 +167,7 @@ class Tweeter(Thread):
 				if self.tweet_images:
 					imgdetails = d.decode('utf-8').split(' ')
 					imgtime = RS.UTCDateTime.strptime(imgdetails[1], '%Y-%m-%dT%H:%M:%S.%fZ')
-					message = '%s %s' % (self.message1, imgtime.strftime(self.fmt))
+					message = '%s %s.%s UTC' % (self.message1, imgtime.strftime(self.fmt), RS.fsec(imgtime))
 					response = None
 					print()
 					if os.path.exists(imgdetails[2]):

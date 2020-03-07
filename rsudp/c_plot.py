@@ -192,7 +192,7 @@ class Plot:
 			self.save_timer -= 1	# don't push the save time forward if there are a large number of alarm events
 			event = [self.save_timer + int(self.save_pct*self.pkts_in_period),
 					 rs.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')]	# event = [save after count, datetime]
-			self.last_event_str = '%s.%s UTC' % (event[1].strftime('%Y-%m-%d %H:%M:%S'), str(self.fsec(event[1])))
+			self.last_event_str = '%s.%s UTC' % (event[1].strftime('%Y-%m-%d %H:%M:%S'), str(rs.fsec(event[1])))
 			printM('Event time: %s' % (self.last_event_str), sender=self.sender)		# show event time in the logs
 			if self.screencap:
 				printM('Saving png in about %i seconds' % (self.save_pct * (self.seconds)), self.sender)
@@ -244,7 +244,7 @@ class Plot:
 		Handles a plot close event.
 		This will trigger a full shutdown of all other processes related to rsudp.
 		'''
-		self.queue.put(b'TERMSELF')
+		self.master_queue.put(b'TERM')
 
 	def handle_resize(self, evt=False):
 		'''
@@ -258,38 +258,6 @@ class Plot:
 		plt.tight_layout(pad=0, h_pad=0.1, w_pad=0,
 					rect=[0.02, 0.01, 0.98, 0.90 + 0.045*(h/1080)])	# [left, bottom, right, top]
 
-	def fsec(self, etime):
-		'''
-		Calculates the first digit of the fraction of a second represented in a
-		:py:class:`obspy.core.utcdatetime.UTCDateTime` or :py:class:`datetime.datetime` object,
-		so that it can be assembled nicely into a string.
-
-		This is necessary because datetime objects in Python are strange and confusing, and
-		strftime doesn't support fractional returns, only the full integer microsecond field
-		which is right-padded with zeroes. This function takes the left two integers in the
-		microsecond field, concatenates them to a string, then converts to float, then returns
-		a rounded single integer which represents the first digit after the decimal.
-
-		For example:
-
-		.. code-block:: python
-
-			>>> from obspy import UTCDateTime
-			>>> t = UTCDateTime(2020, 1, 1, 0, 0, 0, 59)
-			>>> fsec(t)
-			6
-
-		:param etime:
-		:type etime: obspy.core.utcdatetime.UTCDateTime or datetime.datetime
-		:return: the rounded first digit of the microsecond field of the time object passed
-		:rtype: int
-		'''
-		# time in python is weird and confusing, so this is necessarily hacky
-		try:
-			return round(float('%s.%s' % (str(etime.microsecond)[0],str(etime.microsecond)[1])))
-		except IndexError:
-			return etime.microsecond
-
 	def _eventsave(self):
 		'''
 		This function takes the next event in line and pops it out of the list,
@@ -302,7 +270,7 @@ class Plot:
 		self.save.reverse()
 
 		event_time_str = event[1].strftime('%Y-%m-%d-%H%M%S')								# event time
-		title_time_str = event[1].strftime('%Y-%m-%d %H:%M:%S.') + str(self.fsec(event[1]))	# pretty event time
+		title_time_str = event[1].strftime('%Y-%m-%d %H:%M:%S.') + str(rs.fsec(event[1]))	# pretty event time
 
 		# change title (just for a moment)
 		self.fig.suptitle('%s.%s detected event - %s UTC' # title
@@ -350,7 +318,7 @@ class Plot:
 		See code comments for details.
 		"""
 		# instantiate a figure and set basic params
-		self.fig = plt.figure(figsize=(10,3*self.num_chans))
+		self.fig = plt.figure(figsize=(11,3*self.num_chans))
 		self.fig.canvas.mpl_connect('close_event', self.handle_close)
 		self.fig.canvas.mpl_connect('resize_event', self.handle_resize)
 		

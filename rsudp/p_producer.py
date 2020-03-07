@@ -58,12 +58,12 @@ class Producer(Thread):
 					self.blocked.append(addr[0])
 			for thread in self.threads:
 				if thread.alarm:
-					self.queue.put(b'ALARM %s' % bytes(str(RS.UTCDateTime.now()), 'utf-8'))
+					self.queue.put(b'ALARM %s' % bytes(str(thread.alarm), 'utf-8'))
 					printM('%s thread has indicated alarm state, sending ALARM message to queues'
 						   % thread.sender, sender=self.sender)
 					thread.alarm = False
 				if thread.alarm_reset:
-					self.queue.put(b'RESET %s' % bytes(str(RS.UTCDateTime.now()), 'utf-8'))
+					self.queue.put(b'RESET %s' % bytes(str(thread.alarm_reset), 'utf-8'))
 					printM('%s thread has indicated alarm reset, sending RESET message to queues'
 						   % thread.sender, sender=self.sender)
 					thread.alarm_reset = False

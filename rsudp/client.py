@@ -423,7 +423,7 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
 def main():
 	'''
 	Loads settings to start the main client.
-	Supply -h to see help text.
+	Supply -h from the command line to see help text.
 	'''
 	settings_loc = os.path.join(default_loc, 'rsudp_settings.json').replace('\\', '/')
 

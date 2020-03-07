@@ -1,5 +1,7 @@
 # Changelog
 ## changes in 0.4.3
+- alarm time in plot, telegrams, and tweets now has 0.1 second precision
+- alarm time now reports directly from `rsudp.c_alert.Alert` instead of Producer
 - added earth gravity fraction deconvolution option ("GRAV", which is basically "ACC"/9.81)
 - added a testing module
 - added a script to translate seismic data to Raspberry Shake UDP packet format for testing

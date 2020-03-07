@@ -34,7 +34,6 @@ class TestData(Thread):
 		'''
 		l = self.f.readline()
 		if ('TERM' in l.decode('utf-8')) or (l.decode('utf-8') == ''):
-			self.sock.sendto(b'TERM', (self.addr, self.port))
 			printM('End of file.', self.sender)
 			self.alive = False
 		else:
@@ -85,7 +84,7 @@ class TestData(Thread):
 		while self.alive:
 			try:
 				q = self._getq()
-				if str(q) in 'ENDTEST':
+				if q.decode('utf-8') in 'ENDTEST':
 					self.alive = False
 					break
 			except Empty:
@@ -93,5 +92,6 @@ class TestData(Thread):
 				time.sleep(self.speed)
 
 		self.f.close()
+		self.sock.sendto(b'TERM', (self.addr, self.port))
 		printW('Exiting.', self.sender, announce=False)
 		sys.exit()

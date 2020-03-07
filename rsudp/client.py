@@ -48,8 +48,6 @@ def handler(sig, frame):
 	'''
 	Function passed to :py:func:`signal.signal` to handle close events
 	'''
-	if TESTING:
-		TESTQUEUE.put('ENDTEST')
 	rs.producer = False
 
 def _xit():
@@ -321,9 +319,6 @@ def run(settings, debug):
 		if SOUND:
 			t.TEST['d_pydub'][1] = True
 
-		test.queue.put('ENDTEST')
-		time.sleep(0.3) # give threads time to exit
-
 
 def dump_default(settings_loc, default_settings):
 	'''
@@ -554,8 +549,11 @@ def test():
 
 	run(settings, debug=True)
 
+	TESTQUEUE.put(b'ENDTEST')
 	printW('Test finished.', sender=SENDER, announce=False)
+
 	print()
+
 	printM('Test results:')
 	for i in t.TEST:
 		printM('%s: %s' % (t.TEST[i][0], t.TRANS[t.TEST[i][1]]))

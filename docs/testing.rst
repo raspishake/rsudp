@@ -1,12 +1,17 @@
 Testing and demoing rsudp
 #################################################
 
+rsudp includes a small piece of software meant to test the
+ability to function.
+This could be useful if you are looking to demonstrate rsudp's
+functionality to someone, perhaps a classroom of students,
+or if you need to test the core functionality like alerts
+and sounds.
+
 The testing functions are useful for figuring out local problems.
 That is, the testing capabilities of rsudp are meant to discover
-whether or not the software can feed data to `itself`.
-It does test whether it can see the internet at large,
-and whether it can send data to its own port
-(we've chosen 18888 as a test port).
+whether or not the software can feed data to `itself` and
+process it.
 
 If you can run this testing program without any problems
 but you are having issues getting the software to see data from
@@ -42,12 +47,19 @@ various bits of functionality will be tested, including ports,
 directory permissions, internet, processing routines,
 alert functionality, sound-playing capability, and more.
 
+It does test whether it can see the internet at large,
+and whether it can send data to its own port
+(we've chosen 18888 as a test port).
+However, it does not test the ability to receive data from a
+remote shake. If you are having trouble with that, please see the
+:ref:`troubleshooting` page.
+
 
 Data flow
 =================================================
 
-During testing, the typical data flow as depicted in our
-:ref:`flow_diagram` must be created artificially.
+During testing, the typical data flow as depicted in
+:ref:`flow` must be created artificially.
 So, instead of getting data from the Raspberry Shake as usual,
 the :py:class:`rsudp.t_testdata.TestData` thread reads a file and
 sends the individual lines in that file to the data port.
@@ -74,8 +86,8 @@ and can be run from the command line by doing
     conda activate rsudp
     python packetize.py -i input.mseed -o testdata
 
-Then, running ``rs-test`` will use your own data for plots
-and alerts.
+Then, running ``rs-test`` will use your own data for testing
+plots and alerts.
 
 .. note::
 

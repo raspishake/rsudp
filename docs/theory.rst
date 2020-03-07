@@ -1,3 +1,5 @@
+.. _flow:
+
 Program architecture and flow
 #################################################
 

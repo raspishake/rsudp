@@ -30,6 +30,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Operating System :: OS Independent",
+        "Framework :: Matplotlib",
         "Topic :: Scientific/Engineering :: Physics",
         "Intended Audience :: Education",
         "Intended Audience :: End Users/Desktop",

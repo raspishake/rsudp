@@ -536,7 +536,7 @@ def test():
 
 	t.TEST['n_internet'][1] = t.is_connected('www.google.com')
 
-	settings = t.make_test_settings(inet=t.TEST['n_internet'][1])
+	settings = t.make_test_settings(settings=default_settings(), inet=t.TEST['n_internet'][1])
 
 	t.TEST['p_output_dirs'][1] = t.init_dirs(os.path.expanduser(settings['settings']['output_dir']))
 	t.TEST['p_data_dir'][1] = t.datadir_permissions(os.path.expanduser(settings['settings']['output_dir']))

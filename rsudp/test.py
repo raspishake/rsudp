@@ -1,7 +1,6 @@
 import os, sys
 from rsudp import default_loc, init_dirs, output_dir, start_logging, add_debug_handler
 from rsudp import COLOR, printM, printW, printE
-import rsudp.client as client
 from rsudp.c_testing import Testing
 from rsudp.t_testdata import TestData
 from queue import Queue
@@ -43,14 +42,14 @@ TRANS = {
 
 PORT = 18888
 
-def make_test_settings(inet=False):
+def make_test_settings(settings, inet=False):
 	'''
 	Get the default settings and return settings for testing.
 
 	:rtype: dict
 	:return: settings to test with
 	'''
-	settings = json.loads(client.default_settings())
+	settings = json.loads(settings)
 
 	settings['settings']['port'] = PORT
 	if settings['settings']['station'] == 'Z0000':

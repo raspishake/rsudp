@@ -45,15 +45,47 @@ def make_test_settings(settings, inet=False):
 	'''
 	Get the default settings and return settings for testing.
 
+	The default settings are modified in the following way:
+
+	======================================== ===================
+	Setting                                  Status
+	======================================== ===================
+	 ``settings['settings']['station']``      ``R24FA``
+	 ``settings['alert']['threshold']``       ``2``
+	 ``settings['alert']['reset']``           ``0.5``
+	 ``settings['alert']['lowpass']``         ``9``
+	 ``settings['alert']['highpass']``        ``0.8``
+
+	 ``settings['plot']['channels']``         ``['all']``
+	 ``settings['plot']['duration']``         ``60``
+	 ``settings['plot']['deconvolve']``       ``True``
+	 ``settings['plot']['units']``            ``'CHAN'``
+	 ``settings['plot']['eq_screenshots']``   ``True``
+
+	 ``settings['alertsound']['enabled']``    ``True``
+
+	 ``settings['tweets']['enabled']``        ``False``
+	 ``settings['telegram']['enabled']``      ``False``
+	======================================== ===================
+
+	.. note::
+
+		If there is no internet connection detected, the station
+		name will default to ``'Z0000'`` so that no time is wasted
+		trying to download an inventory from the Raspberry Shake
+		FDSN service.
+
 	:rtype: dict
 	:return: settings to test with
 	'''
 	settings = json.loads(settings)
 
 	settings['settings']['port'] = PORT
-	if settings['settings']['station'] == 'Z0000':
-		if inet:
-			settings['settings']['station'] = 'R24FA'
+	if inet:
+		settings['settings']['station'] = 'R24FA'
+	else:
+		settings['settings']['station'] = 'Z0000'
+
 
 	settings['alert']['threshold'] = 2
 	settings['alert']['reset'] = 0.5

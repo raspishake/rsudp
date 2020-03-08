@@ -54,6 +54,15 @@ However, it does not test the ability to receive data from a
 remote shake. If you are having trouble with that, please see the
 :ref:`troubleshooting` page.
 
+
+Settings during testing
+=================================================
+
+Settings are slightly different during testing than they would
+ordinarily be. Find a summary of what gets changed at
+:py:func:`rsudp.test.make_test_settings`.
+
+
 .. _testing_flow:
 
 Data flow during testing

@@ -8,6 +8,28 @@ class Testing(Thread):
 	'''
 	.. versionadded:: 0.4.3
 
+	This is the test consumer thread.
+	It operates just like a normal consumer,
+	but its only function is to run tests for data processing
+	and message passing.
+	Currently it has the power to run 7 tests from
+	:py:mod:`rsudp.test`:
+
+	.. code-block:: python
+
+		TEST['n_inventory']
+		TEST['c_data']
+		TEST['c_processing']
+		TEST['c_TERM']
+		TEST['c_ALARM']
+		TEST['c_RESET']
+		TEST['c_IMGPATH']
+
+	These tests represent inventory fetch, data packet reception,
+	stream processing, and the reception of the four current message types:
+	``TERM``, ``ALARM``, ``RESET``, and ``IMGPATH``.
+
+	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 	'''
 	def __init__(self, q):
 		"""
@@ -52,6 +74,10 @@ class Testing(Thread):
 
 	def _datatests(self, d):
 		'''
+		Run tests on a data packet to see if it can be processed into a stream object.
+		If so, mark the data and processing tests passed.
+
+		:param bytes d: a data packet from the queue
 
 		'''
 
@@ -62,32 +88,37 @@ class Testing(Thread):
 
 	def _messagetests(self, d):
 		'''
+		Run tests on a message to see if a specific one has been passed.
+		If so, mark the test passed.
+
+		:param bytes d: a data packet from the queue
 
 		'''
 		if 'TERM' in str(d):
 			printM('Got TERM message...', sender=self.sender)
-			t.TEST['c_TERM'][1] = True
+			t.TEST[''][1] = True
 			self.alive = False
 	
 		elif 'ALARM' in str(d):
 			printM('Got ALARM message...', sender=self.sender)
-			t.TEST['c_ALARM'][1] = True
+			t.TEST[''][1] = True
 
 		elif 'RESET' in str(d):
 			printM('Got RESET message...', sender=self.sender)
-			t.TEST['c_RESET'][1] = True
+			t.TEST[''][1] = True
 
 		elif 'IMGPATH' in str(d):
 			printM('Got IMGPATH message...', sender=self.sender)
-			t.TEST['c_IMGPATH'][1] = True
+			t.TEST[''][1] = True
 
 
 	def run(self):
 		'''
+		Start the testing thread and run until ``self.alive == False``.
 
 		'''
 		if rs.inv:
-			t.TEST['n_inventory'][1] = True
+			t.TEST[''][1] = True
 		self._datatests(self._getq())
 
 

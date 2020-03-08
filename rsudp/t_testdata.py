@@ -16,6 +16,9 @@ class TestData(Thread):
 	Designed to quit on seeing a ``TERM`` string as the last line of the file
 	or when an ``ENDTEST`` packet arrives on this thread's queue.
 
+	For a diagram of ``TestData``'s position in the data hierarchy, see
+	:ref:`testing_flow`.
+
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 	:param str data_file: data file to read from disk
 	:param port: network port to pass UDP data to (at ``localhost`` address)

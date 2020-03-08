@@ -12,6 +12,11 @@ class Testing(Thread):
 	It operates just like a normal consumer,
 	but its only function is to run tests for data processing
 	and message passing.
+
+	For a diagram of ``TestData``'s position in the data hierarchy, see
+	:ref:`testing_flow`.
+
+
 	Currently it has the power to run 7 tests from
 	:py:mod:`rsudp.test`:
 

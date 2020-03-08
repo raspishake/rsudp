@@ -54,8 +54,9 @@ However, it does not test the ability to receive data from a
 remote shake. If you are having trouble with that, please see the
 :ref:`troubleshooting` page.
 
+.. _testing_flow:
 
-Data flow
+Data flow during testing
 =================================================
 
 During testing, the typical data flow as depicted in

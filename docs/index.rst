@@ -100,7 +100,7 @@ The modules available in rsudp are organized by type below.
 
 .. toctree::
     :maxdepth: 2
-    :caption: Testing
+    :caption: Testing modules
 
     t_testdata
     c_testing

@@ -66,6 +66,17 @@ sends the individual lines in that file to the data port.
 The Producer then reads that data and data flow through the rest
 of the architecture continues as normal.
 
+.. _test_diagram:
+.. figure::  _static/test-flow.png
+    :align:   center
+
+    Flow chart of test data hierarchy,
+    based on the :ref:`flow` diagram showing how data
+    makes its way through the program during testing.
+    Note that there is no Raspberry Shake in the hierarchy
+    as there would be in ordinary operation, but instead
+    data is generated from a text file at
+    ``rsudp/test/testdata``.
 
 Using your own data
 =================================================

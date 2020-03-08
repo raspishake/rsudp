@@ -71,7 +71,7 @@ of the architecture continues as normal.
     :align:   center
 
     Flow chart of test data hierarchy,
-    based on the :ref:`flow` diagram showing how data
+    based on the :ref:`flow` diagram, showing how data
     makes its way through the program during testing.
     Note that there is no Raspberry Shake in the hierarchy
     as there would be in ordinary operation, but instead

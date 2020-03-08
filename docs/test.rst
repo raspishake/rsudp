@@ -3,7 +3,8 @@
 
 .. versionadded:: 0.4.3
 
-The test module. Here are the currently available tests:
+The test module. Here are the currently available tests, descriptions,
+and their initial state:
 
 .. code-block:: python
 

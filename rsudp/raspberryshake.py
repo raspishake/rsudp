@@ -650,6 +650,8 @@ def copy(orig):
 
 def fsec(etime):
 	'''
+	.. versionadded:: 0.4.3
+
 	Calculates the first digit of the fraction of a second represented in a
 	:py:class:`obspy.core.utcdatetime.UTCDateTime` or :py:class:`datetime.datetime` object,
 	so that it can be assembled nicely into a string.

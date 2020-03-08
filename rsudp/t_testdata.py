@@ -9,6 +9,8 @@ from queue import Empty
 
 class TestData(Thread):
 	'''
+	.. versionadded:: 0.4.3
+
 	A simple module that reads lines formatted as Raspberry Shake UDP packets
 	from a file on disk, and sends them to the specified localhost port.
 	Designed to quit on seeing a ``TERM`` string as the last line of the file

@@ -545,6 +545,7 @@ settings in %s
 def test():
 	'''
 	Set up tests, run modules, report test results.
+	For a list of tests run, see :py:mod:`rsudp.test`.
 	'''
 	test_mode(True)
 

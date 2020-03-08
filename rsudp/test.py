@@ -15,10 +15,12 @@ TEST = {
 	'p_output_dirs':		['output directory structure  ', False],
 	'p_screenshot_dir':		['screenshot directory        ', False],
 	'p_data_dir':			['data directory              ', False],
+
 	# network
 	'n_port':				['port                        ', False],
 	'n_internet':			['internet                    ', False],
 	'n_inventory':			['inventory fetch             ', False],
+
 	# dependencies
 	'd_pydub':				['pydub dependencies          ', False],
 	'd_matplotlib':			['matplotlib backend          ', False],

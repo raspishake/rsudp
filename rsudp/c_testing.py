@@ -16,7 +16,6 @@ class Testing(Thread):
 	For a diagram of ``TestData``'s position in the data hierarchy, see
 	:ref:`testing_flow`.
 
-
 	Currently it has the power to run 7 tests from
 	:py:mod:`rsudp.test`:
 

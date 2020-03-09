@@ -17,6 +17,11 @@ you will typically be able to start and run this program without errors.
 Remote (rsudp) side
 *************************************************
 
+Can't run the ``conda`` command
+=================================================
+
+See :ref:`source`.
+
 No data received
 =================================================
 

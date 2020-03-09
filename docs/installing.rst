@@ -53,7 +53,8 @@ Run the sourcing line
 
 If you are running UNIX and having trouble running ``conda activate``
 commands, your operating system probably doesn't know where to look
-for Anaconda. To fix this, we need to tell it where to look.
+for Anaconda. To fix this, we need to tell it to read Anaconda's
+definitions telling it where to look.
 
 If you are running an x86 (desktop or laptop) computer,
 run the following command:

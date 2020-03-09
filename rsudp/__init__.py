@@ -120,7 +120,7 @@ def start_logging(testing=False):
 	return True
 
 
-def add_debug_handler(testing=True):
+def add_debug_handler(testing=False):
 	'''
 	Creates an additional handler for logging info and warnings to the command line.
 

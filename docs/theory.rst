@@ -79,6 +79,7 @@ Currently, the message types are as follows.
  ALARM     ``b'ALARM 2020-02-23T06:56:40.598944Z'``
  RESET     ``b'RESET 2020-02-23T06:56:55.435214Z'``
  IMGPATH   ``b'IMGPATH 2020-02-23T06:59:19.211704Z /home/pi/rsudp/screenshots/R24FA-2020-02-23-065919.png'``
+ TERM      ``b'TERM'``
 ========= ==========================================
 
 **ALARM** messages are sent by :py:class:`rsudp.p_producer.Producer`
@@ -102,6 +103,10 @@ modules, :py:class:`rsudp.c_tweet.Tweeter` and
 :py:class:`rsudp.c_telegram.Telegrammer` which then send the saved image
 to their respective social media platforms' APIs for broadcast.
 
+**TERM** messages are the universal signal for rsudp to quit.
+They generally start at the Producer and are passed through the
+data hierarchy as normal data would.
+
 
 .. _add_your_own:
 
@@ -113,7 +118,29 @@ workings of rsudp's layout. Using the existing modules' code architecture
 is likely useful and should be encouraged, so feel free to follow along
 with what we have already laid out in the code base.
 
-Here is a sample consumer construction to modify for your own purposes:
+There are three main things that need to happen in order to add a consumer.
+
+1. Create a new module, named ``c_mymodule.py``, in the ``rsudp`` directory.
+2. Add a section to your settings file which will tell rsudp what settings to pass to your module.
+3. Add code to :py:func:`rsudp.client.run` to pass settings and a queue to your module, and start it.
+
+And some optional things to do in case you plan on submitting a pull request:
+
+4. Add documentation in the form of reStructuredText-formatted docstrings (see examples below)
+5. Add testing capability to your module.
+
+
+Sample consumer
+=================================================
+
+Below is a sample consumer construction to modify for your own purposes.
+It receives all queue messages (outlined in :ref:`producer-consumer`)
+and can be made to do pretty much whatever you wish,
+until it receives a ``TERM`` queue message.
+
+This consumer is created from a
+:py:class:`rsudp.raspberryshake.ConsumerThread` object,
+which in turn modifies the :py:class:`threading.Thread` class.
 
 .. code-block:: python
 
@@ -121,25 +148,42 @@ Here is a sample consumer construction to modify for your own purposes:
     from rsudp.raspberryshake import ConsumerThread
     from rsudp import printM
 
-    class MyModule(ConsumerThread):
+    class MyModule(ConsumerThread): # this means MyModule will be based on the ConsumerThread class
         '''
         Documentation of your new module class goes here.
+        Below is the format of two types of *param* string, which tell the
+        documentation parser to inform users that this object needs the user to
+        pass it a queue in order to work correctly.
+
+        The first string, for the ``q`` parameter, has the type as the
+        middle object and the caption after. The second one, ``thing1``
+        could either be a string or a boolean value,
+        so we move the type for it to its own row with the types listed after.
+        Sphinx, the documentation formatter, will be able to combine these into
+        one object describing the parameter.
 
         :param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
-
+        :param thing1: a passed parameter that's either a string or a boolean (True/False)
+        :type thing1: bool or str
         '''
-        def __init__(self, q,    # more defaults to pass to the class
+        def __init__(self, q, thing1    # ... probably some more parameters to pass to the class
                     )
             super().__init__()
             self.sender = 'MyModule'
             self.alive = True
             self.queue = q
+            self.thing1 = thing1
             # ... lots of other stuff to initialize your module
-            printM('Ready.', sender=self.sender)
+            printM(self.thing1, sender=self.sender)
 
         def getq(self):
             '''
             Reads data from the queue and returns the queue object.
+
+            Since this function returns something, it has return
+            strings (*rtype* stands for return type) so that the
+            user reading the documentation knows what they'll get
+            back if they call it.
 
             :rtype: bytes
             :return: The queue object.
@@ -150,7 +194,11 @@ Here is a sample consumer construction to modify for your own purposes:
 
         def run(self):
             '''
-            Documenting how my cool module works!
+            Documenting how my cool module runs!
+
+            Right now, its only function is to get and read queue messages
+            to see if one of them has the ``TERM`` message in it,
+            at which point it quits.
             '''
             printM('Starting.', sender=self.sender)
             # some stuff to execute here at runtime before looping
@@ -165,9 +213,58 @@ Here is a sample consumer construction to modify for your own purposes:
             printM('Exiting.', sender=self.sender)
             sys.exit()
 
-This consumer is created from a
-:py:class:`rsudp.raspberryshake.ConsumerThread` object,
-which in turn modifies the :py:class:`threading.Thread` class.
+
+Adding your module to the settings file
+=================================================
+
+An example settings section is given here.
+As a reminder, each settings section except the last one
+is required to have a comma after its closing brace to conform
+to JSON standards.
+Here let's assume this is not the last JSON section,
+so we include the comma:
+
+.. code-block:: json
+
+    "mymodule": {
+        "enabled": true,
+        "thing1": "first thing"},
+
+
+Adding your module to `client.py`
+=================================================
+
+Since all modules are started from the client's :py:func:`rsudp.client.run`
+function, you will need to add a section of code to the client to tell it
+how to start your module.
+An example based on the JSON section above is given here.
+
+.. code-block:: python
+
+    from c_mymodule import MyModule
+
+    # ... lots of other stuff in client.py
+
+    def run(settings, debug):
+
+        # ... setting up other modules
+
+        if settings['mymodule']['enabled']:
+            # first, gather settings
+            thing1 = settings['mymodule']['thing1']
+            # then, set up queue
+            q = mk_q()
+            # then, start a MyModule instance with the settings you got earlier
+            mymod = MyModule(q=q, thing1=thing1)
+            # now, pass this instance to the process list to be started below
+            mk_p(mymod)
+
+        # ...
+
+        # this part already exists, but just to show you where in sequence your code should be:
+        start()
+
+        # ...
 
 
 .. _add_testing:
@@ -175,7 +272,7 @@ which in turn modifies the :py:class:`threading.Thread` class.
 Testing your module
 =================================================
 
-Testing new modules is easy in rsudp.
+Formal testing of new modules is easy in rsudp.
 
 The :py:func:`rsudp.client.test` function is set to run any enabled
 module by default. If the module is not enabled in the default
@@ -215,10 +312,7 @@ the status of your tests like so:
         def __init__(self, q    # ...
                     )
             super().__init__()
-            self.sender = 'MyModule'
-            self.alive = True
-            self.queue = q
-            # ... lots of other stuff to initialize your module
+            # ... stuff to initialize your module
             if abc:
                 # this test occurs during initialization
                 TEST['c_mytest'][1] = True

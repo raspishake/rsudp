@@ -35,6 +35,21 @@ and their initial state:
         'c_TERM':               ['TERM message                ', False],
     }
 
+.. note::
+
+    If you wish to add your own consumer module, the easiest way to test
+    its functionality is to follow the instructions in
+    :ref:`add_testing`, then add the relevant test to this dictionary.
+    Then, you would import the :py:data:`rsudp.test.TEST` variable
+    and modify the test result (:py:data:`TEST['your_test'][1] = True`)
+    if the test passed.
+
+    If your module is set not to start by default, you will need to
+    set ``settings['your_module']['enabled'] = True`` in
+    :py:func:`rsudp.test.make_test_settings` prior to running the tests.
+
+
+
 
 .. automodule:: rsudp.test
     :members:

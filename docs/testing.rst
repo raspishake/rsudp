@@ -88,6 +88,14 @@ of the architecture continues as normal.
     data is generated from a text file at
     ``rsudp/test/testdata``.
 
+
+Testing your own modules
+=================================================
+
+Read about adding testing capabilities to new modules in
+:ref:`add_testing`.
+
+
 Using your own data
 =================================================
 

@@ -102,6 +102,8 @@ modules, :py:class:`rsudp.c_tweet.Tweeter` and
 :py:class:`rsudp.c_telegram.Telegrammer` which then send the saved image
 to their respective social media platforms' APIs for broadcast.
 
+.. _add_your_own:
+
 Adding your own consumer modules
 *************************************************
 
@@ -109,6 +111,117 @@ Adding consumer modules is easy in theory, when you understand the
 workings of rsudp's layout. Using the existing modules' code architecture
 is likely useful and should be encouraged, so feel free to follow along
 with what we have already laid out in the code base.
+
+Here is a sample consumer construction to modify for your own purposes:
+
+.. code-block:: python
+
+    import sys
+    from rsudp.raspberryshake import ConsumerThread
+    from rsudp import printM
+
+    class MyModule(ConsumerThread):
+        def __init__(self, q    # ...
+                    )
+            super().__init__()
+            self.sender = 'MyModule'
+            self.alive = True
+            self.queue = q
+            # ... lots of other stuff to initialize your module
+            printM('Ready.', sender=self.sender)
+
+        def getq(self):
+            d = self.queue.get()
+            self.queue.task_done()
+            return d
+
+        def run(self):
+            printM('Starting.', sender=self.sender)
+            # some stuff to execute here at runtime before looping
+
+            while self.alive:
+                # main loop, do something until self.alive == False
+                d = self.getq()
+                if 'TERM' in str(d):
+                    self.alive = False
+
+            # now exit
+            printM('Exiting.', sender=self.sender)
+            sys.exit()
+
+This consumer is created from a
+:py:class:`rsudp.raspberryshake.ConsumerThread` object,
+which in turn modifies the :py:class:`threading.Thread` class.
+
+
+.. _add_testing:
+
+Testing your module
+=================================================
+
+Testing new modules is easy in rsudp.
+
+The :py:func:`rsudp.client.test` function is set to run any enabled
+module by default. If the module is not enabled in the default
+settings, you can add a line to the
+:py:func:`rsudp.test.make_test_settings` that specifies
+
+.. code-block:: python
+
+    settings['your_module']['enabled'] = True
+
+The second step is to add your test to the dictionary of tests in
+:py:mod:`rsudp.test`, so that it gets reported. For example:
+
+.. code-block:: python
+
+    TEST = {
+            # other tests
+            # ...
+            'c_mytest':             ['something I am testing for  ', False],
+            'c_anotherone':         ['some other thing I test     ', False],
+    }
+
+Each dictionary item is constructed as a two-item list,
+where the first item is the description string,
+and the second is the status of the test
+(False is failure and True is passing).
+
+Then, in your module, you can import the test dictionary and modify
+the status of your tests like so:
+
+.. code-block:: python
+
+    from rsudp.raspberryshake import ConsumerThread
+    from rsudp.test import TEST
+
+    class MyModule(ConsumerThread):
+        def __init__(self, q    # ...
+                    )
+            super().__init__()
+            self.sender = 'MyModule'
+            self.alive = True
+            self.queue = q
+            # ... lots of other stuff to initialize your module
+            if abc:
+                # this test occurs during initialization
+                TEST['c_mytest'][1] = True
+
+        def run(self):
+            # some stuff here also
+            if xyz:
+                # this test is done at runtime
+                TEST['c_anotherone'][1] = True
+            while self.alive:
+                # main loop, do something until self.alive == False
+                # or you receive the TERM message
+            # now exit
+            printM('Exiting.', self.sender)
+            sys.exit()
+
+
+Suggesting features
+*************************************************
 
 As with other issues, if you have an idea for a feature addition but have
 questions about how to implement it, we encourage you to post to our

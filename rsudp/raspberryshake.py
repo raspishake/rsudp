@@ -12,6 +12,7 @@ from obspy.geodetics.flinnengdahl import FlinnEngdahl
 from obspy.core.trace import Trace
 from rsudp import printM, printW, printE
 from requests.exceptions import HTTPError
+from threading import Thread
 
 initd, sockopen = False, False
 qsize = 2048 			# max queue size
@@ -749,6 +750,31 @@ def deconvolve(self):
 
 		else:
 			trace.stats.units = ' counts'		# this is not being deconvolved
+
+class ConsumerThread(Thread):
+	'''
+	The default consumer thread setup.
+	Import this consumer and easily create your own consumer modules!
+
+	Currently, the hidden settings in the ``__init__`` function are:
+
+	.. code-block:: python
+
+		self.sender = 'ConsumerThread'	# used in logging
+		self.alarm = False				# the producer reads this
+		self.alarm_reset = False		# the producer reads this
+		self.alive = True				# this is used to keep the main for loop running
+
+	For more information on creating your own consumer threads,
+	see :ref:`add_your_own`.
+
+	'''
+	def __init__(self):
+		super().__init__()
+		self.sender = 'ConsumerThread'	# used in logging
+		self.alarm = False				# the producer reads this
+		self.alarm_reset = False		# the producer reads this
+		self.alive = True				# this is used to keep the main for loop running
 
 
 if __name__ == '__main__':

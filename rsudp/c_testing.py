@@ -47,7 +47,7 @@ class Testing(rs.ConsumerThread):
 		self.stream = rs.Stream()
 		self.cha = rs.chns
 
-		printW('Starting test.', sender=self.sender, announce=False)
+		printW('Starting test consumer.', sender=self.sender, announce=False)
 
 	def _getq(self):
 		'''
@@ -95,20 +95,20 @@ class Testing(rs.ConsumerThread):
 		'''
 		if 'TERM' in str(d):
 			printM('Got TERM message...', sender=self.sender)
-			t.TEST[''][1] = True
+			t.TEST['c_TERM'][1] = True
 			self.alive = False
 	
 		elif 'ALARM' in str(d):
 			printM('Got ALARM message...', sender=self.sender)
-			t.TEST[''][1] = True
+			t.TEST['c_ALARM'][1] = True
 
 		elif 'RESET' in str(d):
 			printM('Got RESET message...', sender=self.sender)
-			t.TEST[''][1] = True
+			t.TEST['c_RESET'][1] = True
 
 		elif 'IMGPATH' in str(d):
 			printM('Got IMGPATH message...', sender=self.sender)
-			t.TEST[''][1] = True
+			t.TEST['c_IMGPATH'][1] = True
 
 
 	def run(self):
@@ -117,13 +117,12 @@ class Testing(rs.ConsumerThread):
 
 		'''
 		if rs.inv:
-			t.TEST[''][1] = True
+			t.TEST['n_inventory'][1] = True
 		self._datatests(self._getq())
 
 
 		while self.alive:
 			self._getd()
 
-		t.TEST = t.TEST
 		printW('Exiting.', sender=self.sender, announce=False)
 		sys.exit()

@@ -20,7 +20,8 @@
 5. **Telegrammer** - a thread similar to the Tweeter module that sends a [Telegram](https://telegram.org) message when an alarm is triggered, which can also broadcast saved images
 6. **Writer** - a simple miniSEED writer
 7. **Forward** - forward a data cast to another IP/port destination
-8. **Print** - a debugging tool to output raw data to the command line
+8. **Custom** - run custom code when an `ALARM` message is received
+9. **Print** - a debugging tool to output raw data to the command line
 
 `rsudp` is written in Python but requires no coding knowledge to run. Simply follow the [instructions to install the software](https://rsudp.readthedocs.io/en/latest/installing.html), go to your Shake's web front end, configure a UDP datacast to your computer's local IP address, [start the software]() from the command line, and watch the data roll in.
 

@@ -1,8 +1,10 @@
+.. _test:
+
 Testing and demoing rsudp
 #################################################
 
 rsudp includes a small piece of software meant to test the
-ability to function.
+ability to function and process seismic data.
 This could be useful if you are looking to demonstrate rsudp's
 functionality to someone, perhaps a classroom of students,
 or if you need to test the core functionality like alerts
@@ -35,8 +37,7 @@ data will trigger an alarm in the software.
 
 To run this software, make sure you have installed this software
 using the instructions in :ref:`install`, and that you can enter
-your conda environment (typically by typing
-``conda activate rsudp`` in a command window.
+your conda environment (see :ref:`run-test`).
 
 Once you have done that, the test command ``rs-test`` will become
 available.

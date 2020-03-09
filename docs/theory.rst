@@ -231,7 +231,7 @@ so we include the comma:
         "thing1": "first thing"},
 
 
-Adding your module to `client.py`
+Adding your module to ``client.py``
 =================================================
 
 Since all modules are started from the client's :py:func:`rsudp.client.run`

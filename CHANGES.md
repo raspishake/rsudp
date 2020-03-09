@@ -1,9 +1,12 @@
 # Changelog
 ## changes in 0.4.3
-- added a custom class for consumers to inherit which contains everything the Producer needs to function
+- fixed unit capitalization in plot y-label
+- added an exit code to the test function
+- added a custom class (`rsudp.raspberryshake.ConsumerThread`) for consumers to inherit which contains everything the Producer needs to function
 - added additional trove classifiers
 - alarm time in plot, telegrams, and tweets now has 0.1 second precision
 - alarm time now reports directly from `rsudp.c_alert.Alert` instead of Producer
+- fixed a circular import issue which manifest on RPi
 - added earth gravity fraction deconvolution option ("GRAV", which is basically "ACC"/9.81)
 - added a testing module
 - added a script to translate seismic data to Raspberry Shake UDP packet format for testing

@@ -33,7 +33,7 @@ If you're a developer or feeling adventurous, here are some fun potential projec
 - GPIO pin interaction module (lights, motor control, buzzers, etc.)
 - IFTTT integration
 - Integration into other social media apps beyond Telegram and Twitter
-- plot |trigger_on_off| using :py:func:`obspy.signal.trigger.trigger_onset` and :py:func:`matplotlib.pyplot.axvline`::
+- plot |trigger_on_off| for times set in ``ALARM`` and ``RESET`` messages using :py:func:`matplotlib.pyplot.axvline`::
 
     on_events = [UTCDateTime1, UTCDateTime3]
     for time in on_events:

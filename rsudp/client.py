@@ -99,6 +99,7 @@ def start(settings, threads=THREADS, destinations=DESTINATIONS):
 	'''
 	Start Consumer, Threads, and Producer.
 
+	:param dict settings: settings dictionary (see :ref:`defaults` for guidance)
 	:param list threads: list of :py:class:`threading.Thread` objects to start
 	:param list destinations: list of :py:class:`queue.Queue` objects to pass to :py:class:`rsudp.c_consumer.Consumer` for data distribution
 	'''

@@ -1,5 +1,6 @@
 # Changelog
 ## changes in 0.4.3
+- added a custom class for consumers to inherit which contains everything the Producer needs to function
 - added additional trove classifiers
 - alarm time in plot, telegrams, and tweets now has 0.1 second precision
 - alarm time now reports directly from `rsudp.c_alert.Alert` instead of Producer

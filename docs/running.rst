@@ -28,13 +28,14 @@ Starting on Windows, or manually on Unix
 This start method is covered in our |start_run_tutorial|.
 
 1. First, to activate the conda environment, type :bash:`conda activate rsudp`.
+If you can't do this, and you're on Unix, you may need to :ref:`source`.
 
 2. Next, configure a datacast stream (formerly known as a UDP stream)
-    to forward data to an open port on the computer where this program is running.
-    By default this port is :code:`8888`.
+to forward data to an open port on the computer where this program is running.
+By default this port is :code:`8888`.
 
 3. The UNIX installer will create a settings file in :bash:`$HOME/.config/rsudp/rsudp_settings.json`.
-    Change the settings in this file to control how the client operates.
+Change the settings in this file to control how the client operates.
 
 .. note::
 
@@ -52,8 +53,8 @@ This start method is covered in our |start_run_tutorial|.
     :bash:`$HOME/.config/rsudp/rsudp_settings.json`, type :bash:`rs-client -d default`
 
 4. After modifying the settings file to your liking,
-    type :bash:`rs-client` to use the settings file at :bash:`$HOME/.config/rsudp/rsudp_settings.json`,
-    or :bash:`rs-client -s /path/to/settings.json` to run with a settings file other than the default one.
+type :bash:`rs-client` to use the settings file at :bash:`$HOME/.config/rsudp/rsudp_settings.json`,
+or :bash:`rs-client -s /path/to/settings.json` to run with a settings file other than the default one.
 
 .. note::
 
@@ -67,9 +68,17 @@ This start method is covered in our |start_run_tutorial|.
 Running in demonstration/testing mode
 *************************************************
 
-Follow the instructions in steps 1-3 of :ref:`running-manually`, except instead of typing
-``rs-client`` in step 4, run the ``rs-test`` command. See more about this functionality
-in :ref:`test`.
+See more about this functionality in :ref:`test`.
+
+To start, open a Terminal or Anaconda Prompt window.
+
+1. Activate the conda environment by typing :bash:`conda activate rsudp`.
+2. Type :bash:`rs-test` and press enter.
+
+Test data will begin flowing through the program.
+Several features will be tested, including the
+earthquake detection functionality, the alarm sound,
+and the plot.
 
 
 `Back to top ↑ <#top>`_

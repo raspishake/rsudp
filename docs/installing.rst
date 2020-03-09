@@ -41,27 +41,61 @@ and leave you ready to run the program. To install using this method:
     This is generally harmless, but if you have a specific objection to it,
     hitting any key other than "y" will cause the script to skip this step.
     You will have to manually run the :bash:`conda` executable in this case, however.
-    If you choose to do it manually later,
-    the line appended to the end of :bash:`~/.bashrc` is the following (architecture-dependent):
-
-    On x86 systems:
-
-    .. code-block:: bash
-
-        . $HOME/miniconda3/etc/profile.d/conda.sh
-
-    or on ARMv7 architecture with Raspbian OS:
-
-    .. code-block:: bash
-
-        . $HOME/berryconda3/etc/profile.d/conda.sh
-
-    where :bash:`$HOME` is the home directory of the current user.
-
-.. note::
-    You can run :bash:`uname -m` to check your computer's architecture.
+    If you choose to do it manually later, follow the instructions in the section below.
 
 You are now ready to proceed to the next section, :ref:`settings`.
+
+
+.. _source:
+
+Run the sourcing line
+-----------------------------------------------------------------
+
+If you are running UNIX and having trouble running ``conda activate``
+commands, your operating system probably doesn't know where to look
+for Anaconda. To fix this, we need to tell it where to look.
+
+If you are running an x86 (desktop or laptop) computer,
+run the following command:
+
+.. code-block:: bash
+
+    . $HOME/miniconda3/etc/profile.d/conda.sh
+
+or on ARMv7 (Raspberry Pi) architecture with Raspbian OS:
+
+.. code-block:: bash
+
+    . $HOME/berryconda3/etc/profile.d/conda.sh
+
+where :bash:`$HOME` is the home directory of the current user.
+
+.. note::
+
+    You can run :bash:`uname -m` to check your computer's architecture.
+
+
+Add the sourcing line to your :py:data:`~/.bashrc`
+-----------------------------------------------------------------
+
+The program *should* do this step automatically,
+but if you have this problem consistently, you may need to add this
+line to your ``~/.bashrc`` file.
+The following step will append the sourcing line to
+the end of your :bash:`~/.bashrc` is the following (architecture-dependent):
+
+On x86 systems:
+
+.. code-block:: bash
+
+    echo ". $HOME/miniconda3/etc/profile.d/conda.sh" >> ~/.bashrc
+
+or on ARMv7:
+
+.. code-block:: bash
+
+    echo ". $HOME/berryconda3/etc/profile.d/conda.sh" >> ~/.bashrc
+
 
 Updating
 ---------------------------------

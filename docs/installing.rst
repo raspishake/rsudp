@@ -56,7 +56,7 @@ commands, your operating system probably doesn't know where to look
 for Anaconda. To fix this, we need to tell it to read Anaconda's
 definitions telling it where to look.
 
-If you are running an x86 (desktop or laptop) computer,
+If you are running an x86 (desktop or laptop) or AMD type processor,
 run the following command:
 
 .. code-block:: bash
@@ -79,13 +79,13 @@ where :bash:`$HOME` is the home directory of the current user.
 Add the sourcing line to your :py:data:`~/.bashrc`
 -----------------------------------------------------------------
 
-The program *should* do this step automatically,
+The UNIX installer script *should* do this step automatically,
 but if you have this problem consistently, you may need to add this
 line to your ``~/.bashrc`` file.
 The following step will append the sourcing line to
 the end of your :bash:`~/.bashrc` is the following (architecture-dependent):
 
-On x86 systems:
+On x86/AMD systems:
 
 .. code-block:: bash
 

@@ -761,7 +761,7 @@ class ConsumerThread(Thread):
 	needs in order to function.
 
 	Currently, the modifications that this module makes to
-	:py:class`threading.Thread` objects are:
+	:py:class:`threading.Thread` objects are:
 
 	.. code-block:: python
 

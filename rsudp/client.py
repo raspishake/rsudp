@@ -14,7 +14,7 @@ from rsudp.c_consumer import Consumer
 from rsudp.p_producer import Producer
 from rsudp.c_printraw import PrintRaw
 from rsudp.c_write import Write
-from rsudp.c_plot import Plot, mpl
+from rsudp.c_plot import Plot, MPL
 from rsudp.c_forward import Forward
 from rsudp.c_alert import Alert
 from rsudp.c_alertsound import AlertSound
@@ -27,9 +27,9 @@ import pkg_resources as pr
 import fnmatch
 try:
 	from pydub import AudioSegment
-	pydub_exists = True
+	PYDUB_EXISTS = True
 except ImportError:
-	pydub_exists = False
+	PYDUB_EXISTS = False
 
 
 DESTINATIONS, THREADS = [], []
@@ -60,9 +60,11 @@ def handler(sig, frame):
 	'''
 	rs.producer = False
 
-def _xit():
+def _xit(code=0):
 	'''
 	End the program. Called after all running threads have stopped.
+
+	:param int code: The process code to exit with. 0=OK, 1=ERROR.
 	'''
 	# global PLOTTER
 	# del PLOTTER
@@ -71,7 +73,7 @@ def _xit():
 	
 	printM('Shutdown successful.', sender=SENDER)
 	print()
-	sys.exit(0)
+	sys.exit(code)
 
 def mk_q():
 	'''
@@ -95,27 +97,23 @@ def mk_p(proc):
 	THREADS.append(proc)
 
 
-def start(settings, threads=THREADS, destinations=DESTINATIONS):
+def start():
 	'''
 	Start Consumer, Threads, and Producer.
-
-	:param dict settings: settings dictionary (see :ref:`defaults` for guidance)
-	:param list threads: list of :py:class:`threading.Thread` objects to start
-	:param list destinations: list of :py:class:`queue.Queue` objects to pass to :py:class:`rsudp.c_consumer.Consumer` for data distribution
 	'''
-	global PROD, PLOTTER
+	global PROD, PLOTTER, THREADS, DESTINATIONS
 	# master queue and consumer
 	queue = Queue(rs.qsize)
-	cons = Consumer(queue, destinations)
+	cons = Consumer(queue, DESTINATIONS)
 	cons.start()
 
-	for thread in threads:
+	for thread in THREADS:
 		thread.start()
 
-	PROD = Producer(queue, threads)
+	PROD = Producer(queue, THREADS)
 	PROD.start()
 
-	if settings['plot']['enabled'] and mpl:
+	if PLOTTER and MPL:
 		# give the plotter the master queue
 		# so that it can issue a TERM signal if closed
 		PLOTTER.master_queue = queue
@@ -174,7 +172,7 @@ def run(settings, debug):
 		writer = Write(q=q, cha=cha)
 		mk_p(writer)
 
-	if settings['plot']['enabled'] and mpl:
+	if settings['plot']['enabled'] and MPL:
 		while True:
 			if rs.numchns == 0:
 				time.sleep(0.01)
@@ -237,7 +235,7 @@ def run(settings, debug):
 	if settings['alertsound']['enabled']:
 		sender = 'AlertSound'
 		SOUND = False
-		if pydub_exists:
+		if PYDUB_EXISTS:
 			soundloc = os.path.expanduser(os.path.expanduser(settings['alertsound']['mp3file']))
 			if soundloc in ['doorbell', 'alarm', 'beeps', 'sonar']:
 				soundloc = pr.resource_filename('rsudp', os.path.join('rs_sounds', '%s.mp3' % soundloc))
@@ -312,6 +310,12 @@ def run(settings, debug):
 							   send_images=send_images)
 		mk_p(telegram)
 
+	# start additional modules here!
+	################################
+
+
+	################################
+
 	if TESTING:
 		# initialize test consumer
 		q = mk_q()
@@ -320,7 +324,7 @@ def run(settings, debug):
 
 
 	# start the producer, consumer, and activated modules
-	start(settings, THREADS, DESTINATIONS)
+	start()
 
 	PLOTTER = False
 	if not TESTING:
@@ -553,18 +557,18 @@ def test():
 	test_mode(True)
 
 	t.TEST['p_log_dir'][1] = t.logdir_permissions()
-	t.TEST['p_log_file'][1] = t.start_logging(testing=True)
-	t.TEST['p_log_std'][1] = t.add_debug_handler(testing=True)
+	t.TEST['p_log_file'][1] = start_logging(testing=True)
+	t.TEST['p_log_std'][1] = add_debug_handler(testing=True)
 
 	t.TEST['n_internet'][1] = t.is_connected('www.google.com')
 
 	settings = t.make_test_settings(settings=default_settings(), inet=t.TEST['n_internet'][1])
 
-	t.TEST['p_output_dirs'][1] = t.init_dirs(os.path.expanduser(settings['settings']['output_dir']))
+	t.TEST['p_output_dirs'][1] = init_dirs(os.path.expanduser(settings['settings']['output_dir']))
 	t.TEST['p_data_dir'][1] = t.datadir_permissions(os.path.expanduser(settings['settings']['output_dir']))
 	t.TEST['p_screenshot_dir'][1] = t.ss_permissions(os.path.expanduser(settings['settings']['output_dir']))
 
-	if mpl:
+	if MPL:
 		t.TEST['d_matplotlib'][1] = True
 	else:
 		printW('matplotlib backend failed to load')
@@ -576,10 +580,14 @@ def test():
 
 	print()
 
+	code = 0
 	printM('Test results:')
 	for i in t.TEST:
 		printM('%s: %s' % (t.TEST[i][0], t.TRANS[t.TEST[i][1]]))
-	_xit()
+		if not t.TEST[i][1]:
+			# if a test fails, change the system exit code to indicate an error occurred
+			code = 1
+	_xit(code)
 
 
 if __name__ == '__main__':

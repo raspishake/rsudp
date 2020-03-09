@@ -61,8 +61,6 @@ def make_test_settings(settings, inet=False):
 	 ``settings['plot']['units']``            ``'CHAN'``
 	 ``settings['plot']['eq_screenshots']``   ``True``
 	 ``settings['alertsound']['enabled']``    ``True``
-	 ``settings['tweets']['enabled']``        ``False``
-	 ``settings['telegram']['enabled']``      ``False``
 	======================================== ===================
 
 	.. note::
@@ -98,10 +96,6 @@ def make_test_settings(settings, inet=False):
 	settings['plot']['eq_screenshots'] = True
 
 	settings['alertsound']['enabled'] = True
-
-	settings['tweets']['enabled'] = False
-	settings['telegram']['enabled'] = False
-
 
 	return settings
 

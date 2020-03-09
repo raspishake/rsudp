@@ -15,19 +15,26 @@ Code contributions
 Contributions to this project are always welcome.
 If you have questions or comments about how this software works,
 we want to hear from you.
-Even if coding isn't your thing, we want to make it easier for you to get involved.
+Even if coding isn't your thing,
+we want to make it easier for you to get involved.
 We monitor both our forums at https://community.raspberryshake.org, and our GitHub
 issues page at https://github.com/raspishake/rsudp/issues.
 
-Since the Producer function passes an ALARM queue message when it sees
-:code:`Alert.alarm == True`,
-other modules can be easily added and programmed to do something when they see this message.
+See our resources at :ref:`add_your_own` to learn more about creating your own
+consumer modules like the ones already used to plot,
+send social media messages, play sounds, and more.
+
+Since the Producer function passes an ``ALARM`` queue message when it sees
+:py:class:`rsudp.c_alert.Alert` indicate an alarm state,
+other modules can be easily added and programmed to do something when they
+see this message as well.
 
 The :py:class:`rsudp.c_custom.Custom` class makes running custom code easy.
 If you have suggestions for feature addition of a new module, please open a
 |newissue| with the "enhancement" tag.
 
-If you're a developer or feeling adventurous, here are some fun potential projects:
+If you're a developer or feeling adventurous,
+here are some fun potential projects:
 
 - Windows batch scripts similar to the provided UNIX ones
 - GPIO pin interaction module (lights, motor control, buzzers, etc.)

@@ -128,6 +128,7 @@ def add_debug_handler(testing=False):
 	:return: ``True``
 	:rtype: bool
 	'''
+	global LOGFORMAT
 
 	if testing:
 		LOGFORMAT = '%(asctime)-15s TESTING %(msg)s'

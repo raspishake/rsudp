@@ -9,13 +9,13 @@ from rsudp import printM, printW, printE
 import rsudp
 import linecache
 sender = 'plot.py'
-qt = False
+QT = False
 try:		# test for matplotlib and exit if import fails
 	from matplotlib import use
 	try:	# no way to know what machines can handle what software, but Tk is more universal
 		use('Qt5Agg')	# try for Qt because it's better and has less threatening errors
 		from PyQt5 import QtGui
-		qt = True
+		QT = True
 	except Exception as e:
 		printW('Qt import failed. Trying Tk...')
 		printW('detail: %s' % e, spaces=True)
@@ -34,13 +34,13 @@ try:		# test for matplotlib and exit if import fails
 	from matplotlib.ticker import EngFormatter
 	rcParams['toolbar'] = 'None'
 	plt.ion()
-	mpl = True
+	MPL = True
 	import warnings
 	warnings.filterwarnings("ignore", module="matplotlib")
 except Exception as e:
 	printE('Could not import matplotlib, plotting will not be available.', sender)
 	printE('detail: %s' % e, sender, spaces=True)
-	mpl = False
+	MPL = False
 
 icon = 'icon.ico'
 icon2 = 'icon.png'
@@ -67,7 +67,6 @@ class Plot:
 	:param bool spectrogram: whether to plot the spectrogram. Defaults to True.
 	:param bool fullscreen: whether to plot in a fullscreen window. Defaults to False.
 	:param bool kiosk: whether to plot in kiosk mode (true fullscreen). Defaults to False.
-	:param bool qt: whether Qt is on this system. Defaults to False.
 	:param deconv: whether to deconvolve the signal. Defaults to False.
 	:type deconv: str or bool
 	:param bool screencap: whether or not to save screenshots of events. Defaults to False.
@@ -80,8 +79,8 @@ class Plot:
 	def __init__(self, cha='all', q=False,
 				 seconds=30, spectrogram=True,
 				 fullscreen=False, kiosk=False,
-				 qt=qt, deconv=False,
-				 screencap=False, alert=True):
+				 deconv=False, screencap=False,
+				 alert=True):
 		"""
 		Initialize the plot process.
 
@@ -92,10 +91,10 @@ class Plot:
 		self.alarm = False			# don't touch this
 		self.alarm_reset = False	# don't touch this
 
-		if mpl == False:
+		if MPL == False:
 			sys.stdout.flush()
 			sys.exit()
-		if qt == False:
+		if QT == False:
 			printW('Running on %s machine, using Tk instead of Qt' % (platform.machine()), self.sender)
 		if q:
 			self.queue = q
@@ -144,7 +143,6 @@ class Plot:
 		self.per_lap = 0.9
 		self.fullscreen = fullscreen
 		self.kiosk = kiosk
-		self.qt = qt
 		self.num_chans = len(self.chans)
 		self.delay = rs.tr if (self.spectrogram) else 1
 		self.delay = 0.5 if (self.chans == ['SHZ']) else self.delay
@@ -322,7 +320,7 @@ class Plot:
 		self.fig.canvas.mpl_connect('close_event', self.handle_close)
 		self.fig.canvas.mpl_connect('resize_event', self.handle_resize)
 		
-		if qt:
+		if QT:
 			self.fig.canvas.window().statusBar().setVisible(False) # remove bottom bar
 		self.fig.canvas.set_window_title('%s.%s - Raspberry Shake Monitor' % (self.net, self.stn))
 		self.fig.patch.set_facecolor(self.bgcolor)	# background color
@@ -385,7 +383,7 @@ class Plot:
 		# rs logos
 		mgr = plt.get_current_fig_manager()
 		ico = pr.resource_filename('rsudp', os.path.join('img', icon))
-		if qt:
+		if QT:
 			mgr.window.setWindowIcon(QtGui.QIcon(ico))
 		else:
 			try:
@@ -426,7 +424,8 @@ class Plot:
 										  top=np.max(self.stream[i].data-mean)
 										  +np.ptp(self.stream[i].data-mean)*0.1)
 			# we can set line plot labels here, but not imshow labels
-			self.ax[i*self.mult].set_ylabel(self.stream[i].stats.units, color=self.fgcolor)
+			ylabel = self.stream[i].stats.units.strip().capitalize() if (' ' in self.stream[i].stats.units) else self.stream[i].stats.units
+			self.ax[i*self.mult].set_ylabel(ylabel, color=self.fgcolor)
 			self.ax[i*self.mult].legend(loc='upper left')	# legend and location
 			if self.spectrogram:		# if the user wants a spectrogram, plot it
 				# add spectrogram to axes list
@@ -446,7 +445,7 @@ class Plot:
 			figManager.full_screen_toggle()
 		else:
 			if self.fullscreen:	# set fullscreen
-				if self.qt:	# maximizing in Qt
+				if QT:	# maximizing in Qt
 					figManager.window.showMaximized()
 				else:	# maximizing in Tk
 					figManager.resize(*figManager.window.maxsize())

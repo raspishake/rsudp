@@ -48,9 +48,9 @@ def make_test_settings(settings, inet=False):
 	The default settings are modified in the following way:
 
 	======================================== ===================
-	Setting                                  Status
+	Setting                                  Value
 	======================================== ===================
-	 ``settings['settings']['station']``      ``R24FA``
+	 ``settings['settings']['station']``      ``'R24FA'``
 	 ``settings['alert']['threshold']``       ``2``
 	 ``settings['alert']['reset']``           ``0.5``
 	 ``settings['alert']['lowpass']``         ``9``

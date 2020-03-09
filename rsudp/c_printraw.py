@@ -1,9 +1,9 @@
 import sys
-from threading import Thread
+from rsudp.raspberryshake import ConsumerThread
 from rsudp import printM, printW, printE
 
 
-class PrintRaw(Thread):
+class PrintRaw(ConsumerThread):
 	"""
 	A sub-consumer class that simply prints incoming data to the terminal.
 	This is enabled by setting the "printdata" > "enabled" parameter to `true`
@@ -20,8 +20,6 @@ class PrintRaw(Thread):
 		"""
 		super().__init__()
 		self.sender = 'Print'
-		self.alarm = False			# don't touch this
-		self.alarm_reset = False	# don't touch this
 		self.alive = True
 
 		if q:

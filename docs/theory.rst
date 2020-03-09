@@ -102,6 +102,7 @@ modules, :py:class:`rsudp.c_tweet.Tweeter` and
 :py:class:`rsudp.c_telegram.Telegrammer` which then send the saved image
 to their respective social media platforms' APIs for broadcast.
 
+
 .. _add_your_own:
 
 Adding your own consumer modules
@@ -121,7 +122,13 @@ Here is a sample consumer construction to modify for your own purposes:
     from rsudp import printM
 
     class MyModule(ConsumerThread):
-        def __init__(self, q    # ...
+        '''
+        Documentation of your new module class goes here.
+
+        :param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
+
+        '''
+        def __init__(self, q,    # more defaults to pass to the class
                     )
             super().__init__()
             self.sender = 'MyModule'
@@ -131,11 +138,20 @@ Here is a sample consumer construction to modify for your own purposes:
             printM('Ready.', sender=self.sender)
 
         def getq(self):
+            '''
+            Reads data from the queue and returns the queue object.
+
+            :rtype: bytes
+            :return: The queue object.
+            '''
             d = self.queue.get()
             self.queue.task_done()
             return d
 
         def run(self):
+            '''
+            Documenting how my cool module works!
+            '''
             printM('Starting.', sender=self.sender)
             # some stuff to execute here at runtime before looping
 

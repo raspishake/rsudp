@@ -1,9 +1,8 @@
 import sys, os
-from threading import Thread
 from rsudp import printM, printW, printE
+from rsudp.raspberryshake import ConsumerThread
 
-
-class Custom(Thread):
+class Custom(ConsumerThread):
 	"""
 	.. versionadded:: 0.4.3
 
@@ -47,8 +46,6 @@ class Custom(Thread):
 		super().__init__()
 		self.sender = 'Custom'
 		self.alive = True
-		self.alarm = False			# don't touch this
-		self.alarm_reset = False	# don't touch this
 		self.codefile = False
 		self.win_ovr = win_ovr
 		if codefile:

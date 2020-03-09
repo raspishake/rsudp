@@ -1,13 +1,13 @@
 import os, sys
 import time
-from threading import Thread
 from datetime import datetime, timedelta
-import rsudp.raspberryshake as RS
+from rsudp.raspberryshake import ConsumerThread
+import rsudp.raspberryshake as rs
 from rsudp import printM, printW, printE
 import rsudp
 import telegram as tg
 
-class Telegrammer(Thread):
+class Telegrammer(rs.ConsumerThread):
 	'''
 	 .. versionadded:: 0.4.2
 
@@ -40,14 +40,12 @@ class Telegrammer(Thread):
 		"""
 		super().__init__()
 		self.sender = 'Telegram'
-		self.alarm = False			# don't touch this
-		self.alarm_reset = False	# don't touch this
 		self.alive = True
 		self.send_images = send_images
 		self.token = token
 		self.chat_id = chat_id
 		self.fmt = '%Y-%m-%d %H:%M:%S'
-		self.region = ' - region: %s' % RS.region.title() if RS.region else ''
+		self.region = ' - region: %s' % rs.region.title() if rs.region else ''
 
 		if q:
 			self.queue = q
@@ -59,8 +57,8 @@ class Telegrammer(Thread):
 
 		self.telegram = tg.Bot(token=self.token)
 
-		self.livelink = 'live feed ➡️ https://raspberryshake.net/stationview/#?net=%s&sta=%s' % (RS.net, RS.stn)
-		self.message0 = '(Raspberry Shake station %s.%s%s) Event detected at' % (RS.net, RS.stn, self.region)
+		self.livelink = 'live feed ➡️ https://raspberryshake.net/stationview/#?net=%s&sta=%s' % (rs.net, rs.stn)
+		self.message0 = '(Raspberry Shake station %s.%s%s) Event detected at' % (rs.net, rs.stn, self.region)
 
 		printM('Starting.', self.sender)
 	
@@ -86,8 +84,8 @@ class Telegrammer(Thread):
 			d = self.getq()
 
 			if 'ALARM' in str(d):
-				event_time = RS.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')
-				self.last_event_str = '%s.%s' % (event_time.strftime(self.fmt), RS.fsec(event_time))
+				event_time = rs.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')
+				self.last_event_str = '%s.%s' % (event_time.strftime(self.fmt), rs.fsec(event_time))
 				message = '%s %s - %s UTC' % (self.message0, self.last_event_str, self.livelink)
 				response = None
 				try:

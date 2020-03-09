@@ -1,5 +1,4 @@
 import sys, os
-from threading import Thread
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as rs
 from obspy.signal.trigger import recursive_sta_lta, trigger_onset
@@ -10,7 +9,7 @@ import numpy as np
 COLOR['current'] = COLOR['green']
 
 
-class Alert(Thread):
+class Alert(rs.ConsumerThread):
 	"""
 	A data consumer class that listens to a specific incoming data channel
 	and calculates a recursive STA/LTA (short term average over long term 
@@ -81,8 +80,6 @@ class Alert(Thread):
 			self.deconv = False
 		printM('Alert stream units are %s' % (self.units.strip(' ').lower()), self.sender)
 
-		self.alarm = False
-		self.alarm_reset = False
 		self.exceed = False
 		self.sound = sound
 		if bp:

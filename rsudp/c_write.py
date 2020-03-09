@@ -1,13 +1,13 @@
 import sys, os
-from threading import Thread
 import time
 from datetime import datetime, timedelta
 from obspy import UTCDateTime
-import rsudp.raspberryshake as RS
+from rsudp.raspberryshake import ConsumerThread
+import rsudp.raspberryshake as rs
 from rsudp import printM, printW, printE
 import rsudp
 
-class Write(Thread):
+class Write(rs.ConsumerThread):
 	"""
 	A simple routine to write daily miniSEED data to :code:`output_dir/data`.
 
@@ -32,13 +32,13 @@ class Write(Thread):
 			sys.stdout.flush()
 			sys.exit()
 
-		self.stream = RS.Stream()
+		self.stream = rs.Stream()
 		self.outdir = rsudp.data_dir
 		self.debug = debug
 		self.chans = []
-		cha = RS.chns if (cha == 'all') else cha
+		cha = rs.chns if (cha == 'all') else cha
 		cha = list(cha) if isinstance(cha, str) else cha
-		l = RS.chns
+		l = rs.chns
 		for c in l:
 			n = 0
 			for uch in cha:
@@ -46,13 +46,11 @@ class Write(Thread):
 					self.chans.append(c)
 				n += 1
 		if len(self.chans) < 1:
-			self.chans = RS.chns
+			self.chans = rs.chns
 		printM('Writing channels: %s' % self.chans, self.sender)
-		self.numchns = RS.numchns
-		self.stime = 1/RS.sps
-		self.inv = RS.inv
-		self.alarm = False			# don't touch this
-		self.alarm_reset = False	# don't touch this
+		self.numchns = rs.numchns
+		self.stime = 1/rs.sps
+		self.inv = rs.inv
 
 		printM('Starting.', self.sender)
 
@@ -72,8 +70,8 @@ class Write(Thread):
 		elif 'ALARM' in str(d):
 			pass
 		else:
-			if RS.getCHN(d) in self.chans:
-				self.stream = RS.update_stream(
+			if rs.getCHN(d) in self.chans:
+				self.stream = rs.update_stream(
 					stream=self.stream, d=d, fill_value=None)
 				return True
 			else:
@@ -123,7 +121,7 @@ class Write(Thread):
 
 		for t in stream:
 			enc = 'STEIM2'	# encoding
-			if isinstance(t.data, RS.np.ma.masked_array):
+			if isinstance(t.data, rs.np.ma.masked_array):
 				t.data = t.data.filled(fill_value=0) # fill array (to avoid obspy write error)
 			outfile = self.outdir + '/%s.%s.00.%s.D.%s.%s' % (t.stats.network,
 								t.stats.station, t.stats.channel, self.y, self.j)
@@ -158,7 +156,7 @@ class Write(Thread):
 					self.stream[0].stats.station),
 					format='STATIONXML')
 		printM('Beginning miniSEED output.', self.sender)
-		wait_pkts = (self.numchns * 10) / (RS.tf / 1000) 	# comes out to 10 seconds (tf is in ms)
+		wait_pkts = (self.numchns * 10) / (rs.tf / 1000) 	# comes out to 10 seconds (tf is in ms)
 
 		n = 0
 		while True:
@@ -182,7 +180,7 @@ class Write(Thread):
 					self.write()
 					self.stream = self.stream.slice(
 								starttime=self.last, nearest_sample=False)
-				self.stream = RS.copy(self.stream)
+				self.stream = rs.copy(self.stream)
 				n = 0
 
 				self.getq()

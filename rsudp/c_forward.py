@@ -1,10 +1,9 @@
 import os, sys
 import socket as s
-from threading import Thread
 from rsudp import printM, printW, printE
-import rsudp.raspberryshake as RS
+import rsudp.raspberryshake as rs
 
-class Forward(Thread):
+class Forward(rs.ConsumerThread):
 	"""
 	Single-destination data forwarding. This consumer reads
 	queue messages from the :class:`rsudp.c_consumer.Consumer`
@@ -29,9 +28,9 @@ class Forward(Thread):
 		self.addr = addr
 		self.port = port
 		self.chans = []
-		cha = RS.chns if (cha == 'all') else cha
+		cha = rs.chns if (cha == 'all') else cha
 		cha = list(cha) if isinstance(cha, str) else cha
-		l = RS.chns
+		l = rs.chns
 		for c in l:
 			n = 0
 			for uch in cha:
@@ -39,9 +38,7 @@ class Forward(Thread):
 					self.chans.append(c)
 				n += 1
 		if len(self.chans) < 1:
-			self.chans = RS.chns
-		self.alarm = False			# don't touch this
-		self.alarm_reset = False	# don't touch this
+			self.chans = rs.chns
 		self.running = True
 		self.alive = True
 
@@ -68,7 +65,7 @@ class Forward(Thread):
 					printM('Exiting.', self.sender)
 					sys.exit()
 
-				if RS.getCHN(p) in self.chans:
+				if rs.getCHN(p) in self.chans:
 					sock.sendto(p, (self.addr, self.port))
 
 		except Exception as e:

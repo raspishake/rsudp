@@ -2,16 +2,15 @@ import os, sys, platform
 import pkg_resources as pr
 import time
 import math
-from threading import Thread
 import numpy as np
 from datetime import datetime, timedelta
-import rsudp.raspberryshake as RS
+import rsudp.raspberryshake as rs
 from rsudp import printM, printW, printE
 import rsudp
 from twython import Twython
 
 
-class Tweeter(Thread):
+class Tweeter(rs.ConsumerThread):
 	'''
 	 .. versionadded:: 0.4.1
 
@@ -70,12 +69,10 @@ class Tweeter(Thread):
 		"""
 		super().__init__()
 		self.sender = 'Tweeter'
-		self.alarm = False			# don't touch this
-		self.alarm_reset = False	# don't touch this
 		self.alive = True
 		self.tweet_images = tweet_images
 		self.fmt = '%Y-%m-%d %H:%M:%S'
-		self.region = ' - region: %s' % RS.region.title() if RS.region else ''
+		self.region = ' - region: %s' % rs.region.title() if rs.region else ''
 		self.consumer_key = consumer_key
 		self.consumer_secret = consumer_secret
 		self.access_token = access_token
@@ -95,9 +92,9 @@ class Tweeter(Thread):
 			access_token,
 			access_token_secret
 		)
-		self.livelink = 'live feed ➡️ https://raspberryshake.net/stationview/#?net=%s&sta=%s' % (RS.net, RS.stn)
-		self.message0 = '(#RaspberryShake station %s.%s%s) Event detected at' % (RS.net, RS.stn, self.region)
-		self.message1 = '(#RaspberryShake station %s.%s%s) Image of event detected at' % (RS.net, RS.stn, self.region)
+		self.livelink = 'live feed ➡️ https://raspberryshake.net/stationview/#?net=%s&sta=%s' % (rs.net, rs.stn)
+		self.message0 = '(#RaspberryShake station %s.%s%s) Event detected at' % (rs.net, rs.stn, self.region)
+		self.message1 = '(#RaspberryShake station %s.%s%s) Image of event detected at' % (rs.net, rs.stn, self.region)
 
 		printM('Starting.', self.sender)
 	
@@ -129,14 +126,14 @@ class Tweeter(Thread):
 			d = self.getq()
 
 			if 'ALARM' in str(d):
-				event_time = RS.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')
-				self.last_event_str = '%s.%s' % (event_time.strftime(self.fmt), RS.fsec(event_time))
+				event_time = rs.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')
+				self.last_event_str = '%s.%s' % (event_time.strftime(self.fmt), rs.fsec(event_time))
 				message = '%s %s - %s UTC' % (self.message0, self.last_event_str, self.livelink)
 				response = None
 				try:
 					printM('Sending tweet...', sender=self.sender)
-					response = self.twitter.update_status(status=message, lat=RS.inv[0][0].latitude,
-														  long=RS.inv[0][0].longitude,
+					response = self.twitter.update_status(status=message, lat=rs.inv[0][0].latitude,
+														  long=rs.inv[0][0].longitude,
 														  geo_enabled=True, display_coordinates=True)
 														  # location will only stick to tweets on accounts that have location enabled in Settings
 					print()
@@ -150,8 +147,8 @@ class Tweeter(Thread):
 						printE('Waiting 5 seconds and trying to send tweet again...', sender=self.sender, spaces=True)
 						time.sleep(5.1)
 						self.auth()
-						response = self.twitter.update_status(status=message, lat=RS.inv[0][0].latitude,
-															  long=RS.inv[0][0].longitude,
+						response = self.twitter.update_status(status=message, lat=rs.inv[0][0].latitude,
+															  long=rs.inv[0][0].longitude,
 															  geo_enabled=True, display_coordinates=True)
 															  # location will only stick to tweets on accounts that have location enabled in Settings
 						print()
@@ -166,8 +163,8 @@ class Tweeter(Thread):
 			elif 'IMGPATH' in str(d):
 				if self.tweet_images:
 					imgdetails = d.decode('utf-8').split(' ')
-					imgtime = RS.UTCDateTime.strptime(imgdetails[1], '%Y-%m-%dT%H:%M:%S.%fZ')
-					message = '%s %s.%s UTC' % (self.message1, imgtime.strftime(self.fmt), RS.fsec(imgtime))
+					imgtime = rs.UTCDateTime.strptime(imgdetails[1], '%Y-%m-%dT%H:%M:%S.%fZ')
+					message = '%s %s.%s UTC' % (self.message1, imgtime.strftime(self.fmt), rs.fsec(imgtime))
 					response = None
 					print()
 					if os.path.exists(imgdetails[2]):
@@ -179,7 +176,7 @@ class Tweeter(Thread):
 								print()
 								printM('Sending tweet...', sender=self.sender)
 								response = self.twitter.update_status(status=message, media_ids=response['media_id'],
-																	  lat=RS.inv[0][0].latitude, long=RS.inv[0][0].longitude,
+																	  lat=rs.inv[0][0].latitude, long=rs.inv[0][0].longitude,
 																	  geo_enabled=True, display_coordinates=True)
 																	  # location will only stick to tweets on accounts that have location enabled in Settings
 								print()
@@ -199,7 +196,7 @@ class Tweeter(Thread):
 									print()
 									printM('Sending tweet...', sender=self.sender)
 									response = self.twitter.update_status(status=message, media_ids=response['media_id'],
-																		  lat=RS.inv[0][0].latitude, long=RS.inv[0][0].longitude,
+																		  lat=rs.inv[0][0].latitude, long=rs.inv[0][0].longitude,
 																		  geo_enabled=True, display_coordinates=True)
 																		  # location will only stick to tweets on accounts that have location enabled in Settings
 									print()

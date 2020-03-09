@@ -1,10 +1,10 @@
 import sys, os
-from threading import Thread
+from rsudp.raspberryshake import ConsumerThread
 import rsudp.raspberryshake as rs
 from rsudp import printM, printW
 import rsudp.test as t
 
-class Testing(Thread):
+class Testing(rs.ConsumerThread):
 	'''
 	.. versionadded:: 0.4.3
 
@@ -42,8 +42,6 @@ class Testing(Thread):
 		super().__init__()
 		self.sender = 'Testing'
 		self.alive = True
-		self.alarm = False			# don't touch this
-		self.alarm_reset = False	# don't touch this
 		self.queue = q
 
 		self.stream = rs.Stream()
@@ -53,10 +51,10 @@ class Testing(Thread):
 
 	def _getq(self):
 		'''
-		Reads data from the queue and updates the stream.
+		Reads data from the queue and returns the queue object.
 
-		:rtype: bool
-		:return: Returns ``True`` if stream is updated, otherwise ``False``.
+		:rtype: bytes
+		:return: The queue object.
 		'''
 		d = self.queue.get(True, timeout=None)
 		self.queue.task_done()
@@ -65,9 +63,6 @@ class Testing(Thread):
 	def _getd(self):
 		'''
 		Reads data from the queue and updates the stream.
-
-		:rtype: bool
-		:return: Returns ``True`` if stream is updated, otherwise ``False``.
 		'''
 		d = self._getq()
 

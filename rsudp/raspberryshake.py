@@ -755,15 +755,20 @@ class ConsumerThread(Thread):
 	'''
 	The default consumer thread setup.
 	Import this consumer and easily create your own consumer modules!
+	This class modifies the :py:class:`threading.Thread` object to
+	include some settings that all rsudp consumers need,
+	some of which the :py:class:`rsudp.p_producer.Producer`
+	needs in order to function.
 
-	Currently, the hidden settings in the ``__init__`` function are:
+	Currently, the modifications that this module makes to
+	:py:class`threading.Thread` objects are:
 
 	.. code-block:: python
 
-		self.sender = 'ConsumerThread'	# used in logging
-		self.alarm = False				# the producer reads this
-		self.alarm_reset = False		# the producer reads this
-		self.alive = True				# this is used to keep the main for loop running
+		self.sender = 'ConsumerThread'	# module name used in logging
+		self.alarm = False				# the Producer reads this to set the ``ALARM`` state
+		self.alarm_reset = False		# the Producer reads this to set the ``RESET`` state
+		self.alive = True				# this is used to keep the main ``for`` loop running
 
 	For more information on creating your own consumer threads,
 	see :ref:`add_your_own`.

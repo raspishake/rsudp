@@ -1,5 +1,5 @@
 import sys, os
-from threading import Thread
+from rsudp.raspberryshake import ConsumerThread
 from rsudp import printM, printW, printE
 import subprocess
 from tempfile import NamedTemporaryFile
@@ -10,7 +10,7 @@ except ImportError:
 	pydub_exists = False
 
 
-class AlertSound(Thread):
+class AlertSound(ConsumerThread):
 	"""
 	.. _pydub.AudioSegment: https://github.com/jiaaro/pydub/blob/master/API.markdown#audiosegment
 
@@ -33,8 +33,6 @@ class AlertSound(Thread):
 		"""
 		super().__init__()
 		self.sender = 'AlertSound'
-		self.alarm = False			# don't touch this
-		self.alarm_reset = False	# don't touch this
 		self.alive = True
 		self.sound = sound
 		self.tmpfile = None

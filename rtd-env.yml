@@ -3,9 +3,9 @@ channels:
   - defaults
 dependencies:
   - numpy==1.16.4
+  - setuptools==45.3.0
   - pip
   - pip:
-    - setuptools==45.3.0
     - matplotlib==3.1.1
     - urllib3==1.24.2
     - git+https://github.com/raspishake/rsudp.git#egg=rsudp

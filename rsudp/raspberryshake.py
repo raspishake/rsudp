@@ -287,7 +287,7 @@ def getTIME(DP):
 		>>> t = rs.getTIME(d)
 		>>> t
 		1582315130.292
-		>>> dt = obspy.UTCDateTime(t)
+		>>> dt = obspy.UTCDateTime(t, precision=3)
 		>>> dt
 		UTCDateTime(2020, 2, 21, 19, 58, 50, 292000)
 
@@ -553,7 +553,7 @@ def make_trace(d):
 		tr.stats.station = stn
 		tr.stats.channel = ch
 		tr.stats.sampling_rate = sps
-		tr.stats.starttime = UTCDateTime(t)
+		tr.stats.starttime = UTCDateTime(t, precision=3)
 		if inv:
 			try:
 				tr.attach_response(inv)
@@ -649,39 +649,41 @@ def copy(orig):
 		stream.append(trace).merge(fill_value=None)
 	return stream.copy()
 
-def fsec(etime):
+def fsec(ti):
 	'''
 	.. versionadded:: 0.4.3
 
-	Calculates the first digit of the fraction of a second represented in a
-	:py:class:`obspy.core.utcdatetime.UTCDateTime` or :py:class:`datetime.datetime` object,
-	so that it can be assembled nicely into a string.
+	The Raspberry Shake records at hundredths-of-a-second precision.
+	In order to report time at this precision, we need to do some time-fu.
+
+	This function rounds the microsecond fraction of a
+	:py:class:`obspy.core.utcdatetime.UTCDateTime`
+	depending on its precision, so that it accurately reflects the Raspberry Shake's
+	event measurement precision.
 
 	This is necessary because datetime objects in Python are strange and confusing, and
 	strftime doesn't support fractional returns, only the full integer microsecond field
-	which is right-padded with zeroes. This function takes the left two integers in the
-	microsecond field, concatenates them to a string, then converts to float, then returns
-	a rounded single integer which represents the first digit after the decimal.
+	which is an integer right-padded with zeroes. This function uses the ``precision``
+	of a datetime object.
 
 	For example:
 
 	.. code-block:: python
 
 		>>> from obspy import UTCDateTime
-		>>> t = UTCDateTime(2020, 1, 1, 0, 0, 0, 59)
-		>>> fsec(t)
-		6
+		>>> ti = UTCDateTime(2020, 1, 1, 0, 0, 0, 599000, precision=3)
+		>>> fsec(ti)
+		UTCDateTime(2020, 1, 1, 0, 0, 0, 600000)
 
-	:param etime:
-	:type etime: obspy.core.utcdatetime.UTCDateTime or datetime.datetime
-	:return: the rounded first digit of the microsecond field of the time object passed
-	:rtype: int
+	:param ti: time object to convert microseconds for
+	:type ti: obspy.core.utcdatetime.UTCDateTime
+	:return: the hundredth-of-a-second rounded version of the time object passed (precision is 0.01 second)
+	:rtype: obspy.core.utcdatetime.UTCDateTime
 	'''
-	# time in python is weird and confusing, so this is necessarily hacky
-	try:
-		return round(float('%s.%s' % (str(etime.microsecond)[0],str(etime.microsecond)[1])))
-	except IndexError:
-		return etime.microsecond
+	# time in python is weird and confusing, but luckily obspy is better than Python
+	# at dealing with datetimes. all we need to do is tell it what precision we want
+	# and it handles the rounding for us.
+	return UTCDateTime(ti, precision=2)
 
 
 def deconvolve(self):

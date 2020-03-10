@@ -162,7 +162,7 @@ class Tweeter(rs.ConsumerThread):
 
 			elif 'IMGPATH' in str(d):
 				if self.tweet_images:
-					imgpath = rs.msg_path(d)
+					imgpath = rs.get_msg_path(d)
 					imgtime = rs.fsec(rs.get_msg_time(d))
 					message = '%s %s UTC' % (self.message1, imgtime.strftime(self.fmt)[:22])
 					response = None

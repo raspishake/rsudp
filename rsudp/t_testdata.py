@@ -125,6 +125,6 @@ class TestData(Thread):
 				time.sleep(self.speed)
 
 		self.f.close()
-		self.sock.sendto(b'TERM', (self.addr, self.port))
+		self.sock.sendto(rs.msg_term(), (self.addr, self.port))
 		printW('Exiting.', self.sender, announce=False)
 		sys.exit()

@@ -126,7 +126,7 @@ class Tweeter(rs.ConsumerThread):
 			d = self.getq()
 
 			if 'ALARM' in str(d):
-				event_time = rs.fsec(rs.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ'))
+				event_time = rs.fsec(rs.msg_time(d))
 				self.last_event_str = '%s' % (event_time.strftime(self.fmt)[:22])
 				message = '%s %s UTC - %s' % (self.message0, self.last_event_str, self.livelink)
 				response = None
@@ -162,15 +162,15 @@ class Tweeter(rs.ConsumerThread):
 
 			elif 'IMGPATH' in str(d):
 				if self.tweet_images:
-					imgdetails = d.decode('utf-8').split(' ')
-					imgtime = rs.fsec(rs.UTCDateTime.strptime(imgdetails[1], '%Y-%m-%dT%H:%M:%S.%fZ'))
+					imgpath = rs.msg_path(d)
+					imgtime = rs.fsec(rs.msg_time(d))
 					message = '%s %s UTC' % (self.message1, imgtime.strftime(self.fmt)[:22])
 					response = None
 					print()
-					if os.path.exists(imgdetails[2]):
-						with open(imgdetails[2], 'rb') as image:
+					if os.path.exists(imgpath):
+						with open(imgpath, 'rb') as image:
 							try:
-								printM('Uploading image to Twitter %s' % (imgdetails[2]), self.sender)
+								printM('Uploading image to Twitter %s' % (imgpath), self.sender)
 								response = self.twitter.upload_media(media=image)
 								time.sleep(5.1)
 								print()
@@ -190,7 +190,7 @@ class Tweeter(rs.ConsumerThread):
 									time.sleep(5.1)
 									self.auth()
 									print()
-									printM('Uploading image to Twitter (2nd try) %s' % (imgdetails[2]), self.sender)
+									printM('Uploading image to Twitter (2nd try) %s' % (imgpath), self.sender)
 									response = self.twitter.upload_media(media=image)
 									time.sleep(5.1)
 									print()
@@ -209,4 +209,4 @@ class Tweeter(rs.ConsumerThread):
 									response = None
 
 					else:
-						printM('Could not find image: %s' % (imgdetails[2]), sender=self.sender)
+						printM('Could not find image: %s' % (imgpath), sender=self.sender)

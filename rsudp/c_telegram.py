@@ -84,7 +84,7 @@ class Telegrammer(rs.ConsumerThread):
 			d = self.getq()
 
 			if 'ALARM' in str(d):
-				event_time = rs.fsec(rs.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ'))
+				event_time = rs.fsec(rs.msg_time(d))
 				self.last_event_str = '%s' % (event_time.strftime(self.fmt)[:22])
 				message = '%s %s UTC - %s' % (self.message0, self.last_event_str, self.livelink)
 				response = None

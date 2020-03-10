@@ -649,6 +649,7 @@ def copy(orig):
 		stream.append(trace).merge(fill_value=None)
 	return stream.copy()
 
+
 def fsec(ti):
 	'''
 	.. versionadded:: 0.4.3
@@ -684,6 +685,132 @@ def fsec(ti):
 	# at dealing with datetimes. all we need to do is tell it what precision we want
 	# and it handles the rounding for us.
 	return UTCDateTime(ti, precision=2)
+
+
+def msg_alarm(event_time):
+	'''
+	This function constructs the ``ALARM`` message as a bytes object.
+
+	For example:
+
+	.. code-block:: python
+
+		>>> from obspy import UTCDateTime
+		>>> ti = UTCDateTime(2020, 1, 1, 0, 0, 0, 599000, precision=3)
+		>>> msg_alarm(ti)
+		b'ALARM 2020-01-01T00:00:00.599Z'
+
+	:param obspy.core.utcdatetime.UTCDateTime event_time: the datetime object to serialize and convert to bytes
+	:rtype: bytes
+	:return: the ``ALARM`` message
+	'''
+	return b'ALARM %s' % bytes(str(event_time), 'utf-8')
+
+
+def msg_reset(reset_time):
+	'''
+	This function constructs the ``RESET`` message as a bytes object.
+
+	For example:
+
+	.. code-block:: python
+
+		>>> from obspy import UTCDateTime
+		>>> ti = UTCDateTime(2020, 1, 1, 0, 0, 0, 599000, precision=3)
+		>>> msg_reset(ti)
+		b'RESET 2020-01-01T00:00:00.599Z'
+
+	:param obspy.core.utcdatetime.UTCDateTime reset_time: the datetime object to serialize and convert to bytes
+	:rtype: bytes
+	:return: the ``RESET`` message
+	'''
+	return b'RESET %s' % bytes(str(reset_time), 'utf-8')
+
+
+def msg_imgpath(event_time, figname):
+	'''
+	This function constructs the ``IMGPATH`` message as a bytes object.
+
+	For example:
+
+	.. code-block:: python
+
+		>>> from obspy import UTCDateTime
+		>>> ti = UTCDateTime(2020, 1, 1, 0, 0, 0, 599000, precision=3)
+		>>> path = '/home/pi/rsudp/screenshots/test.png'
+		>>> msg_imgpath(ti, path)
+		b'IMGPATH 2020-01-01T00:00:00.599Z /home/pi/rsudp/screenshots/test.png'
+
+	:param obspy.core.utcdatetime.UTCDateTime event_time: the datetime object to serialize and convert to bytes
+	:param str figname: the figure path as a string
+	:rtype: bytes
+	:return: the ``IMGPATH`` message
+	'''
+	return b'IMGPATH %s %s' % (bytes(str(event_time), 'utf-8'), bytes(str(figname), 'utf-8'))
+
+
+def msg_term():
+	'''
+	This function constructs the simple ``TERM`` message as a bytes object.
+
+	.. code-block:: python
+
+		>>> msg_term()
+		b'TERM'
+
+
+	:rtype: bytes
+	:return: the ``TERM`` message
+	'''
+	return b'TERM'
+
+
+def msg_time(msg):
+	'''
+	This function gets the time from ``ALARM``, ``RESET``, and ``IMGPATH`` messages as a UTCDateTime object.
+
+	For example:
+
+	.. code-block:: python
+
+		>>> from obspy import UTCDateTime
+		>>> ti = UTCDateTime(2020, 1, 1, 0, 0, 0, 599000, precision=3)
+		>>> path = '/home/pi/rsudp/screenshots/test.png'
+		>>> msg = msg_imgpath(ti, path)
+		>>> msg
+		b'IMGPATH 2020-01-01T00:00:00.599Z /home/pi/rsudp/screenshots/test.png'
+		>>> msg_time(msg)
+		UTCDateTime(2020, 1, 1, 0, 0, 0, 599000)
+
+	:param bytes msg: the datetime object to serialize and convert to bytes
+	:rtype: obspy.core.utcdatetime.UTCDateTime
+	:return: the time embedded in the message
+	'''
+	return UTCDateTime.strptime(msg.decode('utf-8').split(' ')[1], '%Y-%m-%dT%H:%M:%S.%fZ')
+
+
+def msg_path(msg):
+	'''
+	This function gets the path from ``IMGPATH`` messages as a string.
+
+	For example:
+
+	.. code-block:: python
+
+		>>> from obspy import UTCDateTime
+		>>> ti = UTCDateTime(2020, 1, 1, 0, 0, 0, 599000, precision=3)
+		>>> path = '/home/pi/rsudp/screenshots/test.png'
+		>>> msg = msg_imgpath(ti, path)
+		>>> msg
+		b'IMGPATH 2020-01-01T00:00:00.599Z /home/pi/rsudp/screenshots/test.png'
+		>>> msg_path(msg)
+		'/home/pi/rsudp/screenshots/test.png'
+
+	:param bytes msg: the datetime object to serialize and convert to bytes
+	:rtype: str
+	:return: the path embedded in the message
+	'''
+	return msg.decode('utf-8').split(' ')[2]
 
 
 def deconvolve(self):

@@ -189,7 +189,7 @@ class Plot:
 			self.events += 1		# add event to count
 			self.save_timer -= 1	# don't push the save time forward if there are a large number of alarm events
 			event = [self.save_timer + int(self.save_pct*self.pkts_in_period),
-					 rs.fsec(rs.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ'))]	# event = [save after count, datetime]
+					 rs.fsec(rs.msg_time(d))]	# event = [save after count, datetime]
 			self.last_event_str = '%s UTC' % (event[1].strftime('%Y-%m-%d %H:%M:%S.%f')[:22])
 			printM('Event time: %s' % (self.last_event_str), sender=self.sender)		# show event time in the logs
 			if self.screencap:
@@ -242,7 +242,7 @@ class Plot:
 		Handles a plot close event.
 		This will trigger a full shutdown of all other processes related to rsudp.
 		'''
-		self.master_queue.put(b'TERM')
+		self.master_queue.put(rs.msg_term())
 
 	def handle_resize(self, evt=False):
 		'''
@@ -298,7 +298,8 @@ class Plot:
 		plt.savefig(figname, facecolor=self.fig.get_facecolor(), edgecolor='none')
 		printM('Saved %s' % (figname), sender=self.sender)
 		printM('%s thread has saved an image, sending IMGPATH message to queues' % self.sender, sender=self.sender)
-		self.master_queue.put(b'IMGPATH %s %s' % (bytes(str(event_time), 'utf-8'), bytes(str(figname), 'utf-8')))
+		# imgpath requires a UTCDateTime and a string figure path
+		self.master_queue.put(rs.msg_imgpath(event_time, figname))
 
 	def _set_fig_title(self):
 		'''

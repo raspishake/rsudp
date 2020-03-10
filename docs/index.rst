@@ -69,6 +69,7 @@ The modules available in rsudp are organized by type below.
     :maxdepth: 2
     :caption: Library
 
+    init
     raspberryshake
 
 .. toctree::

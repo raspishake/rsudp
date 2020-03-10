@@ -1,4 +1,4 @@
-:py:data:`rsudp.raspberryshake` (main library)
+:py:data:`rsudp.__init__` (initialization functions)
 =====================================================
 
 These are the initialization functions in rsudp.

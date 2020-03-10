@@ -43,11 +43,20 @@ UNITS = {'ACC'	: ['Acceleration', 'm/s$^2$'],
 # from https://stackoverflow.com/questions/166506/finding-local-ip-addresses-using-pythons-stdlib
 def get_ip():
 	'''
+	.. |so_ip| raw:: html
+
+		<a href="https://stackoverflow.com/questions/166506/finding-local-ip-addresses-using-pythons-stdlib" target="_blank">this stackoverflow answer</a>
+
+
 	Return a reliable network IP to report to the user when there is no data received.
 	This helps the user set their Raspberry Shake's datacast streams to point to the correct location
 	if the library raises a "no data received" error.
-	Solution adapted from
-	`this stackoverflow answer <https://stackoverflow.com/questions/166506/finding-local-ip-addresses-using-pythons-stdlib>`_.
+	Solution adapted from |so_ip|.
+
+	.. code-block:: python
+
+		>>> get_ip()
+		'192.168.1.23'
 
 	:rtype: str
 	:return: The network IP of the machine that this program is running on
@@ -690,6 +699,8 @@ def fsec(ti):
 def msg_alarm(event_time):
 	'''
 	This function constructs the ``ALARM`` message as a bytes object.
+	Currently this is only used by :py:class:`rsudp.p_producer.Producer`
+	to construct alarm queue messages.
 
 	For example:
 
@@ -710,6 +721,8 @@ def msg_alarm(event_time):
 def msg_reset(reset_time):
 	'''
 	This function constructs the ``RESET`` message as a bytes object.
+	Currently this is only used by :py:class:`rsudp.p_producer.Producer`
+	to construct reset queue messages.
 
 	For example:
 
@@ -730,6 +743,8 @@ def msg_reset(reset_time):
 def msg_imgpath(event_time, figname):
 	'''
 	This function constructs the ``IMGPATH`` message as a bytes object.
+	Currently this is only used by :py:class:`rsudp.c_plot.Plot`
+	to construct queue messages containing timestamp and saved image path.
 
 	For example:
 
@@ -767,7 +782,8 @@ def msg_term():
 
 def get_msg_time(msg):
 	'''
-	This function gets the time from ``ALARM``, ``RESET``, and ``IMGPATH`` messages as a UTCDateTime object.
+	This function gets the time from ``ALARM``, ``RESET``,
+	and ``IMGPATH`` messages as a UTCDateTime object.
 
 	For example:
 

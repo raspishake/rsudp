@@ -100,22 +100,21 @@ class Testing(rs.ConsumerThread):
 	
 		elif 'ALARM' in str(d):
 			printM('Got ALARM message with time %s' % (
-				   rs.fsec(rs.msg_time(d))
+				   rs.fsec(rs.get_msg_time(d))
 				   ), sender=self.sender)
 			t.TEST['c_ALARM'][1] = True
 
 		elif 'RESET' in str(d):
 			printM('Got RESET message with time %s' % (
-				   rs.fsec(rs.msg_time(d))
+				   rs.fsec(rs.get_msg_time(d))
 				   ), sender=self.sender)
 			t.TEST['c_RESET'][1] = True
 
 		elif 'IMGPATH' in str(d):
-			msg = d.decode('utf-8').split(' ')
 			printM('Got IMGPATH message with time %s' % (
-				   rs.fsec(rs.msg_time(d))
+				   rs.fsec(rs.get_msg_time(d))
 				   ), sender=self.sender)
-			printM('and path %s' % (msg[2]), sender=self.sender)
+			printM('and path %s' % (rs.get_msg_path(d)), sender=self.sender)
 			t.TEST['c_IMGPATH'][1] = True
 
 

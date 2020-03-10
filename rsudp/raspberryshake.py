@@ -702,7 +702,7 @@ def msg_alarm(event_time):
 
 	:param obspy.core.utcdatetime.UTCDateTime event_time: the datetime object to serialize and convert to bytes
 	:rtype: bytes
-	:return: the ``ALARM`` message
+	:return: the ``ALARM`` message, ready to be put on the queue
 	'''
 	return b'ALARM %s' % bytes(str(event_time), 'utf-8')
 
@@ -722,7 +722,7 @@ def msg_reset(reset_time):
 
 	:param obspy.core.utcdatetime.UTCDateTime reset_time: the datetime object to serialize and convert to bytes
 	:rtype: bytes
-	:return: the ``RESET`` message
+	:return: the ``RESET`` message, ready to be put on the queue
 	'''
 	return b'RESET %s' % bytes(str(reset_time), 'utf-8')
 
@@ -744,7 +744,7 @@ def msg_imgpath(event_time, figname):
 	:param obspy.core.utcdatetime.UTCDateTime event_time: the datetime object to serialize and convert to bytes
 	:param str figname: the figure path as a string
 	:rtype: bytes
-	:return: the ``IMGPATH`` message
+	:return: the ``IMGPATH`` message, ready to be put on the queue
 	'''
 	return b'IMGPATH %s %s' % (bytes(str(event_time), 'utf-8'), bytes(str(figname), 'utf-8'))
 
@@ -765,7 +765,7 @@ def msg_term():
 	return b'TERM'
 
 
-def msg_time(msg):
+def get_msg_time(msg):
 	'''
 	This function gets the time from ``ALARM``, ``RESET``, and ``IMGPATH`` messages as a UTCDateTime object.
 
@@ -779,17 +779,17 @@ def msg_time(msg):
 		>>> msg = msg_imgpath(ti, path)
 		>>> msg
 		b'IMGPATH 2020-01-01T00:00:00.599Z /home/pi/rsudp/screenshots/test.png'
-		>>> msg_time(msg)
+		>>> get_msg_time(msg)
 		UTCDateTime(2020, 1, 1, 0, 0, 0, 599000)
 
-	:param bytes msg: the datetime object to serialize and convert to bytes
+	:param bytes msg: the bytes-formatted queue message to decode
 	:rtype: obspy.core.utcdatetime.UTCDateTime
 	:return: the time embedded in the message
 	'''
 	return UTCDateTime.strptime(msg.decode('utf-8').split(' ')[1], '%Y-%m-%dT%H:%M:%S.%fZ')
 
 
-def msg_path(msg):
+def get_msg_path(msg):
 	'''
 	This function gets the path from ``IMGPATH`` messages as a string.
 
@@ -803,10 +803,10 @@ def msg_path(msg):
 		>>> msg = msg_imgpath(ti, path)
 		>>> msg
 		b'IMGPATH 2020-01-01T00:00:00.599Z /home/pi/rsudp/screenshots/test.png'
-		>>> msg_path(msg)
+		>>> get_msg_path(msg)
 		'/home/pi/rsudp/screenshots/test.png'
 
-	:param bytes msg: the datetime object to serialize and convert to bytes
+	:param bytes msg: the bytes-formatted queue message to decode
 	:rtype: str
 	:return: the path embedded in the message
 	'''

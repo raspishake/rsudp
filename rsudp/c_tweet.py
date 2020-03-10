@@ -126,7 +126,7 @@ class Tweeter(rs.ConsumerThread):
 			d = self.getq()
 
 			if 'ALARM' in str(d):
-				event_time = rs.fsec(rs.msg_time(d))
+				event_time = rs.fsec(rs.get_msg_time(d))
 				self.last_event_str = '%s' % (event_time.strftime(self.fmt)[:22])
 				message = '%s %s UTC - %s' % (self.message0, self.last_event_str, self.livelink)
 				response = None
@@ -163,7 +163,7 @@ class Tweeter(rs.ConsumerThread):
 			elif 'IMGPATH' in str(d):
 				if self.tweet_images:
 					imgpath = rs.msg_path(d)
-					imgtime = rs.fsec(rs.msg_time(d))
+					imgtime = rs.fsec(rs.get_msg_time(d))
 					message = '%s %s UTC' % (self.message1, imgtime.strftime(self.fmt)[:22])
 					response = None
 					print()

@@ -192,7 +192,7 @@ class Plot:
 			self.events += 1		# add event to count
 			self.save_timer -= 1	# don't push the save time forward if there are a large number of alarm events
 			event = [self.save_timer + int(self.save_pct*self.pkts_in_period),
-					 rs.fsec(rs.msg_time(d))]	# event = [save after count, datetime]
+					 rs.fsec(rs.get_msg_time(d))]	# event = [save after count, datetime]
 			self.last_event_str = '%s UTC' % (event[1].strftime('%Y-%m-%d %H:%M:%S.%f')[:22])
 			printM('Event time: %s' % (self.last_event_str), sender=self.sender)		# show event time in the logs
 			if self.screencap:

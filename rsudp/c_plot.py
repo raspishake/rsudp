@@ -189,8 +189,8 @@ class Plot:
 			self.events += 1		# add event to count
 			self.save_timer -= 1	# don't push the save time forward if there are a large number of alarm events
 			event = [self.save_timer + int(self.save_pct*self.pkts_in_period),
-					 rs.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')]	# event = [save after count, datetime]
-			self.last_event_str = '%s.%s UTC' % (event[1].strftime('%Y-%m-%d %H:%M:%S'), str(rs.fsec(event[1])))
+					 rs.fsec(rs.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ'))]	# event = [save after count, datetime]
+			self.last_event_str = '%s UTC' % (event[1].strftime('%Y-%m-%d %H:%M:%S.%f')[:22])
 			printM('Event time: %s' % (self.last_event_str), sender=self.sender)		# show event time in the logs
 			if self.screencap:
 				printM('Saving png in about %i seconds' % (self.save_pct * (self.seconds)), self.sender)
@@ -267,8 +267,8 @@ class Plot:
 		event = self.save.pop()
 		self.save.reverse()
 
-		event_time_str = event[1].strftime('%Y-%m-%d-%H%M%S')								# event time
-		title_time_str = event[1].strftime('%Y-%m-%d %H:%M:%S.') + str(rs.fsec(event[1]))	# pretty event time
+		event_time_str = event[1].strftime('%Y-%m-%d-%H%M%S')				# event time for filename
+		title_time_str = event[1].strftime('%Y-%m-%d %H:%M:%S.%f')[:22]		# pretty event time for plot
 
 		# change title (just for a moment)
 		self.fig.suptitle('%s.%s detected event - %s UTC' # title
@@ -407,7 +407,7 @@ class Plot:
 			if len(self.stream[i].data) < int(self.sps*(1/self.per_lap)):
 				comp = 0				# spectrogram offset compensation factor
 			else:
-				comp = 1/self.per_lap	# spectrogram offset compensation factor
+				comp = (1/self.per_lap)**2	# spectrogram offset compensation factor
 			r = np.arange(start, end, np.timedelta64(int(1000/self.sps), 'ms'))[-len(
 						  self.stream[i].data[int(-self.sps*(self.seconds-(comp/2))):-int(self.sps*(comp/2))]):]
 			mean = int(round(np.mean(self.stream[i].data)))
@@ -501,7 +501,7 @@ class Plot:
 					self.nfft1 = 8
 					self.nlap1 = 6
 				sg = self.ax[i*self.mult+1].specgram(self.stream[i].data-mean,
-							NFFT=self.nfft1, pad_to=int(self.sps*4),
+							NFFT=self.nfft1, pad_to=int(self.nfft1*4), # previously self.sps*4),
 							Fs=self.sps, noverlap=self.nlap1)[0]	# meat & potatoes
 				self.ax[i*self.mult+1].clear()	# incredibly important, otherwise continues to draw over old images (gets exponentially slower)
 				# cloogy way to shift the spectrogram to line up with the seismogram

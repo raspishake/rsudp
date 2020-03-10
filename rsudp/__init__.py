@@ -4,6 +4,10 @@ import warnings
 from time import gmtime
 import pkg_resources
 
+# warnings.filterwarnings('ignore', category=UserWarning, module='rsudp')
+# warnings.filterwarnings('ignore', category=FutureWarning, module='obspy')
+
+
 '''
 Contains logging and formatting resources for command line and logfile output of rsudp.
 '''
@@ -25,9 +29,6 @@ TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 output_dir = False
 data_dir = False
 scap_dir = False
-
-warnings.filterwarnings('ignore', category=UserWarning, module='rsudp')
-warnings.filterwarnings('ignore', category=FutureWarning, module='obspy')
 
 COLOR = {
 	'purple': '\033[95m',

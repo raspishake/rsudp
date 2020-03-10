@@ -35,8 +35,8 @@ try:		# test for matplotlib and exit if import fails
 	rcParams['toolbar'] = 'None'
 	plt.ion()
 	MPL = True
-	import warnings
-	warnings.filterwarnings("ignore", module="matplotlib")
+	# import warnings
+	# warnings.filterwarnings("ignore", module="matplotlib")
 except Exception as e:
 	printE('Could not import matplotlib, plotting will not be available.', sender)
 	printE('detail: %s' % e, sender, spaces=True)

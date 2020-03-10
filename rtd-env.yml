@@ -3,7 +3,7 @@ channels:
   - defaults
 dependencies:
   - numpy==1.16.4
-  - setuptools==45.3.0
+  - setuptools==45.2.0
   - pip
   - pip:
     - matplotlib==3.1.1

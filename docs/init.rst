@@ -1,0 +1,13 @@
+:py:data:`rsudp.raspberryshake` (main library)
+=====================================================
+
+These are the initialization functions in rsudp.
+The useful things here are likely ``printM``, ``printW`` and ``printE``
+which interface with the logging utility to print messages, warnings,
+and errors in color and save them to the logs.
+
+.. automodule:: rsudp.__init__
+    :members:
+
+
+`Back to top ↑ <#top>`_

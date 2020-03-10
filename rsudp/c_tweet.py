@@ -71,7 +71,7 @@ class Tweeter(rs.ConsumerThread):
 		self.sender = 'Tweeter'
 		self.alive = True
 		self.tweet_images = tweet_images
-		self.fmt = '%Y-%m-%d %H:%M:%S'
+		self.fmt = '%Y-%m-%d %H:%M:%S.%f'
 		self.region = ' - region: %s' % rs.region.title() if rs.region else ''
 		self.consumer_key = consumer_key
 		self.consumer_secret = consumer_secret
@@ -126,9 +126,9 @@ class Tweeter(rs.ConsumerThread):
 			d = self.getq()
 
 			if 'ALARM' in str(d):
-				event_time = rs.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ')
-				self.last_event_str = '%s.%s' % (event_time.strftime(self.fmt), rs.fsec(event_time))
-				message = '%s %s - %s UTC' % (self.message0, self.last_event_str, self.livelink)
+				event_time = rs.fsec(rs.UTCDateTime.strptime(d.decode('utf-8'), 'ALARM %Y-%m-%dT%H:%M:%S.%fZ'))
+				self.last_event_str = '%s' % (event_time.strftime(self.fmt)[:22])
+				message = '%s %s UTC - %s' % (self.message0, self.last_event_str, self.livelink)
 				response = None
 				try:
 					printM('Sending tweet...', sender=self.sender)
@@ -163,8 +163,8 @@ class Tweeter(rs.ConsumerThread):
 			elif 'IMGPATH' in str(d):
 				if self.tweet_images:
 					imgdetails = d.decode('utf-8').split(' ')
-					imgtime = rs.UTCDateTime.strptime(imgdetails[1], '%Y-%m-%dT%H:%M:%S.%fZ')
-					message = '%s %s.%s UTC' % (self.message1, imgtime.strftime(self.fmt), rs.fsec(imgtime))
+					imgtime = rs.fsec(rs.UTCDateTime.strptime(imgdetails[1], '%Y-%m-%dT%H:%M:%S.%fZ'))
+					message = '%s %s UTC' % (self.message1, imgtime.strftime(self.fmt)[:22])
 					response = None
 					print()
 					if os.path.exists(imgdetails[2]):

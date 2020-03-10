@@ -192,12 +192,13 @@ class Alert(rs.ConsumerThread):
 				if self.stalta.max() > self.thresh:
 					if not self.exceed:
 						# raise a flag that the Producer can read and modify 
-						self.alarm = self.stream[0].stats.starttime + timedelta(seconds=
-									 trigger_onset(self.stalta, self.thresh, self.reset)[-1][0] * self.stream[0].stats.delta)
+						self.alarm = rs.fsec(self.stream[0].stats.starttime + timedelta(seconds=
+									 		 trigger_onset(self.stalta, self.thresh,
+											 self.reset)[-1][0] * self.stream[0].stats.delta))
 						self.exceed = True	# the state machine; this one should not be touched from the outside, otherwise bad things will happen
 						print()
-						printM('Trigger threshold of %s exceeded at %s.%s'
-							   % (self.thresh, self.alarm.strftime('%Y-%m-%d %H:%M:%S'), rs.fsec(self.alarm)), self.sender)
+						printM('Trigger threshold of %s exceeded at %s'
+							   % (self.thresh, self.alarm.strftime('%Y-%m-%d %H:%M:%S.%f')[:22]), self.sender)
 						printM('Trigger will reset when STA/LTA goes below %s...' % self.reset, sender=self.sender)
 						COLOR['current'] = COLOR['purple']
 					else:
@@ -214,8 +215,9 @@ class Alert(rs.ConsumerThread):
 							print()
 							printM('Max STA/LTA ratio reached in alarm state: %s' % (round(self.maxstalta, 3)),
 									self.sender)
-							printM('Earthquake trigger reset and active again.',
-									self.sender)
+							printM('Earthquake trigger reset and active again at %s' % (
+								   self.alarm_reset.strftime('%Y-%m-%d %H:%M:%S.%f')[:22]),
+								   self.sender)
 							self.maxstalta = 0
 							COLOR['current'] = COLOR['green']
 					else:
@@ -223,8 +225,12 @@ class Alert(rs.ConsumerThread):
 				self.stream = rs.copy(self.stream)
 				if self.debug:
 					msg = '\r%s [%s] Threshold: %s; Current max STA/LTA: %.4f' % (
-							datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'), self.sender,
-							self.thresh, round(np.max(self.stalta[-50:]), 4))
+							(self.stream[0].stats.starttime + timedelta(seconds=
+							len(self.stream[0].data) * self.stream[0].stats.delta)).strftime('%Y-%m-%d %H:%M:%S'),
+							self.sender,
+							self.thresh,
+							round(np.max(self.stalta[-50:]), 4)
+							)
 					print(COLOR['current'] + COLOR['bold'] + msg + COLOR['white'], end='', flush=True)
 			elif n == 0:
 				printM('Listening to channel %s'

@@ -4,6 +4,7 @@ import warnings
 from time import gmtime
 import pkg_resources
 
+# saved in case needed in the future
 # warnings.filterwarnings('ignore', category=UserWarning, module='rsudp')
 # warnings.filterwarnings('ignore', category=FutureWarning, module='obspy')
 

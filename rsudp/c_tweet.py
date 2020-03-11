@@ -136,7 +136,6 @@ class Tweeter(rs.ConsumerThread):
 														  long=rs.inv[0][0].longitude,
 														  geo_enabled=True, display_coordinates=True)
 														  # location will only stick to tweets on accounts that have location enabled in Settings
-					print()
 					printM('Tweeted: %s' % (message), sender=self.sender)
 					url = 'https://twitter.com/%s/status/%s' % (response['user']['screen_name'], response['id_str'])
 					printM('Tweet URL: %s' % url)
@@ -151,7 +150,6 @@ class Tweeter(rs.ConsumerThread):
 															  long=rs.inv[0][0].longitude,
 															  geo_enabled=True, display_coordinates=True)
 															  # location will only stick to tweets on accounts that have location enabled in Settings
-						print()
 						printM('Tweeted: %s' % (message), sender=self.sender)
 						url = 'https://twitter.com/%s/status/%s' % (response['user']['screen_name'], response['id_str'])
 						printM('Tweet URL: %s' % url)
@@ -166,20 +164,17 @@ class Tweeter(rs.ConsumerThread):
 					imgtime = rs.fsec(rs.get_msg_time(d))
 					message = '%s %s UTC' % (self.message1, imgtime.strftime(self.fmt)[:22])
 					response = None
-					print()
 					if os.path.exists(imgpath):
 						with open(imgpath, 'rb') as image:
 							try:
 								printM('Uploading image to Twitter %s' % (imgpath), self.sender)
 								response = self.twitter.upload_media(media=image)
 								time.sleep(5.1)
-								print()
 								printM('Sending tweet...', sender=self.sender)
 								response = self.twitter.update_status(status=message, media_ids=response['media_id'],
 																	  lat=rs.inv[0][0].latitude, long=rs.inv[0][0].longitude,
 																	  geo_enabled=True, display_coordinates=True)
 																	  # location will only stick to tweets on accounts that have location enabled in Settings
-								print()
 								printM('Tweeted with image: %s' % (message), sender=self.sender)
 								url = 'https://twitter.com/%s/status/%s' % (response['user']['screen_name'], response['id_str'])
 								printM('Tweet URL: %s' % url)
@@ -189,17 +184,14 @@ class Tweeter(rs.ConsumerThread):
 									printM('Waiting 5 seconds and trying to send tweet again...', sender=self.sender)
 									time.sleep(5.1)
 									self.auth()
-									print()
 									printM('Uploading image to Twitter (2nd try) %s' % (imgpath), self.sender)
 									response = self.twitter.upload_media(media=image)
 									time.sleep(5.1)
-									print()
 									printM('Sending tweet...', sender=self.sender)
 									response = self.twitter.update_status(status=message, media_ids=response['media_id'],
 																		  lat=rs.inv[0][0].latitude, long=rs.inv[0][0].longitude,
 																		  geo_enabled=True, display_coordinates=True)
 																		  # location will only stick to tweets on accounts that have location enabled in Settings
-									print()
 									printM('Tweeted with image: %s' % (message), sender=self.sender)
 									url = 'https://twitter.com/%s/status/%s' % (response['user']['screen_name'], response['id_str'])
 									printM('Tweet URL: %s' % url)

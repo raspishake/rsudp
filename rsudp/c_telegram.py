@@ -91,7 +91,6 @@ class Telegrammer(rs.ConsumerThread):
 				try:
 					printM('Sending alert...', sender=self.sender)
 					response = self.telegram.sendMessage(chat_id=self.chat_id, text=message)
-					print()
 					printM('Sent Telegram: %s' % (message), sender=self.sender)
 
 				except Exception as e:
@@ -101,7 +100,6 @@ class Telegrammer(rs.ConsumerThread):
 						time.sleep(5)
 						self.auth()
 						response = self.telegram.sendMessage(chat_id=self.chat_id, text=message)
-						print()
 						printM('Sent Telegram: %s' % (message), sender=self.sender)
 					except Exception as e:
 						printE('could not send alert - %s' % (e))
@@ -112,13 +110,11 @@ class Telegrammer(rs.ConsumerThread):
 				if self.send_images:
 					imgdetails = d.decode('utf-8').split(' ')
 					response = None
-					print()
 					if os.path.exists(imgdetails[2]):
 						with open(imgdetails[2], 'rb') as image:
 							try:
 								printM('Uploading image to Telegram %s' % (imgdetails[2]), self.sender)
 								response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
-								print()
 								printM('Sent image', sender=self.sender)
 							except Exception as e:
 								printE('could not send image - %s' % (e))
@@ -128,7 +124,6 @@ class Telegrammer(rs.ConsumerThread):
 									self.auth()
 									printM('Uploading image to Telegram (2nd try) %s' % (imgdetails[2]), self.sender)
 									response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
-									print()
 									printM('Sent image', sender=self.sender)
 
 								except Exception as e:

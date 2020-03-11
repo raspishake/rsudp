@@ -44,7 +44,12 @@ COLOR = {
 
 class LevelFormatter(logging.Formatter):
 	'''
+	.. |so_lf| raw:: html
+
+		<a href="https://stackoverflow.com/a/28636024" target="_blank">this stackoverflow answer</a>
+
 	A class that formats messages differently depending on their level.
+	Adapted from |so_lf|.
 
 	:param fmt: Format of message strings (see :py:mod:`logging`; example: ``'%(asctime)-15s %(msg)s'``)
 	:type fmt: str or None

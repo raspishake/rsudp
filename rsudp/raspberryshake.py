@@ -910,10 +910,10 @@ class ConsumerThread(Thread):
 
 	.. code-block:: python
 
-		self.sender = 'ConsumerThread'	# module name used in logging
-		self.alarm = False				# the Producer reads this to set the ``ALARM`` state
-		self.alarm_reset = False		# the Producer reads this to set the ``RESET`` state
-		self.alive = True				# this is used to keep the main ``for`` loop running
+		self.sender = 'ConsumerThread'  # module name used in logging
+		self.alarm = False              # the Producer reads this to set the ``ALARM`` state
+		self.alarm_reset = False        # the Producer reads this to set the ``RESET`` state
+		self.alive = True               # this is used to keep the main ``for`` loop running
 
 	For more information on creating your own consumer threads,
 	see :ref:`add_your_own`.

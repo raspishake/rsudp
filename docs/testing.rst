@@ -11,9 +11,9 @@ or if you need to test the core functionality like alerts
 and sounds.
 
 Testing can also be useful for discovering whether or not a specific
-piece of data will trigger the alarm settings in a custom settings
-file. For instructions on how to do that, see :ref:`test_settings`
-and :ref:`custom_data` below.
+piece of data will trigger the alarm using settings from a custom
+settings file. For instructions on how to do that, see
+:ref:`test_settings` and :ref:`custom_data` below.
 
 .. note::
 

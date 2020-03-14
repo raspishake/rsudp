@@ -10,6 +10,7 @@ from rsudp import printM, printW, printE, default_loc, init_dirs, output_dir, ad
 from rsudp import COLOR
 import rsudp.test as t
 import rsudp.raspberryshake as rs
+from rsudp.packetize import packetize
 from rsudp.c_consumer import Consumer
 from rsudp.p_producer import Producer
 from rsudp.c_printraw import PrintRaw
@@ -38,7 +39,29 @@ PLOTTER = False
 SOUND = False
 TESTING = False
 TESTQUEUE = False
+TESTFILE = pr.resource_filename('rsudp', os.path.join('test', 'testdata'))
 SENDER = 'Main'
+
+def handler(sig, frame):
+	'''
+	Function passed to :py:func:`signal.signal` to handle close events
+	'''
+	rs.producer = False
+
+def _xit(code=0):
+	'''
+	End the program. Called after all running threads have stopped.
+
+	:param int code: The process code to exit with. 0=OK, 1=ERROR.
+	'''
+	if TESTING:
+		TESTQUEUE.put(b'ENDTEST')
+	for thread in THREADS:
+		del thread
+	
+	printM('Shutdown successful.', sender=SENDER)
+	print()
+	sys.exit(code)
 
 def test_mode(mode=None):
 	'''
@@ -54,26 +77,21 @@ def test_mode(mode=None):
 		TESTING = mode
 	return TESTING
 
-def handler(sig, frame):
-	'''
-	Function passed to :py:func:`signal.signal` to handle close events
-	'''
-	rs.producer = False
+def print_stats():
+	s = 'Main'
+	printW('Initialization stats:', s, announce=False)
+	printW('                Port: %s' % rs.port, sender=SENDER, announce=False)
+	printW('  Sending IP address: %s' % rs.firstaddr, sender=SENDER, announce=False)
+	printW('    Set station name: %s' % rs.stn, sender=SENDER, announce=False)
+	printW('  Number of channels: %s' % rs.numchns, sender=SENDER, announce=False)
+	printW('  Transmission freq.: %s ms/packet' % rs.tf, sender=SENDER, announce=False)
+	printW('   Transmission rate: %s packets/sec' % rs.tr, sender=SENDER, announce=False)
+	printW('  Samples per second: %s sps' % rs.sps, sender=SENDER, announce=False)
+	if rs.inv:
+		printW('           Inventory: %s' % rs.inv.get_contents()['stations'][0],
+			   sender=SENDER, announce=False)
 
-def _xit(code=0):
-	'''
-	End the program. Called after all running threads have stopped.
 
-	:param int code: The process code to exit with. 0=OK, 1=ERROR.
-	'''
-	# global PLOTTER
-	# del PLOTTER
-	for thread in THREADS:
-		del thread
-	
-	printM('Shutdown successful.', sender=SENDER)
-	print()
-	sys.exit(code)
 
 def mk_q():
 	'''
@@ -143,9 +161,8 @@ def run(settings, debug):
 	if TESTING:
 		global TESTQUEUE
 		# initialize the test data to read information from file and put it on the port
-		data = pr.resource_filename('rsudp', os.path.join('test', 'testdata'))
 		TESTQUEUE = Queue()		# separate from client library because this is not downstream of the producer
-		tdata = TestData(q=TESTQUEUE, data_file=data, port=settings['settings']['port'])
+		tdata = TestData(q=TESTQUEUE, data_file=TESTFILE, port=settings['settings']['port'])
 		tdata.start()
 
 	# initialize the central library
@@ -154,6 +171,12 @@ def run(settings, debug):
 
 	if TESTING:
 		t.TEST['n_port'][1] = True	# port has been opened
+		print_stats()
+		if rs.sps == 0:
+			printE('There is already a Raspberry Shake sending data to this port.', sender=SENDER)
+			printE('For testing, please change the port in your settings file to an unused one.',
+					sender=SENDER, spaces=True)
+			_xit(1)
 
 
 	output_dir = settings['settings']['output_dir']
@@ -424,6 +447,25 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
 		print('By default output_dir is set to %s' % output_dir)
 	return def_settings
 
+def read_settings(settings_loc):
+	settings_loc = os.path.abspath(os.path.expanduser(settings_loc)).replace('\\', '/')
+	if os.path.exists(settings_loc):
+		with open(settings_loc, 'r') as f:
+			try:
+				data = f.read().replace('\\', '/')
+				settings = json.loads(data)
+			except Exception as e:
+				print(COLOR['red'] + 'ERROR: Could not load settings file. Perhaps the JSON is malformed?' + COLOR['white'])
+				print(COLOR['red'] + '       detail: %s' % e + COLOR['white'])
+				print(COLOR['red'] + '       If you would like to overwrite and rebuild the file, you can enter the command below:' + COLOR['white'])
+				print(COLOR['bold'] + '       shake_client -d %s' % a + COLOR['white'])
+				exit(2)
+	else:
+		print(COLOR['red'] + 'ERROR: could not find the settings file you specified. Check the path and try again.' + COLOR['white'])
+		print()
+		exit(2)
+	return settings
+
 
 def main():
 	'''
@@ -435,9 +477,9 @@ def main():
 	hlp_txt='''
 ###########################################
 ##     R A S P B E R R Y  S H A K E      ##
-##           UDP Data Library            ##
+##              UDP Client               ##
 ##            by Ian Nesbitt             ##
-##            GNU GPLv3 2019             ##
+##            GNU GPLv3 2020             ##
 ##                                       ##
 ## Do various tasks with Shake data      ##
 ## like plot, trigger alerts, and write  ##
@@ -515,22 +557,7 @@ settings in %s
 			'''
 			Start the program with a specific settings file, for example: `-s settings.json`.
 			'''
-			if os.path.exists(os.path.abspath(os.path.expanduser(a))):
-				settings_loc = os.path.abspath(os.path.expanduser(a)).replace('\\', '/')
-				with open(settings_loc, 'r') as f:
-					try:
-						data = f.read().replace('\\', '/')
-						settings = json.loads(data)
-					except Exception as e:
-						print(COLOR['red'] + 'ERROR: Could not load settings file. Perhaps the JSON is malformed?' + COLOR['white'])
-						print(COLOR['red'] + '       detail: %s' % e + COLOR['white'])
-						print(COLOR['red'] + '       If you would like to overwrite and rebuild the file, you can enter the command below:' + COLOR['white'])
-						print(COLOR['bold'] + '       shake_client -d %s' % a + COLOR['white'])
-						exit(2)
-			else:
-				print(COLOR['red'] + 'ERROR: could not find the settings file you specified. Check the path and try again.' + COLOR['white'])
-				print()
-				exit(2)
+			settings = read_settings(a)
 
 	start_logging()
 	debug = settings['settings']['debug']
@@ -554,15 +581,90 @@ def test():
 	Set up tests, run modules, report test results.
 	For a list of tests run, see :py:mod:`rsudp.test`.
 	'''
+	global TESTFILE
+	hlp_txt='''
+###########################################
+##     R A S P B E R R Y  S H A K E      ##
+##            Testing Module             ##
+##            by Ian Nesbitt             ##
+##            GNU GPLv3 2020             ##
+##                                       ##
+## Test settings with archived Shake     ##
+## data to determine optimal             ##
+## configuration.                        ##
+##                                       ##
+##  Requires:                            ##
+##  - numpy, obspy, matplotlib 3         ##
+##                                       ##
+###########################################
+
+Usage: rs-test [ OPTIONS ]
+where OPTIONS := {
+    -h | --help
+            display this help message
+    -f | --file=default or /path/to/data/file
+            specify the path to a seismic data file
+    -s | --settings=/path/to/settings/json
+            specify the path to a JSON-formatted settings file
+    }
+
+rs-test with no arguments will start the test with
+default settings and the data file at
+%s
+''' % (TESTFILE)
+
 	test_mode(True)
+	settings = default_settings(verbose=False)
+	settings_are_default = True
+
+	try:
+		opts = getopt.getopt(sys.argv[1:], 'hf:s:',
+			['help', 'file=', 'settings=']
+			)[0]
+	except Exception as e:
+		print(COLOR['red'] + 'ERROR: %s' % e + COLOR['white'])
+		print(hlp_txt)
+		exit(1)
+
+	for o, a in opts:
+		if o in ('-h', '--help'):
+			print(hlp_txt)
+			exit(0)
+		if o in ('-f', '--file='):
+			'''
+			The data file.
+			'''
+			a = os.path.expanduser(a)
+			if os.path.exists(a):
+				try:
+					out = '%s.txt' % (a)
+					packetize(inf=a, outf=out)
+					TESTFILE = out
+				except Exception as e:
+					print(COLOR['red'] + 'ERROR: %s' % e + COLOR['white'])
+					print(hlp_txt)
+					exit(1)
+		if o in ('-s', '--settings='):
+			'''
+			Dump the settings to a file, specified after the `-d` flag, or `-d default` to let the software decide where to put it.
+			'''
+			settings_loc = os.path.abspath(os.path.expanduser(a)).replace('\\', '/')
+			if os.path.exists(settings_loc):
+				settings = read_settings(settings_loc)
+				settings_are_default = False
+			else:
+				print(COLOR['red'] + 'ERROR: could not find settings file at %s' % (a) + COLOR['white'])
+				exit(1)
+
+	t.TEST['n_internet'][1] = t.is_connected('www.google.com')
+
+	if settings_are_default:
+		settings = t.make_test_settings(settings=settings, inet=t.TEST['n_internet'][1])
+
 
 	t.TEST['p_log_dir'][1] = t.logdir_permissions()
 	t.TEST['p_log_file'][1] = start_logging(testing=True)
 	t.TEST['p_log_std'][1] = add_debug_handler(testing=True)
-
-	t.TEST['n_internet'][1] = t.is_connected('www.google.com')
-
-	settings = t.make_test_settings(settings=default_settings(), inet=t.TEST['n_internet'][1])
 
 	t.TEST['p_output_dirs'][1] = init_dirs(os.path.expanduser(settings['settings']['output_dir']))
 	t.TEST['p_data_dir'][1] = t.datadir_permissions(os.path.expanduser(settings['settings']['output_dir']))

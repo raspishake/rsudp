@@ -210,11 +210,11 @@ def set_params():
 	(only available with UNIX socket types).
 
 	'''
-	global to
+	global to, firstaddr
 	if os.name not in 'nt': 	# signal alarm not available on windows
 		signal.signal(signal.SIGALRM, handler)
 		signal.alarm(to)		# alarm time set with timeout value
-	data = sock.recv(4096)
+	data, (firstaddr, connport) = sock.recvfrom(2048)
 	if os.name not in 'nt':
 		signal.alarm(0)			# once data has been received, turn alarm completely off
 	to = 0						# otherwise it erroneously triggers after keyboardinterrupt

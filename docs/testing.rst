@@ -10,15 +10,22 @@ functionality to someone, perhaps a classroom of students,
 or if you need to test the core functionality like alerts
 and sounds.
 
-The testing functions are useful for figuring out local problems.
-That is, the testing capabilities of rsudp are meant to discover
-whether or not the software can feed data to `itself` and
-process it.
+Testing can also be useful for discovering whether or not a specific
+piece of data will trigger the alarm settings in a custom settings
+file. For instructions on how to do that, see :ref:`test_settings`
+and :ref:`custom_data` below.
 
-If you can run this testing program without any problems
-but you are having issues getting the software to see data from
-your own Raspberry Shake or boom, see the :ref:`troubleshooting`
-page.
+.. note::
+
+    The testing functions are useful for figuring out local problems.
+    That is, the testing capabilities of rsudp are meant to discover
+    whether or not the software can feed data to `itself` and
+    process it.
+
+    If you can run this testing program without any problems
+    but you are having issues getting the software to see data from
+    your own Raspberry Shake or boom, see the :ref:`troubleshooting`
+    page.
 
 
 Using the testing functionality
@@ -56,12 +63,31 @@ remote shake. If you are having trouble with that, please see the
 :ref:`troubleshooting` page.
 
 
+.. _test_settings:
+
 Settings during testing
 =================================================
 
-Settings are slightly different during testing than they would
+Default settings are slightly different during testing than they would
 ordinarily be. Find a summary of what gets changed at
 :py:func:`rsudp.test.make_test_settings`.
+
+To specify a settings file to use, use the ``-s`` flag. This is the same
+as it would be if you were telling the ``rs-client`` to start with a
+specific settings file. Usage looks like this:
+
+.. code-block:: bash
+
+    rs-test -s custom_settings.json
+
+.. note::
+
+    If you need to dump and edit a custom settings file to test with, you can
+    use the client's settings dump:
+
+    .. code-block:: bash
+
+        rs-client -d custom_settings.json
 
 
 .. _testing_flow:
@@ -97,6 +123,8 @@ Read about adding testing capabilities to new modules in
 :ref:`add_testing`.
 
 
+.. _custom_data:
+
 Using your own data
 =================================================
 
@@ -105,25 +133,19 @@ Using your own data
    <a href="https://docs.obspy.org/packages/autogen/obspy.core.stream.read.html#supported-formats" target="_blank">can read</a>
 
 
-Included in this software is a small script that will convert
+Included in this software is a function that will convert
 small seismic data files (basically anything that obspy |canread|)
 to the UDP packet format required by rsudp.
-This file is available at ``rsudp/test/packetize.py``
-and can be run from the command line by doing
+
+This function is documented at :py:func:`rsudp.packetize.packetize`
+and it is integrated into the testing script. You can tell the testing
+script to convert and use a miniSEED file on disk by doing the following:
 
 .. code-block:: bash
 
-    conda activate rsudp
-    python packetize.py -i input.mseed -o testdata
+    rs-test -i test.mseed
 
-Then, running ``rs-test`` will use your own data for testing
-plots and alerts.
-
-.. note::
-
-    Currently, the rsudp testing module only reads the test file
-    at ``rsudp/test/testdata``, so your output file from the
-    ``packetize.py`` script must end up there. 
-
+This will create a text file named ``test.mseed.txt`` in the same directory
+which will be used to feed data to the producer during testing.
 
 `Back to top ↑ <#top>`_

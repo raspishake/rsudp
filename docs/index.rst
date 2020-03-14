@@ -106,6 +106,7 @@ The modules available in rsudp are organized by type below.
     t_testdata
     c_testing
     test
+    packetize
 
 
 

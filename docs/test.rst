@@ -44,8 +44,9 @@ and their initial state:
     and modify the test result (:py:data:`TEST['your_test'][1] = True`)
     if the test passed.
 
-    If your module is set not to start by default, you will need to
-    set ``settings['your_module']['enabled'] = True`` in
+    If your module is set not to start by default, and you are using the
+    default settings file for testing, you will need to set
+    ``settings['your_module']['enabled'] = True`` in
     :py:func:`rsudp.test.make_test_settings` prior to running the tests.
 
 

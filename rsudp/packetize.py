@@ -9,6 +9,12 @@ SMP = {
 }
 
 def packetize(inf, outf):
+	'''
+	Reads a seismic data file and converts it to ascii text.
+
+	:param str inf: the input data file to convert
+	:param str outf: where to write the output file
+	'''
 	if os.path.isfile(os.path.expanduser(inf)):
 		stream = read(inf)
 		samps = SMP[stream[0].stats.delta]
@@ -35,15 +41,19 @@ def packetize(inf, outf):
 
 
 def main():
+	'''
+	This function reads command line arguments, then calls
+	:py:func:`rsudp.packetize.packetize` with those arguments.
+	'''
 	inf, outf = False, False
 	opts = getopt.getopt(sys.argv[1:], 'i:o:',
 			['in=', 'out=',]
 			)[0]
 
 	for opt, arg in opts:
-		if opt in ('-i', 'in='):
+		if opt in ('-i', '--in='):
 			inf = arg
-		if opt in ('-o', 'out='):
+		if opt in ('-o', '--out='):
 			outf = arg
 	if inf and outf:
 		packetize(inf=inf, outf=outf)

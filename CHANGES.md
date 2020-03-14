@@ -1,5 +1,6 @@
 # Changelog
 ## changes in 0.4.3
+- added ability to run tests with any data file containing at least one of `SHZ, E[H,N][E,N,Z], HDF` channels (even miniSEED, which gets converted to text first then read by the pre-producer)
 - cut whitespace from the beginning of included MP3s
 - added standardized queue message constructors to `rsudp.raspberryshake`
 - removed warning filters

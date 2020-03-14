@@ -1,4 +1,4 @@
-:py:data:`rsudp.packetize` (track packets)
+:py:data:`rsudp.packetize` (data formatter)
 =====================================================
 
 The ``packetize`` module is a utility that turns miniSEED data into text files

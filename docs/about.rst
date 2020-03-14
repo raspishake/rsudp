@@ -3,14 +3,14 @@ About rsudp
 
 .. |raspberryshake| raw:: html
 
-   <a href="https://raspberryshake.org" target="_blank">Raspberry Shake</a>
+   <a href="https://raspberryshake.org" target="_blank">Raspberry Shake S.A.</a>
 
 .. |github| raw:: html
 
    <a href="https://github.com/raspishake/rsudp" target="_blank">here</a>
 
-rsudp is an open source program built to actively monitor and
-plot UDP data cast output from |raspberryshake| seismographs.
+rsudp is an open source program developed for the community by |raspberryshake|
+to actively monitor and plot UDP data cast output from Raspberry Shake instruments.
 
 Broad overview
 *************************************

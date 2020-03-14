@@ -1,5 +1,6 @@
 # Changelog
 ## changes in 0.4.3
+- cut whitespace from the beginning of included MP3s
 - added standardized queue message constructors to `rsudp.raspberryshake`
 - removed warning filters
 - fixed plot trace offset issue (don't know where it stems from, however)

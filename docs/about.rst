@@ -56,7 +56,7 @@ to grasp yet informative format.
 .. figure::  _static/4d-event.png
     :align:   center
 
-    An earthquake event on vertical (accelerometer and geophone) channels of a
+    An earthquake event recorded on the accelerometer and geophone channels of a
     Raspberry Shake 4D, recorded by rsudp and saved by its plotting module.
 
 

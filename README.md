@@ -27,4 +27,4 @@
 
 ![Raspberry Shake logo](https://raw.githubusercontent.com/raspishake/rsudp/master/docs/_static/4d-event.png)
 
-(Above) a plot of an earthquake on the two vertical channels of a Raspberry Shake 4D (EHZ---the geophone channel, and ENZ---the accelerometer vertical channel).
+(Above) a plot of an earthquake on the four channels of a Raspberry Shake 4D (EHZ---the geophone channel, and EHE, EHN, and ENZ---the accelerometer east, north, and vertical channels).

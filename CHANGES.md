@@ -4,18 +4,18 @@
 - cut whitespace from the beginning of included MP3s
 - added standardized queue message constructors to `rsudp.raspberryshake`
 - removed warning filters
-- fixed plot trace offset issue (don't know where it stems from, however)
+- fixed plot trace offset issue
 - fixed a problem where UTC would appear after link in telegram and tweet messages
 - fixed problem with precision in event `UTCDateTime` objects
 - fixed unit capitalization in plot y-label
 - added an exit code to the test function
-- added a custom class (`rsudp.raspberryshake.ConsumerThread`) for consumers to inherit which contains everything the Producer needs to function
+- added a custom thread class (`rsudp.raspberryshake.ConsumerThread`) for consumers to inherit which contains all internal flags that the Producer needs to function
 - added additional trove classifiers
-- alarm time in plot, telegrams, and tweets now has 0.1 second precision
+- alarm time in plot, telegrams, and tweets now has 0.01 second precision
 - alarm time now reports directly from `rsudp.c_alert.Alert` instead of Producer
 - fixed a circular import issue which manifest on RPi
 - added earth gravity fraction deconvolution option ("GRAV", which is basically "ACC"/9.81)
-- added a testing module
+- added testing capabilities using `rs-test`
 - added a script to translate seismic data to Raspberry Shake UDP packet format for testing
 - changed warning and error message colors in terminal stdout
 - alert module stdout STA/LTA messages now colorized

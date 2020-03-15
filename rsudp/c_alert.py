@@ -210,7 +210,7 @@ class Alert(rs.ConsumerThread):
 				else:
 					if self.exceed:
 						if self.stalta[-1] < self.reset:
-							self.alarm_reset = rs.UTCDateTime.now()
+							self.alarm_reset = rs.fsec(self.stream[0].stats.endtime)	# lazy; effective
 							self.exceed = False
 							print()
 							printM('Max STA/LTA ratio reached in alarm state: %s' % (round(self.maxstalta, 3)),

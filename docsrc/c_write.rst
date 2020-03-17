@@ -1,0 +1,13 @@
+:py:data:`rsudp.c_write` (write data)
+=====================================================
+
+.. automodule:: rsudp.c_write
+    :members:
+
+................
+
+* :ref:`genindex`
+* :ref:`search`
+.. * :ref:`modindex`
+
+`Back to top ↑ <#top>`_

@@ -1,0 +1,13 @@
+:py:data:`rsudp.c_alert` (STA/LTA alarm)
+=====================================================
+
+.. automodule:: rsudp.c_alert
+    :members:
+
+................
+
+* :ref:`genindex`
+* :ref:`search`
+.. * :ref:`modindex`
+
+`Back to top ↑ <#top>`_

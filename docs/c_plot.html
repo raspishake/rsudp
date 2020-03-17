@@ -1,0 +1,386 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>rsudp.c_plot (plot data) &mdash; rsudp  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="rsudp.c_tweet (Twitter alerts)" href="c_tweet.html" />
+    <link rel="prev" title="rsudp.c_alertsound (play sound)" href="c_alertsound.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> rsudp
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorial guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">1. About rsudp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">2. Installing rsudp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Video resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developers' guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">1. Program architecture and flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">2. Contributing to this project</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Library</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Clients</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Producer and Consumer</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Sub-Consumers</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Testing modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">rsudp</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/c_plot.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="rsudp-c-plot-plot-data">
+<h1><a class="reference internal" href="#module-rsudp.c_plot" title="rsudp.c_plot"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code></a> (plot data)<a class="headerlink" href="#rsudp-c-plot-plot-data" title="Permalink to this headline">¶</a></h1>
+<div class="figure align-center" id="id1">
+<span id="event-plot"></span><img alt="_static/event.png" src="_static/event.png" />
+<p class="caption"><span class="caption-text">An event recorded on a vertical geophone by rsudp and saved by the plotting module.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<span class="target" id="module-rsudp.c_plot"></span><dl class="class">
+<dt id="rsudp.c_plot.Plot">
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_plot.</code><code class="sig-name descname">Plot</code><span class="sig-paren">(</span><em class="sig-param">cha='all'</em>, <em class="sig-param">q=False</em>, <em class="sig-param">seconds=30</em>, <em class="sig-param">spectrogram=True</em>, <em class="sig-param">fullscreen=False</em>, <em class="sig-param">kiosk=False</em>, <em class="sig-param">deconv=False</em>, <em class="sig-param">screencap=False</em>, <em class="sig-param">alert=True</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>GUI plotting algorithm, compatible with both Qt5 and TkAgg backends (see <a class="reference external" href="https://matplotlib.org/api/matplotlib_configuration_api.html#matplotlib.use" title="(in Matplotlib v3.2.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">matplotlib.use()</span></code></a>).
+This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and display a spectrogram beneath each.</p>
+<p>By default the plotted <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“duration”</span></span></code> in seconds is <code class="code json docutils literal notranslate"><span class="literal number integer"><span class="pre">30</span></span></code>.
+The plot will refresh at most once per second, but slower processors may take longer.
+The longer the duration, the more processor power it will take to refresh the plot,
+especially when the spectrogram is enabled.
+To disable the spectrogram, set <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“spectrogram”</span></span></code> to <code class="code json docutils literal notranslate"><span class="keyword constant"><span class="pre">false</span></span></code> in the settings file.
+To put the plot into fullscreen window mode, set <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“fullscreen”</span></span></code> to <code class="code json docutils literal notranslate"><span class="keyword constant"><span class="pre">true</span></span></code>.
+To put the plot into kiosk mode, set <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“kiosk”</span></span></code> to <code class="code json docutils literal notranslate"><span class="keyword constant"><span class="pre">true</span></span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – channels to plot. Defaults to “all” but can be passed a list of channel names as strings.</p></li>
+<li><p><strong>seconds</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – number of seconds to plot. Defaults to 30.</p></li>
+<li><p><strong>spectrogram</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether to plot the spectrogram. Defaults to True.</p></li>
+<li><p><strong>fullscreen</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether to plot in a fullscreen window. Defaults to False.</p></li>
+<li><p><strong>kiosk</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether to plot in kiosk mode (true fullscreen). Defaults to False.</p></li>
+<li><p><strong>deconv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether to deconvolve the signal. Defaults to False.</p></li>
+<li><p><strong>screencap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether or not to save screenshots of events. Defaults to False.</p></li>
+<li><p><strong>alert</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether to draw the number of events at startup. Defaults to True.</p></li>
+<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.8)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ImportError" title="(in Python v3.8)"><strong>ImportError</strong></a> – if the module cannot import either of the Matplotlib Qt5 or TkAgg backends</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="rsudp.c_plot.Plot.deconvolve">
+<code class="sig-name descname">deconvolve</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.deconvolve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send the streams to the central library deconvolve function.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rsudp.c_plot.Plot.getq">
+<code class="sig-name descname">getq</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.getq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data from the queue and test for whether it has certain strings.
+ALARM and TERM both trigger specific behavior.
+ALARM messages cause the event counter to increment, and if
+<code class="xref py py-data docutils literal notranslate"><span class="pre">screencap==True</span></code> then aplot image will be saved when the
+event is <code class="xref py py-data docutils literal notranslate"><span class="pre">self.save_pct</span></code> of the way across the plot.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rsudp.c_plot.Plot.handle_close">
+<code class="sig-name descname">handle_close</code><span class="sig-paren">(</span><em class="sig-param">evt</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.handle_close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles a plot close event.
+This will trigger a full shutdown of all other processes related to rsudp.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rsudp.c_plot.Plot.handle_resize">
+<code class="sig-name descname">handle_resize</code><span class="sig-paren">(</span><em class="sig-param">evt=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.handle_resize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles a plot window resize event.
+This will allow the plot to resize dynamically.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rsudp.c_plot.Plot.loop">
+<code class="sig-name descname">loop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.loop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Let some time elapse in order for the plot canvas to draw properly.
+Must be separate from <a class="reference internal" href="#rsudp.c_plot.Plot.update_plot" title="rsudp.c_plot.Plot.update_plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_plot()</span></code></a> to avoid a broadcast error early in plotting.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rsudp.c_plot.Plot.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>The heart of the plotting routine.</p>
+<p>Begins by updating the queue to populate a <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (1.2.0) v1.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.stream.Stream</span></code></a> object, then setting up the main plot.
+The first time through the main loop, the plot is not drawn. After that, the plot is drawn every time all channels are updated.
+Any plots containing a spectrogram and more than 1 channel are drawn at most every second (1000 ms).
+All other plots are drawn at most every quarter second (250 ms).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rsudp.c_plot.Plot.savefig">
+<code class="sig-name descname">savefig</code><span class="sig-paren">(</span><em class="sig-param">event_time=UTCDateTime(2020</em>, <em class="sig-param">3</em>, <em class="sig-param">17</em>, <em class="sig-param">19</em>, <em class="sig-param">0</em>, <em class="sig-param">10</em>, <em class="sig-param">748788)</em>, <em class="sig-param">event_time_str='2020-03-17-190010'</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.savefig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the figure and puts an IMGPATH message on the master queue.
+This message can be used to upload the image to various services.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>event_time</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.2.0) v1.2)"><em>obspy.core.utcdatetime.UTCDateTime</em></a>) – Event time as an obspy UTCDateTime object.</p></li>
+<li><p><strong>event_time_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Event time as a string. This is used to set the filename.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="rsudp.c_plot.Plot.set_sps">
+<code class="sig-name descname">set_sps</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.set_sps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get samples per second from the main library.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rsudp.c_plot.Plot.setup_plot">
+<code class="sig-name descname">setup_plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.setup_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets up the plot. Quite a lot of stuff happens in this function.
+Matplotlib backends are not threadsafe, so things are a little weird.
+See code comments for details.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rsudp.c_plot.Plot.update_plot">
+<code class="sig-name descname">update_plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.update_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Redraw the plot with new data.
+Called on every nth loop after the plot is set up, where n is
+the number of channels times the data packet arrival rate in Hz.
+This has the effect of making the plot update once per second.</p>
+</dd></dl>
+
+</dd></dl>
+
+<hr class="docutils" />
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+<p><a class="reference external" href="#top">Back to top ↑</a></p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="c_tweet.html" class="btn btn-neutral float-right" title="rsudp.c_tweet (Twitter alerts)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="c_alertsound.html" class="btn btn-neutral float-left" title="rsudp.c_alertsound (play sound)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Raspberry Shake S.A.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

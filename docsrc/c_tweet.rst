@@ -1,0 +1,13 @@
+:py:data:`rsudp.c_tweet` (Twitter alerts)
+=====================================================
+
+.. automodule:: rsudp.c_tweet
+    :members:
+
+................
+
+* :ref:`genindex`
+* :ref:`search`
+.. * :ref:`modindex`
+
+`Back to top ↑ <#top>`_

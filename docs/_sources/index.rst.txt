@@ -2,8 +2,9 @@
 #####################################
 .. image:: https://img.shields.io/github/stars/raspishake/rsudp?style=social
     :target: https://github.com/raspishake/rsudp
+
 | |github|
-| **Python tools for receiving and interacting with Raspberry Shake UDP data**
+| **Continuous sudden motion and visual monitoring of Raspberry Shake data**
 | *by Ian M. Nesbitt and Richard I. Boaz*
 
 .. |github| raw:: html
@@ -20,6 +21,7 @@ This program was written to parse and process live UDP data streams from
 Raspberry Boom pressure transducer instruments.
 rsudp allows users the options to see their data in real time, create alert parameters,
 and be notified in various ways when their instrument detects sudden motion.
+It is written in Python and is therefore highly customizable.
 
 | In order to get a feel for what rsudp can do, check out our :ref:`youtube` page.
 | If you prefer to read in-depth documentation, follow our written :ref:`tutorial`.
@@ -117,6 +119,7 @@ Need to look something up?
 
 * :ref:`genindex`
 * :ref:`search`
+
 .. * :ref:`modindex`
 
 `Back to top ↑ <#top>`_

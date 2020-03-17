@@ -1,6 +1,6 @@
 ![Raspberry Shake event logo](https://raw.githubusercontent.com/raspishake/rsudp/master/docs/_static/logo.png)
 # rsudp
-**Continuous sudden motion and visual monitoring of Raspberry Shake data**
+### Continuous sudden motion and visual monitoring of Raspberry Shake data
 *Written by Ian Nesbitt (@iannesbitt) and Richard Boaz (@ivor)*
 
 [![PyPI](https://img.shields.io/pypi/v/rsudp)](https://pypi.org/project/rsudp/)

@@ -22,7 +22,7 @@ class Telegrammer(rs.ConsumerThread):
 	|telegram| is a free messaging service which,
 	among other things, is suited to quickly broadcasting automatic
 	notifications via an API.
-	It is |saxmex_use| the Mexican Early Warning
+	It is |sasmex_use| the Mexican Early Warning
 	System (SASMEX) and PanamaIGC.
 
 	:param str token: bot token from Telegram bot creation

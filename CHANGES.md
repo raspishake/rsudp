@@ -1,4 +1,7 @@
 # Changelog
+## changes in 1.0.0
+- changed doc structure to github pages compatible
+
 ## changes in 0.4.3
 - added ability to run tests with any data file containing at least one of `SHZ, E[H,N][E,N,Z], HDF` channels (even miniSEED, which gets converted to text first then read by the pre-producer)
 - cut whitespace from the beginning of included MP3s

@@ -616,10 +616,12 @@ default settings and the data file at
 	test_mode(True)
 	settings = default_settings(verbose=False)
 	settings_are_default = True
+	plot = True
+	quiet = True
 
 	try:
-		opts = getopt.getopt(sys.argv[1:], 'hf:s:',
-			['help', 'file=', 'settings=']
+		opts = getopt.getopt(sys.argv[1:], 'hf:s:bq',
+			['help', 'file=', 'settings=', 'no-plot',]
 			)[0]
 	except Exception as e:
 		print(COLOR['red'] + 'ERROR: %s' % e + COLOR['white'])
@@ -655,12 +657,16 @@ default settings and the data file at
 			else:
 				print(COLOR['red'] + 'ERROR: could not find settings file at %s' % (a) + COLOR['white'])
 				exit(1)
+		if o in ('-b', '--no-plot'):
+			plot = False
+		if o in ('-q', '--no-sound'):
+			quiet = True
+
 
 	t.TEST['n_internet'][1] = t.is_connected('www.google.com')
 
 	if settings_are_default:
 		settings = t.make_test_settings(settings=settings, inet=t.TEST['n_internet'][1])
-
 
 	t.TEST['p_log_dir'][1] = t.logdir_permissions()
 	t.TEST['p_log_file'][1] = start_logging(testing=True)
@@ -670,10 +676,21 @@ default settings and the data file at
 	t.TEST['p_data_dir'][1] = t.datadir_permissions(os.path.expanduser(settings['settings']['output_dir']))
 	t.TEST['p_screenshot_dir'][1] = t.ss_permissions(os.path.expanduser(settings['settings']['output_dir']))
 
-	if MPL:
-		t.TEST['d_matplotlib'][1] = True
+	if plot:
+		if MPL:
+			t.TEST['d_matplotlib'][1] = True
+		else:
+			printW('matplotlib backend failed to load')
 	else:
-		printW('matplotlib backend failed to load')
+		settings['plot']['enabled'] = False
+		del t.TEST['d_matplotlib']
+		del t.TEST['c_IMGPATH']
+		printM('Plot is disabled')
+
+	if quiet:
+		settings['alertsound']['enabled'] = False
+		del t.TEST['d_pydub']
+		printM('Alert sound is disabled')
 
 	run(settings, debug=True)
 

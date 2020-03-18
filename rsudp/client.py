@@ -450,24 +450,27 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
 		print('By default output_dir is set to %s' % output_dir)
 	return def_settings
 
+
 def read_settings(loc):
+	'''
+	Reads settings from a specific location.
+
+	:param str loc: location on disk to read json settings file from
+	:return: settings dictionary read from JSON, or ``None``
+	:rtype: dict or NoneType
+	'''
 	settings_loc = os.path.abspath(os.path.expanduser(loc)).replace('\\', '/')
 	settings = None
-	if os.path.exists(settings_loc):
-		with open(settings_loc, 'r') as f:
-			try:
-				data = f.read().replace('\\', '/')
-				settings = json.loads(data)
-			except Exception as e:
-				print(COLOR['red'] + 'ERROR: Could not load settings file. Perhaps the JSON is malformed?' + COLOR['white'])
-				print(COLOR['red'] + '       detail: %s' % e + COLOR['white'])
-				print(COLOR['red'] + '       If you would like to overwrite and rebuild the file, you can enter the command below:' + COLOR['white'])
-				print(COLOR['bold'] + '       shake_client -d %s' % loc + COLOR['white'])
-				exit(2)
-	else:
-		print(COLOR['red'] + 'ERROR: could not find the settings file you specified. Check the path and try again.' + COLOR['white'])
-		print()
-		exit(2)
+	with open(settings_loc, 'r') as f:
+		try:
+			data = f.read().replace('\\', '/')
+			settings = json.loads(data)
+		except Exception as e:
+			print(COLOR['red'] + 'ERROR: Could not load settings file. Perhaps the JSON is malformed?' + COLOR['white'])
+			print(COLOR['red'] + '       detail: %s' % e + COLOR['white'])
+			print(COLOR['red'] + '       If you would like to overwrite and rebuild the file, you can enter the command below:' + COLOR['white'])
+			print(COLOR['bold'] + '       shake_client -d %s' % loc + COLOR['white'])
+			exit(2)
 	return settings
 
 
@@ -525,16 +528,7 @@ settings in %s
 			print(COLOR['yellow'] + 'Could not find rsudp settings file, creating one at %s' % settings_loc + COLOR['white'])
 			dump_default(settings_loc, default_settings())
 		else:
-			with open(os.path.abspath(settings_loc), 'r') as f:
-				try:
-					data = f.read().replace('\\', '/')
-					settings = json.loads(data)
-				except Exception as e:
-					print(COLOR['red'] + 'ERROR: Could not load default settings file from %s' % settings_loc + COLOR['white'])
-					print(COLOR['red'] + '       detail: %s' % e + COLOR['white'])
-					print(COLOR['red'] + '       Either correct the file, or overwrite the default settings file using the command:' + COLOR['white'])
-					print(COLOR['bold'] + '       shake_client -d default' + COLOR['white'])
-					exit(2)
+			settings = read_settings(settings_loc)
 
 	for o, a in opts:
 		if o in ('-h', '--help'):

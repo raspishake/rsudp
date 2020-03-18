@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import rsudp.raspberryshake as rs
 from obspy.signal.trigger import recursive_sta_lta, trigger_onset
 from rsudp import printM, printW, printE
+COLOR = {}
 from rsudp import COLOR
 import numpy as np
 

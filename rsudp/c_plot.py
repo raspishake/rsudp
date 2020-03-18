@@ -10,6 +10,8 @@ import rsudp
 import linecache
 sender = 'plot.py'
 QT = False
+QtGui = False
+PhotoImage = False
 try:		# test for matplotlib and exit if import fails
 	from matplotlib import use
 	try:	# no way to know what machines can handle what software, but Tk is more universal

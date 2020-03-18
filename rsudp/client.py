@@ -258,6 +258,7 @@ def run(settings, debug):
 	if settings['alertsound']['enabled']:
 		sender = 'AlertSound'
 		SOUND = False
+		soundloc = False
 		if PYDUB_EXISTS:
 			soundloc = os.path.expanduser(os.path.expanduser(settings['alertsound']['mp3file']))
 			if soundloc in ['doorbell', 'alarm', 'beeps', 'sonar']:
@@ -288,6 +289,8 @@ def run(settings, debug):
 
 	runcustom = False
 	try:
+		f = False
+		win_ovr = False
 		if settings['custom']['enabled']:
 			# put settings in namespace
 			f = settings['custom']['codefile']
@@ -447,8 +450,9 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
 		print('By default output_dir is set to %s' % output_dir)
 	return def_settings
 
-def read_settings(settings_loc):
-	settings_loc = os.path.abspath(os.path.expanduser(settings_loc)).replace('\\', '/')
+def read_settings(loc):
+	settings_loc = os.path.abspath(os.path.expanduser(loc)).replace('\\', '/')
+	settings = None
 	if os.path.exists(settings_loc):
 		with open(settings_loc, 'r') as f:
 			try:
@@ -458,7 +462,7 @@ def read_settings(settings_loc):
 				print(COLOR['red'] + 'ERROR: Could not load settings file. Perhaps the JSON is malformed?' + COLOR['white'])
 				print(COLOR['red'] + '       detail: %s' % e + COLOR['white'])
 				print(COLOR['red'] + '       If you would like to overwrite and rebuild the file, you can enter the command below:' + COLOR['white'])
-				print(COLOR['bold'] + '       shake_client -d %s' % a + COLOR['white'])
+				print(COLOR['bold'] + '       shake_client -d %s' % loc + COLOR['white'])
 				exit(2)
 	else:
 		print(COLOR['red'] + 'ERROR: could not find the settings file you specified. Check the path and try again.' + COLOR['white'])

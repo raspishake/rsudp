@@ -894,7 +894,7 @@ def deconv_acc_inst(self, trace):
 		trace.taper(max_percentage=0.1, side='left', max_length=1)
 
 
-def deconv_hdf_inst(self, trace):
+def deconv_rbm_inst(self, trace):
 	'''
 	.. role:: pycode(code)
 		:language: python
@@ -921,19 +921,23 @@ def deconvolve(self):
 
 	:param self self: The self object of the sub-consumer class calling this function. Must contain :pycode:`self.stream` as a :py:class:`obspy.core.stream.Stream` object.
 	'''
+	acc_channels = ['ENE', 'ENN', 'ENZ']
+	vel_channels = ['EHE', 'EHN', 'EHZ', 'SHZ']
+	rbm_channels = ['HDF']
+
 	self.stream = self.raw.copy()
 	for trace in self.stream:
 		trace.stats.units = self.units
 		output = 'ACC' if self.deconv == 'GRAV' else self.deconv	# if conversion is to gravity
 		if self.deconv:
-			if ('HZ' in trace.stats.channel) or ('HE' in trace.stats.channel) or ('HN' in trace.stats.channel):
+			if trace.stats.channel in vel_channels:
 				deconv_vel_inst(self, trace)	# geophone channels
 
-			elif ('NZ' in trace.stats.channel) or ('NE' in trace.stats.channel) or ('NN' in trace.stats.channel):
+			elif trace.stats.channel in acc_channels:
 				deconv_acc_inst(self, trace)	# accelerometer channels
 
-			elif 'HDF' in trace.stats.channel:
-				deconv_hdf_inst(self, trace)	# this is the Boom channel
+			elif trace.stats.channel in rbm_channels:
+				deconv_rbm_inst(self, trace)	# this is the Boom channel
 
 			else:
 				trace.stats.units = ' counts'	# this is a new one

@@ -39,6 +39,9 @@ UNITS = {'ACC'	: ['Acceleration', 'm/s$^2$'],
 		 'DISP'	: ['Displacement', 'm'],
 		 'CHAN'	: ['channel-specific', ' Counts']}
 
+g = 9.81	# earth gravity in m/s2
+
+
 # get an IP to report to the user
 # from https://stackoverflow.com/questions/166506/finding-local-ip-addresses-using-pythons-stdlib
 def get_ip():
@@ -829,6 +832,82 @@ def get_msg_path(msg):
 	return msg.decode('utf-8').split(' ')[2]
 
 
+def deconv_vel_inst(self, trace):
+	'''
+	.. role:: pycode(code)
+		:language: python
+	
+	A helper function for :py:func:`rsudp.raspberryshake.deconvolve`
+	for velocity channels.
+
+	:param self self: The self object of the sub-consumer class calling this function. Must contain :pycode:`self.stream` as a :py:class:`obspy.core.stream.Stream` object.
+	:param osbpy.core.trace.Trace trace: the trace object instance to deconvolve
+	'''
+	if self.deconv not in 'CHAN':
+		trace.remove_response(inventory=inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
+								output=output, water_level=4.5, taper=False)
+	else:
+		trace.remove_response(inventory=inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
+								output='VEL', water_level=4.5, taper=False)
+	if 'ACC' in self.deconv:
+		trace.data = np.gradient(trace.data, 1)
+	elif 'GRAV' in self.deconv:
+		trace.data = np.gradient(trace.data, 1) / g
+		trace.stats.units = 'Earth gravity'
+	elif 'DISP' in self.deconv:
+		trace.data = np.cumsum(trace.data)
+		trace.taper(max_percentage=0.1, side='left', max_length=1)
+		trace.detrend(type='demean')
+	else:
+		trace.stats.units = 'Velocity'
+
+
+def deconv_acc_inst(self, trace):
+	'''
+	.. role:: pycode(code)
+		:language: python
+	
+	A helper function for :py:func:`rsudp.raspberryshake.deconvolve`
+	for acceleration channels.
+
+	:param self self: The self object of the sub-consumer class calling this function. Must contain :pycode:`self.stream` as a :py:class:`obspy.core.stream.Stream` object.
+	:param osbpy.core.trace.Trace trace: the trace object instance to deconvolve
+	'''
+	if self.deconv not in 'CHAN':
+		trace.remove_response(inventory=inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
+								output=output, water_level=4.5, taper=False)
+	else:
+		trace.remove_response(inventory=inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
+								output='ACC', water_level=4.5, taper=False)
+	if 'VEL' in self.deconv:
+		trace.data = np.cumsum(trace.data)
+		trace.detrend(type='demean')
+	elif 'DISP' in self.deconv:
+		trace.data = np.cumsum(np.cumsum(trace.data))
+		trace.detrend(type='linear')
+	elif 'GRAV' in self.deconv:
+		trace.data = trace.data / g
+		trace.stats.units = 'Earth gravity'
+	else:
+		trace.stats.units = 'Acceleration'
+	if ('ACC' not in self.deconv) and ('CHAN' not in self.deconv):
+		trace.taper(max_percentage=0.1, side='left', max_length=1)
+
+
+def deconv_hdf_inst(self, trace):
+	'''
+	.. role:: pycode(code)
+		:language: python
+	
+	A helper function for :py:func:`rsudp.raspberryshake.deconvolve`
+	for acceleration channels.
+
+	:param self self: The self object of the sub-consumer class calling this function. Must contain :pycode:`self.stream` as a :py:class:`obspy.core.stream.Stream` object.
+	:param osbpy.core.trace.Trace trace: the trace object instance to deconvolve
+	'''
+	trace.stats.units = ' counts'
+
+
 def deconvolve(self):
 	'''
 	.. role:: pycode(code)
@@ -845,56 +924,23 @@ def deconvolve(self):
 	self.stream = self.raw.copy()
 	for trace in self.stream:
 		trace.stats.units = self.units
-		g = 9.81	# earth gravity in m/s2
 		output = 'ACC' if self.deconv == 'GRAV' else self.deconv	# if conversion is to gravity
 		if self.deconv:
 			if ('HZ' in trace.stats.channel) or ('HE' in trace.stats.channel) or ('HN' in trace.stats.channel):
-				if self.deconv not in 'CHAN':
-					trace.remove_response(inventory=inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
-											output=output, water_level=4.5, taper=False)
-				else:
-					trace.remove_response(inventory=inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
-											output='VEL', water_level=4.5, taper=False)
-				if 'ACC' in self.deconv:
-					trace.data = np.gradient(trace.data, 1)
-				elif 'GRAV' in self.deconv:
-					trace.data = np.gradient(trace.data, 1) / g
-					trace.stats.units = 'Earth gravity'
-				elif 'DISP' in self.deconv:
-					trace.data = np.cumsum(trace.data)
-					trace.taper(max_percentage=0.1, side='left', max_length=1)
-					trace.detrend(type='demean')
-				else:
-					trace.stats.units = 'Velocity'
+				deconv_vel_inst(self, trace)	# geophone channels
+
 			elif ('NZ' in trace.stats.channel) or ('NE' in trace.stats.channel) or ('NN' in trace.stats.channel):
-				if self.deconv not in 'CHAN':
-					trace.remove_response(inventory=inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
-											output=output, water_level=4.5, taper=False)
-				else:
-					trace.remove_response(inventory=inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
-											output='ACC', water_level=4.5, taper=False)
-				if 'VEL' in self.deconv:
-					trace.data = np.cumsum(trace.data)
-					trace.detrend(type='demean')
-				elif 'DISP' in self.deconv:
-					trace.data = np.cumsum(np.cumsum(trace.data))
-					trace.detrend(type='linear')
-				elif 'GRAV' in self.deconv:
-					trace.data = trace.data / g
-					trace.stats.units = 'Earth gravity'
-				else:
-					trace.stats.units = 'Acceleration'
-				if ('ACC' not in self.deconv) and ('CHAN' not in self.deconv):
-					trace.taper(max_percentage=0.1, side='left', max_length=1)
+				deconv_acc_inst(self, trace)	# accelerometer channels
 
 			elif 'HDF' in trace.stats.channel:
-				trace.stats.units = ' counts'	# this is HDF
+				deconv_hdf_inst(self, trace)	# this is the Boom channel
 
 			else:
 				trace.stats.units = ' counts'	# this is a new one
 
 		else:
 			trace.stats.units = ' counts'		# this is not being deconvolved
+
 
 class ConsumerThread(Thread):
 	'''

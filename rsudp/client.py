@@ -604,6 +604,10 @@ where OPTIONS := {
             specify the path to a seismic data file
     -s | --settings=/path/to/settings/json
             specify the path to a JSON-formatted settings file
+    -b | --no-plot
+            "blind mode", used when there is no display
+    -q | --no-sound
+            "quiet mode", used when there is no audio device/ffmpeg
     }
 
 rs-test with no arguments will start the test with
@@ -619,7 +623,7 @@ default settings and the data file at
 
 	try:
 		opts = getopt.getopt(sys.argv[1:], 'hf:s:bq',
-			['help', 'file=', 'settings=', 'no-plot',]
+			['help', 'file=', 'settings=', 'no-plot', 'no-sound']
 			)[0]
 	except Exception as e:
 		print(COLOR['red'] + 'ERROR: %s' % e + COLOR['white'])

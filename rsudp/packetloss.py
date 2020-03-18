@@ -4,6 +4,11 @@ import datetime as dt
 import signal
 from rsudp import raspberryshake, printM, printW, printE, add_debug_handler
 
+# some globals
+DPtime = {}
+timeStart = {}
+DPttlLoss = {}
+
 def signal_handler(signal, frame):
 	'''
 	The signal handler for the CTRL+C keystroke.
@@ -45,6 +50,7 @@ def run(printFREQ=60, port=8888):
 	:param int port: Local port to listen on
 
 	'''
+	global DPtime, DPttlLoss
 	printM("Initializing...")
 	raspberryshake.initRSlib(dport=port, rsstn='Z0000')	# runs in quiet mode; suppresses needless output but shows errors
 	add_debug_handler()									# now start console output
@@ -89,10 +95,6 @@ def run(printFREQ=60, port=8888):
 				timeStart[CHAN] = timeS
 				DPttlLoss[CHAN] = 0
 
-# some globals
-DPtime = {}
-timeStart = {}
-DPttlLoss = {}
 
 def main():
 	'''

@@ -297,7 +297,7 @@ for acceleration channels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>self</strong> (<em>self</em>) – The self object of the sub-consumer class calling this function. Must contain <code class="code pycode python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">self</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">stream</span></span></code> as a <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (1.2.0) v1.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.stream.Stream</span></code></a> object.</p></li>
+<li><p><strong>self</strong> (<em>self</em>) – The self object of the sub-consumer class calling this function.</p></li>
 <li><p><strong>trace</strong> (<em>osbpy.core.trace.Trace</em>) – the trace object instance to deconvolve</p></li>
 </ul>
 </dd>
@@ -308,11 +308,18 @@ for acceleration channels.</p>
 <dt id="rsudp.raspberryshake.deconv_rbm_inst">
 <code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">deconv_rbm_inst</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">trace</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.deconv_rbm_inst" title="Permalink to this definition">¶</a></dt>
 <dd><p>A helper function for <a class="reference internal" href="#rsudp.raspberryshake.deconvolve" title="rsudp.raspberryshake.deconvolve"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.deconvolve()</span></code></a>
-for acceleration channels.</p>
+for Raspberry Boom pressure transducer channels.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Raspberry Boom pressure transducer does not currently have a
+deconvolution function. The Raspberry Shake team is working on a
+calibration for the Boom, but until then Boom units are given in
+counts.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>self</strong> (<em>self</em>) – The self object of the sub-consumer class calling this function. Must contain <code class="code pycode python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">self</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">stream</span></span></code> as a <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (1.2.0) v1.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.stream.Stream</span></code></a> object.</p></li>
+<li><p><strong>self</strong> (<em>self</em>) – The self object of the sub-consumer class calling this function.</p></li>
 <li><p><strong>trace</strong> (<em>osbpy.core.trace.Trace</em>) – the trace object instance to deconvolve</p></li>
 </ul>
 </dd>
@@ -327,7 +334,7 @@ for velocity channels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>self</strong> (<em>self</em>) – The self object of the sub-consumer class calling this function. Must contain <code class="code pycode python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">self</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">stream</span></span></code> as a <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (1.2.0) v1.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.stream.Stream</span></code></a> object.</p></li>
+<li><p><strong>self</strong> (<em>self</em>) – The self object of the sub-consumer class calling this function.</p></li>
 <li><p><strong>trace</strong> (<em>osbpy.core.trace.Trace</em>) – the trace object instance to deconvolve</p></li>
 </ul>
 </dd>

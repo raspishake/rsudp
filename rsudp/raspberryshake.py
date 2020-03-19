@@ -840,7 +840,7 @@ def deconv_vel_inst(self, trace):
 	A helper function for :py:func:`rsudp.raspberryshake.deconvolve`
 	for velocity channels.
 
-	:param self self: The self object of the sub-consumer class calling this function. Must contain :pycode:`self.stream` as a :py:class:`obspy.core.stream.Stream` object.
+	:param self self: The self object of the sub-consumer class calling this function.
 	:param osbpy.core.trace.Trace trace: the trace object instance to deconvolve
 	'''
 	if self.deconv not in 'CHAN':
@@ -870,7 +870,7 @@ def deconv_acc_inst(self, trace):
 	A helper function for :py:func:`rsudp.raspberryshake.deconvolve`
 	for acceleration channels.
 
-	:param self self: The self object of the sub-consumer class calling this function. Must contain :pycode:`self.stream` as a :py:class:`obspy.core.stream.Stream` object.
+	:param self self: The self object of the sub-consumer class calling this function.
 	:param osbpy.core.trace.Trace trace: the trace object instance to deconvolve
 	'''
 	if self.deconv not in 'CHAN':
@@ -900,9 +900,16 @@ def deconv_rbm_inst(self, trace):
 		:language: python
 	
 	A helper function for :py:func:`rsudp.raspberryshake.deconvolve`
-	for acceleration channels.
+	for Raspberry Boom pressure transducer channels.
 
-	:param self self: The self object of the sub-consumer class calling this function. Must contain :pycode:`self.stream` as a :py:class:`obspy.core.stream.Stream` object.
+	.. note::
+
+		The Raspberry Boom pressure transducer does not currently have a
+		deconvolution function. The Raspberry Shake team is working on a
+		calibration for the Boom, but until then Boom units are given in
+		counts.
+
+	:param self self: The self object of the sub-consumer class calling this function.
 	:param osbpy.core.trace.Trace trace: the trace object instance to deconvolve
 	'''
 	trace.stats.units = ' counts'

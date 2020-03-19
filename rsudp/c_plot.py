@@ -47,8 +47,8 @@ except Exception as e:
 	printE('detail: %s' % e, sender, spaces=True)
 	MPL = False
 
-icon = 'icon.ico'
-icon2 = 'icon.png'
+ICON = 'icon.ico'
+ICON2 = 'icon.png'
 
 class Plot:
 	'''
@@ -306,6 +306,7 @@ class Plot:
 		# imgpath requires a UTCDateTime and a string figure path
 		self.master_queue.put(rs.msg_imgpath(event_time, figname))
 
+
 	def _set_fig_title(self):
 		'''
 		Sets the figure title back to something that makes sense for the live viewer.
@@ -315,13 +316,10 @@ class Plot:
 						  fontsize=14, color=self.fgcolor, x=0.52)
 
 
-	def setup_plot(self):
-		"""
-		Sets up the plot. Quite a lot of stuff happens in this function.
-		Matplotlib backends are not threadsafe, so things are a little weird.
-		See code comments for details.
-		"""
-		# instantiate a figure and set basic params
+	def _init_plot(self):
+		'''
+		Initialize plot elements and calculate parameters.
+		'''
 		self.fig = plt.figure(figsize=(11,3*self.num_chans))
 		self.fig.canvas.mpl_connect('close_event', self.handle_close)
 		self.fig.canvas.mpl_connect('resize_event', self.handle_resize)
@@ -345,50 +343,48 @@ class Plot:
 			self.nfft1 = self._nearest_pow_2(self.sps)
 			self.nlap1 = self.nfft1 * self.per_lap
 
-		for i in range(self.num_chans):
-			if i == 0:
-				# set up first axes (axes added later will share these x axis limits)
+
+	def _init_axes(self, i):
+		'''
+		Initialize plot axes.
+		'''
+		if i == 0:
+			# set up first axes (axes added later will share these x axis limits)
+			self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
+							1, 1, label=str(1)))
+			self.ax[0].set_facecolor(self.bgcolor)
+			self.ax[0].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
+			self.ax[0].xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S'))
+			self.ax[0].yaxis.set_major_formatter(EngFormatter(unit='%s' % self.unit.lower()))
+			if self.spectrogram:
 				self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
-							   1, 1, label=str(1)))
-				self.ax[0].set_facecolor(self.bgcolor)
-				self.ax[0].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
-				self.ax[0].xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S'))
-				self.ax[0].yaxis.set_major_formatter(EngFormatter(unit='%s' % self.unit.lower()))
-				if self.spectrogram:
-					self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
-								   1, 2, label=str(2)))#, sharex=ax[0]))
-					self.ax[1].set_facecolor(self.bgcolor)
-					self.ax[1].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
-			else:
-				# add axes that share either lines or spectrogram axis limits
-				s = i * self.mult	# plot selector
-				# add a subplot then set colors
+								1, 2, label=str(2)))#, sharex=ax[0]))
+				self.ax[1].set_facecolor(self.bgcolor)
+				self.ax[1].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
+		else:
+			# add axes that share either lines or spectrogram axis limits
+			s = i * self.mult	# plot selector
+			# add a subplot then set colors
+			self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
+							1, s+1, sharex=self.ax[0], label=str(s+1)))
+			self.ax[s].set_facecolor(self.bgcolor)
+			self.ax[s].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
+			self.ax[s].xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S'))
+			self.ax[s].yaxis.set_major_formatter(EngFormatter(unit='%s' % self.unit.lower()))
+			if self.spectrogram:
+				# add a spectrogram and set colors
 				self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
-							   1, s+1, sharex=self.ax[0], label=str(s+1)))
-				self.ax[s].set_facecolor(self.bgcolor)
-				self.ax[s].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
-				self.ax[s].xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S'))
-				self.ax[s].yaxis.set_major_formatter(EngFormatter(unit='%s' % self.unit.lower()))
-				if self.spectrogram:
-					# add a spectrogram and set colors
-					self.ax.append(self.fig.add_subplot(self.num_chans*self.mult,
-								   1, s+2, sharex=self.ax[1], label=str(s+2)))
-					self.ax[s+1].set_facecolor(self.bgcolor)
-					self.ax[s+1].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
+								1, s+2, sharex=self.ax[1], label=str(s+2)))
+				self.ax[s+1].set_facecolor(self.bgcolor)
+				self.ax[s+1].tick_params(colors=self.fgcolor, labelcolor=self.fgcolor)
 
-		for axis in self.ax:
-			# set the rest of plot colors
-			plt.setp(axis.spines.values(), color=self.fgcolor)
-			plt.setp([axis.get_xticklines(), axis.get_yticklines()], color=self.fgcolor)
 
-		# calculate times
-		start = np.datetime64(self.stream[0].stats.endtime
-							  )-np.timedelta64(self.seconds, 's')	# numpy time
-		end = np.datetime64(self.stream[0].stats.endtime)	# numpy time
-
-		# rs logos
+	def _set_icon(self):
+		'''
+		Set RS plot icons.
+		'''
 		mgr = plt.get_current_fig_manager()
-		ico = pr.resource_filename('rsudp', os.path.join('img', icon))
+		ico = pr.resource_filename('rsudp', os.path.join('img', ICON))
 		if QT:
 			mgr.window.setWindowIcon(QtGui.QIcon(ico))
 		else:
@@ -398,11 +394,21 @@ class Plot:
 			except:
 				printW('Failed to set PNG icon image, trying .ico instead', sender=self.sender)
 				try:
-					ico = pr.resource_filename('rsudp', os.path.join('img', icon2))
+					ico = pr.resource_filename('rsudp', os.path.join('img', ICON2))
 					ico = PhotoImage(file=ico)
 					mgr.window.tk.call('wm', 'iconphoto', mgr.window._w, ico)
 				except:
 					printE('Failed to set window icon.')
+
+
+	def _format_axes(self):
+		'''
+		Setting up axes and artists.
+		'''
+		# calculate times
+		start = np.datetime64(self.stream[0].stats.endtime
+							  )-np.timedelta64(self.seconds, 's')	# numpy time
+		end = np.datetime64(self.stream[0].stats.endtime)	# numpy time
 
 		im = mpimg.imread(pr.resource_filename('rsudp', os.path.join('img', 'version1-01-small.png')))
 		self.imax = self.fig.add_axes([0.015, 0.944, 0.2, 0.056], anchor='NW') # [left, bottom, right, top]
@@ -444,7 +450,11 @@ class Plot:
 						extent=(self.seconds-(1/(self.sps/float(len(self.stream[i].data)))),
 								self.seconds,0,self.sps/2), aspect='auto')
 
-		self.handle_resize()
+
+	def _setup_fig_manager(self):
+		'''
+		Setting up figure manager and 
+		'''
 		# update canvas and draw
 		figManager = plt.get_current_fig_manager()
 		if self.kiosk:
@@ -457,6 +467,35 @@ class Plot:
 					figManager.resize(*figManager.window.maxsize())
 
 
+	def setup_plot(self):
+		"""
+		Sets up the plot. Quite a lot of stuff happens in this function.
+		Matplotlib backends are not threadsafe, so things are a little weird.
+		See code comments for details.
+		"""
+		# instantiate a figure and set basic params
+		self._init_plot()
+
+		for i in range(self.num_chans):
+			self._init_axes(i)
+
+		for axis in self.ax:
+			# set the rest of plot colors
+			plt.setp(axis.spines.values(), color=self.fgcolor)
+			plt.setp([axis.get_xticklines(), axis.get_yticklines()], color=self.fgcolor)
+
+		# rs logos
+		self._set_icon()
+
+		# draw axes
+		self._format_axes()
+
+		self.handle_resize()
+
+		# setup figure manager
+		self._setup_fig_manager()
+
+		# draw plot, loop, and resize the plot
 		plt.draw()									# draw the canvas
 		self.fig.canvas.start_event_loop(0.005)		# wait for canvas to update
 		self.handle_resize()

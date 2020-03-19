@@ -832,7 +832,7 @@ def get_msg_path(msg):
 	return msg.decode('utf-8').split(' ')[2]
 
 
-def deconv_vel_inst(self, trace):
+def deconv_vel_inst(self, trace, output):
 	'''
 	.. role:: pycode(code)
 		:language: python
@@ -862,7 +862,7 @@ def deconv_vel_inst(self, trace):
 		trace.stats.units = 'Velocity'
 
 
-def deconv_acc_inst(self, trace):
+def deconv_acc_inst(self, trace, output):
 	'''
 	.. role:: pycode(code)
 		:language: python
@@ -894,7 +894,7 @@ def deconv_acc_inst(self, trace):
 		trace.taper(max_percentage=0.1, side='left', max_length=1)
 
 
-def deconv_rbm_inst(self, trace):
+def deconv_rbm_inst(self, trace, output):
 	'''
 	.. role:: pycode(code)
 		:language: python
@@ -938,13 +938,13 @@ def deconvolve(self):
 		output = 'ACC' if self.deconv == 'GRAV' else self.deconv	# if conversion is to gravity
 		if self.deconv:
 			if trace.stats.channel in vel_channels:
-				deconv_vel_inst(self, trace)	# geophone channels
+				deconv_vel_inst(self, trace, output)	# geophone channels
 
 			elif trace.stats.channel in acc_channels:
-				deconv_acc_inst(self, trace)	# accelerometer channels
+				deconv_acc_inst(self, trace, output)	# accelerometer channels
 
 			elif trace.stats.channel in rbm_channels:
-				deconv_rbm_inst(self, trace)	# this is the Boom channel
+				deconv_rbm_inst(self, trace, output)	# this is the Boom channel
 
 			else:
 				trace.stats.units = ' counts'	# this is a new one

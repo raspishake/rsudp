@@ -246,6 +246,13 @@ To put the plot into kiosk mode, set <code class="code json docutils literal not
 </dd></dl>
 
 <dl class="method">
+<dt id="rsudp.c_plot.Plot.figloop">
+<code class="sig-name descname">figloop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.figloop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Let some time elapse in order for the plot canvas to draw properly.
+Must be separate from <a class="reference internal" href="#rsudp.c_plot.Plot.update_plot" title="rsudp.c_plot.Plot.update_plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_plot()</span></code></a> to avoid a broadcast error early in plotting.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="rsudp.c_plot.Plot.getq">
 <code class="sig-name descname">getq</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.getq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get data from the queue and test for whether it has certain strings.
@@ -270,10 +277,41 @@ This will allow the plot to resize dynamically.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="rsudp.c_plot.Plot.loop">
-<code class="sig-name descname">loop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.loop" title="Permalink to this definition">¶</a></dt>
-<dd><p>Let some time elapse in order for the plot canvas to draw properly.
-Must be separate from <a class="reference internal" href="#rsudp.c_plot.Plot.update_plot" title="rsudp.c_plot.Plot.update_plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_plot()</span></code></a> to avoid a broadcast error early in plotting.</p>
+<dt id="rsudp.c_plot.Plot.mainloop">
+<code class="sig-name descname">mainloop</code><span class="sig-paren">(</span><em class="sig-param">i</em>, <em class="sig-param">u</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.mainloop" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main loop in the <a class="reference internal" href="#rsudp.c_plot.Plot.run" title="rsudp.c_plot.Plot.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.c_plot.Plot.run()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – number of plot events without clearing the linecache</p></li>
+<li><p><strong>u</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – queue blocking counter</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>number of plot events without clearing the linecache and queue blocking counter</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="rsudp.c_plot.Plot.qu">
+<code class="sig-name descname">qu</code><span class="sig-paren">(</span><em class="sig-param">u</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.qu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a queue object and increment the queue counter.
+This is a way to figure out how many channels have arrived in the queue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>u</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – queue blocking counter</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>queue blocking counter</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -288,7 +326,7 @@ All other plots are drawn at most every quarter second (250 ms).</p>
 
 <dl class="method">
 <dt id="rsudp.c_plot.Plot.savefig">
-<code class="sig-name descname">savefig</code><span class="sig-paren">(</span><em class="sig-param">event_time=UTCDateTime(2020</em>, <em class="sig-param">3</em>, <em class="sig-param">18</em>, <em class="sig-param">23</em>, <em class="sig-param">58</em>, <em class="sig-param">29</em>, <em class="sig-param">852963)</em>, <em class="sig-param">event_time_str='2020-03-18-235829'</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.savefig" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">savefig</code><span class="sig-paren">(</span><em class="sig-param">event_time=UTCDateTime(2020</em>, <em class="sig-param">3</em>, <em class="sig-param">19</em>, <em class="sig-param">4</em>, <em class="sig-param">47</em>, <em class="sig-param">8</em>, <em class="sig-param">556387)</em>, <em class="sig-param">event_time_str='2020-03-19-044708'</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.savefig" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the figure and puts an IMGPATH message on the master queue.
 This message can be used to upload the image to various services.</p>
 <dl class="field-list simple">

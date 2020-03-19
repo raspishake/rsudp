@@ -35,7 +35,7 @@ class Producer(Thread):
 		printM('Starting.', self.sender)
 
 
-	def _filter_sender(self, addr, data):
+	def _filter_sender(self, data, addr):
 		'''
 		Filter the message sender and put data on the consumer queue.
 		'''
@@ -87,7 +87,8 @@ class Producer(Thread):
 		"""
 		RS.producer = True
 		while RS.producer:
-			self._filter_sender(RS.sock.recvfrom(4096))
+			data, addr = RS.sock.recvfrom(4096)
+			self._filter_sender(data, addr)
 			self._tasks()
 			if self.stop:
 				RS.producer = False

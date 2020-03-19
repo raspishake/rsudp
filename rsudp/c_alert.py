@@ -117,6 +117,7 @@ class Alert(rs.ConsumerThread):
 			printM('Alert stream will be %s filtered %s %s Hz'
 					% (self.filt, modifier, self.freq), self.sender)
 
+
 	def _getq(self):
 		'''
 		Reads data from the queue and updates the stream.
@@ -136,11 +137,99 @@ class Alert(rs.ConsumerThread):
 		else:
 			return False
 
+
 	def _deconvolve(self):
 		'''
 		Deconvolves the stream associated with this class.
 		'''
-		rs.deconvolve(self)
+		if self.deconv:
+			rs.deconvolve(self)
+
+
+	def _subloop(self):
+		'''
+		Gets the queue and figures out whether or not the specified channel is in the packet.
+		'''
+		while True:
+			if self.queue.qsize() > 0:
+				self._getq()			# get recent packets
+			else:
+				if self._getq():		# is this the specified channel? if so break
+					break
+
+
+	def _filter(self):
+		'''
+		Filters the stream associated with this class.
+		'''
+		if self.filt:
+			if self.filt in 'bandpass':
+				self.stalta = recursive_sta_lta(
+							self.stream[0].copy().filter(type=self.filt,
+							freqmin=self.freqmin, freqmax=self.freqmax),
+							int(self.sta * self.sps), int(self.lta * self.sps))
+			else:
+				self.stalta = recursive_sta_lta(
+							self.stream[0].copy().filter(type=self.filt,
+							freq=self.freq),
+							int(self.sta * self.sps), int(self.lta * self.sps))
+		else:
+			self.stalta = recursive_sta_lta(self.stream[0],
+					int(self.sta * self.sps), int(self.lta * self.sps))
+
+
+	def _is_trigger(self):
+		'''
+		Figures out it there's a trigger active.
+		'''
+		if self.stalta.max() > self.thresh:
+			if not self.exceed:
+				# raise a flag that the Producer can read and modify 
+				self.alarm = rs.fsec(self.stream[0].stats.starttime + timedelta(seconds=
+										trigger_onset(self.stalta, self.thresh,
+										self.reset)[-1][0] * self.stream[0].stats.delta))
+				self.exceed = True	# the state machine; this one should not be touched from the outside, otherwise bad things will happen
+				print()
+				printM('Trigger threshold of %s exceeded at %s'
+						% (self.thresh, self.alarm.strftime('%Y-%m-%d %H:%M:%S.%f')[:22]), self.sender)
+				printM('Trigger will reset when STA/LTA goes below %s...' % self.reset, sender=self.sender)
+				COLOR['current'] = COLOR['purple']
+			else:
+				pass
+
+			if self.stalta.max() > self.maxstalta:
+				self.maxstalta = self.stalta.max()
+		else:
+			if self.exceed:
+				if self.stalta[-1] < self.reset:
+					self.alarm_reset = rs.fsec(self.stream[0].stats.endtime)	# lazy; effective
+					self.exceed = False
+					print()
+					printM('Max STA/LTA ratio reached in alarm state: %s' % (round(self.maxstalta, 3)),
+							self.sender)
+					printM('Earthquake trigger reset and active again at %s' % (
+							self.alarm_reset.strftime('%Y-%m-%d %H:%M:%S.%f')[:22]),
+							self.sender)
+					self.maxstalta = 0
+					COLOR['current'] = COLOR['green']
+			else:
+				pass
+
+
+	def _print_stalta(self):
+		'''
+		Print the current max STA/LTA of the stream.
+		'''
+		if self.debug:
+			msg = '\r%s [%s] Threshold: %s; Current max STA/LTA: %.4f' % (
+					(self.stream[0].stats.starttime + timedelta(seconds=
+					len(self.stream[0].data) * self.stream[0].stats.delta)).strftime('%Y-%m-%d %H:%M:%S'),
+					self.sender,
+					self.thresh,
+					round(np.max(self.stalta[-50:]), 4)
+					)
+			print(COLOR['current'] + COLOR['bold'] + msg + COLOR['white'], end='', flush=True)
+
 
 	def run(self):
 		"""
@@ -159,81 +248,29 @@ class Alert(rs.ConsumerThread):
 
 		n = 0
 		while True:
-			while True:
-				if self.queue.qsize() > 0:
-					self._getq()			# get recent packets
-				else:
-					if self._getq():		# is this the specified channel? if so break
-						break
+			self._subloop()
 
 			self.raw = rs.copy(self.raw)	# necessary to avoid memory leak
 			self.stream = self.raw.copy()
-			if self.deconv:
-				self._deconvolve()
+			self._deconvolve()
 
 			if n > wait_pkts:
+				# if the trigger is activated
 				obstart = self.stream[0].stats.endtime - timedelta(seconds=self.lta)	# obspy time
 				self.raw = self.raw.slice(starttime=obstart)		# slice the stream to the specified length (seconds variable)
 				self.stream = self.stream.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
 
-				if self.filt:
-					if self.filt in 'bandpass':
-						self.stalta = recursive_sta_lta(
-									self.stream[0].copy().filter(type=self.filt,
-									freqmin=self.freqmin, freqmax=self.freqmax),
-									int(self.sta * self.sps), int(self.lta * self.sps))
-					else:
-						self.stalta = recursive_sta_lta(
-									self.stream[0].copy().filter(type=self.filt,
-									freq=self.freq),
-									int(self.sta * self.sps), int(self.lta * self.sps))
+				# filter
+				self._filter()
+				# figure out if the trigger has gone off
+				self._is_trigger()
 
-				else:
-					self.stalta = recursive_sta_lta(self.stream[0],
-							int(self.sta * self.sps), int(self.lta * self.sps))
-				if self.stalta.max() > self.thresh:
-					if not self.exceed:
-						# raise a flag that the Producer can read and modify 
-						self.alarm = rs.fsec(self.stream[0].stats.starttime + timedelta(seconds=
-									 		 trigger_onset(self.stalta, self.thresh,
-											 self.reset)[-1][0] * self.stream[0].stats.delta))
-						self.exceed = True	# the state machine; this one should not be touched from the outside, otherwise bad things will happen
-						print()
-						printM('Trigger threshold of %s exceeded at %s'
-							   % (self.thresh, self.alarm.strftime('%Y-%m-%d %H:%M:%S.%f')[:22]), self.sender)
-						printM('Trigger will reset when STA/LTA goes below %s...' % self.reset, sender=self.sender)
-						COLOR['current'] = COLOR['purple']
-					else:
-						pass
-
-					if self.stalta.max() > self.maxstalta:
-						self.maxstalta = self.stalta.max()
-
-				else:
-					if self.exceed:
-						if self.stalta[-1] < self.reset:
-							self.alarm_reset = rs.fsec(self.stream[0].stats.endtime)	# lazy; effective
-							self.exceed = False
-							print()
-							printM('Max STA/LTA ratio reached in alarm state: %s' % (round(self.maxstalta, 3)),
-									self.sender)
-							printM('Earthquake trigger reset and active again at %s' % (
-								   self.alarm_reset.strftime('%Y-%m-%d %H:%M:%S.%f')[:22]),
-								   self.sender)
-							self.maxstalta = 0
-							COLOR['current'] = COLOR['green']
-					else:
-						pass
+				# copy the stream (necessary to avoid memory leak)
 				self.stream = rs.copy(self.stream)
-				if self.debug:
-					msg = '\r%s [%s] Threshold: %s; Current max STA/LTA: %.4f' % (
-							(self.stream[0].stats.starttime + timedelta(seconds=
-							len(self.stream[0].data) * self.stream[0].stats.delta)).strftime('%Y-%m-%d %H:%M:%S'),
-							self.sender,
-							self.thresh,
-							round(np.max(self.stalta[-50:]), 4)
-							)
-					print(COLOR['current'] + COLOR['bold'] + msg + COLOR['white'], end='', flush=True)
+
+				# print the current STA/LTA calculation
+				self._print_stalta()
+
 			elif n == 0:
 				printM('Listening to channel %s'
 						% (self.stream[0].stats.channel), self.sender)

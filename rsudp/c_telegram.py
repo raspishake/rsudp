@@ -61,9 +61,11 @@ class Telegrammer(rs.ConsumerThread):
 		self.message0 = '(Raspberry Shake station %s.%s%s) Event detected at' % (rs.net, rs.stn, self.region)
 
 		printM('Starting.', self.sender)
-	
+
+
 	def auth(self):
 		self.telegram = tg.Bot(token=self.token)
+
 
 	def getq(self):
 		d = self.queue.get()
@@ -76,6 +78,67 @@ class Telegrammer(rs.ConsumerThread):
 		else:
 			return d
 
+
+	def _when_alarm(self, d):
+		'''
+		Send a telegram in an alert scenario.
+
+		:param bytes d: queue message
+		'''
+		event_time = rs.fsec(rs.get_msg_time(d))
+		self.last_event_str = '%s' % (event_time.strftime(self.fmt)[:22])
+		message = '%s %s UTC - %s' % (self.message0, self.last_event_str, self.livelink)
+		response = None
+		try:
+			printM('Sending alert...', sender=self.sender)
+			response = self.telegram.sendMessage(chat_id=self.chat_id, text=message)
+			printM('Sent Telegram: %s' % (message), sender=self.sender)
+
+		except Exception as e:
+			printE('could not send alert - %s' % (e))
+			try:
+				printE('Waiting 5 seconds and trying to send again...', sender=self.sender, spaces=True)
+				time.sleep(5)
+				self.auth()
+				response = self.telegram.sendMessage(chat_id=self.chat_id, text=message)
+				printM('Sent Telegram: %s' % (message), sender=self.sender)
+			except Exception as e:
+				printE('could not send alert - %s' % (e))
+				response = None
+
+
+	def _when_img(self, d):
+		'''
+		Send a telegram image in when you get an ``IMGPATH`` message.
+
+		:param bytes d: queue message
+		'''
+		if self.send_images:
+			imgdetails = d.decode('utf-8').split(' ')
+			response = None
+			if os.path.exists(imgdetails[2]):
+				with open(imgdetails[2], 'rb') as image:
+					try:
+						printM('Uploading image to Telegram %s' % (imgdetails[2]), self.sender)
+						response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
+						printM('Sent image', sender=self.sender)
+					except Exception as e:
+						printE('could not send image - %s' % (e))
+						try:
+							printM('Waiting 5 seconds and trying to send again...', sender=self.sender)
+							time.sleep(5.1)
+							self.auth()
+							printM('Uploading image to Telegram (2nd try) %s' % (imgdetails[2]), self.sender)
+							response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
+							printM('Sent image', sender=self.sender)
+
+						except Exception as e:
+							printE('could not send image - %s' % (e))
+							response = None
+			else:
+				printM('Could not find image: %s' % (imgdetails[2]), sender=self.sender)
+
+
 	def run(self):
 		"""
 		Reads data from the queue and sends a message if it sees an ALARM or IMGPATH message
@@ -84,51 +147,7 @@ class Telegrammer(rs.ConsumerThread):
 			d = self.getq()
 
 			if 'ALARM' in str(d):
-				event_time = rs.fsec(rs.get_msg_time(d))
-				self.last_event_str = '%s' % (event_time.strftime(self.fmt)[:22])
-				message = '%s %s UTC - %s' % (self.message0, self.last_event_str, self.livelink)
-				response = None
-				try:
-					printM('Sending alert...', sender=self.sender)
-					response = self.telegram.sendMessage(chat_id=self.chat_id, text=message)
-					printM('Sent Telegram: %s' % (message), sender=self.sender)
-
-				except Exception as e:
-					printE('could not send alert - %s' % (e))
-					try:
-						printE('Waiting 5 seconds and trying to send again...', sender=self.sender, spaces=True)
-						time.sleep(5)
-						self.auth()
-						response = self.telegram.sendMessage(chat_id=self.chat_id, text=message)
-						printM('Sent Telegram: %s' % (message), sender=self.sender)
-					except Exception as e:
-						printE('could not send alert - %s' % (e))
-						response = None
-
+				self._when_alarm(d)
 
 			elif 'IMGPATH' in str(d):
-				if self.send_images:
-					imgdetails = d.decode('utf-8').split(' ')
-					response = None
-					if os.path.exists(imgdetails[2]):
-						with open(imgdetails[2], 'rb') as image:
-							try:
-								printM('Uploading image to Telegram %s' % (imgdetails[2]), self.sender)
-								response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
-								printM('Sent image', sender=self.sender)
-							except Exception as e:
-								printE('could not send image - %s' % (e))
-								try:
-									printM('Waiting 5 seconds and trying to send again...', sender=self.sender)
-									time.sleep(5.1)
-									self.auth()
-									printM('Uploading image to Telegram (2nd try) %s' % (imgdetails[2]), self.sender)
-									response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
-									printM('Sent image', sender=self.sender)
-
-								except Exception as e:
-									printE('could not send image - %s' % (e))
-									response = None
-
-					else:
-						printM('Could not find image: %s' % (imgdetails[2]), sender=self.sender)
+				self._when_img(d)

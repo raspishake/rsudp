@@ -219,4 +219,4 @@ class Tweeter(rs.ConsumerThread):
 				self._when_alarm(d)
 
 			elif 'IMGPATH' in str(d):
-				self.when_img(d)
+				self._when_img(d)

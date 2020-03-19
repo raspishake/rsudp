@@ -1,5 +1,6 @@
 # Changelog
 ## changes in 1.0.0
+- simplified several functions to make them more readable
 - changed doc structure to github pages compatible
 
 ## changes in 0.4.3

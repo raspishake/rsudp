@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.4.3
+                1.0.0
               </div>
             
           
@@ -208,7 +208,7 @@
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you are starting this program from a command line by using
-<code class="code bash docutils literal notranslate"><span class="pre">rs-client</span></code> or a start script, the functions in this
+<code class="docutils literal notranslate"><span class="pre">rs-client</span></code> or a start script, the functions in this
 library will be executed by the <a class="reference internal" href="client.html#module-rsudp.client" title="rsudp.client"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rsudp.client</span></code></a> automatically.
 See <a class="reference internal" href="running.html#running"><span class="std std-ref">Running rsudp</span></a> for details.</p>
 <p>If you are a developer looking for helper functions to create a new module,
@@ -285,6 +285,51 @@ works fine and is plenty fast enough.</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A low-memory copy of the passed data stream</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rsudp.raspberryshake.deconv_acc_inst">
+<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">deconv_acc_inst</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">trace</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.deconv_acc_inst" title="Permalink to this definition">¶</a></dt>
+<dd><p>A helper function for <a class="reference internal" href="#rsudp.raspberryshake.deconvolve" title="rsudp.raspberryshake.deconvolve"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.deconvolve()</span></code></a>
+for acceleration channels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>self</em>) – The self object of the sub-consumer class calling this function. Must contain <code class="code pycode python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">self</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">stream</span></span></code> as a <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (1.2.0) v1.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.stream.Stream</span></code></a> object.</p></li>
+<li><p><strong>trace</strong> (<em>osbpy.core.trace.Trace</em>) – the trace object instance to deconvolve</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rsudp.raspberryshake.deconv_rbm_inst">
+<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">deconv_rbm_inst</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">trace</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.deconv_rbm_inst" title="Permalink to this definition">¶</a></dt>
+<dd><p>A helper function for <a class="reference internal" href="#rsudp.raspberryshake.deconvolve" title="rsudp.raspberryshake.deconvolve"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.deconvolve()</span></code></a>
+for acceleration channels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>self</em>) – The self object of the sub-consumer class calling this function. Must contain <code class="code pycode python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">self</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">stream</span></span></code> as a <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (1.2.0) v1.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.stream.Stream</span></code></a> object.</p></li>
+<li><p><strong>trace</strong> (<em>osbpy.core.trace.Trace</em>) – the trace object instance to deconvolve</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rsudp.raspberryshake.deconv_vel_inst">
+<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">deconv_vel_inst</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">trace</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.deconv_vel_inst" title="Permalink to this definition">¶</a></dt>
+<dd><p>A helper function for <a class="reference internal" href="#rsudp.raspberryshake.deconvolve" title="rsudp.raspberryshake.deconvolve"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.deconvolve()</span></code></a>
+for velocity channels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>self</em>) – The self object of the sub-consumer class calling this function. Must contain <code class="code pycode python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">self</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">stream</span></span></code> as a <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (1.2.0) v1.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.stream.Stream</span></code></a> object.</p></li>
+<li><p><strong>trace</strong> (<em>osbpy.core.trace.Trace</em>) – the trace object instance to deconvolve</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

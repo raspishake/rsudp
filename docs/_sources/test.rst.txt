@@ -59,6 +59,7 @@ and their initial state:
 
 * :ref:`genindex`
 * :ref:`search`
+
 .. * :ref:`modindex`
 
 `Back to top ↑ <#top>`_

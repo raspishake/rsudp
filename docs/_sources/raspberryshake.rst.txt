@@ -3,7 +3,7 @@
 
 .. note::
     If you are starting this program from a command line by using
-    :bash:`rs-client` or a start script, the functions in this
+    ``rs-client`` or a start script, the functions in this
     library will be executed by the :mod:`rsudp.client` automatically.
     See :ref:`running` for details.
 
@@ -36,6 +36,7 @@ function and its derivatives will be available for use.
 
 * :ref:`genindex`
 * :ref:`search`
+
 .. * :ref:`modindex`
 
 `Back to top ↑ <#top>`_

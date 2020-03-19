@@ -462,6 +462,74 @@ class Plot:
 		self.handle_resize()
 
 
+	def _set_ch_specific_label(self, i):
+		'''
+		Set the formatter units if the deconvolution is channel-specific.
+		'''
+		if self.deconv:
+			if (self.deconv in 'CHAN'):
+				ch = self.stream[i].stats.channel
+				if ('HZ' in ch) or ('HN' in ch) or ('HE' in ch):
+					unit = rs.UNITS['VEL'][1]
+				elif ('EN' in ch):
+					unit = rs.UNITS['ACC'][1]
+				else:
+					unit = rs.UNITS['CHAN'][1]
+				self.ax[i*self.mult].yaxis.set_major_formatter(EngFormatter(unit='%s' % unit.lower()))
+
+
+	def _draw_lines(self, i, start, end, mean):
+		'''
+		Updates the line data in the plot.
+
+		:param int i: the trace number
+		:param numpy.datetime64 start: start time of the trace
+		:param numpy.datetime64 end: end time of the trace
+		:param float mean: the mean of data in the trace
+		'''
+		comp = 1/self.per_lap	# spectrogram offset compensation factor
+		r = np.arange(start, end, np.timedelta64(int(1000/self.sps), 'ms'))[-len(
+					self.stream[i].data[int(-self.sps*(self.seconds-(comp/2))):-int(self.sps*(comp/2))]):]
+		self.lines[i].set_ydata(self.stream[i].data[int(-self.sps*(self.seconds-(comp/2))):-int(self.sps*(comp/2))]-mean)
+		self.lines[i].set_xdata(r)	# (1/self.per_lap)/2
+		self.ax[i*self.mult].set_xlim(left=start.astype(datetime)+timedelta(seconds=comp*1.5),
+										right=end.astype(datetime))
+		self.ax[i*self.mult].set_ylim(bottom=np.min(self.stream[i].data-mean)
+										-np.ptp(self.stream[i].data-mean)*0.1,
+										top=np.max(self.stream[i].data-mean)
+										+np.ptp(self.stream[i].data-mean)*0.1)
+
+
+	def _update_specgram(self, i, mean):
+		'''
+		Updates the spectrogram and its labels.
+
+		:param int i: the trace number
+		:param float mean: the mean of data in the trace
+		'''
+		self.nfft1 = self._nearest_pow_2(self.sps)	# FFTs run much faster if the number of transforms is a power of 2
+		self.nlap1 = self.nfft1 * self.per_lap
+		if len(self.stream[i].data) < self.nfft1:	# when the number of data points is low, we just need to kind of fake it for a few fractions of a second
+			self.nfft1 = 8
+			self.nlap1 = 6
+		sg = self.ax[i*self.mult+1].specgram(self.stream[i].data-mean,
+					NFFT=self.nfft1, pad_to=int(self.nfft1*4), # previously self.sps*4),
+					Fs=self.sps, noverlap=self.nlap1)[0]	# meat & potatoes
+		self.ax[i*self.mult+1].clear()	# incredibly important, otherwise continues to draw over old images (gets exponentially slower)
+		# cloogy way to shift the spectrogram to line up with the seismogram
+		self.ax[i*self.mult+1].set_xlim(0.25,self.seconds-0.25)
+		self.ax[i*self.mult+1].set_ylim(0,int(self.sps/2))
+		# imshow to update the spectrogram
+		self.ax[i*self.mult+1].imshow(np.flipud(sg**(1/float(10))), cmap='inferno',
+				extent=(self.seconds-(1/(self.sps/float(len(self.stream[i].data)))),
+						self.seconds,0,self.sps/2), aspect='auto')
+		# some things that unfortunately can't be in the setup function:
+		self.ax[i*self.mult+1].tick_params(axis='x', which='both',
+				bottom=False, top=False, labelbottom=False)
+		self.ax[i*self.mult+1].set_ylabel('Frequency (Hz)', color=self.fgcolor)
+		self.ax[i*self.mult+1].set_xlabel('Time (UTC)', color=self.fgcolor)
+
+
 	def update_plot(self):
 		'''
 		Redraw the plot with new data.
@@ -477,61 +545,65 @@ class Plot:
 		self.stream = self.stream.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
 		i = 0
 		for i in range(self.num_chans):	# for each channel, update the plots
-			comp = 1/self.per_lap	# spectrogram offset compensation factor
-			r = np.arange(start, end, np.timedelta64(int(1000/self.sps), 'ms'))[-len(
-						self.stream[i].data[int(-self.sps*(self.seconds-(comp/2))):-int(self.sps*(comp/2))]):]
 			mean = int(round(np.mean(self.stream[i].data)))
-			self.lines[i].set_ydata(self.stream[i].data[int(-self.sps*(self.seconds-(comp/2))):-int(self.sps*(comp/2))]-mean)
-			self.lines[i].set_xdata(r)	# (1/self.per_lap)/2
-			self.ax[i*self.mult].set_xlim(left=start.astype(datetime)+timedelta(seconds=comp*1.5),
-										  right=end.astype(datetime))
-			self.ax[i*self.mult].set_ylim(bottom=np.min(self.stream[i].data-mean)
-										  -np.ptp(self.stream[i].data-mean)*0.1,
-										  top=np.max(self.stream[i].data-mean)
-										  +np.ptp(self.stream[i].data-mean)*0.1)
-			if self.deconv:
-				if (self.deconv in 'CHAN'):
-					ch = self.stream[i].stats.channel
-					if ('HZ' in ch) or ('HN' in ch) or ('HE' in ch):
-						unit = rs.UNITS['VEL'][1]
-					elif ('EN' in ch):
-						unit = rs.UNITS['ACC'][1]
-					else:
-						unit = rs.UNITS['CHAN'][1]
-					self.ax[i*self.mult].yaxis.set_major_formatter(EngFormatter(unit='%s' % unit.lower()))
-
+			self._draw_lines(i, start, end, mean)
+			self._set_ch_specific_label(i)
 			if self.spectrogram:
-				self.nfft1 = self._nearest_pow_2(self.sps)	# FFTs run much faster if the number of transforms is a power of 2
-				self.nlap1 = self.nfft1 * self.per_lap
-				if len(self.stream[i].data) < self.nfft1:	# when the number of data points is low, we just need to kind of fake it for a few fractions of a second
-					self.nfft1 = 8
-					self.nlap1 = 6
-				sg = self.ax[i*self.mult+1].specgram(self.stream[i].data-mean,
-							NFFT=self.nfft1, pad_to=int(self.nfft1*4), # previously self.sps*4),
-							Fs=self.sps, noverlap=self.nlap1)[0]	# meat & potatoes
-				self.ax[i*self.mult+1].clear()	# incredibly important, otherwise continues to draw over old images (gets exponentially slower)
-				# cloogy way to shift the spectrogram to line up with the seismogram
-				self.ax[i*self.mult+1].set_xlim(0.25,self.seconds-0.25)
-				self.ax[i*self.mult+1].set_ylim(0,int(self.sps/2))
-				# imshow to update the spectrogram
-				self.ax[i*self.mult+1].imshow(np.flipud(sg**(1/float(10))), cmap='inferno',
-						extent=(self.seconds-(1/(self.sps/float(len(self.stream[i].data)))),
-								self.seconds,0,self.sps/2), aspect='auto')
-				# some things that unfortunately can't be in the setup function:
-				self.ax[i*self.mult+1].tick_params(axis='x', which='both',
-						bottom=False, top=False, labelbottom=False)
-				self.ax[i*self.mult+1].set_ylabel('Frequency (Hz)', color=self.fgcolor)
-				self.ax[i*self.mult+1].set_xlabel('Time (UTC)', color=self.fgcolor)
+				self._update_specgram(i, mean)
 			else:
 				# also can't be in the setup function
 				self.ax[i*self.mult].set_xlabel('Time (UTC)', color=self.fgcolor)
 
-	def loop(self):
+
+	def figloop(self):
 		"""
 		Let some time elapse in order for the plot canvas to draw properly.
 		Must be separate from :py:func:`update_plot()` to avoid a broadcast error early in plotting.
 		"""
 		self.fig.canvas.start_event_loop(0.005)
+
+
+	def mainloop(self, i, u):
+		'''
+		The main loop in the :py:func:`rsudp.c_plot.Plot.run`.
+
+		:param int i: number of plot events without clearing the linecache
+		:param int u: queue blocking counter
+		:return: number of plot events without clearing the linecache and queue blocking counter
+		:rtype: int, int
+		'''
+		if i > 10:
+			linecache.clearcache()
+			i = 0
+		else:
+			i += 1
+		self.stream = rs.copy(self.stream)	# essential, otherwise the stream has a memory leak
+		self.raw = rs.copy(self.raw)		# and could eventually crash the machine
+		self.deconvolve()
+		self.update_plot()
+		if u >= 0:				# avoiding a matplotlib broadcast error
+			self.figloop()
+
+		if self.save:
+			# save the plot
+			if (self.save_timer > self.save[0][0]):
+				self._eventsave()
+		u = 0
+		time.sleep(0.005)		# wait a ms to see if another packet will arrive
+		sys.stdout.flush()
+		return i, u
+
+	def qu(self, u):
+		'''
+		Get a queue object and increment the queue counter.
+		This is a way to figure out how many channels have arrived in the queue.
+
+		:param int u: queue blocking counter
+		:return: queue blocking counter
+		:rtype: int
+		'''
+		u += 1 if self.getq() else 0
+		return u
 
 
 	def run(self):
@@ -554,7 +626,7 @@ class Plot:
 		i = 0	# number of plot events without clearing the linecache
 		u = -1	# number of blocked queue calls (must be -1 at startup)
 		while True: # main loop
-			while True:
+			while True: # sub loop
 				if self.alive == False:	# break if the user has closed the plot
 					break
 				n += 1
@@ -563,31 +635,12 @@ class Plot:
 					self.getq()
 					time.sleep(0.009)		# wait a ms to see if another packet will arrive
 				else:
-					u += 1 if self.getq() else 0
+					u = self.qu(u)
 					if n > (self.delay * rs.numchns):
 						n = 0
 						break
-
 			if self.alive == False:	# break if the user has closed the plot
 				printM('Exiting.', self.sender)
 				break
-
-			if i > 10:
-				linecache.clearcache()
-				i = 0
-			else:
-				i += 1
-			self.stream = rs.copy(self.stream)	# essential, otherwise the stream has a memory leak
-			self.raw = rs.copy(self.raw)		# and could eventually crash the machine
-			self.deconvolve()
-			self.update_plot()
-			if u >= 0:				# avoiding a matplotlib broadcast error
-				self.loop()
-
-			if self.save:
-				if (self.save_timer > self.save[0][0]):
-					self._eventsave()
-			u = 0
-			time.sleep(0.005)		# wait a ms to see if another packet will arrive
-			sys.stdout.flush()
+			i, u = self.mainloop(i, u)
 		return

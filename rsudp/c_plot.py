@@ -81,6 +81,65 @@ class Plot:
 
 	'''
 
+	def _set_channels(cha):
+		'''
+		This function sets the channels available for plotting. Allowed units are as follows:
+
+		- ``["EHZ", "EHN", "EHE"]`` - velocity channels
+		- ``["ENZ", "ENN", "ENE"]`` - acceleration channels
+		- ``["HDF"]`` - pressure transducer channel
+		- ``["all"]`` - all available channels
+
+		So for example, if you wanted to display the two vertical channels of a Shake 4D,
+		(geophone and vertical accelerometer) you could specify:
+
+		``["EHZ", "ENZ"]``
+
+		:param cha: 
+		:type cha: list or str
+		'''
+		cha = rs.chns if (cha == 'all') else cha
+		cha = list(cha) if isinstance(cha, str) else cha
+		l = rs.chns
+		for c in l:
+			n = 0
+			for uch in cha:
+				if (uch.upper() in c) and (c not in str(self.chans)):
+					self.chans.append(c)
+				n += 1
+		if len(self.chans) < 1:
+			self.chans = rs.chns
+
+
+	def _set_deconv(deconv):
+		'''
+		This function sets the deconvolution units. Allowed values are as follows:
+
+		.. |ms2| replace:: m/s\ :sup:`2`\
+
+		- ``'VEL'`` - velocity (m/s)
+		- ``'ACC'`` - acceleration (|ms2|)
+		- ``'GRAV'`` - fraction of acceleration due to gravity (g, or 9.81 |ms2|)
+		- ``'DISP'`` - displacement (m)
+		- ``'CHAN'`` - channel-specific unit calculation, i.e. ``'VEL'`` for geophone channels and ``'ACC'`` for accelerometer channels
+
+
+		:param str deconv: ``'VEL'``, ``'ACC'``, ``'GRAV'``, ``'DISP'``, or ``'CHAN'``
+		'''
+		self.deconv = deconv if (deconv in rs.UNITS) else False
+		if self.deconv and rs.inv:
+			deconv = deconv.upper()
+			if self.deconv in rs.UNITS:
+				self.units = rs.UNITS[self.deconv][0]
+				self.unit = rs.UNITS[self.deconv][1]
+			printM('Signal deconvolution set to %s' % (self.deconv), self.sender)
+		else:
+			self.units = rs.UNITS['CHAN'][0]
+			self.unit = rs.UNITS['CHAN'][1]
+			self.deconv = False
+		printM('Seismogram units are %s' % (self.units), self.sender)
+
+
 	def __init__(self, cha='all', q=False,
 				 seconds=30, spectrogram=True,
 				 fullscreen=False, kiosk=False,
@@ -101,13 +160,8 @@ class Plot:
 			sys.exit()
 		if QT == False:
 			printW('Running on %s machine, using Tk instead of Qt' % (platform.machine()), self.sender)
-		if q:
-			self.queue = q
-		else:
-			printE('no queue passed to consumer! Thread will exit now!', self.sender)
-			sys.stdout.flush()
-			sys.exit()
 
+		self.queue = q
 		self.master_queue = None	# careful with this, this goes directly to the master consumer. gets set by main thread.
 
 		self.stream = rs.Stream()
@@ -115,35 +169,15 @@ class Plot:
 		self.stn = rs.stn
 		self.net = rs.net
 		self.chans = []
-		cha = rs.chns if (cha == 'all') else cha
-		cha = list(cha) if isinstance(cha, str) else cha
-		l = rs.chns
-		for c in l:
-			n = 0
-			for uch in cha:
-				if (uch.upper() in c) and (c not in str(self.chans)):
-					self.chans.append(c)
-				n += 1
-		if len(self.chans) < 1:
-			self.chans = rs.chns
+		self._set_channels(cha)
+		
 		printM('Plotting channels: %s' % self.chans, self.sender)
 		self.totchns = rs.numchns
 		self.seconds = seconds
 		self.pkts_in_period = rs.tr * rs.numchns * self.seconds	# theoretical number of packets received in self.seconds
 		self.spectrogram = spectrogram
 
-		self.deconv = deconv if (deconv in rs.UNITS) else False
-		if self.deconv and rs.inv:
-			deconv = deconv.upper()
-			if self.deconv in rs.UNITS:
-				self.units = rs.UNITS[self.deconv][0]
-				self.unit = rs.UNITS[self.deconv][1]
-			printM('Signal deconvolution set to %s' % (self.deconv), self.sender)
-		else:
-			self.units = rs.UNITS['CHAN'][0]
-			self.unit = rs.UNITS['CHAN'][1]
-			self.deconv = False
-		printM('Seismogram units are %s' % (self.units), self.sender)
+		self._set_deconv(deconv)
 
 		self.per_lap = 0.9
 		self.fullscreen = fullscreen

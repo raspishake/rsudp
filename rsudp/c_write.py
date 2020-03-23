@@ -15,31 +15,40 @@ class Write(rs.ConsumerThread):
 	:type cha: str or list
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 	:param bool debug: whether or not to display messages when writing data to disk.
-
 	"""
-	def __init__(self, q=False, debug=False, cha='all'):
-		"""
-		Initialize the process
-		"""
-		super().__init__()
-		self.sender = 'Write'
-		self.alive = True
+	def _set_channels(self, cha):
+		'''
+		This function sets the channels available for plotting. Allowed units are as follows:
 
-		if q:
-			self.queue = q
-		else:
-			printE('no queue passed to consumer! Thread will exit now!', self.sender)
-			sys.stdout.flush()
-			sys.exit()
+		- ``["SHZ", "EHZ", "EHN", "EHE"]`` - velocity channels
+		- ``["ENZ", "ENN", "ENE"]`` - acceleration channels
+		- ``["HDF"]`` - pressure transducer channel
+		- ``["all"]`` - all available channels
 
-		self.stream = rs.Stream()
-		self.outdir = rsudp.data_dir
-		self.debug = debug
-		self.chans = []
-		cha = rs.chns if (cha == 'all') else cha
+		So for example, if you wanted to display the two vertical channels of a Shake 4D,
+		(geophone and vertical accelerometer) you could specify:
+
+		``["EHZ", "ENZ"]``
+
+		You can also specify partial channel names.
+		So for example, the following will display at least one channel from any
+		Raspberry Shake instrument:
+
+		``["HZ", "HDF"]``
+
+		Or if you wanted to display only vertical channels from a RS4D,
+		you could specify
+
+		``["Z"]``
+
+		which would match both ``"EHZ"`` and ``"ENZ"``.
+
+		:param cha: the channel or list of channels to plot
+		:type cha: list or str
+		'''
+		cha = rs.chns if ('all' in cha) else cha
 		cha = list(cha) if isinstance(cha, str) else cha
-		l = rs.chns
-		for c in l:
+		for c in rs.chns:
 			n = 0
 			for uch in cha:
 				if (uch.upper() in c) and (c not in str(self.chans)):
@@ -47,12 +56,32 @@ class Write(rs.ConsumerThread):
 				n += 1
 		if len(self.chans) < 1:
 			self.chans = rs.chns
+
+
+	def __init__(self, q, debug=False, cha='all'):
+		"""
+		Initialize the process
+		"""
+		super().__init__()
+		self.sender = 'Write'
+		self.alive = True
+
+		self.queue = q
+
+		self.stream = rs.Stream()
+		self.outdir = rsudp.data_dir
+		self.debug = debug
+
+		self.chans = []
+		self._set_channels(cha)
+
 		printM('Writing channels: %s' % self.chans, self.sender)
 		self.numchns = rs.numchns
 		self.stime = 1/rs.sps
 		self.inv = rs.inv
 
 		printM('Starting.', self.sender)
+
 
 	def getq(self):
 		'''

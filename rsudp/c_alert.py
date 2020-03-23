@@ -44,6 +44,7 @@ class Alert(rs.ConsumerThread):
 		:param bp: bandpass filter parameters. if set, should be in the format ``[highpass, lowpass]``
 		:type bp: :py:class:`bool` or :py:class:`list`
 		'''
+		self.filt = False
 		if bp:
 			self.freqmin = bp[0]
 			self.freqmax = bp[1]
@@ -59,8 +60,6 @@ class Alert(rs.ConsumerThread):
 				self.freq = bp[1]
 			else:
 				self.filt = 'bandpass'
-		else:
-			self.filt = False
 
 
 	def _set_deconv(self, deconv):
@@ -132,8 +131,8 @@ class Alert(rs.ConsumerThread):
 					% (self.filt, modifier, self.freq), self.sender)
 
 
-	def __init__(self, sta=5, lta=30, thresh=1.6, reset=1.55, bp=False,
-				 debug=True, cha='HZ', q=False, sound=False, deconv=False,
+	def __init__(self, q, sta=5, lta=30, thresh=1.6, reset=1.55, bp=False,
+				 debug=True, cha='HZ', sound=False, deconv=False,
 				 *args, **kwargs):
 		"""
 		Initializing the alert thread with parameters to set up the recursive

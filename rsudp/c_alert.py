@@ -28,62 +28,22 @@ class Alert(rs.ConsumerThread):
 	:param float lta: long term average (LTA) duration in seconds.
 	:param float thresh: threshold for STA/LTA trigger.
 	:type bp: :py:class:`bool` or :py:class:`list`
-	:param bp: bandpass filter parameters.
+	:param bp: bandpass filter parameters. if set, should be in the format ``[highpass, lowpass]``
 	:param bool debug: whether or not to display max STA/LTA calculation live to the console.
 	:param str cha: listening channel (defaults to [S,E]HZ)
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 
 	"""
-	def __init__(self, sta=5, lta=30, thresh=1.6, reset=1.55, bp=False,
-				 debug=True, cha='HZ', q=False, sound=False, deconv=False,
-				 *args, **kwargs):
-		
-		"""
-		Initializing the alert thread with parameters to set up the recursive
-		STA-LTA trigger, filtering, and the channel used for listening.
 
-		"""
-		super().__init__()
-		self.sender = 'Alert'
-		self.alive = True
+	def _set_filt(self, bp):
+		'''
+		This function sets the filter parameters (if specified).
+		Set to a boolean if not filtering, or ``[highpass, lowpass]``
+		if filtering.
 
-		if q:
-			self.queue = q
-		else:
-			printE('no queue passed to consumer! Thread will exit now!', self.sender)
-			sys.stdout.flush()
-			sys.exit()
-
-		self.default_ch = 'HZ'
-		self.sta = sta
-		self.lta = lta
-		self.thresh = thresh
-		self.reset = reset
-		self.debug = debug
-		self.args = args
-		self.kwargs = kwargs
-		self.raw = rs.Stream()
-		self.stream = rs.Stream()
-		cha = self.default_ch if (cha == 'all') else cha
-		self.cha = cha if isinstance(cha, str) else cha[0]
-		self.sps = rs.sps
-		self.inv = rs.inv
-		self.stalta = np.ndarray(1)
-		self.maxstalta = 0
-		self.units = 'counts'
-		
-		deconv = deconv.upper() if deconv else False
-		self.deconv = self.deconv if (deconv in rs.UNITS) else False
-		if self.deconv and rs.inv:
-			self.units = '%s (%s)' % (rs.UNITS[0], rs.UNITS[1]) if (self.deconv in rs.UNITS) else self.units
-			printM('Signal deconvolution set to %s' % (self.deconv), self.sender)
-		else:
-			self.units = rs.UNITS['CHAN'][1]
-			self.deconv = False
-		printM('Alert stream units are %s' % (self.units.strip(' ').lower()), self.sender)
-
-		self.exceed = False
-		self.sound = sound
+		:param bp: bandpass filter parameters. if set, should be in the format ``[highpass, lowpass]``
+		:type bp: :py:class:`bool` or :py:class:`list`
+		'''
 		if bp:
 			self.freqmin = bp[0]
 			self.freqmax = bp[1]
@@ -102,13 +62,6 @@ class Alert(rs.ConsumerThread):
 		else:
 			self.filt = False
 
-		if self.cha not in str(rs.chns):
-			printE('Could not find channel %s in list of channels! Please correct and restart.' % self.cha, self.sender)
-			sys.exit(2)
-
-		listen_ch = '?%s' % self.cha
-		printM('Starting Alert trigger with sta=%ss, lta=%ss, and threshold=%s on channel=%s'
-				% (self.sta, self.lta, self.thresh, listen_ch), self.sender)
 		if self.filt == 'bandpass':
 			printM('Alert stream will be %s filtered from %s to %s Hz'
 					% (self.filt, self.freqmin, self.freqmax), self.sender)
@@ -116,6 +69,102 @@ class Alert(rs.ConsumerThread):
 			modifier = 'below' if self.filt in 'lowpass' else 'above'
 			printM('Alert stream will be %s filtered %s %s Hz'
 					% (self.filt, modifier, self.freq), self.sender)
+
+
+	def _set_deconv(self, deconv):
+		'''
+		This function sets the deconvolution units. Allowed values are as follows:
+
+		.. |ms2| replace:: m/s\ :sup:`2`\
+
+		- ``'VEL'`` - velocity (m/s)
+		- ``'ACC'`` - acceleration (|ms2|)
+		- ``'GRAV'`` - fraction of acceleration due to gravity (g, or 9.81 |ms2|)
+		- ``'DISP'`` - displacement (m)
+		- ``'CHAN'`` - channel-specific unit calculation, i.e. ``'VEL'`` for geophone channels and ``'ACC'`` for accelerometer channels
+
+		:param str deconv: ``'VEL'``, ``'ACC'``, ``'GRAV'``, ``'DISP'``, or ``'CHAN'``
+		'''
+		deconv = deconv.upper() if deconv else False
+		self.deconv = self.deconv if (deconv in rs.UNITS) else False
+		if self.deconv and rs.inv:
+			self.units = '%s (%s)' % (rs.UNITS[0], rs.UNITS[1]) if (self.deconv in rs.UNITS) else self.units
+			printM('Signal deconvolution set to %s' % (self.deconv), self.sender)
+		else:
+			self.units = rs.UNITS['CHAN'][1]
+			self.deconv = False
+		printM('Alert stream units are %s' % (self.units.strip(' ').lower()), self.sender)
+
+
+	def _find_chn(self):
+		'''
+		Finds channel match in list of channels.
+		'''
+		for chn in rs.chns:
+			if self.cha in chn:
+				self.cha = chn
+
+
+	def _set_channel(self, cha):
+		'''
+		This function sets the channel to listen to. Allowed values are as follows:
+
+		- "SHZ"``, ``"EHZ"``, ``"EHN"`` or ``"EHE"`` - velocity channels
+		- ``"ENZ"``, ``"ENN"``, ``"ENE"`` - acceleration channels
+		- ``"HDF"`` - pressure transducer channel
+		- ``"all"`` - resolves to either ``"EHZ"`` or ``"SHZ"`` if available
+
+		:param cha: the channel to listen to
+		:type cha: str
+		'''
+		cha = self.default_ch if (cha == 'all') else cha
+		self.cha = cha if isinstance(cha, str) else cha[0]
+
+		if self.cha in str(rs.chns):
+			self._find_chn()
+		else:
+			printE('Could not find channel %s in list of channels! Please correct and restart.' % self.cha, self.sender)
+			sys.exit(2)
+
+
+	def __init__(self, sta=5, lta=30, thresh=1.6, reset=1.55, bp=False,
+				 debug=True, cha='HZ', q=False, sound=False, deconv=False,
+				 *args, **kwargs):
+		"""
+		Initializing the alert thread with parameters to set up the recursive
+		STA-LTA trigger, filtering, and the channel used for listening.
+		"""
+		super().__init__()
+		self.sender = 'Alert'
+		self.alive = True
+
+		self.queue = q
+
+		self.default_ch = 'HZ'
+		self.sta = sta
+		self.lta = lta
+		self.thresh = thresh
+		self.reset = reset
+		self.debug = debug
+		self.args = args
+		self.kwargs = kwargs
+		self.raw = rs.Stream()
+		self.stream = rs.Stream()
+
+		self._set_channel(cha)
+
+		self.sps = rs.sps
+		self.inv = rs.inv
+		self.stalta = np.ndarray(1)
+		self.maxstalta = 0
+		self.units = 'counts'
+		
+		self._set_deconv(deconv)
+
+		self.exceed = False
+		self.sound = sound
+		
+		self._set_filt(bp)
 
 
 	def _getq(self):
@@ -223,7 +272,7 @@ class Alert(rs.ConsumerThread):
 		if self.debug:
 			msg = '\r%s [%s] Threshold: %s; Current max STA/LTA: %.4f' % (
 					(self.stream[0].stats.starttime + timedelta(seconds=
-					len(self.stream[0].data) * self.stream[0].stats.delta)).strftime('%Y-%m-%d %H:%M:%S'),
+					 len(self.stream[0].data) * self.stream[0].stats.delta)).strftime('%Y-%m-%d %H:%M:%S'),
 					self.sender,
 					self.thresh,
 					round(np.max(self.stalta[-50:]), 4)
@@ -272,13 +321,13 @@ class Alert(rs.ConsumerThread):
 				self._print_stalta()
 
 			elif n == 0:
-				printM('Listening to channel %s'
-						% (self.stream[0].stats.channel), self.sender)
+				printM('Starting Alert trigger with sta=%ss, lta=%ss, and threshold=%s on channel=%s'
+					   % (self.sta, self.lta, self.thresh, self.cha), self.sender)
 				printM('Earthquake trigger warmup time of %s seconds...'
-						% (self.lta), self.sender)
+					   % (self.lta), self.sender)
 			elif n == wait_pkts:
 				printM('Earthquake trigger up and running normally.',
-						self.sender)
+					   self.sender)
 			else:
 				pass
 

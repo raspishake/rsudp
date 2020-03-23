@@ -5,6 +5,7 @@ import time
 import json
 import re
 import logging
+import traceback
 from queue import Queue
 from rsudp import printM, printW, printE, default_loc, init_dirs, output_dir, add_debug_handler, start_logging
 from rsudp import COLOR
@@ -694,7 +695,12 @@ default settings and the data file at
 		del t.TEST['d_pydub']
 		printM('Alert sound is disabled')
 
-	run(settings, debug=True)
+	try:
+		run(settings, debug=True)
+	except Exception as e:
+		printE(traceback.format_exc(), announce=False)
+		printE('Ending tests.', sender='test client', announce=False)
+		time.sleep(0.5)
 
 	TESTQUEUE.put(b'ENDTEST')
 	printW('Test finished.', sender=SENDER, announce=False)

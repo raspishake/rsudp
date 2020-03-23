@@ -78,10 +78,7 @@ class Plot:
 	:param bool alert: whether to draw the number of events at startup. Defaults to True.
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 	:raise ImportError: if the module cannot import either of the Matplotlib Qt5 or TkAgg backends
-
 	'''
-
-
 	def _set_channels(self, cha):
 		'''
 		This function sets the channels available for plotting. Allowed units are as follows:
@@ -95,7 +92,6 @@ class Plot:
 		(geophone and vertical accelerometer) you could specify:
 
 		``["EHZ", "ENZ"]``
-
 
 		You can also specify partial channel names.
 		So for example, the following will display at least one channel from any
@@ -153,7 +149,7 @@ class Plot:
 		printM('Seismogram units are %s' % (self.units), self.sender)
 
 
-	def __init__(self, cha='all', q=False,
+	def __init__(self, q, cha='all',
 				 seconds=30, spectrogram=True,
 				 fullscreen=False, kiosk=False,
 				 deconv=False, screencap=False,

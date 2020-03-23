@@ -20,6 +20,7 @@ port = 8888				# default listening port
 to = 10					# socket test timeout
 firstaddr = ''			# the first address data is received from
 inv = False				# station inventory
+INVWARN = False			# warning when inventory attachment fails
 region = False
 producer = False 		# flag for producer status
 stn = 'Z0000'			# station name
@@ -514,9 +515,9 @@ def get_inventory(sender='get_inventory'):
 		try:
 			printM('Fetching inventory for station %s.%s from Raspberry Shake FDSN.'
 					% (net, stn), sender)
-			
-			inv = read_inventory('https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&starttime=%s&level=resp&nodata=404&format=xml'
-								 % (net, stn, str(UTCDateTime.now()-timedelta(seconds=14400))))
+			url = 'https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&level=resp&nodata=404&format=xml' % (
+				   net, stn)#, str(UTCDateTime.now()-timedelta(seconds=14400)))
+			inv = read_inventory(url)
 			region = FlinnEngdahl().get_region(inv[0][0].longitude, inv[0][0].latitude)
 			printM('Inventory fetch successful. Station region is %s' % (region), sender)
 		except (IndexError, HTTPError):
@@ -554,7 +555,7 @@ def make_trace(d):
 	:rtype: obspy.core.trace.Trace
 	:return: A fully formed Trace object to build a Stream with
 	'''
-	global producer
+	global INVWARN
 	ch = getCHN(d)						# channel
 	if ch:
 		t = getTIME(d)				# unix epoch time since 1970-01-01 00:00:00Z; "timestamp" in obspy
@@ -568,16 +569,19 @@ def make_trace(d):
 		tr.stats.starttime = UTCDateTime(t, precision=3)
 		if inv:
 			try:
-				tr.attach_response(inv)
-			except:
-				if producer:
-					printE('Could not attach inventory response.')
-					printE('Are you sure you set the station name correctly?', spaces=True)
-					printE('This could indicate a mismatch in the number of data channels', spaces=True)
-					printE('between the inventory and the stream. For example,', spaces=True)
-					printE('if you are receiving RS4D data, please make sure', spaces=True)
-					printE('the inventory you download has 4 channels.', spaces=True)
-				producer = False
+				tr.stats.response = inv.get_response(tr.id, tr.stats.starttime)
+			except Exception as e:
+				if not INVWARN:
+					INVWARN = True
+					printE(e, sender='make_trace')
+					printE('Could not attach inventory response.', sender='make_trace')
+					printE('Are you sure you set the station name correctly?', spaces=True, sender='make_trace')
+					printE('This could indicate a mismatch in the number of data channels', spaces=True, sender='make_trace')
+					printE('between the inventory and the stream. For example,', spaces=True, sender='make_trace')
+					printE('if you are receiving RS4D data, please make sure', spaces=True, sender='make_trace')
+					printE('the inventory you download has 4 channels.', spaces=True, sender='make_trace')
+				else:
+					pass
 		return tr
 
 

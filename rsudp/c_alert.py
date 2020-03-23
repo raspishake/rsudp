@@ -62,14 +62,6 @@ class Alert(rs.ConsumerThread):
 		else:
 			self.filt = False
 
-		if self.filt == 'bandpass':
-			printM('Alert stream will be %s filtered from %s to %s Hz'
-					% (self.filt, self.freqmin, self.freqmax), self.sender)
-		elif self.filt in ('lowpass', 'highpass'):
-			modifier = 'below' if self.filt in 'lowpass' else 'above'
-			printM('Alert stream will be %s filtered %s %s Hz'
-					% (self.filt, modifier, self.freq), self.sender)
-
 
 	def _set_deconv(self, deconv):
 		'''
@@ -127,6 +119,19 @@ class Alert(rs.ConsumerThread):
 			sys.exit(2)
 
 
+	def _print_filt(self):
+		'''
+		Prints stream filtering information.
+		'''
+		if self.filt == 'bandpass':
+			printM('Alert stream will be %s filtered from %s to %s Hz'
+					% (self.filt, self.freqmin, self.freqmax), self.sender)
+		elif self.filt in ('lowpass', 'highpass'):
+			modifier = 'below' if self.filt in 'lowpass' else 'above'
+			printM('Alert stream will be %s filtered %s %s Hz'
+					% (self.filt, modifier, self.freq), self.sender)
+
+
 	def __init__(self, sta=5, lta=30, thresh=1.6, reset=1.55, bp=False,
 				 debug=True, cha='HZ', q=False, sound=False, deconv=False,
 				 *args, **kwargs):
@@ -165,6 +170,7 @@ class Alert(rs.ConsumerThread):
 		self.sound = sound
 		
 		self._set_filt(bp)
+		self._print_filt()
 
 
 	def _getq(self):

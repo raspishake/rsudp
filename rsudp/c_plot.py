@@ -81,11 +81,12 @@ class Plot:
 
 	'''
 
-	def _set_channels(cha):
+
+	def _set_channels(self, cha):
 		'''
 		This function sets the channels available for plotting. Allowed units are as follows:
 
-		- ``["EHZ", "EHN", "EHE"]`` - velocity channels
+		- ``["SHZ", "EHZ", "EHN", "EHE"]`` - velocity channels
 		- ``["ENZ", "ENN", "ENE"]`` - acceleration channels
 		- ``["HDF"]`` - pressure transducer channel
 		- ``["all"]`` - all available channels
@@ -98,10 +99,9 @@ class Plot:
 		:param cha: 
 		:type cha: list or str
 		'''
-		cha = rs.chns if (cha == 'all') else cha
+		cha = rs.chns if ('all' in cha) else cha
 		cha = list(cha) if isinstance(cha, str) else cha
-		l = rs.chns
-		for c in l:
+		for c in rs.chns:
 			n = 0
 			for uch in cha:
 				if (uch.upper() in c) and (c not in str(self.chans)):
@@ -111,7 +111,7 @@ class Plot:
 			self.chans = rs.chns
 
 
-	def _set_deconv(deconv):
+	def _set_deconv(self, deconv):
 		'''
 		This function sets the deconvolution units. Allowed values are as follows:
 
@@ -168,11 +168,12 @@ class Plot:
 		self.raw = rs.Stream()
 		self.stn = rs.stn
 		self.net = rs.net
+
 		self.chans = []
 		self._set_channels(cha)
-		
-		printM('Plotting channels: %s' % self.chans, self.sender)
+		printM('Plotting %s channels: %s' % (len(self.chans), self.chans), self.sender)
 		self.totchns = rs.numchns
+
 		self.seconds = seconds
 		self.pkts_in_period = rs.tr * rs.numchns * self.seconds	# theoretical number of packets received in self.seconds
 		self.spectrogram = spectrogram

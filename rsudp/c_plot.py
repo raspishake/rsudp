@@ -79,48 +79,6 @@ class Plot:
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 	:raise ImportError: if the module cannot import either of the Matplotlib Qt5 or TkAgg backends
 	'''
-	def _set_channels(self, cha):
-		'''
-		This function sets the channels available for plotting. Allowed units are as follows:
-
-		- ``["SHZ", "EHZ", "EHN", "EHE"]`` - velocity channels
-		- ``["ENZ", "ENN", "ENE"]`` - acceleration channels
-		- ``["HDF"]`` - pressure transducer channel
-		- ``["all"]`` - all available channels
-
-		So for example, if you wanted to display the two vertical channels of a Shake 4D,
-		(geophone and vertical accelerometer) you could specify:
-
-		``["EHZ", "ENZ"]``
-
-		You can also specify partial channel names.
-		So for example, the following will display at least one channel from any
-		Raspberry Shake instrument:
-
-		``["HZ", "HDF"]``
-
-		Or if you wanted to display only vertical channels from a RS4D,
-		you could specify
-
-		``["Z"]``
-
-		which would match both ``"EHZ"`` and ``"ENZ"``.
-
-		:param cha: the channel or list of channels to plot
-		:type cha: list or str
-		'''
-		cha = rs.chns if ('all' in cha) else cha
-		cha = list(cha) if isinstance(cha, str) else cha
-		for c in rs.chns:
-			n = 0
-			for uch in cha:
-				if (uch.upper() in c) and (c not in str(self.chans)):
-					self.chans.append(c)
-				n += 1
-		if len(self.chans) < 1:
-			self.chans = rs.chns
-
-
 	def _set_deconv(self, deconv):
 		'''
 		This function sets the deconvolution units. Allowed values are as follows:
@@ -179,7 +137,7 @@ class Plot:
 		self.net = rs.net
 
 		self.chans = []
-		self._set_channels(cha)
+		rs.set_channels(self, cha)
 		printM('Plotting %s channels: %s' % (len(self.chans), self.chans), self.sender)
 		self.totchns = rs.numchns
 

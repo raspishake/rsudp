@@ -96,7 +96,21 @@ class Plot:
 
 		``["EHZ", "ENZ"]``
 
-		:param cha: 
+
+		You can also specify partial channel names.
+		So for example, the following will display at least one channel from any
+		Raspberry Shake instrument:
+
+		``["HZ", "HDF"]``
+
+		Or if you wanted to display only vertical channels from a RS4D,
+		you could specify
+
+		``["Z"]``
+
+		which would match both ``"EHZ"`` and ``"ENZ"``.
+
+		:param cha: the channel or list of channels to plot
 		:type cha: list or str
 		'''
 		cha = rs.chns if ('all' in cha) else cha
@@ -122,7 +136,6 @@ class Plot:
 		- ``'GRAV'`` - fraction of acceleration due to gravity (g, or 9.81 |ms2|)
 		- ``'DISP'`` - displacement (m)
 		- ``'CHAN'`` - channel-specific unit calculation, i.e. ``'VEL'`` for geophone channels and ``'ACC'`` for accelerometer channels
-
 
 		:param str deconv: ``'VEL'``, ``'ACC'``, ``'GRAV'``, ``'DISP'``, or ``'CHAN'``
 		'''

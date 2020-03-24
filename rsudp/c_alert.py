@@ -4,7 +4,7 @@ import rsudp.raspberryshake as rs
 from obspy.signal.trigger import recursive_sta_lta, trigger_onset
 from rsudp import printM, printW, printE
 COLOR = {}
-from rsudp import COLOR
+from rsudp import COLOR, helpers
 import numpy as np
 
 # set the terminal text color to green
@@ -197,7 +197,7 @@ class Alert(rs.ConsumerThread):
 		Deconvolves the stream associated with this class.
 		'''
 		if self.deconv:
-			rs.deconvolve(self)
+			helpers.deconvolve(self)
 
 
 	def _subloop(self):
@@ -239,7 +239,7 @@ class Alert(rs.ConsumerThread):
 		if self.stalta.max() > self.thresh:
 			if not self.exceed:
 				# raise a flag that the Producer can read and modify 
-				self.alarm = rs.fsec(self.stream[0].stats.starttime + timedelta(seconds=
+				self.alarm = helpers.fsec(self.stream[0].stats.starttime + timedelta(seconds=
 										trigger_onset(self.stalta, self.thresh,
 										self.reset)[-1][0] * self.stream[0].stats.delta))
 				self.exceed = True	# the state machine; this one should not be touched from the outside, otherwise bad things will happen
@@ -256,7 +256,7 @@ class Alert(rs.ConsumerThread):
 		else:
 			if self.exceed:
 				if self.stalta[-1] < self.reset:
-					self.alarm_reset = rs.fsec(self.stream[0].stats.endtime)	# lazy; effective
+					self.alarm_reset = helpers.fsec(self.stream[0].stats.endtime)	# lazy; effective
 					self.exceed = False
 					print()
 					printM('Max STA/LTA ratio reached in alarm state: %s' % (round(self.maxstalta, 3)),

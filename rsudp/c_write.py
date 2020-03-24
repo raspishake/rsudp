@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from obspy import UTCDateTime
 from rsudp.raspberryshake import ConsumerThread
 import rsudp.raspberryshake as rs
-from rsudp import printM, printW, printE
+from rsudp import printM, printW, printE, helpers
 import rsudp
 
 class Write(rs.ConsumerThread):
@@ -31,7 +31,7 @@ class Write(rs.ConsumerThread):
 		self.debug = debug
 
 		self.chans = []
-		rs.set_channels(self, cha)
+		helpers.set_channels(self, cha)
 
 		printM('Writing channels: %s' % self.chans, self.sender)
 		self.numchns = rs.numchns

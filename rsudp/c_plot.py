@@ -5,7 +5,7 @@ import math
 import numpy as np
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as rs
-from rsudp import printM, printW, printE
+from rsudp import printM, printW, printE, helpers
 import rsudp
 import linecache
 sender = 'plot.py'
@@ -137,7 +137,7 @@ class Plot:
 		self.net = rs.net
 
 		self.chans = []
-		rs.set_channels(self, cha)
+		helpers.set_channels(self, cha)
 		printM('Plotting %s channels: %s' % (len(self.chans), self.chans), self.sender)
 		self.totchns = rs.numchns
 
@@ -173,7 +173,7 @@ class Plot:
 		'''
 		Send the streams to the central library deconvolve function.
 		'''
-		rs.deconvolve(self)
+		helpers.deconvolve(self)
 
 	def getq(self):
 		'''
@@ -196,7 +196,7 @@ class Plot:
 			self.events += 1		# add event to count
 			self.save_timer -= 1	# don't push the save time forward if there are a large number of alarm events
 			event = [self.save_timer + int(self.save_pct*self.pkts_in_period),
-					 rs.fsec(rs.get_msg_time(d))]	# event = [save after count, datetime]
+					 helpers.fsec(helpers.get_msg_time(d))]	# event = [save after count, datetime]
 			self.last_event_str = '%s UTC' % (event[1].strftime('%Y-%m-%d %H:%M:%S.%f')[:22])
 			printM('Event time: %s' % (self.last_event_str), sender=self.sender)		# show event time in the logs
 			if self.screencap:
@@ -249,7 +249,7 @@ class Plot:
 		Handles a plot close event.
 		This will trigger a full shutdown of all other processes related to rsudp.
 		'''
-		self.master_queue.put(rs.msg_term())
+		self.master_queue.put(helpers.msg_term())
 
 	def handle_resize(self, evt=False):
 		'''
@@ -306,7 +306,7 @@ class Plot:
 		printM('Saved %s' % (figname), sender=self.sender)
 		printM('%s thread has saved an image, sending IMGPATH message to queues' % self.sender, sender=self.sender)
 		# imgpath requires a UTCDateTime and a string figure path
-		self.master_queue.put(rs.msg_imgpath(event_time, figname))
+		self.master_queue.put(helpers.msg_imgpath(event_time, figname))
 
 
 	def _set_fig_title(self):

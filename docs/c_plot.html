@@ -111,6 +111,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Clients</span></p>
 <ul>
@@ -211,7 +212,7 @@
 </div>
 <span class="target" id="module-rsudp.c_plot"></span><dl class="class">
 <dt id="rsudp.c_plot.Plot">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_plot.</code><code class="sig-name descname">Plot</code><span class="sig-paren">(</span><em class="sig-param">cha='all'</em>, <em class="sig-param">q=False</em>, <em class="sig-param">seconds=30</em>, <em class="sig-param">spectrogram=True</em>, <em class="sig-param">fullscreen=False</em>, <em class="sig-param">kiosk=False</em>, <em class="sig-param">deconv=False</em>, <em class="sig-param">screencap=False</em>, <em class="sig-param">alert=True</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_plot.</code><code class="sig-name descname">Plot</code><span class="sig-paren">(</span><em class="sig-param">q</em>, <em class="sig-param">cha='all'</em>, <em class="sig-param">seconds=30</em>, <em class="sig-param">spectrogram=True</em>, <em class="sig-param">fullscreen=False</em>, <em class="sig-param">kiosk=False</em>, <em class="sig-param">deconv=False</em>, <em class="sig-param">screencap=False</em>, <em class="sig-param">alert=True</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>GUI plotting algorithm, compatible with both Qt5 and TkAgg backends (see <a class="reference external" href="https://matplotlib.org/api/matplotlib_configuration_api.html#matplotlib.use" title="(in Matplotlib v3.2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">matplotlib.use()</span></code></a>).
 This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and display a spectrogram beneath each.</p>
 <p>By default the plotted <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“duration”</span></span></code> in seconds is <code class="code json docutils literal notranslate"><span class="literal number integer"><span class="pre">30</span></span></code>.
@@ -326,7 +327,7 @@ All other plots are drawn at most every quarter second (250 ms).</p>
 
 <dl class="method">
 <dt id="rsudp.c_plot.Plot.savefig">
-<code class="sig-name descname">savefig</code><span class="sig-paren">(</span><em class="sig-param">event_time=UTCDateTime(2020</em>, <em class="sig-param">3</em>, <em class="sig-param">23</em>, <em class="sig-param">17</em>, <em class="sig-param">10</em>, <em class="sig-param">19</em>, <em class="sig-param">329542)</em>, <em class="sig-param">event_time_str='2020-03-23-171019'</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.savefig" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">savefig</code><span class="sig-paren">(</span><em class="sig-param">event_time=UTCDateTime(2020</em>, <em class="sig-param">3</em>, <em class="sig-param">24</em>, <em class="sig-param">0</em>, <em class="sig-param">26</em>, <em class="sig-param">47</em>, <em class="sig-param">68756)</em>, <em class="sig-param">event_time_str='2020-03-24-002647'</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.savefig" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the figure and puts an IMGPATH message on the master queue.
 This message can be used to upload the image to various services.</p>
 <dl class="field-list simple">

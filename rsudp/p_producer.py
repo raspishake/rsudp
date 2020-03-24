@@ -1,6 +1,6 @@
 import sys
 from threading import Thread
-from rsudp import printM, printW, printE
+from rsudp import printM, printW, printE, helpers
 import rsudp.raspberryshake as RS
 
 
@@ -62,14 +62,14 @@ class Producer(Thread):
 			# for each thread here
 			if thread.alarm:
 				# if there is an alarm in a sub thread, send the ALARM message to the queues
-				self.queue.put(RS.msg_alarm(thread.alarm))
+				self.queue.put(helpers.msg_alarm(thread.alarm))
 				printM('%s thread has indicated alarm state, sending ALARM message to queues'
 						% thread.sender, sender=self.sender)
 				# now re-arm the trigger
 				thread.alarm = False
 			if thread.alarm_reset:
 				# if there's an alarm_reset flag in a sub thread, send a RESET message
-				self.queue.put(RS.msg_reset(thread.alarm_reset))
+				self.queue.put(helpers.msg_reset(thread.alarm_reset))
 				printM('%s thread has indicated alarm reset, sending RESET message to queues'
 						% thread.sender, sender=self.sender)
 				# re-arm the trigger
@@ -96,6 +96,6 @@ class Producer(Thread):
 
 		print()
 		printM('Sending TERM signal to threads...', self.sender)
-		self.queue.put(RS.msg_term())
+		self.queue.put(helpers.msg_term())
 		self.stop = True
 		sys.exit()

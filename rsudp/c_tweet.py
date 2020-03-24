@@ -5,7 +5,7 @@ import math
 import numpy as np
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as rs
-from rsudp import printM, printW, printE
+from rsudp import printM, printW, printE, helpers
 import rsudp
 from twython import Twython
 
@@ -125,7 +125,7 @@ class Tweeter(rs.ConsumerThread):
 
 		:param bytes d: queue message
 		'''
-		event_time = rs.fsec(rs.get_msg_time(d))
+		event_time = helpers.fsec(helpers.get_msg_time(d))
 		self.last_event_str = '%s' % (event_time.strftime(self.fmt)[:22])
 		message = '%s %s UTC - %s' % (self.message0, self.last_event_str, self.livelink)
 		response = None
@@ -164,8 +164,8 @@ class Tweeter(rs.ConsumerThread):
 		:param bytes d: queue message
 		'''
 		if self.tweet_images:
-			imgpath = rs.get_msg_path(d)
-			imgtime = rs.fsec(rs.get_msg_time(d))
+			imgpath = helpers.get_msg_path(d)
+			imgtime = helpers.fsec(helpers.get_msg_time(d))
 			message = '%s %s UTC' % (self.message1, imgtime.strftime(self.fmt)[:22])
 			response = None
 			if os.path.exists(imgpath):

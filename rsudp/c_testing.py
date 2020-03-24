@@ -1,7 +1,7 @@
 import sys, os
 from rsudp.raspberryshake import ConsumerThread
 import rsudp.raspberryshake as rs
-from rsudp import printM, printW
+from rsudp import printM, printW, helpers
 import rsudp.test as t
 
 class Testing(rs.ConsumerThread):
@@ -100,21 +100,21 @@ class Testing(rs.ConsumerThread):
 	
 		elif 'ALARM' in str(d):
 			printM('Got ALARM message with time %s' % (
-				   rs.fsec(rs.get_msg_time(d))
+				   helpers.fsec(helpers.get_msg_time(d))
 				   ), sender=self.sender)
 			t.TEST['c_ALARM'][1] = True
 
 		elif 'RESET' in str(d):
 			printM('Got RESET message with time %s' % (
-				   rs.fsec(rs.get_msg_time(d))
+				   helpers.fsec(helpers.get_msg_time(d))
 				   ), sender=self.sender)
 			t.TEST['c_RESET'][1] = True
 
 		elif 'IMGPATH' in str(d):
 			printM('Got IMGPATH message with time %s' % (
-				   rs.fsec(rs.get_msg_time(d))
+				   helpers.fsec(helpers.get_msg_time(d))
 				   ), sender=self.sender)
-			printM('and path %s' % (rs.get_msg_path(d)), sender=self.sender)
+			printM('and path %s' % (helpers.get_msg_path(d)), sender=self.sender)
 			t.TEST['c_IMGPATH'][1] = True
 
 

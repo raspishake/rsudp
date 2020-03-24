@@ -1,7 +1,7 @@
 import os, sys
 from threading import Thread, Timer
 import socket as s
-from rsudp import printM, printW
+from rsudp import printM, printW, helpers
 import rsudp.raspberryshake as rs
 import time
 from queue import Empty
@@ -125,6 +125,6 @@ class TestData(Thread):
 				time.sleep(self.speed)
 
 		self.f.close()
-		self.sock.sendto(rs.msg_term(), (self.addr, self.port))
+		self.sock.sendto(helpers.msg_term(), (self.addr, self.port))
 		printW('Exiting.', self.sender, announce=False)
 		sys.exit()

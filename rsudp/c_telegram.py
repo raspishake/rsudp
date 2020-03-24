@@ -3,7 +3,7 @@ import time
 from datetime import datetime, timedelta
 from rsudp.raspberryshake import ConsumerThread
 import rsudp.raspberryshake as rs
-from rsudp import printM, printW, printE
+from rsudp import printM, printW, printE, helpers
 import rsudp
 import telegram as tg
 
@@ -85,7 +85,7 @@ class Telegrammer(rs.ConsumerThread):
 
 		:param bytes d: queue message
 		'''
-		event_time = rs.fsec(rs.get_msg_time(d))
+		event_time = helpers.fsec(helpers.get_msg_time(d))
 		self.last_event_str = '%s' % (event_time.strftime(self.fmt)[:22])
 		message = '%s %s UTC - %s' % (self.message0, self.last_event_str, self.livelink)
 		response = None
@@ -114,12 +114,12 @@ class Telegrammer(rs.ConsumerThread):
 		:param bytes d: queue message
 		'''
 		if self.send_images:
-			imgdetails = d.decode('utf-8').split(' ')
+			imgpath = helpers.get_msg_path(d)
 			response = None
-			if os.path.exists(imgdetails[2]):
-				with open(imgdetails[2], 'rb') as image:
+			if os.path.exists(imgpath):
+				with open(imgpath, 'rb') as image:
 					try:
-						printM('Uploading image to Telegram %s' % (imgdetails[2]), self.sender)
+						printM('Uploading image to Telegram %s' % (imgpath), self.sender)
 						response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
 						printM('Sent image', sender=self.sender)
 					except Exception as e:
@@ -128,7 +128,7 @@ class Telegrammer(rs.ConsumerThread):
 							printM('Waiting 5 seconds and trying to send again...', sender=self.sender)
 							time.sleep(5.1)
 							self.auth()
-							printM('Uploading image to Telegram (2nd try) %s' % (imgdetails[2]), self.sender)
+							printM('Uploading image to Telegram (2nd try) %s' % (imgpath), self.sender)
 							response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
 							printM('Sent image', sender=self.sender)
 
@@ -136,7 +136,7 @@ class Telegrammer(rs.ConsumerThread):
 							printE('could not send image - %s' % (e))
 							response = None
 			else:
-				printM('Could not find image: %s' % (imgdetails[2]), sender=self.sender)
+				printM('Could not find image: %s' % (imgpath), sender=self.sender)
 
 
 	def run(self):

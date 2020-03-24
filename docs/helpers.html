@@ -1,0 +1,553 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>rsudp.helpers (helper functions) &mdash; rsudp  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="rsudp.client (central module)" href="client.html" />
+    <link rel="prev" title="rsudp.raspberryshake (main library)" href="raspberryshake.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> rsudp
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorial guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">1. About rsudp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">2. Installing rsudp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Video resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developers' guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">1. Program architecture and flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">2. Contributing to this project</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Library</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Clients</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Producer and Consumer</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Sub-Consumers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Testing modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">rsudp</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/helpers.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="rsudp-helpers-helper-functions">
+<h1><a class="reference internal" href="#module-rsudp.helpers" title="rsudp.helpers"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code></a> (helper functions)<a class="headerlink" href="#rsudp-helpers-helper-functions" title="Permalink to this headline">¶</a></h1>
+<p>These are some helper functions in rsudp.</p>
+<span class="target" id="module-rsudp.helpers"></span><dl class="function">
+<dt id="rsudp.helpers.deconv_acc_inst">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">deconv_acc_inst</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">trace</em>, <em class="sig-param">output</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconv_acc_inst" title="Permalink to this definition">¶</a></dt>
+<dd><p>A helper function for <code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.deconvolve()</span></code>
+for acceleration channels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>self</em>) – The self object of the sub-consumer class calling this function.</p></li>
+<li><p><strong>trace</strong> (<em>osbpy.core.trace.Trace</em>) – the trace object instance to deconvolve</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rsudp.helpers.deconv_rbm_inst">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">deconv_rbm_inst</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">trace</em>, <em class="sig-param">output</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconv_rbm_inst" title="Permalink to this definition">¶</a></dt>
+<dd><p>A helper function for <code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.deconvolve()</span></code>
+for Raspberry Boom pressure transducer channels.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Raspberry Boom pressure transducer does not currently have a
+deconvolution function. The Raspberry Shake team is working on a
+calibration for the Boom, but until then Boom units are given in
+counts.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>self</em>) – The self object of the sub-consumer class calling this function.</p></li>
+<li><p><strong>trace</strong> (<em>osbpy.core.trace.Trace</em>) – the trace object instance to deconvolve</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rsudp.helpers.deconv_vel_inst">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">deconv_vel_inst</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">trace</em>, <em class="sig-param">output</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconv_vel_inst" title="Permalink to this definition">¶</a></dt>
+<dd><p>A helper function for <code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.deconvolve()</span></code>
+for velocity channels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>self</em>) – The self object of the sub-consumer class calling this function.</p></li>
+<li><p><strong>trace</strong> (<em>osbpy.core.trace.Trace</em>) – the trace object instance to deconvolve</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rsudp.helpers.deconvolve">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">deconvolve</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconvolve" title="Permalink to this definition">¶</a></dt>
+<dd><p>A central helper function for sub-consumers (i.e. <a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot" title="rsudp.c_plot.Plot"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_plot.Plot</span></code></a> or <a class="reference internal" href="c_alert.html#rsudp.c_alert.Alert" title="rsudp.c_alert.Alert"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_alert.Alert</span></code></a>)
+that need to deconvolve their raw data to metric units.
+Consumers with <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (1.2.0) v1.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.stream.Stream</span></code></a> objects in <code class="code pycode python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">self</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">stream</span></span></code> can use this to deconvolve data
+if this library’s <code class="code pycode python docutils literal notranslate"><span class="name"><span class="pre">rsudp</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">raspberryshake</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">inv</span></span></code> variable
+contains a valid <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.Inventory.html#obspy.core.inventory.inventory.Inventory" title="(in ObsPy Documentation (1.2.0) v1.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.inventory.inventory.Inventory</span></code></a> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>self</strong> (<em>self</em>) – The self object of the sub-consumer class calling this function. Must contain <code class="code pycode python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">self</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">stream</span></span></code> as a <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (1.2.0) v1.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.stream.Stream</span></code></a> object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rsudp.helpers.fsec">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">fsec</code><span class="sig-paren">(</span><em class="sig-param">ti</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.fsec" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 0.4.3.</span></p>
+</div>
+<p>The Raspberry Shake records at hundredths-of-a-second precision.
+In order to report time at this precision, we need to do some time-fu.</p>
+<p>This function rounds the microsecond fraction of a
+<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.2.0) v1.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.utcdatetime.UTCDateTime</span></code></a>
+depending on its precision, so that it accurately reflects the Raspberry Shake’s
+event measurement precision.</p>
+<p>This is necessary because datetime objects in Python are strange and confusing, and
+strftime doesn’t support fractional returns, only the full integer microsecond field
+which is an integer right-padded with zeroes. This function uses the <code class="docutils literal notranslate"><span class="pre">precision</span></code>
+of a datetime object.</p>
+<p>For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">obspy</span> <span class="kn">import</span> <span class="n">UTCDateTime</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ti</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">599000</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fsec</span><span class="p">(</span><span class="n">ti</span><span class="p">)</span>
+<span class="go">UTCDateTime(2020, 1, 1, 0, 0, 0, 600000)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ti</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.2.0) v1.2)"><em>obspy.core.utcdatetime.UTCDateTime</em></a>) – time object to convert microseconds for</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the hundredth-of-a-second rounded version of the time object passed (precision is 0.01 second)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.2.0) v1.2)">obspy.core.utcdatetime.UTCDateTime</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rsudp.helpers.get_msg_path">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">get_msg_path</code><span class="sig-paren">(</span><em class="sig-param">msg</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.get_msg_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function gets the path from <code class="docutils literal notranslate"><span class="pre">IMGPATH</span></code> messages as a string.</p>
+<p>For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">obspy</span> <span class="kn">import</span> <span class="n">UTCDateTime</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ti</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">599000</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/home/pi/rsudp/screenshots/test.png&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg_imgpath</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">msg</span>
+<span class="go">b&#39;IMGPATH 2020-01-01T00:00:00.599Z /home/pi/rsudp/screenshots/test.png&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_msg_path</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="go">&#39;/home/pi/rsudp/screenshots/test.png&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a>) – the bytes-formatted queue message to decode</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the path embedded in the message</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rsudp.helpers.get_msg_time">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">get_msg_time</code><span class="sig-paren">(</span><em class="sig-param">msg</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.get_msg_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function gets the time from <code class="docutils literal notranslate"><span class="pre">ALARM</span></code>, <code class="docutils literal notranslate"><span class="pre">RESET</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">IMGPATH</span></code> messages as a UTCDateTime object.</p>
+<p>For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">obspy</span> <span class="kn">import</span> <span class="n">UTCDateTime</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ti</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">599000</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/home/pi/rsudp/screenshots/test.png&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg_imgpath</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">msg</span>
+<span class="go">b&#39;IMGPATH 2020-01-01T00:00:00.599Z /home/pi/rsudp/screenshots/test.png&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_msg_time</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="go">UTCDateTime(2020, 1, 1, 0, 0, 0, 599000)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a>) – the bytes-formatted queue message to decode</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.2.0) v1.2)">obspy.core.utcdatetime.UTCDateTime</a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the time embedded in the message</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rsudp.helpers.msg_alarm">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">msg_alarm</code><span class="sig-paren">(</span><em class="sig-param">event_time</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_alarm" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function constructs the <code class="docutils literal notranslate"><span class="pre">ALARM</span></code> message as a bytes object.
+Currently this is only used by <a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.p_producer.Producer</span></code></a>
+to construct alarm queue messages.</p>
+<p>For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">obspy</span> <span class="kn">import</span> <span class="n">UTCDateTime</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ti</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">599000</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">msg_alarm</span><span class="p">(</span><span class="n">ti</span><span class="p">)</span>
+<span class="go">b&#39;ALARM 2020-01-01T00:00:00.599Z&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>event_time</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.2.0) v1.2)"><em>obspy.core.utcdatetime.UTCDateTime</em></a>) – the datetime object to serialize and convert to bytes</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)">bytes</a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the <code class="docutils literal notranslate"><span class="pre">ALARM</span></code> message, ready to be put on the queue</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rsudp.helpers.msg_imgpath">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">msg_imgpath</code><span class="sig-paren">(</span><em class="sig-param">event_time</em>, <em class="sig-param">figname</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_imgpath" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function constructs the <code class="docutils literal notranslate"><span class="pre">IMGPATH</span></code> message as a bytes object.
+Currently this is only used by <a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot" title="rsudp.c_plot.Plot"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_plot.Plot</span></code></a>
+to construct queue messages containing timestamp and saved image path.</p>
+<p>For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">obspy</span> <span class="kn">import</span> <span class="n">UTCDateTime</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ti</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">599000</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/home/pi/rsudp/screenshots/test.png&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">msg_imgpath</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+<span class="go">b&#39;IMGPATH 2020-01-01T00:00:00.599Z /home/pi/rsudp/screenshots/test.png&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>event_time</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.2.0) v1.2)"><em>obspy.core.utcdatetime.UTCDateTime</em></a>) – the datetime object to serialize and convert to bytes</p></li>
+<li><p><strong>figname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the figure path as a string</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)">bytes</a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the <code class="docutils literal notranslate"><span class="pre">IMGPATH</span></code> message, ready to be put on the queue</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rsudp.helpers.msg_reset">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">msg_reset</code><span class="sig-paren">(</span><em class="sig-param">reset_time</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function constructs the <code class="docutils literal notranslate"><span class="pre">RESET</span></code> message as a bytes object.
+Currently this is only used by <a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.p_producer.Producer</span></code></a>
+to construct reset queue messages.</p>
+<p>For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">obspy</span> <span class="kn">import</span> <span class="n">UTCDateTime</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ti</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">599000</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">msg_reset</span><span class="p">(</span><span class="n">ti</span><span class="p">)</span>
+<span class="go">b&#39;RESET 2020-01-01T00:00:00.599Z&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>reset_time</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.2.0) v1.2)"><em>obspy.core.utcdatetime.UTCDateTime</em></a>) – the datetime object to serialize and convert to bytes</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)">bytes</a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the <code class="docutils literal notranslate"><span class="pre">RESET</span></code> message, ready to be put on the queue</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rsudp.helpers.msg_term">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">msg_term</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_term" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function constructs the simple <code class="docutils literal notranslate"><span class="pre">TERM</span></code> message as a bytes object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">msg_term</span><span class="p">()</span>
+<span class="go">b&#39;TERM&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)">bytes</a></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the <code class="docutils literal notranslate"><span class="pre">TERM</span></code> message</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rsudp.helpers.set_channels">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">set_channels</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">cha</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.set_channels" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function sets the channels available for plotting. Allowed units are as follows:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">[&quot;SHZ&quot;,</span> <span class="pre">&quot;EHZ&quot;,</span> <span class="pre">&quot;EHN&quot;,</span> <span class="pre">&quot;EHE&quot;]</span></code> - velocity channels</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[&quot;ENZ&quot;,</span> <span class="pre">&quot;ENN&quot;,</span> <span class="pre">&quot;ENE&quot;]</span></code> - acceleration channels</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[&quot;HDF&quot;]</span></code> - pressure transducer channel</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[&quot;all&quot;]</span></code> - all available channels</p></li>
+</ul>
+<p>So for example, if you wanted to display the two vertical channels of a Shake 4D,
+(geophone and vertical accelerometer) you could specify:</p>
+<p><code class="docutils literal notranslate"><span class="pre">[&quot;EHZ&quot;,</span> <span class="pre">&quot;ENZ&quot;]</span></code></p>
+<p>You can also specify partial channel names.
+So for example, the following will display at least one channel from any
+Raspberry Shake instrument:</p>
+<p><code class="docutils literal notranslate"><span class="pre">[&quot;HZ&quot;,</span> <span class="pre">&quot;HDF&quot;]</span></code></p>
+<p>Or if you wanted to display only vertical channels from a RS4D,
+you could specify</p>
+<p><code class="docutils literal notranslate"><span class="pre">[&quot;Z&quot;]</span></code></p>
+<p>which would match both <code class="docutils literal notranslate"><span class="pre">&quot;EHZ&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;ENZ&quot;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>self</em>) – self object of the class calling this function</p></li>
+<li><p><strong>cha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the channel or list of channels to plot</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p><a class="reference external" href="#top">Back to top ↑</a></p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="client.html" class="btn btn-neutral float-right" title="rsudp.client (central module)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="raspberryshake.html" class="btn btn-neutral float-left" title="rsudp.raspberryshake (main library)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Raspberry Shake S.A.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

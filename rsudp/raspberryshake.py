@@ -10,7 +10,7 @@ from obspy.core.stream import Stream
 from obspy import read_inventory
 from obspy.geodetics.flinnengdahl import FlinnEngdahl
 from obspy.core.trace import Trace
-from rsudp import printM, printW, printE, helpers
+from rsudp import printM, printW, printE
 from requests.exceptions import HTTPError
 from threading import Thread
 

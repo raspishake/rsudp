@@ -232,12 +232,12 @@ def deconv_vel_inst(self, trace, output):
 		trace.remove_response(inventory=rs.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
 								output='VEL', water_level=4.5, taper=False)
 	if 'ACC' in self.deconv:
-		trace.data = np.gradient(trace.data, 1)
+		trace.data = rs.np.gradient(trace.data, 1)
 	elif 'GRAV' in self.deconv:
-		trace.data = np.gradient(trace.data, 1) / g
+		trace.data = rs.np.gradient(trace.data, 1) / rs.g
 		trace.stats.units = 'Earth gravity'
 	elif 'DISP' in self.deconv:
-		trace.data = np.cumsum(trace.data)
+		trace.data = rs.np.cumsum(trace.data)
 		trace.taper(max_percentage=0.1, side='left', max_length=1)
 		trace.detrend(type='demean')
 	else:
@@ -262,10 +262,10 @@ def deconv_acc_inst(self, trace, output):
 		trace.remove_response(inventory=rs.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
 								output='ACC', water_level=4.5, taper=False)
 	if 'VEL' in self.deconv:
-		trace.data = np.cumsum(trace.data)
+		trace.data = rs.np.cumsum(trace.data)
 		trace.detrend(type='demean')
 	elif 'DISP' in self.deconv:
-		trace.data = np.cumsum(np.cumsum(trace.data))
+		trace.data = rs.np.cumsum(rs.np.cumsum(trace.data))
 		trace.detrend(type='linear')
 	elif 'GRAV' in self.deconv:
 		trace.data = trace.data / g

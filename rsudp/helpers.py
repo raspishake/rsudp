@@ -268,7 +268,7 @@ def deconv_acc_inst(self, trace, output):
 		trace.data = rs.np.cumsum(rs.np.cumsum(trace.data))
 		trace.detrend(type='linear')
 	elif 'GRAV' in self.deconv:
-		trace.data = trace.data / g
+		trace.data = trace.data / rs.g
 		trace.stats.units = 'Earth gravity'
 	else:
 		trace.stats.units = 'Acceleration'

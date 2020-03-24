@@ -1,5 +1,6 @@
 # Changelog
 ## changes in 1.0.0
+- moved several functions to a new `helpers.py` module
 - simplified several functions to make them more readable
 - changed doc structure to github pages compatible
 

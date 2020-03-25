@@ -371,7 +371,7 @@ def deconv_vel_inst(self, trace, output):
 	for velocity channels.
 
 	:param self self: The self object of the sub-consumer class calling this function.
-	:param osbpy.core.trace.Trace trace: the trace object instance to deconvolve
+	:param obspy.core.trace.Trace trace: the trace object instance to deconvolve
 	'''
 	if self.deconv not in 'CHAN':
 		trace.remove_response(inventory=rs.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
@@ -401,7 +401,7 @@ def deconv_acc_inst(self, trace, output):
 	for acceleration channels.
 
 	:param self self: The self object of the sub-consumer class calling this function.
-	:param osbpy.core.trace.Trace trace: the trace object instance to deconvolve
+	:param obspy.core.trace.Trace trace: the trace object instance to deconvolve
 	'''
 	if self.deconv not in 'CHAN':
 		trace.remove_response(inventory=rs.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
@@ -440,7 +440,7 @@ def deconv_rbm_inst(self, trace, output):
 		counts.
 
 	:param self self: The self object of the sub-consumer class calling this function.
-	:param osbpy.core.trace.Trace trace: the trace object instance to deconvolve
+	:param obspy.core.trace.Trace trace: the trace object instance to deconvolve
 	'''
 	trace.stats.units = ' counts'
 

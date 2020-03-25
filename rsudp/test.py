@@ -110,6 +110,8 @@ def cancel_tests(settings, MPL, plot, quiet):
 	:rtype: dict
 	:return: settings dictionary to test with
 	'''
+	global TEST
+
 	if plot:
 		if MPL:
 			TEST['d_matplotlib'][1] = True

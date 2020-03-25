@@ -99,6 +99,35 @@ def make_test_settings(settings, inet=False):
 
 	return settings
 
+
+def cancel_tests(settings, MPL, plot, quiet):
+	'''
+	Cancel some tests if they don't need to be run.
+
+	:param dict settings: the dictionary of settings for program execution
+	:param bool plot: whether or not to plot (``False`` == no plot)
+	:param bool quiet: whether or not to play sounds (``True`` == no sound)
+	:rtype: dict
+	:return: settings dictionary to test with
+	'''
+	if plot:
+		if MPL:
+			TEST['d_matplotlib'][1] = True
+		else:
+			printW('matplotlib backend failed to load')
+	else:
+		settings['plot']['enabled'] = False
+		del TEST['d_matplotlib']
+		del TEST['c_IMGPATH']
+		printM('Plot is disabled')
+
+	if quiet:
+		settings['alertsound']['enabled'] = False
+		del TEST['d_pydub']
+		printM('Alert sound is disabled')
+	return settings
+
+
 def permissions(dp):
 	'''
 	Test write permissions for the specified directory.

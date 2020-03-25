@@ -9,7 +9,8 @@ import traceback
 from queue import Queue
 from rsudp import printM, printW, printE, default_loc, init_dirs, output_dir, add_debug_handler, start_logging
 from rsudp import COLOR
-import rsudp.test as t
+import rsudp.helpers as H
+import rsudp.test as T
 import rsudp.raspberryshake as rs
 from rsudp.packetize import packetize
 from rsudp.c_consumer import Consumer
@@ -77,21 +78,6 @@ def test_mode(mode=None):
 	if (mode == True) or (mode == False):
 		TESTING = mode
 	return TESTING
-
-def print_stats():
-	s = 'Main'
-	printW('Initialization stats:', s, announce=False)
-	printW('                Port: %s' % rs.port, sender=SENDER, announce=False)
-	printW('  Sending IP address: %s' % rs.firstaddr, sender=SENDER, announce=False)
-	printW('    Set station name: %s' % rs.stn, sender=SENDER, announce=False)
-	printW('  Number of channels: %s' % rs.numchns, sender=SENDER, announce=False)
-	printW('  Transmission freq.: %s ms/packet' % rs.tf, sender=SENDER, announce=False)
-	printW('   Transmission rate: %s packets/sec' % rs.tr, sender=SENDER, announce=False)
-	printW('  Samples per second: %s sps' % rs.sps, sender=SENDER, announce=False)
-	if rs.inv:
-		printW('           Inventory: %s' % rs.inv.get_contents()['stations'][0],
-			   sender=SENDER, announce=False)
-
 
 
 def mk_q():
@@ -170,9 +156,9 @@ def run(settings, debug):
 	rs.initRSlib(dport=settings['settings']['port'],
 				 rsstn=settings['settings']['station'])
 
+	H.conn_stats(TESTING)
 	if TESTING:
-		t.TEST['n_port'][1] = True	# port has been opened
-		print_stats()
+		T.TEST['n_port'][1] = True	# port has been opened
 		if rs.sps == 0:
 			printE('There is already a Raspberry Shake sending data to this port.', sender=SENDER)
 			printE('For testing, please change the port in your settings file to an unused one.',
@@ -359,120 +345,7 @@ def run(settings, debug):
 	else:
 		printW('Client has exited, ending tests...', sender=SENDER, announce=False)
 		if SOUND:
-			t.TEST['d_pydub'][1] = True
-
-
-def dump_default(settings_loc, default_settings):
-	'''
-	Dumps a default settings file to a specified location.
-
-	:param str settings_loc: The location to create the new settings JSON.
-	:param str default_settings: The default settings to dump to file.
-	'''
-	if not TESTING:
-		print('Creating a default settings file at %s' % settings_loc)
-	with open(settings_loc, 'w+') as f:
-		f.write(default_settings)
-		f.write('\n')
-
-	if TESTING:
-		return True
-
-
-def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\', '/'), verbose=True):
-	'''
-	Returns a formatted json string of default settings.
-
-	:param str output_dir: the user's specified output location. defaults to ``~/rsudp``.
-	:param bool verbose: if ``True``, displays some information as the string is created.
-	:return: default settings string in formatted json
-	:rtype: str
-	'''
-	def_settings = r"""{
-"settings": {
-    "port": 8888,
-    "station": "Z0000",
-    "output_dir": "%s",
-    "debug": true},
-"printdata": {
-    "enabled": false},
-"write": {
-    "enabled": false,
-    "channels": ["all"]},
-"plot": {
-    "enabled": true,
-    "duration": 30,
-    "spectrogram": true,
-    "fullscreen": false,
-    "kiosk": false,
-    "eq_screenshots": false,
-    "channels": ["HZ", "HDF"],
-    "deconvolve": false,
-    "units": "CHAN"},
-"forward": {
-    "enabled": false,
-    "address": "192.168.1.254",
-    "port": 8888,
-    "channels": ["all"]},
-"alert": {
-    "enabled": true,
-    "channel": "HZ",
-    "sta": 6,
-    "lta": 30,
-    "threshold": 1.7,
-    "reset": 1.6,
-    "highpass": 0,
-    "lowpass": 50,
-    "deconvolve": false,
-    "units": "VEL"},
-"alertsound": {
-    "enabled": false,
-    "mp3file": "doorbell"},
-"custom": {
-    "enabled": false,
-    "codefile": "n/a",
-    "win_override": false},
-"tweets": {
-    "enabled": false,
-    "tweet_images": true,
-    "api_key": "n/a",
-    "api_secret": "n/a",
-    "access_token": "n/a",
-    "access_secret": "n/a"},
-"telegram": {
-    "enabled": false,
-    "send_images": true,
-    "token": "n/a",
-    "chat_id": "n/a"}
-}
-
-""" % (output_dir)
-	if verbose:
-		print('By default output_dir is set to %s' % output_dir)
-	return def_settings
-
-
-def read_settings(loc):
-	'''
-	Reads settings from a specific location.
-
-	:param str loc: location on disk to read json settings file from
-	:return: settings dictionary read from JSON, or ``None``
-	:rtype: dict or NoneType
-	'''
-	settings_loc = os.path.abspath(os.path.expanduser(loc)).replace('\\', '/')
-	settings = None
-	with open(settings_loc, 'r') as f:
-		try:
-			data = f.read().replace('\\', '/')
-			settings = json.loads(data)
-		except Exception as e:
-			print(COLOR['red'] + 'ERROR: Could not load settings file. Perhaps the JSON is malformed?' + COLOR['white'])
-			print(COLOR['red'] + '       detail: %s' % e + COLOR['white'])
-			print(COLOR['red'] + '       If you would like to overwrite and rebuild the file, you can enter the command below:' + COLOR['white'])
-			print(COLOR['bold'] + '       shake_client -d %s' % loc + COLOR['white'])
-			exit(2)
-	return settings
+			T.TEST['d_pydub'][1] = True
 
 
 def main():
@@ -513,7 +386,7 @@ settings in %s
 ''' % settings_loc
 
 
-	settings = json.loads(default_settings(verbose=False))
+	settings = json.loads(H.default_settings(verbose=False))
 
 	# get arguments
 	try:
@@ -527,9 +400,9 @@ settings in %s
 	if len(opts) == 0:
 		if not os.path.exists(settings_loc):
 			print(COLOR['yellow'] + 'Could not find rsudp settings file, creating one at %s' % settings_loc + COLOR['white'])
-			dump_default(settings_loc, default_settings())
+			H.dump_default(settings_loc, H.default_settings())
 		else:
-			settings = read_settings(settings_loc)
+			settings = H.read_settings(settings_loc)
 
 	for o, a in opts:
 		if o in ('-h', '--help'):
@@ -540,7 +413,7 @@ settings in %s
 			This is only meant to be used by the install script.
 			'''
 			os.makedirs(default_loc, exist_ok=True)
-			dump_default(settings_loc, default_settings(output_dir='@@DIR@@', verbose=False))
+			H.dump_default(settings_loc, H.default_settings(output_dir='@@DIR@@', verbose=False))
 			exit(0)
 		if o in ('-d', '--dump='):
 			'''
@@ -548,15 +421,15 @@ settings in %s
 			'''
 			if str(a) in 'default':
 				os.makedirs(default_loc, exist_ok=True)
-				dump_default(settings_loc, default_settings())
+				H.dump_default(settings_loc, H.default_settings())
 			else:
-				dump_default(os.path.abspath(os.path.expanduser(a)), default_settings())
+				H.dump_default(os.path.abspath(os.path.expanduser(a)), H.default_settings())
 			exit(0)
 		if o in ('-s', 'settings='):
 			'''
 			Start the program with a specific settings file, for example: `-s settings.json`.
 			'''
-			settings = read_settings(a)
+			settings = H.read_settings(a)
 
 	start_logging()
 	debug = settings['settings']['debug']
@@ -572,6 +445,7 @@ settings in %s
 		printM('Output directory is: %s' % odir)
 
 	run(settings, debug=debug)
+
 
 def test():
 	'''
@@ -617,7 +491,7 @@ default settings and the data file at
 ''' % (TESTFILE)
 
 	test_mode(True)
-	settings = default_settings(verbose=False)
+	settings = H.default_settings(verbose=False)
 	settings_are_default = True
 	plot = True
 	quiet = False
@@ -632,6 +506,7 @@ default settings and the data file at
 		exit(1)
 
 	for o, a in opts:
+		# parse options and arguments
 		if o in ('-h', '--help'):
 			print(hlp_txt)
 			exit(0)
@@ -655,7 +530,7 @@ default settings and the data file at
 			'''
 			settings_loc = os.path.abspath(os.path.expanduser(a)).replace('\\', '/')
 			if os.path.exists(settings_loc):
-				settings = read_settings(settings_loc)
+				settings = H.read_settings(settings_loc)
 				settings_are_default = False
 			else:
 				print(COLOR['red'] + 'ERROR: could not find settings file at %s' % (a) + COLOR['white'])
@@ -666,34 +541,20 @@ default settings and the data file at
 			quiet = True
 
 
-	t.TEST['n_internet'][1] = t.is_connected('www.google.com')
+	T.TEST['n_internet'][1] = T.is_connected('www.google.com')
 
 	if settings_are_default:
-		settings = t.make_test_settings(settings=settings, inet=t.TEST['n_internet'][1])
+		settings = T.make_test_settings(settings=settings, inet=T.TEST['n_internet'][1])
 
-	t.TEST['p_log_dir'][1] = t.logdir_permissions()
-	t.TEST['p_log_file'][1] = start_logging(testing=True)
-	t.TEST['p_log_std'][1] = add_debug_handler(testing=True)
+	T.TEST['p_log_dir'][1] = T.logdir_permissions()
+	T.TEST['p_log_file'][1] = start_logging(testing=True)
+	T.TEST['p_log_std'][1] = add_debug_handler(testing=True)
 
-	t.TEST['p_output_dirs'][1] = init_dirs(os.path.expanduser(settings['settings']['output_dir']))
-	t.TEST['p_data_dir'][1] = t.datadir_permissions(os.path.expanduser(settings['settings']['output_dir']))
-	t.TEST['p_screenshot_dir'][1] = t.ss_permissions(os.path.expanduser(settings['settings']['output_dir']))
+	T.TEST['p_output_dirs'][1] = init_dirs(os.path.expanduser(settings['settings']['output_dir']))
+	T.TEST['p_data_dir'][1] = T.datadir_permissions(os.path.expanduser(settings['settings']['output_dir']))
+	T.TEST['p_screenshot_dir'][1] = T.ss_permissions(os.path.expanduser(settings['settings']['output_dir']))
 
-	if plot:
-		if MPL:
-			t.TEST['d_matplotlib'][1] = True
-		else:
-			printW('matplotlib backend failed to load')
-	else:
-		settings['plot']['enabled'] = False
-		del t.TEST['d_matplotlib']
-		del t.TEST['c_IMGPATH']
-		printM('Plot is disabled')
-
-	if quiet:
-		settings['alertsound']['enabled'] = False
-		del t.TEST['d_pydub']
-		printM('Alert sound is disabled')
+	settings = T.cancel_tests(settings, MPL, plot, quiet)
 
 	try:
 		run(settings, debug=True)
@@ -709,9 +570,9 @@ default settings and the data file at
 
 	code = 0
 	printM('Test results:')
-	for i in t.TEST:
-		printM('%s: %s' % (t.TEST[i][0], t.TRANS[t.TEST[i][1]]))
-		if not t.TEST[i][1]:
+	for i in T.TEST:
+		printM('%s: %s' % (T.TEST[i][0], T.TRANS[T.TEST[i][1]]))
+		if not T.TEST[i][1]:
 			# if a test fails, change the system exit code to indicate an error occurred
 			code = 1
 	_xit(code)

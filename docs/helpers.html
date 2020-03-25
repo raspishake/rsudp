@@ -208,6 +208,25 @@
 <h1><a class="reference internal" href="#module-rsudp.helpers" title="rsudp.helpers"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code></a> (helper functions)<a class="headerlink" href="#rsudp-helpers-helper-functions" title="Permalink to this headline">¶</a></h1>
 <p>These are some helper functions in rsudp.</p>
 <span class="target" id="module-rsudp.helpers"></span><dl class="function">
+<dt id="rsudp.helpers.conn_stats">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">conn_stats</code><span class="sig-paren">(</span><em class="sig-param">TESTING=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.conn_stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print some stats about the connection.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">conn_stats</span><span class="p">()</span>
+<span class="go">2020-03-25 01:35:04 [conn_stats] Initialization stats:</span>
+<span class="go">2020-03-25 01:35:04 [conn_stats]                 Port: 18069</span>
+<span class="go">2020-03-25 01:35:04 [conn_stats]   Sending IP address: 192.168.0.4</span>
+<span class="go">2020-03-25 01:35:04 [conn_stats]     Set station name: R24FA</span>
+<span class="go">2020-03-25 01:35:04 [conn_stats]   Number of channels: 4</span>
+<span class="go">2020-03-25 01:35:04 [conn_stats]   Transmission freq.: 250 ms/packet</span>
+<span class="go">2020-03-25 01:35:04 [conn_stats]    Transmission rate: 4 packets/sec</span>
+<span class="go">2020-03-25 01:35:04 [conn_stats]   Samples per second: 100 sps</span>
+<span class="go">2020-03-25 01:35:04 [conn_stats]            Inventory: AM.R24FA (Raspberry Shake Citizen Science Station)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="rsudp.helpers.deconv_acc_inst">
 <code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">deconv_acc_inst</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">trace</em>, <em class="sig-param">output</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconv_acc_inst" title="Permalink to this definition">¶</a></dt>
 <dd><p>A helper function for <code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.deconvolve()</span></code>
@@ -270,6 +289,40 @@ contains a valid <a class="reference external" href="https://docs.obspy.org/pack
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>self</strong> (<em>self</em>) – The self object of the sub-consumer class calling this function. Must contain <code class="code pycode python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">self</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">stream</span></span></code> as a <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (1.2.0) v1.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.stream.Stream</span></code></a> object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rsudp.helpers.default_settings">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">default_settings</code><span class="sig-paren">(</span><em class="sig-param">output_dir='/home/iannesbitt/rsudp'</em>, <em class="sig-param">verbose=True</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.default_settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a formatted json string of default settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the user’s specified output location. defaults to <code class="docutils literal notranslate"><span class="pre">~/rsudp</span></code>.</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code>, displays some information as the string is created.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>default settings string in formatted json</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rsudp.helpers.dump_default">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">dump_default</code><span class="sig-paren">(</span><em class="sig-param">settings_loc</em>, <em class="sig-param">default_settings</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.dump_default" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dumps a default settings file to a specified location.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings_loc</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The location to create the new settings JSON.</p></li>
+<li><p><strong>default_settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The default settings to dump to file.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -463,6 +516,23 @@ to construct reset queue messages.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>the <code class="docutils literal notranslate"><span class="pre">TERM</span></code> message</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rsudp.helpers.read_settings">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">read_settings</code><span class="sig-paren">(</span><em class="sig-param">loc</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.read_settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads settings from a specific location.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>loc</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – location on disk to read json settings file from</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>settings dictionary read from JSON, or <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a> or NoneType</p>
 </dd>
 </dl>
 </dd></dl>

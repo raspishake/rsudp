@@ -77,9 +77,9 @@ class Alert(rs.ConsumerThread):
 		:param str deconv: ``'VEL'``, ``'ACC'``, ``'GRAV'``, ``'DISP'``, or ``'CHAN'``
 		'''
 		deconv = deconv.upper() if deconv else False
-		self.deconv = self.deconv if (deconv in rs.UNITS) else False
+		self.deconv = deconv if (deconv in rs.UNITS) else False
 		if self.deconv and rs.inv:
-			self.units = '%s (%s)' % (rs.UNITS[0], rs.UNITS[1]) if (self.deconv in rs.UNITS) else self.units
+			self.units = '%s (%s)' % (rs.UNITS[self.deconv][0], rs.UNITS[self.deconv][1]) if (self.deconv in rs.UNITS) else self.units
 			printM('Signal deconvolution set to %s' % (self.deconv), self.sender)
 		else:
 			self.units = rs.UNITS['CHAN'][1]

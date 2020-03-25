@@ -158,7 +158,7 @@ def add_debug_handler(testing=False):
 	return True
 
 
-def printM(msg, sender=''):
+def printM(msg, sender='', announce=False):
 	'''
 	Prints messages with datetime stamp and sends their output to the logging handlers.
 

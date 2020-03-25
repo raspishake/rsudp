@@ -1,4 +1,116 @@
 import rsudp.raspberryshake as rs
+from rsudp import COLOR, printM, printW
+import os
+import json
+
+
+def dump_default(settings_loc, default_settings):
+	'''
+	Dumps a default settings file to a specified location.
+
+	:param str settings_loc: The location to create the new settings JSON.
+	:param str default_settings: The default settings to dump to file.
+	'''
+	print('Creating a default settings file at %s' % settings_loc)
+	with open(settings_loc, 'w+') as f:
+		f.write(default_settings)
+		f.write('\n')
+
+
+def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\', '/'), verbose=True):
+	'''
+	Returns a formatted json string of default settings.
+
+	:param str output_dir: the user's specified output location. defaults to ``~/rsudp``.
+	:param bool verbose: if ``True``, displays some information as the string is created.
+	:return: default settings string in formatted json
+	:rtype: str
+	'''
+	def_settings = r"""{
+"settings": {
+    "port": 8888,
+    "station": "Z0000",
+    "output_dir": "%s",
+    "debug": true},
+"printdata": {
+    "enabled": false},
+"write": {
+    "enabled": false,
+    "channels": ["all"]},
+"plot": {
+    "enabled": true,
+    "duration": 30,
+    "spectrogram": true,
+    "fullscreen": false,
+    "kiosk": false,
+    "eq_screenshots": false,
+    "channels": ["HZ", "HDF"],
+    "deconvolve": false,
+    "units": "CHAN"},
+"forward": {
+    "enabled": false,
+    "address": "192.168.1.254",
+    "port": 8888,
+    "channels": ["all"]},
+"alert": {
+    "enabled": true,
+    "channel": "HZ",
+    "sta": 6,
+    "lta": 30,
+    "threshold": 1.7,
+    "reset": 1.6,
+    "highpass": 0,
+    "lowpass": 50,
+    "deconvolve": false,
+    "units": "VEL"},
+"alertsound": {
+    "enabled": false,
+    "mp3file": "doorbell"},
+"custom": {
+    "enabled": false,
+    "codefile": "n/a",
+    "win_override": false},
+"tweets": {
+    "enabled": false,
+    "tweet_images": true,
+    "api_key": "n/a",
+    "api_secret": "n/a",
+    "access_token": "n/a",
+    "access_secret": "n/a"},
+"telegram": {
+    "enabled": false,
+    "send_images": true,
+    "token": "n/a",
+    "chat_id": "n/a"}
+}
+
+""" % (output_dir)
+	if verbose:
+		print('By default output_dir is set to %s' % output_dir)
+	return def_settings
+
+
+def read_settings(loc):
+	'''
+	Reads settings from a specific location.
+
+	:param str loc: location on disk to read json settings file from
+	:return: settings dictionary read from JSON, or ``None``
+	:rtype: dict or NoneType
+	'''
+	settings_loc = os.path.abspath(os.path.expanduser(loc)).replace('\\', '/')
+	settings = None
+	with open(settings_loc, 'r') as f:
+		try:
+			data = f.read().replace('\\', '/')
+			settings = json.loads(data)
+		except Exception as e:
+			print(COLOR['red'] + 'ERROR: Could not load settings file. Perhaps the JSON is malformed?' + COLOR['white'])
+			print(COLOR['red'] + '       detail: %s' % e + COLOR['white'])
+			print(COLOR['red'] + '       If you would like to overwrite and rebuild the file, you can enter the command below:' + COLOR['white'])
+			print(COLOR['bold'] + '       shake_client -d %s' % loc + COLOR['white'])
+			exit(2)
+	return settings
 
 
 def set_channels(self, cha):
@@ -79,6 +191,40 @@ def fsec(ti):
 	# at dealing with datetimes. all we need to do is tell it what precision we want
 	# and it handles the rounding for us.
 	return rs.UTCDateTime(ti, precision=2)
+
+
+def conn_stats(TESTING=False):
+	'''
+	Print some stats about the connection.
+
+	Example:
+
+	.. code-block:: python
+
+		>>> conn_stats()
+		2020-03-25 01:35:04 [conn_stats] Initialization stats:
+		2020-03-25 01:35:04 [conn_stats]                 Port: 18069
+		2020-03-25 01:35:04 [conn_stats]   Sending IP address: 192.168.0.4
+		2020-03-25 01:35:04 [conn_stats]     Set station name: R24FA
+		2020-03-25 01:35:04 [conn_stats]   Number of channels: 4
+		2020-03-25 01:35:04 [conn_stats]   Transmission freq.: 250 ms/packet
+		2020-03-25 01:35:04 [conn_stats]    Transmission rate: 4 packets/sec
+		2020-03-25 01:35:04 [conn_stats]   Samples per second: 100 sps
+		2020-03-25 01:35:04 [conn_stats]            Inventory: AM.R24FA (Raspberry Shake Citizen Science Station)
+	'''
+	s = 'conn_stats'
+	pf = printW if TESTING else printM
+	pf('Initialization stats:', sender=s, announce=False)
+	pf('                Port: %s' % rs.port, sender=s, announce=False)
+	pf('  Sending IP address: %s' % rs.firstaddr, sender=s, announce=False)
+	pf('    Set station name: %s' % rs.stn, sender=s, announce=False)
+	pf('  Number of channels: %s' % rs.numchns, sender=s, announce=False)
+	pf('  Transmission freq.: %s ms/packet' % rs.tf, sender=s, announce=False)
+	pf('   Transmission rate: %s packets/sec' % rs.tr, sender=s, announce=False)
+	pf('  Samples per second: %s sps' % rs.sps, sender=s, announce=False)
+	if rs.inv:
+		pf('           Inventory: %s' % rs.inv.get_contents()['stations'][0],
+			   sender=s, announce=False)
 
 
 def msg_alarm(event_time):

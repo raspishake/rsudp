@@ -253,6 +253,27 @@ default settings file for testing, you will need to set
 <a class="reference internal" href="#rsudp.test.make_test_settings" title="rsudp.test.make_test_settings"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.test.make_test_settings()</span></code></a> prior to running the tests.</p>
 </div>
 <span class="target" id="module-rsudp.test"></span><dl class="function">
+<dt id="rsudp.test.cancel_tests">
+<code class="sig-prename descclassname">rsudp.test.</code><code class="sig-name descname">cancel_tests</code><span class="sig-paren">(</span><em class="sig-param">settings</em>, <em class="sig-param">MPL</em>, <em class="sig-param">plot</em>, <em class="sig-param">quiet</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.cancel_tests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cancel some tests if they don’t need to be run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – the dictionary of settings for program execution</p></li>
+<li><p><strong>plot</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether or not to plot (<code class="docutils literal notranslate"><span class="pre">False</span></code> == no plot)</p></li>
+<li><p><strong>quiet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether or not to play sounds (<code class="docutils literal notranslate"><span class="pre">True</span></code> == no sound)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>settings dictionary to test with</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="rsudp.test.datadir_permissions">
 <code class="sig-prename descclassname">rsudp.test.</code><code class="sig-name descname">datadir_permissions</code><span class="sig-paren">(</span><em class="sig-param">testdir</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.datadir_permissions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Test write permissions in the data directory (<code class="docutils literal notranslate"><span class="pre">./data</span></code> by default)</p>

@@ -207,40 +207,6 @@
   <div class="section" id="module-rsudp.client">
 <span id="rsudp-client-central-module"></span><h1><a class="reference internal" href="#module-rsudp.client" title="rsudp.client"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code></a> (central module)<a class="headerlink" href="#module-rsudp.client" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
-<dt id="rsudp.client.default_settings">
-<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">default_settings</code><span class="sig-paren">(</span><em class="sig-param">output_dir='/home/iannesbitt/rsudp'</em>, <em class="sig-param">verbose=True</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.default_settings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a formatted json string of default settings.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>output_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the user’s specified output location. defaults to <code class="docutils literal notranslate"><span class="pre">~/rsudp</span></code>.</p></li>
-<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code>, displays some information as the string is created.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>default settings string in formatted json</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="rsudp.client.dump_default">
-<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">dump_default</code><span class="sig-paren">(</span><em class="sig-param">settings_loc</em>, <em class="sig-param">default_settings</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.dump_default" title="Permalink to this definition">¶</a></dt>
-<dd><p>Dumps a default settings file to a specified location.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>settings_loc</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The location to create the new settings JSON.</p></li>
-<li><p><strong>default_settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The default settings to dump to file.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
 <dt id="rsudp.client.handler">
 <code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">handler</code><span class="sig-paren">(</span><em class="sig-param">sig</em>, <em class="sig-param">frame</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.handler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function passed to <a class="reference external" href="https://docs.python.org/3/library/signal.html#signal.signal" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">signal.signal()</span></code></a> to handle close events</p>
@@ -276,23 +242,6 @@ variable to be passed to the master consumer thread
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Returns the queue to pass to the sub-consumer.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="rsudp.client.read_settings">
-<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">read_settings</code><span class="sig-paren">(</span><em class="sig-param">loc</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.read_settings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reads settings from a specific location.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>loc</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – location on disk to read json settings file from</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>settings dictionary read from JSON, or <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a> or NoneType</p>
 </dd>
 </dl>
 </dd></dl>

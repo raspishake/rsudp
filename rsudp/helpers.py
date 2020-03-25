@@ -211,6 +211,8 @@ def conn_stats(TESTING=False):
 		2020-03-25 01:35:04 [conn_stats]    Transmission rate: 4 packets/sec
 		2020-03-25 01:35:04 [conn_stats]   Samples per second: 100 sps
 		2020-03-25 01:35:04 [conn_stats]            Inventory: AM.R24FA (Raspberry Shake Citizen Science Station)
+
+	:param bool TESTING: if ``True``, text is printed to the console in yellow. if not, in white.
 	'''
 	s = 'conn_stats'
 	pf = printW if TESTING else printM

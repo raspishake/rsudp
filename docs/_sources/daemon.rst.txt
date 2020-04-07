@@ -45,14 +45,14 @@ and paste the following code in it::
 
     [Unit]
     Description=rsudp daemon
-    Documentation=https://github.com/iannesbitt/rsudp_pr
+    Documentation=https://github.com/iannesbitt/rsudp
     After=graphical.target
 
     [Service]
     ExecStartPre=/bin/sleep 1
-    ExecStart=/bin/bash /home/pi/bin/rsudp_pr/unix-start-rsudp.sh
+    ExecStart=/bin/bash /home/pi/bin/rsudp/unix-start-rsudp.sh
     ExecStop=kill $MAINPID
-    ExecReload=kill $MAINPID; /bin/bash /home/pi/bin/rsudp_pr/unix-start-rsudp.sh
+    ExecReload=kill $MAINPID; /bin/bash /home/pi/bin/rsudp/unix-start-rsudp.sh
     Restart=always
     RestartSec=10s
 

@@ -49,7 +49,7 @@ and paste the following code in it::
     After=graphical.target
 
     [Service]
-    ExecStartPre=/bin/sleep 1
+    ExecStartPre=/bin/sleep 10
     ExecStart=/bin/bash /home/pi/bin/rsudp/unix-start-rsudp.sh
     ExecStop=kill $MAINPID
     ExecReload=kill $MAINPID; /bin/bash /home/pi/bin/rsudp/unix-start-rsudp.sh

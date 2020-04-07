@@ -358,7 +358,7 @@ Telegram alerts from rsudp.
     #. :code:`@BotFather` will then give you an access token for your new bot.
 
 #. Enter your bot's access token in the :json:`"token"` field of the settings file.
-#. Enter a user or group ID into the :json:`"chat_id"` field, which you can find by following the instructions in |so_answer|.
+#. Enter a user or group ID into the :json:`"chat_id"` field (or multiple separated by commas), which you can find by following the instructions in |so_answer|.
 
 If you wish to broadcast telegrams to a group or a channel, first add the bot to the group using your user account,
 then follow the instructions in the previous link,

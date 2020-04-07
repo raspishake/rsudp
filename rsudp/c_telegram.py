@@ -33,13 +33,13 @@ class Telegrammer(rs.ConsumerThread):
 	'''
 	def __init__(self, token, chat_id,
 				 q=False, send_images=False,
-				 ):
+				 sender='Telegram'):
 		"""
 		Initializing the Telegram message posting thread.
 
 		"""
 		super().__init__()
-		self.sender = 'Telegram'
+		self.sender = sender
 		self.alive = True
 		self.send_images = send_images
 		self.token = token
@@ -95,7 +95,7 @@ class Telegrammer(rs.ConsumerThread):
 			printM('Sent Telegram: %s' % (message), sender=self.sender)
 
 		except Exception as e:
-			printE('could not send alert - %s' % (e))
+			printE('Could not send alert - %s' % (e))
 			try:
 				printE('Waiting 5 seconds and trying to send again...', sender=self.sender, spaces=True)
 				time.sleep(5)
@@ -103,7 +103,7 @@ class Telegrammer(rs.ConsumerThread):
 				response = self.telegram.sendMessage(chat_id=self.chat_id, text=message)
 				printM('Sent Telegram: %s' % (message), sender=self.sender)
 			except Exception as e:
-				printE('could not send alert - %s' % (e))
+				printE('Could not send alert - %s' % (e))
 				response = None
 
 
@@ -123,7 +123,7 @@ class Telegrammer(rs.ConsumerThread):
 						response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
 						printM('Sent image', sender=self.sender)
 					except Exception as e:
-						printE('could not send image - %s' % (e))
+						printE('Could not send image - %s' % (e))
 						try:
 							printM('Waiting 5 seconds and trying to send again...', sender=self.sender)
 							time.sleep(5.1)
@@ -133,7 +133,7 @@ class Telegrammer(rs.ConsumerThread):
 							printM('Sent image', sender=self.sender)
 
 						except Exception as e:
-							printE('could not send image - %s' % (e))
+							printE('Could not send image - %s' % (e))
 							response = None
 			else:
 				printM('Could not find image: %s' % (imgpath), sender=self.sender)

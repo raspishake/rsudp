@@ -315,13 +315,17 @@ def run(settings, debug):
 
 	if settings['telegram']['enabled']:
 		token = settings['telegram']['token']
-		chat_id = settings['telegram']['chat_id']
+		chat_ids = settings['telegram']['chat_id'].strip(' ').split(',')
 		send_images = settings['telegram']['send_images']
+		
+		for chat_id in chat_ids:
+			sender = "Telegram id %s" % (chat_id)
+			q = mk_q()
+			telegram = Telegrammer(q=q, token=token, chat_id=chat_id,
+								   send_images=send_images,
+								   sender=sender)
+			mk_p(telegram)
 
-		q = mk_q()
-		telegram = Telegrammer(q=q, token=token, chat_id=chat_id,
-							   send_images=send_images)
-		mk_p(telegram)
 
 	# start additional modules here!
 	################################

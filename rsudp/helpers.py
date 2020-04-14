@@ -45,7 +45,7 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
     "kiosk": false,
     "eq_screenshots": false,
     "channels": ["HZ", "HDF"],
-    "deconvolve": false,
+    "deconvolve": true,
     "units": "CHAN"},
 "forward": {
     "enabled": false,

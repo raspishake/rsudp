@@ -527,7 +527,7 @@ By default, the settings are as follows:
         "kiosk": false,
         "eq_screenshots": false,
         "channels": ["HZ", "HDF"],
-        "deconvolve": false,
+        "deconvolve": true,
         "units": "CHAN"},
     "forward": {
         "enabled": false,

@@ -1,5 +1,7 @@
 # Changelog
 ## changes in 1.0.0
+- settings changed to deconvolve plot channels by default
+- added the ability to post to multiple Telegram chats (by spinning up multiple independent threads)
 - moved several functions to a new `helpers.py` module
 - simplified several functions to make them more readable
 - changed doc structure to github pages compatible

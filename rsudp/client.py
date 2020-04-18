@@ -24,6 +24,7 @@ from rsudp.c_alertsound import AlertSound
 from rsudp.c_custom import Custom
 from rsudp.c_tweet import Tweeter
 from rsudp.c_telegram import Telegrammer
+from rsudp.c_rsam import RSAM
 from rsudp.c_testing import Testing
 from rsudp.t_testdata import TestData
 import pkg_resources as pr
@@ -325,6 +326,24 @@ def run(settings, debug):
 								   send_images=send_images,
 								   sender=sender)
 			mk_p(telegram)
+
+	if settings['rsam']['enabled']:
+		# put settings in namespace
+		interval = settings['rsam']['interval']
+		cha = settings['rsam']['channel']
+		if settings['rsam']['deconvolve']:
+			if settings['rsam']['units'].upper() in rs.UNITS:
+				deconv = settings['rsam']['units'].upper()
+			else:
+				deconv = 'CHAN'
+		else:
+			deconv = False
+
+		# set up queue and process
+		q = mk_q()
+		rsam = RSAM(q=q, debug=debug, interval=interval, cha=cha, deconv=deconv)
+
+		mk_p(rsam)
 
 
 	# start additional modules here!

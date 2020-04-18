@@ -61,6 +61,8 @@ def make_test_settings(settings, inet=False):
 	 ``settings['plot']['units']``            ``'CHAN'``
 	 ``settings['plot']['eq_screenshots']``   ``True``
 	 ``settings['alertsound']['enabled']``    ``True``
+	 ``settings['rsam']['enabled']``          ``True``
+	 ``settings['rsam']['debug']``            ``True``
 	======================================== ===================
 
 	.. note::
@@ -96,6 +98,10 @@ def make_test_settings(settings, inet=False):
 	settings['plot']['eq_screenshots'] = True
 
 	settings['alertsound']['enabled'] = True
+
+	settings['rsam']['enabled'] = True
+	settings['rsam']['debug'] = True
+	settings['rsam']['interval'] = 5
 
 	return settings
 

@@ -81,7 +81,13 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
     "enabled": false,
     "send_images": true,
     "token": "n/a",
-    "chat_id": "n/a"}
+    "chat_id": "n/a"},
+"rsam": {
+    "enabled": false,
+    "channel": "HZ",
+    "interval": 10,
+    "deconvolve": false,
+    "units": "VEL"}
 }
 
 """ % (output_dir)

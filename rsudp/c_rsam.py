@@ -36,6 +36,7 @@ class RSAM(rs.ConsumerThread):
 		self.sender = 'RSAM'
 		self.alive = True
 		self.debug = debug
+		self.stn = rs.stn
 		self.fwaddr = fwaddr
 		self.fwport = fwport
 		self.fwformat = fwformat.upper()
@@ -195,13 +196,13 @@ class RSAM(rs.ConsumerThread):
 		Send the RSAM analysis via UDP to another destination in a lightweight format
 		"""
 		if self.sock:
-			msg = 'ch:%s|mean:%s|med:%s|min:%s|max:%s' % (self.cha, self.rsam[0], self.rsam[1], self.rsam[2], self.rsam[3])
+			msg = 'stn:%s|ch:%s|mean:%s|med:%s|min:%s|max:%s' % (self.stn, self.cha, self.rsam[0], self.rsam[1], self.rsam[2], self.rsam[3])
 			if self.fwformat is 'JSON':
-				msg = '{"channel":"%s","mean":%s,"median":%s,"min":%s,"max":%s}' \
-					  % (self.cha, self.rsam[0], self.rsam[1], self.rsam[2], self.rsam[3])
+				msg = '{"station":"%s","channel":"%s","mean":%s,"median":%s,"min":%s,"max":%s}' \
+					  % (self.stn, self.cha, self.rsam[0], self.rsam[1], self.rsam[2], self.rsam[3])
 			elif self.fwformat is 'CSV':
-				msg = '%s,%s,%s,%s,%s' \
-					  % (self.cha, self.rsam[0], self.rsam[1], self.rsam[2], self.rsam[3])
+				msg = '%s,%s,%s,%s,%s,%s' \
+					  % (self.stn, self.cha, self.rsam[0], self.rsam[1], self.rsam[2], self.rsam[3])
 			packet = bytes(msg, 'utf-8')
 			self.sock.sendto(packet, (self.fwaddr, self.fwport))
 
@@ -248,7 +249,9 @@ class RSAM(rs.ConsumerThread):
 					next_int = time.time() + self.interval
 
 			elif n == 0:
-				printM('Starting RSAM analysis with interval=%s on channel=%s' % (self.interval, self.cha), self.sender)
+				printM('Starting RSAM analysis with interval=%s on station=%s channel=%s forward=%s' %
+					   (self.interval, self.stn, self.cha, self.fwaddr),
+					   self.sender)
 			elif n == wait_pkts:
 				printM('RSAM analysis up and running normally.', self.sender)
 			else:

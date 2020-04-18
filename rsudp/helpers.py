@@ -86,6 +86,7 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
     "enabled": false,
     "fwaddr": false,
     "fwport": false,
+    "fwformat": "LITE",
     "channel": "HZ",
     "interval": 10,
     "deconvolve": false,

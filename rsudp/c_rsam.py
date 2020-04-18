@@ -24,9 +24,11 @@ class RSAM(rs.ConsumerThread):
 	:param str deconv: ``'VEL'``, ``'ACC'``, ``'GRAV'``, ``'DISP'``, or ``'CHAN'``
 	:param str fwaddr: Specify a forwarding address to send RSAM in a UDP packet
 	:param str fwport: Specify a forwarding port to send RSAM in a UDP packet
+	:param str fwformat: ``'LITE'``, ``'JSON'``, or ``'CSV'``
 	"""
 
-	def __init__(self, q=False, debug=False, interval=5, cha='HZ', deconv=False, fwaddr=False, fwport=False, *args, **kwargs):
+	def __init__(self, q=False, debug=False, interval=5, cha='HZ', deconv=False,
+				 fwaddr=False, fwport=False, fwformat='LITE', *args, **kwargs):
 		"""
 		Initializes the RSAM analysis thread.
 		"""
@@ -36,6 +38,7 @@ class RSAM(rs.ConsumerThread):
 		self.debug = debug
 		self.fwaddr = fwaddr
 		self.fwport = fwport
+		self.fwformat = fwformat.upper()
 		self.sock = False
 		self.interval = interval
 		self.default_ch = 'HZ'
@@ -189,10 +192,16 @@ class RSAM(rs.ConsumerThread):
 
 	def _forward_rsam(self):
 		"""
-		Send the RSAM analysis via UDP to another destination
+		Send the RSAM analysis via UDP to another destination in a lightweight format
 		"""
 		if self.sock:
-			msg = '%s:%s,%s,%s,%s' % (self.cha, self.rsam[0], self.rsam[1], self.rsam[2], self.rsam[3])
+			msg = 'ch:%s|mean:%s|med:%s|min:%s|max:%s' % (self.cha, self.rsam[0], self.rsam[1], self.rsam[2], self.rsam[3])
+			if self.fwformat is 'JSON':
+				msg = '{"channel":"%s","mean":%s,"median":%s,"min":%s,"max":%s}' \
+					  % (self.cha, self.rsam[0], self.rsam[1], self.rsam[2], self.rsam[3])
+			elif self.fwformat is 'CSV':
+				msg = '%s,%s,%s,%s,%s' \
+					  % (self.cha, self.rsam[0], self.rsam[1], self.rsam[2], self.rsam[3])
 			packet = bytes(msg, 'utf-8')
 			self.sock.sendto(packet, (self.fwaddr, self.fwport))
 

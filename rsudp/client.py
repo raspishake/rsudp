@@ -329,6 +329,8 @@ def run(settings, debug):
 
 	if settings['rsam']['enabled']:
 		# put settings in namespace
+		fwaddr = settings['rsam']['fwaddr']
+		fwport = settings['rsam']['fwport']
 		interval = settings['rsam']['interval']
 		cha = settings['rsam']['channel']
 		if settings['rsam']['deconvolve']:
@@ -341,7 +343,7 @@ def run(settings, debug):
 
 		# set up queue and process
 		q = mk_q()
-		rsam = RSAM(q=q, debug=debug, interval=interval, cha=cha, deconv=deconv)
+		rsam = RSAM(q=q, debug=debug, interval=interval, cha=cha, deconv=deconv, fwaddr=fwaddr, fwport=fwport)
 
 		mk_p(rsam)
 

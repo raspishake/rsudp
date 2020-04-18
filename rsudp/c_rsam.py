@@ -1,4 +1,5 @@
-import sys, time
+import sys, os, time
+import socket as s
 from datetime import datetime, timedelta
 import statistics
 from rsudp import printM, printW, printE
@@ -14,16 +15,18 @@ class RSAM(rs.ConsumerThread):
 	"""
 	.. versionadded:: 1.0.0
 
-	A consumer class that runs an Real-time Seismic Analysis Measurement (RSAM).
+	A consumer class that runs an Real-time Seismic Amplitude Measurement (RSAM).
 
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`.
 	:param bool debug: whether or not to display RSAM analysis live to the console.
 	:param float interval: window of time in seconds to apply RSAM analysis.
 	:param str cha: listening channel (defaults to [S,E]HZ)
 	:param str deconv: ``'VEL'``, ``'ACC'``, ``'GRAV'``, ``'DISP'``, or ``'CHAN'``
+	:param str fwaddr: Specify a forwarding address to send RSAM in a UDP packet
+	:param str fwport: Specify a forwarding port to send RSAM in a UDP packet
 	"""
 
-	def __init__(self, q=False, debug=False, interval=5, cha='HZ', deconv=False, *args, **kwargs):
+	def __init__(self, q=False, debug=False, interval=5, cha='HZ', deconv=False, fwaddr=False, fwport=False, *args, **kwargs):
 		"""
 		Initializes the RSAM analysis thread.
 		"""
@@ -31,6 +34,9 @@ class RSAM(rs.ConsumerThread):
 		self.sender = 'RSAM'
 		self.alive = True
 		self.debug = debug
+		self.fwaddr = fwaddr
+		self.fwport = fwport
+		self.sock = False
 		self.interval = interval
 		self.default_ch = 'HZ'
 		self.args = args
@@ -158,10 +164,11 @@ class RSAM(rs.ConsumerThread):
 		Run the RSAM analysis
 		"""
 		arr = [abs(el) for el in self.stream[0].data]
+		meanv = statistics.mean(arr)
+		medianv = statistics.median(arr)
 		minv = min(arr)
 		maxv = max(arr)
-		meanv = statistics.mean(arr)
-		self.rsam = [minv, maxv, meanv]
+		self.rsam = [meanv, medianv, minv, maxv]
 
 
 	def _print_rsam(self):
@@ -169,15 +176,25 @@ class RSAM(rs.ConsumerThread):
 		Print the current RSAM analysis
 		"""
 		if self.debug:
-			msg = '%s [%s] Current RSAM: min %s max %s mean %s' % (
+			msg = '%s [%s] Current RSAM: mean %s median %s min %s max %s' % (
 				(self.stream[0].stats.starttime + timedelta(seconds=
 															len(self.stream[0].data) * self.stream[0].stats.delta)).strftime('%Y-%m-%d %H:%M:%S'),
 				self.sender,
 				self.rsam[0],
 				self.rsam[1],
 				self.rsam[2],
+				self.rsam[3]
 			)
 			printM(msg, self.sender)
+
+	def _forward_rsam(self):
+		"""
+		Send the RSAM analysis via UDP to another destination
+		"""
+		if self.sock:
+			msg = '%s:%s,%s,%s,%s' % (self.cha, self.rsam[0], self.rsam[1], self.rsam[2], self.rsam[3])
+			packet = bytes(msg, 'utf-8')
+			self.sock.sendto(packet, (self.fwaddr, self.fwport))
 
 
 	def run(self):
@@ -185,6 +202,11 @@ class RSAM(rs.ConsumerThread):
 		Reads data from the queue and executes self.codefile if it sees an ``ALARM`` message.
 		Quits if it sees a ``TERM`` message.
 		"""
+		if self.fwaddr and self.fwport:
+			printM('Opening socket...', sender=self.sender)
+			socket_type = s.SOCK_DGRAM if os.name in 'nt' else s.SOCK_DGRAM | s.SO_REUSEADDR
+			self.sock = s.socket(s.AF_INET, socket_type)
+
 		n = 0
 		next_int = time.time() + self.interval
 
@@ -212,6 +234,7 @@ class RSAM(rs.ConsumerThread):
 				if time.time() > next_int:
 					self._rsam()
 					self.stream = rs.copy(self.stream)  # prevent mem leak
+					self._forward_rsam()
 					self._print_rsam()
 					next_int = time.time() + self.interval
 

@@ -1,4 +1,7 @@
 # Changelog
+## changes in 1.0.1
+- added `rsudp.c_rsam` Real-time Seismic Analysis Measurement consumer 
+
 ## changes in 1.0.0
 - settings changed to deconvolve plot channels by default
 - added the ability to post to multiple Telegram chats (by spinning up multiple independent threads)

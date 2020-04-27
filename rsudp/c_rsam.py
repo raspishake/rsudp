@@ -16,6 +16,9 @@ class RSAM(rs.ConsumerThread):
 	.. versionadded:: 1.0.0
 
 	A consumer class that runs an Real-time Seismic Amplitude Measurement (RSAM).
+	If debugging is enabled, RSAM is printed to the console every ``interval`` seconds,
+	and optionally forwarded to an IP address and port specified by ``fwaddr`` and
+	``fwport`` with packets formatted as either JSON, "lite", or CSV.
 
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`.
 	:param bool debug: whether or not to display RSAM analysis live to the console.
@@ -24,7 +27,7 @@ class RSAM(rs.ConsumerThread):
 	:param str deconv: ``'VEL'``, ``'ACC'``, ``'GRAV'``, ``'DISP'``, or ``'CHAN'``
 	:param str fwaddr: Specify a forwarding address to send RSAM in a UDP packet
 	:param str fwport: Specify a forwarding port to send RSAM in a UDP packet
-	:param str fwformat: ``'LITE'``, ``'JSON'``, or ``'CSV'``
+	:param str fwformat: Specify a format for the forwarded packet: ``'LITE'``, ``'JSON'``, or ``'CSV'``
 	"""
 
 	def __init__(self, q=False, debug=False, interval=5, cha='HZ', deconv=False,
@@ -180,10 +183,9 @@ class RSAM(rs.ConsumerThread):
 		Print the current RSAM analysis
 		"""
 		if self.debug:
-			msg = '%s [%s] Current RSAM: mean %s median %s min %s max %s' % (
+			msg = '%s Current RSAM: mean %s median %s min %s max %s' % (
 				(self.stream[0].stats.starttime + timedelta(seconds=
 															len(self.stream[0].data) * self.stream[0].stats.delta)).strftime('%Y-%m-%d %H:%M:%S'),
-				self.sender,
 				self.rsam[0],
 				self.rsam[1],
 				self.rsam[2],

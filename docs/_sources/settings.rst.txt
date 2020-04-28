@@ -234,6 +234,38 @@ Using :code:`"exec"`
 `Back to top ↑ <#top>`_
 
 
+:code:`RSAM` (Real-time Seismic AMplitude)
+*************************************************
+
+.. versionadded:: 1.0.1
+
+This module calculates the Real-time Seismic Amplitude (RSAM) of the data stream every few seconds
+and can forward this data to another location on the network.
+
+:json:`"interval"` is a float that specifies the number of seconds to wait between each RSAM analysis.
+
+:json:`"quiet"` controls the amount of data printed to the console in debug mode.
+When :json:`"quiet"` is :json:`true`, the module will not print any RSAM analysis,
+If debug mode is on and :json:`"quiet"` is :json:`false`, then the module will
+print the analysis to the console every :json:`"interval"` seconds.
+
+:json:`"fwaddr"` and :json:`"fwport"` specify the forwarding address and port to which to
+optionally send RSAM data. If one of these fields is :json:`false` then no data will be
+forwarded. If these fields are populated with valid IP and port, data will be forwarded every
+:json:`"interval"` seconds.
+
+:json:`"fwformat"` specifies the format of data to be forwarded. There are three formats,
+:json:`"LITE"`, :json:`"JSON"`, and :json:`"CSV"`, which can be used depending on the
+endpoint processing method and size constraints.
+
+:json:`"channel"` specifies the channel to use for RSAM analysis (only one can be chosen).
+
+:json:`"deconvolve"` specifies whether the instrument response should be removed from the data stream
+prior to RSAM calculations.
+
+To run the RSAM module, set :json:`"enabled"` to :json:`true`.
+
+
 :code:`alarmsound` (play sounds upon alerts)
 *************************************************
 
@@ -563,7 +595,17 @@ By default, the settings are as follows:
         "enabled": false,
         "send_images": true,
         "token": "n/a",
-        "chat_id": "n/a"}
+        "chat_id": "n/a"},
+    "rsam": {
+        "enabled": false,
+        "quiet": true,
+        "fwaddr": false,
+        "fwport": false,
+        "fwformat": "LITE",
+        "channel": "HZ",
+        "interval": 10,
+        "deconvolve": false,
+        "units": "VEL"}
     }
 
 

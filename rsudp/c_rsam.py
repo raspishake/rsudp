@@ -16,10 +16,10 @@ class RSAM(rs.ConsumerThread):
 	.. versionadded:: 1.0.1
 
 	A consumer class that runs an Real-time Seismic Amplitude Measurement (RSAM).
-	If debugging is enabled and ``quiet`` is set to ``"true"``,
-	RSAM is printed to the console every ``interval`` seconds,
-	and optionally forwarded to an IP address and port specified by ``fwaddr`` and
-	``fwport`` with packets formatted as either JSON, "lite", or CSV.
+	If debugging is enabled and ``"quiet"`` is set to ``true``,
+	RSAM is printed to the console every ``"interval"`` seconds,
+	and optionally forwarded to an IP address and port specified by ``"fwaddr"`` and
+	``"fwport"`` with packets formatted as either JSON, "lite", or CSV.
 
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`.
 	:param bool debug: whether or not to print RSAM analysis live to the console.

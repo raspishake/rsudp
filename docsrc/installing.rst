@@ -124,7 +124,7 @@ you can do a command similar to the following:
     cp ~/.config/rsudp/rsudp_settings.json ~/.config/rsudp/rsudp_settings.json.bak
 
 
-On Windows
+Updating On Windows
 *********************************
 
 1. Download and install Anaconda or Miniconda.

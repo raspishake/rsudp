@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.0
+                1.0.1
               </div>
             
           
@@ -126,6 +126,7 @@
 <p class="caption"><span class="caption-text">Sub-Consumers</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
@@ -210,9 +211,9 @@
 The useful things here are likely <code class="docutils literal notranslate"><span class="pre">printM</span></code>, <code class="docutils literal notranslate"><span class="pre">printW</span></code> and <code class="docutils literal notranslate"><span class="pre">printE</span></code>
 which interface with the logging utility to print messages, warnings,
 and errors in color and save them to the logs.</p>
-<span class="target" id="module-rsudp.__init__"></span><dl class="class">
+<span class="target" id="module-rsudp.__init__"></span><dl class="py class">
 <dt id="rsudp.__init__.LevelFormatter">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">LevelFormatter</code><span class="sig-paren">(</span><em class="sig-param">fmt=None</em>, <em class="sig-param">datefmt=None</em>, <em class="sig-param">level_fmts={}</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.LevelFormatter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">LevelFormatter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fmt</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">datefmt</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">level_fmts</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.LevelFormatter" title="Permalink to this definition">¶</a></dt>
 <dd><p>A class that formats messages differently depending on their level.
 Adapted from <a href="https://stackoverflow.com/a/28636024" target="_blank">this stackoverflow answer</a>.</p>
 <dl class="field-list simple">
@@ -224,9 +225,9 @@ Adapted from <a href="https://stackoverflow.com/a/28636024" target="_blank">this
 </ul>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.__init__.LevelFormatter.format">
-<code class="sig-name descname">format</code><span class="sig-paren">(</span><em class="sig-param">record</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.LevelFormatter.format" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">format</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">record</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.LevelFormatter.format" title="Permalink to this definition">¶</a></dt>
 <dd><p>Format the specified record as text.</p>
 <p>The record’s attribute dictionary is used as the operand to a
 string formatting operation which yields the returned string.
@@ -240,9 +241,9 @@ it is formatted using formatException() and appended to the message.</p>
 
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.__init__.add_debug_handler">
-<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">add_debug_handler</code><span class="sig-paren">(</span><em class="sig-param">testing=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.add_debug_handler" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">add_debug_handler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">testing</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.add_debug_handler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an additional handler for logging info and warnings to the command line.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -257,9 +258,9 @@ it is formatted using formatException() and appended to the message.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.__init__.init_dirs">
-<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">init_dirs</code><span class="sig-paren">(</span><em class="sig-param">odir</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.init_dirs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">init_dirs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">odir</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.init_dirs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the write directories if they do not already exist.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -274,9 +275,9 @@ it is formatted using formatException() and appended to the message.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.__init__.printE">
-<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">printE</code><span class="sig-paren">(</span><em class="sig-param">msg</em>, <em class="sig-param">sender=''</em>, <em class="sig-param">announce=True</em>, <em class="sig-param">spaces=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.printE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">printE</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="n">sender</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">announce</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">spaces</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.printE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints errors with datetime stamp and sends their output to the logging handlers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -290,9 +291,9 @@ it is formatted using formatException() and appended to the message.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.__init__.printM">
-<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">printM</code><span class="sig-paren">(</span><em class="sig-param">msg</em>, <em class="sig-param">sender=''</em>, <em class="sig-param">announce=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.printM" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">printM</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="n">sender</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">announce</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.printM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints messages with datetime stamp and sends their output to the logging handlers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -304,9 +305,9 @@ it is formatted using formatException() and appended to the message.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.__init__.printW">
-<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">printW</code><span class="sig-paren">(</span><em class="sig-param">msg</em>, <em class="sig-param">sender=''</em>, <em class="sig-param">announce=True</em>, <em class="sig-param">spaces=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.printW" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">printW</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="n">sender</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">announce</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">spaces</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.printW" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints warnings with datetime stamp and sends their output to the logging handlers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -320,9 +321,9 @@ it is formatted using formatException() and appended to the message.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.__init__.start_logging">
-<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">start_logging</code><span class="sig-paren">(</span><em class="sig-param">testing=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.start_logging" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">start_logging</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">testing</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.start_logging" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a handler for logging info and warnings to file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

@@ -36,7 +36,7 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="rsudp.c_alertsound (play sound)" href="c_alertsound.html" />
+    <link rel="next" title="rsudp.c_rsam (RSAM analysis)" href="c_rsam.html" />
     <link rel="prev" title="rsudp.c_consumer (master consumer)" href="c_consumer.html" /> 
 </head>
 
@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.0
+                1.0.1
               </div>
             
           
@@ -126,6 +126,7 @@
 <p class="caption"><span class="caption-text">Sub-Consumers</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
@@ -206,9 +207,9 @@
             
   <div class="section" id="module-rsudp.c_alert">
 <span id="rsudp-c-alert-sta-lta-alarm"></span><h1><a class="reference internal" href="#module-rsudp.c_alert" title="rsudp.c_alert"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code></a> (STA/LTA alarm)<a class="headerlink" href="#module-rsudp.c_alert" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="rsudp.c_alert.Alert">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_alert.</code><code class="sig-name descname">Alert</code><span class="sig-paren">(</span><em class="sig-param">q</em>, <em class="sig-param">sta=5</em>, <em class="sig-param">lta=30</em>, <em class="sig-param">thresh=1.6</em>, <em class="sig-param">reset=1.55</em>, <em class="sig-param">bp=False</em>, <em class="sig-param">debug=True</em>, <em class="sig-param">cha='HZ'</em>, <em class="sig-param">sound=False</em>, <em class="sig-param">deconv=False</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_alert.Alert" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_alert.</code><code class="sig-name descname">Alert</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">sta</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">lta</span><span class="o">=</span><span class="default_value">30</span></em>, <em class="sig-param"><span class="n">thresh</span><span class="o">=</span><span class="default_value">1.6</span></em>, <em class="sig-param"><span class="n">reset</span><span class="o">=</span><span class="default_value">1.55</span></em>, <em class="sig-param"><span class="n">bp</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">cha</span><span class="o">=</span><span class="default_value">'HZ'</span></em>, <em class="sig-param"><span class="n">sound</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">deconv</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_alert.Alert" title="Permalink to this definition">¶</a></dt>
 <dd><p>A data consumer class that listens to a specific incoming data channel
 and calculates a recursive STA/LTA (short term average over long term 
 average). If a threshold of STA/LTA ratio is exceeded, the class
@@ -232,7 +233,7 @@ the Producer will send a <code class="code docutils literal notranslate"><span c
 </ul>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_alert.Alert.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_alert.Alert.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads data from the queue into a <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (1.2.0) v1.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.stream.Stream</span></code></a> object,
@@ -259,7 +260,7 @@ The producer reads this flag and uses it to notify other consumers.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="c_alertsound.html" class="btn btn-neutral float-right" title="rsudp.c_alertsound (play sound)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="c_rsam.html" class="btn btn-neutral float-right" title="rsudp.c_rsam (RSAM analysis)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="c_consumer.html" class="btn btn-neutral float-left" title="rsudp.c_consumer (master consumer)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

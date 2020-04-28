@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.0
+                1.0.1
               </div>
             
           
@@ -126,6 +126,7 @@
 <p class="caption"><span class="caption-text">Sub-Consumers</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
@@ -206,9 +207,9 @@
             
   <div class="section" id="module-rsudp.c_custom">
 <span id="rsudp-c-custom-run-code"></span><h1><a class="reference internal" href="#module-rsudp.c_custom" title="rsudp.c_custom"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code></a> (run code)<a class="headerlink" href="#module-rsudp.c_custom" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="rsudp.c_custom.Custom">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_custom.</code><code class="sig-name descname">Custom</code><span class="sig-paren">(</span><em class="sig-param">q=False</em>, <em class="sig-param">codefile=False</em>, <em class="sig-param">win_ovr=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_custom.Custom" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_custom.</code><code class="sig-name descname">Custom</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">codefile</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">win_ovr</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_custom.Custom" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 0.4.3.</span></p>
 </div>
@@ -233,7 +234,7 @@ If you are certain that your code file has no Windows newlines, you can set <cod
 </ul>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_custom.Custom.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_custom.Custom.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads data from the queue and executes self.codefile if it sees an <code class="docutils literal notranslate"><span class="pre">ALARM</span></code> message.

@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.0
+                1.0.1
               </div>
             
           
@@ -115,6 +115,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Clients</span></p>
 <ul>
@@ -129,6 +130,7 @@
 <p class="caption"><span class="caption-text">Sub-Consumers</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
@@ -235,7 +237,7 @@ here are some fun potential projects:</p>
 <li><p>GPIO pin interaction module (lights, motor control, buzzers, etc.)</p></li>
 <li><p>IFTTT integration</p></li>
 <li><p>Integration into other social media apps beyond Telegram and Twitter</p></li>
-<li><p>plot <a href="https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#advanced-example" target="_blank">trigger on-off events</a> for times set in <code class="docutils literal notranslate"><span class="pre">ALARM</span></code> and <code class="docutils literal notranslate"><span class="pre">RESET</span></code> messages using <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.axvline.html#matplotlib.pyplot.axvline" title="(in Matplotlib v3.2.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">matplotlib.pyplot.axvline()</span></code></a>:</p>
+<li><p>plot <a href="https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#advanced-example" target="_blank">trigger on-off events</a> for times set in <code class="docutils literal notranslate"><span class="pre">ALARM</span></code> and <code class="docutils literal notranslate"><span class="pre">RESET</span></code> messages using <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.axvline.html#matplotlib.pyplot.axvline" title="(in Matplotlib v3.2.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">matplotlib.pyplot.axvline()</span></code></a>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">on_events</span> <span class="o">=</span> <span class="p">[</span><span class="n">UTCDateTime1</span><span class="p">,</span> <span class="n">UTCDateTime3</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">time</span> <span class="ow">in</span> <span class="n">on_events</span><span class="p">:</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">time</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">14</span><span class="p">)),</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>

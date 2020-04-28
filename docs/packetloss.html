@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.0
+                1.0.1
               </div>
             
           
@@ -111,6 +111,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Clients</span></p>
 <ul class="current">
@@ -125,6 +126,7 @@
 <p class="caption"><span class="caption-text">Sub-Consumers</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
@@ -205,7 +207,7 @@
             
   <div class="section" id="module-rsudp.packetloss">
 <span id="rsudp-packetloss-track-packets"></span><h1><a class="reference internal" href="#module-rsudp.packetloss" title="rsudp.packetloss"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code></a> (track packets)<a class="headerlink" href="#module-rsudp.packetloss" title="Permalink to this headline">¶</a></h1>
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.packetloss.main">
 <code class="sig-prename descclassname">rsudp.packetloss.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetloss.main" title="Permalink to this definition">¶</a></dt>
 <dd><p>When run from the command line, pass in a value of seconds as an argument
@@ -217,9 +219,9 @@ to set the packet loss for reporting period.</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.packetloss.printTTLS">
-<code class="sig-prename descclassname">rsudp.packetloss.</code><code class="sig-name descname">printTTLS</code><span class="sig-paren">(</span><em class="sig-param">CHAN</em>, <em class="sig-param">TR</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetloss.printTTLS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.packetloss.</code><code class="sig-name descname">printTTLS</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">CHAN</span></em>, <em class="sig-param"><span class="n">TR</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetloss.printTTLS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Report packets lost.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -237,9 +239,9 @@ to set the packet loss for reporting period.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.packetloss.run">
-<code class="sig-prename descclassname">rsudp.packetloss.</code><code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">printFREQ=60</em>, <em class="sig-param">port=8888</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetloss.run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.packetloss.</code><code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">printFREQ</span><span class="o">=</span><span class="default_value">60</span></em>, <em class="sig-param"><span class="n">port</span><span class="o">=</span><span class="default_value">8888</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetloss.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize stream and print constants, then process data for packet loss.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -251,9 +253,9 @@ to set the packet loss for reporting period.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.packetloss.signal_handler">
-<code class="sig-prename descclassname">rsudp.packetloss.</code><code class="sig-name descname">signal_handler</code><span class="sig-paren">(</span><em class="sig-param">signal</em>, <em class="sig-param">frame</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetloss.signal_handler" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.packetloss.</code><code class="sig-name descname">signal_handler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">signal</span></em>, <em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetloss.signal_handler" title="Permalink to this definition">¶</a></dt>
 <dd><p>The signal handler for the CTRL+C keystroke.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

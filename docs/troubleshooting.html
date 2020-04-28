@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>6. Troubleshooting &mdash; rsudp  documentation</title>
+  <title>6. Troubleshooting rsudp &mdash; rsudp  documentation</title>
   
 
   
@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.0
+                1.0.1
               </div>
             
           
@@ -95,7 +95,7 @@
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">6. Troubleshooting</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">6. Troubleshooting rsudp</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#remote-rsudp-side">6.1. Remote (rsudp) side</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#can-t-run-the-conda-command">6.1.1. Can’t run the <code class="docutils literal notranslate"><span class="pre">conda</span></code> command</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#no-data-received">6.1.2. No data received</a></li>
@@ -126,6 +126,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Clients</span></p>
 <ul>
@@ -140,6 +141,7 @@
 <p class="caption"><span class="caption-text">Sub-Consumers</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
@@ -199,7 +201,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li><span class="section-number">6. </span>Troubleshooting</li>
+      <li><span class="section-number">6. </span>Troubleshooting rsudp</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -218,8 +220,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="troubleshooting">
-<span id="id1"></span><h1><span class="section-number">6. </span>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="troubleshooting-rsudp">
+<span id="troubleshooting"></span><h1><span class="section-number">6. </span>Troubleshooting rsudp<a class="headerlink" href="#troubleshooting-rsudp" title="Permalink to this headline">¶</a></h1>
 <p>In general, troubleshooting should be fairly straightforward.
 Most output goes either to the command line or to <code class="docutils literal notranslate"><span class="pre">/tmp/rsudp/rsudp.log</span></code>.
 If you have a recurring issue, please see if the logs give any indication

@@ -94,6 +94,7 @@ The modules available in rsudp are organized by type below.
     :caption: Sub-Consumers
 
     c_alert
+    c_rsam
     c_alertsound
     c_plot
     c_tweet

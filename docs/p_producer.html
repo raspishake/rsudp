@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.0
+                1.0.1
               </div>
             
           
@@ -126,6 +126,7 @@
 <p class="caption"><span class="caption-text">Sub-Consumers</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
@@ -206,9 +207,9 @@
             
   <div class="section" id="module-rsudp.p_producer">
 <span id="rsudp-p-producer-data-producer"></span><h1><a class="reference internal" href="#module-rsudp.p_producer" title="rsudp.p_producer"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.p_producer</span></code></a> (data producer)<a class="headerlink" href="#module-rsudp.p_producer" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="rsudp.p_producer.Producer">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.p_producer.</code><code class="sig-name descname">Producer</code><span class="sig-paren">(</span><em class="sig-param">queue</em>, <em class="sig-param">threads</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.p_producer.Producer" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.p_producer.</code><code class="sig-name descname">Producer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">queue</span></em>, <em class="sig-param"><span class="n">threads</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.p_producer.Producer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Data Producer thread (see <a class="reference internal" href="theory.html#producer-consumer"><span class="std std-ref">Producer-consumer message passing</span></a>) which receives data from the port
 and puts it on the queue to be passed to the master consumer (<a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>).
 The producer also looks for flags in each consumer
@@ -223,7 +224,7 @@ consumers.</p>
 </ul>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.p_producer.Producer.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.p_producer.Producer.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Distributes queue objects to execute various other tasks: for example,

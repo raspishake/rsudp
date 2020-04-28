@@ -1,6 +1,6 @@
 .. _troubleshooting:
 
-Troubleshooting
+Troubleshooting rsudp
 #################################################
 
 In general, troubleshooting should be fairly straightforward.

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>rsudp 1.0.0 &mdash; rsudp  documentation</title>
+  <title>rsudp 1.0.1 &mdash; rsudp  documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                1.0.0
+                1.0.1
               </div>
             
           
@@ -94,7 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
-<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Video resources</span></p>
@@ -125,6 +125,7 @@
 <p class="caption"><span class="caption-text">Sub-Consumers</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
@@ -184,7 +185,7 @@
     
       <li><a href="#">Docs</a> &raquo;</li>
         
-      <li><cite>rsudp</cite> 1.0.0</li>
+      <li><cite>rsudp</cite> 1.0.1</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -204,7 +205,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="rsudp-version">
-<h1><cite>rsudp</cite> 1.0.0<a class="headerlink" href="#rsudp-version" title="Permalink to this headline">¶</a></h1>
+<h1><cite>rsudp</cite> 1.0.1<a class="headerlink" href="#rsudp-version" title="Permalink to this headline">¶</a></h1>
 <a class="reference external image-reference" href="https://github.com/raspishake/rsudp"><img alt="https://img.shields.io/github/stars/raspishake/rsudp?style=social" src="https://img.shields.io/github/stars/raspishake/rsudp?style=social" /></a>
 <div class="line-block">
 <div class="line"><a href="https://github.com/raspishake/rsudp" target="_blank">https://github.com/raspishake/rsudp</a></div>
@@ -234,21 +235,22 @@ It is written in Python and is therefore highly customizable.</p>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="installing.html">2. Installing rsudp</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#on-linux-macos">2.1. On Linux &amp; MacOS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installing.html#on-windows">2.2. On Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#updating-on-windows">2.2. Updating On Windows</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="settings.html#settings-general-settings">3.1. <code class="code docutils literal notranslate"><span class="pre">settings</span></code> (general settings)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="settings.html#plot-live-data-plot">3.2. <code class="code docutils literal notranslate"><span class="pre">plot</span></code> (live data plot)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="settings.html#alert-sta-lta-earthquake-detection-trigger">3.3. <code class="code docutils literal notranslate"><span class="pre">alert</span></code> (STA/LTA earthquake detection trigger)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#alarmsound-play-sounds-upon-alerts">3.4. <code class="code docutils literal notranslate"><span class="pre">alarmsound</span></code> (play sounds upon alerts)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#telegram-telegram-notification-module">3.5. <code class="code docutils literal notranslate"><span class="pre">telegram</span></code> (Telegram notification module)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#tweets-twitter-notification-module">3.6. <code class="code docutils literal notranslate"><span class="pre">tweets</span></code> (Twitter notification module)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#write-miniseed-writer">3.7. <code class="code docutils literal notranslate"><span class="pre">write</span></code> (miniSEED writer)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#forward-datacast-forwarding">3.8. <code class="code docutils literal notranslate"><span class="pre">forward</span></code> (datacast forwarding)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#custom-run-custom-code">3.9. <code class="code docutils literal notranslate"><span class="pre">custom</span></code> (run custom code)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#printdata-print-data-to-console">3.10. <code class="code docutils literal notranslate"><span class="pre">printdata</span></code> (print data to console)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#default-settings">3.11. Default settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#rsam-real-time-seismic-amplitude">3.4. <code class="code docutils literal notranslate"><span class="pre">RSAM</span></code> (Real-time Seismic AMplitude)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#alarmsound-play-sounds-upon-alerts">3.5. <code class="code docutils literal notranslate"><span class="pre">alarmsound</span></code> (play sounds upon alerts)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#telegram-telegram-notification-module">3.6. <code class="code docutils literal notranslate"><span class="pre">telegram</span></code> (Telegram notification module)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#tweets-twitter-notification-module">3.7. <code class="code docutils literal notranslate"><span class="pre">tweets</span></code> (Twitter notification module)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#write-miniseed-writer">3.8. <code class="code docutils literal notranslate"><span class="pre">write</span></code> (miniSEED writer)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#forward-datacast-forwarding">3.9. <code class="code docutils literal notranslate"><span class="pre">forward</span></code> (datacast forwarding)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#custom-run-custom-code">3.10. <code class="code docutils literal notranslate"><span class="pre">custom</span></code> (run custom code)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#printdata-print-data-to-console">3.11. <code class="code docutils literal notranslate"><span class="pre">printdata</span></code> (print data to console)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#default-settings">3.12. Default settings</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a><ul>
@@ -263,7 +265,7 @@ It is written in Python and is therefore highly customizable.</p>
 <li class="toctree-l2"><a class="reference internal" href="daemon.html#troubleshooting-the-daemon">5.3. Troubleshooting the daemon</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#remote-rsudp-side">6.1. Remote (rsudp) side</a></li>
 <li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#shake-local-side">6.2. Shake (local) side</a></li>
 <li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#middle-firewalls">6.3. Middle (firewalls)</a></li>
@@ -333,6 +335,7 @@ It is written in Python and is therefore highly customizable.</p>
 <p class="caption"><span class="caption-text">Sub-Consumers</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>

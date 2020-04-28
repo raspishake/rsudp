@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>rsudp.t_testdata (test pre-producer) &mdash; rsudp  documentation</title>
+  <title>rsudp.c_rsam (RSAM analysis) &mdash; rsudp  documentation</title>
   
 
   
@@ -36,8 +36,8 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="rsudp.c_testing (test consumer)" href="c_testing.html" />
-    <link rel="prev" title="rsudp.c_custom (run code)" href="c_custom.html" /> 
+    <link rel="next" title="rsudp.c_alertsound (play sound)" href="c_alertsound.html" />
+    <link rel="prev" title="rsudp.c_alert (STA/LTA alarm)" href="c_alert.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -95,7 +95,7 @@
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
-<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Video resources</span></p>
@@ -124,9 +124,9 @@
 <li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Sub-Consumers</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
@@ -136,8 +136,8 @@
 <li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Testing modules</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="test.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
@@ -186,13 +186,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</li>
+      <li><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/t_testdata.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/c_rsam.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -205,50 +205,39 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-rsudp.t_testdata">
-<span id="rsudp-t-testdata-test-pre-producer"></span><h1><a class="reference internal" href="#module-rsudp.t_testdata" title="rsudp.t_testdata"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code></a> (test pre-producer)<a class="headerlink" href="#module-rsudp.t_testdata" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-rsudp.c_rsam">
+<span id="rsudp-c-rsam-rsam-analysis"></span><h1><a class="reference internal" href="#module-rsudp.c_rsam" title="rsudp.c_rsam"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code></a> (RSAM analysis)<a class="headerlink" href="#module-rsudp.c_rsam" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt id="rsudp.t_testdata.TestData">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.t_testdata.</code><code class="sig-name descname">TestData</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">data_file</span></em>, <em class="sig-param"><span class="n">port</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.t_testdata.TestData" title="Permalink to this definition">¶</a></dt>
+<dt id="rsudp.c_rsam.RSAM">
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_rsam.</code><code class="sig-name descname">RSAM</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">interval</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">cha</span><span class="o">=</span><span class="default_value">'HZ'</span></em>, <em class="sig-param"><span class="n">deconv</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fwaddr</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fwport</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fwformat</span><span class="o">=</span><span class="default_value">'LITE'</span></em>, <em class="sig-param"><span class="n">quiet</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_rsam.RSAM" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 0.4.3.</span></p>
+<p><span class="versionmodified added">New in version 1.0.1.</span></p>
 </div>
-<p>A simple module that reads lines formatted as Raspberry Shake UDP packets
-from a file on disk, and sends them to the specified localhost port.
-Designed to quit on seeing a <code class="docutils literal notranslate"><span class="pre">TERM</span></code> string as the last line of the file
-or when an <code class="docutils literal notranslate"><span class="pre">ENDTEST</span></code> packet arrives on this thread’s queue.</p>
-<p>For a diagram of <code class="docutils literal notranslate"><span class="pre">TestData</span></code>’s position in the data hierarchy, see
-<a class="reference internal" href="testing.html#testing-flow"><span class="std std-ref">Data flow during testing</span></a>.</p>
+<p>A consumer class that runs an Real-time Seismic Amplitude Measurement (RSAM).
+If debugging is enabled and <code class="docutils literal notranslate"><span class="pre">&quot;quiet&quot;</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>,
+RSAM is printed to the console every <code class="docutils literal notranslate"><span class="pre">&quot;interval&quot;</span></code> seconds,
+and optionally forwarded to an IP address and port specified by <code class="docutils literal notranslate"><span class="pre">&quot;fwaddr&quot;</span></code> and
+<code class="docutils literal notranslate"><span class="pre">&quot;fwport&quot;</span></code> with packets formatted as either JSON, “lite”, or CSV.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.8)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
-<li><p><strong>data_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – data file to read from disk</p></li>
-<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – network port to pass UDP data to (at <code class="docutils literal notranslate"><span class="pre">localhost</span></code> address)</p></li>
+<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.8)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>.</p></li>
+<li><p><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether or not to print RSAM analysis live to the console.</p></li>
+<li><p><strong>quiet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether or not to suppress <code class="docutils literal notranslate"><span class="pre">debug</span></code> printing (<code class="docutils literal notranslate"><span class="pre">True</span></code> suppresses output).</p></li>
+<li><p><strong>interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – window of time in seconds to apply RSAM analysis.</p></li>
+<li><p><strong>cha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – listening channel (defaults to [S,E]HZ)</p></li>
+<li><p><strong>deconv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – <code class="docutils literal notranslate"><span class="pre">'VEL'</span></code>, <code class="docutils literal notranslate"><span class="pre">'ACC'</span></code>, <code class="docutils literal notranslate"><span class="pre">'GRAV'</span></code>, <code class="docutils literal notranslate"><span class="pre">'DISP'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'CHAN'</span></code></p></li>
+<li><p><strong>fwaddr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Specify a forwarding address to send RSAM in a UDP packet</p></li>
+<li><p><strong>fwport</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Specify a forwarding port to send RSAM in a UDP packet</p></li>
+<li><p><strong>fwformat</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Specify a format for the forwarded packet: <code class="docutils literal notranslate"><span class="pre">'LITE'</span></code>, <code class="docutils literal notranslate"><span class="pre">'JSON'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'CSV'</span></code></p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
-<dt id="rsudp.t_testdata.TestData.run">
-<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.t_testdata.TestData.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>Start the thread. First, opens a file, determines the speed of data flow,
-then opens a socket and begins sending data at that transmission rate.</p>
-<p>Continues sending data until an <code class="docutils literal notranslate"><span class="pre">ENDTEST</span></code> packet arrives on the queue,
-or until the reader reaches the end of the file.
-Then, sends a <code class="docutils literal notranslate"><span class="pre">TERM</span></code> message to the localhost port and exits.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="rsudp.t_testdata.TestData.send">
-<code class="sig-name descname">send</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.t_testdata.TestData.send" title="Permalink to this definition">¶</a></dt>
-<dd><p>Send the latest line in the open file to the specified port at localhost.
-If the next line’s timestamp is the same,
-that line will also be sent immediately.
-If the next line does not contain the same timestamp,
-the program will seek back to the last line read
-and then break for a new loop.</p>
-<p>If the line contains <code class="docutils literal notranslate"><span class="pre">TERM</span></code>, the program will set <code class="docutils literal notranslate"><span class="pre">self.alive</span> <span class="pre">=</span> <span class="pre">False</span></code>
-and prepare to exit.</p>
+<dt id="rsudp.c_rsam.RSAM.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_rsam.RSAM.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads data from the queue and executes self.codefile if it sees an <code class="docutils literal notranslate"><span class="pre">ALARM</span></code> message.
+Quits if it sees a <code class="docutils literal notranslate"><span class="pre">TERM</span></code> message.</p>
 </dd></dl>
 
 </dd></dl>
@@ -269,10 +258,10 @@ and prepare to exit.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="c_testing.html" class="btn btn-neutral float-right" title="rsudp.c_testing (test consumer)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="c_alertsound.html" class="btn btn-neutral float-right" title="rsudp.c_alertsound (play sound)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="c_custom.html" class="btn btn-neutral float-left" title="rsudp.c_custom (run code)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="c_alert.html" class="btn btn-neutral float-left" title="rsudp.c_alert (STA/LTA alarm)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

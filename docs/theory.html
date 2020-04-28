@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.0
+                1.0.1
               </div>
             
           
@@ -126,6 +126,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Clients</span></p>
 <ul>
@@ -140,6 +141,7 @@
 <p class="caption"><span class="caption-text">Sub-Consumers</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
@@ -225,7 +227,7 @@ softwares, but which may be unfamiliar to some developers.</p>
 <p>The program’s organization relies on two hierarchies: thread hierarchy and
 data hierarchy. This allows the program to distribute data and messages
 between different modules efficiently while maintaining programmatic
-integrity required by rsudp’s dependencies (<a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.html#module-matplotlib.pyplot" title="(in Matplotlib v3.2.0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">matplotlib.pyplot</span></code></a>
+integrity required by rsudp’s dependencies (<a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.html#module-matplotlib.pyplot" title="(in Matplotlib v3.2.1)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">matplotlib.pyplot</span></code></a>
 objects, for example, can only be owned by the master thread).</p>
 <div class="figure align-center" id="id1">
 <span id="flow-diagram"></span><img alt="_images/rsudp-flow.png" src="_images/rsudp-flow.png" />

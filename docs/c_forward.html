@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.0
+                1.0.1
               </div>
             
           
@@ -111,6 +111,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Clients</span></p>
 <ul>
@@ -125,6 +126,7 @@
 <p class="caption"><span class="caption-text">Sub-Consumers</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
@@ -205,9 +207,9 @@
             
   <div class="section" id="module-rsudp.c_forward">
 <span id="rsudp-c-forward-forward-data"></span><h1><a class="reference internal" href="#module-rsudp.c_forward" title="rsudp.c_forward"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code></a> (forward data)<a class="headerlink" href="#module-rsudp.c_forward" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="rsudp.c_forward.Forward">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_forward.</code><code class="sig-name descname">Forward</code><span class="sig-paren">(</span><em class="sig-param">addr</em>, <em class="sig-param">port</em>, <em class="sig-param">cha</em>, <em class="sig-param">q</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_forward.Forward" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_forward.</code><code class="sig-name descname">Forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">addr</span></em>, <em class="sig-param"><span class="n">port</span></em>, <em class="sig-param"><span class="n">cha</span></em>, <em class="sig-param"><span class="n">q</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_forward.Forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Single-destination data forwarding. This consumer reads
 queue messages from the <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>
 and forwards those messages to a specified address and port.</p>
@@ -221,7 +223,7 @@ and forwards those messages to a specified address and port.</p>
 </ul>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_forward.Forward.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_forward.Forward.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets and distributes queue objects to another address and port on the network.</p>

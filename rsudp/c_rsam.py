@@ -13,15 +13,17 @@ COLOR['current'] = COLOR['green']
 
 class RSAM(rs.ConsumerThread):
 	"""
-	.. versionadded:: 1.0.0
+	.. versionadded:: 1.0.1
 
 	A consumer class that runs an Real-time Seismic Amplitude Measurement (RSAM).
-	If debugging is enabled, RSAM is printed to the console every ``interval`` seconds,
+	If debugging is enabled and ``quiet`` is set to ``"true"``,
+	RSAM is printed to the console every ``interval`` seconds,
 	and optionally forwarded to an IP address and port specified by ``fwaddr`` and
 	``fwport`` with packets formatted as either JSON, "lite", or CSV.
 
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`.
-	:param bool debug: whether or not to display RSAM analysis live to the console.
+	:param bool debug: whether or not to print RSAM analysis live to the console.
+	:param bool quiet: whether or not to suppress ``debug`` printing (``True`` suppresses output).
 	:param float interval: window of time in seconds to apply RSAM analysis.
 	:param str cha: listening channel (defaults to [S,E]HZ)
 	:param str deconv: ``'VEL'``, ``'ACC'``, ``'GRAV'``, ``'DISP'``, or ``'CHAN'``
@@ -31,7 +33,8 @@ class RSAM(rs.ConsumerThread):
 	"""
 
 	def __init__(self, q=False, debug=False, interval=5, cha='HZ', deconv=False,
-				 fwaddr=False, fwport=False, fwformat='LITE', *args, **kwargs):
+				 fwaddr=False, fwport=False, fwformat='LITE', quiet=False,
+				 *args, **kwargs):
 		"""
 		Initializes the RSAM analysis thread.
 		"""
@@ -39,6 +42,7 @@ class RSAM(rs.ConsumerThread):
 		self.sender = 'RSAM'
 		self.alive = True
 		self.debug = debug
+		self.quiet = quiet	# overrides debug and suppresses printing
 		self.stn = rs.stn
 		self.fwaddr = fwaddr
 		self.fwport = fwport
@@ -182,7 +186,7 @@ class RSAM(rs.ConsumerThread):
 		"""
 		Print the current RSAM analysis
 		"""
-		if self.debug:
+		if (self.debug) and (not self.quiet):
 			msg = '%s Current RSAM: mean %s median %s min %s max %s' % (
 				(self.stream[0].stats.starttime + timedelta(seconds=
 															len(self.stream[0].data) * self.stream[0].stats.delta)).strftime('%Y-%m-%d %H:%M:%S'),

@@ -334,6 +334,7 @@ def run(settings, debug):
 		fwformat = settings['rsam']['fwformat']
 		interval = settings['rsam']['interval']
 		cha = settings['rsam']['channel']
+		quiet = settings['rsam']['quiet']
 		if settings['rsam']['deconvolve']:
 			if settings['rsam']['units'].upper() in rs.UNITS:
 				deconv = settings['rsam']['units'].upper()
@@ -344,7 +345,8 @@ def run(settings, debug):
 
 		# set up queue and process
 		q = mk_q()
-		rsam = RSAM(q=q, debug=debug, interval=interval, cha=cha, deconv=deconv, fwaddr=fwaddr, fwport=fwport, fwformat=fwformat)
+		rsam = RSAM(q=q, debug=debug, interval=interval, cha=cha, deconv=deconv,
+					fwaddr=fwaddr, fwport=fwport, fwformat=fwformat, quiet=quiet)
 
 		mk_p(rsam)
 

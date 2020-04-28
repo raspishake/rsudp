@@ -84,6 +84,7 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
     "chat_id": "n/a"},
 "rsam": {
     "enabled": false,
+    "quiet": true,
     "fwaddr": false,
     "fwport": false,
     "fwformat": "LITE",

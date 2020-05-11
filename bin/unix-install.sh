@@ -175,17 +175,17 @@ else
   echo "The script will now append a sourcing line to your ~/.bashrc file in order to"
   echo 'make activating conda easier in the future (just type "conda activate" into a terminal).'
   echo "This line is: $sourceline"
-  read -rp $'Press Enter to prevent this, or type yes and press Enter to proceed...\n' key
+  read -rp $'Press Enter to continue, or type no and press Enter to prevent this...\n' key
 
-  if [[ "$key" == "yes" ]]; then
+  if [[ "$key" == "no" ]]; then
+    echo "Not appending sourcing line to bashrc."
+    echo "You can add it later by adding the following line to the bottom of ~/.bashrc:"
+    echo $sourceline
+  else
     echo "Appending sourcing line to bashrc..."
     echo $comment >> $HOME/.bashrc
     echo $sourceline >> $HOME/.bashrc
     sourced=1
-  else
-    echo "Not appending sourcing line to bashrc."
-    echo "You can add it later by adding the following line to the bottom of ~/.bashrc:"
-    echo $sourceline
   fi
 fi
 echo "Sourcing..."

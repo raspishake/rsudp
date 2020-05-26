@@ -2,6 +2,7 @@
 ## changes in 1.0.1
 - added `rsudp.c_rsam` Real-time Seismic Analysis Measurement consumer
 - modified install scripts for clarity
+- added Windows batch scripts for installation, updates, and running, to match Unix ones
 
 ## changes in 1.0.0
 - settings changed to deconvolve plot channels by default

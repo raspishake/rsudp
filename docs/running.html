@@ -95,12 +95,14 @@
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">4. Running rsudp</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#starting-rsudp-on-unix">4.1. Starting rsudp on Unix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#starting-on-windows-or-manually-on-unix">4.2. Starting on Windows, or manually on Unix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#running-in-demonstration-testing-mode">4.3. Running in demonstration/testing mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#starting-rsudp-on-windows">4.2. Starting rsudp on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#starting-manually-on-windows-or-unix">4.3. Starting manually on Windows or Unix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-in-demonstration-testing-mode">4.4. Running in demonstration/testing mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quitting">4.5. Quitting</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
-<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Video resources</span></p>
@@ -212,15 +214,21 @@
             
   <div class="section" id="running-rsudp">
 <span id="running"></span><h1><span class="section-number">4. </span>Running rsudp<a class="headerlink" href="#running-rsudp" title="Permalink to this headline">¶</a></h1>
+<p>After modifying the settings file to your liking, you are ready to start rsudp.</p>
 <div class="section" id="starting-rsudp-on-unix">
 <h2><span class="section-number">4.1. </span>Starting rsudp on Unix<a class="headerlink" href="#starting-rsudp-on-unix" title="Permalink to this headline">¶</a></h2>
-<p>Unix users may prefer the easy-to-use start script available in the git repository:</p>
+<p>Unix users may prefer to start with the easy-to-use start script available in the git repository:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash unix-start-rsudp.sh
 </pre></div>
 </div>
 </div>
-<div class="section" id="starting-on-windows-or-manually-on-unix">
-<span id="running-manually"></span><h2><span class="section-number">4.2. </span>Starting on Windows, or manually on Unix<a class="headerlink" href="#starting-on-windows-or-manually-on-unix" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="starting-rsudp-on-windows">
+<h2><span class="section-number">4.2. </span>Starting rsudp on Windows<a class="headerlink" href="#starting-rsudp-on-windows" title="Permalink to this headline">¶</a></h2>
+<p>After modifying the settings file, Windows users can double click
+on the batch file named <code class="docutils literal notranslate"><span class="pre">win-start-rsudp.bat</span></code> to start.</p>
+</div>
+<div class="section" id="starting-manually-on-windows-or-unix">
+<span id="running-manually"></span><h2><span class="section-number">4.3. </span>Starting manually on Windows or Unix<a class="headerlink" href="#starting-manually-on-windows-or-unix" title="Permalink to this headline">¶</a></h2>
 <p>This start method is covered in our <a href="https://youtu.be/HA9k3CzmgLI" target="_blank">rsudp start/run tutorial video</a>.</p>
 <p>1. First, to activate the conda environment, type <code class="code bash docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">rsudp</span></code>.
 If you can’t do this, and you’re on Unix, you may need to <a class="reference internal" href="installing.html#source"><span class="std std-ref">Run the sourcing line</span></a>.</p>
@@ -256,7 +264,7 @@ All data coming from any other Shake(s) will be ignored.</p>
 </div>
 </div>
 <div class="section" id="running-in-demonstration-testing-mode">
-<span id="run-test"></span><h2><span class="section-number">4.3. </span>Running in demonstration/testing mode<a class="headerlink" href="#running-in-demonstration-testing-mode" title="Permalink to this headline">¶</a></h2>
+<span id="run-test"></span><h2><span class="section-number">4.4. </span>Running in demonstration/testing mode<a class="headerlink" href="#running-in-demonstration-testing-mode" title="Permalink to this headline">¶</a></h2>
 <p>See more about this functionality in <a class="reference internal" href="testing.html#test"><span class="std std-ref">Testing and demoing rsudp</span></a>.</p>
 <p>To start, open a Terminal or Anaconda Prompt window.</p>
 <ol class="arabic simple">
@@ -267,6 +275,11 @@ All data coming from any other Shake(s) will be ignored.</p>
 Several features will be tested, including the
 earthquake detection functionality, the alarm sound,
 and the plot.</p>
+</div>
+<div class="section" id="quitting">
+<h2><span class="section-number">4.5. </span>Quitting<a class="headerlink" href="#quitting" title="Permalink to this headline">¶</a></h2>
+<p>You can force-stop rsudp in all operating systems by either closing the plot window (if open)
+or by pressing <code class="docutils literal notranslate"><span class="pre">Ctrl+C</span></code> with the terminal window in focus.</p>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
 </div>
 </div>

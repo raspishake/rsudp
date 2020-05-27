@@ -3,22 +3,31 @@
 Running rsudp
 #################################################
 
+After modifying the settings file to your liking, you are ready to start rsudp.
+
 .. role:: bash(code)
    :language: bash
 
 Starting rsudp on Unix
 *************************************************
 
-Unix users may prefer the easy-to-use start script available in the git repository:
+Unix users may prefer to start with the easy-to-use start script available in the git repository:
 
 .. code-block:: bash
 
     bash unix-start-rsudp.sh
 
 
+Starting rsudp on Windows
+*************************************************
+
+After modifying the settings file, Windows users can double click
+on the batch file named ``win-start-rsudp.bat`` to start.
+
+
 .. _running-manually:
 
-Starting on Windows, or manually on Unix
+Starting manually on Windows or Unix
 *************************************************
 
 .. |start_run_tutorial| raw:: html
@@ -79,6 +88,13 @@ Test data will begin flowing through the program.
 Several features will be tested, including the
 earthquake detection functionality, the alarm sound,
 and the plot.
+
+
+Quitting
+*************************************************
+
+You can force-stop rsudp in all operating systems by either closing the plot window (if open)
+or by pressing ``Ctrl+C`` with the terminal window in focus.
 
 
 `Back to top ↑ <#top>`_

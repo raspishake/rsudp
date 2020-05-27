@@ -13,7 +13,7 @@ Installing rsudp
 Installation is covered in our |installation_video|.
 
 
-On Linux & MacOS
+Installing on Linux & MacOS
 *********************************
 
 A UNIX installer script is available at :bash:`unix-install-rsudp.sh`.
@@ -22,7 +22,8 @@ then downloads and installs it if need be.
 This script has been tested on both :bash:`x86_64` and :bash:`armv7l`
 architectures (meaning that it can run on your home computer or a Raspberry Pi)
 and will download the appropriate Anaconda distribution, set up a virtual Python environment,
-and leave you ready to run the program. To install using this method:
+and leave you ready to run the program. To install using this method, open a Terminal and
+enter the following command:
 
 .. code-block:: bash
 
@@ -124,10 +125,40 @@ you can do a command similar to the following:
     cp ~/.config/rsudp/rsudp_settings.json ~/.config/rsudp/rsudp_settings.json.bak
 
 
-Updating On Windows
+Installing on Windows
 *********************************
 
-1. Download and install Anaconda or Miniconda.
+The Easy Way
+---------------------------------
+
+You can follow these steps to both install and update rsudp.
+
+.. |github_download| raw:: html
+
+   <a href="https://github.com/raspishake/rsudp/releases/latest/download/rsudp.zip" target="_blank">Download</a>
+
+.. |github_latest| raw:: html
+
+   <a href="https://github.com/raspishake/rsudp/releases/latest/" target="_blank">latest release</a>
+
+1. |github_download| and unzip the software from the |github_latest| in the GitHub repository.
+2. Double click the file named ``win-install-rsudp.bat`` in the unzipped folder. You may need administrator privileges for this step.
+
+The install will take several minutes. When it is done, you will have a new settings file at
+``~/.config/rsudp/rsudp_settings.json``. Edit this file to change how rsudp runs.
+
+For explanations of the various settings fields and values, head to :ref:`settings`.
+
+
+Advanced Users
+---------------------------------
+
+.. |miniconda3| raw:: html
+
+   <a href="https://docs.conda.io/en/latest/miniconda.html" target="_blank">Miniconda3</a>
+
+
+1. Download and install Anaconda3 or |miniconda3|.
 2. Open an Anaconda Prompt.
 3. Execute the following lines of code:
 

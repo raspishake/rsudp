@@ -18,15 +18,28 @@ YouTube walkthroughs
 
         <iframe width="560" height="400" src="https://www.youtube-nocookie.com/embed/HA9k3CzmgLI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+3. Set up YouTube streaming (coming soon)
+
+
+Live demo
+#########################################
+
+Live streaming Raspberry Shake & Boom data from our office in Panama (when available).
+
+    .. raw:: html
+
+        <iframe width="560" height="400" src="https://www.youtube-nocookie.com/embed/live_stream?channel=UCqxETqiBOCMH7fy-d0XgIWw" frameborder="0" allowfullscreen></iframe>
+
+
+Detected earthquake
+#########################################
+
 .. |earthquake| raw:: html
 
    <a href="https://www.emsc-csem.org/Earthquake/earthquake.php?id=806235" target="_blank">an earthquake</a>
 
-3. rsudp detects |earthquake|!
+rsudp detects |earthquake|!
 
     .. raw:: html
 
         <iframe width="560" height="400" src="https://www.youtube-nocookie.com/embed/pT_PkKKxFeM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-4. Set up YouTube streaming (coming soon)
-

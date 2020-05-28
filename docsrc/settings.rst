@@ -239,7 +239,7 @@ Using :code:`"exec"`
 
 .. versionadded:: 1.0.1
 
-This module calculates the Real-time Seismic Amplitude (RSAM) of the data stream every few seconds
+This module calculates the Real-time Seismic Amplitude Measurement (RSAM) of the data stream every few seconds
 and can forward this data to another location on the network.
 
 :json:`"interval"` is a float that specifies the number of seconds to wait between each RSAM analysis.

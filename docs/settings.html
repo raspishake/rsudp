@@ -248,7 +248,7 @@
 both receive data and suit your earthquake detection and notification needs.</p>
 <p>By default, the rsudp settings file will live in <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">$HOME</span></span><span class="pre">/.config/rsudp/rsudp_settings.json</span></code>,
 where <code class="code bash docutils literal notranslate"><span class="name variable"><span class="pre">$HOME</span></span></code> is your home directory (often shortened to <code class="code bash docutils literal notranslate"><span class="pre">~/</span></code>).
-To output default settings to a different location, see <a class="reference internal" href="running.html#running-manually"><span class="std std-ref">Starting on Windows, or manually on Unix</span></a>.</p>
+To output default settings to a different location, see <a class="reference internal" href="running.html#running-manually"><span class="std std-ref">Starting manually on Windows or Unix</span></a>.</p>
 <div class="section" id="settings-general-settings">
 <h2><span class="section-number">3.1. </span><code class="code docutils literal notranslate"><span class="pre">settings</span></code> (general settings)<a class="headerlink" href="#settings-general-settings" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“settings”</span></span></code> portion of the settings file contains some basic items:
@@ -432,7 +432,7 @@ and this part of the alert module will be fully removed in a future release.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.0.1.</span></p>
 </div>
-<p>This module calculates the Real-time Seismic Amplitude (RSAM) of the data stream every few seconds
+<p>This module calculates the Real-time Seismic Amplitude Measurement (RSAM) of the data stream every few seconds
 and can forward this data to another location on the network.</p>
 <p><code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“interval”</span></span></code> is a float that specifies the number of seconds to wait between each RSAM analysis.</p>
 <p><code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“quiet”</span></span></code> controls the amount of data printed to the console in debug mode.

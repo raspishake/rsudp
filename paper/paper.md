@@ -56,7 +56,7 @@ algorithm employs a recursive short-term/long-term average ratio (STA/LTA)
 computation threshold function from `obspy`, executed repeatedly within a loop
 over the incoming data.
 
-![An earthquake trace plotted with a spectrogram on multiple data channels in `rsudp`. Note that the first channel is data recorded with a geophone (EHZ), and the next three are accelerometers (ENE, ENN, ENZ). The spectrograms are a representation of the frequency power of the signal on each channel over time.\label{fig:event}](event.png)
+![An earthquake trace plotted with a spectrogram on multiple data channels in `rsudp`. The spectrograms are a representation of the fraction of maximum frequency power of the signal on each channel over the duration of the plot. Note that the first channel is data recorded with a geophone (EHZ), and the next three are accelerometers (ENE, ENN, ENZ).\label{fig:event}](event.png)
 
 `rsudp` can be used by seismologists as a data analysis tool operating in real
 time, and as a way for students, citizen scientists, and other end-users to

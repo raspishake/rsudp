@@ -35,8 +35,9 @@ seismographs are commonly used in schools, by Shake community members, and
 other individuals having no formal training in seismology. The existence of
 this class of instruments highlighted the need for easy-to-use visualization
 and notification software to complement these devices. Because all Raspberry
-Shake instruments are able to forward data as UDP datagrams, taking the
-opportunity to exploit the existence of this streaming data was obvious.
+Shake instruments are able to forward data as user datagram protocol (UDP)
+packets, taking the opportunity to exploit the existence of this streaming data
+was obvious.
 
 
 ![Chart of producer and consumer threads and the organization of data flow in `rsudp`. In order to maximize computational efficiency, features are broken into modules—each module constituting a thread—and data is passed to each module through an asynchronous queue. Inset: thread hierarchy and ownership chart, color-coded by function. Note that the Plot module is owned by the main thread, since `matplotlib` objects can only be created and destroyed by the main thread.\label{fig:flow}](flow.png)
@@ -50,8 +51,9 @@ community, including `matplotlib` visualizations [@Hunter:2007] and the `obspy`
 seismic framework for Python [@Beyreuther:2007; @Megies:2011; @Krischer:2015].
 `rsudp` is multi-threaded and architected according to a modular
 producer-consumer data-flow paradigm (\autoref{fig:flow}). The detection
-algorithm employs a recursive STA/LTA computation threshold function from
-`obspy`, executed repeatedly within a loop over the incoming data.
+algorithm employs a recursive short-term long-term average ratio (STA/LTA)
+computation threshold function from `obspy`, executed repeatedly within a loop
+over the incoming data.
 
 ![An earthquake trace plotted with a spectrogram on multiple data channels in `rsudp`. Note that the first channel is data recorded with a geophone (EHZ), and the next three are accelerometers (ENE, ENN, ENZ). The spectrograms are a representation of the frequency power of the signal on each channel over time.\label{fig:event}](event.png)
 
@@ -63,11 +65,11 @@ framework, power-users can run their own custom code in the case of detected
 strong motion. The publicly available distribution already contains many useful
 data-processing modules, including: sound alerts, automated and instantaneous
 social media notifications, data-forwarding, integrated logging, a miniSEED
-data archiver, and external script execution (for example, to control GPIO pins
-or some other user-specified action). The combination of speed,
-easy-to-interpret visualization, and ease of customization makes `rsudp` a
-valuable and instructive companion to the Raspberry Shake family of instruments
-for researchers, students, and amateur seismologists alike.
+data archiver, and external script execution (for example, to control
+input/output pins or some other programmable action). The combination of
+speed, easy-to-interpret visualization, and ease of customization makes `rsudp`
+a valuable and instructive companion to the Raspberry Shake family of
+instruments for researchers, students, and amateur seismologists alike.
 
 
 # Acknowledgements

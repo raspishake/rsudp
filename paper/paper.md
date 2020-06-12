@@ -7,7 +7,7 @@ tags:
   - earthquake alerts
   - Raspberry Shake
 authors:
-  - name: Ian M. Nesbitt^[Corresponding author - \nolinkurl{ian.nesbitt@gmail.com}]
+  - name: Ian M. Nesbitt
     orcid: 0000-0001-5828-6070
     affiliation: "1, 2" # (Multiple affiliations must be quoted)
   - name: Richard I. Boaz
@@ -62,14 +62,15 @@ time, and as a way for students, citizen scientists, and other end-users to
 easily visualize and conceptualize live-streaming seismic data
 (\autoref{fig:event}). Using the application’s simple and straightforward
 framework, power-users can run their own custom code in the case of detected
-strong motion. The publicly available distribution already contains many useful
-data-processing modules, including: sound alerts, automated and instantaneous
-social media notifications, data-forwarding, integrated logging, a miniSEED
-data archiver, and external script execution (for example, to control
-input/output pins or some other programmable action). The combination of
-speed, easy-to-interpret visualization, and ease of customization makes `rsudp`
-a valuable and instructive companion to the Raspberry Shake family of
-instruments for researchers, students, and amateur seismologists alike.
+strong motion. The distribution already contains many useful data-processing
+modules, including: sound alerts, automated and instantaneous social media
+notifications, data-forwarding, real-time seismic amplitude (RSAM) forwarding,
+integrated logging, a miniSEED data archiver, and external script execution
+(for example, to control input/output pins or some other programmable action).
+The combination of speed, easy-to-interpret visualization, and ease of
+customization makes `rsudp` a valuable and instructive companion to the
+Raspberry Shake family of instruments for researchers, students, and amateur
+seismologists alike.
 
 
 # Acknowledgements

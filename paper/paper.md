@@ -7,7 +7,7 @@ tags:
   - earthquake alerts
   - Raspberry Shake
 authors:
-  - name: Ian M. Nesbitt
+  - name: Ian M. Nesbitt^[Corresponding author - \nolinkurl{ian.nesbitt@gmail.com}]
     orcid: 0000-0001-5828-6070
     affiliation: "1, 2" # (Multiple affiliations must be quoted)
   - name: Richard I. Boaz
@@ -51,7 +51,7 @@ community, including `matplotlib` visualizations [@Hunter:2007] and the `obspy`
 seismic framework for Python [@Beyreuther:2007; @Megies:2011; @Krischer:2015].
 `rsudp` is multi-threaded and architected according to a modular
 producer-consumer data-flow paradigm (\autoref{fig:flow}). The detection
-algorithm employs a recursive short-term long-term average ratio (STA/LTA)
+algorithm employs a recursive short-term/long-term average ratio (STA/LTA)
 computation threshold function from `obspy`, executed repeatedly within a loop
 over the incoming data.
 

@@ -7,7 +7,7 @@ tags:
   - earthquake alerts
   - Raspberry Shake
 authors:
-  - name: Ian M. Nesbitt
+  - name: Ian M. Nesbitt^[Corresponding author]
     orcid: 0000-0001-5828-6070
     affiliation: "1, 2" # (Multiple affiliations must be quoted)
   - name: Richard I. Boaz
@@ -26,7 +26,7 @@ bibliography: paper.bib
 
 ---
 
-# Summary
+# Statement of Need
 
 The uses of low-cost seismographs in science and education are becoming more
 widely known as these devices become more popular
@@ -39,8 +39,9 @@ Shake instruments are able to forward data as user datagram protocol (UDP)
 packets, taking the opportunity to exploit the existence of this streaming data
 was obvious.
 
-
 ![Chart of producer and consumer threads and the organization of data flow in `rsudp`. In order to maximize computational efficiency, features are broken into modules—each module constituting a thread—and data is passed to each module through an asynchronous queue. Inset: thread hierarchy and ownership chart, color-coded by function. Note that the Plot module is owned by the main thread, since `matplotlib` objects can only be created and destroyed by the main thread.\label{fig:flow}](flow.png)
+
+# Summary
 
 `rsudp` is a multi-featured, continuous monitoring tool for both Raspberry
 Shake seismographs⁠, used to record both weak and strong ground motion⁠—and

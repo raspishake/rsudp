@@ -17,7 +17,10 @@ def packetize(inf, outf):
 	'''
 	if os.path.isfile(os.path.expanduser(inf)):
 		stream = read(inf)
-		samps = SMP[stream[0].stats.delta]
+		try:
+			samps = SMP[stream[0].stats.delta]
+		except KeyError as e:
+			raise KeyError('Sampling frequency of %s is not supported. Is this Raspberry Shake data?' % (e))
 		n = 0
 		time = stream[0].stats.starttime
 

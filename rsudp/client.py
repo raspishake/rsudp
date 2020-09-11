@@ -549,8 +549,8 @@ default settings and the data file at
 					packetize(inf=a, outf=out)
 					TESTFILE = out
 				except Exception as e:
-					print(COLOR['red'] + 'ERROR: %s' % e + COLOR['white'])
 					print(hlp_txt)
+					print(COLOR['red'] + 'ERROR: %s' % e + COLOR['white'])
 					exit(1)
 		if o in ('-s', '--settings='):
 			'''

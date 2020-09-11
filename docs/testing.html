@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="YouTube walkthroughs" href="youtube.html" />
-    <link rel="prev" title="6. Troubleshooting" href="troubleshooting.html" /> 
+    <link rel="prev" title="6. Troubleshooting rsudp" href="troubleshooting.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -95,7 +95,7 @@
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
-<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">7. Testing and demoing rsudp</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#using-the-testing-functionality">7.1. Using the testing functionality</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#settings-during-testing">7.2. Settings during testing</a></li>
@@ -108,6 +108,8 @@
 <p class="caption"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html#detected-earthquake">Detected earthquake</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developers' guide</span></p>
 <ul>
@@ -232,7 +234,7 @@ whether or not the software can feed data to <cite>itself</cite> and
 process it.</p>
 <p>If you can run this testing program without any problems
 but you are having issues getting the software to see data from
-your own Raspberry Shake or boom, see the <a class="reference internal" href="troubleshooting.html#troubleshooting"><span class="std std-ref">Troubleshooting</span></a>
+your own Raspberry Shake or boom, see the <a class="reference internal" href="troubleshooting.html#troubleshooting"><span class="std std-ref">Troubleshooting rsudp</span></a>
 page.</p>
 </div>
 <div class="section" id="using-the-testing-functionality">
@@ -261,7 +263,7 @@ and whether it can send data to its own port
 (we’ve chosen 18888 as a test port).
 However, it does not test the ability to receive data from a
 remote shake. If you are having trouble with that, please see the
-<a class="reference internal" href="troubleshooting.html#troubleshooting"><span class="std std-ref">Troubleshooting</span></a> page.</p>
+<a class="reference internal" href="troubleshooting.html#troubleshooting"><span class="std std-ref">Troubleshooting rsudp</span></a> page.</p>
 </div>
 <div class="section" id="settings-during-testing">
 <span id="test-settings"></span><h2><span class="section-number">7.2. </span>Settings during testing<a class="headerlink" href="#settings-during-testing" title="Permalink to this headline">¶</a></h2>
@@ -316,7 +318,7 @@ to the UDP packet format required by rsudp.</p>
 <p>This function is documented at <a class="reference internal" href="packetize.html#rsudp.packetize.packetize" title="rsudp.packetize.packetize"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.packetize.packetize()</span></code></a>
 and it is integrated into the testing script. You can tell the testing
 script to convert and use a miniSEED file on disk by doing the following:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rs-test -i test.mseed
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rs-test -f test.mseed
 </pre></div>
 </div>
 <p>This will create a text file named <code class="docutils literal notranslate"><span class="pre">test.mseed.txt</span></code> in the same directory
@@ -336,7 +338,7 @@ which will be used to feed data to the producer during testing.</p>
         <a href="youtube.html" class="btn btn-neutral float-right" title="YouTube walkthroughs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="troubleshooting.html" class="btn btn-neutral float-left" title="6. Troubleshooting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="troubleshooting.html" class="btn btn-neutral float-left" title="6. Troubleshooting rsudp" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

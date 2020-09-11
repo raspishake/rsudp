@@ -143,7 +143,7 @@ script to convert and use a miniSEED file on disk by doing the following:
 
 .. code-block:: bash
 
-    rs-test -i test.mseed
+    rs-test -f test.mseed
 
 This will create a text file named ``test.mseed.txt`` in the same directory
 which will be used to feed data to the producer during testing.

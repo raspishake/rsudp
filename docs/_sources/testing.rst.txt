@@ -134,7 +134,8 @@ Using your own data
 
 
 Included in this software is a function that will convert
-small seismic data files (basically anything that obspy |canread|)
+small seismic data files (basically anything that obspy |canread|
+that was recorded at the same sample rate as the Raspberry Shake)
 to the UDP packet format required by rsudp.
 
 This function is documented at :py:func:`rsudp.packetize.packetize`

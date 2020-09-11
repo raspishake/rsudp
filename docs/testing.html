@@ -313,7 +313,8 @@ data is generated from a text file at
 <div class="section" id="using-your-own-data">
 <span id="custom-data"></span><h2><span class="section-number">7.5. </span>Using your own data<a class="headerlink" href="#using-your-own-data" title="Permalink to this headline">¶</a></h2>
 <p>Included in this software is a function that will convert
-small seismic data files (basically anything that obspy <a href="https://docs.obspy.org/packages/autogen/obspy.core.stream.read.html#supported-formats" target="_blank">can read</a>)
+small seismic data files (basically anything that obspy <a href="https://docs.obspy.org/packages/autogen/obspy.core.stream.read.html#supported-formats" target="_blank">can read</a>
+that was recorded at the same sample rate as the Raspberry Shake)
 to the UDP packet format required by rsudp.</p>
 <p>This function is documented at <a class="reference internal" href="packetize.html#rsudp.packetize.packetize" title="rsudp.packetize.packetize"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.packetize.packetize()</span></code></a>
 and it is integrated into the testing script. You can tell the testing

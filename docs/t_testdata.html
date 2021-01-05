@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.1
+                1.0.0
               </div>
             
           
@@ -95,12 +95,14 @@
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
-<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html#detected-earthquake">Detected earthquake</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developers' guide</span></p>
 <ul>
@@ -207,9 +209,9 @@
             
   <div class="section" id="module-rsudp.t_testdata">
 <span id="rsudp-t-testdata-test-pre-producer"></span><h1><a class="reference internal" href="#module-rsudp.t_testdata" title="rsudp.t_testdata"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code></a> (test pre-producer)<a class="headerlink" href="#module-rsudp.t_testdata" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
+<dl class="class">
 <dt id="rsudp.t_testdata.TestData">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.t_testdata.</code><code class="sig-name descname">TestData</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">data_file</span></em>, <em class="sig-param"><span class="n">port</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.t_testdata.TestData" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.t_testdata.</code><code class="sig-name descname">TestData</code><span class="sig-paren">(</span><em class="sig-param">q</em>, <em class="sig-param">data_file</em>, <em class="sig-param">port</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.t_testdata.TestData" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 0.4.3.</span></p>
 </div>
@@ -222,13 +224,13 @@ or when an <code class="docutils literal notranslate"><span class="pre">ENDTEST<
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.8)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
-<li><p><strong>data_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – data file to read from disk</p></li>
-<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – network port to pass UDP data to (at <code class="docutils literal notranslate"><span class="pre">localhost</span></code> address)</p></li>
+<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.9)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
+<li><p><strong>data_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – data file to read from disk</p></li>
+<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – network port to pass UDP data to (at <code class="docutils literal notranslate"><span class="pre">localhost</span></code> address)</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py method">
+<dl class="method">
 <dt id="rsudp.t_testdata.TestData.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.t_testdata.TestData.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start the thread. First, opens a file, determines the speed of data flow,
@@ -238,7 +240,7 @@ or until the reader reaches the end of the file.
 Then, sends a <code class="docutils literal notranslate"><span class="pre">TERM</span></code> message to the localhost port and exits.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="rsudp.t_testdata.TestData.send">
 <code class="sig-name descname">send</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.t_testdata.TestData.send" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send the latest line in the open file to the specified port at localhost.
@@ -281,7 +283,7 @@ and prepare to exit.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Raspberry Shake S.A.
+        &copy; Copyright 2021, Raspberry Shake S.A.
 
     </p>
   </div>

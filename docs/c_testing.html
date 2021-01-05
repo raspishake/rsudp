@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.1
+                1.0.0
               </div>
             
           
@@ -95,12 +95,14 @@
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
-<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html#detected-earthquake">Detected earthquake</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developers' guide</span></p>
 <ul>
@@ -207,9 +209,9 @@
             
   <div class="section" id="module-rsudp.c_testing">
 <span id="rsudp-c-testing-test-consumer"></span><h1><a class="reference internal" href="#module-rsudp.c_testing" title="rsudp.c_testing"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_testing</span></code></a> (test consumer)<a class="headerlink" href="#module-rsudp.c_testing" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
+<dl class="class">
 <dt id="rsudp.c_testing.Testing">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_testing.</code><code class="sig-name descname">Testing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_testing.Testing" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_testing.</code><code class="sig-name descname">Testing</code><span class="sig-paren">(</span><em class="sig-param">q</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_testing.Testing" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 0.4.3.</span></p>
 </div>
@@ -235,10 +237,10 @@ stream processing, and the reception of the four current message types:
 <code class="docutils literal notranslate"><span class="pre">TERM</span></code>, <code class="docutils literal notranslate"><span class="pre">ALARM</span></code>, <code class="docutils literal notranslate"><span class="pre">RESET</span></code>, and <code class="docutils literal notranslate"><span class="pre">IMGPATH</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.8)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p>
+<dd class="field-odd"><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.9)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p>
 </dd>
 </dl>
-<dl class="py method">
+<dl class="method">
 <dt id="rsudp.c_testing.Testing.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_testing.Testing.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start the testing thread and run until <code class="docutils literal notranslate"><span class="pre">self.alive</span> <span class="pre">==</span> <span class="pre">False</span></code>.</p>
@@ -274,7 +276,7 @@ stream processing, and the reception of the four current message types:
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Raspberry Shake S.A.
+        &copy; Copyright 2021, Raspberry Shake S.A.
 
     </p>
   </div>

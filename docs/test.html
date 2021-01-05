@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.1
+                1.0.0
               </div>
             
           
@@ -95,12 +95,14 @@
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
-<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html#detected-earthquake">Detected earthquake</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developers' guide</span></p>
 <ul>
@@ -253,20 +255,20 @@ default settings file for testing, you will need to set
 <code class="docutils literal notranslate"><span class="pre">settings['your_module']['enabled']</span> <span class="pre">=</span> <span class="pre">True</span></code> in
 <a class="reference internal" href="#rsudp.test.make_test_settings" title="rsudp.test.make_test_settings"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.test.make_test_settings()</span></code></a> prior to running the tests.</p>
 </div>
-<span class="target" id="module-rsudp.test"></span><dl class="py function">
+<span class="target" id="module-rsudp.test"></span><dl class="function">
 <dt id="rsudp.test.cancel_tests">
-<code class="sig-prename descclassname">rsudp.test.</code><code class="sig-name descname">cancel_tests</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span></em>, <em class="sig-param"><span class="n">MPL</span></em>, <em class="sig-param"><span class="n">plot</span></em>, <em class="sig-param"><span class="n">quiet</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.cancel_tests" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.test.</code><code class="sig-name descname">cancel_tests</code><span class="sig-paren">(</span><em class="sig-param">settings</em>, <em class="sig-param">MPL</em>, <em class="sig-param">plot</em>, <em class="sig-param">quiet</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.cancel_tests" title="Permalink to this definition">¶</a></dt>
 <dd><p>Cancel some tests if they don’t need to be run.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – the dictionary of settings for program execution</p></li>
-<li><p><strong>plot</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether or not to plot (<code class="docutils literal notranslate"><span class="pre">False</span></code> == no plot)</p></li>
-<li><p><strong>quiet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether or not to play sounds (<code class="docutils literal notranslate"><span class="pre">True</span></code> == no sound)</p></li>
+<li><p><strong>settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – the dictionary of settings for program execution</p></li>
+<li><p><strong>plot</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not to plot (<code class="docutils literal notranslate"><span class="pre">False</span></code> == no plot)</p></li>
+<li><p><strong>quiet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not to play sounds (<code class="docutils literal notranslate"><span class="pre">True</span></code> == no sound)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)">dict</a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>settings dictionary to test with</p>
@@ -274,16 +276,16 @@ default settings file for testing, you will need to set
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.test.datadir_permissions">
-<code class="sig-prename descclassname">rsudp.test.</code><code class="sig-name descname">datadir_permissions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">testdir</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.datadir_permissions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.test.</code><code class="sig-name descname">datadir_permissions</code><span class="sig-paren">(</span><em class="sig-param">testdir</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.datadir_permissions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Test write permissions in the data directory (<code class="docutils literal notranslate"><span class="pre">./data</span></code> by default)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>testdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The directory to test permissions for</p>
+<dd class="field-odd"><p><strong>testdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The directory to test permissions for</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>the output of <a class="reference internal" href="#rsudp.test.permissions" title="rsudp.test.permissions"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.test.permissions()</span></code></a></p>
@@ -291,16 +293,16 @@ default settings file for testing, you will need to set
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.test.is_connected">
-<code class="sig-prename descclassname">rsudp.test.</code><code class="sig-name descname">is_connected</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">hostname</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.is_connected" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.test.</code><code class="sig-name descname">is_connected</code><span class="sig-paren">(</span><em class="sig-param">hostname</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.is_connected" title="Permalink to this definition">¶</a></dt>
 <dd><p>Test for an internet connection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>hostname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The hostname to test with</p>
+<dd class="field-odd"><p><strong>hostname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The hostname to test with</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if connection is successful, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise</p>
@@ -308,16 +310,16 @@ default settings file for testing, you will need to set
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.test.logdir_permissions">
-<code class="sig-prename descclassname">rsudp.test.</code><code class="sig-name descname">logdir_permissions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logdir</span><span class="o">=</span><span class="default_value">'/tmp/rsudp'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.logdir_permissions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.test.</code><code class="sig-name descname">logdir_permissions</code><span class="sig-paren">(</span><em class="sig-param">logdir='/tmp/rsudp'</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.logdir_permissions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Test write permissions in the log directory (<code class="docutils literal notranslate"><span class="pre">/tmp/rsudp</span></code> by default)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>logdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The log directory to test permissions for</p>
+<dd class="field-odd"><p><strong>logdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The log directory to test permissions for</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>the output of <a class="reference internal" href="#rsudp.test.permissions" title="rsudp.test.permissions"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.test.permissions()</span></code></a></p>
@@ -325,9 +327,9 @@ default settings file for testing, you will need to set
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.test.make_test_settings">
-<code class="sig-prename descclassname">rsudp.test.</code><code class="sig-name descname">make_test_settings</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span></em>, <em class="sig-param"><span class="n">inet</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.make_test_settings" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.test.</code><code class="sig-name descname">make_test_settings</code><span class="sig-paren">(</span><em class="sig-param">settings</em>, <em class="sig-param">inet=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.make_test_settings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the default settings and return settings for testing.</p>
 <p>The default settings are modified in the following way:</p>
 <table class="docutils align-default">
@@ -392,12 +394,12 @@ FDSN service.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – settings dictionary (will be modified from <a class="reference internal" href="settings.html#defaults"><span class="std std-ref">Default settings</span></a>)</p></li>
-<li><p><strong>inet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether or not the internet test passed</p></li>
+<li><p><strong>settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – settings dictionary (will be modified from <a class="reference internal" href="settings.html#defaults"><span class="std std-ref">Default settings</span></a>)</p></li>
+<li><p><strong>inet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not the internet test passed</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)">dict</a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>settings dictionary to test with</p>
@@ -405,16 +407,16 @@ FDSN service.</p>
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.test.permissions">
-<code class="sig-prename descclassname">rsudp.test.</code><code class="sig-name descname">permissions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dp</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.permissions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.test.</code><code class="sig-name descname">permissions</code><span class="sig-paren">(</span><em class="sig-param">dp</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.permissions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Test write permissions for the specified directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>dp</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the directory path to test permissions for</p>
+<dd class="field-odd"><p><strong>dp</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the directory path to test permissions for</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>if <code class="docutils literal notranslate"><span class="pre">True</span></code>, the test was successful, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise</p>
@@ -422,16 +424,16 @@ FDSN service.</p>
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.test.ss_permissions">
-<code class="sig-prename descclassname">rsudp.test.</code><code class="sig-name descname">ss_permissions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">testdir</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.ss_permissions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.test.</code><code class="sig-name descname">ss_permissions</code><span class="sig-paren">(</span><em class="sig-param">testdir</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.ss_permissions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Test write permissions in the screenshots directory (<code class="docutils literal notranslate"><span class="pre">./screenshots</span></code> by default)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>testdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The directory to test permissions for</p>
+<dd class="field-odd"><p><strong>testdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The directory to test permissions for</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>the output of <a class="reference internal" href="#rsudp.test.permissions" title="rsudp.test.permissions"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.test.permissions()</span></code></a></p>
@@ -467,7 +469,7 @@ FDSN service.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Raspberry Shake S.A.
+        &copy; Copyright 2021, Raspberry Shake S.A.
 
     </p>
   </div>

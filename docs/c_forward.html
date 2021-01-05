@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.1
+                1.0.0
               </div>
             
           
@@ -95,12 +95,14 @@
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
-<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html#detected-earthquake">Detected earthquake</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developers' guide</span></p>
 <ul>
@@ -207,23 +209,23 @@
             
   <div class="section" id="module-rsudp.c_forward">
 <span id="rsudp-c-forward-forward-data"></span><h1><a class="reference internal" href="#module-rsudp.c_forward" title="rsudp.c_forward"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code></a> (forward data)<a class="headerlink" href="#module-rsudp.c_forward" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
+<dl class="class">
 <dt id="rsudp.c_forward.Forward">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_forward.</code><code class="sig-name descname">Forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">addr</span></em>, <em class="sig-param"><span class="n">port</span></em>, <em class="sig-param"><span class="n">cha</span></em>, <em class="sig-param"><span class="n">q</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_forward.Forward" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_forward.</code><code class="sig-name descname">Forward</code><span class="sig-paren">(</span><em class="sig-param">addr</em>, <em class="sig-param">port</em>, <em class="sig-param">cha</em>, <em class="sig-param">q</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_forward.Forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Single-destination data forwarding. This consumer reads
 queue messages from the <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>
 and forwards those messages to a specified address and port.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>addr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – IP address to pass UDP data to</p></li>
-<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – network port to pass UDP data to (at specified address)</p></li>
-<li><p><strong>cha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – channel(s) to forward. others will be ignored.</p></li>
-<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.8)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
+<li><p><strong>addr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – IP address to pass UDP data to</p></li>
+<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – network port to pass UDP data to (at specified address)</p></li>
+<li><p><strong>cha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – channel(s) to forward. others will be ignored.</p></li>
+<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.9)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py method">
+<dl class="method">
 <dt id="rsudp.c_forward.Forward.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_forward.Forward.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets and distributes queue objects to another address and port on the network.</p>
@@ -259,7 +261,7 @@ and forwards those messages to a specified address and port.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Raspberry Shake S.A.
+        &copy; Copyright 2021, Raspberry Shake S.A.
 
     </p>
   </div>

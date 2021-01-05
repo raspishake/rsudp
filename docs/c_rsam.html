@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.1
+                1.0.0
               </div>
             
           
@@ -101,6 +101,8 @@
 <p class="caption"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html#detected-earthquake">Detected earthquake</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developers' guide</span></p>
 <ul>
@@ -207,9 +209,9 @@
             
   <div class="section" id="module-rsudp.c_rsam">
 <span id="rsudp-c-rsam-rsam-analysis"></span><h1><a class="reference internal" href="#module-rsudp.c_rsam" title="rsudp.c_rsam"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code></a> (RSAM analysis)<a class="headerlink" href="#module-rsudp.c_rsam" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
+<dl class="class">
 <dt id="rsudp.c_rsam.RSAM">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_rsam.</code><code class="sig-name descname">RSAM</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">interval</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">cha</span><span class="o">=</span><span class="default_value">'HZ'</span></em>, <em class="sig-param"><span class="n">deconv</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fwaddr</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fwport</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fwformat</span><span class="o">=</span><span class="default_value">'LITE'</span></em>, <em class="sig-param"><span class="n">quiet</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_rsam.RSAM" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_rsam.</code><code class="sig-name descname">RSAM</code><span class="sig-paren">(</span><em class="sig-param">q=False</em>, <em class="sig-param">debug=False</em>, <em class="sig-param">interval=5</em>, <em class="sig-param">cha='HZ'</em>, <em class="sig-param">deconv=False</em>, <em class="sig-param">fwaddr=False</em>, <em class="sig-param">fwport=False</em>, <em class="sig-param">fwformat='LITE'</em>, <em class="sig-param">quiet=False</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_rsam.RSAM" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 1.0.1.</span></p>
 </div>
@@ -221,19 +223,19 @@ and optionally forwarded to an IP address and port specified by <code class="doc
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.8)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>.</p></li>
-<li><p><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether or not to print RSAM analysis live to the console.</p></li>
-<li><p><strong>quiet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether or not to suppress <code class="docutils literal notranslate"><span class="pre">debug</span></code> printing (<code class="docutils literal notranslate"><span class="pre">True</span></code> suppresses output).</p></li>
-<li><p><strong>interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – window of time in seconds to apply RSAM analysis.</p></li>
-<li><p><strong>cha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – listening channel (defaults to [S,E]HZ)</p></li>
-<li><p><strong>deconv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – <code class="docutils literal notranslate"><span class="pre">'VEL'</span></code>, <code class="docutils literal notranslate"><span class="pre">'ACC'</span></code>, <code class="docutils literal notranslate"><span class="pre">'GRAV'</span></code>, <code class="docutils literal notranslate"><span class="pre">'DISP'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'CHAN'</span></code></p></li>
-<li><p><strong>fwaddr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Specify a forwarding address to send RSAM in a UDP packet</p></li>
-<li><p><strong>fwport</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Specify a forwarding port to send RSAM in a UDP packet</p></li>
-<li><p><strong>fwformat</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Specify a format for the forwarded packet: <code class="docutils literal notranslate"><span class="pre">'LITE'</span></code>, <code class="docutils literal notranslate"><span class="pre">'JSON'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'CSV'</span></code></p></li>
+<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.9)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>.</p></li>
+<li><p><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not to print RSAM analysis live to the console.</p></li>
+<li><p><strong>quiet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not to suppress <code class="docutils literal notranslate"><span class="pre">debug</span></code> printing (<code class="docutils literal notranslate"><span class="pre">True</span></code> suppresses output).</p></li>
+<li><p><strong>interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – window of time in seconds to apply RSAM analysis.</p></li>
+<li><p><strong>cha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – listening channel (defaults to [S,E]HZ)</p></li>
+<li><p><strong>deconv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <code class="docutils literal notranslate"><span class="pre">'VEL'</span></code>, <code class="docutils literal notranslate"><span class="pre">'ACC'</span></code>, <code class="docutils literal notranslate"><span class="pre">'GRAV'</span></code>, <code class="docutils literal notranslate"><span class="pre">'DISP'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'CHAN'</span></code></p></li>
+<li><p><strong>fwaddr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Specify a forwarding address to send RSAM in a UDP packet</p></li>
+<li><p><strong>fwport</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Specify a forwarding port to send RSAM in a UDP packet</p></li>
+<li><p><strong>fwformat</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Specify a format for the forwarded packet: <code class="docutils literal notranslate"><span class="pre">'LITE'</span></code>, <code class="docutils literal notranslate"><span class="pre">'JSON'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'CSV'</span></code></p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py method">
+<dl class="method">
 <dt id="rsudp.c_rsam.RSAM.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_rsam.RSAM.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads data from the queue and executes self.codefile if it sees an <code class="docutils literal notranslate"><span class="pre">ALARM</span></code> message.
@@ -270,7 +272,7 @@ Quits if it sees a <code class="docutils literal notranslate"><span class="pre">
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Raspberry Shake S.A.
+        &copy; Copyright 2021, Raspberry Shake S.A.
 
     </p>
   </div>

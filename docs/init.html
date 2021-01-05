@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.1
+                1.0.0
               </div>
             
           
@@ -95,12 +95,14 @@
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
-<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html#detected-earthquake">Detected earthquake</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developers' guide</span></p>
 <ul>
@@ -211,23 +213,23 @@
 The useful things here are likely <code class="docutils literal notranslate"><span class="pre">printM</span></code>, <code class="docutils literal notranslate"><span class="pre">printW</span></code> and <code class="docutils literal notranslate"><span class="pre">printE</span></code>
 which interface with the logging utility to print messages, warnings,
 and errors in color and save them to the logs.</p>
-<span class="target" id="module-rsudp.__init__"></span><dl class="py class">
+<span class="target" id="module-rsudp.__init__"></span><dl class="class">
 <dt id="rsudp.__init__.LevelFormatter">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">LevelFormatter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fmt</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">datefmt</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">level_fmts</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.LevelFormatter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">LevelFormatter</code><span class="sig-paren">(</span><em class="sig-param">fmt=None</em>, <em class="sig-param">datefmt=None</em>, <em class="sig-param">level_fmts={}</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.LevelFormatter" title="Permalink to this definition">¶</a></dt>
 <dd><p>A class that formats messages differently depending on their level.
 Adapted from <a href="https://stackoverflow.com/a/28636024" target="_blank">this stackoverflow answer</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>fmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – Format of message strings (see <a class="reference external" href="https://docs.python.org/3/library/logging.html#module-logging" title="(in Python v3.8)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging</span></code></a>; example: <code class="docutils literal notranslate"><span class="pre">'%(asctime)-15s</span> <span class="pre">%(msg)s'</span></code>)</p></li>
-<li><p><strong>datefmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – Date strings in strftime format (see <a class="reference external" href="https://docs.python.org/3/library/logging.html#module-logging" title="(in Python v3.8)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging</span></code></a> example: <code class="docutils literal notranslate"><span class="pre">'%Y-%m-%d</span> <span class="pre">%H:%M:%S'</span></code>)</p></li>
-<li><p><strong>level_fmts</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – Dictionary of log levels and associated formats <code class="docutils literal notranslate"><span class="pre">{logging.INFO:</span> <span class="pre">'infoformat',</span> <span class="pre">logging.WARNING:</span> <span class="pre">'warnformat',</span> <span class="pre">logging.ERROR:</span> <span class="pre">'errformat'}</span></code></p></li>
+<li><p><strong>fmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – Format of message strings (see <a class="reference external" href="https://docs.python.org/3/library/logging.html#module-logging" title="(in Python v3.9)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging</span></code></a>; example: <code class="docutils literal notranslate"><span class="pre">'%(asctime)-15s</span> <span class="pre">%(msg)s'</span></code>)</p></li>
+<li><p><strong>datefmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – Date strings in strftime format (see <a class="reference external" href="https://docs.python.org/3/library/logging.html#module-logging" title="(in Python v3.9)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging</span></code></a> example: <code class="docutils literal notranslate"><span class="pre">'%Y-%m-%d</span> <span class="pre">%H:%M:%S'</span></code>)</p></li>
+<li><p><strong>level_fmts</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – Dictionary of log levels and associated formats <code class="docutils literal notranslate"><span class="pre">{logging.INFO:</span> <span class="pre">'infoformat',</span> <span class="pre">logging.WARNING:</span> <span class="pre">'warnformat',</span> <span class="pre">logging.ERROR:</span> <span class="pre">'errformat'}</span></code></p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py method">
+<dl class="method">
 <dt id="rsudp.__init__.LevelFormatter.format">
-<code class="sig-name descname">format</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">record</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.LevelFormatter.format" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">format</code><span class="sig-paren">(</span><em class="sig-param">record</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.LevelFormatter.format" title="Permalink to this definition">¶</a></dt>
 <dd><p>Format the specified record as text.</p>
 <p>The record’s attribute dictionary is used as the operand to a
 string formatting operation which yields the returned string.
@@ -241,99 +243,99 @@ it is formatted using formatException() and appended to the message.</p>
 
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.__init__.add_debug_handler">
-<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">add_debug_handler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">testing</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.add_debug_handler" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">add_debug_handler</code><span class="sig-paren">(</span><em class="sig-param">testing=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.add_debug_handler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an additional handler for logging info and warnings to the command line.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>testing</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether or not testing is active (adds a “TESTING” label to messages)</p>
+<dd class="field-odd"><p><strong>testing</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not testing is active (adds a “TESTING” label to messages)</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.__init__.init_dirs">
-<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">init_dirs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">odir</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.init_dirs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">init_dirs</code><span class="sig-paren">(</span><em class="sig-param">odir</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.init_dirs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the write directories if they do not already exist.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>odir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – output directory</p>
+<dd class="field-odd"><p><strong>odir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – output directory</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.__init__.printE">
-<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">printE</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="n">sender</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">announce</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">spaces</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.printE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">printE</code><span class="sig-paren">(</span><em class="sig-param">msg</em>, <em class="sig-param">sender=''</em>, <em class="sig-param">announce=True</em>, <em class="sig-param">spaces=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.printE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints errors with datetime stamp and sends their output to the logging handlers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – message to log</p></li>
-<li><p><strong>sender</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the name of the class or function sending the message</p></li>
-<li><p><strong>announce</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether or not to display “WARNING” before the message</p></li>
-<li><p><strong>spaces</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether or not to display formatting spaces before the message</p></li>
+<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – message to log</p></li>
+<li><p><strong>sender</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the name of the class or function sending the message</p></li>
+<li><p><strong>announce</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not to display “WARNING” before the message</p></li>
+<li><p><strong>spaces</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not to display formatting spaces before the message</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.__init__.printM">
-<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">printM</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="n">sender</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">announce</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.printM" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">printM</code><span class="sig-paren">(</span><em class="sig-param">msg</em>, <em class="sig-param">sender=''</em>, <em class="sig-param">announce=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.printM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints messages with datetime stamp and sends their output to the logging handlers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – message to log</p></li>
-<li><p><strong>sender</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the name of the class or function sending the message</p></li>
+<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – message to log</p></li>
+<li><p><strong>sender</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the name of the class or function sending the message</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.__init__.printW">
-<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">printW</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="n">sender</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">announce</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">spaces</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.printW" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">printW</code><span class="sig-paren">(</span><em class="sig-param">msg</em>, <em class="sig-param">sender=''</em>, <em class="sig-param">announce=True</em>, <em class="sig-param">spaces=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.printW" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints warnings with datetime stamp and sends their output to the logging handlers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – message to log</p></li>
-<li><p><strong>sender</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the name of the class or function sending the message</p></li>
-<li><p><strong>announce</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether or not to display “WARNING” before the message</p></li>
-<li><p><strong>spaces</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether or not to display formatting spaces before the message</p></li>
+<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – message to log</p></li>
+<li><p><strong>sender</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the name of the class or function sending the message</p></li>
+<li><p><strong>announce</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not to display “WARNING” before the message</p></li>
+<li><p><strong>spaces</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not to display formatting spaces before the message</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.__init__.start_logging">
-<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">start_logging</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">testing</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.start_logging" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">start_logging</code><span class="sig-paren">(</span><em class="sig-param">testing=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.start_logging" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a handler for logging info and warnings to file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>testing</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether or not testing is active (adds a “TESTING” label to messages)</p>
+<dd class="field-odd"><p><strong>testing</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not testing is active (adds a “TESTING” label to messages)</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -361,7 +363,7 @@ it is formatted using formatException() and appended to the message.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Raspberry Shake S.A.
+        &copy; Copyright 2021, Raspberry Shake S.A.
 
     </p>
   </div>

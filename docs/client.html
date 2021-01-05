@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.1
+                1.0.0
               </div>
             
           
@@ -209,31 +209,31 @@
             
   <div class="section" id="module-rsudp.client">
 <span id="rsudp-client-central-module"></span><h1><a class="reference internal" href="#module-rsudp.client" title="rsudp.client"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code></a> (central module)<a class="headerlink" href="#module-rsudp.client" title="Permalink to this headline">¶</a></h1>
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.client.handler">
-<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">handler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sig</span></em>, <em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.handler" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function passed to <a class="reference external" href="https://docs.python.org/3/library/signal.html#signal.signal" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">signal.signal()</span></code></a> to handle close events</p>
+<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">handler</code><span class="sig-paren">(</span><em class="sig-param">sig</em>, <em class="sig-param">frame</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function passed to <a class="reference external" href="https://docs.python.org/3/library/signal.html#signal.signal" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">signal.signal()</span></code></a> to handle close events</p>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.client.main">
 <code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.main" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads settings to start the main client.
 Supply -h from the command line to see help text.</p>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.client.mk_p">
-<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">mk_p</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proc</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.mk_p" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">mk_p</code><span class="sig-paren">(</span><em class="sig-param">proc</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.mk_p" title="Permalink to this definition">¶</a></dt>
 <dd><p>Appends a process to the list of threads to start and stop.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>proc</strong> (<a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.8)"><em>threading.Thread</em></a>) – The process thread to append to the list of threads.</p>
+<dd class="field-odd"><p><strong>proc</strong> (<a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.9)"><em>threading.Thread</em></a>) – The process thread to append to the list of threads.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.client.mk_q">
 <code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">mk_q</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.mk_q" title="Permalink to this definition">¶</a></dt>
 <dd><p>Makes a queue and appends it to the <code class="xref py py-data docutils literal notranslate"><span class="pre">destinations</span></code>
@@ -241,7 +241,7 @@ variable to be passed to the master consumer thread
 <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.8)">queue.Queue</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.9)">queue.Queue</a></p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Returns the queue to pass to the sub-consumer.</p>
@@ -249,28 +249,28 @@ variable to be passed to the master consumer thread
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.client.run">
-<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span></em>, <em class="sig-param"><span class="n">debug</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">settings</em>, <em class="sig-param">debug</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main setup function. Takes configuration values and passes them to
 the appropriate threads and functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – settings dictionary (see <a class="reference internal" href="settings.html#defaults"><span class="std std-ref">Default settings</span></a> for guidance)</p></li>
-<li><p><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether or not to show debug output (should be turned off if starting as daemon)</p></li>
+<li><p><strong>settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – settings dictionary (see <a class="reference internal" href="settings.html#defaults"><span class="std std-ref">Default settings</span></a> for guidance)</p></li>
+<li><p><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not to show debug output (should be turned off if starting as daemon)</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.client.start">
 <code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start Consumer, Threads, and Producer.</p>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.client.test">
 <code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.test" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -280,20 +280,20 @@ the appropriate threads and functions.</p>
 For a list of tests run, see <a class="reference internal" href="test.html#module-rsudp.test" title="rsudp.test"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rsudp.test</span></code></a>.</p>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="rsudp.client.test_mode">
-<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">test_mode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.test_mode" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">test_mode</code><span class="sig-paren">(</span><em class="sig-param">mode=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.test_mode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the TESTING global variable to <code class="docutils literal notranslate"><span class="pre">True</span></code> to indicate that
 testing-specific actions should be taken in routines.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>, sets testing mode state. if anything else, returns state only.</p>
+<dd class="field-odd"><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>, sets testing mode state. if anything else, returns state only.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>testing mode state</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -326,7 +326,7 @@ testing-specific actions should be taken in routines.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Raspberry Shake S.A.
+        &copy; Copyright 2021, Raspberry Shake S.A.
 
     </p>
   </div>

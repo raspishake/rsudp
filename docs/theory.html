@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.1
+                1.0.0
               </div>
             
           
@@ -95,12 +95,14 @@
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
-<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html#detected-earthquake">Detected earthquake</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developers' guide</span></p>
 <ul class="current">
@@ -227,7 +229,7 @@ softwares, but which may be unfamiliar to some developers.</p>
 <p>The program’s organization relies on two hierarchies: thread hierarchy and
 data hierarchy. This allows the program to distribute data and messages
 between different modules efficiently while maintaining programmatic
-integrity required by rsudp’s dependencies (<a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.html#module-matplotlib.pyplot" title="(in Matplotlib v3.2.1)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">matplotlib.pyplot</span></code></a>
+integrity required by rsudp’s dependencies (<a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.html#module-matplotlib.pyplot" title="(in Matplotlib v3.3.3)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">matplotlib.pyplot</span></code></a>
 objects, for example, can only be owned by the master thread).</p>
 <div class="figure align-center" id="id1">
 <span id="flow-diagram"></span><img alt="_images/rsudp-flow.png" src="_images/rsudp-flow.png" />
@@ -242,12 +244,12 @@ the master consumer like the rest of the workers.</span><a class="headerlink" hr
 </div>
 <div class="section" id="thread-layout">
 <h2><span class="section-number">1.1. </span>Thread layout<a class="headerlink" href="#thread-layout" title="Permalink to this headline">¶</a></h2>
-<p>The program relies on the <a class="reference external" href="https://docs.python.org/3/library/threading.html#module-threading" title="(in Python v3.8)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">threading</span></code></a> and <a class="reference external" href="https://docs.python.org/3/library/queue.html#module-queue" title="(in Python v3.8)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code></a> modules
+<p>The program relies on the <a class="reference external" href="https://docs.python.org/3/library/threading.html#module-threading" title="(in Python v3.9)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">threading</span></code></a> and <a class="reference external" href="https://docs.python.org/3/library/queue.html#module-queue" title="(in Python v3.9)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code></a> modules
 to spin up multiple threads which all receive and work with data
 independently of one another.</p>
 <p>First, the <a class="reference internal" href="client.html#module-rsudp.client" title="rsudp.client"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rsudp.client</span></code></a> (the “main” or “parent” thread) gathers
 and parses settings. The client then instantiates the relevant
-<a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></a> objects as and passes settings and queues to
+<a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></a> objects as and passes settings and queues to
 them. Next, it starts each of these consumer threads as “child” threads,
 then finally the producer, also as a child thread.</p>
 <p>If the <a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot" title="rsudp.c_plot.Plot"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_plot.Plot</span></code></a> thread is enabled, the program will
@@ -351,7 +353,7 @@ and can be made to do pretty much whatever you wish,
 until it receives a <code class="docutils literal notranslate"><span class="pre">TERM</span></code> queue message.</p>
 <p>This consumer is created from a
 <a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.ConsumerThread" title="rsudp.raspberryshake.ConsumerThread"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.raspberryshake.ConsumerThread</span></code></a> object,
-which in turn modifies the <a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></a> class.</p>
+which in turn modifies the <a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></a> class.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">rsudp.raspberryshake</span> <span class="kn">import</span> <span class="n">ConsumerThread</span>
 <span class="kn">from</span> <span class="nn">rsudp</span> <span class="kn">import</span> <span class="n">printM</span>
@@ -553,7 +555,7 @@ forums at <a class="reference external" href="https://community.raspberryshake.o
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Raspberry Shake S.A.
+        &copy; Copyright 2021, Raspberry Shake S.A.
 
     </p>
   </div>

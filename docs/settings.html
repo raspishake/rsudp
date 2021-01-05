@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.1
+                1.0.0
               </div>
             
           
@@ -138,6 +138,8 @@
 <p class="caption"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="youtube.html#detected-earthquake">Detected earthquake</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developers' guide</span></p>
 <ul>
@@ -418,8 +420,8 @@ for exceedence of the threshold. Adjust the <code class="code json docutils lite
 <blockquote>
 <div><div class="deprecated">
 <p><span class="versionmodified deprecated">Deprecated since version 0.4.3: </span>You can change the <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“exec”</span></span></code> field and supply a path to
-executable Python code to run with the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function.
-<a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> functionality will move to its own module in version 0.4.3
+executable Python code to run with the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function.
+<a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> functionality will move to its own module in version 0.4.3
 (see <a class="reference internal" href="#customcode"><span class="std std-ref">custom (run custom code)</span></a> and the <a class="reference internal" href="c_custom.html#rsudp.c_custom.Custom" title="rsudp.c_custom.Custom"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_custom.Custom</span></code></a> class),
 and this part of the alert module will be fully removed in a future release.</p>
 </div>
@@ -584,9 +586,9 @@ just like you would from the Shake’s web front end. By default, <code class="c
 </div>
 <p><code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“custom”</span></span></code> controls the execution of a custom python code file specified by the <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“codefile”</span></span></code> field.
 If <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“enabled”</span></span></code> is <code class="code json docutils literal notranslate"><span class="keyword constant"><span class="pre">true</span></span></code> and a python file is found at the path specified,
-this thread will run the specified file using python’s <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function.</p>
-<p>Be very careful when using this module, as the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function is known to have problems.
-Notably, <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> does not check the passed file for errors prior to running.
+this thread will run the specified file using python’s <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function.</p>
+<p>Be very careful when using this module, as the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function is known to have problems.
+Notably, <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> does not check the passed file for errors prior to running.
 Also, the passed file cannot have Windows line endings (see warning below).
 Additionally, if the code takes too long to execute,
 you could end up losing data packets from the queue, so keep it simple.
@@ -604,7 +606,7 @@ and create a new thread that does the thing you want when it sees an ALARM data 
 That way, the code will be checked for errors prior to running.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>If you are running Windows and have code you want to pass to the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function,
+<p>If you are running Windows and have code you want to pass to the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function,
 Python requires that your newline characters are in the UNIX style (<code class="code docutils literal notranslate"><span class="pre">\n</span></code>), not the standard Windows style (<code class="code docutils literal notranslate"><span class="pre">\r\n</span></code>).
 To convert, follow the instructions in one of the answers to <a href="https://stackoverflow.com/questions/17579553/windows-command-to-convert-unix-line-endings" target="_blank">this stackoverflow question</a>.
 If you’re not sure what this means, please read about newline/line ending characters <a href="https://en.wikipedia.org/wiki/Newline" target="_blank">here</a>.
@@ -722,7 +724,7 @@ Change <code class="code json docutils literal notranslate"><span class="literal
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Raspberry Shake S.A.
+        &copy; Copyright 2021, Raspberry Shake S.A.
 
     </p>
   </div>

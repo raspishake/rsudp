@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="rsudp",
-    version="1.0.1",
+    version="1.0.2",
     author="Ian Nesbitt",
     author_email="ian.nesbitt@raspberryshake.org",
     license='GPLv3',

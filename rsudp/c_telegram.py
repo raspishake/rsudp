@@ -57,7 +57,7 @@ class Telegrammer(rs.ConsumerThread):
 
 		self.telegram = tg.Bot(token=self.token)
 
-		self.livelink = 'live feed ➡️ https://raspberryshake.net/stationview/#?net=%s&sta=%s' % (rs.net, rs.stn)
+		self.livelink = 'live feed ➡️ https://stationview.raspberryshake.org/#?net=%s&sta=%s' % (rs.net, rs.stn)
 		self.message0 = '(Raspberry Shake station %s.%s%s) Event detected at' % (rs.net, rs.stn, self.region)
 
 		printM('Starting.', self.sender)

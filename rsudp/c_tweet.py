@@ -110,7 +110,7 @@ class Tweeter(rs.ConsumerThread):
 			extra_text = str(extra_text)
 			len_ex_txt = len(extra_text)
 
-			if len_ex_text > 143:
+			if len_ex_txt > 143:
 				printW('extra_text parameter is longer than allowable (%s chars) and will be truncated. Please keep extra_text at or below 143 characters.' % len_ex_txt, sender=self.sender)
 				extra_text = extra_text[:143]
 

@@ -1,4 +1,5 @@
 import setuptools
+from rsudp import _version
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -6,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="rsudp",
-    version="1.0.2",
+    version=_version.version,
     author="Ian Nesbitt",
     author_email="ian.nesbitt@raspberryshake.org",
     license='GPLv3',

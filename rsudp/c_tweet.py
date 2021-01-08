@@ -56,13 +56,15 @@ class Tweeter(rs.ConsumerThread):
 	:param str consumer_secret: Twitter calls this the "consumer key secret"
 	:param str access_token: Twitter calls this the "consumer access token"
 	:param str access_secret: Twitter calls this the "consumer access secret"
-	:param bool send_images: whether or not to send images. if False, only alerts will be sent.
+	:param bool tweet_images: whether or not to send images. if False, only alerts will be sent.
+	:type extra_text: bool or str
+	:param extra_text: approximately 180 characters to post .
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 
 
 	'''
 	def __init__(self, consumer_key, consumer_secret, access_token, access_token_secret,
-				 q=False, tweet_images=False,
+				 q=False, tweet_images=False, extra_text=False,
 				 ):
 		"""
 		Initialize the process
@@ -77,6 +79,8 @@ class Tweeter(rs.ConsumerThread):
 		self.consumer_secret = consumer_secret
 		self.access_token = access_token
 		self.access_token_secret = access_token_secret
+
+		self._resolve_extra_text(extra_text)
 
 		if q:
 			self.queue = q
@@ -97,7 +101,22 @@ class Tweeter(rs.ConsumerThread):
 		self.message1 = '(#RaspberryShake station %s.%s%s) Image of event detected at' % (rs.net, rs.stn, self.region)
 
 		printM('Starting.', self.sender)
-	
+
+
+	def _resolve_extra_text(self, extra_text):
+		if ((extra_text == '') or (extra_text == None) or (extra_text == False)):
+			self.extra_text = ''
+		else:
+			extra_text = str(extra_text)
+			len_ex_txt = len(extra_text)
+
+			if len_extra_text > 143:
+				printW('extra_text parameter is longer than allowable (%s chars) and will be truncated. Please keep extra_text at or below 143 characters.' % len_ex_txt, sender=self.sender)
+				extra_text = extra_text[:143]
+
+			self.extra_text =  ' %s' % (extra_text)
+
+
 	def auth(self):
 		self.twitter = Twython(
 			self.consumer_key,
@@ -127,7 +146,7 @@ class Tweeter(rs.ConsumerThread):
 		'''
 		event_time = helpers.fsec(helpers.get_msg_time(d))
 		self.last_event_str = '%s' % (event_time.strftime(self.fmt)[:22])
-		message = '%s %s UTC - %s' % (self.message0, self.last_event_str, self.livelink)
+		message = '%s %s UTC%s - %s' % (self.message0, self.last_event_str, self.extra_text, self.livelink)
 		response = None
 		try:
 			printM('Sending tweet...', sender=self.sender)
@@ -166,7 +185,7 @@ class Tweeter(rs.ConsumerThread):
 		if self.tweet_images:
 			imgpath = helpers.get_msg_path(d)
 			imgtime = helpers.fsec(helpers.get_msg_time(d))
-			message = '%s %s UTC' % (self.message1, imgtime.strftime(self.fmt)[:22])
+			message = '%s %s UTC%s' % (self.message1, imgtime.strftime(self.fmt)[:22], self.extra_text)
 			response = None
 			if os.path.exists(imgpath):
 				with open(imgpath, 'rb') as image:

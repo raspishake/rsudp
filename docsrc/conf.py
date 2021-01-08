@@ -17,7 +17,6 @@ import sys
 # sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../'))
 from datetime import datetime
-import rsudp
 
 
 # -- Project information -----------------------------------------------------
@@ -27,7 +26,8 @@ copyright = '%s, Raspberry Shake S.A.' % datetime.now().year
 author = 'Ian Nesbitt, Richard Boaz'
 
 # The short X.Y version
-version = rsudp.__version__
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from rsudp._version import version
 # The full version, including alpha/beta/rc tags
 release = ''
 

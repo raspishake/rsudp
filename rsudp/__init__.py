@@ -3,6 +3,7 @@ import logging
 import warnings
 from time import gmtime
 import pkg_resources
+from . import _version
 
 # saved in case needed in the future
 # warnings.filterwarnings('ignore', category=UserWarning, module='rsudp')
@@ -14,7 +15,7 @@ Contains logging and formatting resources for command line and logfile output of
 '''
 
 name = 'rsudp'
-__version__ = pkg_resources.require(name)[0].version
+__version__ = _version.version
 
 default_loc = '%s/.config/rsudp' % os.path.expanduser('~').replace('\\', '/')
 os.makedirs(default_loc, exist_ok=True)

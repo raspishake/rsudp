@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.0
+                1.0.2
               </div>
             
           
@@ -211,7 +211,7 @@
 <span id="rsudp-c-tweet-twitter-alerts"></span><h1><a class="reference internal" href="#module-rsudp.c_tweet" title="rsudp.c_tweet"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code></a> (Twitter alerts)<a class="headerlink" href="#module-rsudp.c_tweet" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="rsudp.c_tweet.Tweeter">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_tweet.</code><code class="sig-name descname">Tweeter</code><span class="sig-paren">(</span><em class="sig-param">consumer_key</em>, <em class="sig-param">consumer_secret</em>, <em class="sig-param">access_token</em>, <em class="sig-param">access_token_secret</em>, <em class="sig-param">q=False</em>, <em class="sig-param">tweet_images=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_tweet.Tweeter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_tweet.</code><code class="sig-name descname">Tweeter</code><span class="sig-paren">(</span><em class="sig-param">consumer_key</em>, <em class="sig-param">consumer_secret</em>, <em class="sig-param">access_token</em>, <em class="sig-param">access_token_secret</em>, <em class="sig-param">q=False</em>, <em class="sig-param">tweet_images=False</em>, <em class="sig-param">extra_text=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_tweet.Tweeter" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
 <div><div class="versionadded">
 <p><span class="versionmodified added">New in version 0.4.1.</span></p>
@@ -244,7 +244,8 @@ instead. rsudp has a telegram module at
 <li><p><strong>consumer_secret</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Twitter calls this the “consumer key secret”</p></li>
 <li><p><strong>access_token</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Twitter calls this the “consumer access token”</p></li>
 <li><p><strong>access_secret</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Twitter calls this the “consumer access secret”</p></li>
-<li><p><strong>send_images</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not to send images. if False, only alerts will be sent.</p></li>
+<li><p><strong>tweet_images</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not to send images. if False, only alerts will be sent.</p></li>
+<li><p><strong>extra_text</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – approximately 180 characters to post .</p></li>
 <li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.9)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
 </ul>
 </dd>

@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.0
+                1.0.2
               </div>
             
           
@@ -540,7 +540,26 @@ This chat ID may be negative, in which case you must enter the negative sign int
 then the <a class="reference internal" href="c_tweet.html#rsudp.c_tweet.Tweeter" title="rsudp.c_tweet.Tweeter"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_tweet.Tweeter</span></code></a> class will use the Twitter API to
 create tweets when an ALARM message arrives on the queue.
 If <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“tweet_images”</span></span></code> is <code class="code json docutils literal notranslate"><span class="keyword constant"><span class="pre">true</span></span></code>, then the module will also tweet a saved image of the event,
-if <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“eq_screenshots”</span></span></code> is set to <code class="code json docutils literal notranslate"><span class="keyword constant"><span class="pre">true</span></span></code> in the “plot” module.</p>
+if <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“eq_screenshots”</span></span></code> is set to <code class="code json docutils literal notranslate"><span class="keyword constant"><span class="pre">true</span></span></code> in the “plot” module. If any text is put in the
+<code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string, then the software will insert that text (no longer than 143 characters)
+into the tweets after a single space. For example, an unmodified tweet with <code class="code docutils literal notranslate"><span class="pre">&quot;extra_text&quot;:</span> <span class="pre">&quot;&quot;</span></code>
+might look like this:</p>
+<div class="figure align-center" id="id10">
+<span id="eq-tweet"></span><img alt="_images/eq_tweet.png" src="_images/eq_tweet.png" />
+<p class="caption"><span class="caption-text">An example tweet sent with the “extra_text” parameter empty (this is the default).</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+</div>
+<p>Changing the <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> parameter to <code class="code docutils literal notranslate"><span class="pre">&quot;extra_text&quot;:</span> <span class="pre">&quot;from</span> <span class="pre">#Williamstown</span> <span class="pre">#MA&quot;</span></code>
+would render something like the following:</p>
+<div class="figure align-center" id="id11">
+<span id="eq-tweet-extra"></span><img alt="_images/eq_tweet_extra.png" src="_images/eq_tweet_extra.png" />
+<p class="caption"><span class="caption-text">An example tweet sent with the “extra_text” parameter filled.</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Starting the software with an <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string in excess of 143 characters
+will yield a warning and the <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string will be truncated
+in order to avoid the tweet being rejected for exceeding the 280 character limit.</p>
+</div>
 <div class="section" id="setting-up-twitter-apps">
 <span id="setting-up-twitter"></span><h3><span class="section-number">3.7.1. </span>Setting up Twitter Apps<a class="headerlink" href="#setting-up-twitter-apps" title="Permalink to this headline">¶</a></h3>
 <p>Here is a brief overview of the steps to set up a Twitter app (also known as an API bot)

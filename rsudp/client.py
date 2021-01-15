@@ -307,11 +307,12 @@ def run(settings, debug):
 		access_token = settings['tweets']['access_token']
 		access_token_secret = settings['tweets']['access_secret']
 		tweet_images = settings['tweets']['tweet_images']
+		extra_text = settings['tweets']['extra_text']
 
 		q = mk_q()
 		tweet = Tweeter(q=q, consumer_key=consumer_key, consumer_secret=consumer_secret,
 						access_token=access_token, access_token_secret=access_token_secret,
-						tweet_images=tweet_images)
+						tweet_images=tweet_images, extra_text=extra_text)
 		mk_p(tweet)
 
 	if settings['telegram']['enabled']:

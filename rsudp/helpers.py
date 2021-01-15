@@ -76,7 +76,8 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
     "api_key": "n/a",
     "api_secret": "n/a",
     "access_token": "n/a",
-    "access_secret": "n/a"},
+    "access_secret": "n/a",
+	"extra_text": ""},
 "telegram": {
     "enabled": false,
     "send_images": true,

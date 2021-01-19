@@ -2,6 +2,7 @@
 ## changes in 1.0.2
 - corrected install script to fix [#14](https://github.com/raspishake/rsudp/issues/14)
 - corrected social media URL destination [#15](https://github.com/raspishake/rsudp/issues/15)
+- adding feature requested in [#9](https://github.com/raspishake/rsudp/issues/9) (additional text for twitter posts [documented here](https://raspishake.github.io/rsudp/settings.html#tweets-twitter-notification-module))
 
 ## changes in 1.0.1
 - added `rsudp.c_rsam` Real-time Seismic Amplitude Measurement consumer

@@ -35,7 +35,7 @@ independently of one another.
 
 First, the :py:mod:`rsudp.client` (the "main" or "parent" thread) gathers
 and parses settings. The client then instantiates the relevant
-:py:class:`threading.Thread` objects as and passes settings and queues to
+:py:class:`threading.Thread` objects and passes settings and queues to
 them. Next, it starts each of these consumer threads as "child" threads,
 then finally the producer, also as a child thread.
 
@@ -81,6 +81,13 @@ Currently, the message types are as follows.
  IMGPATH   ``b'IMGPATH 2020-02-23T06:59:19.211704Z /home/pi/rsudp/screenshots/R24FA-2020-02-23-065919.png'``
  TERM      ``b'TERM'``
 ========= ==========================================
+
+.. note::
+
+    The above message formats are Python bytes objects, not traditional
+    strings. The difference between a bytes object and a string is
+    outlined briefly
+    `here <https://www.geeksforgeeks.org/byte-objects-vs-string-python/>`_.
 
 **ALARM** messages are sent by :py:class:`rsudp.p_producer.Producer`
 when it sees the :py:data:`rsudp.c_consumer.Alert.alarm` flag set to

@@ -249,7 +249,7 @@ to spin up multiple threads which all receive and work with data
 independently of one another.</p>
 <p>First, the <a class="reference internal" href="client.html#module-rsudp.client" title="rsudp.client"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rsudp.client</span></code></a> (the “main” or “parent” thread) gathers
 and parses settings. The client then instantiates the relevant
-<a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></a> objects as and passes settings and queues to
+<a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></a> objects and passes settings and queues to
 them. Next, it starts each of these consumer threads as “child” threads,
 then finally the producer, also as a child thread.</p>
 <p>If the <a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot" title="rsudp.c_plot.Plot"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_plot.Plot</span></code></a> thread is enabled, the program will
@@ -305,6 +305,13 @@ status messages.</p>
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The above message formats are Python bytes objects, not traditional
+strings. The difference between a bytes object and a string is
+outlined briefly
+<a class="reference external" href="https://www.geeksforgeeks.org/byte-objects-vs-string-python/">here</a>.</p>
+</div>
 <p><strong>ALARM</strong> messages are sent by <a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.p_producer.Producer</span></code></a>
 when it sees the <code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer.Alert.alarm</span></code> flag set to
 <code class="docutils literal notranslate"><span class="pre">True</span></code>. This can trigger all sorts of actions. For example, when the

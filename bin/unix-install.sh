@@ -266,13 +266,13 @@ if [ ! -z ${success+x} ]; then
   if [ -z ${previous_conda+x} ]; then
     if [ -z ${sourced+x} ]; then
       echo 'You will need to tell your shell where to find conda by entering ". ~/'"$release"'/etc/profile.d/conda.sh"'
-      then='then '
+      then=' then'
     fi
     echo 'You can'$then' enter the command "conda activate rsudp" to activate the rsudp conda environment'
   else
     if [ -z ${sourced+x} ]; then
       echo 'You need to re-source your shell before using conda. To do this, type "source ~/.bashrc" or just open a new terminal window.'
-      then='then '
+      then=' then'
     fi
     echo 'You can'$then' enter the rsudp conda environment by typing "conda activate rsudp"'
   fi

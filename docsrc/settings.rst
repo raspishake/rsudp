@@ -12,8 +12,11 @@ Modules and Settings
 .. role:: pycode(code)
     :language: python
 
+
+
 You will need to adjust the settings file before running :bash:`rsudp` in order to
 both receive data and suit your earthquake detection and notification needs.
+Additionally after changing settings, you will need to restart :bash:`rsudp` to load new values.
 
 By default, the rsudp settings file will live in :bash:`$HOME/.config/rsudp/rsudp_settings.json`,
 where :bash:`$HOME` is your home directory (often shortened to :bash:`~/`).

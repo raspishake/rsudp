@@ -9,8 +9,7 @@ If you have a recurring issue, please see if the logs give any indication
 as to what is going on, and check relevant sections below.
 
 By far the most common problem you'll run into if you are a first-time user
-is the inability to see data coming in. Once you have a good setup worked out,
-you will typically be able to start and run this program without errors.
+is the inability to see data coming in.
 
 .. _remote:
 
@@ -183,7 +182,10 @@ usually have difficult jobs, so don't be too hard on them!
 Other issues
 *************************************************
 
-If you are having a technical support issue other than the one described above,
+For more information about Raspberry Shake UDP output, see the |rs-manual-udp| of the
+|rs-manual|.
+
+If you are having a technical support issue other than one described above,
 please post the issue you are having to our forum at
 https://community.raspberryshake.org. We would be glad to help you solve your
 issue there.
@@ -191,6 +193,14 @@ issue there.
 .. |newissue| raw:: html
 
    <a href="https://github.com/raspishake/rsudp/issues/new" target="_blank">new issue</a>
+
+.. |rs-manual-udp| raw:: html
+
+   <a href="https://manual.raspberryshake.org/udp.html#udp" target="_blank">UDP section</a>
+
+.. |rs-manual| raw:: html
+
+   <a href="https://manual.raspberryshake.org/" target="_blank">Raspberry Shake User Manual</a>
 
 If it turns out that we cannot solve it without a bug fix in the code, please
 submit a |newissue| on GitHub.

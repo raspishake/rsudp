@@ -234,7 +234,7 @@ this library must be initialized using <a class="reference internal" href="#rsud
 </div>
 <p>After initializing the library, the <a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a>
 function and its derivatives will be available for use.</p>
-<span class="target" id="module-rsudp.raspberryshake"></span><dl class="class">
+<span class="target" id="module-rsudp.raspberryshake"></span><dl class="py class">
 <dt id="rsudp.raspberryshake.ConsumerThread">
 <em class="property">class </em><code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">ConsumerThread</code><a class="headerlink" href="#rsudp.raspberryshake.ConsumerThread" title="Permalink to this definition">¶</a></dt>
 <dd><p>The default consumer thread setup.
@@ -255,9 +255,9 @@ needs in order to function.</p>
 see <a class="reference internal" href="theory.html#add-your-own"><span class="std std-ref">Adding your own consumer modules</span></a>.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.raspberryshake.copy">
-<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">orig</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.copy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">orig</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.copy" title="Permalink to this definition">¶</a></dt>
 <dd><p>True-copy a stream by creating a new stream and copying old attributes to it.
 This is necessary because the old stream accumulates <em>something</em> that causes
 CPU usage to increase over time as more data is added. This is a bug in obspy
@@ -293,9 +293,9 @@ works fine and is plenty fast enough.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.raspberryshake.getCHN">
-<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">getCHN</code><span class="sig-paren">(</span><em class="sig-param">DP</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getCHN" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">getCHN</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">DP</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getCHN" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract the channel information from the data packet.
 Requires <a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a> packet as argument.</p>
 <p>In this example, we get the channel code from a Shake 1Dv7 data packet:</p>
@@ -319,7 +319,7 @@ Requires <a class="reference internal" href="#rsudp.raspberryshake.getDATA" titl
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.raspberryshake.getCHNS">
 <code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">getCHNS</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getCHNS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a list of channels sent to the port.</p>
@@ -340,7 +340,7 @@ Requires <a class="reference internal" href="#rsudp.raspberryshake.getDATA" titl
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.raspberryshake.getDATA">
 <code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">getDATA</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getDATA" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read a data packet off the port.</p>
@@ -370,9 +370,9 @@ Requires <a class="reference internal" href="#rsudp.raspberryshake.getDATA" titl
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.raspberryshake.getSR">
-<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">getSR</code><span class="sig-paren">(</span><em class="sig-param">TR</em>, <em class="sig-param">DP</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getSR" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">getSR</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">TR</span></em>, <em class="sig-param"><span class="n">DP</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getSR" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the sample rate in samples per second.
 Requires an integer transmission frequency and a data packet as arguments.</p>
 <p>In this example, we calculate the number of samples per second from a Shake 1Dv7:</p>
@@ -403,9 +403,9 @@ Requires an integer transmission frequency and a data packet as arguments.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.raspberryshake.getSTREAM">
-<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">getSTREAM</code><span class="sig-paren">(</span><em class="sig-param">DP</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getSTREAM" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">getSTREAM</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">DP</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getSTREAM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the samples in a data packet as a list object.
 Requires <a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a> packet as argument.</p>
 <p>In this example, we get a list of samples from a Shake 1Dv7 data packet:</p>
@@ -432,9 +432,9 @@ Requires <a class="reference internal" href="#rsudp.raspberryshake.getDATA" titl
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.raspberryshake.getTIME">
-<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">getTIME</code><span class="sig-paren">(</span><em class="sig-param">DP</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getTIME" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">getTIME</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">DP</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getTIME" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract the timestamp from the data packet.
 Timestamp is seconds since 1970-01-01 00:00:00Z,
 which can be passed directly to an <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.2.0) v1.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.utcdatetime.UTCDateTime</span></code></a> object:</p>
@@ -464,9 +464,9 @@ which can be passed directly to an <a class="reference external" href="https://d
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.raspberryshake.getTR">
-<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">getTR</code><span class="sig-paren">(</span><em class="sig-param">chn</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getTR" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">getTR</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">chn</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getTR" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the transmission rate in milliseconds between consecutive packets from the same channel.
 Must wait to receive a second packet from the same channel.
 Requires a <a class="reference internal" href="#rsudp.raspberryshake.getCHN" title="rsudp.raspberryshake.getCHN"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.getCHN()</span></code></a> or a channel name string as argument.</p>
@@ -492,7 +492,7 @@ Requires a <a class="reference internal" href="#rsudp.raspberryshake.getCHN" tit
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.raspberryshake.getTTLCHN">
 <code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">getTTLCHN</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getTTLCHN" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate total number of channels received,
@@ -514,9 +514,9 @@ by counting the number of channels returned by <a class="reference internal" hre
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.raspberryshake.get_inventory">
-<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">get_inventory</code><span class="sig-paren">(</span><em class="sig-param">sender='get_inventory'</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.get_inventory" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">get_inventory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sender</span><span class="o">=</span><span class="default_value">'get_inventory'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.get_inventory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Downloads the station inventory from the Raspberry Shake FDSN and stores
 it as an <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.Inventory.html#obspy.core.inventory.inventory.Inventory" title="(in ObsPy Documentation (1.2.0) v1.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.inventory.inventory.Inventory</span></code></a> object which is available globally.</p>
 <p>In this example, we get the R940D station inventory from the Raspberry Shake FDSN:</p>
@@ -548,7 +548,7 @@ it as an <a class="reference external" href="https://docs.obspy.org/packages/aut
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.raspberryshake.get_ip">
 <code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">get_ip</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.get_ip" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a reliable network IP to report to the user when there is no data received.
@@ -569,9 +569,9 @@ Solution adapted from <a href="https://stackoverflow.com/questions/166506/findin
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.raspberryshake.handler">
-<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">handler</code><span class="sig-paren">(</span><em class="sig-param">signum</em>, <em class="sig-param">frame</em>, <em class="sig-param">ip='10.3.141.94'</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.handler" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">handler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">signum</span></em>, <em class="sig-param"><span class="n">frame</span></em>, <em class="sig-param"><span class="n">ip</span><span class="o">=</span><span class="default_value">'100.66.33.145'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.handler" title="Permalink to this definition">¶</a></dt>
 <dd><p>The signal handler for the nodata alarm.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -587,9 +587,9 @@ Solution adapted from <a href="https://stackoverflow.com/questions/166506/findin
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.raspberryshake.initRSlib">
-<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">initRSlib</code><span class="sig-paren">(</span><em class="sig-param">dport=8888</em>, <em class="sig-param">rsstn='Z0000'</em>, <em class="sig-param">timeout=10</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.initRSlib" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">initRSlib</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dport</span><span class="o">=</span><span class="default_value">8888</span></em>, <em class="sig-param"><span class="n">rsstn</span><span class="o">=</span><span class="default_value">'Z0000'</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.initRSlib" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes this library (<a class="reference internal" href="#module-rsudp.raspberryshake" title="rsudp.raspberryshake"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake()</span></code></a>).
 Set values for data port, station, network, and port timeout prior to opening the socket.
 Calls both <a class="reference internal" href="#rsudp.raspberryshake.openSOCK" title="rsudp.raspberryshake.openSOCK"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.openSOCK()</span></code></a> and <a class="reference internal" href="#rsudp.raspberryshake.set_params" title="rsudp.raspberryshake.set_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.set_params()</span></code></a>.</p>
@@ -619,9 +619,9 @@ Calls both <a class="reference internal" href="#rsudp.raspberryshake.openSOCK" t
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.raspberryshake.make_trace">
-<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">make_trace</code><span class="sig-paren">(</span><em class="sig-param">d</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.make_trace" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">make_trace</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">d</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.make_trace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Makes a trace and assigns it some values using a data packet.</p>
 <p>In this example, we make a trace object with some RS 1Dv7 data:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
@@ -645,9 +645,9 @@ Calls both <a class="reference internal" href="#rsudp.raspberryshake.openSOCK" t
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.raspberryshake.openSOCK">
-<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">openSOCK</code><span class="sig-paren">(</span><em class="sig-param">host=''</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.openSOCK" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">openSOCK</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">host</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.openSOCK" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize a socket at the port specified by <code class="code pycode python docutils literal notranslate"><span class="name"><span class="pre">rsudp</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">raspberryshake</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">port</span></span></code>.
 Called by <a class="reference internal" href="#rsudp.raspberryshake.initRSlib" title="rsudp.raspberryshake.initRSlib"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.initRSlib()</span></code></a>, must be done before <a class="reference internal" href="#rsudp.raspberryshake.set_params" title="rsudp.raspberryshake.set_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.set_params()</span></code></a>.</p>
 <dl class="field-list simple">
@@ -663,7 +663,7 @@ Called by <a class="reference internal" href="#rsudp.raspberryshake.initRSlib" t
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.raspberryshake.set_params">
 <code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">set_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read a data packet off the port.
@@ -674,9 +674,9 @@ Will wait <code class="code pycode python docutils literal notranslate"><span cl
 (only available with UNIX socket types).</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.raspberryshake.update_stream">
-<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">update_stream</code><span class="sig-paren">(</span><em class="sig-param">stream</em>, <em class="sig-param">d</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.update_stream" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.raspberryshake.</code><code class="sig-name descname">update_stream</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stream</span></em>, <em class="sig-param"><span class="n">d</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.update_stream" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns an updated Stream object with new data, merged down to one trace per available channel.
 Most sub-consumers call this each time they receive data packets in order to keep their obspy stream current.</p>
 <p>In this example, we make a stream object with some RS 1Dv7 data:</p>

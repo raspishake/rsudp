@@ -210,9 +210,9 @@
   <div class="section" id="rsudp-helpers-helper-functions">
 <h1><a class="reference internal" href="#module-rsudp.helpers" title="rsudp.helpers"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code></a> (helper functions)<a class="headerlink" href="#rsudp-helpers-helper-functions" title="Permalink to this headline">¶</a></h1>
 <p>These are some helper functions in rsudp.</p>
-<span class="target" id="module-rsudp.helpers"></span><dl class="function">
+<span class="target" id="module-rsudp.helpers"></span><dl class="py function">
 <dt id="rsudp.helpers.conn_stats">
-<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">conn_stats</code><span class="sig-paren">(</span><em class="sig-param">TESTING=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.conn_stats" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">conn_stats</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">TESTING</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.conn_stats" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print some stats about the connection.</p>
 <p>Example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">conn_stats</span><span class="p">()</span>
@@ -234,9 +234,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.helpers.deconv_acc_inst">
-<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">deconv_acc_inst</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">trace</em>, <em class="sig-param">output</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconv_acc_inst" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">deconv_acc_inst</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">trace</span></em>, <em class="sig-param"><span class="n">output</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconv_acc_inst" title="Permalink to this definition">¶</a></dt>
 <dd><p>A helper function for <code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.deconvolve()</span></code>
 for acceleration channels.</p>
 <dl class="field-list simple">
@@ -249,9 +249,9 @@ for acceleration channels.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.helpers.deconv_rbm_inst">
-<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">deconv_rbm_inst</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">trace</em>, <em class="sig-param">output</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconv_rbm_inst" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">deconv_rbm_inst</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">trace</span></em>, <em class="sig-param"><span class="n">output</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconv_rbm_inst" title="Permalink to this definition">¶</a></dt>
 <dd><p>A helper function for <code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.deconvolve()</span></code>
 for Raspberry Boom pressure transducer channels.</p>
 <div class="admonition note">
@@ -271,9 +271,9 @@ counts.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.helpers.deconv_vel_inst">
-<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">deconv_vel_inst</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">trace</em>, <em class="sig-param">output</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconv_vel_inst" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">deconv_vel_inst</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">trace</span></em>, <em class="sig-param"><span class="n">output</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconv_vel_inst" title="Permalink to this definition">¶</a></dt>
 <dd><p>A helper function for <code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.deconvolve()</span></code>
 for velocity channels.</p>
 <dl class="field-list simple">
@@ -286,9 +286,9 @@ for velocity channels.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.helpers.deconvolve">
-<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">deconvolve</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconvolve" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">deconvolve</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconvolve" title="Permalink to this definition">¶</a></dt>
 <dd><p>A central helper function for sub-consumers (i.e. <a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot" title="rsudp.c_plot.Plot"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_plot.Plot</span></code></a> or <a class="reference internal" href="c_alert.html#rsudp.c_alert.Alert" title="rsudp.c_alert.Alert"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_alert.Alert</span></code></a>)
 that need to deconvolve their raw data to metric units.
 Consumers with <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (1.2.0) v1.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.stream.Stream</span></code></a> objects in <code class="code pycode python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">self</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">stream</span></span></code> can use this to deconvolve data
@@ -301,9 +301,9 @@ contains a valid <a class="reference external" href="https://docs.obspy.org/pack
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.helpers.default_settings">
-<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">default_settings</code><span class="sig-paren">(</span><em class="sig-param">output_dir='/home/iannesbitt/rsudp'</em>, <em class="sig-param">verbose=True</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.default_settings" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">default_settings</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">output_dir</span><span class="o">=</span><span class="default_value">'/home/iannesbitt/rsudp'</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.default_settings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a formatted json string of default settings.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -321,9 +321,9 @@ contains a valid <a class="reference external" href="https://docs.obspy.org/pack
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.helpers.dump_default">
-<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">dump_default</code><span class="sig-paren">(</span><em class="sig-param">settings_loc</em>, <em class="sig-param">default_settings</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.dump_default" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">dump_default</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings_loc</span></em>, <em class="sig-param"><span class="n">default_settings</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.dump_default" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dumps a default settings file to a specified location.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -335,9 +335,9 @@ contains a valid <a class="reference external" href="https://docs.obspy.org/pack
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.helpers.fsec">
-<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">fsec</code><span class="sig-paren">(</span><em class="sig-param">ti</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.fsec" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">fsec</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ti</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.fsec" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 0.4.3.</span></p>
 </div>
@@ -371,9 +371,9 @@ of a datetime object.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.helpers.get_msg_path">
-<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">get_msg_path</code><span class="sig-paren">(</span><em class="sig-param">msg</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.get_msg_path" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">get_msg_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.get_msg_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function gets the path from <code class="docutils literal notranslate"><span class="pre">IMGPATH</span></code> messages as a string.</p>
 <p>For example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">obspy</span> <span class="kn">import</span> <span class="n">UTCDateTime</span>
@@ -399,9 +399,9 @@ of a datetime object.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.helpers.get_msg_time">
-<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">get_msg_time</code><span class="sig-paren">(</span><em class="sig-param">msg</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.get_msg_time" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">get_msg_time</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.get_msg_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function gets the time from <code class="docutils literal notranslate"><span class="pre">ALARM</span></code>, <code class="docutils literal notranslate"><span class="pre">RESET</span></code>,
 and <code class="docutils literal notranslate"><span class="pre">IMGPATH</span></code> messages as a UTCDateTime object.</p>
 <p>For example:</p>
@@ -428,9 +428,9 @@ and <code class="docutils literal notranslate"><span class="pre">IMGPATH</span><
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.helpers.msg_alarm">
-<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">msg_alarm</code><span class="sig-paren">(</span><em class="sig-param">event_time</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_alarm" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">msg_alarm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event_time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_alarm" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function constructs the <code class="docutils literal notranslate"><span class="pre">ALARM</span></code> message as a bytes object.
 Currently this is only used by <a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.p_producer.Producer</span></code></a>
 to construct alarm queue messages.</p>
@@ -454,9 +454,9 @@ to construct alarm queue messages.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.helpers.msg_imgpath">
-<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">msg_imgpath</code><span class="sig-paren">(</span><em class="sig-param">event_time</em>, <em class="sig-param">figname</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_imgpath" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">msg_imgpath</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event_time</span></em>, <em class="sig-param"><span class="n">figname</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_imgpath" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function constructs the <code class="docutils literal notranslate"><span class="pre">IMGPATH</span></code> message as a bytes object.
 Currently this is only used by <a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot" title="rsudp.c_plot.Plot"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_plot.Plot</span></code></a>
 to construct queue messages containing timestamp and saved image path.</p>
@@ -484,9 +484,9 @@ to construct queue messages containing timestamp and saved image path.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.helpers.msg_reset">
-<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">msg_reset</code><span class="sig-paren">(</span><em class="sig-param">reset_time</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_reset" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">msg_reset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reset_time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_reset" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function constructs the <code class="docutils literal notranslate"><span class="pre">RESET</span></code> message as a bytes object.
 Currently this is only used by <a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.p_producer.Producer</span></code></a>
 to construct reset queue messages.</p>
@@ -510,7 +510,7 @@ to construct reset queue messages.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.helpers.msg_term">
 <code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">msg_term</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_term" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function constructs the simple <code class="docutils literal notranslate"><span class="pre">TERM</span></code> message as a bytes object.</p>
@@ -528,9 +528,9 @@ to construct reset queue messages.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.helpers.read_settings">
-<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">read_settings</code><span class="sig-paren">(</span><em class="sig-param">loc</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.read_settings" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">read_settings</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">loc</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.read_settings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads settings from a specific location.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -545,9 +545,9 @@ to construct reset queue messages.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.helpers.set_channels">
-<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">set_channels</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">cha</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.set_channels" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">set_channels</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">cha</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.set_channels" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function sets the channels available for plotting. Allowed units are as follows:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">[&quot;SHZ&quot;,</span> <span class="pre">&quot;EHZ&quot;,</span> <span class="pre">&quot;EHN&quot;,</span> <span class="pre">&quot;EHE&quot;]</span></code> - velocity channels</p></li>

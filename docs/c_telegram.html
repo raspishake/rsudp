@@ -209,9 +209,9 @@
             
   <div class="section" id="module-rsudp.c_telegram">
 <span id="rsudp-c-telegram-telegram-alerts"></span><h1><a class="reference internal" href="#module-rsudp.c_telegram" title="rsudp.c_telegram"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code></a> (Telegram alerts)<a class="headerlink" href="#module-rsudp.c_telegram" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="rsudp.c_telegram.Telegrammer">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_telegram.</code><code class="sig-name descname">Telegrammer</code><span class="sig-paren">(</span><em class="sig-param">token</em>, <em class="sig-param">chat_id</em>, <em class="sig-param">q=False</em>, <em class="sig-param">send_images=False</em>, <em class="sig-param">sender='Telegram'</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_telegram.Telegrammer" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_telegram.</code><code class="sig-name descname">Telegrammer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">token</span></em>, <em class="sig-param"><span class="n">chat_id</span></em>, <em class="sig-param"><span class="n">q</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">send_images</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">sender</span><span class="o">=</span><span class="default_value">'Telegram'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_telegram.Telegrammer" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
 <div><div class="versionadded">
 <p><span class="versionmodified added">New in version 0.4.2.</span></p>
@@ -232,7 +232,7 @@ System (SASMEX) and PanamaIGC.</p>
 </ul>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_telegram.Telegrammer.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_telegram.Telegrammer.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads data from the queue and sends a message if it sees an ALARM or IMGPATH message</p>

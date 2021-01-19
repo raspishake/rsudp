@@ -408,7 +408,7 @@ then the :class:`rsudp.c_tweet.Tweeter` class will use the Twitter API to
 create tweets when an ALARM message arrives on the queue.
 If :json:`"tweet_images"` is :json:`true`, then the module will also tweet a saved image of the event,
 if :json:`"eq_screenshots"` is set to :json:`true` in the "plot" module. If any text is put in the
-:json:`"extra_text"` string, then the software will insert that text (no longer than 143 characters)
+:json:`"extra_text"` string, then the software will insert that text (no longer than 103 characters)
 into the tweets after a single space. For example, an unmodified tweet with :code:`"extra_text": ""`
 might look like this:
 
@@ -430,7 +430,7 @@ would render something like the following:
 
 .. warning::
 
-    Starting the software with an :json:`"extra_text"` string in excess of 143 characters
+    Starting the software with an :json:`"extra_text"` string in excess of 103 characters
     will yield a warning and the :json:`"extra_text"` string will be truncated
     in order to avoid the tweet being rejected for exceeding the 280 character limit.
 

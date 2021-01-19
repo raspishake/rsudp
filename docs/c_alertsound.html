@@ -209,9 +209,9 @@
             
   <div class="section" id="module-rsudp.c_alertsound">
 <span id="rsudp-c-alertsound-play-sound"></span><h1><a class="reference internal" href="#module-rsudp.c_alertsound" title="rsudp.c_alertsound"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code></a> (play sound)<a class="headerlink" href="#module-rsudp.c_alertsound" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="rsudp.c_alertsound.AlertSound">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_alertsound.</code><code class="sig-name descname">AlertSound</code><span class="sig-paren">(</span><em class="sig-param">sound=False</em>, <em class="sig-param">soundloc=False</em>, <em class="sig-param">q=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_alertsound.AlertSound" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_alertsound.</code><code class="sig-name descname">AlertSound</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sound</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">soundloc</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">q</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_alertsound.AlertSound" title="Permalink to this definition">¶</a></dt>
 <dd><p>A consumer class that plays an alert sound when an <code class="docutils literal notranslate"><span class="pre">ALARM</span></code> message arrives on the queue.
 <code class="docutils literal notranslate"><span class="pre">rsudp.c_alertsound.AlertSound.sound</span></code> is a <a class="reference external" href="https://github.com/jiaaro/pydub/blob/master/API.markdown#audiosegment">pydub.AudioSegment</a> object and is passed from the client.</p>
 <dl class="field-list simple">
@@ -222,7 +222,7 @@
 </ul>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_alertsound.AlertSound.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_alertsound.AlertSound.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads data from the queue and plays self.sound if it sees an <code class="docutils literal notranslate"><span class="pre">ALARM</span></code> message.

@@ -541,7 +541,7 @@ then the <a class="reference internal" href="c_tweet.html#rsudp.c_tweet.Tweeter"
 create tweets when an ALARM message arrives on the queue.
 If <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“tweet_images”</span></span></code> is <code class="code json docutils literal notranslate"><span class="keyword constant"><span class="pre">true</span></span></code>, then the module will also tweet a saved image of the event,
 if <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“eq_screenshots”</span></span></code> is set to <code class="code json docutils literal notranslate"><span class="keyword constant"><span class="pre">true</span></span></code> in the “plot” module. If any text is put in the
-<code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string, then the software will insert that text (no longer than 143 characters)
+<code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string, then the software will insert that text (no longer than 103 characters)
 into the tweets after a single space. For example, an unmodified tweet with <code class="code docutils literal notranslate"><span class="pre">&quot;extra_text&quot;:</span> <span class="pre">&quot;&quot;</span></code>
 might look like this:</p>
 <div class="figure align-center" id="id10">
@@ -556,7 +556,7 @@ would render something like the following:</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Starting the software with an <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string in excess of 143 characters
+<p>Starting the software with an <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string in excess of 103 characters
 will yield a warning and the <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string will be truncated
 in order to avoid the tweet being rejected for exceeding the 280 character limit.</p>
 </div>

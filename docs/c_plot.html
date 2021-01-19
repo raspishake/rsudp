@@ -213,9 +213,9 @@
 <span id="event-plot"></span><img alt="_images/event.png" src="_images/event.png" />
 <p class="caption"><span class="caption-text">An event recorded on a vertical geophone by rsudp and saved by the plotting module.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
-<span class="target" id="module-rsudp.c_plot"></span><dl class="class">
+<span class="target" id="module-rsudp.c_plot"></span><dl class="py class">
 <dt id="rsudp.c_plot.Plot">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_plot.</code><code class="sig-name descname">Plot</code><span class="sig-paren">(</span><em class="sig-param">q</em>, <em class="sig-param">cha='all'</em>, <em class="sig-param">seconds=30</em>, <em class="sig-param">spectrogram=True</em>, <em class="sig-param">fullscreen=False</em>, <em class="sig-param">kiosk=False</em>, <em class="sig-param">deconv=False</em>, <em class="sig-param">screencap=False</em>, <em class="sig-param">alert=True</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_plot.</code><code class="sig-name descname">Plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">cha</span><span class="o">=</span><span class="default_value">'all'</span></em>, <em class="sig-param"><span class="n">seconds</span><span class="o">=</span><span class="default_value">30</span></em>, <em class="sig-param"><span class="n">spectrogram</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">fullscreen</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">kiosk</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">deconv</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">screencap</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">alert</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>GUI plotting algorithm, compatible with both Qt5 and TkAgg backends (see <a class="reference external" href="https://matplotlib.org/api/matplotlib_configuration_api.html#matplotlib.use" title="(in Matplotlib v3.3.3)"><code class="xref py py-func docutils literal notranslate"><span class="pre">matplotlib.use()</span></code></a>).
 This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and display a spectrogram beneath each.</p>
 <p>By default the plotted <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“duration”</span></span></code> in seconds is <code class="code json docutils literal notranslate"><span class="literal number integer"><span class="pre">30</span></span></code>.
@@ -243,20 +243,20 @@ To put the plot into kiosk mode, set <code class="code json docutils literal not
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ImportError" title="(in Python v3.9)"><strong>ImportError</strong></a> – if the module cannot import either of the Matplotlib Qt5 or TkAgg backends</p>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_plot.Plot.deconvolve">
 <code class="sig-name descname">deconvolve</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.deconvolve" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send the streams to the central library deconvolve function.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_plot.Plot.figloop">
 <code class="sig-name descname">figloop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.figloop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Let some time elapse in order for the plot canvas to draw properly.
 Must be separate from <a class="reference internal" href="#rsudp.c_plot.Plot.update_plot" title="rsudp.c_plot.Plot.update_plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_plot()</span></code></a> to avoid a broadcast error early in plotting.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_plot.Plot.getq">
 <code class="sig-name descname">getq</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.getq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get data from the queue and test for whether it has certain strings.
@@ -266,23 +266,23 @@ ALARM messages cause the event counter to increment, and if
 event is <code class="xref py py-data docutils literal notranslate"><span class="pre">self.save_pct</span></code> of the way across the plot.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_plot.Plot.handle_close">
-<code class="sig-name descname">handle_close</code><span class="sig-paren">(</span><em class="sig-param">evt</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.handle_close" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">handle_close</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">evt</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.handle_close" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handles a plot close event.
 This will trigger a full shutdown of all other processes related to rsudp.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_plot.Plot.handle_resize">
-<code class="sig-name descname">handle_resize</code><span class="sig-paren">(</span><em class="sig-param">evt=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.handle_resize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">handle_resize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">evt</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.handle_resize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handles a plot window resize event.
 This will allow the plot to resize dynamically.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_plot.Plot.mainloop">
-<code class="sig-name descname">mainloop</code><span class="sig-paren">(</span><em class="sig-param">i</em>, <em class="sig-param">u</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.mainloop" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">mainloop</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">i</span></em>, <em class="sig-param"><span class="n">u</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.mainloop" title="Permalink to this definition">¶</a></dt>
 <dd><p>The main loop in the <a class="reference internal" href="#rsudp.c_plot.Plot.run" title="rsudp.c_plot.Plot.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.c_plot.Plot.run()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -300,9 +300,9 @@ This will allow the plot to resize dynamically.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_plot.Plot.qu">
-<code class="sig-name descname">qu</code><span class="sig-paren">(</span><em class="sig-param">u</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.qu" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">qu</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.qu" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a queue object and increment the queue counter.
 This is a way to figure out how many channels have arrived in the queue.</p>
 <dl class="field-list simple">
@@ -318,7 +318,7 @@ This is a way to figure out how many channels have arrived in the queue.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_plot.Plot.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>The heart of the plotting routine.</p>
@@ -328,9 +328,9 @@ Any plots containing a spectrogram and more than 1 channel are drawn at most eve
 All other plots are drawn at most every quarter second (250 ms).</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_plot.Plot.savefig">
-<code class="sig-name descname">savefig</code><span class="sig-paren">(</span><em class="sig-param">event_time=UTCDateTime(2021</em>, <em class="sig-param">1</em>, <em class="sig-param">8</em>, <em class="sig-param">17</em>, <em class="sig-param">48</em>, <em class="sig-param">8</em>, <em class="sig-param">847137)</em>, <em class="sig-param">event_time_str='2021-01-08-174808'</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.savefig" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">savefig</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event_time</span><span class="o">=</span><span class="default_value">UTCDateTime(2021, 1, 19, 21, 43, 44, 603207)</span></em>, <em class="sig-param"><span class="n">event_time_str</span><span class="o">=</span><span class="default_value">'2021-01-19-214344'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.savefig" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the figure and puts an IMGPATH message on the master queue.
 This message can be used to upload the image to various services.</p>
 <dl class="field-list simple">
@@ -343,13 +343,13 @@ This message can be used to upload the image to various services.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_plot.Plot.set_sps">
 <code class="sig-name descname">set_sps</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.set_sps" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get samples per second from the main library.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_plot.Plot.setup_plot">
 <code class="sig-name descname">setup_plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.setup_plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets up the plot. Quite a lot of stuff happens in this function.
@@ -357,7 +357,7 @@ Matplotlib backends are not threadsafe, so things are a little weird.
 See code comments for details.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_plot.Plot.update_plot">
 <code class="sig-name descname">update_plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.update_plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Redraw the plot with new data.

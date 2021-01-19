@@ -58,7 +58,7 @@ class Tweeter(rs.ConsumerThread):
 	:param str access_secret: Twitter calls this the "consumer access secret"
 	:param bool tweet_images: whether or not to send images. if False, only alerts will be sent.
 	:type extra_text: bool or str
-	:param extra_text: approximately 180 characters to post .
+	:param extra_text: 103 additional characters to post as part of the twitter message.
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 
 
@@ -104,15 +104,16 @@ class Tweeter(rs.ConsumerThread):
 
 
 	def _resolve_extra_text(self, extra_text):
+		allowable_len = 103	# length of string allowable given maximum message text & region
 		if ((extra_text == '') or (extra_text == None) or (extra_text == False)):
 			self.extra_text = ''
 		else:
 			extra_text = str(extra_text)
 			len_ex_txt = len(extra_text)
 
-			if len_ex_txt > 143:
-				printW('extra_text parameter is longer than allowable (%s chars) and will be truncated. Please keep extra_text at or below 143 characters.' % len_ex_txt, sender=self.sender)
-				extra_text = extra_text[:143]
+			if len_ex_txt > allowable_len:
+				printW('extra_text parameter is longer than allowable (%s chars) and will be truncated. Please keep extra_text at or below %s characters.' % (len_ex_txt, allowable_len), sender=self.sender)
+				extra_text = extra_text[:allowable_len]
 
 			self.extra_text =  ' %s' % (extra_text)
 

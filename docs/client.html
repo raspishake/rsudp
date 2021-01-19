@@ -209,22 +209,22 @@
             
   <div class="section" id="module-rsudp.client">
 <span id="rsudp-client-central-module"></span><h1><a class="reference internal" href="#module-rsudp.client" title="rsudp.client"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code></a> (central module)<a class="headerlink" href="#module-rsudp.client" title="Permalink to this headline">¶</a></h1>
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.client.handler">
-<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">handler</code><span class="sig-paren">(</span><em class="sig-param">sig</em>, <em class="sig-param">frame</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.handler" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">handler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sig</span></em>, <em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.handler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function passed to <a class="reference external" href="https://docs.python.org/3/library/signal.html#signal.signal" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">signal.signal()</span></code></a> to handle close events</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.client.main">
 <code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.main" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads settings to start the main client.
 Supply -h from the command line to see help text.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.client.mk_p">
-<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">mk_p</code><span class="sig-paren">(</span><em class="sig-param">proc</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.mk_p" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">mk_p</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proc</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.mk_p" title="Permalink to this definition">¶</a></dt>
 <dd><p>Appends a process to the list of threads to start and stop.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -233,7 +233,7 @@ Supply -h from the command line to see help text.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.client.mk_q">
 <code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">mk_q</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.mk_q" title="Permalink to this definition">¶</a></dt>
 <dd><p>Makes a queue and appends it to the <code class="xref py py-data docutils literal notranslate"><span class="pre">destinations</span></code>
@@ -249,9 +249,9 @@ variable to be passed to the master consumer thread
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.client.run">
-<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">settings</em>, <em class="sig-param">debug</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span></em>, <em class="sig-param"><span class="n">debug</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main setup function. Takes configuration values and passes them to
 the appropriate threads and functions.</p>
 <dl class="field-list simple">
@@ -264,13 +264,13 @@ the appropriate threads and functions.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.client.start">
 <code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start Consumer, Threads, and Producer.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.client.test">
 <code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.test" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -280,9 +280,9 @@ the appropriate threads and functions.</p>
 For a list of tests run, see <a class="reference internal" href="test.html#module-rsudp.test" title="rsudp.test"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rsudp.test</span></code></a>.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rsudp.client.test_mode">
-<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">test_mode</code><span class="sig-paren">(</span><em class="sig-param">mode=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.test_mode" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">test_mode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.test_mode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the TESTING global variable to <code class="docutils literal notranslate"><span class="pre">True</span></code> to indicate that
 testing-specific actions should be taken in routines.</p>
 <dl class="field-list simple">

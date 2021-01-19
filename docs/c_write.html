@@ -209,9 +209,9 @@
             
   <div class="section" id="module-rsudp.c_write">
 <span id="rsudp-c-write-write-data"></span><h1><a class="reference internal" href="#module-rsudp.c_write" title="rsudp.c_write"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code></a> (write data)<a class="headerlink" href="#module-rsudp.c_write" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="rsudp.c_write.Write">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_write.</code><code class="sig-name descname">Write</code><span class="sig-paren">(</span><em class="sig-param">q</em>, <em class="sig-param">debug=False</em>, <em class="sig-param">cha='all'</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_write.Write" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_write.</code><code class="sig-name descname">Write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">cha</span><span class="o">=</span><span class="default_value">'all'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_write.Write" title="Permalink to this definition">¶</a></dt>
 <dd><p>A simple routine to write daily miniSEED data to <code class="code docutils literal notranslate"><span class="pre">output_dir/data</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -222,9 +222,9 @@
 </ul>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_write.Write.elapse">
-<code class="sig-name descname">elapse</code><span class="sig-paren">(</span><em class="sig-param">new=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_write.Write.elapse" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">elapse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_write.Write.elapse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ticks self variables over into a new day for file naming purposes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -233,7 +233,7 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_write.Write.getq">
 <code class="sig-name descname">getq</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_write.Write.getq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads data from the queue and updates the stream.</p>
@@ -247,27 +247,27 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_write.Write.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_write.Write.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads packets and coordinates write operations.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_write.Write.set_sps">
 <code class="sig-name descname">set_sps</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_write.Write.set_sps" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets samples per second.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_write.Write.slicestream">
 <code class="sig-name descname">slicestream</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_write.Write.slicestream" title="Permalink to this definition">¶</a></dt>
 <dd><p>Causes the stream to slice down to the time the last write operation was made.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.c_write.Write.write">
-<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param">stream=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_write.Write.write" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stream</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_write.Write.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes a segment of the stream to disk as miniSEED, and appends it to the
 file in question. If there is no file (i.e. if the program is just starting
 or a new UTC day has just started, then this function writes to a new file).</p>

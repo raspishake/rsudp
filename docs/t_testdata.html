@@ -209,9 +209,9 @@
             
   <div class="section" id="module-rsudp.t_testdata">
 <span id="rsudp-t-testdata-test-pre-producer"></span><h1><a class="reference internal" href="#module-rsudp.t_testdata" title="rsudp.t_testdata"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code></a> (test pre-producer)<a class="headerlink" href="#module-rsudp.t_testdata" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="rsudp.t_testdata.TestData">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.t_testdata.</code><code class="sig-name descname">TestData</code><span class="sig-paren">(</span><em class="sig-param">q</em>, <em class="sig-param">data_file</em>, <em class="sig-param">port</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.t_testdata.TestData" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.t_testdata.</code><code class="sig-name descname">TestData</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">data_file</span></em>, <em class="sig-param"><span class="n">port</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.t_testdata.TestData" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 0.4.3.</span></p>
 </div>
@@ -230,7 +230,7 @@ or when an <code class="docutils literal notranslate"><span class="pre">ENDTEST<
 </ul>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.t_testdata.TestData.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.t_testdata.TestData.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start the thread. First, opens a file, determines the speed of data flow,
@@ -240,7 +240,7 @@ or until the reader reaches the end of the file.
 Then, sends a <code class="docutils literal notranslate"><span class="pre">TERM</span></code> message to the localhost port and exits.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="rsudp.t_testdata.TestData.send">
 <code class="sig-name descname">send</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.t_testdata.TestData.send" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send the latest line in the open file to the specified port at localhost.

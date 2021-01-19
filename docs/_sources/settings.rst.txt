@@ -620,7 +620,7 @@ By default, the settings are as follows:
         "api_secret": "n/a",
         "access_token": "n/a",
         "access_secret": "n/a",
-	    "extra_text": ""},
+        "extra_text": ""},
     "telegram": {
         "enabled": false,
         "send_images": true,

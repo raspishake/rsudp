@@ -215,9 +215,12 @@ def run(settings, debug):
 		addr = settings['forward']['address']
 		port = settings['forward']['port']
 		cha = settings['forward']['channels']
+		fwd_data = settings['forward']['fwd_data']
+		fwd_alarms = settings['forward']['fwd_alarms']
 		# set up queue and process
 		q = mk_q()
-		forward = Forward(addr=addr, port=port, cha=cha, q=q)
+		forward = Forward(addr=addr, port=port, cha=cha, fwd_data=fwd_data,
+						  fwd_alarms=fwd_alarms, q=q)
 		mk_p(forward)
 
 	if settings['alert']['enabled']:

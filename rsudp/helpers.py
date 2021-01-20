@@ -51,7 +51,9 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
     "enabled": false,
     "address": "192.168.1.254",
     "port": 8888,
-    "channels": ["all"]},
+    "channels": ["all"],
+	"fwd_data": true,
+	"fwd_alarms": false},
 "alert": {
     "enabled": true,
     "channel": "HZ",

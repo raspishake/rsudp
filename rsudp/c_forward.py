@@ -9,14 +9,22 @@ class Forward(rs.ConsumerThread):
 	queue messages from the :class:`rsudp.c_consumer.Consumer`
 	and forwards those messages to a specified address and port.
 
+	.. versionadded:: 1.0.2
+
+		The option to choose whether to forward either data or alarms or both
+		(find boolean settings :code:`"fwd_data"` and :code:`"fwd_alarms"` in
+		settings json files built by this version and later).
+
 	:param str addr: IP address to pass UDP data to
 	:param str port: network port to pass UDP data to (at specified address)
+	:param bool fwd_data: whether or not to forward raw data packets
+	:param bool fwd_alarms: whether or not to forward :code:`ALARM` and :code:`RESET` messages
 	:param cha: channel(s) to forward. others will be ignored.
 	:type cha: str or list
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 	"""
 
-	def __init__(self, addr, port, cha, q):
+	def __init__(self, addr, port, fwd_data, fwd_alarms, cha, q):
 		"""
 		Initializes data forwarding module.
 		
@@ -27,6 +35,8 @@ class Forward(rs.ConsumerThread):
 		self.queue = q
 		self.addr = addr
 		self.port = port
+		self.fwd_data = fwd_data
+		self.fwd_alarms = fwd_alarms
 		self.chans = []
 		cha = rs.chns if (cha == 'all') else cha
 		cha = list(cha) if isinstance(cha, str) else cha
@@ -44,6 +54,16 @@ class Forward(rs.ConsumerThread):
 
 		printM('Starting.', self.sender)
 
+
+	def _exit(self):
+		"""
+		Exits the thread.
+		"""
+		self.alive = False
+		printM('Exiting.', self.sender)
+		sys.exit()
+
+
 	def run(self):
 		"""
 		Gets and distributes queue objects to another address and port on the network.
@@ -52,8 +72,12 @@ class Forward(rs.ConsumerThread):
 		socket_type = s.SOCK_DGRAM if os.name in 'nt' else s.SOCK_DGRAM | s.SO_REUSEADDR
 		sock = s.socket(s.AF_INET, socket_type)
 
-		printM('Forwarding %s data to %s:%s' % (self.chans, self.addr, self.port),
-			   sender=self.sender)
+		msg_data = '%s data' % (self.chans) if self.fwd_data else ''
+		msg_and = ' and ' if (self.fwd_data and self.fwd_alarms) else ''
+		msg_alarms = 'ALARM / RESET messages' if self.fwd_alarms else ''
+
+		printM('Forwarding %s%s%s to %s:%s' % (msg_data, msg_and, msg_alarms, self.addr,
+											   self.port), sender=self.sender)
 
 		try:
 			while self.running:
@@ -61,12 +85,19 @@ class Forward(rs.ConsumerThread):
 				self.queue.task_done()	# close the queue
 
 				if 'TERM' in str(p):	# shutdown if there's a TERM message on the queue
-					self.alive = False
-					printM('Exiting.', self.sender)
-					sys.exit()
+					self._exit()
 
-				if rs.getCHN(p) in self.chans:
-					sock.sendto(p, (self.addr, self.port))
+				if 'IMGPATH' in str(p):
+					continue
+
+				if ('ALARM' in str(p)) or ('RESET' in str(p)):
+					if self.fwd_alarms:
+						sock.sendto(p, (self.addr, self.port))
+					continue
+
+				if "{'" in str(p):
+					if (self.fwd_data) and (rs.getCHN(p) in self.chans):
+						sock.sendto(p, (self.addr, self.port))
 
 		except Exception as e:
 			self.alive = False

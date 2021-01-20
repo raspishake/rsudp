@@ -593,6 +593,10 @@ which will write the vertical geophone and accelerometer channels from RS4D outp
 <p>The <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“forward”</span></span></code> module controls <a class="reference internal" href="c_forward.html#rsudp.c_forward.Forward" title="rsudp.c_forward.Forward"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_forward.Forward</span></code></a> a UDP datacast forwarding module.
 You can forward UDP packets for a list of channels from a datacast to the <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“address”</span></span></code> and <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“port”</span></span></code> specified,
 just like you would from the Shake’s web front end. By default, <code class="code json docutils literal notranslate"><span class="punctuation"><span class="pre">[</span></span><span class="literal string double"><span class="pre">“all”</span></span><span class="punctuation"><span class="pre">]</span></span></code> channels are forwarded.</p>
+<p>To forward specific types of messages, change the boolean settings <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“fwd_data”</span></span></code> and <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“fwd_alarms”</span></span></code>
+accordingly. Setting <code class="code docutils literal notranslate"><span class="pre">&quot;fwd_data&quot;:</span> <span class="pre">true</span></code> will forward data from the specified channels, while
+<code class="code docutils literal notranslate"><span class="pre">&quot;fwd_alarms&quot;:</span> <span class="pre">true</span></code> will forward <code class="code docutils literal notranslate"><span class="pre">ALARM</span></code> and <code class="code docutils literal notranslate"><span class="pre">RESET</span></code> messages. These can both be set to true
+simultaneously.</p>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
 </div>
 <div class="section" id="custom-run-custom-code">
@@ -671,7 +675,9 @@ Change <code class="code json docutils literal notranslate"><span class="literal
     <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nt">&quot;address&quot;</span><span class="p">:</span> <span class="s2">&quot;192.168.1.254&quot;</span><span class="p">,</span>
     <span class="nt">&quot;port&quot;</span><span class="p">:</span> <span class="mi">8888</span><span class="p">,</span>
-    <span class="nt">&quot;channels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">]},</span>
+    <span class="nt">&quot;channels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">],</span>
+    <span class="nt">&quot;fwd_data&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;fwd_alarms&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">},</span>
 <span class="nt">&quot;alert&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
     <span class="nt">&quot;channel&quot;</span><span class="p">:</span> <span class="s2">&quot;HZ&quot;</span><span class="p">,</span>

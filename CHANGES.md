@@ -4,6 +4,7 @@
 - corrected social media URL destination [#15](https://github.com/raspishake/rsudp/issues/15)
 - adding feature requested in [#9](https://github.com/raspishake/rsudp/issues/9) (additional text for twitter posts [documented here](https://raspishake.github.io/rsudp/settings.html#tweets-twitter-notification-module))
 - edited language as requested in [#13](https://github.com/raspishake/rsudp/issues/13)
+- added feature requested in [#17](https://github.com/raspishake/rsudp/issues/17) to control forwarding of `ALARM` and `RESET` messages as well as data
 
 ## changes in 1.0.1
 - added `rsudp.c_rsam` Real-time Seismic Amplitude Measurement consumer

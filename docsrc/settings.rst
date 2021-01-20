@@ -491,6 +491,11 @@ The :json:`"forward"` module controls :class:`rsudp.c_forward.Forward` a UDP dat
 You can forward UDP packets for a list of channels from a datacast to the :json:`"address"` and :json:`"port"` specified,
 just like you would from the Shake's web front end. By default, :json:`["all"]` channels are forwarded.
 
+To forward specific types of messages, change the boolean settings :json:`"fwd_data"` and :json:`"fwd_alarms"`
+accordingly. Setting :code:`"fwd_data": true` will forward data from the specified channels, while
+:code:`"fwd_alarms": true` will forward :code:`ALARM` and :code:`RESET` messages. These can both be set to true
+simultaneously.
+
 `Back to top ↑ <#top>`_
 
 
@@ -594,7 +599,9 @@ By default, the settings are as follows:
         "enabled": false,
         "address": "192.168.1.254",
         "port": 8888,
-        "channels": ["all"]},
+        "channels": ["all"],
+        "fwd_data": true,
+        "fwd_alarms": false},
     "alert": {
         "enabled": true,
         "channel": "HZ",

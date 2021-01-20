@@ -211,15 +211,22 @@
 <span id="rsudp-c-forward-forward-data"></span><h1><a class="reference internal" href="#module-rsudp.c_forward" title="rsudp.c_forward"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code></a> (forward data)<a class="headerlink" href="#module-rsudp.c_forward" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="rsudp.c_forward.Forward">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_forward.</code><code class="sig-name descname">Forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">addr</span></em>, <em class="sig-param"><span class="n">port</span></em>, <em class="sig-param"><span class="n">cha</span></em>, <em class="sig-param"><span class="n">q</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_forward.Forward" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_forward.</code><code class="sig-name descname">Forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">addr</span></em>, <em class="sig-param"><span class="n">port</span></em>, <em class="sig-param"><span class="n">fwd_data</span></em>, <em class="sig-param"><span class="n">fwd_alarms</span></em>, <em class="sig-param"><span class="n">cha</span></em>, <em class="sig-param"><span class="n">q</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_forward.Forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Single-destination data forwarding. This consumer reads
 queue messages from the <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>
 and forwards those messages to a specified address and port.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.0.2: </span>The option to choose whether to forward either data or alarms or both
+(find boolean settings <code class="code docutils literal notranslate"><span class="pre">&quot;fwd_data&quot;</span></code> and <code class="code docutils literal notranslate"><span class="pre">&quot;fwd_alarms&quot;</span></code> in
+settings json files built by this version and later).</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>addr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – IP address to pass UDP data to</p></li>
 <li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – network port to pass UDP data to (at specified address)</p></li>
+<li><p><strong>fwd_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not to forward raw data packets</p></li>
+<li><p><strong>fwd_alarms</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not to forward <code class="code docutils literal notranslate"><span class="pre">ALARM</span></code> and <code class="code docutils literal notranslate"><span class="pre">RESET</span></code> messages</p></li>
 <li><p><strong>cha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – channel(s) to forward. others will be ignored.</p></li>
 <li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.9)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
 </ul>

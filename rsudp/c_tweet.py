@@ -12,7 +12,10 @@ from twython import Twython
 
 class Tweeter(rs.ConsumerThread):
 	'''
-	 .. versionadded:: 0.4.1
+	.. versionadded:: 1.0.2
+
+		The option to add extra text to tweets using the :code:`"extra_text"`
+		setting in settings files built by this version and later.
 
 	.. |raspishakeq| raw:: html
 

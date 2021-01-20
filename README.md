@@ -21,7 +21,7 @@
 4. **Tweeter** - a thread that broadcasts a Twitter message when the alert module is triggered, and optionally can tweet saved plots from the plot module
 5. **Telegrammer** - a thread similar to the Tweeter module that sends a [Telegram](https://telegram.org) message when an alarm is triggered, which can also broadcast saved images
 6. **Writer** - a simple miniSEED writer
-7. **Forward** - forward a data cast to another IP/port destination
+7. **Forward** - forward a data cast to one or several IP/port destinations
 8. **RSAM** - computes RSAM (Real-time Seismic AMplitude) and either prints or forwards it to an IP/port destination
 9. **Custom** - run custom code when an `ALARM` message is received
 10. **Print** - a debugging tool to output raw data to the command line

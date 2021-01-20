@@ -49,8 +49,8 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
     "units": "CHAN"},
 "forward": {
     "enabled": false,
-    "address": "192.168.1.254",
-    "port": 8888,
+    "address": ["192.168.1.254"],
+    "port": [8888],
     "channels": ["all"],
 	"fwd_data": true,
 	"fwd_alarms": false},

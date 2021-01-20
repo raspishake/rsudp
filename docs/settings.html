@@ -589,16 +589,33 @@ which will write the vertical geophone and accelerometer channels from RS4D outp
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
 </div>
 <div class="section" id="forward-datacast-forwarding">
-<h2><span class="section-number">3.9. </span><code class="code docutils literal notranslate"><span class="pre">forward</span></code> (datacast forwarding)<a class="headerlink" href="#forward-datacast-forwarding" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“forward”</span></span></code> module controls <a class="reference internal" href="c_forward.html#rsudp.c_forward.Forward" title="rsudp.c_forward.Forward"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_forward.Forward</span></code></a> a UDP datacast forwarding module.
-You can forward UDP packets for a list of channels from a datacast to the <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“address”</span></span></code> and <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“port”</span></span></code> specified,
-just like you would from the Shake’s web front end. By default, <code class="code json docutils literal notranslate"><span class="punctuation"><span class="pre">[</span></span><span class="literal string double"><span class="pre">“all”</span></span><span class="punctuation"><span class="pre">]</span></span></code> channels are forwarded.</p>
-<p>To forward specific types of messages, change the boolean settings <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“fwd_data”</span></span></code> and <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“fwd_alarms”</span></span></code>
-accordingly. Setting <code class="code docutils literal notranslate"><span class="pre">&quot;fwd_data&quot;:</span> <span class="pre">true</span></code> will forward data from the specified channels, while
-<code class="code docutils literal notranslate"><span class="pre">&quot;fwd_alarms&quot;:</span> <span class="pre">true</span></code> will forward <code class="code docutils literal notranslate"><span class="pre">ALARM</span></code> and <code class="code docutils literal notranslate"><span class="pre">RESET</span></code> messages. These can both be set to true
-simultaneously.</p>
-<p>To take advantage of this forwarding capability in another piece of software, it may help to consult the
-<a class="reference internal" href="theory.html#message-types"><span class="std std-ref">Message types</span></a>.</p>
+<span id="datacast-forwarding"></span><h2><span class="section-number">3.9. </span><code class="code docutils literal notranslate"><span class="pre">forward</span></code> (datacast forwarding)<a class="headerlink" href="#forward-datacast-forwarding" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“forward”</span></span></code> module controls <a class="reference internal" href="c_forward.html#rsudp.c_forward.Forward" title="rsudp.c_forward.Forward"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_forward.Forward</span></code></a>, a UDP datacast forwarding module.
+You can forward UDP packets containing data and/or alarm state messages to a list of destinations specified
+in <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“address”</span></span></code> and <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“port”</span></span></code>, just like you would from the Shake’s web front end.</p>
+<p>By default, <code class="code json docutils literal notranslate"><span class="punctuation"><span class="pre">[</span></span><span class="literal string double"><span class="pre">“all”</span></span><span class="punctuation"><span class="pre">]</span></span></code> channels are forwarded. To forward only data from EHZ and ENZ
+channels, set this field to a list, e.g. <code class="code json docutils literal notranslate"><span class="punctuation"><span class="pre">[</span></span><span class="literal string double"><span class="pre">“EHZ”</span></span><span class="punctuation"><span class="pre">,</span></span> <span class="literal string double"><span class="pre">“ENZ”</span></span><span class="punctuation"><span class="pre">]</span></span></code>.</p>
+<p>To change the types of messages that are forwarded, change the boolean fields <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“fwd_data”</span></span></code> and
+<code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“fwd_alarms”</span></span></code> accordingly. Setting <code class="code docutils literal notranslate"><span class="pre">&quot;fwd_data&quot;:</span> <span class="pre">true</span></code> will forward data from the specified
+channels, while <code class="code docutils literal notranslate"><span class="pre">&quot;fwd_alarms&quot;:</span> <span class="pre">true</span></code> will forward <code class="code docutils literal notranslate"><span class="pre">ALARM</span></code> and <code class="code docutils literal notranslate"><span class="pre">RESET</span></code> messages. These can
+both be set to true simultaneously.</p>
+<p>To take advantage of this forwarding capability in another piece of software (such as NodeRED), it may help
+to consult the <a class="reference internal" href="theory.html#message-types"><span class="std std-ref">Message types</span></a>.</p>
+<p>Forwarding to multiple destinations (such as in a classroom setting) is easy. Say you want to send alarm
+messages to several Raspberry Pis running NodeRED in a classroom. Simply create equal-length lists of
+addresses and ports in the forward settings like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;forward&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;192.168.1.250&quot;</span><span class="p">,</span><span class="s2">&quot;192.168.1.251&quot;</span><span class="p">,</span><span class="s2">&quot;192.168.1.252&quot;</span><span class="p">,</span><span class="s2">&quot;192.168.1.253&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">8888</span><span class="p">,</span><span class="mi">8888</span><span class="p">,</span><span class="mi">8888</span><span class="p">,</span><span class="mi">8888</span><span class="p">],</span>
+    <span class="s2">&quot;channels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;fwd_data&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s2">&quot;fwd_alarms&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">},</span>
+</pre></div>
+</div>
+<p>This will create one Forward thread per destination and distribute <code class="code docutils literal notranslate"><span class="pre">ALARM</span></code> and <code class="code docutils literal notranslate"><span class="pre">RESET</span></code>
+messages to each simultaneously. Each Pi node can then be configured to listen to its own port 8888
+(127.0.0.1:8888) to read these messages.</p>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
 </div>
 <div class="section" id="custom-run-custom-code">
@@ -675,8 +692,8 @@ Change <code class="code json docutils literal notranslate"><span class="literal
     <span class="nt">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;CHAN&quot;</span><span class="p">},</span>
 <span class="nt">&quot;forward&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="nt">&quot;address&quot;</span><span class="p">:</span> <span class="s2">&quot;192.168.1.254&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;port&quot;</span><span class="p">:</span> <span class="mi">8888</span><span class="p">,</span>
+    <span class="nt">&quot;address&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;192.168.1.254&quot;</span><span class="p">],</span>
+    <span class="nt">&quot;port&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">8888</span><span class="p">],</span>
     <span class="nt">&quot;channels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">],</span>
     <span class="nt">&quot;fwd_data&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
     <span class="nt">&quot;fwd_alarms&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">},</span>

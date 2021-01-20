@@ -484,20 +484,41 @@ which will write the vertical geophone and accelerometer channels from RS4D outp
 `Back to top ↑ <#top>`_
 
 
+.. _datacast-forwarding:
+
 :code:`forward` (datacast forwarding)
 *************************************************
 
-The :json:`"forward"` module controls :class:`rsudp.c_forward.Forward` a UDP datacast forwarding module.
-You can forward UDP packets for a list of channels from a datacast to the :json:`"address"` and :json:`"port"` specified,
-just like you would from the Shake's web front end. By default, :json:`["all"]` channels are forwarded.
+The :json:`"forward"` module controls :class:`rsudp.c_forward.Forward`, a UDP datacast forwarding module.
+You can forward UDP packets containing data and/or alarm state messages to a list of destinations specified
+in :json:`"address"` and :json:`"port"`, just like you would from the Shake's web front end.
 
-To forward specific types of messages, change the boolean settings :json:`"fwd_data"` and :json:`"fwd_alarms"`
-accordingly. Setting :code:`"fwd_data": true` will forward data from the specified channels, while
-:code:`"fwd_alarms": true` will forward :code:`ALARM` and :code:`RESET` messages. These can both be set to true
-simultaneously.
+By default, :json:`["all"]` channels are forwarded. To forward only data from EHZ and ENZ
+channels, set this field to a list, e.g. :json:`["EHZ", "ENZ"]`.
 
-To take advantage of this forwarding capability in another piece of software, it may help to consult the
-:ref:`message-types`.
+To change the types of messages that are forwarded, change the boolean fields :json:`"fwd_data"` and
+:json:`"fwd_alarms"` accordingly. Setting :code:`"fwd_data": true` will forward data from the specified
+channels, while :code:`"fwd_alarms": true` will forward :code:`ALARM` and :code:`RESET` messages. These can
+both be set to true simultaneously.
+
+To take advantage of this forwarding capability in another piece of software (such as NodeRED), it may help
+to consult the :ref:`message-types`.
+
+Forwarding to multiple destinations (such as in a classroom setting) is easy. Say you want to send alarm
+messages to several Raspberry Pis running NodeRED in a classroom. Simply create equal-length lists of
+addresses and ports in the forward settings like so::
+
+    "forward": {
+        "enabled": false,
+        "address": ["192.168.1.250","192.168.1.251","192.168.1.252","192.168.1.253"],
+        "port": [8888,8888,8888,8888],
+        "channels": ["all"],
+        "fwd_data": false,
+        "fwd_alarms": true},
+
+This will create one Forward thread per destination and distribute :code:`ALARM` and :code:`RESET`
+messages to each simultaneously. Each Pi node can then be configured to listen to its own port 8888
+(127.0.0.1:8888) to read these messages.
 
 `Back to top ↑ <#top>`_
 
@@ -600,8 +621,8 @@ By default, the settings are as follows:
         "units": "CHAN"},
     "forward": {
         "enabled": false,
-        "address": "192.168.1.254",
-        "port": 8888,
+        "address": ["192.168.1.254"],
+        "port": [8888],
         "channels": ["all"],
         "fwd_data": true,
         "fwd_alarms": false},

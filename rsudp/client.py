@@ -218,10 +218,18 @@ def run(settings, debug):
 		fwd_data = settings['forward']['fwd_data']
 		fwd_alarms = settings['forward']['fwd_alarms']
 		# set up queue and process
-		q = mk_q()
-		forward = Forward(addr=addr, port=port, cha=cha, fwd_data=fwd_data,
-						  fwd_alarms=fwd_alarms, q=q)
-		mk_p(forward)
+		if len(addr) == len(port):
+			printM('Initializing %s Forward threads' % (len(addr)), sender=SENDER)
+			for i in range(len(addr)):
+				q = mk_q()
+				forward = Forward(num=i, addr=addr[i], port=int(port[i]), cha=cha,
+								  fwd_data=fwd_data, fwd_alarms=fwd_alarms,
+								  q=q)
+				mk_p(forward)
+		else:
+			printE('List length mismatch: %s addresses and %s ports in forward section of settings file' % (
+										len(addr), len(port)), sender=SENDER)
+			_xit(1)
 
 	if settings['alert']['enabled']:
 		# put settings in namespace

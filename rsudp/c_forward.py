@@ -5,9 +5,12 @@ import rsudp.raspberryshake as rs
 
 class Forward(rs.ConsumerThread):
 	"""
-	Single-destination data forwarding. This consumer reads
+	Single-destination data forwarding module. This consumer reads
 	queue messages from the :class:`rsudp.c_consumer.Consumer`
 	and forwards those messages to a specified address and port.
+	Multiple of these threads can be started in order to deliver to
+	more than one destination. (see the :ref:`datacast-forwarding`
+	section in :doc:`settings`)
 
 	.. versionadded:: 1.0.2
 
@@ -24,14 +27,14 @@ class Forward(rs.ConsumerThread):
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 	"""
 
-	def __init__(self, addr, port, fwd_data, fwd_alarms, cha, q):
+	def __init__(self, num, addr, port, fwd_data, fwd_alarms, cha, q):
 		"""
 		Initializes data forwarding module.
 		
 		"""
 		super().__init__()
 
-		self.sender = 'Forward'
+		self.sender = 'Forward #%s (%s:%s)' % (num, addr, port)
 		self.queue = q
 		self.addr = addr
 		self.port = port

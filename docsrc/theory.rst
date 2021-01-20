@@ -65,6 +65,8 @@ their logic loops. Some build :py:class:`obspy.core.stream.Stream` with
 the data passed to them, while some ignore the data and watch for
 status messages.
 
+.. _message-types:
+
 Message types
 =================================================
 

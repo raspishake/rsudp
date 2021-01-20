@@ -231,7 +231,7 @@ data hierarchy. This allows the program to distribute data and messages
 between different modules efficiently while maintaining programmatic
 integrity required by rsudp’s dependencies (<a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.html#module-matplotlib.pyplot" title="(in Matplotlib v3.3.3)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">matplotlib.pyplot</span></code></a>
 objects, for example, can only be owned by the master thread).</p>
-<div class="figure align-center" id="id1">
+<div class="figure align-center" id="id2">
 <span id="flow-diagram"></span><img alt="_images/rsudp-flow.png" src="_images/rsudp-flow.png" />
 <p class="caption"><span class="caption-text">Data and (inset) thread hierarchies for rsudp.
 This figure shows a flow chart of data as it makes its way through
@@ -240,7 +240,7 @@ and eventually to the end-consumer processing the data.
 Thread hierarchies are shown in the inset chart.
 If you are looking to add a module to rsudp,
 it will be a worker class (red) and will receive data from
-the master consumer like the rest of the workers.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+the master consumer like the rest of the workers.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 <div class="section" id="thread-layout">
 <h2><span class="section-number">1.1. </span>Thread layout<a class="headerlink" href="#thread-layout" title="Permalink to this headline">¶</a></h2>
@@ -272,7 +272,7 @@ their logic loops. Some build <a class="reference external" href="https://docs.o
 the data passed to them, while some ignore the data and watch for
 status messages.</p>
 <div class="section" id="message-types">
-<h3><span class="section-number">1.2.1. </span>Message types<a class="headerlink" href="#message-types" title="Permalink to this headline">¶</a></h3>
+<span id="id1"></span><h3><span class="section-number">1.2.1. </span>Message types<a class="headerlink" href="#message-types" title="Permalink to this headline">¶</a></h3>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.4.3: </span>the <code class="code docutils literal notranslate"><span class="pre">RESET</span></code> message type was added.</p>
 </div>

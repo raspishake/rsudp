@@ -54,7 +54,7 @@ class Write(rs.ConsumerThread):
 			self.alive = False
 			printM('Exiting.', self.sender)
 			sys.exit()
-		elif 'ALARM' in str(d):
+		elif str(d.decode('UTF-8')).split(' ')[0] in ['ALARM', 'RESET', 'IMGPATH']:
 			pass
 		else:
 			if rs.getCHN(d) in self.chans:

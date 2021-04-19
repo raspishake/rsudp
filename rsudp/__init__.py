@@ -20,6 +20,7 @@ __version__ = _version.version
 default_loc = '%s/.config/rsudp' % os.path.expanduser('~').replace('\\', '/')
 os.makedirs(default_loc, exist_ok=True)
 log_dir = os.path.abspath('/tmp/rsudp')
+log_name = 'rsudp.log'
 os.makedirs(log_dir, exist_ok=True)
 
 # formatter settings
@@ -99,7 +100,7 @@ def init_dirs(odir):
 	return True
 
 
-def start_logging(testing=False):
+def start_logging(logname=log_name, testing=False):
 	'''
 	Creates a handler for logging info and warnings to file.
 
@@ -118,7 +119,7 @@ def start_logging(testing=False):
 	formatter = logging.Formatter(fmt=LOGFORMAT, datefmt=TIME_FORMAT)
 
 	# this initializes logging to file
-	f = logging.FileHandler(os.path.join(log_dir, 'rsudp.log'))
+	f = logging.FileHandler(os.path.join(log_dir, logname))
 	f.setLevel('INFO')
 	f.setFormatter(formatter)
 	# warnings also go to file

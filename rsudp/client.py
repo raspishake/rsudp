@@ -471,11 +471,10 @@ settings in %s
 			'''
 			settings = H.read_settings(a)
 
-	start_logging()
 	debug = settings['settings']['debug']
 	if debug:
 		add_debug_handler()
-		printM('Logging initialized successfully.', sender=SENDER)
+	start_logging()
 
 	printM('Using settings file: %s' % settings_loc)
 

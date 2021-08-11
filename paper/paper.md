@@ -39,6 +39,38 @@ Shake instruments are able to forward data as user datagram protocol (UDP)
 packets, taking the opportunity to exploit the existence of this streaming data
 was obvious.
 
+While the plotting may be the centerpiece of the program, perhaps the most
+useful aspect of rsudp for researchers is its ability to monitor sudden motion
+and trigger various actions when events are detected. This software's ability
+to monitor data and trigger alerts with little processing overhead could be
+critical to monitoring units in the field. Additionally, rsudp was designed for
+extensibility, meaning that it leaves room for users to add their own code to
+be run when events are detected. The demands of real-time seismic processing
+require that calculations must be made quickly and remain stable for weeks or
+months without user intervention. rsudp aims to achieve both of these things,
+maintaining a codebase lean enough to run on Raspberry Pi but intuitive enough
+that users can learn the theory of real time continuous data processing and
+contribute code of their own. Programs that do similar tasks are usually not as
+fully-featured, cost money, are unmaintained, are difficult to fork and
+customize, or are complex to set up and run. We have tried to keep dependencies
+to a minimum, the code base understandable, and installation simple across
+multiple platforms.
+
+Similar JAVA programs, including Swarm [@USGS2020], jAmaSeis
+([http://www.iris.edu/hq/jamaseis/](http://www.iris.edu/hq/jamaseis/)), and
+SeisGram2K ([http://alomax.free.fr/seisgram/SeisGram2K.html](http://alomax.free.fr/seisgram/SeisGram2K.html))
+have broader scope but less extensibility, and while they can all be set up to
+run with the Rasbperry Shake, they can not read Raspberry Shake UDP format.
+Therefore, accessing near-realtime data will necessarily use more bandwidth
+and place processing load on the Shake itself. More powerful network processing
+suites like Earthworm
+([http://www.earthwormcentral.org/](http://www.earthwormcentral.org/)) are
+difficult to set up and do not easily produce kiosk-ready live visualizations.
+SeisComP4 ([https://www.seiscomp.de](https://www.seiscomp.de)), while arguably
+the industry standard for network processing, requires a license for full
+functionality, and is typically meant for high-level seismological
+institutions.
+
 ![Chart of producer and consumer threads and the organization of data flow in `rsudp`. In order to maximize computational efficiency, features are broken into modules—each module constituting a thread—and data is passed to each module through an asynchronous queue. Inset: thread hierarchy and ownership chart, color-coded by function. Note that the Plot module is owned by the main thread, since `matplotlib` objects can only be created and destroyed by the main thread.\label{fig:flow}](flow.png)
 
 # Summary
@@ -77,9 +109,9 @@ seismologists alike.
 # Acknowledgements
 
 Financial support for this project comes from Raspberry Shake S.A. We are
-grateful to Trinh Tuan Vu for his help authoring Windows setup scripts, Branden
-Christensen for helpful reviews and guidance, and to Leif Lobinsky for design
-input.
+grateful to Trinh Tuan Vu for his help authoring Windows setup scripts, Fabian
+Walter and Calum Chamberlain for helpful reviews, and to Leif Lobinsky for
+design input.
 
 
 # References

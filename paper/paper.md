@@ -30,14 +30,14 @@ bibliography: paper.bib
 
 The uses of low-cost seismographs in science and education are becoming more
 widely known as these devices become more popular
-[@Anthony:2018; @Walter:2019; @Diaz:2020; @Subedi:2020]. Raspberry Shake
-seismographs are commonly used in schools, by Shake community members, and
-other individuals having no formal training in seismology. The existence of
-this class of instruments highlighted the need for easy-to-use visualization
-and notification software to complement these devices. Because all Raspberry
-Shake instruments are able to forward data as user datagram protocol (UDP)
-packets, taking the opportunity to exploit the existence of this streaming data
-was obvious.
+[@Anthony:2018; @Walter:2019; @Diaz:2020; @Lecocq:2020; @Subedi:2020; @Winter:2021].
+Raspberry Shake seismographs are commonly used in schools, by Shake community
+members, and other individuals having no formal training in seismology. The
+existence of this class of instruments highlighted the need for easy-to-use
+visualization and notification software to complement these devices. Because
+all Raspberry Shake instruments are able to forward data as user datagram
+protocol (UDP) packets, taking the opportunity to exploit the existence of this
+streaming data was obvious.
 
 While the plotting may be the centerpiece of the program, perhaps the most
 useful aspect of rsudp for researchers is its ability to monitor sudden motion
@@ -56,7 +56,7 @@ customize, or are complex to set up and run. We have tried to keep dependencies
 to a minimum, the code base understandable, and installation simple across
 multiple platforms.
 
-Similar JAVA programs, including Swarm [@USGS2020], jAmaSeis
+Similar JAVA programs, including Swarm [@USGS:2020], jAmaSeis
 ([http://www.iris.edu/hq/jamaseis/](http://www.iris.edu/hq/jamaseis/)), and
 SeisGram2K ([http://alomax.free.fr/seisgram/SeisGram2K.html](http://alomax.free.fr/seisgram/SeisGram2K.html))
 have broader scope but less extensibility, and while they can all be set up to

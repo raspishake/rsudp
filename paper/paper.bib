@@ -118,11 +118,39 @@
 	abstract 	= {The Python libraries NumPy and SciPy are extremely powerful tools for numerical processing and analysis well suited to a large variety of applications. We developed ObsPy (http://obspy.org), a Python library for seismology intended to facilitate the development of seismological software packages and workflows, to utilize these abilities and provide a bridge for seismology into the larger scientific Python ecosystem. Scientists in many domains who wish to convert their existing tools and applications to take advantage of a platform like the one Python provides are confronted with several hurdles such as special file formats, unknown terminology, and no suitable replacement for a non-trivial piece of software. We present an approach to implement a domain-specific time series library on top of the scientific NumPy stack. In so doing, we show a realization of an abstract internal representation of time series data permitting I/O support for a diverse collection of file formats. Then we detail the integration and repurposing of well established legacy codes, enabling them to be used in modern workflows composed in Python. Finally we present a case study on how to integrate research code into ObsPy, opening it to the broader community. While the implementations presented in this work are specific to seismology, many of the described concepts and abstractions are directly applicable to other sciences, especially to those with an emphasis on time series analysis.}
 }
 
-@misc{USGS2020,
+@article{Lecocq:2020,
+	abstract 	= {Human activity causes vibrations that propagate into the ground as high-frequency seismic waves. Measures to mitigate the coronavirus disease 2019 (COVID-19) pandemic caused widespread changes in human activity, leading to a months-long reduction in seismic noise of up to 50%. The 2020 seismic noise quiet period is the longest and most prominent global anthropogenic seismic noise reduction on record. Although the reduction is strongest at surface seismometers in populated areas, this seismic quiescence extends for many kilometers radially and hundreds of meters in depth. This quiet period provides an opportunity to detect subtle signals from subsurface seismic sources that would have been concealed in noisier times and to benchmark sources of anthropogenic noise. A strong correlation between seismic noise and independent measurements of human mobility suggests that seismology provides an absolute, real-time estimate of human activities.},
+	author 		= {Lecocq, Thomas and Hicks, Stephen P and Van Noten, Koen and van Wijk, Kasper and Koelemeijer, Paula and De Plaen, Raphael S. M. and Massin, Frédérick and Hillers, Gregor and Anthony, Robert E and Apoloner, Maria-Theresia and Arroyo-Solórzano, Mario and Assink, Jelle D and Büyükakpınar, Pinar and Cannata, Andrea and Cannavo, Flavio and Carrasco, Sebastian and Caudron, Corentin and Chaves, Esteban J and Cornwell, David G and Craig, David and den Ouden, Olivier F. C. and Diaz, Jordi and Donner, Stefanie and Evangelidis, Christos P and Evers, Läslo and Fauville, BenoitFer and Fernandez, Gonzalo A and Giannopoulos, Dimitrios and Gibbons, Steven J and Girona, Társilo and Grecu, Bogdan and Grunberg, Marc and Hetényi, György and Horleston, Anna and Inza, Adolfo and Irving, Jessica C. E. and Jamalreyhani, Mohammadreza and Kafka, Alan and Koymans, Mathijs R. and Labedz, Celeste R. and Larose, Eric and Lindsey, Nathaniel J. and McKinnon, Mika and Megies, Tobias and Miller, Meghan S. and Minarik, William and Moresi, Louis and Márquez-Ramírez, Víctor H. and Möllhoff, Martin and Nesbitt, Ian M. and Niyogi, Shankho and Ojeda, Javier and Oth, Adrien and Proud, Simon and Pulli, Jay and Retailleau, Lise and Rintamäki, Annukka E and Satriano, Claudio and Savage, Martha K and Shani-Kadmiel, Shahar and Sleeman, Reinoud and Sokos, Efthimios and Stammler, Klaus and Stott, Aler E and Subedi, Shiba and Sørensen, Mathilde B and Taira, Taka'aki and Tapia, Mar and Turhan, Fatih and van der Pluijm, Ben and Vanstone, Mark and Vergne, Jerome and Vuorinen, Tommi A. T. and Warren, Tristram and Wassermann, Joachim and Xiao, Han},
+	doi 		= {10.1126/science.abd2438},
+	issn 		= {0036-8075},
+	journal 	= {Science},
+	month 		= {sep},
+	number 		= {6509},
+	pages 		= {1338--1343},
+	pmid 		= {32703907},
+	title 		= {{Global quieting of high-frequency seismic noise due to COVID-19 pandemic lockdown measures}},
+	url 		= {https://doi.org/10.1126/science.abd2438},
+	volume 		= {369},
+	year 		= {2020}
+}
+
+@misc{USGS:2020,
 	author 		= {{United States Geolgical Survey}},
 	doi 		= {10.5066/P93A9MWK},
 	url			= {https://doi.org/10.5066/P93A9MWK},
 	title 		= {{Swarm}},
 	year 		= {2020},
 	abstract 	= {Swarm is a Java application designed to display and analyze seismic waveforms in real-time. Swarm can connect to and read from a variety of different static and dynamics data sources, including Earthworm & Winston wave servers, SeedLink servers, FDSN Web Services, and wave files. Swarm has both time- and frequency-domain analysis tools, along with a mapping platform. A full-screen kiosk mode allows users to monitor incoming wave and helicorder data. Swarm was originally developed by Dan Cervelli and Peter Cervelli for the USGS Volcano Science Center (VSC). More recent maintenance and enhancements were made by Tom Parker (USGS VSC AVO) and Diana Norgaard (USGS VSC VDAP), with contributions from Loren Antolik (USGS VSC HVO), Kevin Frechette (ISTI), Anthony Lomax, Dave Ketchum, Chirag Patel, and Ivan Henson.}
+}
+
+@article{Winter2021,
+	abstract 	= {We evaluate the performance of the low-cost seismic sensor Raspberry Shake (RS) to identify and monitor icequakes (which occur when glacial ice experiences brittle deformation) in extreme environments. In January 2020, three RS3D sensors were installed on a katabatic wind-scoured blue ice area (BIA) close to the Princess Elisabeth Antarctica research station in Dronning Maud Land, East Antarctica. The sensors were configured for Antarctic deployment and placed in insulated enclosures to protect them from harsh weather systems. The RS network (installed in a triangular array) performed well in the cold and with rapid air temperature change, as diurnal temperatures fluctuated from a high of 0.0°C to a minimum temperature of −15.0°C. Although battery connectivity issues in one unit limit full triangulation of seismic signals, and high background noise may mask some seismic signals, data from the RS2 unit reveals that 2936 icequakes were detected over a 10-day period. The temporal occurrence of these icequakes, combined with satellite-derived surface temperature measurements and automatic weather station data, suggest that diurnal fluctuations in solar radiation control ice surface temperature changes, driving thermal contraction of the ice. Seismic investigations like these can therefore provide information on the thermal state and ice fracture mechanics of ablation zones such as BIAs. Our work highlights the potential application of the RS (after minimal modification) in glaciated environments where equipment often needs to be portable, temporary and lightweight, and able to perform in extreme weather conditions.},
+	author 		= {Winter, Kate and Lombardi, Denis and Diaz-Moreno, Alejandro and Bainbridge, Rupert},
+	doi 		= {10.1785/0220200483},
+	issn 		= {0895-0695},
+	journal 	= {Seismological Research Letters},
+	month 		= {apr},
+	title 		= {{Monitoring Icequakes in East Antarctica with the Raspberry Shake}},
+	url 		= {https://pubs.geoscienceworld.org/ssa/srl/article/595972/Monitoring-Icequakes-in-East-Antarctica-with-the},
+	year 		= {2021}
 }

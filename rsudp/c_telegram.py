@@ -17,13 +17,12 @@ class Telegrammer(rs.ConsumerThread):
 
 	.. |sasmex_use| raw:: html
 
-		<a href="https://t.me/sasmex" target="_blank">used by</a>
+		<a href="https://t.me/sasmex" target="_blank">Mexican Early Warning System (SASMEX)</a>
 
 	|telegram| is a free messaging service which,
 	among other things, is suited to quickly broadcasting automatic
 	notifications via an API.
-	It is |sasmex_use| the Mexican Early Warning
-	System (SASMEX) and PanamaIGC.
+	It is used by the |sasmex_use| and PanamaIGC.
 
 	:param str token: bot token from Telegram bot creation
 	:param str chat_id: Telegram chat ID number that this module will post to

@@ -53,7 +53,7 @@ class Tweeter(rs.ConsumerThread):
 		In general, if you are looking for a simple multi-platform notification
 		service, it may be easier and more reliable to use the Telegram service
 		instead. rsudp has a telegram module at
-		:py:class:rsudp.c_telegram.Telegram:. See :ref:`setting-up-telegram` for details.
+		:py:class:`rsudp.c_telegram.Telegram`. See :ref:`setting-up-telegram` for details.
 
 	:param str consumer_key: Twitter calls this the "consumer key"
 	:param str consumer_secret: Twitter calls this the "consumer key secret"

@@ -328,7 +328,7 @@ def run(settings, debug):
 		q = mk_q()
 		TWITTER = Tweeter(q=q, consumer_key=consumer_key, consumer_secret=consumer_secret,
 						access_token=access_token, access_token_secret=access_token_secret,
-						tweet_images=tweet_images, extra_text=extra_text)
+						tweet_images=tweet_images, extra_text=extra_text, testing=TESTING)
 		mk_p(TWITTER)
 
 	if settings['telegram']['enabled']:
@@ -336,12 +336,11 @@ def run(settings, debug):
 		token = settings['telegram']['token']
 		chat_ids = settings['telegram']['chat_id'].strip(' ').split(',')
 		send_images = settings['telegram']['send_images']
-		
 		for chat_id in chat_ids:
 			sender = "Telegram id %s" % (chat_id)
 			q = mk_q()
 			TELEGRAM = Telegrammer(q=q, token=token, chat_id=chat_id,
-								   send_images=send_images,
+								   send_images=send_images, testing=TESTING,
 								   sender=sender)
 			mk_p(TELEGRAM)
 
@@ -620,6 +619,10 @@ default settings and the data file at
 			except Exception as e:
 				printE(e)
 				T.TEST['c_miniseed'][1] = False
+		if (T.TEST['c_tweet'] and TWITTER.last_message):
+			T.TEST['c_tweet'][1] = True
+		if (T.TEST['c_telegram'] and TELEGRAM.last_message):
+			T.TEST['c_telegram'][1] = True
 
 	except Exception as e:
 		printE(traceback.format_exc(), announce=False)

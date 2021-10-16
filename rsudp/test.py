@@ -30,6 +30,8 @@ TEST = {
 	'c_processing':			['processing data             ', False],
 	'c_miniseed':			['miniSEED data exists        ', False],
 	'c_img':				['screenshot exists           ', False],
+	'c_tweet':				['Telegram module             ', False],
+	'c_telegram':			['Twitter module              ', False],
 	'c_ALARM':				['ALARM message               ', False],
 	'c_RESET':				['RESET message               ', False],
 	'c_IMGPATH':			['IMGPATH message             ', False],
@@ -64,7 +66,8 @@ def make_test_settings(settings, inet=False):
 	 ``settings['plot']['eq_screenshots']``   ``True``
 	 ``settings['write']['enabled']``         ``True``
 	 ``settings['write']['channels']``        ``['all']``
-	 ``settings['alertsound']['enabled']``    ``True``
+	 ``settings['tweets']['enabled']``        ``True``
+	 ``settings['telegram']['enabled']``      ``True``
 	 ``settings['alertsound']['enabled']``    ``True``
 	 ``settings['rsam']['enabled']``          ``True``
 	 ``settings['rsam']['debug']``            ``True``
@@ -104,6 +107,9 @@ def make_test_settings(settings, inet=False):
 
 	settings['write']['enabled'] = True
 	settings['write']['channels'] = ['all']
+
+	settings['telegram']['enabled'] = True
+	settings['tweets']['enabled'] = True
 
 	settings['alertsound']['enabled'] = True
 

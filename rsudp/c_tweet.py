@@ -67,7 +67,7 @@ class Tweeter(rs.ConsumerThread):
 
 	'''
 	def __init__(self, consumer_key, consumer_secret, access_token, access_token_secret,
-				 q=False, tweet_images=False, extra_text=False,
+				 q=False, tweet_images=False, extra_text=False, testing=False,
 				 ):
 		"""
 		Initialize the process
@@ -76,12 +76,14 @@ class Tweeter(rs.ConsumerThread):
 		self.sender = 'Tweeter'
 		self.alive = True
 		self.tweet_images = tweet_images
+		self.testing = testing
 		self.fmt = '%Y-%m-%d %H:%M:%S.%f'
 		self.region = ' - region: %s' % rs.region.title() if rs.region else ''
 		self.consumer_key = consumer_key
 		self.consumer_secret = consumer_secret
 		self.access_token = access_token
 		self.access_token_secret = access_token_secret
+		self.last_message = False
 
 		self._resolve_extra_text(extra_text)
 
@@ -93,12 +95,18 @@ class Tweeter(rs.ConsumerThread):
 			self.alive = False
 			sys.exit()
 
-		self.twitter = Twython(
-			consumer_key,
-			consumer_secret,
-			access_token,
-			access_token_secret
-		)
+		if not self.testing:
+			self.twitter = Twython(
+				consumer_key,
+				consumer_secret,
+				access_token,
+				access_token_secret
+			)
+		else:
+			printW('The Twitter module will not post to Twitter in Testing mode.',
+					self.sender, announce=False)
+
+
 		self.livelink = 'live feed ➡️ https://stationview.raspberryshake.org/#?net=%s&sta=%s' % (rs.net, rs.stn)
 		self.message0 = '(#RaspberryShake station %s.%s%s) Event detected at' % (rs.net, rs.stn, self.region)
 		self.message1 = '(#RaspberryShake station %s.%s%s) Image of event detected at' % (rs.net, rs.stn, self.region)
@@ -153,31 +161,35 @@ class Tweeter(rs.ConsumerThread):
 		message = '%s %s UTC%s - %s' % (self.message0, self.last_event_str, self.extra_text, self.livelink)
 		response = None
 		try:
-			printM('Sending tweet...', sender=self.sender)
-			response = self.twitter.update_status(status=message, lat=rs.inv[0][0].latitude,
-													long=rs.inv[0][0].longitude,
-													geo_enabled=True, display_coordinates=True)
-													# location will only stick to tweets on accounts that have location enabled in Settings
-			printM('Tweeted: %s' % (message), sender=self.sender)
-			url = 'https://twitter.com/%s/status/%s' % (response['user']['screen_name'], response['id_str'])
-			printM('Tweet URL: %s' % url)
+			printM('Tweet: %s' % (message), sender=self.sender)
+			if not self.testing:
+				response = self.twitter.update_status(status=message, lat=rs.inv[0][0].latitude,
+														long=rs.inv[0][0].longitude,
+														geo_enabled=True, display_coordinates=True)
+														# location will only stick to tweets on accounts that have location enabled in Settings
+				url = 'https://twitter.com/%s/status/%s' % (response['user']['screen_name'], response['id_str'])
+				printM('Tweet URL: %s' % url)
 
 		except Exception as e:
 			printE('could not send alert tweet - %s' % (e))
 			try:
 				printE('Waiting 5 seconds and trying to send tweet again...', sender=self.sender, spaces=True)
 				time.sleep(5.1)
-				self.auth()
-				response = self.twitter.update_status(status=message, lat=rs.inv[0][0].latitude,
-														long=rs.inv[0][0].longitude,
-														geo_enabled=True, display_coordinates=True)
-														# location will only stick to tweets on accounts that have location enabled in Settings
-				printM('Tweeted: %s' % (message), sender=self.sender)
-				url = 'https://twitter.com/%s/status/%s' % (response['user']['screen_name'], response['id_str'])
-				printM('Tweet URL: %s' % url)
+				printM('Tweet: %s' % (message), sender=self.sender)
+				if not self.testing:
+					self.auth()
+					response = self.twitter.update_status(status=message, lat=rs.inv[0][0].latitude,
+															long=rs.inv[0][0].longitude,
+															geo_enabled=True, display_coordinates=True)
+															# location will only stick to tweets on accounts that have location enabled in Settings
+					url = 'https://twitter.com/%s/status/%s' % (response['user']['screen_name'], response['id_str'])
+					printM('Tweet URL: %s' % url)
 			except Exception as e:
 				printE('could not send alert tweet - %s' % (e))
 				response = None
+
+		self.last_message = message
+
 
 
 	def _when_img(self, d):
@@ -191,27 +203,12 @@ class Tweeter(rs.ConsumerThread):
 			imgtime = helpers.fsec(helpers.get_msg_time(d))
 			message = '%s %s UTC%s' % (self.message1, imgtime.strftime(self.fmt)[:22], self.extra_text)
 			response = None
-			if os.path.exists(imgpath):
-				with open(imgpath, 'rb') as image:
-					try:
-						printM('Uploading image to Twitter %s' % (imgpath), self.sender)
-						response = self.twitter.upload_media(media=image)
-						time.sleep(5.1)
-						printM('Sending tweet...', sender=self.sender)
-						response = self.twitter.update_status(status=message, media_ids=response['media_id'],
-																lat=rs.inv[0][0].latitude, long=rs.inv[0][0].longitude,
-																geo_enabled=True, display_coordinates=True)
-																# location will only stick to tweets on accounts that have location enabled in Settings
-						printM('Tweeted with image: %s' % (message), sender=self.sender)
-						url = 'https://twitter.com/%s/status/%s' % (response['user']['screen_name'], response['id_str'])
-						printM('Tweet URL: %s' % url)
-					except Exception as e:
-						printE('could not send multimedia tweet - %s' % (e))
+			printM('Image tweet: %s' % (message), sender=self.sender)
+			if not self.testing:
+				if os.path.exists(imgpath):
+					with open(imgpath, 'rb') as image:
 						try:
-							printM('Waiting 5 seconds and trying to send tweet again...', sender=self.sender)
-							time.sleep(5.1)
-							self.auth()
-							printM('Uploading image to Twitter (2nd try) %s' % (imgpath), self.sender)
+							printM('Uploading image to Twitter %s' % (imgpath), self.sender)
 							response = self.twitter.upload_media(media=image)
 							time.sleep(5.1)
 							printM('Sending tweet...', sender=self.sender)
@@ -219,17 +216,33 @@ class Tweeter(rs.ConsumerThread):
 																	lat=rs.inv[0][0].latitude, long=rs.inv[0][0].longitude,
 																	geo_enabled=True, display_coordinates=True)
 																	# location will only stick to tweets on accounts that have location enabled in Settings
-							printM('Tweeted with image: %s' % (message), sender=self.sender)
 							url = 'https://twitter.com/%s/status/%s' % (response['user']['screen_name'], response['id_str'])
 							printM('Tweet URL: %s' % url)
-
 						except Exception as e:
-							printE('could not send multimedia tweet (2nd try) - %s' % (e))
-							response = None
+							printE('could not send multimedia tweet - %s' % (e))
+							try:
+								printM('Waiting 5 seconds and trying to send tweet again...', sender=self.sender)
+								time.sleep(5.1)
+								self.auth()
+								printM('Uploading image to Twitter (2nd try) %s' % (imgpath), self.sender)
+								response = self.twitter.upload_media(media=image)
+								time.sleep(5.1)
+								printM('Sending tweet...', sender=self.sender)
+								response = self.twitter.update_status(status=message, media_ids=response['media_id'],
+																		lat=rs.inv[0][0].latitude, long=rs.inv[0][0].longitude,
+																		geo_enabled=True, display_coordinates=True)
+																		# location will only stick to tweets on accounts that have location enabled in Settings
+								url = 'https://twitter.com/%s/status/%s' % (response['user']['screen_name'], response['id_str'])
+								printM('Tweet URL: %s' % url)
 
-			else:
-				printM('Could not find image: %s' % (imgpath), sender=self.sender)
+							except Exception as e:
+								printE('could not send multimedia tweet (2nd try) - %s' % (e))
+								response = None
 
+				else:
+					printM('Could not find image: %s' % (imgpath), sender=self.sender)
+		
+		self.last_message = message
 
 	def run(self):
 		"""

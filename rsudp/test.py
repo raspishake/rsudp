@@ -28,6 +28,8 @@ TEST = {
 	# core
 	'c_data':				['receiving data              ', False],
 	'c_processing':			['processing data             ', False],
+	'c_miniseed':			['miniSEED data exists        ', False],
+	'c_img':				['screenshot exists           ', False],
 	'c_ALARM':				['ALARM message               ', False],
 	'c_RESET':				['RESET message               ', False],
 	'c_IMGPATH':			['IMGPATH message             ', False],
@@ -60,6 +62,9 @@ def make_test_settings(settings, inet=False):
 	 ``settings['plot']['deconvolve']``       ``True``
 	 ``settings['plot']['units']``            ``'CHAN'``
 	 ``settings['plot']['eq_screenshots']``   ``True``
+	 ``settings['write']['enabled']``         ``True``
+	 ``settings['write']['channels']``        ``['all']``
+	 ``settings['alertsound']['enabled']``    ``True``
 	 ``settings['alertsound']['enabled']``    ``True``
 	 ``settings['rsam']['enabled']``          ``True``
 	 ``settings['rsam']['debug']``            ``True``
@@ -97,6 +102,9 @@ def make_test_settings(settings, inet=False):
 	settings['plot']['units'] = 'CHAN'
 	settings['plot']['eq_screenshots'] = True
 
+	settings['write']['enabled'] = True
+	settings['write']['channels'] = ['all']
+
 	settings['alertsound']['enabled'] = True
 
 	settings['rsam']['enabled'] = True
@@ -129,6 +137,7 @@ def cancel_tests(settings, MPL, plot, quiet):
 		settings['plot']['enabled'] = False
 		del TEST['d_matplotlib']
 		del TEST['c_IMGPATH']
+		del TEST['c_img']
 		printM('Plot is disabled')
 
 	if quiet:

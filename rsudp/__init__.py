@@ -32,6 +32,7 @@ TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 output_dir = False
 data_dir = False
 scap_dir = False
+ms_path = False
 
 COLOR = {
 	'purple': '\033[95m',

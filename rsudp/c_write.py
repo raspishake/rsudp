@@ -5,7 +5,7 @@ from obspy import UTCDateTime
 from rsudp.raspberryshake import ConsumerThread
 import rsudp.raspberryshake as rs
 from rsudp import printM, printW, printE, helpers
-from rsudp import data_dir
+from rsudp import ms_path
 
 class Write(rs.ConsumerThread):
 	"""
@@ -16,19 +16,20 @@ class Write(rs.ConsumerThread):
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 	:param bool debug: whether or not to display messages when writing data to disk.
 	"""
-	def __init__(self, q, debug=False, cha='all'):
+	def __init__(self, q, data_dir, debug=False, cha='all'):
 		"""
 		Initialize the process
 		"""
 		super().__init__()
 		self.sender = 'Write'
 		self.alive = True
+		self.debug = debug
 
 		self.queue = q
 
 		self.stream = rs.Stream()
-		self.outdir = data_dir
-		self.debug = debug
+		self.outdir = os.path.join(data_dir, 'data')
+		self.outfiles = []
 
 		self.chans = []
 		helpers.set_channels(self, cha)
@@ -112,6 +113,8 @@ class Write(rs.ConsumerThread):
 				t.data = t.data.filled(fill_value=0) # fill array (to avoid obspy write error)
 			outfile = self.outdir + '/%s.%s.00.%s.D.%s.%s' % (t.stats.network,
 								t.stats.station, t.stats.channel, self.y, self.j)
+			if not outfile in self.outfiles:
+				self.outfiles.append(outfile)
 			if os.path.exists(os.path.abspath(outfile)):
 				with open(outfile, 'ab') as fh:
 					if self.debug:

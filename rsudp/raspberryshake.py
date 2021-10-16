@@ -7,7 +7,7 @@ import socket as s
 import signal
 from obspy import UTCDateTime
 from obspy.core.stream import Stream
-from obspy import read_inventory
+from obspy import read_inventory, read
 from obspy.geodetics.flinnengdahl import FlinnEngdahl
 from obspy.core.trace import Trace
 from rsudp import printM, printW, printE

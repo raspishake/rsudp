@@ -216,7 +216,7 @@
 <span class="target" id="module-rsudp.c_plot"></span><dl class="py class">
 <dt id="rsudp.c_plot.Plot">
 <em class="property">class </em><code class="sig-prename descclassname">rsudp.c_plot.</code><code class="sig-name descname">Plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">cha</span><span class="o">=</span><span class="default_value">'all'</span></em>, <em class="sig-param"><span class="n">seconds</span><span class="o">=</span><span class="default_value">30</span></em>, <em class="sig-param"><span class="n">spectrogram</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">fullscreen</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">kiosk</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">deconv</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">screencap</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">alert</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>GUI plotting algorithm, compatible with both Qt5 and TkAgg backends (see <a class="reference external" href="https://matplotlib.org/api/matplotlib_configuration_api.html#matplotlib.use" title="(in Matplotlib v3.3.3)"><code class="xref py py-func docutils literal notranslate"><span class="pre">matplotlib.use()</span></code></a>).
+<dd><p>GUI plotting algorithm, compatible with both Qt5 and TkAgg backends (see <a class="reference external" href="https://matplotlib.org/api/matplotlib_configuration_api.html#matplotlib.use" title="(in Matplotlib v3.4.3)"><code class="xref py py-func docutils literal notranslate"><span class="pre">matplotlib.use()</span></code></a>).
 This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and display a spectrogram beneath each.</p>
 <p>By default the plotted <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“duration”</span></span></code> in seconds is <code class="code json docutils literal notranslate"><span class="literal number integer"><span class="pre">30</span></span></code>.
 The plot will refresh at most once per second, but slower processors may take longer.
@@ -228,19 +228,19 @@ To put the plot into kiosk mode, set <code class="code json docutils literal not
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – channels to plot. Defaults to “all” but can be passed a list of channel names as strings.</p></li>
-<li><p><strong>seconds</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of seconds to plot. Defaults to 30.</p></li>
-<li><p><strong>spectrogram</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether to plot the spectrogram. Defaults to True.</p></li>
-<li><p><strong>fullscreen</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether to plot in a fullscreen window. Defaults to False.</p></li>
-<li><p><strong>kiosk</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether to plot in kiosk mode (true fullscreen). Defaults to False.</p></li>
-<li><p><strong>deconv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether to deconvolve the signal. Defaults to False.</p></li>
-<li><p><strong>screencap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not to save screenshots of events. Defaults to False.</p></li>
-<li><p><strong>alert</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether to draw the number of events at startup. Defaults to True.</p></li>
-<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.9)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
+<li><p><strong>cha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – channels to plot. Defaults to “all” but can be passed a list of channel names as strings.</p></li>
+<li><p><strong>seconds</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – number of seconds to plot. Defaults to 30.</p></li>
+<li><p><strong>spectrogram</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether to plot the spectrogram. Defaults to True.</p></li>
+<li><p><strong>fullscreen</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether to plot in a fullscreen window. Defaults to False.</p></li>
+<li><p><strong>kiosk</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether to plot in kiosk mode (true fullscreen). Defaults to False.</p></li>
+<li><p><strong>deconv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether to deconvolve the signal. Defaults to False.</p></li>
+<li><p><strong>screencap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether or not to save screenshots of events. Defaults to False.</p></li>
+<li><p><strong>alert</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether to draw the number of events at startup. Defaults to True.</p></li>
+<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.10)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ImportError" title="(in Python v3.9)"><strong>ImportError</strong></a> – if the module cannot import either of the Matplotlib Qt5 or TkAgg backends</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ImportError" title="(in Python v3.10)"><strong>ImportError</strong></a> – if the module cannot import either of the Matplotlib Qt5 or TkAgg backends</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -287,15 +287,15 @@ This will allow the plot to resize dynamically.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of plot events without clearing the linecache</p></li>
-<li><p><strong>u</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – queue blocking counter</p></li>
+<li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – number of plot events without clearing the linecache</p></li>
+<li><p><strong>u</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – queue blocking counter</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>number of plot events without clearing the linecache and queue blocking counter</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -307,13 +307,13 @@ This will allow the plot to resize dynamically.</p>
 This is a way to figure out how many channels have arrived in the queue.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>u</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – queue blocking counter</p>
+<dd class="field-odd"><p><strong>u</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – queue blocking counter</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>queue blocking counter</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -330,14 +330,14 @@ All other plots are drawn at most every quarter second (250 ms).</p>
 
 <dl class="py method">
 <dt id="rsudp.c_plot.Plot.savefig">
-<code class="sig-name descname">savefig</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event_time</span><span class="o">=</span><span class="default_value">UTCDateTime(2021, 1, 20, 22, 52, 11, 958159)</span></em>, <em class="sig-param"><span class="n">event_time_str</span><span class="o">=</span><span class="default_value">'2021-01-20-225211'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.savefig" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">savefig</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event_time</span><span class="o">=</span><span class="default_value">UTCDateTime(2021, 10, 16, 21, 22, 10, 585011)</span></em>, <em class="sig-param"><span class="n">event_time_str</span><span class="o">=</span><span class="default_value">'2021-10-16-212210'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.savefig" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the figure and puts an IMGPATH message on the master queue.
 This message can be used to upload the image to various services.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>event_time</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.2.0) v1.2)"><em>obspy.core.utcdatetime.UTCDateTime</em></a>) – Event time as an obspy UTCDateTime object.</p></li>
-<li><p><strong>event_time_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Event time as a string. This is used to set the filename.</p></li>
+<li><p><strong>event_time_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Event time as a string. This is used to set the filename.</p></li>
 </ul>
 </dd>
 </dl>

@@ -7,6 +7,8 @@
 - added feature requested in [#17](https://github.com/raspishake/rsudp/issues/17) to control forwarding of `ALARM` and `RESET` messages as well as data
 - added feature requested in [#18](https://github.com/raspishake/rsudp/issues/18) to forward messages to multiple destinations (this changes the syntax of the `"address"` and `"port"` fields of the `"forward"` settings section to lists)
 - changed logging structure to be more downstream-friendly. downstream software can now initialize logging to `/tmp/rsudp/XYZ.log` by calling `rsudp.start_logging(logname='XYZ.log')`
+- added tests for Telegram, Twitter, and write modules as suggested [in review](https://github.com/openjournals/joss-reviews/issues/2565) ([#22](https://github.com/raspishake/rsudp/issues/22))
+- addressed ([#23](https://github.com/raspishake/rsudp/issues/23)) which prevented data from being written to the output directory
 
 ## changes in 1.0.1
 - added `rsudp.c_rsam` Real-time Seismic Amplitude Measurement consumer

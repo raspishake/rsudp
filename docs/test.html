@@ -235,6 +235,10 @@ and their initial state:</p>
     <span class="c1"># core</span>
     <span class="s1">&#39;c_data&#39;</span><span class="p">:</span>               <span class="p">[</span><span class="s1">&#39;receiving data              &#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
     <span class="s1">&#39;c_processing&#39;</span><span class="p">:</span>         <span class="p">[</span><span class="s1">&#39;processing data             &#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+    <span class="s1">&#39;c_miniseed&#39;</span><span class="p">:</span>           <span class="p">[</span><span class="s1">&#39;miniSEED data exists        &#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+    <span class="s1">&#39;c_img&#39;</span><span class="p">:</span>                <span class="p">[</span><span class="s1">&#39;screenshot exists           &#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+    <span class="s1">&#39;c_tweet&#39;</span><span class="p">:</span>              <span class="p">[</span><span class="s1">&#39;Telegram module             &#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+    <span class="s1">&#39;c_telegram&#39;</span><span class="p">:</span>           <span class="p">[</span><span class="s1">&#39;Twitter module              &#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
     <span class="s1">&#39;c_ALARM&#39;</span><span class="p">:</span>              <span class="p">[</span><span class="s1">&#39;ALARM message               &#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
     <span class="s1">&#39;c_RESET&#39;</span><span class="p">:</span>              <span class="p">[</span><span class="s1">&#39;RESET message               &#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
     <span class="s1">&#39;c_IMGPATH&#39;</span><span class="p">:</span>            <span class="p">[</span><span class="s1">&#39;IMGPATH message             &#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
@@ -262,13 +266,13 @@ default settings file for testing, you will need to set
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – the dictionary of settings for program execution</p></li>
-<li><p><strong>plot</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not to plot (<code class="docutils literal notranslate"><span class="pre">False</span></code> == no plot)</p></li>
-<li><p><strong>quiet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not to play sounds (<code class="docutils literal notranslate"><span class="pre">True</span></code> == no sound)</p></li>
+<li><p><strong>settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a>) – the dictionary of settings for program execution</p></li>
+<li><p><strong>plot</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether or not to plot (<code class="docutils literal notranslate"><span class="pre">False</span></code> == no plot)</p></li>
+<li><p><strong>quiet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether or not to play sounds (<code class="docutils literal notranslate"><span class="pre">True</span></code> == no sound)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)">dict</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>settings dictionary to test with</p>
@@ -282,10 +286,10 @@ default settings file for testing, you will need to set
 <dd><p>Test write permissions in the data directory (<code class="docutils literal notranslate"><span class="pre">./data</span></code> by default)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>testdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The directory to test permissions for</p>
+<dd class="field-odd"><p><strong>testdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The directory to test permissions for</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>the output of <a class="reference internal" href="#rsudp.test.permissions" title="rsudp.test.permissions"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.test.permissions()</span></code></a></p>
@@ -299,10 +303,10 @@ default settings file for testing, you will need to set
 <dd><p>Test for an internet connection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>hostname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The hostname to test with</p>
+<dd class="field-odd"><p><strong>hostname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The hostname to test with</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if connection is successful, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise</p>
@@ -316,10 +320,10 @@ default settings file for testing, you will need to set
 <dd><p>Test write permissions in the log directory (<code class="docutils literal notranslate"><span class="pre">/tmp/rsudp</span></code> by default)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>logdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The log directory to test permissions for</p>
+<dd class="field-odd"><p><strong>logdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The log directory to test permissions for</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>the output of <a class="reference internal" href="#rsudp.test.permissions" title="rsudp.test.permissions"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.test.permissions()</span></code></a></p>
@@ -373,6 +377,18 @@ default settings file for testing, you will need to set
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">settings['plot']['eq_screenshots']</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
 </tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">settings['write']['enabled']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">settings['write']['channels']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">['all']</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">settings['tweets']['enabled']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">settings['telegram']['enabled']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+</tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">settings['alertsound']['enabled']</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
 </tr>
@@ -394,12 +410,12 @@ FDSN service.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – settings dictionary (will be modified from <a class="reference internal" href="settings.html#defaults"><span class="std std-ref">Default settings</span></a>)</p></li>
-<li><p><strong>inet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not the internet test passed</p></li>
+<li><p><strong>settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a>) – settings dictionary (will be modified from <a class="reference internal" href="settings.html#defaults"><span class="std std-ref">Default settings</span></a>)</p></li>
+<li><p><strong>inet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether or not the internet test passed</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)">dict</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>settings dictionary to test with</p>
@@ -413,10 +429,10 @@ FDSN service.</p>
 <dd><p>Test write permissions for the specified directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>dp</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the directory path to test permissions for</p>
+<dd class="field-odd"><p><strong>dp</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – the directory path to test permissions for</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>if <code class="docutils literal notranslate"><span class="pre">True</span></code>, the test was successful, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise</p>
@@ -430,10 +446,10 @@ FDSN service.</p>
 <dd><p>Test write permissions in the screenshots directory (<code class="docutils literal notranslate"><span class="pre">./screenshots</span></code> by default)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>testdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The directory to test permissions for</p>
+<dd class="field-odd"><p><strong>testdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The directory to test permissions for</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>the output of <a class="reference internal" href="#rsudp.test.permissions" title="rsudp.test.permissions"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.test.permissions()</span></code></a></p>

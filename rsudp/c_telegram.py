@@ -17,13 +17,12 @@ class Telegrammer(rs.ConsumerThread):
 
 	.. |sasmex_use| raw:: html
 
-		<a href="https://t.me/sasmex" target="_blank">used by</a>
+		<a href="https://t.me/sasmex" target="_blank">Mexican Early Warning System (SASMEX)</a>
 
 	|telegram| is a free messaging service which,
 	among other things, is suited to quickly broadcasting automatic
 	notifications via an API.
-	It is |sasmex_use| the Mexican Early Warning
-	System (SASMEX) and PanamaIGC.
+	It is used by the |sasmex_use| and PanamaIGC.
 
 	:param str token: bot token from Telegram bot creation
 	:param str chat_id: Telegram chat ID number that this module will post to
@@ -31,7 +30,7 @@ class Telegrammer(rs.ConsumerThread):
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 
 	'''
-	def __init__(self, token, chat_id,
+	def __init__(self, token, chat_id, testing=False,
 				 q=False, send_images=False,
 				 sender='Telegram'):
 		"""
@@ -44,6 +43,7 @@ class Telegrammer(rs.ConsumerThread):
 		self.send_images = send_images
 		self.token = token
 		self.chat_id = chat_id
+		self.testing = testing
 		self.fmt = '%Y-%m-%d %H:%M:%S.%f'
 		self.region = ' - region: %s' % rs.region.title() if rs.region else ''
 
@@ -55,16 +55,22 @@ class Telegrammer(rs.ConsumerThread):
 			self.alive = False
 			sys.exit()
 
-		self.telegram = tg.Bot(token=self.token)
+		if not self.testing:
+			self.telegram = tg.Bot(token=self.token)
+		else:
+			printW('The Telegram module will not post to Telegram in Testing mode.',
+					self.sender, announce=False)
 
 		self.livelink = 'live feed ➡️ https://stationview.raspberryshake.org/#?net=%s&sta=%s' % (rs.net, rs.stn)
 		self.message0 = '(Raspberry Shake station %s.%s%s) Event detected at' % (rs.net, rs.stn, self.region)
+		self.last_message = False
 
 		printM('Starting.', self.sender)
 
 
 	def auth(self):
-		self.telegram = tg.Bot(token=self.token)
+		if not self.testing:
+			self.telegram = tg.Bot(token=self.token)
 
 
 	def getq(self):
@@ -91,8 +97,9 @@ class Telegrammer(rs.ConsumerThread):
 		response = None
 		try:
 			printM('Sending alert...', sender=self.sender)
-			response = self.telegram.sendMessage(chat_id=self.chat_id, text=message)
-			printM('Sent Telegram: %s' % (message), sender=self.sender)
+			if not self.testing:
+				response = self.telegram.sendMessage(chat_id=self.chat_id, text=message)
+			printM('Telegram message: %s' % (message), sender=self.sender)
 
 		except Exception as e:
 			printE('Could not send alert - %s' % (e))
@@ -100,11 +107,13 @@ class Telegrammer(rs.ConsumerThread):
 				printE('Waiting 5 seconds and trying to send again...', sender=self.sender, spaces=True)
 				time.sleep(5)
 				self.auth()
-				response = self.telegram.sendMessage(chat_id=self.chat_id, text=message)
-				printM('Sent Telegram: %s' % (message), sender=self.sender)
+				if not self.testing:
+					response = self.telegram.sendMessage(chat_id=self.chat_id, text=message)
+				printM('Telegram message: %s' % (message), sender=self.sender)
 			except Exception as e:
 				printE('Could not send alert - %s' % (e))
 				response = None
+		self.last_message = message
 
 
 	def _when_img(self, d):
@@ -120,7 +129,8 @@ class Telegrammer(rs.ConsumerThread):
 				with open(imgpath, 'rb') as image:
 					try:
 						printM('Uploading image to Telegram %s' % (imgpath), self.sender)
-						response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
+						if not self.testing:
+							response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
 						printM('Sent image', sender=self.sender)
 					except Exception as e:
 						printE('Could not send image - %s' % (e))
@@ -129,7 +139,8 @@ class Telegrammer(rs.ConsumerThread):
 							time.sleep(5.1)
 							self.auth()
 							printM('Uploading image to Telegram (2nd try) %s' % (imgpath), self.sender)
-							response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
+							if not self.testing:
+								response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
 							printM('Sent image', sender=self.sender)
 
 						except Exception as e:

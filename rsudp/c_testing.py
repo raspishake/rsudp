@@ -2,7 +2,10 @@ import sys, os
 from rsudp.raspberryshake import ConsumerThread
 import rsudp.raspberryshake as rs
 from rsudp import printM, printW, helpers
+from rsudp import ms_path
 import rsudp.test as t
+
+IMGPATH = False
 
 class Testing(rs.ConsumerThread):
 	'''
@@ -93,6 +96,7 @@ class Testing(rs.ConsumerThread):
 		:param bytes d: a data packet from the queue
 
 		'''
+		global IMGPATH
 		if 'TERM' in str(d):
 			printM('Got TERM message...', sender=self.sender)
 			t.TEST['c_TERM'][1] = True
@@ -114,8 +118,15 @@ class Testing(rs.ConsumerThread):
 			printM('Got IMGPATH message with time %s' % (
 				   helpers.fsec(helpers.get_msg_time(d))
 				   ), sender=self.sender)
-			printM('and path %s' % (helpers.get_msg_path(d)), sender=self.sender)
+			IMGPATH = helpers.get_msg_path(d)
+			printM('and path %s' % (IMGPATH), sender=self.sender)
 			t.TEST['c_IMGPATH'][1] = True
+
+	def _img_test(self):
+		if t.TEST['c_img']:
+			t.TEST['c_img'][1] = os.path.exists(IMGPATH)
+			dn, fn = os.path.dirname(IMGPATH), os.path.basename(IMGPATH)
+			os.replace(IMGPATH, os.path.join(dn, 'test.' + fn))
 
 
 	def run(self):
@@ -130,6 +141,8 @@ class Testing(rs.ConsumerThread):
 
 		while self.alive:
 			self._getd()
+
+		self._img_test()
 
 		printW('Exiting.', sender=self.sender, announce=False)
 		sys.exit()

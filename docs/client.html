@@ -212,7 +212,7 @@
 <dl class="py function">
 <dt id="rsudp.client.handler">
 <code class="sig-prename descclassname">rsudp.client.</code><code class="sig-name descname">handler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sig</span></em>, <em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.handler" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function passed to <a class="reference external" href="https://docs.python.org/3/library/signal.html#signal.signal" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">signal.signal()</span></code></a> to handle close events</p>
+<dd><p>Function passed to <a class="reference external" href="https://docs.python.org/3/library/signal.html#signal.signal" title="(in Python v3.10)"><code class="xref py py-func docutils literal notranslate"><span class="pre">signal.signal()</span></code></a> to handle close events</p>
 </dd></dl>
 
 <dl class="py function">
@@ -228,7 +228,7 @@ Supply -h from the command line to see help text.</p>
 <dd><p>Appends a process to the list of threads to start and stop.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>proc</strong> (<a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.9)"><em>threading.Thread</em></a>) – The process thread to append to the list of threads.</p>
+<dd class="field-odd"><p><strong>proc</strong> (<a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.10)"><em>threading.Thread</em></a>) – The process thread to append to the list of threads.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -241,7 +241,7 @@ variable to be passed to the master consumer thread
 <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.9)">queue.Queue</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.10)">queue.Queue</a></p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Returns the queue to pass to the sub-consumer.</p>
@@ -257,8 +257,8 @@ the appropriate threads and functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – settings dictionary (see <a class="reference internal" href="settings.html#defaults"><span class="std std-ref">Default settings</span></a> for guidance)</p></li>
-<li><p><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not to show debug output (should be turned off if starting as daemon)</p></li>
+<li><p><strong>settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a>) – settings dictionary (see <a class="reference internal" href="settings.html#defaults"><span class="std std-ref">Default settings</span></a> for guidance)</p></li>
+<li><p><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether or not to show debug output (should be turned off if starting as daemon)</p></li>
 </ul>
 </dd>
 </dl>
@@ -287,13 +287,13 @@ For a list of tests run, see <a class="reference internal" href="test.html#modul
 testing-specific actions should be taken in routines.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>, sets testing mode state. if anything else, returns state only.</p>
+<dd class="field-odd"><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>, sets testing mode state. if anything else, returns state only.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>testing mode state</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>

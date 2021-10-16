@@ -29,6 +29,10 @@ and their initial state:
         # core
         'c_data':               ['receiving data              ', False],
         'c_processing':         ['processing data             ', False],
+        'c_miniseed':           ['miniSEED data exists        ', False],
+        'c_img':                ['screenshot exists           ', False],
+        'c_tweet':              ['Telegram module             ', False],
+        'c_telegram':           ['Twitter module              ', False],
         'c_ALARM':              ['ALARM message               ', False],
         'c_RESET':              ['RESET message               ', False],
         'c_IMGPATH':            ['IMGPATH message             ', False],

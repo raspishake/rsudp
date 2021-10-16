@@ -39,6 +39,9 @@ except ImportError:
 DESTINATIONS, THREADS = [], []
 PROD = False
 PLOTTER = False
+TELEGRAM = False
+TWITTER = False
+WRITER = False
 SOUND = False
 TESTING = False
 TESTQUEUE = False
@@ -177,11 +180,12 @@ def run(settings, debug):
 		mk_p(prnt)
 
 	if settings['write']['enabled']:
+		global WRITER
 		# set up queue and process
 		cha = settings['write']['channels']
 		q = mk_q()
-		writer = Write(q=q, cha=cha)
-		mk_p(writer)
+		WRITER = Write(q=q, data_dir=output_dir, cha=cha)
+		mk_p(WRITER)
 
 	if settings['plot']['enabled'] and MPL:
 		while True:
@@ -313,6 +317,7 @@ def run(settings, debug):
 
 
 	if settings['tweets']['enabled']:
+		global TWITTER
 		consumer_key = settings['tweets']['api_key']
 		consumer_secret = settings['tweets']['api_secret']
 		access_token = settings['tweets']['access_token']
@@ -321,23 +326,23 @@ def run(settings, debug):
 		extra_text = settings['tweets']['extra_text']
 
 		q = mk_q()
-		tweet = Tweeter(q=q, consumer_key=consumer_key, consumer_secret=consumer_secret,
+		TWITTER = Tweeter(q=q, consumer_key=consumer_key, consumer_secret=consumer_secret,
 						access_token=access_token, access_token_secret=access_token_secret,
-						tweet_images=tweet_images, extra_text=extra_text)
-		mk_p(tweet)
+						tweet_images=tweet_images, extra_text=extra_text, testing=TESTING)
+		mk_p(TWITTER)
 
 	if settings['telegram']['enabled']:
+		global TELEGRAM
 		token = settings['telegram']['token']
 		chat_ids = settings['telegram']['chat_id'].strip(' ').split(',')
 		send_images = settings['telegram']['send_images']
-		
 		for chat_id in chat_ids:
 			sender = "Telegram id %s" % (chat_id)
 			q = mk_q()
-			telegram = Telegrammer(q=q, token=token, chat_id=chat_id,
-								   send_images=send_images,
+			TELEGRAM = Telegrammer(q=q, token=token, chat_id=chat_id,
+								   send_images=send_images, testing=TESTING,
 								   sender=sender)
-			mk_p(telegram)
+			mk_p(TELEGRAM)
 
 	if settings['rsam']['enabled']:
 		# put settings in namespace
@@ -597,10 +602,33 @@ default settings and the data file at
 
 	try:
 		run(settings, debug=True)
+
+		if T.TEST['c_miniseed']:
+			printM('Merging and testing MiniSEED file...', sender='test client', announce=False)
+			try:
+				ms = rs.Stream()
+				for outfile in WRITER.outfiles:
+					if os.path.exists(outfile):
+						T.TEST['c_miniseed'][1] = True
+						ms = ms + rs.read(outfile)
+						dn, fn = os.path.dirname(outfile), os.path.basename(outfile)
+						os.replace(outfile, os.path.join(dn, 'test.' + fn))
+					else:
+						raise FileNotFoundError('MiniSEED file not found: %s' % outfile)
+				printM(ms.merge())
+			except Exception as e:
+				printE(e)
+				T.TEST['c_miniseed'][1] = False
+		if (T.TEST['c_tweet'] and TWITTER.last_message):
+			T.TEST['c_tweet'][1] = True
+		if (T.TEST['c_telegram'] and TELEGRAM.last_message):
+			T.TEST['c_telegram'][1] = True
+
 	except Exception as e:
 		printE(traceback.format_exc(), announce=False)
 		printE('Ending tests.', sender='test client', announce=False)
 		time.sleep(0.5)
+
 
 	TESTQUEUE.put(b'ENDTEST')
 	printW('Test finished.', sender=SENDER, announce=False)

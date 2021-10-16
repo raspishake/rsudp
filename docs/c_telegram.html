@@ -211,7 +211,7 @@
 <span id="rsudp-c-telegram-telegram-alerts"></span><h1><a class="reference internal" href="#module-rsudp.c_telegram" title="rsudp.c_telegram"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code></a> (Telegram alerts)<a class="headerlink" href="#module-rsudp.c_telegram" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="rsudp.c_telegram.Telegrammer">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_telegram.</code><code class="sig-name descname">Telegrammer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">token</span></em>, <em class="sig-param"><span class="n">chat_id</span></em>, <em class="sig-param"><span class="n">q</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">send_images</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">sender</span><span class="o">=</span><span class="default_value">'Telegram'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_telegram.Telegrammer" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_telegram.</code><code class="sig-name descname">Telegrammer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">token</span></em>, <em class="sig-param"><span class="n">chat_id</span></em>, <em class="sig-param"><span class="n">testing</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">q</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">send_images</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">sender</span><span class="o">=</span><span class="default_value">'Telegram'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_telegram.Telegrammer" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
 <div><div class="versionadded">
 <p><span class="versionmodified added">New in version 0.4.2.</span></p>
@@ -220,15 +220,14 @@
 <p><a href="https://t.me/" target="_blank">Telegram</a> is a free messaging service which,
 among other things, is suited to quickly broadcasting automatic
 notifications via an API.
-It is <a href="https://t.me/sasmex" target="_blank">used by</a> the Mexican Early Warning
-System (SASMEX) and PanamaIGC.</p>
+It is used by the <a href="https://t.me/sasmex" target="_blank">Mexican Early Warning System (SASMEX)</a> and PanamaIGC.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>token</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – bot token from Telegram bot creation</p></li>
-<li><p><strong>chat_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Telegram chat ID number that this module will post to</p></li>
-<li><p><strong>send_images</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – whether or not to send images. if False, only alerts will be sent.</p></li>
-<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.9)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
+<li><p><strong>token</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – bot token from Telegram bot creation</p></li>
+<li><p><strong>chat_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Telegram chat ID number that this module will post to</p></li>
+<li><p><strong>send_images</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether or not to send images. if False, only alerts will be sent.</p></li>
+<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.10)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
 </ul>
 </dd>
 </dl>

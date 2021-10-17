@@ -138,6 +138,7 @@ class Telegrammer(rs.ConsumerThread):
 							response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
 							printM('Sent image', sender=self.sender)
 						else:
+							printM('Image ready to send - %s' % (imgpath), self.sender)
 							TEST['c_telegramimg'][1] = True
 					except Exception as e:
 						printE('Could not send image - %s' % (e))

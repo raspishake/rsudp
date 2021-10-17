@@ -20,7 +20,7 @@ and their initial state:
         # network
         'n_port':               ['port                        ', False],
         'n_internet':           ['internet                    ', False],
-        'n_inventory':          ['inventory fetch             ', False],
+        'n_inventory':          ['inventory (RS FDSN server)  ', False],
 
         # core
         'x_data':               ['receiving data              ', False],
@@ -35,14 +35,18 @@ and their initial state:
         'd_matplotlib':         ['matplotlib backend          ', False],
 
         # consumers
-        'c_miniseed':           ['miniSEED data exists        ', False],
-        'c_img':                ['screenshot exists           ', False],
+        'c_write':              ['miniSEED write              ', False],
+        'c_miniseed':           ['miniSEED data               ', False],
         'c_alerton':            ['alert trigger on            ', False],
         'c_alertoff':           ['alert trigger off           ', False],
+        'c_play':               ['play sound                  ', False],
+        'c_img':                ['screenshot exists           ', False],
         'c_tweet':              ['Twitter text message        ', False],
-        'c_tweetimg':           ['Twitter text message        ', False],
+        'c_tweetimg':           ['Twitter image message       ', False],
         'c_telegram':           ['Telegram text message       ', False],
-        'c_telegramimg':        ['Telegram text message       ', False],
+        'c_telegramimg':        ['Telegram image              ', False],
+        'c_rsam':               ['RSAM transmission           ', False],
+
     }
 
 .. note::

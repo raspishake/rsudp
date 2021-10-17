@@ -1,16 +1,22 @@
 import sys, os
+
+from numpy.lib.polynomial import _poly_dispatcher
 from rsudp.raspberryshake import ConsumerThread
 from rsudp import printM, printW, printE
 from rsudp.test import TEST
 import subprocess
 try:
-	from pydub.playback import play, PLAYER
-	from pydub import AudioSegment
+	from pydub.playback import play
+	from pydub import AudioSegment, utils
 	pydub_exists = True
 	TEST['d_pydub'][1] = True
-except ImportError:
+except ImportError as e:
+	global ERR
+	ERR = e
 	pydub_exists = False
-
+if pydub_exists:
+	global PLAYER
+	PLAYER = utils.get_player_name()
 
 class AlertSound(ConsumerThread):
 	"""
@@ -55,6 +61,7 @@ class AlertSound(ConsumerThread):
 				printW('The program will now continue without sound playback.', sender=self.sender, spaces=True)
 				self.sound = False
 		else:
+			printE('Error importing pydub - %s' % ERR, sender=self.sender)
 			printW("You don't have pydub installed, so no sound will play.", sender=self.sender)
 			printW('To install pydub, follow the instructions at:', sender=self.sender, spaces=True)
 			printW('https://github.com/jiaaro/pydub#installation', sender=self.sender, spaces=True)

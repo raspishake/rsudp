@@ -7,15 +7,15 @@ try:
 	from pydub.playback import play
 	from pydub import AudioSegment, utils
 	pydub_exists = True
+	# avoids import error that arises between pydub 0.23.1 and 0.25.1
+	global PLAYER
+	PLAYER = utils.get_player_name()
 	TEST['d_pydub'][1] = True
 except ImportError as e:
 	global ERR
 	ERR = e
 	pydub_exists = False
-if pydub_exists:
-	# avoids import error that arises between pydub 0.23.1 and 0.25.1
-	global PLAYER
-	PLAYER = utils.get_player_name()
+
 
 class AlertSound(ConsumerThread):
 	"""

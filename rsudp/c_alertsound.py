@@ -1,6 +1,4 @@
 import sys, os
-
-from numpy.lib.polynomial import _poly_dispatcher
 from rsudp.raspberryshake import ConsumerThread
 from rsudp import printM, printW, printE
 from rsudp.test import TEST
@@ -15,6 +13,7 @@ except ImportError as e:
 	ERR = e
 	pydub_exists = False
 if pydub_exists:
+	# avoids import error that arises between pydub 0.23.1 and 0.25.1
 	global PLAYER
 	PLAYER = utils.get_player_name()
 

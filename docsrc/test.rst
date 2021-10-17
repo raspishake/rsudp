@@ -49,6 +49,7 @@ and their initial state:
         'c_telegram':           ['Telegram text message       ', False],
         'c_telegramimg':        ['Telegram image              ', False],
         'c_rsam':               ['RSAM transmission           ', False],
+        'c_custom':             ['custom code execution       ', False],
     }
 
 .. note::

@@ -45,6 +45,7 @@ TEST = {
 	'c_telegram':			['Telegram text message       ', False],
 	'c_telegramimg':		['Telegram image              ', False],
 	'c_rsam':				['RSAM transmission           ', False],
+	'c_custom':				['custom code execution       ', False],
 }
 
 TRANS = {
@@ -64,6 +65,7 @@ def make_test_settings(settings, inet=False):
 	Setting                                  Value
 	======================================== ===================
 	 ``settings['settings']['station']``      ``'R24FA'``
+	 ``settings['printdata']['enabled']``     ``True``
 	 ``settings['alert']['threshold']``       ``2``
 	 ``settings['alert']['reset']``           ``0.5``
 	 ``settings['alert']['lowpass']``         ``9``
@@ -102,6 +104,7 @@ def make_test_settings(settings, inet=False):
 	else:
 		settings['settings']['station'] = 'Z0000'
 
+	settings['printdata']['enabled'] = True
 
 	settings['alert']['threshold'] = 2
 	settings['alert']['reset'] = 0.5
@@ -122,6 +125,8 @@ def make_test_settings(settings, inet=False):
 
 	settings['alertsound']['enabled'] = True
 
+	settings['forward']['enabled'] = True
+
 	settings['rsam']['enabled'] = True
 	settings['rsam']['debug'] = True
 	settings['rsam']['interval'] = 5
@@ -131,7 +136,7 @@ def make_test_settings(settings, inet=False):
 	return settings
 
 
-def cancel_tests(settings, MPL, plot, quiet):
+def cancel_tests(settings, MPL, plot, quiet, custom):
 	'''
 	Cancel some tests if they don't need to be run.
 
@@ -159,6 +164,10 @@ def cancel_tests(settings, MPL, plot, quiet):
 		settings['alertsound']['enabled'] = False
 		del TEST['d_pydub']
 		printM('Alert sound is disabled')
+
+	if not settings['custom']['enabled']:
+		del TEST['c_custom']
+
 	return settings
 
 

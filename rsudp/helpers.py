@@ -88,8 +88,8 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
 "rsam": {
     "enabled": false,
     "quiet": true,
-    "fwaddr": false,
-    "fwport": false,
+    "fwaddr": "192.168.1.254",
+    "fwport": 8887,
     "fwformat": "LITE",
     "channel": "HZ",
     "interval": 10,

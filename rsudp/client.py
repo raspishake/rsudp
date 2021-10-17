@@ -282,7 +282,7 @@ def run(settings, debug):
 	if runcustom:
 		# set up queue and process
 		q = mk_q()
-		cstm = Custom(q=q, codefile=f, win_ovr=win_ovr)
+		cstm = Custom(q=q, codefile=f, win_ovr=win_ovr, testing=TESTING)
 		mk_p(cstm)
 
 

@@ -21,21 +21,25 @@ TEST = {
 	'n_internet':			['internet                    ', False],
 	'n_inventory':			['inventory fetch             ', False],
 
-	# dependencies
-	'd_pydub':				['pydub dependencies          ', False],
-	'd_matplotlib':			['matplotlib backend          ', False],
-
 	# core
 	'c_data':				['receiving data              ', False],
 	'c_processing':			['processing data             ', False],
-	'c_miniseed':			['miniSEED data exists        ', False],
-	'c_img':				['screenshot exists           ', False],
-	'c_tweet':				['Telegram module             ', False],
-	'c_telegram':			['Twitter module              ', False],
 	'c_ALARM':				['ALARM message               ', False],
 	'c_RESET':				['RESET message               ', False],
 	'c_IMGPATH':			['IMGPATH message             ', False],
 	'c_TERM':				['TERM message                ', False],
+
+	# dependencies
+	'd_pydub':				['pydub dependencies          ', False],
+	'd_matplotlib':			['matplotlib backend          ', False],
+
+	# consumers
+	'c_miniseed':			['miniSEED data exists        ', False],
+	'c_img':				['screenshot exists           ', False],
+	'c_tweet':				['Twitter text message        ', False],
+	'c_tweetimg':			['Twitter image message       ', False],
+	'c_telegram':			['Telegram text message       ', False],
+	'c_telegramimg':		['Telegram image message      ', False],
 }
 
 TRANS = {

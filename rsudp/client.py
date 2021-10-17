@@ -619,10 +619,6 @@ default settings and the data file at
 			except Exception as e:
 				printE(e)
 				T.TEST['c_miniseed'][1] = False
-		if (T.TEST['c_tweet'] and TWITTER.last_message):
-			T.TEST['c_tweet'][1] = True
-		if (T.TEST['c_telegram'] and TELEGRAM.last_message):
-			T.TEST['c_telegram'][1] = True
 
 	except Exception as e:
 		printE(traceback.format_exc(), announce=False)

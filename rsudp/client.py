@@ -594,7 +594,7 @@ default settings and the data file at
 
 	except Exception as e:
 		printE(traceback.format_exc(), announce=False)
-		printE('Ending tests.', sender=ctest, announce=False)
+		printE('Ending tests.', sender=SENDER, announce=False)
 		time.sleep(0.5)
 
 

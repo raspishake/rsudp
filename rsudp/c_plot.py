@@ -119,6 +119,7 @@ class Plot:
 		super().__init__()
 		self.sender = 'Plot'
 		self.alive = True
+		self.testing = testing
 		self.alarm = False			# don't touch this
 		self.alarm_reset = False	# don't touch this
 

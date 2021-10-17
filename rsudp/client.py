@@ -221,7 +221,7 @@ def run(settings, debug):
 				q = mk_q()
 				forward = Forward(num=i, addr=addr[i], port=int(port[i]), cha=cha,
 								  fwd_data=fwd_data, fwd_alarms=fwd_alarms,
-								  q=q)
+								  q=q, testing=TESTING)
 				mk_p(forward)
 		else:
 			printE('List length mismatch: %s addresses and %s ports in forward section of settings file' % (

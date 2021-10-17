@@ -44,6 +44,7 @@ TEST = {
 	'c_tweetimg':			['Twitter image message       ', False],
 	'c_telegram':			['Telegram text message       ', False],
 	'c_telegramimg':		['Telegram image              ', False],
+	'c_forward':			['forwarding                  ', False],
 	'c_rsam':				['RSAM transmission           ', False],
 	'c_custom':				['custom code execution       ', False],
 }
@@ -128,15 +129,13 @@ def make_test_settings(settings, inet=False):
 	settings['forward']['enabled'] = True
 
 	settings['rsam']['enabled'] = True
-	settings['rsam']['debug'] = True
-	settings['rsam']['interval'] = 5
-	settings['rsam']['fwaddr'] = "127.0.0.1"
-	settings['rsam']['fwport'] = 4444
+	settings['rsam']['quiet'] = False
+	settings['rsam']['interval'] = 10
 
 	return settings
 
 
-def cancel_tests(settings, MPL, plot, quiet, custom):
+def cancel_tests(settings, MPL, plot, quiet):
 	'''
 	Cancel some tests if they don't need to be run.
 

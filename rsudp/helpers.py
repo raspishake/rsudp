@@ -1,5 +1,6 @@
 import rsudp.raspberryshake as rs
 from rsudp import COLOR, printM, printW
+import rsudp
 import os
 import json
 
@@ -373,6 +374,21 @@ def get_msg_path(msg):
 	:return: the path embedded in the message
 	'''
 	return msg.decode('utf-8').split(' ')[2]
+
+
+def get_scap_dir():
+	'''
+	This function returns the screen capture directory from the init function.
+	This allows the variable to be more threadsafe.
+
+	.. code-block:: python
+
+		>>> get_scap_dir()
+		'/home/pi/rsudp/screenshots/'
+
+	:return: the path of the screenshot directory
+	'''
+	return rsudp.scap_dir
 
 
 def deconv_vel_inst(self, trace, output):

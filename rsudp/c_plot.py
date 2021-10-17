@@ -5,7 +5,7 @@ import math
 import numpy as np
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as rs
-from rsudp import printM, printW, printE, helpers, scap_dir
+from rsudp import printM, printW, printE, helpers
 from rsudp.test import TEST
 import linecache
 sender = 'plot.py'
@@ -299,7 +299,7 @@ class Plot:
 		:param obspy.core.utcdatetime.UTCDateTime event_time: Event time as an obspy UTCDateTime object.
 		:param str event_time_str: Event time as a string. This is used to set the filename.
 		'''
-		figname = os.path.join(scap_dir, '%s-%s.png' % (self.stn, event_time_str))
+		figname = os.path.join(helpers.get_scap_dir(), '%s-%s.png' % (self.stn, event_time_str))
 		elapsed = rs.UTCDateTime.now() - event_time
 		if int(elapsed) > 0:
 			printM('Saving png %i seconds after alarm' % (elapsed), sender=self.sender)

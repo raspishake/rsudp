@@ -5,8 +5,8 @@ import statistics
 from rsudp import printM, printW, printE
 from rsudp import helpers
 import rsudp.raspberryshake as rs
-COLOR = {}
 from rsudp import COLOR
+from rsudp.test import TEST
 
 # set the terminal text color to green
 COLOR['current'] = COLOR['green']
@@ -34,6 +34,7 @@ class RSAM(rs.ConsumerThread):
 
 	def __init__(self, q=False, debug=False, interval=5, cha='HZ', deconv=False,
 				 fwaddr=False, fwport=False, fwformat='LITE', quiet=False,
+				 testing=False,
 				 *args, **kwargs):
 		"""
 		Initializes the RSAM analysis thread.
@@ -41,6 +42,7 @@ class RSAM(rs.ConsumerThread):
 		super().__init__()
 		self.sender = 'RSAM'
 		self.alive = True
+		self.testing = testing
 		self.debug = debug
 		self.quiet = quiet	# overrides debug and suppresses printing
 		self.stn = rs.stn
@@ -260,6 +262,8 @@ class RSAM(rs.ConsumerThread):
 					   self.sender)
 			elif n == wait_pkts:
 				printM('RSAM analysis up and running normally.', self.sender)
+				if self.testing:
+					TEST['c_rsam'][1] = True
 			else:
 				pass
 

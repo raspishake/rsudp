@@ -41,6 +41,7 @@ TEST = {
 	'c_tweetimg':			['Twitter image message       ', False],
 	'c_telegram':			['Telegram text message       ', False],
 	'c_telegramimg':		['Telegram image              ', False],
+	'c_rsam':				['RSAM transmission           ', False],
 }
 
 TRANS = {

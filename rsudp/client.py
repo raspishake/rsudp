@@ -333,7 +333,8 @@ def run(settings, debug):
 		# set up queue and process
 		q = mk_q()
 		rsam = RSAM(q=q, debug=debug, interval=interval, cha=cha, deconv=deconv,
-					fwaddr=fwaddr, fwport=fwport, fwformat=fwformat, quiet=quiet)
+					fwaddr=fwaddr, fwport=fwport, fwformat=fwformat, quiet=quiet,
+					testing=TESTING)
 
 		mk_p(rsam)
 

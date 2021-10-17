@@ -177,7 +177,7 @@ def run(settings, debug):
 		cha = settings['write']['channels']
 		q = mk_q()
 		WRITER = Write(q=q, data_dir=output_dir,
-					   cha=cha, debug=TESTING)
+					   cha=cha, testing=TESTING)
 		mk_p(WRITER)
 
 	if settings['plot']['enabled'] and MPL:

@@ -105,13 +105,13 @@ def start():
 	global PROD, PLOTTER, THREADS, DESTINATIONS
 	# master queue and consumer
 	queue = Queue(rs.qsize)
-	cons = Consumer(queue, DESTINATIONS)
+	cons = Consumer(queue, DESTINATIONS, testing=TESTING)
 	cons.start()
 
 	for thread in THREADS:
 		thread.start()
 
-	PROD = Producer(queue, THREADS)
+	PROD = Producer(queue, THREADS, testing=TESTING)
 	PROD.start()
 
 	if PLOTTER and MPL:

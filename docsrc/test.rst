@@ -23,7 +23,9 @@ and their initial state:
         'n_inventory':          ['inventory (RS FDSN server)  ', False],
 
         # core
+        'x_send':               ['sending data                ', False],
         'x_data':               ['receiving data              ', False],
+        'x_masterqueue':        ['master queue                ', False],
         'x_processing':         ['processing data             ', False],
         'x_ALARM':              ['ALARM message               ', False],
         'x_RESET':              ['RESET message               ', False],

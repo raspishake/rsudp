@@ -19,13 +19,12 @@ class Testing(rs.ConsumerThread):
 	For a diagram of ``TestData``'s position in the data hierarchy, see
 	:ref:`testing_flow`.
 
-	Currently it has the power to run eight tests from
+	Currently it has the power to run seven tests from
 	:py:mod:`rsudp.test`:
 
 	.. code-block:: python
 
 		TEST['n_inventory']
-		TEST['x_data']
 		TEST['x_processing']
 		TEST['x_TERM']
 		TEST['x_ALARM']
@@ -85,7 +84,6 @@ class Testing(rs.ConsumerThread):
 		'''
 
 		if rs.getCHN(d) in self.cha:
-			t.TEST['x_data'][1] = True
 			self.stream = rs.update_stream(stream=self.stream, d=d, fill_value='latest')
 			t.TEST['x_processing'][1] = True
 

@@ -34,7 +34,8 @@ TEST = {
 	'd_matplotlib':			['matplotlib backend          ', False],
 
 	# consumers
-	'c_miniseed':			['miniSEED data exists        ', False],
+	'c_write':				['miniSEED write              ', False],
+	'c_miniseed':			['miniSEED data               ', False],
 	'c_img':				['screenshot exists           ', False],
 	'c_tweet':				['Twitter text message        ', False],
 	'c_tweetimg':			['Twitter image message       ', False],

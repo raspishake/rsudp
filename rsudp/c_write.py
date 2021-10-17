@@ -5,7 +5,7 @@ from obspy import UTCDateTime
 from rsudp.raspberryshake import ConsumerThread
 import rsudp.raspberryshake as rs
 from rsudp import printM, printW, printE, helpers
-from rsudp import ms_path
+from rsudp.test import TEST
 
 class Write(rs.ConsumerThread):
 	"""
@@ -117,15 +117,17 @@ class Write(rs.ConsumerThread):
 				self.outfiles.append(outfile)
 			if os.path.exists(os.path.abspath(outfile)):
 				with open(outfile, 'ab') as fh:
-					if self.debug:
-						printM('Writing %s records to %s'
-								% (len(t.data), outfile), self.sender)
 					t.write(fh, format='MSEED', encoding=enc)
+					if self.debug:
+						printM('%s records to %s'
+								% (len(t.data), outfile), self.sender)
 			else:
-				if self.debug:
-					printM('Writing %s new file %s'
-							% (len(t.data), outfile), self.sender)
 				t.write(outfile, format='MSEED', encoding=enc)
+				if self.debug:
+					printM('%s records to new file %s'
+							% (len(t.data), outfile), self.sender)
+
+		TEST['c_write'][1] = True
 
 	def run(self):
 		"""

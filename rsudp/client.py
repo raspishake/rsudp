@@ -184,7 +184,8 @@ def run(settings, debug):
 		# set up queue and process
 		cha = settings['write']['channels']
 		q = mk_q()
-		WRITER = Write(q=q, data_dir=output_dir, cha=cha)
+		WRITER = Write(q=q, data_dir=output_dir,
+					   cha=cha, debug=TESTING)
 		mk_p(WRITER)
 
 	if settings['plot']['enabled'] and MPL:
@@ -603,8 +604,10 @@ default settings and the data file at
 	try:
 		run(settings, debug=True)
 
+		# client test
+		ctest = 'client test'
 		if T.TEST['c_miniseed']:
-			printM('Merging and testing MiniSEED file...', sender='test client', announce=False)
+			printM('Merging and testing MiniSEED file(s)...', sender=ctest)
 			try:
 				ms = rs.Stream()
 				for outfile in WRITER.outfiles:
@@ -615,6 +618,7 @@ default settings and the data file at
 						os.replace(outfile, os.path.join(dn, 'test.' + fn))
 					else:
 						raise FileNotFoundError('MiniSEED file not found: %s' % outfile)
+				printM('Renamed test file(s).', sender=ctest)
 				printM(ms.merge())
 			except Exception as e:
 				printE(e)
@@ -622,7 +626,7 @@ default settings and the data file at
 
 	except Exception as e:
 		printE(traceback.format_exc(), announce=False)
-		printE('Ending tests.', sender='test client', announce=False)
+		printE('Ending tests.', sender=ctest, announce=False)
 		time.sleep(0.5)
 
 

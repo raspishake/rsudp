@@ -37,6 +37,7 @@ and their initial state:
         'd_matplotlib':         ['matplotlib backend          ', False],
 
         # consumers
+        'c_plot':               ['plot                        ', False],
         'c_write':              ['miniSEED write              ', False],
         'c_miniseed':           ['miniSEED data               ', False],
         'c_print':              ['print data                  ', False],

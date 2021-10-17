@@ -288,7 +288,7 @@ def run(settings, debug):
 			printW('Sound playback also requires you to install either ffmpeg or libav.', sender='AlertSound', spaces=True)
 
 		q = mk_q()
-		alsnd = AlertSound(q=q, sound=SOUND, soundloc=soundloc)
+		alsnd = AlertSound(q=q, testing=TESTING, sound=SOUND, soundloc=soundloc)
 		mk_p(alsnd)
 
 	runcustom = False

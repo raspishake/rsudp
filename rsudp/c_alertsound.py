@@ -1,6 +1,7 @@
 import sys, os
 from rsudp.raspberryshake import ConsumerThread
 from rsudp import printM, printW, printE
+from rsudp.test import TEST
 import subprocess
 from tempfile import NamedTemporaryFile
 try:
@@ -23,7 +24,7 @@ class AlertSound(ConsumerThread):
 
 	"""
 
-	def __init__(self, sound=False, soundloc=False, q=False):
+	def __init__(self, testing=False, sound=False, soundloc=False, q=False):
 		"""
 		.. _pydub.AudioSegment: https://github.com/jiaaro/pydub/blob/master/API.markdown#audiosegment
 
@@ -34,6 +35,8 @@ class AlertSound(ConsumerThread):
 		super().__init__()
 		self.sender = 'AlertSound'
 		self.alive = True
+		self.testing = testing
+
 		self.sound = sound
 		self.tmpfile = None
 		self.devnull = open(os.devnull, 'w')
@@ -66,6 +69,8 @@ class AlertSound(ConsumerThread):
 			self._play_quiet()
 		else:
 			play(self.sound)
+		if self.testing:
+			TEST['c_play'][1] = True
 
 	def run(self):
 		"""

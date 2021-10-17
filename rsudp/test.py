@@ -36,11 +36,13 @@ TEST = {
 	# consumers
 	'c_write':				['miniSEED write              ', False],
 	'c_miniseed':			['miniSEED data               ', False],
+	'c_alerton':			['alert trigger on            ', False],
+	'c_alertoff':			['alert trigger off           ', False],
 	'c_img':				['screenshot exists           ', False],
 	'c_tweet':				['Twitter text message        ', False],
 	'c_tweetimg':			['Twitter image message       ', False],
 	'c_telegram':			['Telegram text message       ', False],
-	'c_telegramimg':		['Telegram image message      ', False],
+	'c_telegramimg':		['Telegram image              ', False],
 }
 
 TRANS = {

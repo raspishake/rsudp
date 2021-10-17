@@ -37,6 +37,8 @@ and their initial state:
         # consumers
         'c_miniseed':           ['miniSEED data exists        ', False],
         'c_img':                ['screenshot exists           ', False],
+        'c_alerton':            ['alert trigger on            ', False],
+        'c_alertoff':           ['alert trigger off           ', False],
         'c_tweet':              ['Twitter text message        ', False],
         'c_tweetimg':           ['Twitter text message        ', False],
         'c_telegram':           ['Telegram text message       ', False],

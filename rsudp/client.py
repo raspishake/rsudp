@@ -255,7 +255,7 @@ def run(settings, debug):
 		# set up queue and process
 		q = mk_q()
 		alrt = Alert(sta=sta, lta=lta, thresh=thresh, reset=reset, bp=bp,
-					 cha=cha, debug=debug, q=q,
+					 cha=cha, debug=debug, q=q, testing=TESTING,
 					 deconv=deconv)
 		mk_p(alrt)
 

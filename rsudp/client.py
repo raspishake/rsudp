@@ -3,8 +3,6 @@ import signal
 import getopt
 import time
 import json
-import re
-import logging
 import traceback
 from queue import Queue
 from rsudp import printM, printW, printE, default_loc, init_dirs, output_dir, add_debug_handler, start_logging
@@ -28,12 +26,6 @@ from rsudp.c_rsam import RSAM
 from rsudp.c_testing import Testing
 from rsudp.t_testdata import TestData
 import pkg_resources as pr
-import fnmatch
-try:
-	from pydub import AudioSegment
-	PYDUB_EXISTS = True
-except ImportError:
-	PYDUB_EXISTS = False
 
 
 DESTINATIONS, THREADS = [], []
@@ -260,35 +252,12 @@ def run(settings, debug):
 		mk_p(alrt)
 
 	if settings['alertsound']['enabled']:
-		sender = 'AlertSound'
-		SOUND = False
-		soundloc = False
-		if PYDUB_EXISTS:
-			soundloc = os.path.expanduser(os.path.expanduser(settings['alertsound']['mp3file']))
-			if soundloc in ['doorbell', 'alarm', 'beeps', 'sonar']:
-				soundloc = pr.resource_filename('rsudp', os.path.join('rs_sounds', '%s.mp3' % soundloc))
-			if os.path.exists(soundloc):
-				try:
-					SOUND = AudioSegment.from_file(soundloc, format="mp3")
-					printM('Loaded %.2f sec alert sound from %s' % (len(SOUND)/1000., soundloc), sender='AlertSound')
-				except FileNotFoundError as e:
-					printW("You have chosen to play a sound, but don't have ffmpeg or libav installed.", sender='AlertSound')
-					printW('Sound playback requires one of these dependencies.', sender='AlertSound', spaces=True)
-					printW("To install either dependency, follow the instructions at:", sender='AlertSound', spaces=True)
-					printW('https://github.com/jiaaro/pydub#playback', sender='AlertSound', spaces=True)
-					printW('The program will now continue without sound playback.', sender='AlertSound', spaces=True)
-					SOUND = False
-			else:
-				printW("The file %s could not be found." % (soundloc), sender='AlertSound')
-				printW('The program will now continue without sound playback.', sender='AlertSound', spaces=True)
-		else:
-			printW("You don't have pydub installed, so no sound will play.", sender='AlertSound')
-			printW('To install pydub, follow the instructions at:', sender='AlertSound', spaces=True)
-			printW('https://github.com/jiaaro/pydub#installation', sender='AlertSound', spaces=True)
-			printW('Sound playback also requires you to install either ffmpeg or libav.', sender='AlertSound', spaces=True)
+		soundloc = os.path.expanduser(os.path.expanduser(settings['alertsound']['mp3file']))
+		if soundloc in ['doorbell', 'alarm', 'beeps', 'sonar']:
+			soundloc = pr.resource_filename('rsudp', os.path.join('rs_sounds', '%s.mp3' % soundloc))
 
 		q = mk_q()
-		alsnd = AlertSound(q=q, testing=TESTING, sound=SOUND, soundloc=soundloc)
+		alsnd = AlertSound(q=q, testing=TESTING, soundloc=soundloc)
 		mk_p(alsnd)
 
 	runcustom = False
@@ -390,8 +359,6 @@ def run(settings, debug):
 		_xit()
 	else:
 		printW('Client has exited, ending tests...', sender=SENDER, announce=False)
-		if SOUND:
-			T.TEST['d_pydub'][1] = True
 
 
 def main():

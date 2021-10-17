@@ -23,12 +23,12 @@ and their initial state:
         'n_inventory':          ['inventory fetch             ', False],
 
         # core
-        'c_data':               ['receiving data              ', False],
-        'c_processing':         ['processing data             ', False],
-        'c_ALARM':              ['ALARM message               ', False],
-        'c_RESET':              ['RESET message               ', False],
-        'c_IMGPATH':            ['IMGPATH message             ', False],
-        'c_TERM':               ['TERM message                ', False],
+        'x_data':               ['receiving data              ', False],
+        'x_processing':         ['processing data             ', False],
+        'x_ALARM':              ['ALARM message               ', False],
+        'x_RESET':              ['RESET message               ', False],
+        'x_IMGPATH':            ['IMGPATH message             ', False],
+        'x_TERM':               ['TERM message                ', False],
 
         # dependencies
         'd_pydub':              ['pydub dependencies          ', False],

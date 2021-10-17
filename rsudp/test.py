@@ -1,10 +1,7 @@
 import os, sys
 from rsudp import COLOR, printM, printW, printE
-from queue import Queue
 import socket
 import json
-import time
-import pkg_resources as pr
 
 SENDER = 'test.py'
 TEST = {
@@ -19,15 +16,15 @@ TEST = {
 	# network
 	'n_port':				['port                        ', False],
 	'n_internet':			['internet                    ', False],
-	'n_inventory':			['inventory fetch             ', False],
+	'n_inventory':			['inventory (RS FDSN server)  ', False],
 
 	# core
-	'c_data':				['receiving data              ', False],
-	'c_processing':			['processing data             ', False],
-	'c_ALARM':				['ALARM message               ', False],
-	'c_RESET':				['RESET message               ', False],
-	'c_IMGPATH':			['IMGPATH message             ', False],
-	'c_TERM':				['TERM message                ', False],
+	'x_data':				['receiving data              ', False],
+	'x_processing':			['processing data             ', False],
+	'x_ALARM':				['ALARM message               ', False],
+	'x_RESET':				['RESET message               ', False],
+	'x_IMGPATH':			['IMGPATH message             ', False],
+	'x_TERM':				['TERM message                ', False],
 
 	# dependencies
 	'd_pydub':				['pydub dependencies          ', False],
@@ -38,6 +35,7 @@ TEST = {
 	'c_miniseed':			['miniSEED data               ', False],
 	'c_alerton':			['alert trigger on            ', False],
 	'c_alertoff':			['alert trigger off           ', False],
+	'c_play':				['play sound                  ', False],
 	'c_img':				['screenshot exists           ', False],
 	'c_tweet':				['Twitter text message        ', False],
 	'c_tweetimg':			['Twitter image message       ', False],

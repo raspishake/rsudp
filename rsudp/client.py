@@ -168,7 +168,7 @@ def run(settings, debug):
 	if settings['printdata']['enabled']:
 		# set up queue and process
 		q = mk_q()
-		prnt = PrintRaw(q)
+		prnt = PrintRaw(q, testing=TESTING)
 		mk_p(prnt)
 
 	if settings['write']['enabled']:

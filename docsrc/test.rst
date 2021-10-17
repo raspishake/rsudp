@@ -39,6 +39,7 @@ and their initial state:
         # consumers
         'c_write':              ['miniSEED write              ', False],
         'c_miniseed':           ['miniSEED data               ', False],
+        'c_print':              ['print data                  ', False],
         'c_alerton':            ['alert trigger on            ', False],
         'c_alertoff':           ['alert trigger off           ', False],
         'c_play':               ['play sound                  ', False],
@@ -48,7 +49,6 @@ and their initial state:
         'c_telegram':           ['Telegram text message       ', False],
         'c_telegramimg':        ['Telegram image              ', False],
         'c_rsam':               ['RSAM transmission           ', False],
-
     }
 
 .. note::

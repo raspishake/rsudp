@@ -19,18 +19,18 @@ class Testing(rs.ConsumerThread):
 	For a diagram of ``TestData``'s position in the data hierarchy, see
 	:ref:`testing_flow`.
 
-	Currently it has the power to run 7 tests from
+	Currently it has the power to run seven tests from
 	:py:mod:`rsudp.test`:
 
 	.. code-block:: python
 
 		TEST['n_inventory']
-		TEST['c_data']
-		TEST['c_processing']
-		TEST['c_TERM']
-		TEST['c_ALARM']
-		TEST['c_RESET']
-		TEST['c_IMGPATH']
+		TEST['x_processing']
+		TEST['x_TERM']
+		TEST['x_ALARM']
+		TEST['x_RESET']
+		TEST['x_IMGPATH']
+		TEST['c_img']
 
 	These tests represent inventory fetch, data packet reception,
 	stream processing, and the reception of the four current message types:
@@ -84,9 +84,8 @@ class Testing(rs.ConsumerThread):
 		'''
 
 		if rs.getCHN(d) in self.cha:
-			t.TEST['c_data'][1] = True
 			self.stream = rs.update_stream(stream=self.stream, d=d, fill_value='latest')
-			t.TEST['c_processing'][1] = True
+			t.TEST['x_processing'][1] = True
 
 	def _messagetests(self, d):
 		'''
@@ -99,20 +98,20 @@ class Testing(rs.ConsumerThread):
 		global IMGPATH
 		if 'TERM' in str(d):
 			printM('Got TERM message...', sender=self.sender)
-			t.TEST['c_TERM'][1] = True
+			t.TEST['x_TERM'][1] = True
 			self.alive = False
 	
 		elif 'ALARM' in str(d):
 			printM('Got ALARM message with time %s' % (
 				   helpers.fsec(helpers.get_msg_time(d))
 				   ), sender=self.sender)
-			t.TEST['c_ALARM'][1] = True
+			t.TEST['x_ALARM'][1] = True
 
 		elif 'RESET' in str(d):
 			printM('Got RESET message with time %s' % (
 				   helpers.fsec(helpers.get_msg_time(d))
 				   ), sender=self.sender)
-			t.TEST['c_RESET'][1] = True
+			t.TEST['x_RESET'][1] = True
 
 		elif 'IMGPATH' in str(d):
 			printM('Got IMGPATH message with time %s' % (
@@ -120,10 +119,10 @@ class Testing(rs.ConsumerThread):
 				   ), sender=self.sender)
 			IMGPATH = helpers.get_msg_path(d)
 			printM('and path %s' % (IMGPATH), sender=self.sender)
-			t.TEST['c_IMGPATH'][1] = True
+			t.TEST['x_IMGPATH'][1] = True
 
 	def _img_test(self):
-		if t.TEST['c_img']:
+		if (t.TEST['c_img'] and IMGPATH):
 			t.TEST['c_img'][1] = os.path.exists(IMGPATH)
 			dn, fn = os.path.dirname(IMGPATH), os.path.basename(IMGPATH)
 			os.replace(IMGPATH, os.path.join(dn, 'test.' + fn))

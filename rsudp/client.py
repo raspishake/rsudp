@@ -3,8 +3,6 @@ import signal
 import getopt
 import time
 import json
-import re
-import logging
 import traceback
 from queue import Queue
 from rsudp import printM, printW, printE, default_loc, init_dirs, output_dir, add_debug_handler, start_logging
@@ -28,12 +26,6 @@ from rsudp.c_rsam import RSAM
 from rsudp.c_testing import Testing
 from rsudp.t_testdata import TestData
 import pkg_resources as pr
-import fnmatch
-try:
-	from pydub import AudioSegment
-	PYDUB_EXISTS = True
-except ImportError:
-	PYDUB_EXISTS = False
 
 
 DESTINATIONS, THREADS = [], []
@@ -113,13 +105,13 @@ def start():
 	global PROD, PLOTTER, THREADS, DESTINATIONS
 	# master queue and consumer
 	queue = Queue(rs.qsize)
-	cons = Consumer(queue, DESTINATIONS)
+	cons = Consumer(queue, DESTINATIONS, testing=TESTING)
 	cons.start()
 
 	for thread in THREADS:
 		thread.start()
 
-	PROD = Producer(queue, THREADS)
+	PROD = Producer(queue, THREADS, testing=TESTING)
 	PROD.start()
 
 	if PLOTTER and MPL:
@@ -176,7 +168,7 @@ def run(settings, debug):
 	if settings['printdata']['enabled']:
 		# set up queue and process
 		q = mk_q()
-		prnt = PrintRaw(q)
+		prnt = PrintRaw(q, testing=TESTING)
 		mk_p(prnt)
 
 	if settings['write']['enabled']:
@@ -184,7 +176,8 @@ def run(settings, debug):
 		# set up queue and process
 		cha = settings['write']['channels']
 		q = mk_q()
-		WRITER = Write(q=q, data_dir=output_dir, cha=cha)
+		WRITER = Write(q=q, data_dir=output_dir,
+					   cha=cha, testing=TESTING)
 		mk_p(WRITER)
 
 	if settings['plot']['enabled'] and MPL:
@@ -211,7 +204,7 @@ def run(settings, debug):
 		pq = mk_q()
 		PLOTTER = Plot(cha=cha, seconds=sec, spectrogram=spec,
 						fullscreen=full, kiosk=kiosk, deconv=deconv, q=pq,
-						screencap=screencap, alert=alert)
+						screencap=screencap, alert=alert, testing=TESTING)
 		# no mk_p() here because the plotter must be controlled by the main thread (this one)
 
 	if settings['forward']['enabled']:
@@ -228,7 +221,7 @@ def run(settings, debug):
 				q = mk_q()
 				forward = Forward(num=i, addr=addr[i], port=int(port[i]), cha=cha,
 								  fwd_data=fwd_data, fwd_alarms=fwd_alarms,
-								  q=q)
+								  q=q, testing=TESTING)
 				mk_p(forward)
 		else:
 			printE('List length mismatch: %s addresses and %s ports in forward section of settings file' % (
@@ -254,40 +247,17 @@ def run(settings, debug):
 		# set up queue and process
 		q = mk_q()
 		alrt = Alert(sta=sta, lta=lta, thresh=thresh, reset=reset, bp=bp,
-					 cha=cha, debug=debug, q=q,
+					 cha=cha, debug=debug, q=q, testing=TESTING,
 					 deconv=deconv)
 		mk_p(alrt)
 
 	if settings['alertsound']['enabled']:
-		sender = 'AlertSound'
-		SOUND = False
-		soundloc = False
-		if PYDUB_EXISTS:
-			soundloc = os.path.expanduser(os.path.expanduser(settings['alertsound']['mp3file']))
-			if soundloc in ['doorbell', 'alarm', 'beeps', 'sonar']:
-				soundloc = pr.resource_filename('rsudp', os.path.join('rs_sounds', '%s.mp3' % soundloc))
-			if os.path.exists(soundloc):
-				try:
-					SOUND = AudioSegment.from_file(soundloc, format="mp3")
-					printM('Loaded %.2f sec alert sound from %s' % (len(SOUND)/1000., soundloc), sender='AlertSound')
-				except FileNotFoundError as e:
-					printW("You have chosen to play a sound, but don't have ffmpeg or libav installed.", sender='AlertSound')
-					printW('Sound playback requires one of these dependencies.', sender='AlertSound', spaces=True)
-					printW("To install either dependency, follow the instructions at:", sender='AlertSound', spaces=True)
-					printW('https://github.com/jiaaro/pydub#playback', sender='AlertSound', spaces=True)
-					printW('The program will now continue without sound playback.', sender='AlertSound', spaces=True)
-					SOUND = False
-			else:
-				printW("The file %s could not be found." % (soundloc), sender='AlertSound')
-				printW('The program will now continue without sound playback.', sender='AlertSound', spaces=True)
-		else:
-			printW("You don't have pydub installed, so no sound will play.", sender='AlertSound')
-			printW('To install pydub, follow the instructions at:', sender='AlertSound', spaces=True)
-			printW('https://github.com/jiaaro/pydub#installation', sender='AlertSound', spaces=True)
-			printW('Sound playback also requires you to install either ffmpeg or libav.', sender='AlertSound', spaces=True)
+		soundloc = os.path.expanduser(os.path.expanduser(settings['alertsound']['mp3file']))
+		if soundloc in ['doorbell', 'alarm', 'beeps', 'sonar']:
+			soundloc = pr.resource_filename('rsudp', os.path.join('rs_sounds', '%s.mp3' % soundloc))
 
 		q = mk_q()
-		alsnd = AlertSound(q=q, sound=SOUND, soundloc=soundloc)
+		alsnd = AlertSound(q=q, testing=TESTING, soundloc=soundloc)
 		mk_p(alsnd)
 
 	runcustom = False
@@ -312,7 +282,7 @@ def run(settings, debug):
 	if runcustom:
 		# set up queue and process
 		q = mk_q()
-		cstm = Custom(q=q, codefile=f, win_ovr=win_ovr)
+		cstm = Custom(q=q, codefile=f, win_ovr=win_ovr, testing=TESTING)
 		mk_p(cstm)
 
 
@@ -362,8 +332,9 @@ def run(settings, debug):
 
 		# set up queue and process
 		q = mk_q()
-		rsam = RSAM(q=q, debug=debug, interval=interval, cha=cha, deconv=deconv,
-					fwaddr=fwaddr, fwport=fwport, fwformat=fwformat, quiet=quiet)
+		rsam = RSAM(q=q, interval=interval, cha=cha, deconv=deconv,
+					fwaddr=fwaddr, fwport=fwport, fwformat=fwformat,
+					quiet=quiet, testing=TESTING)
 
 		mk_p(rsam)
 
@@ -389,8 +360,6 @@ def run(settings, debug):
 		_xit()
 	else:
 		printW('Client has exited, ending tests...', sender=SENDER, announce=False)
-		if SOUND:
-			T.TEST['d_pydub'][1] = True
 
 
 def main():
@@ -539,6 +508,7 @@ default settings and the data file at
 	settings_are_default = True
 	plot = True
 	quiet = False
+	packetize(inf=TESTFILE+'.ms', outf=TESTFILE, testing=True)
 
 	try:
 		opts = getopt.getopt(sys.argv[1:], 'hf:s:bq',
@@ -603,8 +573,10 @@ default settings and the data file at
 	try:
 		run(settings, debug=True)
 
+		# client test
+		ctest = 'client test'
 		if T.TEST['c_miniseed']:
-			printM('Merging and testing MiniSEED file...', sender='test client', announce=False)
+			printM('Merging and testing MiniSEED file(s)...', sender=ctest)
 			try:
 				ms = rs.Stream()
 				for outfile in WRITER.outfiles:
@@ -615,18 +587,15 @@ default settings and the data file at
 						os.replace(outfile, os.path.join(dn, 'test.' + fn))
 					else:
 						raise FileNotFoundError('MiniSEED file not found: %s' % outfile)
+				printM('Renamed test file(s).', sender=ctest)
 				printM(ms.merge())
 			except Exception as e:
 				printE(e)
 				T.TEST['c_miniseed'][1] = False
-		if (T.TEST['c_tweet'] and TWITTER.last_message):
-			T.TEST['c_tweet'][1] = True
-		if (T.TEST['c_telegram'] and TELEGRAM.last_message):
-			T.TEST['c_telegram'][1] = True
 
 	except Exception as e:
 		printE(traceback.format_exc(), announce=False)
-		printE('Ending tests.', sender='test client', announce=False)
+		printE('Ending tests.', sender=SENDER, announce=False)
 		time.sleep(0.5)
 
 

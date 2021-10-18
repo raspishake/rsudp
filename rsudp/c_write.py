@@ -5,7 +5,7 @@ from obspy import UTCDateTime
 from rsudp.raspberryshake import ConsumerThread
 import rsudp.raspberryshake as rs
 from rsudp import printM, printW, printE, helpers
-from rsudp import ms_path
+from rsudp.test import TEST
 
 class Write(rs.ConsumerThread):
 	"""
@@ -16,14 +16,17 @@ class Write(rs.ConsumerThread):
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 	:param bool debug: whether or not to display messages when writing data to disk.
 	"""
-	def __init__(self, q, data_dir, debug=False, cha='all'):
+	def __init__(self, q, data_dir, testing=False, debug=False, cha='all'):
 		"""
 		Initialize the process
 		"""
 		super().__init__()
 		self.sender = 'Write'
 		self.alive = True
+		self.testing = testing
 		self.debug = debug
+		if self.testing:
+			self.debug = True
 
 		self.queue = q
 
@@ -93,6 +96,35 @@ class Write(rs.ConsumerThread):
 		'''
 		self.stream.slice(starttime=self.last)
 
+	def _tracewrite(self, t):
+		'''
+		Processing for the :py:func:`rsudp.c_write.Write.write` function.
+		Writes an input trace to disk.
+
+		:type t: obspy.core.trace.Trace
+		:param t: The trace segment to write to disk.
+
+		'''
+		enc = 'STEIM2'	# encoding
+		if isinstance(t.data, rs.np.ma.masked_array):
+			t.data = t.data.filled(fill_value=0) # fill array (to avoid obspy write error)
+		outfile = self.outdir + '/%s.%s.00.%s.D.%s.%s' % (t.stats.network,
+							t.stats.station, t.stats.channel, self.y, self.j)
+		if not outfile in self.outfiles:
+			self.outfiles.append(outfile)
+		if os.path.exists(os.path.abspath(outfile)):
+			with open(outfile, 'ab') as fh:
+				t.write(fh, format='MSEED', encoding=enc)
+				if self.debug:
+					printM('%s records to %s'
+							% (len(t.data), outfile), self.sender)
+		else:
+			t.write(outfile, format='MSEED', encoding=enc)
+			if self.debug:
+				printM('%s records to new file %s'
+						% (len(t.data), outfile), self.sender)
+
+
 	def write(self, stream=False):
 		'''
 		Writes a segment of the stream to disk as miniSEED, and appends it to the
@@ -108,24 +140,9 @@ class Write(rs.ConsumerThread):
 						endtime=self.last, nearest_sample=False)
 
 		for t in stream:
-			enc = 'STEIM2'	# encoding
-			if isinstance(t.data, rs.np.ma.masked_array):
-				t.data = t.data.filled(fill_value=0) # fill array (to avoid obspy write error)
-			outfile = self.outdir + '/%s.%s.00.%s.D.%s.%s' % (t.stats.network,
-								t.stats.station, t.stats.channel, self.y, self.j)
-			if not outfile in self.outfiles:
-				self.outfiles.append(outfile)
-			if os.path.exists(os.path.abspath(outfile)):
-				with open(outfile, 'ab') as fh:
-					if self.debug:
-						printM('Writing %s records to %s'
-								% (len(t.data), outfile), self.sender)
-					t.write(fh, format='MSEED', encoding=enc)
-			else:
-				if self.debug:
-					printM('Writing %s new file %s'
-							% (len(t.data), outfile), self.sender)
-				t.write(outfile, format='MSEED', encoding=enc)
+			self._tracewrite(t)
+		if self.testing:
+			TEST['c_write'][1] = True
 
 	def run(self):
 		"""

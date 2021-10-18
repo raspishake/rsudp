@@ -1,14 +1,18 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import os, sys
 import getopt
 from obspy import read
 from datetime import timedelta
+from rsudp.test import TEST
+
 
 SMP = {
 	0.01: 25,
 	0.02: 50,
 }
 
-def packetize(inf, outf):
+def packetize(inf, outf, testing=False):
 	'''
 	Reads a seismic data file and converts it to ascii text.
 
@@ -39,8 +43,10 @@ def packetize(inf, outf):
 			f.write('TERM%s' % (os.linesep))
 
 		print('Data written to %s' % outf)
+		if testing:
+			TEST['x_packetize'][1] = True
 	else:
-		print('Input file does not exist.')
+		print('Input file does not exist: %s' % inf)
 
 
 def main():

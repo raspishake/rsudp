@@ -2,6 +2,7 @@ import sys
 from threading import Thread
 from rsudp import printM, printW, printE, helpers
 import rsudp.raspberryshake as RS
+from rsudp.test import TEST
 
 
 class Producer(Thread):
@@ -17,7 +18,7 @@ class Producer(Thread):
 	:param list threads: The list of :py:class:`threading.Thread` s to monitor for status changes
 	'''
 
-	def __init__(self, queue, threads):
+	def __init__(self, queue, threads, testing=False):
 		"""
 		Initializing Producer thread. 
 		
@@ -28,6 +29,7 @@ class Producer(Thread):
 		self.queue = queue
 		self.threads = threads
 		self.stop = False
+		self.testing = testing
 
 		self.firstaddr = ''
 		self.blocked = []
@@ -93,6 +95,8 @@ class Producer(Thread):
 			if self.stop:
 				RS.producer = False
 				break
+			if self.testing:
+				TEST['x_data'][1] = True
 
 		print()
 		printM('Sending TERM signal to threads...', self.sender)

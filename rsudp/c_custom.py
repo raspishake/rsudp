@@ -1,6 +1,8 @@
 import sys, os
 from rsudp import printM, printW, printE
 from rsudp.raspberryshake import ConsumerThread
+from rsudp.test import TEST
+
 
 class Custom(ConsumerThread):
 	"""
@@ -39,13 +41,14 @@ class Custom(ConsumerThread):
 
 	"""
 
-	def __init__(self, q=False, codefile=False, win_ovr=False):
+	def __init__(self, q=False, codefile=False, win_ovr=False, testing=False):
 		"""
 		Initializes the custom code execution thread.
 		"""
 		super().__init__()
 		self.sender = 'Custom'
 		self.alive = True
+		self.testing = testing
 		self.codefile = False
 		self.win_ovr = win_ovr
 		if codefile:
@@ -89,6 +92,8 @@ class Custom(ConsumerThread):
 			try:
 				# try to execute some code
 				exec(self.codefile)
+				if self.testing:
+					TEST['c_custom'][1] = True
 			except Exception as e:
 				# do something if it fails
 				printE('Code execution failed. Error: %s' % e, sender=self.sender, announce=False)

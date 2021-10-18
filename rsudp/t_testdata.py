@@ -3,6 +3,7 @@ from threading import Thread, Timer
 import socket as s
 from rsudp import printM, printW, helpers
 import rsudp.raspberryshake as rs
+from rsudp.test import TEST
 import time
 from queue import Empty
 
@@ -123,6 +124,7 @@ class TestData(Thread):
 			except Empty:
 				self.send()
 				time.sleep(self.speed)
+				TEST['x_send'][1] = True
 
 		self.f.close()
 		self.sock.sendto(helpers.msg_term(), (self.addr, self.port))

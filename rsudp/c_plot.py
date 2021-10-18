@@ -6,7 +6,7 @@ import numpy as np
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as rs
 from rsudp import printM, printW, printE, helpers
-import rsudp
+from rsudp.test import TEST
 import linecache
 sender = 'plot.py'
 QT = False
@@ -111,7 +111,7 @@ class Plot:
 				 seconds=30, spectrogram=True,
 				 fullscreen=False, kiosk=False,
 				 deconv=False, screencap=False,
-				 alert=True):
+				 alert=True, testing=False):
 		"""
 		Initialize the plot process.
 
@@ -119,6 +119,7 @@ class Plot:
 		super().__init__()
 		self.sender = 'Plot'
 		self.alive = True
+		self.testing = testing
 		self.alarm = False			# don't touch this
 		self.alarm_reset = False	# don't touch this
 
@@ -298,7 +299,7 @@ class Plot:
 		:param obspy.core.utcdatetime.UTCDateTime event_time: Event time as an obspy UTCDateTime object.
 		:param str event_time_str: Event time as a string. This is used to set the filename.
 		'''
-		figname = os.path.join(rsudp.scap_dir, '%s-%s.png' % (self.stn, event_time_str))
+		figname = os.path.join(helpers.get_scap_dir(), '%s-%s.png' % (self.stn, event_time_str))
 		elapsed = rs.UTCDateTime.now() - event_time
 		if int(elapsed) > 0:
 			printM('Saving png %i seconds after alarm' % (elapsed), sender=self.sender)
@@ -684,4 +685,6 @@ class Plot:
 				printM('Exiting.', self.sender)
 				break
 			i, u = self.mainloop(i, u)
+			if self.testing:
+				TEST['c_plot'][1] = True
 		return

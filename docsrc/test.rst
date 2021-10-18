@@ -20,23 +20,39 @@ and their initial state:
         # network
         'n_port':               ['port                        ', False],
         'n_internet':           ['internet                    ', False],
-        'n_inventory':          ['inventory fetch             ', False],
+        'n_inventory':          ['inventory (RS FDSN server)  ', False],
+
+        # core
+        'x_packetize':          ['packetizing data            ', False],
+        'x_send':               ['sending data                ', False],
+        'x_data':               ['receiving data              ', False],
+        'x_masterqueue':        ['master queue                ', False],
+        'x_processing':         ['processing data             ', False],
+        'x_ALARM':              ['ALARM message               ', False],
+        'x_RESET':              ['RESET message               ', False],
+        'x_IMGPATH':            ['IMGPATH message             ', False],
+        'x_TERM':               ['TERM message                ', False],
 
         # dependencies
         'd_pydub':              ['pydub dependencies          ', False],
         'd_matplotlib':         ['matplotlib backend          ', False],
 
-        # core
-        'c_data':               ['receiving data              ', False],
-        'c_processing':         ['processing data             ', False],
-        'c_miniseed':           ['miniSEED data exists        ', False],
+        # consumers
+        'c_plot':               ['plot                        ', False],
+        'c_write':              ['miniSEED write              ', False],
+        'c_miniseed':           ['miniSEED data               ', False],
+        'c_print':              ['print data                  ', False],
+        'c_alerton':            ['alert trigger on            ', False],
+        'c_alertoff':           ['alert trigger off           ', False],
+        'c_play':               ['play sound                  ', False],
         'c_img':                ['screenshot exists           ', False],
-        'c_tweet':              ['Telegram module             ', False],
-        'c_telegram':           ['Twitter module              ', False],
-        'c_ALARM':              ['ALARM message               ', False],
-        'c_RESET':              ['RESET message               ', False],
-        'c_IMGPATH':            ['IMGPATH message             ', False],
-        'c_TERM':               ['TERM message                ', False],
+        'c_tweet':              ['Twitter text message        ', False],
+        'c_tweetimg':           ['Twitter image message       ', False],
+        'c_telegram':           ['Telegram text message       ', False],
+        'c_telegramimg':        ['Telegram image              ', False],
+        'c_forward':            ['forwarding                  ', False],
+        'c_rsam':               ['RSAM transmission           ', False],
+        'c_custom':             ['custom code execution       ', False],
     }
 
 .. note::

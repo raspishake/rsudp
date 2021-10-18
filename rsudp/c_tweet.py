@@ -6,7 +6,7 @@ import numpy as np
 from datetime import datetime, timedelta
 import rsudp.raspberryshake as rs
 from rsudp import printM, printW, printE, helpers
-import rsudp
+from rsudp.test import TEST
 from twython import Twython
 
 
@@ -169,6 +169,8 @@ class Tweeter(rs.ConsumerThread):
 														# location will only stick to tweets on accounts that have location enabled in Settings
 				url = 'https://twitter.com/%s/status/%s' % (response['user']['screen_name'], response['id_str'])
 				printM('Tweet URL: %s' % url)
+			if self.testing:
+				TEST['c_tweet'][1] = True
 
 		except Exception as e:
 			printE('could not send alert tweet - %s' % (e))
@@ -241,6 +243,8 @@ class Tweeter(rs.ConsumerThread):
 
 				else:
 					printM('Could not find image: %s' % (imgpath), sender=self.sender)
+			else:
+				TEST['c_tweetimg'][1] = True
 		
 		self.last_message = message
 

@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from rsudp.raspberryshake import ConsumerThread
 import rsudp.raspberryshake as rs
 from rsudp import printM, printW, printE, helpers
-import rsudp
+from rsudp.test import TEST
 import telegram as tg
 
 class Telegrammer(rs.ConsumerThread):
@@ -97,9 +97,11 @@ class Telegrammer(rs.ConsumerThread):
 		response = None
 		try:
 			printM('Sending alert...', sender=self.sender)
+			printM('Telegram message: %s' % (message), sender=self.sender)
 			if not self.testing:
 				response = self.telegram.sendMessage(chat_id=self.chat_id, text=message)
-			printM('Telegram message: %s' % (message), sender=self.sender)
+			else:
+				TEST['c_telegram'][1] = True
 
 		except Exception as e:
 			printE('Could not send alert - %s' % (e))
@@ -107,9 +109,12 @@ class Telegrammer(rs.ConsumerThread):
 				printE('Waiting 5 seconds and trying to send again...', sender=self.sender, spaces=True)
 				time.sleep(5)
 				self.auth()
+				printM('Telegram message: %s' % (message), sender=self.sender)
 				if not self.testing:
 					response = self.telegram.sendMessage(chat_id=self.chat_id, text=message)
-				printM('Telegram message: %s' % (message), sender=self.sender)
+				else:
+					# if you are here in testing mode, there is a problem
+					TEST['c_telegram'][1] = False
 			except Exception as e:
 				printE('Could not send alert - %s' % (e))
 				response = None
@@ -128,21 +133,26 @@ class Telegrammer(rs.ConsumerThread):
 			if os.path.exists(imgpath):
 				with open(imgpath, 'rb') as image:
 					try:
-						printM('Uploading image to Telegram %s' % (imgpath), self.sender)
 						if not self.testing:
+							printM('Uploading image to Telegram %s' % (imgpath), self.sender)
 							response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
-						printM('Sent image', sender=self.sender)
+							printM('Sent image', sender=self.sender)
+						else:
+							printM('Image ready to send - %s' % (imgpath), self.sender)
+							TEST['c_telegramimg'][1] = True
 					except Exception as e:
 						printE('Could not send image - %s' % (e))
 						try:
-							printM('Waiting 5 seconds and trying to send again...', sender=self.sender)
-							time.sleep(5.1)
-							self.auth()
-							printM('Uploading image to Telegram (2nd try) %s' % (imgpath), self.sender)
 							if not self.testing:
+								printM('Waiting 5 seconds and trying to send again...', sender=self.sender)
+								time.sleep(5.1)
+								self.auth()
+								printM('Uploading image to Telegram (2nd try) %s' % (imgpath), self.sender)
 								response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
-							printM('Sent image', sender=self.sender)
-
+								printM('Sent image', sender=self.sender)
+							else:
+								# if you are here in testing mode, there is a problem
+								TEST['c_telegramimg'][1] = False
 						except Exception as e:
 							printE('Could not send image - %s' % (e))
 							response = None

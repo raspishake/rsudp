@@ -1,6 +1,7 @@
 import sys
 from threading import Thread
 from rsudp import printM, printW, printE
+from rsudp.test import TEST
 
 
 class Consumer(Thread):
@@ -14,7 +15,7 @@ class Consumer(Thread):
 	"""
 
 
-	def __init__(self, queue, destinations):
+	def __init__(self, queue, destinations, testing=False):
 		"""
 		Initializes the main consumer. 
 		
@@ -25,6 +26,7 @@ class Consumer(Thread):
 		self.queue = queue
 		self.destinations = destinations
 		self.running = True
+		self.testing = testing
 
 		printM('Starting.', self.sender)
 
@@ -45,6 +47,10 @@ class Consumer(Thread):
 				if 'TERM' in str(p):
 					printM('Exiting.', self.sender)
 					break
+
+				if self.testing:
+					TEST['x_masterqueue'][1] = True
+
 		except Exception as e:
 			return e
 

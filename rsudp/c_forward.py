@@ -2,6 +2,7 @@ import os, sys
 import socket as s
 from rsudp import printM, printW, printE
 import rsudp.raspberryshake as rs
+from rsudp.test import TEST
 
 class Forward(rs.ConsumerThread):
 	"""
@@ -27,7 +28,7 @@ class Forward(rs.ConsumerThread):
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 	"""
 
-	def __init__(self, num, addr, port, fwd_data, fwd_alarms, cha, q):
+	def __init__(self, num, addr, port, fwd_data, fwd_alarms, cha, q, testing=False):
 		"""
 		Initializes data forwarding module.
 		
@@ -36,6 +37,7 @@ class Forward(rs.ConsumerThread):
 
 		self.sender = 'Forward #%s (%s:%s)' % (num, addr, port)
 		self.queue = q
+		self.testing = testing
 		self.addr = addr
 		self.port = port
 		self.fwd_data = fwd_data
@@ -102,8 +104,13 @@ class Forward(rs.ConsumerThread):
 					if (self.fwd_data) and (rs.getCHN(p) in self.chans):
 						sock.sendto(p, (self.addr, self.port))
 
+				if self.testing:
+					TEST['c_forward'][1] = True
+
 		except Exception as e:
 			self.alive = False
 			printE('%s' % e, sender=self.sender)
+			if self.testing:
+				TEST['c_forward'][1] = False
 			sys.exit(2)
 

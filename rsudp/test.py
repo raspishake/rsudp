@@ -1,10 +1,7 @@
 import os, sys
 from rsudp import COLOR, printM, printW, printE
-from queue import Queue
 import socket
 import json
-import time
-import pkg_resources as pr
 
 SENDER = 'test.py'
 TEST = {
@@ -19,23 +16,39 @@ TEST = {
 	# network
 	'n_port':				['port                        ', False],
 	'n_internet':			['internet                    ', False],
-	'n_inventory':			['inventory fetch             ', False],
+	'n_inventory':			['inventory (RS FDSN server)  ', False],
+
+	# core
+	'x_packetize':			['packetizing data            ', False],
+	'x_send':				['sending data                ', False],
+	'x_data':				['receiving data              ', False],
+	'x_masterqueue':		['master queue                ', False],
+	'x_processing':			['processing data             ', False],
+	'x_ALARM':				['ALARM message               ', False],
+	'x_RESET':				['RESET message               ', False],
+	'x_IMGPATH':			['IMGPATH message             ', False],
+	'x_TERM':				['TERM message                ', False],
 
 	# dependencies
 	'd_pydub':				['pydub dependencies          ', False],
 	'd_matplotlib':			['matplotlib backend          ', False],
 
-	# core
-	'c_data':				['receiving data              ', False],
-	'c_processing':			['processing data             ', False],
-	'c_miniseed':			['miniSEED data exists        ', False],
+	# consumers
+	'c_plot':				['plot                        ', False],
+	'c_write':				['miniSEED write              ', False],
+	'c_miniseed':			['miniSEED data               ', False],
+	'c_print':				['print data                  ', False],
+	'c_alerton':			['alert trigger on            ', False],
+	'c_alertoff':			['alert trigger off           ', False],
+	'c_play':				['play sound                  ', False],
 	'c_img':				['screenshot exists           ', False],
-	'c_tweet':				['Telegram module             ', False],
-	'c_telegram':			['Twitter module              ', False],
-	'c_ALARM':				['ALARM message               ', False],
-	'c_RESET':				['RESET message               ', False],
-	'c_IMGPATH':			['IMGPATH message             ', False],
-	'c_TERM':				['TERM message                ', False],
+	'c_tweet':				['Twitter text message        ', False],
+	'c_tweetimg':			['Twitter image message       ', False],
+	'c_telegram':			['Telegram text message       ', False],
+	'c_telegramimg':		['Telegram image              ', False],
+	'c_forward':			['forwarding                  ', False],
+	'c_rsam':				['RSAM transmission           ', False],
+	'c_custom':				['custom code execution       ', False],
 }
 
 TRANS = {
@@ -55,6 +68,7 @@ def make_test_settings(settings, inet=False):
 	Setting                                  Value
 	======================================== ===================
 	 ``settings['settings']['station']``      ``'R24FA'``
+	 ``settings['printdata']['enabled']``     ``True``
 	 ``settings['alert']['threshold']``       ``2``
 	 ``settings['alert']['reset']``           ``0.5``
 	 ``settings['alert']['lowpass']``         ``9``
@@ -93,6 +107,7 @@ def make_test_settings(settings, inet=False):
 	else:
 		settings['settings']['station'] = 'Z0000'
 
+	settings['printdata']['enabled'] = True
 
 	settings['alert']['threshold'] = 2
 	settings['alert']['reset'] = 0.5
@@ -113,11 +128,11 @@ def make_test_settings(settings, inet=False):
 
 	settings['alertsound']['enabled'] = True
 
+	settings['forward']['enabled'] = True
+
 	settings['rsam']['enabled'] = True
-	settings['rsam']['debug'] = True
-	settings['rsam']['interval'] = 5
-	settings['rsam']['fwaddr'] = "127.0.0.1"
-	settings['rsam']['fwport'] = 4444
+	settings['rsam']['quiet'] = False
+	settings['rsam']['interval'] = 10
 
 	return settings
 
@@ -150,6 +165,10 @@ def cancel_tests(settings, MPL, plot, quiet):
 		settings['alertsound']['enabled'] = False
 		del TEST['d_pydub']
 		printM('Alert sound is disabled')
+
+	if not settings['custom']['enabled']:
+		del TEST['c_custom']
+
 	return settings
 
 

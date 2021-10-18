@@ -3,8 +3,8 @@ from datetime import datetime, timedelta
 import rsudp.raspberryshake as rs
 from obspy.signal.trigger import recursive_sta_lta, trigger_onset
 from rsudp import printM, printW, printE
-COLOR = {}
 from rsudp import COLOR, helpers
+from rsudp.test import TEST
 import numpy as np
 
 # set the terminal text color to green
@@ -132,7 +132,7 @@ class Alert(rs.ConsumerThread):
 
 
 	def __init__(self, q, sta=5, lta=30, thresh=1.6, reset=1.55, bp=False,
-				 debug=True, cha='HZ', sound=False, deconv=False,
+				 debug=True, cha='HZ', sound=False, deconv=False, testing=False,
 				 *args, **kwargs):
 		"""
 		Initializing the alert thread with parameters to set up the recursive
@@ -141,6 +141,7 @@ class Alert(rs.ConsumerThread):
 		super().__init__()
 		self.sender = 'Alert'
 		self.alive = True
+		self.testing = testing
 
 		self.queue = q
 
@@ -248,6 +249,8 @@ class Alert(rs.ConsumerThread):
 						% (self.thresh, self.alarm.strftime('%Y-%m-%d %H:%M:%S.%f')[:22]), self.sender)
 				printM('Trigger will reset when STA/LTA goes below %s...' % self.reset, sender=self.sender)
 				COLOR['current'] = COLOR['purple']
+				if self.testing:
+					TEST['c_alerton'][1] = True
 			else:
 				pass
 
@@ -266,6 +269,9 @@ class Alert(rs.ConsumerThread):
 							self.sender)
 					self.maxstalta = 0
 					COLOR['current'] = COLOR['green']
+				if self.testing:
+					TEST['c_alertoff'][1] = True
+
 			else:
 				pass
 

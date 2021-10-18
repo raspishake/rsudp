@@ -1,6 +1,7 @@
 import sys
 from rsudp.raspberryshake import ConsumerThread
 from rsudp import printM, printW, printE
+from rsudp.test import TEST
 
 
 class PrintRaw(ConsumerThread):
@@ -13,7 +14,7 @@ class PrintRaw(ConsumerThread):
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 	"""
 
-	def __init__(self, q=False):
+	def __init__(self, q=False, testing=False):
 		"""
 		Initializing the data printing process.
 
@@ -21,6 +22,7 @@ class PrintRaw(ConsumerThread):
 		super().__init__()
 		self.sender = 'Print'
 		self.alive = True
+		self.testing = testing
 
 		if q:
 			self.queue = q
@@ -46,7 +48,10 @@ class PrintRaw(ConsumerThread):
 			elif 'ALARM' in str(d):
 				pass
 			else:
-				print(str(d))
+				if not self.testing:
+					print(str(d))
+				else:
+					TEST['c_print'][1] = True
 			sys.stdout.flush()
 
 		self.alive = False

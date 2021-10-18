@@ -5,8 +5,8 @@ import statistics
 from rsudp import printM, printW, printE
 from rsudp import helpers
 import rsudp.raspberryshake as rs
-COLOR = {}
 from rsudp import COLOR
+from rsudp.test import TEST
 
 # set the terminal text color to green
 COLOR['current'] = COLOR['green']
@@ -22,8 +22,7 @@ class RSAM(rs.ConsumerThread):
 	``"fwport"`` with packets formatted as either JSON, "lite", or CSV.
 
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`.
-	:param bool debug: whether or not to print RSAM analysis live to the console.
-	:param bool quiet: whether or not to suppress ``debug`` printing (``True`` suppresses output).
+	:param bool quiet: ``True`` to suppress printing of RSAM analysis live to the console, ``False`` otherwise.
 	:param float interval: window of time in seconds to apply RSAM analysis.
 	:param str cha: listening channel (defaults to [S,E]HZ)
 	:param str deconv: ``'VEL'``, ``'ACC'``, ``'GRAV'``, ``'DISP'``, or ``'CHAN'``
@@ -32,8 +31,9 @@ class RSAM(rs.ConsumerThread):
 	:param str fwformat: Specify a format for the forwarded packet: ``'LITE'``, ``'JSON'``, or ``'CSV'``
 	"""
 
-	def __init__(self, q=False, debug=False, interval=5, cha='HZ', deconv=False,
+	def __init__(self, q=False, interval=5, cha='HZ', deconv=False,
 				 fwaddr=False, fwport=False, fwformat='LITE', quiet=False,
+				 testing=False,
 				 *args, **kwargs):
 		"""
 		Initializes the RSAM analysis thread.
@@ -41,8 +41,8 @@ class RSAM(rs.ConsumerThread):
 		super().__init__()
 		self.sender = 'RSAM'
 		self.alive = True
-		self.debug = debug
-		self.quiet = quiet	# overrides debug and suppresses printing
+		self.testing = testing
+		self.quiet = quiet	# suppresses printing of transmission stats
 		self.stn = rs.stn
 		self.fwaddr = fwaddr
 		self.fwport = fwport
@@ -186,7 +186,7 @@ class RSAM(rs.ConsumerThread):
 		"""
 		Print the current RSAM analysis
 		"""
-		if (self.debug) and (not self.quiet):
+		if not self.quiet:
 			msg = '%s Current RSAM: mean %s median %s min %s max %s' % (
 				(self.stream[0].stats.starttime + timedelta(seconds=
 															len(self.stream[0].data) * self.stream[0].stats.delta)).strftime('%Y-%m-%d %H:%M:%S'),
@@ -260,6 +260,8 @@ class RSAM(rs.ConsumerThread):
 					   self.sender)
 			elif n == wait_pkts:
 				printM('RSAM analysis up and running normally.', self.sender)
+				if self.testing:
+					TEST['c_rsam'][1] = True
 			else:
 				pass
 

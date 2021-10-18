@@ -19,6 +19,7 @@ TEST = {
 	'n_inventory':			['inventory (RS FDSN server)  ', False],
 
 	# core
+	'x_packetize':			['packetizing data            ', False],
 	'x_send':				['sending data                ', False],
 	'x_data':				['receiving data              ', False],
 	'x_masterqueue':		['master queue                ', False],

@@ -508,6 +508,7 @@ default settings and the data file at
 	settings_are_default = True
 	plot = True
 	quiet = False
+	packetize(inf=TESTFILE+'.ms', outf=TESTFILE)
 
 	try:
 		opts = getopt.getopt(sys.argv[1:], 'hf:s:bq',

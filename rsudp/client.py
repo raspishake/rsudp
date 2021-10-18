@@ -1,4 +1,5 @@
 import sys, os
+import pathlib
 import signal
 import getopt
 import time
@@ -37,7 +38,8 @@ WRITER = False
 SOUND = False
 TESTING = False
 TESTQUEUE = False
-TESTFILE = pr.resource_filename('rsudp', os.path.join('test', 'testdata'))
+dp = pathlib.Path(__file__).parent.resolve()
+TESTFILE = os.path.join(dp, 'test/testdata')
 SENDER = 'Main'
 
 def handler(sig, frame):

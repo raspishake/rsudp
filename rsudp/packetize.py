@@ -46,7 +46,7 @@ def packetize(inf, outf, testing=False):
 		if testing:
 			TEST['x_packetize'][1] = True
 	else:
-		print('Input file does not exist.')
+		print('Input file does not exist: %s' % inf)
 
 
 def main():

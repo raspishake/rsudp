@@ -2,9 +2,6 @@
 # -*- coding: utf-8 -*-
 import re
 import sys
-import os
-import pathlib
-import subprocess
 from rsudp.client import test
 
 if __name__ == '__main__':

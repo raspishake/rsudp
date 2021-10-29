@@ -562,6 +562,28 @@ to construct reset queue messages.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt id="rsudp.helpers.resolve_extra_text">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">resolve_extra_text</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra_text</span></em>, <em class="sig-param"><span class="n">max_len</span></em>, <em class="sig-param"><span class="n">sender</span><span class="o">=</span><span class="default_value">'helpers'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.resolve_extra_text" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 1.0.3.</span></p>
+</div>
+<p>A central helper function for the <code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_telegram.Tweeter</span></code>
+and <a class="reference internal" href="c_telegram.html#rsudp.c_telegram.Telegrammer" title="rsudp.c_telegram.Telegrammer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_telegram.Telegrammer</span></code></a> classes that checks whether
+the <code class="code pycode python docutils literal notranslate"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> parameter (in the settings file) is of appropriate
+length. This is done to avoid errors when posting alerts.
+The function will truncate longer messages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra_text</strong> (<em>string</em>) – String of additional characters to post as part of the alert message (longer messages will be truncated).</p></li>
+<li><p><strong>max_len</strong> (<em>string</em>) – Upper limit of characters accepted in message (280 for Twitter, 4096 for Telegram).</p></li>
+<li><p><strong>sender</strong> (<em>string</em>) – String identifying the origin of the use of this function (<code class="code pycode python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">self</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">sender</span></span></code> in the source function).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="rsudp.helpers.set_channels">
 <code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">set_channels</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">cha</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.set_channels" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function sets the channels available for plotting. Allowed units are as follows:</p>

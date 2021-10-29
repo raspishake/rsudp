@@ -48,7 +48,7 @@ class Telegrammer(rs.ConsumerThread):
 		self.fmt = '%Y-%m-%d %H:%M:%S.%f'
 		self.region = ' - region: %s' % rs.region.title() if rs.region else ''
 
-		self.extra_text = helpers._resolve_extra_text(extra_text, max_len=4096, sender=self.sender)
+		self.extra_text = helpers.resolve_extra_text(extra_text, max_len=4096, sender=self.sender)
 
 		self.auth()
 

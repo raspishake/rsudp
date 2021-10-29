@@ -513,7 +513,7 @@ def deconvolve(self):
 			trace.stats.units = ' counts'		# this is not being deconvolved
 
 
-def _resolve_extra_text(extra_text, max_len, sender='helpers'):
+def resolve_extra_text(extra_text, max_len, sender='helpers'):
 	'''
 	.. role:: pycode(code)
 		:language: python

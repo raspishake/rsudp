@@ -82,7 +82,7 @@ class Tweeter(rs.ConsumerThread):
 		self.access_token_secret = access_token_secret
 		self.last_message = False
 
-		self.extra_text = helpers._resolve_extra_text(extra_text, max_len=280, sender=self.sender)
+		self.extra_text = helpers.resolve_extra_text(extra_text, max_len=280, sender=self.sender)
 
 		self.auth()
 

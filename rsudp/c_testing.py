@@ -1,5 +1,4 @@
 import sys, os
-from rsudp.raspberryshake import ConsumerThread
 import rsudp.raspberryshake as rs
 from rsudp import printM, printW, helpers
 from rsudp import ms_path

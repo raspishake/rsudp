@@ -4,6 +4,7 @@
 - modified logos
 - fixed unicode output error (emoji caused error on Windows machines)
 - added version printout to rs lib initialization sequence
+- simplified imports
 
 ## changes in 1.0.2
 - corrected install script to fix [#14](https://github.com/raspishake/rsudp/issues/14)

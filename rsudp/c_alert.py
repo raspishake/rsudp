@@ -1,5 +1,5 @@
-import sys, os
-from datetime import datetime, timedelta
+import sys
+from datetime import timedelta
 import rsudp.raspberryshake as rs
 from obspy.signal.trigger import recursive_sta_lta, trigger_onset
 from rsudp import printM, printW, printE

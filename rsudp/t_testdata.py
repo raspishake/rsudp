@@ -1,5 +1,5 @@
 import os, sys
-from threading import Thread, Timer
+from threading import Thread
 import socket as s
 from rsudp import printM, printW, helpers
 import rsudp.raspberryshake as rs

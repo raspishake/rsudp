@@ -1,9 +1,5 @@
-import os, sys, platform
-import pkg_resources as pr
+import os, sys
 import time
-import math
-import numpy as np
-from datetime import datetime, timedelta
 import rsudp.raspberryshake as rs
 from rsudp import printM, printW, printE, helpers
 from rsudp.test import TEST

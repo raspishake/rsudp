@@ -1,8 +1,7 @@
 import sys, os
 import time
-from datetime import datetime, timedelta
+from datetime import timedelta
 from obspy import UTCDateTime
-from rsudp.raspberryshake import ConsumerThread
 import rsudp.raspberryshake as rs
 from rsudp import printM, printW, printE, helpers
 from rsudp.test import TEST

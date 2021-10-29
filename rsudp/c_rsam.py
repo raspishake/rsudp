@@ -1,6 +1,6 @@
 import sys, os, time
 import socket as s
-from datetime import datetime, timedelta
+from datetime import timedelta
 import statistics
 from rsudp import printM, printW, printE
 from rsudp import helpers

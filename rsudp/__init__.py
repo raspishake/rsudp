@@ -1,8 +1,6 @@
 import os, sys
 import logging
-import warnings
 from time import gmtime
-import pkg_resources
 from . import _version
 
 # saved in case needed in the future

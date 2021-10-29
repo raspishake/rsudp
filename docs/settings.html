@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.2
+                1.0.3
               </div>
             
           
@@ -120,7 +120,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#tweets-twitter-notification-module">3.7. <code class="code docutils literal notranslate"><span class="pre">tweets</span></code> (Twitter notification module)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#setting-up-twitter-apps">3.7.1. Setting up Twitter Apps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#examples">3.7.1. Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-twitter-apps">3.7.2. Setting up Twitter Apps</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#write-miniseed-writer">3.8. <code class="code docutils literal notranslate"><span class="pre">write</span></code> (miniSEED writer)</a></li>
@@ -421,8 +422,8 @@ for exceedence of the threshold. Adjust the <code class="code json docutils lite
 <blockquote>
 <div><div class="deprecated">
 <p><span class="versionmodified deprecated">Deprecated since version 0.4.3: </span>You can change the <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“exec”</span></span></code> field and supply a path to
-executable Python code to run with the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function.
-<a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> functionality will move to its own module in version 0.4.3
+executable Python code to run with the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.10)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function.
+<a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.10)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> functionality will move to its own module in version 0.4.3
 (see <a class="reference internal" href="#customcode"><span class="std std-ref">custom (run custom code)</span></a> and the <a class="reference internal" href="c_custom.html#rsudp.c_custom.Custom" title="rsudp.c_custom.Custom"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_custom.Custom</span></code></a> class),
 and this part of the alert module will be fully removed in a future release.</p>
 </div>
@@ -504,9 +505,21 @@ It has the bonus of being much, much easier to set up than Twitter,
 and will not as readily lock your account if there happen to be many posts in a short time period
 (in comparison to Twitter).</p>
 <p>If <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“enabled”</span></span></code> is <code class="code json docutils literal notranslate"><span class="keyword constant"><span class="pre">true</span></span></code>, and bot <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“token”</span></span></code> key is correctly entered,
-<a class="reference internal" href="c_telegram.html#rsudp.c_telegram.Telegrammer" title="rsudp.c_telegram.Telegrammer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_telegram.Telegrammer</span></code></a> will use the Telegram bot API to create alerts when an <code class="code docutils literal notranslate"><span class="pre">ALARM</span></code> message arrives on the queue.
+<a class="reference internal" href="c_telegram.html#rsudp.c_telegram.Telegrammer" title="rsudp.c_telegram.Telegrammer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_telegram.Telegrammer</span></code></a> will use the Telegram bot API to create alerts when an
+<code class="code docutils literal notranslate"><span class="pre">ALARM</span></code> message arrives on the queue.
 If <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“send_images”</span></span></code> is <code class="code json docutils literal notranslate"><span class="keyword constant"><span class="pre">true</span></span></code>, then the module will also send a saved image of the event,
 if <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“eq_screenshots”</span></span></code> is set to <code class="code json docutils literal notranslate"><span class="keyword constant"><span class="pre">true</span></span></code> in the <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“plot”</span></span></code> module.</p>
+<p>If any text is put in the <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string, then the software will insert that text
+(no longer than 3900 characters) into the message after the UTC designation and prior to the
+stationview hyperlink.
+This works similarly to the <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> field in the Twitter module below.
+(See <a class="reference internal" href="#examples"><span class="std std-ref">Examples</span></a>.)</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Starting the software with an <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string in excess of 3900 characters
+will yield a warning and the <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string will be truncated
+in order to avoid the message being rejected for exceeding the 4096 character limit.</p>
+</div>
 <div class="section" id="setting-up-a-telegram-bot">
 <span id="setting-up-telegram"></span><h3><span class="section-number">3.6.1. </span>Setting up a Telegram Bot<a class="headerlink" href="#setting-up-a-telegram-bot" title="Permalink to this headline">¶</a></h3>
 <p>Here is a brief overview of the steps to set up a Telegram bot in order to make and distribute
@@ -526,12 +539,17 @@ Telegram alerts from rsudp.</p>
 </div></blockquote>
 </li>
 <li><p>Enter your bot’s access token in the <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“token”</span></span></code> field of the settings file.</p></li>
-<li><p>Enter a user or group ID into the <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“chat_id”</span></span></code> field (or multiple separated by commas), which you can find by following the instructions in <a href="https://stackoverflow.com/a/32572159" target="_blank">this stackoverflow answer</a>.</p></li>
+<li><dl class="simple">
+<dt>Enter a user or group ID into the <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“chat_id”</span></span></code> field (or multiple separated by commas),</dt><dd><p>which you can find by following the instructions in <a href="https://stackoverflow.com/a/32572159" target="_blank">this stackoverflow answer</a>.</p>
+</dd>
+</dl>
+</li>
 </ol>
-<p>If you wish to broadcast telegrams to a group or a channel, first add the bot to the group using your user account,
-then follow the instructions in the previous link,
+<p>If you wish to broadcast telegrams to a group or a channel, first add the bot to the group using your
+user account, then follow the instructions in the previous link,
 where you will see the group chat ID appear as a field in the last JSON entry.
-This chat ID may be negative, in which case you must enter the negative sign into <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“chat_id”</span></span></code> as well.</p>
+This chat ID may be negative, in which case you must enter the negative sign into <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“chat_id”</span></span></code>
+as well.</p>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
 </div>
 </div>
@@ -543,14 +561,17 @@ create tweets when an ALARM message arrives on the queue.
 If <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“tweet_images”</span></span></code> is <code class="code json docutils literal notranslate"><span class="keyword constant"><span class="pre">true</span></span></code>, then the module will also tweet a saved image of the event,
 if <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“eq_screenshots”</span></span></code> is set to <code class="code json docutils literal notranslate"><span class="keyword constant"><span class="pre">true</span></span></code> in the “plot” module. If any text is put in the
 <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string, then the software will insert that text (no longer than 103 characters)
-into the tweets after a single space. For example, an unmodified tweet with <code class="code docutils literal notranslate"><span class="pre">&quot;extra_text&quot;:</span> <span class="pre">&quot;&quot;</span></code>
-might look like this:</p>
+into the tweets after a single space. See examples below.</p>
+<div class="section" id="examples">
+<span id="eq-tweet-examples"></span><h3><span class="section-number">3.7.1. </span>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<p>As a comparison point, an unmodified tweet with <code class="code docutils literal notranslate"><span class="pre">&quot;extra_text&quot;:</span> <span class="pre">&quot;&quot;</span></code> might look like
+the following:</p>
 <div class="figure align-center" id="id10">
 <span id="eq-tweet"></span><img alt="_images/eq_tweet.png" src="_images/eq_tweet.png" />
 <p class="caption"><span class="caption-text">An example tweet sent with the “extra_text” parameter empty (this is the default).</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
 </div>
 <p>Changing the <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> parameter to <code class="code docutils literal notranslate"><span class="pre">&quot;extra_text&quot;:</span> <span class="pre">&quot;from</span> <span class="pre">#Williamstown</span> <span class="pre">#MA&quot;</span></code>
-would render something like the following:</p>
+would render something like this:</p>
 <div class="figure align-center" id="id11">
 <span id="eq-tweet-extra"></span><img alt="_images/eq_tweet_extra.png" src="_images/eq_tweet_extra.png" />
 <p class="caption"><span class="caption-text">An example tweet sent with the “extra_text” parameter filled.</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
@@ -561,8 +582,9 @@ would render something like the following:</p>
 will yield a warning and the <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string will be truncated
 in order to avoid the tweet being rejected for exceeding the 280 character limit.</p>
 </div>
+</div>
 <div class="section" id="setting-up-twitter-apps">
-<span id="setting-up-twitter"></span><h3><span class="section-number">3.7.1. </span>Setting up Twitter Apps<a class="headerlink" href="#setting-up-twitter-apps" title="Permalink to this headline">¶</a></h3>
+<span id="setting-up-twitter"></span><h3><span class="section-number">3.7.2. </span>Setting up Twitter Apps<a class="headerlink" href="#setting-up-twitter-apps" title="Permalink to this headline">¶</a></h3>
 <p>Here is a brief overview of the steps to set up a Twitter app (also known as an API bot)
 in order to make and distribute tweets from rsudp.</p>
 <ol class="arabic simple">
@@ -629,9 +651,9 @@ messages to each simultaneously. Each Pi node can then be configured to listen t
 </div>
 <p><code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“custom”</span></span></code> controls the execution of a custom python code file specified by the <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“codefile”</span></span></code> field.
 If <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“enabled”</span></span></code> is <code class="code json docutils literal notranslate"><span class="keyword constant"><span class="pre">true</span></span></code> and a python file is found at the path specified,
-this thread will run the specified file using python’s <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function.</p>
-<p>Be very careful when using this module, as the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function is known to have problems.
-Notably, <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> does not check the passed file for errors prior to running.
+this thread will run the specified file using python’s <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.10)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function.</p>
+<p>Be very careful when using this module, as the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.10)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function is known to have problems.
+Notably, <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.10)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> does not check the passed file for errors prior to running.
 Also, the passed file cannot have Windows line endings (see warning below).
 Additionally, if the code takes too long to execute,
 you could end up losing data packets from the queue, so keep it simple.
@@ -649,7 +671,7 @@ and create a new thread that does the thing you want when it sees an ALARM data 
 That way, the code will be checked for errors prior to running.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>If you are running Windows and have code you want to pass to the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function,
+<p>If you are running Windows and have code you want to pass to the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.10)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function,
 Python requires that your newline characters are in the UNIX style (<code class="code docutils literal notranslate"><span class="pre">\n</span></code>), not the standard Windows style (<code class="code docutils literal notranslate"><span class="pre">\r\n</span></code>).
 To convert, follow the instructions in one of the answers to <a href="https://stackoverflow.com/questions/17579553/windows-command-to-convert-unix-line-endings" target="_blank">this stackoverflow question</a>.
 If you’re not sure what this means, please read about newline/line ending characters <a href="https://en.wikipedia.org/wiki/Newline" target="_blank">here</a>.
@@ -727,12 +749,13 @@ Change <code class="code json docutils literal notranslate"><span class="literal
     <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nt">&quot;send_images&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
     <span class="nt">&quot;token&quot;</span><span class="p">:</span> <span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;chat_id&quot;</span><span class="p">:</span> <span class="s2">&quot;n/a&quot;</span><span class="p">},</span>
+    <span class="nt">&quot;chat_id&quot;</span><span class="p">:</span> <span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;extra_text&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
 <span class="nt">&quot;rsam&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nt">&quot;quiet&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="nt">&quot;fwaddr&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="nt">&quot;fwport&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&quot;fwaddr&quot;</span><span class="p">:</span> <span class="s2">&quot;192.168.1.254&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;fwport&quot;</span><span class="p">:</span> <span class="mi">8887</span><span class="p">,</span>
     <span class="nt">&quot;fwformat&quot;</span><span class="p">:</span> <span class="s2">&quot;LITE&quot;</span><span class="p">,</span>
     <span class="nt">&quot;channel&quot;</span><span class="p">:</span> <span class="s2">&quot;HZ&quot;</span><span class="p">,</span>
     <span class="nt">&quot;interval&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>

@@ -577,7 +577,7 @@ default settings and the data file at
 
 		# client test
 		ctest = 'client test'
-		if T.TEST['c_miniseed']:
+		if (T.TEST['c_miniseed'] and WRITER):
 			printM('Merging and testing MiniSEED file(s)...', sender=ctest)
 			try:
 				ms = rs.Stream()

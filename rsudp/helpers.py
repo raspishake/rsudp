@@ -518,6 +518,8 @@ def _resolve_extra_text(extra_text, max_len, sender='helpers'):
 	.. role:: pycode(code)
 		:language: python
 
+	.. versionadded:: 1.0.3
+
 	A central helper function for the :class:`rsudp.c_telegram.Tweeter`
 	and :class:`rsudp.c_telegram.Telegrammer` classes that checks whether
 	the :pycode:`"extra_text"` parameter (in the settings file) is of appropriate

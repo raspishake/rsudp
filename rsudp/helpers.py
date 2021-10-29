@@ -513,3 +513,20 @@ def deconvolve(self):
 			trace.stats.units = ' counts'		# this is not being deconvolved
 
 
+def _resolve_extra_text(extra_text, max_len, sender='helpers'):
+	'''
+	
+	'''
+	allowable_len = max_len - 177	# length of string allowable given maximum message text & region
+	if ((extra_text == '') or (extra_text == None) or (extra_text == False)):
+		return ''
+	else:
+		extra_text = str(extra_text)
+		len_ex_txt = len(extra_text)
+
+		if len_ex_txt > allowable_len:
+			printW('extra_text parameter is longer than allowable (%s chars) and will be truncated. Please keep extra_text at or below %s characters.' % (len_ex_txt, allowable_len), sender=sender)
+			extra_text = extra_text[:allowable_len]
+
+		return ' %s' % (extra_text)
+

@@ -46,7 +46,7 @@ class Telegrammer(rs.ConsumerThread):
 		self.fmt = '%Y-%m-%d %H:%M:%S.%f'
 		self.region = ' - region: %s' % rs.region.title() if rs.region else ''
 
-		self._resolve_extra_text(extra_text)
+		self.extra_text = helpers._resolve_extra_text(extra_text, max_len=4096, sender=self.sender)
 
 		self.auth()
 
@@ -55,21 +55,6 @@ class Telegrammer(rs.ConsumerThread):
 		self.last_message = False
 
 		printM('Starting.', self.sender)
-
-
-	def _resolve_extra_text(self, extra_text):
-		allowable_len = 4096 - (280-103)	# length of string allowable given maximum message text & region
-		if ((extra_text == '') or (extra_text == None) or (extra_text == False)):
-			self.extra_text = ''
-		else:
-			extra_text = str(extra_text)
-			len_ex_txt = len(extra_text)
-
-			if len_ex_txt > allowable_len:
-				printW('extra_text parameter is longer than allowable (%s chars) and will be truncated. Please keep extra_text at or below %s characters.' % (len_ex_txt, allowable_len), sender=self.sender)
-				extra_text = extra_text[:allowable_len]
-
-			self.extra_text =  ' %s' % (extra_text)
 
 
 	def auth(self):

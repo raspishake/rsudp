@@ -82,7 +82,7 @@ class Tweeter(rs.ConsumerThread):
 		self.access_token_secret = access_token_secret
 		self.last_message = False
 
-		self._resolve_extra_text(extra_text)
+		self.extra_text = helpers._resolve_extra_text(extra_text, max_len=280, sender=self.sender)
 
 		self.auth()
 
@@ -91,21 +91,6 @@ class Tweeter(rs.ConsumerThread):
 		self.message1 = '(#RaspberryShake station %s.%s%s) Image of event detected at' % (rs.net, rs.stn, self.region)
 
 		printM('Starting.', self.sender)
-
-
-	def _resolve_extra_text(self, extra_text):
-		allowable_len = 103	# length of string allowable given maximum message text & region
-		if ((extra_text == '') or (extra_text == None) or (extra_text == False)):
-			self.extra_text = ''
-		else:
-			extra_text = str(extra_text)
-			len_ex_txt = len(extra_text)
-
-			if len_ex_txt > allowable_len:
-				printW('extra_text parameter is longer than allowable (%s chars) and will be truncated. Please keep extra_text at or below %s characters.' % (len_ex_txt, allowable_len), sender=self.sender)
-				extra_text = extra_text[:allowable_len]
-
-			self.extra_text =  ' %s' % (extra_text)
 
 
 	def auth(self):

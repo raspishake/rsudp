@@ -25,6 +25,8 @@ class Telegrammer(rs.ConsumerThread):
 	:param str token: bot token from Telegram bot creation
 	:param str chat_id: Telegram chat ID number that this module will post to
 	:param bool send_images: whether or not to send images. if False, only alerts will be sent.
+	:type extra_text: bool or str
+	:param extra_text: Approximately 3900 additional characters to post as part of the Telegram message (Telegram message limits are 4096 characters). Longer messages will be truncated.
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 
 	'''

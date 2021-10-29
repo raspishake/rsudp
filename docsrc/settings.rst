@@ -361,9 +361,22 @@ and will not as readily lock your account if there happen to be many posts in a 
 (in comparison to Twitter).
 
 If :json:`"enabled"` is :json:`true`, and bot :json:`"token"` key is correctly entered,
-:class:`rsudp.c_telegram.Telegrammer` will use the Telegram bot API to create alerts when an :code:`ALARM` message arrives on the queue.
+:class:`rsudp.c_telegram.Telegrammer` will use the Telegram bot API to create alerts when an
+:code:`ALARM` message arrives on the queue.
 If :json:`"send_images"` is :json:`true`, then the module will also send a saved image of the event,
 if :json:`"eq_screenshots"` is set to :json:`true` in the :json:`"plot"` module.
+
+If any text is put in the :json:`"extra_text"` string, then the software will insert that text
+(no longer than 3900 characters) into the message after the UTC designation and prior to the
+stationview hyperlink.
+This works similarly to the :json:`"extra_text"` field in the Twitter module below.
+(See :ref:`examples`.)
+
+.. warning::
+
+    Starting the software with an :json:`"extra_text"` string in excess of 3900 characters
+    will yield a warning and the :json:`"extra_text"` string will be truncated
+    in order to avoid the message being rejected for exceeding the 4096 character limit.
 
 .. _setting-up-telegram:
 
@@ -393,12 +406,15 @@ Telegram alerts from rsudp.
     #. :code:`@BotFather` will then give you an access token for your new bot.
 
 #. Enter your bot's access token in the :json:`"token"` field of the settings file.
-#. Enter a user or group ID into the :json:`"chat_id"` field (or multiple separated by commas), which you can find by following the instructions in |so_answer|.
+#. Enter a user or group ID into the :json:`"chat_id"` field (or multiple separated by commas),
+    which you can find by following the instructions in |so_answer|.
 
-If you wish to broadcast telegrams to a group or a channel, first add the bot to the group using your user account,
-then follow the instructions in the previous link,
+If you wish to broadcast telegrams to a group or a channel, first add the bot to the group using your
+user account, then follow the instructions in the previous link,
 where you will see the group chat ID appear as a field in the last JSON entry.
-This chat ID may be negative, in which case you must enter the negative sign into :json:`"chat_id"` as well.
+This chat ID may be negative, in which case you must enter the negative sign into :json:`"chat_id"`
+as well.
+
 
 `Back to top ↑ <#top>`_
 
@@ -412,8 +428,15 @@ create tweets when an ALARM message arrives on the queue.
 If :json:`"tweet_images"` is :json:`true`, then the module will also tweet a saved image of the event,
 if :json:`"eq_screenshots"` is set to :json:`true` in the "plot" module. If any text is put in the
 :json:`"extra_text"` string, then the software will insert that text (no longer than 103 characters)
-into the tweets after a single space. For example, an unmodified tweet with :code:`"extra_text": ""`
-might look like this:
+into the tweets after a single space. See examples below.
+
+.. _eq-tweet-examples:
+
+Examples
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+As a comparison point, an unmodified tweet with :code:`"extra_text": ""` might look like
+the following:
 
 .. _eq-tweet:
 .. figure::  _static/eq_tweet.png
@@ -423,7 +446,7 @@ might look like this:
 
 
 Changing the :json:`"extra_text"` parameter to :code:`"extra_text": "from #Williamstown #MA"`
-would render something like the following:
+would render something like this:
 
 .. _eq-tweet-extra:
 .. figure::  _static/eq_tweet_extra.png
@@ -656,12 +679,13 @@ By default, the settings are as follows:
         "enabled": false,
         "send_images": true,
         "token": "n/a",
-        "chat_id": "n/a"},
+        "chat_id": "n/a",
+        "extra_text": ""},
     "rsam": {
         "enabled": false,
         "quiet": true,
-        "fwaddr": false,
-        "fwport": false,
+        "fwaddr": "192.168.1.254",
+        "fwport": 8887,
         "fwformat": "LITE",
         "channel": "HZ",
         "interval": 10,

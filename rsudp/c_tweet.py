@@ -57,7 +57,7 @@ class Tweeter(rs.ConsumerThread):
 	:param str access_secret: Twitter calls this the "consumer access secret"
 	:param bool tweet_images: whether or not to send images. if False, only alerts will be sent.
 	:type extra_text: bool or str
-	:param extra_text: 103 additional characters to post as part of the twitter message.
+	:param extra_text: 103 additional characters to post as part of the twitter message (longer messages will be truncated).
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`
 
 

@@ -515,7 +515,18 @@ def deconvolve(self):
 
 def _resolve_extra_text(extra_text, max_len, sender='helpers'):
 	'''
-	
+	.. role:: pycode(code)
+		:language: python
+
+	A central helper function for the :class:`rsudp.c_telegram.Tweeter`
+	and :class:`rsudp.c_telegram.Telegrammer` classes that checks whether
+	the :pycode:`"extra_text"` parameter (in the settings file) is of appropriate
+	length. This is done to avoid errors when posting alerts.
+	The function will truncate longer messages.
+
+	:param string extra_text: String of additional characters to post as part of the alert message (longer messages will be truncated).
+	:param string max_len: Upper limit of characters accepted in message (280 for Twitter, 4096 for Telegram).
+	:param string sender: String identifying the origin of the use of this function (:pycode:`self.sender` in the source function).
 	'''
 	allowable_len = max_len - 177	# length of string allowable given maximum message text & region
 	if ((extra_text == '') or (extra_text == None) or (extra_text == False)):

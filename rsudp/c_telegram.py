@@ -36,6 +36,7 @@ class Telegrammer(rs.ConsumerThread):
 
 		"""
 		super().__init__()
+		self.queue = q
 		self.sender = sender
 		self.alive = True
 		self.send_images = send_images
@@ -47,19 +48,7 @@ class Telegrammer(rs.ConsumerThread):
 
 		self._resolve_extra_text(extra_text)
 
-		if q:
-			self.queue = q
-		else:
-			printE('no queue passed to consumer! Thread will exit now!', self.sender)
-			sys.stdout.flush()
-			self.alive = False
-			sys.exit()
-
-		if not self.testing:
-			self.telegram = tg.Bot(token=self.token)
-		else:
-			printW('The Telegram module will not post to Telegram in Testing mode.',
-					self.sender, announce=False)
+		self.auth()
 
 		self.livelink = u'live feed ➡️ https://stationview.raspberryshake.org/#?net=%s&sta=%s' % (rs.net, rs.stn)
 		self.message0 = '(Raspberry Shake station %s.%s%s) Event detected at' % (rs.net, rs.stn, self.region)
@@ -86,6 +75,9 @@ class Telegrammer(rs.ConsumerThread):
 	def auth(self):
 		if not self.testing:
 			self.telegram = tg.Bot(token=self.token)
+		else:
+			printW('The Telegram module will not post to Telegram in Testing mode.',
+					self.sender, announce=False)
 
 
 	def getq(self):

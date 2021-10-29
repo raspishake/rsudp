@@ -13,6 +13,7 @@ from obspy.core.trace import Trace
 from rsudp import printM, printW, printE
 from requests.exceptions import HTTPError
 from threading import Thread
+from . import __version__
 
 initd, sockopen = False, False
 qsize = 2048 			# max queue size
@@ -133,8 +134,8 @@ def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 	'''
 	global port, stn, to, initd, port
 	global producer
-	sender = 'Init'
-	printM('Initializing.', sender)
+	sender = 'RS lib'
+	printM('Initializing rsudp v %s.' % (__version__), sender)
 	try:						# set port value first
 		if dport == int(dport):
 			port = int(dport)

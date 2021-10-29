@@ -168,7 +168,9 @@ def printM(msg, sender='', announce=False):
 	:param str msg: message to log
 	:param str sender: the name of the class or function sending the message
 	'''
-	msg = '[%s] %s' % (sender, msg) if sender != '' else msg
+	msg = u'[%s] %s' % (sender, msg) if sender != '' else msg
+	# strip emoji from unicode by converting to ascii
+	msg = msg.encode('ascii', 'ignore').decode('ascii')
 	LOG.info(msg)
 
 
@@ -185,12 +187,14 @@ def printW(msg, sender='', announce=True, spaces=False):
 		announce = False
 
 	if announce:
-		msg = '[%s] WARNING: %s' % (sender, msg) if sender != '' else msg
+		msg = u'[%s] WARNING: %s' % (sender, msg) if sender != '' else msg
 	else:
 		if spaces:
-			msg = '[%s]          %s' % (sender, msg) if sender != '' else msg
+			msg = u'[%s]          %s' % (sender, msg) if sender != '' else msg
 		else:
-			msg = '[%s] %s' % (sender, msg) if sender != '' else msg
+			msg = u'[%s] %s' % (sender, msg) if sender != '' else msg
+	# strip emoji from unicode by converting to ascii
+	msg = msg.encode('ascii', 'ignore').decode('ascii')
 	LOG.warning(msg)
 
 
@@ -207,10 +211,12 @@ def printE(msg, sender='', announce=True, spaces=False):
 		announce = False
 
 	if announce:
-		msg = '[%s] ERROR: %s' % (sender, msg) if sender != '' else msg
+		msg = u'[%s] ERROR: %s' % (sender, msg) if sender != '' else msg
 	else:
 		if spaces:
-			msg = '[%s]        %s' % (sender, msg) if sender != '' else msg
+			msg = u'[%s]        %s' % (sender, msg) if sender != '' else msg
 		else:
-			msg = '[%s] %s' % (sender, msg) if sender != '' else msg
+			msg = u'[%s] %s' % (sender, msg) if sender != '' else msg
+	# strip emoji from unicode by converting to ascii
+	msg = msg.encode('ascii', 'ignore').decode('ascii')
 	LOG.error(msg)

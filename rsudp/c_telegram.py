@@ -61,7 +61,7 @@ class Telegrammer(rs.ConsumerThread):
 			printW('The Telegram module will not post to Telegram in Testing mode.',
 					self.sender, announce=False)
 
-		self.livelink = 'live feed ➡️ https://stationview.raspberryshake.org/#?net=%s&sta=%s' % (rs.net, rs.stn)
+		self.livelink = u'live feed ➡️ https://stationview.raspberryshake.org/#?net=%s&sta=%s' % (rs.net, rs.stn)
 		self.message0 = '(Raspberry Shake station %s.%s%s) Event detected at' % (rs.net, rs.stn, self.region)
 		self.last_message = False
 

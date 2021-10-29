@@ -107,7 +107,7 @@ class Tweeter(rs.ConsumerThread):
 					self.sender, announce=False)
 
 
-		self.livelink = 'live feed ➡️ https://stationview.raspberryshake.org/#?net=%s&sta=%s' % (rs.net, rs.stn)
+		self.livelink = u'live feed ➡️ https://stationview.raspberryshake.org/#?net=%s&sta=%s' % (rs.net, rs.stn)
 		self.message0 = '(#RaspberryShake station %s.%s%s) Event detected at' % (rs.net, rs.stn, self.region)
 		self.message1 = '(#RaspberryShake station %s.%s%s) Image of event detected at' % (rs.net, rs.stn, self.region)
 

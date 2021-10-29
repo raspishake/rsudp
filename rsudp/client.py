@@ -588,7 +588,7 @@ default settings and the data file at
 					else:
 						raise FileNotFoundError('MiniSEED file not found: %s' % outfile)
 				printM('Renamed test file(s).', sender=ctest)
-				printM(ms.merge())
+				printM(ms.merge().__str__())
 			except Exception as e:
 				printE(e)
 				T.TEST['c_miniseed'][1] = False

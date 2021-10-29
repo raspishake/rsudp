@@ -575,10 +575,16 @@ The function will truncate longer messages.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>extra_text</strong> (<em>string</em>) – String of additional characters to post as part of the alert message (longer messages will be truncated).</p></li>
-<li><p><strong>max_len</strong> (<em>string</em>) – Upper limit of characters accepted in message (280 for Twitter, 4096 for Telegram).</p></li>
-<li><p><strong>sender</strong> (<em>string</em>) – String identifying the origin of the use of this function (<code class="code pycode python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">self</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">sender</span></span></code> in the source function).</p></li>
+<li><p><strong>extra_text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – String of additional characters to post as part of the alert message (longer messages will be truncated).</p></li>
+<li><p><strong>max_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Upper limit of characters accepted in message (280 for Twitter, 4096 for Telegram).</p></li>
+<li><p><strong>sender</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – String identifying the origin of the use of this function (<code class="code pycode python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">self</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">sender</span></span></code> in the source function).</p></li>
 </ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the message string to be incorporated</p>
 </dd>
 </dl>
 </dd></dl>

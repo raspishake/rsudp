@@ -43,6 +43,20 @@ COLOR = {
 }
 
 
+def make_colors_friendly():
+	'''
+	Makes colors Windows-friendly if necessary.
+	'''
+	global COLOR
+	if os.name == 'posix':
+		pass	# terminal colors will work in this case
+	else:
+		for color in COLOR:
+			COLOR[color] = ''
+
+make_colors_friendly()
+
+
 class LevelFormatter(logging.Formatter):
 	'''
 	.. |so_lf| raw:: html

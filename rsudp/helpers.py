@@ -53,8 +53,8 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
     "address": ["192.168.1.254"],
     "port": [8888],
     "channels": ["all"],
-	"fwd_data": true,
-	"fwd_alarms": false},
+    "fwd_data": true,
+    "fwd_alarms": false},
 "alert": {
     "enabled": true,
     "channel": "HZ",
@@ -80,12 +80,13 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
     "api_secret": "n/a",
     "access_token": "n/a",
     "access_secret": "n/a",
-	"extra_text": ""},
+    "extra_text": ""},
 "telegram": {
     "enabled": false,
     "send_images": true,
     "token": "n/a",
-    "chat_id": "n/a"},
+    "chat_id": "n/a",
+    "extra_text": ""},
 "rsam": {
     "enabled": false,
     "quiet": true,

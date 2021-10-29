@@ -85,6 +85,7 @@ def make_test_settings(settings, inet=False):
 	 ``settings['alertsound']['enabled']``    ``True``
 	 ``settings['rsam']['enabled']``          ``True``
 	 ``settings['rsam']['debug']``            ``True``
+	 ``settings['rsam']['interval']``         ``10``
 	======================================== ===================
 
 	.. note::

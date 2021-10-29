@@ -29,7 +29,7 @@ class Telegrammer(rs.ConsumerThread):
 
 	'''
 	def __init__(self, token, chat_id, testing=False,
-				 q=False, send_images=False,
+				 q=False, send_images=False, extra_text=False,
 				 sender='Telegram'):
 		"""
 		Initializing the Telegram message posting thread.
@@ -41,6 +41,7 @@ class Telegrammer(rs.ConsumerThread):
 		self.send_images = send_images
 		self.token = token
 		self.chat_id = chat_id
+		self.extra_text = ' %s' % (extra_text) if extra_text else ''
 		self.testing = testing
 		self.fmt = '%Y-%m-%d %H:%M:%S.%f'
 		self.region = ' - region: %s' % rs.region.title() if rs.region else ''
@@ -91,7 +92,7 @@ class Telegrammer(rs.ConsumerThread):
 		'''
 		event_time = helpers.fsec(helpers.get_msg_time(d))
 		self.last_event_str = '%s' % (event_time.strftime(self.fmt)[:22])
-		message = '%s %s UTC - %s' % (self.message0, self.last_event_str, self.livelink)
+		message = '%s %s UTC%s - %s' % (self.message0, self.last_event_str, self.extra_text, self.livelink)
 		response = None
 		try:
 			printM('Sending alert...', sender=self.sender)

@@ -306,12 +306,14 @@ def run(settings, debug):
 		token = settings['telegram']['token']
 		chat_ids = settings['telegram']['chat_id'].strip(' ').split(',')
 		send_images = settings['telegram']['send_images']
+		extra_text = settings['telegram']['extra_text']
+
 		for chat_id in chat_ids:
 			sender = "Telegram id %s" % (chat_id)
 			q = mk_q()
 			TELEGRAM = Telegrammer(q=q, token=token, chat_id=chat_id,
-								   send_images=send_images, testing=TESTING,
-								   sender=sender)
+								   send_images=send_images, extra_text=extra_text,
+								   sender=sender, testing=TESTING)
 			mk_p(TELEGRAM)
 
 	if settings['rsam']['enabled']:

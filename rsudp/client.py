@@ -510,7 +510,6 @@ default settings and the data file at
 	settings_are_default = True
 	plot = True
 	quiet = False
-	packetize(inf=TESTFILE+'.ms', outf=TESTFILE, testing=True)
 
 	try:
 		opts = getopt.getopt(sys.argv[1:], 'hf:s:bq',
@@ -534,12 +533,15 @@ default settings and the data file at
 			if os.path.exists(a):
 				try:
 					out = '%s.txt' % (a)
-					packetize(inf=a, outf=out)
+					packetize(inf=a, outf=out, testing=True)
 					TESTFILE = out
 				except Exception as e:
 					print(hlp_txt)
 					print(COLOR['red'] + 'ERROR: %s' % e + COLOR['white'])
 					exit(1)
+		else:
+			# else we are just using the default miniseed file
+			packetize(inf=TESTFILE+'.ms', outf=TESTFILE, testing=True)
 		if o in ('-s', '--settings='):
 			'''
 			Dump the settings to a file, specified after the `-d` flag, or `-d default` to let the software decide where to put it.

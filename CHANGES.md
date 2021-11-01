@@ -4,7 +4,8 @@
 - modified logos
 - fixed unicode output error (emoji caused error on Windows machines)
 - added version printout to rs lib initialization sequence
-- simplified imports
+- simplified dependency imports
+- fixed an error with the packetization script that caused it to break on files where the first trace in a given stream was not the shortest
 
 ## changes in 1.0.2
 - corrected install script to fix [#14](https://github.com/raspishake/rsudp/issues/14)

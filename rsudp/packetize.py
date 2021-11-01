@@ -5,12 +5,56 @@ import getopt
 from obspy import read
 from datetime import timedelta
 from rsudp.test import TEST
+from rsudp.helpers import lesser_multiple
 
 
 SMP = {
 	0.01: 25,
 	0.02: 50,
 }
+
+
+def get_samps(stream):
+	'''
+	Return the number of samples to place in each packet.
+	This number is based on the sampling frequency of the data in question.
+
+	Raspberry Shake data is sent to the UDP port either in packets of 25
+	(for sampling frequency of 100 Hz) or 50 (for frequency of 50 Hz).
+
+	This is hardcoded and will not change for the foreseeable future,
+	which means that it can be used to determine the variety of sensor used
+	(50 Hz is the original versions of RS1D).
+
+	:param obspy.core.stream.Stream stream: Stream object to calculate samples per packet for
+
+	:rtype: int
+	:return: the number of samples per packet (either 25 or 50)
+	'''
+	try:
+		return SMP[stream[0].stats.delta]
+	except KeyError as e:
+		raise KeyError('Sampling frequency of %s is not supported. Is this Raspberry Shake data?' % (e))
+
+
+def cutoff_calc(stream):
+	'''
+	Return the number of samples that will be transcribed to UDP packet formatted ascii text.
+	Iterates over each trace in the stream to make this calculation.
+
+	:param obspy.core.stream.Stream stream: Stream object to calculate number of samples from
+
+	:rtype: int, int
+	:return: 1) the number of samples to transcribe, 2) the number of samples in each packet
+	'''
+	samps = get_samps(stream)
+	c = lesser_multiple(len(stream[0].data), base=samps)
+	for t in stream:
+		n = lesser_multiple(len(t.data), base=samps)
+		if n < c:
+			c = n
+	return c, samps
+
 
 def packetize(inf, outf, testing=False):
 	'''
@@ -21,21 +65,18 @@ def packetize(inf, outf, testing=False):
 	'''
 	if os.path.isfile(os.path.expanduser(inf)):
 		stream = read(inf)
-		try:
-			samps = SMP[stream[0].stats.delta]
-		except KeyError as e:
-			raise KeyError('Sampling frequency of %s is not supported. Is this Raspberry Shake data?' % (e))
+		cutoff, samps = cutoff_calc(stream)
 		n = 0
 		time = stream[0].stats.starttime
 
 		with open(outf, 'w') as f:
-			for i in range(0, int(len(stream[0].data)/samps)):
+			for i in range(0, int(cutoff/samps)):
 				ptime = time + timedelta(seconds=stream[0].stats.delta*n)
 				for t in stream:
 					data = ''
 					chan = t.stats.channel
-					for i in range(n, n+samps):
-						data += ', %s' % t.data[i]
+					for j in range(n, n+samps):
+						data += ', %s' % t.data[j]
 					line = "{'%s', %.3f%s}%s" % (chan, ptime.timestamp, data, os.linesep)
 					f.write(line)
 				n += samps

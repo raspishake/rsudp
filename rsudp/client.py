@@ -510,7 +510,7 @@ default settings and the data file at
 	settings_are_default = True
 	plot = True
 	quiet = False
-	packetize(inf=TESTFILE+'.ms', outf=TESTFILE, testing=True)
+	customfile = False
 
 	try:
 		opts = getopt.getopt(sys.argv[1:], 'hf:s:bq',
@@ -534,8 +534,9 @@ default settings and the data file at
 			if os.path.exists(a):
 				try:
 					out = '%s.txt' % (a)
-					packetize(inf=a, outf=out)
+					packetize(inf=a, outf=out, testing=True)
 					TESTFILE = out
+					customfile = True # using a custom miniseed file for testing
 				except Exception as e:
 					print(hlp_txt)
 					print(COLOR['red'] + 'ERROR: %s' % e + COLOR['white'])
@@ -556,6 +557,9 @@ default settings and the data file at
 		if o in ('-q', '--no-sound'):
 			quiet = True
 
+	if not customfile:
+		# we are just using the default miniseed file
+		packetize(inf=TESTFILE+'.ms', outf=TESTFILE, testing=True)
 
 	T.TEST['n_internet'][1] = T.is_connected('www.google.com')
 

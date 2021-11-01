@@ -24,6 +24,7 @@ setuptools.setup(
             'rs-packetloss=rsudp.packetloss:main',
             'rs-client=rsudp.client:main',
             'rs-test=rsudp.client:test',
+            'packetize=rsudp.packetize:main',
             ],
     },
     classifiers=[

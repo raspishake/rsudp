@@ -208,6 +208,19 @@ def fsec(ti):
 	return rs.UTCDateTime(ti, precision=2)
 
 
+def lesser_multiple(x, base=10):
+	'''
+	.. versionadded:: 1.0.3
+
+	This function calculates the nearest multiple of the base number ``base``
+	for the number ``x`` passed to it, as long as the result is less than ``x``.
+
+	This is useful for :func:`rsudp.packetize` when figuring out where to cut
+	off samples when trying to fit them into packets.
+	'''
+	return int(base * int(float(x)/base))
+
+
 def conn_stats(TESTING=False):
 	'''
 	Print some stats about the connection.

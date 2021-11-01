@@ -228,6 +228,50 @@ python packetize.py -i test.mseed -o output.txt
 <code class="docutils literal notranslate"><span class="pre">obspy</span></code> is installed as a python3 package.</p>
 </div>
 <span class="target" id="module-rsudp.packetize"></span><dl class="py function">
+<dt id="rsudp.packetize.cutoff_calc">
+<code class="sig-prename descclassname">rsudp.packetize.</code><code class="sig-name descname">cutoff_calc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stream</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetize.cutoff_calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of samples that will be transcribed to UDP packet formatted ascii text.
+Iterates over each trace in the stream to make this calculation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>stream</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (1.2.0) v1.2)"><em>obspy.core.stream.Stream</em></a>) – Stream object to calculate number of samples from</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ol class="arabic simple">
+<li><p>the number of samples to transcribe, 2) the number of samples in each packet</p></li>
+</ol>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="rsudp.packetize.get_samps">
+<code class="sig-prename descclassname">rsudp.packetize.</code><code class="sig-name descname">get_samps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stream</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetize.get_samps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of samples to place in each packet.
+This number is based on the sampling frequency of the data in question.</p>
+<p>Raspberry Shake data is sent to the UDP port either in packets of 25
+(for sampling frequency of 100 Hz) or 50 (for frequency of 50 Hz).</p>
+<p>This is hardcoded and will not change for the foreseeable future,
+which means that it can be used to determine the variety of sensor used
+(50 Hz is the original versions of RS1D).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>stream</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (1.2.0) v1.2)"><em>obspy.core.stream.Stream</em></a>) – Stream object to calculate samples per packet for</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the number of samples per packet (either 25 or 50)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="rsudp.packetize.main">
 <code class="sig-prename descclassname">rsudp.packetize.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetize.main" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function reads command line arguments, then calls

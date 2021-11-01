@@ -330,14 +330,14 @@ All other plots are drawn at most every quarter second (250 ms).</p>
 
 <dl class="py method">
 <dt id="rsudp.c_plot.Plot.savefig">
-<code class="sig-name descname">savefig</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event_time</span><span class="o">=</span><span class="default_value">UTCDateTime(2021, 10, 29, 21, 36, 38, 443305)</span></em>, <em class="sig-param"><span class="n">event_time_str</span><span class="o">=</span><span class="default_value">'2021-10-29-213638'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.savefig" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">savefig</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event_time</span><span class="o">=</span><span class="default_value">UTCDateTime(2021, 11, 1, 21, 58, 25, 782223)</span></em>, <em class="sig-param"><span class="n">event_time_str</span><span class="o">=</span><span class="default_value">'2021-11-01-215825'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.savefig" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the figure and puts an IMGPATH message on the master queue.
 This message can be used to upload the image to various services.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>event_time</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.2.0) v1.2)"><em>obspy.core.utcdatetime.UTCDateTime</em></a>) – Event time as an obspy UTCDateTime object.</p></li>
-<li><p><strong>event_time_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Event time as a string. This is used to set the filename.</p></li>
+<li><p><strong>event_time</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.2.0) v1.2)"><em>obspy.core.utcdatetime.UTCDateTime</em></a>) – Event time as an obspy UTCDateTime object. Defaults to <code class="docutils literal notranslate"><span class="pre">UTCDateTime.now()</span></code>.</p></li>
+<li><p><strong>event_time_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Event time as a string, in the format <code class="docutils literal notranslate"><span class="pre">'%Y-%m-%d-%H%M%S'</span></code>. This is used to set the filename.</p></li>
 </ul>
 </dd>
 </dl>

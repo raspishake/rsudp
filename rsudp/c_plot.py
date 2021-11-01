@@ -296,8 +296,8 @@ class Plot:
 		Saves the figure and puts an IMGPATH message on the master queue.
 		This message can be used to upload the image to various services.
 
-		:param obspy.core.utcdatetime.UTCDateTime event_time: Event time as an obspy UTCDateTime object.
-		:param str event_time_str: Event time as a string. This is used to set the filename.
+		:param obspy.core.utcdatetime.UTCDateTime event_time: Event time as an obspy UTCDateTime object. Defaults to ``UTCDateTime.now()``.
+		:param str event_time_str: Event time as a string, in the format ``'%Y-%m-%d-%H%M%S'``. This is used to set the filename.
 		'''
 		figname = os.path.join(helpers.get_scap_dir(), '%s-%s.png' % (self.stn, event_time_str))
 		elapsed = rs.UTCDateTime.now() - event_time

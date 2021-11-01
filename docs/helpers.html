@@ -445,6 +445,18 @@ This allows the variable to be more threadsafe.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt id="rsudp.helpers.lesser_multiple">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">lesser_multiple</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">base</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.lesser_multiple" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 1.0.3.</span></p>
+</div>
+<p>This function calculates the nearest multiple of the base number <code class="docutils literal notranslate"><span class="pre">base</span></code>
+for the number <code class="docutils literal notranslate"><span class="pre">x</span></code> passed to it, as long as the result is less than <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+<p>This is useful for <a class="reference internal" href="packetize.html#module-rsudp.packetize" title="rsudp.packetize"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.packetize()</span></code></a> when figuring out where to cut
+off samples when trying to fit them into packets.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt id="rsudp.helpers.msg_alarm">
 <code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">msg_alarm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event_time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_alarm" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function constructs the <code class="docutils literal notranslate"><span class="pre">ALARM</span></code> message as a bytes object.

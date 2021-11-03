@@ -636,7 +636,7 @@ By default, the settings are as follows:
         "enabled": true,
         "duration": 90,
         "spectrogram": true,
-        "fullscreen": true,
+        "fullscreen": false,
         "kiosk": false,
         "eq_screenshots": false,
         "channels": ["all"],

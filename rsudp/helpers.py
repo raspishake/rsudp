@@ -42,7 +42,7 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
     "enabled": true,
     "duration": 90,
     "spectrogram": true,
-    "fullscreen": true,
+    "fullscreen": false,
     "kiosk": false,
     "eq_screenshots": false,
     "channels": ["all"],

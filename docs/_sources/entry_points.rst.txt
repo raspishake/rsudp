@@ -1,4 +1,4 @@
-:py:data:`rsudp.entry_points` (convenience functions)
+:py:data:`rsudp.entry_points` (convenience fx)
 =====================================================
 
 These are some convenience functions for editing rsudp's settings and

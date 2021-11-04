@@ -1,4 +1,4 @@
-# old config
+# new config
 checks:
     python:
         code_rating: true
@@ -11,19 +11,6 @@ build:
     nodes:
         analysis:
             # Used for installing any needed dependencies by your project like apt package or libraries.
-            dependencies:
-                override:
-                    - 'true'
-            project_setup:
-                override:
-                    - 'true'
-            tests:
-                override:
-                    - py-scrutinizer-run
-                    -
-                        command: pylint-run
-                        use_website_config: true
-        tests:
             dependencies:
                 before:
                     - CDIR=$(pwd)
@@ -45,6 +32,10 @@ build:
                     - rs-client -d default
             tests:
                 override:
+                    - py-scrutinizer-run
+                    -
+                        command: pylint-run
+                        use_website_config: true
                     - command: 'coverage run; coverage combine'
                       coverage:
                             file: .coverage

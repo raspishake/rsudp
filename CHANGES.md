@@ -7,7 +7,7 @@
 - simplified dependency imports
 - fixed an error with the packetization script that caused it to break on files where the first trace in a given stream was not the shortest
 - adjusted default alert settings to be more in line with what testing says is optimal
-- adding convenence functions `rs-settings`, `rs-log`, and `rs-tailf` to make editing settings and monitoring log output easier
+- adding entrypoint convenence functions `rs-settings`, `rs-log`, and `rs-tailf` to make editing settings and monitoring log output easier
 
 ## changes in 1.0.2
 - corrected install script to fix [#14](https://github.com/raspishake/rsudp/issues/14)

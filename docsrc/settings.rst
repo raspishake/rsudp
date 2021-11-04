@@ -23,7 +23,7 @@ where :bash:`$HOME` is your home directory (often shortened to :bash:`~/`).
 To output default settings to a different location, see :ref:`running-manually`.
 
 For convenience, you can use rsudp's built-in :bash:`rs-settings` command
-(:func:`rsudp.helpers.edit_settings`) to call your system's default editor to edit the settings
+(:func:`rsudp.entry_points.edit_settings`) to call your system's default editor to edit the settings
 file.
 
 

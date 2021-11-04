@@ -74,6 +74,7 @@ The modules available in rsudp are organized by type below.
     init
     raspberryshake
     helpers
+    entry_points
 
 .. toctree::
     :maxdepth: 2

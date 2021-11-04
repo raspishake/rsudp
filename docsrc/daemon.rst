@@ -69,7 +69,7 @@ Next, execute the following lines:
 
 rsudp should start within about 30 seconds.
 You can monitor the program's output in real time by entering the following command
-(source function: :func:`rsudp.helpers.ep_tailf_log`):
+(source function: :func:`rsudp.entry_points.ep_tailf_log`):
 
 .. code-block:: bash
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>rsudp.c_custom (run code) &mdash; rsudp  documentation</title>
+  <title>rsudp.entrypoints (convenience functions) &mdash; rsudp  documentation</title>
   
 
   
@@ -36,8 +36,8 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="rsudp.t_testdata (test pre-producer)" href="t_testdata.html" />
-    <link rel="prev" title="rsudp.c_write (write data)" href="c_write.html" /> 
+    <link rel="next" title="rsudp.client (central module)" href="client.html" />
+    <link rel="prev" title="rsudp.helpers (helper functions)" href="helpers.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -110,11 +110,11 @@
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">2. Contributing to this project</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Library</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="entrypoints.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.entrypoints</span></code> (convenience functions)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.entrypoints</span></code> (convenience functions)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Clients</span></p>
 <ul>
@@ -127,7 +127,7 @@
 <li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Sub-Consumers</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
@@ -136,7 +136,7 @@
 <li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Testing modules</span></p>
 <ul>
@@ -189,13 +189,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</li>
+      <li><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.entrypoints</span></code> (convenience functions)</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/c_custom.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/entrypoints.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -208,49 +208,63 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-rsudp.c_custom">
-<span id="rsudp-c-custom-run-code"></span><h1><a class="reference internal" href="#module-rsudp.c_custom" title="rsudp.c_custom"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code></a> (run code)<a class="headerlink" href="#module-rsudp.c_custom" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
-<dt id="rsudp.c_custom.Custom">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_custom.</code><code class="sig-name descname">Custom</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">codefile</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">win_ovr</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">testing</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_custom.Custom" title="Permalink to this definition">¶</a></dt>
+  <div class="section" id="rsudp-entrypoints-convenience-functions">
+<h1><a class="reference internal" href="#module-rsudp.entrypoints" title="rsudp.entrypoints"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.entrypoints</span></code></a> (convenience functions)<a class="headerlink" href="#rsudp-entrypoints-convenience-functions" title="Permalink to this headline">¶</a></h1>
+<p>These are some convenience functions for editing rsudp’s settings and
+monitoring log output.</p>
+<span class="target" id="module-rsudp.entrypoints"></span><dl class="py function">
+<dt id="rsudp.entrypoints.ep_cat_log">
+<code class="sig-prename descclassname">rsudp.entrypoints.</code><code class="sig-name descname">ep_cat_log</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.entrypoints.ep_cat_log" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 0.4.3.</span></p>
+<p><span class="versionmodified added">New in version 1.0.3.</span></p>
 </div>
-<p>A consumer class that runs custom code from a python file passed to it.
-Please read the disclaimers and warnings at <a class="reference internal" href="settings.html#customcode"><span class="std std-ref">custom (run custom code)</span></a> prior to using this module.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>If you are running Windows and have code you want to pass to the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.10)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function,
-Python requires that your newline characters are in the UNIX style (<code class="code docutils literal notranslate"><span class="pre">\n</span></code>),
-not the standard Windows style (<code class="code docutils literal notranslate"><span class="pre">\r\n</span></code>).
-To convert, follow the instructions in one of the answers to <a href="https://stackoverflow.com/questions/17579553/windows-command-to-convert-unix-line-endings" target="_blank">this stackoverflow question</a>.
-If you’re not sure what this means, please read about newline/line ending characters <a href="https://en.wikipedia.org/wiki/Newline" target="_blank">here</a>.
-If you are certain that your code file has no Windows newlines, you can set <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“win_override”</span></span></code> to true.</p>
-<p>Read more warnings about this module at <a class="reference internal" href="settings.html#customcode"><span class="std std-ref">custom (run custom code)</span></a>.</p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.10)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>.</p></li>
-<li><p><strong>codefile</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – string of the python (.py) file to run, or False if none.</p></li>
-<li><p><strong>win_ovr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – user check to make sure that line ending format is correct (see warning above)</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt id="rsudp.c_custom.Custom.run">
-<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_custom.Custom.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reads data from the queue and executes self.codefile if it sees an <code class="docutils literal notranslate"><span class="pre">ALARM</span></code> message.
-Quits if it sees a <code class="docutils literal notranslate"><span class="pre">TERM</span></code> message.</p>
+<p>This function uses a posix system’s <code class="docutils literal notranslate"><span class="pre">cat</span></code> command to print messages in
+the rsudp log file. It is provided for convenience only.</p>
+<p>It is accessible via the console command <code class="docutils literal notranslate"><span class="pre">rs-log</span></code> on posix (Linux, MacOS)
+style operating systems.</p>
 </dd></dl>
 
+<dl class="py function">
+<dt id="rsudp.entrypoints.ep_edit_settings">
+<code class="sig-prename descclassname">rsudp.entrypoints.</code><code class="sig-name descname">ep_edit_settings</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.entrypoints.ep_edit_settings" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 1.0.3.</span></p>
+</div>
+<p>This function calls the system’s default text editor to open the settings
+file for editing. It is provided for convenience only.
+Advanced users may prefer to add an alias in place of this function.
+The alias <strong>should</strong> override the entrypoint command set in rsudp’s
+<code class="docutils literal notranslate"><span class="pre">setup.py</span></code>.</p>
+<p>On Linux and MacOS, adding an alias may look like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># add the alias definition to the aliases file</span>
+<span class="nb">echo</span> <span class="s2">&quot;alias rsudp-settings=&#39;nano ~/.config/rsudp/rsudp_settings.json&#39;&quot;</span> &gt;&gt; .bash_aliases
+<span class="c1"># then reload the console</span>
+bash
+</pre></div>
+</div>
+<p>To add an alias on Windows via the command prompt is much more difficult.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function has been tested on multiple operating systems, but
+because each system’s functionality and defaults may be different,
+proper operation cannot be not guaranteed.</p>
+</div>
 </dd></dl>
 
-<hr class="docutils" />
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
+<dl class="py function">
+<dt id="rsudp.entrypoints.ep_tailf_log">
+<code class="sig-prename descclassname">rsudp.entrypoints.</code><code class="sig-name descname">ep_tailf_log</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.entrypoints.ep_tailf_log" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 1.0.3.</span></p>
+</div>
+<p>This function uses a the system’s follow command to follow new
+messages added to the log file. It is provided for convenience only.
+is the equivalent of <code class="docutils literal notranslate"><span class="pre">tail</span> <span class="pre">-f</span> <span class="pre">/tmp/rsudp/rsudp.log</span></code> on Linux/MacOS
+and <code class="docutils literal notranslate"><span class="pre">Get-Content</span> <span class="pre">-Path</span> <span class="pre">&quot;C:/tmp/rsudp/rsudp.log&quot;</span> <span class="pre">-Wait</span></code> on Windows.</p>
+<p>It is accessible via the console command <code class="docutils literal notranslate"><span class="pre">rs-tailf</span></code>.</p>
+<p>The function will run until it receives a keyboard interrupt (CTRL+C).</p>
+</dd></dl>
+
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
 </div>
 
@@ -262,10 +276,10 @@ Quits if it sees a <code class="docutils literal notranslate"><span class="pre">
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="t_testdata.html" class="btn btn-neutral float-right" title="rsudp.t_testdata (test pre-producer)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="client.html" class="btn btn-neutral float-right" title="rsudp.client (central module)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="c_write.html" class="btn btn-neutral float-left" title="rsudp.c_write (write data)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="helpers.html" class="btn btn-neutral float-left" title="rsudp.helpers (helper functions)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

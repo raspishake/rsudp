@@ -55,7 +55,7 @@ def ep_cat_log():
 	if os.name == 'posix':
 		subprocess.call(('cat', log_loc))
 	else:
-		printE('This command is only available on posix (Linux, MacOS) machines.')
+		print('This command is only available on posix (Linux, MacOS) machines.')
 
 def ep_tailf_log():
 	'''

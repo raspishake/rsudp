@@ -16,9 +16,11 @@ name = 'rsudp'
 __version__ = _version.version
 
 default_loc = '%s/.config/rsudp' % os.path.expanduser('~').replace('\\', '/')
+settings_loc = os.path.join(default_loc, 'rsudp_settings.json').replace('\\', '/')
 os.makedirs(default_loc, exist_ok=True)
 log_dir = os.path.abspath('/tmp/rsudp')
 log_name = 'rsudp.log'
+log_loc = os.path.join(log_dir, log_name)
 os.makedirs(log_dir, exist_ok=True)
 
 # formatter settings
@@ -113,7 +115,7 @@ def init_dirs(odir):
 	return True
 
 
-def start_logging(logname=log_name, testing=False):
+def start_logging(log_name=log_name, testing=False):
 	'''
 	Creates a handler for logging info and warnings to file.
 
@@ -132,7 +134,7 @@ def start_logging(logname=log_name, testing=False):
 	formatter = logging.Formatter(fmt=LOGFORMAT, datefmt=TIME_FORMAT)
 
 	# this initializes logging to file
-	f = logging.FileHandler(os.path.join(log_dir, logname))
+	f = logging.FileHandler(os.path.join(log_dir, log_name))
 	f.setLevel('INFO')
 	f.setFormatter(formatter)
 	# warnings also go to file
@@ -171,6 +173,21 @@ def add_debug_handler(testing=False):
 	s.setFormatter(termformatter)
 	logging.getLogger('main').addHandler(s)
 	return True
+
+
+def get_scap_dir():
+	'''
+	This function returns the screen capture directory from the init function.
+	This allows the variable to be more threadsafe.
+
+	.. code-block:: python
+
+		>>> get_scap_dir()
+		'/home/pi/rsudp/screenshots/'
+
+	:return: the path of the screenshot directory
+	'''
+	return scap_dir
 
 
 def printM(msg, sender='', announce=False):

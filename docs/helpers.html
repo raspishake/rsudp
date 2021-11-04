@@ -336,6 +336,59 @@ contains a valid <a class="reference external" href="https://docs.obspy.org/pack
 </dd></dl>
 
 <dl class="py function">
+<dt id="rsudp.helpers.ep_cat_log">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">ep_cat_log</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.ep_cat_log" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 1.0.3.</span></p>
+</div>
+<p>This function uses a posix system’s <code class="docutils literal notranslate"><span class="pre">cat</span></code> command to print messages in
+the rsudp log file. It is provided for convenience only.</p>
+<p>It is accessible via the console command <code class="docutils literal notranslate"><span class="pre">rs-log</span></code> on posix (Linux, MacOS)
+style operating systems.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="rsudp.helpers.ep_edit_settings">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">ep_edit_settings</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.ep_edit_settings" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 1.0.3.</span></p>
+</div>
+<p>This function calls the system’s default text editor to open the settings
+file for editing. It is provided for convenience only.
+Advanced users may prefer to add an alias in place of this function.
+The alias <strong>should</strong> override the entrypoint command set in rsudp’s
+<code class="docutils literal notranslate"><span class="pre">setup.py</span></code>.</p>
+<p>On Linux and MacOS, adding an alias may look like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># add the alias definition to the aliases file</span>
+<span class="nb">echo</span> <span class="s2">&quot;alias rsudp-settings=&#39;nano ~/.config/rsudp/rsudp_settings.json&#39;&quot;</span> &gt;&gt; .bash_aliases
+<span class="c1"># then reload the console</span>
+bash
+</pre></div>
+</div>
+<p>To add an alias on Windows via the command prompt is much more difficult.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function has been tested on multiple operating systems, but
+because each system’s functionality and defaults may be different,
+proper operation cannot be not guaranteed.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="rsudp.helpers.ep_tailf_log">
+<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">ep_tailf_log</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.ep_tailf_log" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 1.0.3.</span></p>
+</div>
+<p>This function uses a the system’s follow command to follow new
+messages added to the log file. It is provided for convenience only.
+is the equivalent of <code class="docutils literal notranslate"><span class="pre">tail</span> <span class="pre">-f</span> <span class="pre">/tmp/rsudp/rsudp.log</span></code> on Linux/MacOS
+and <code class="docutils literal notranslate"><span class="pre">Get-Content</span> <span class="pre">-Path</span> <span class="pre">&quot;C:/tmp/rsudp/rsudp.log&quot;</span> <span class="pre">-Wait</span></code> on Windows.</p>
+<p>It is accessible via the console command <code class="docutils literal notranslate"><span class="pre">rs-tailf</span></code>.</p>
+<p>The function will run until it receives a keyboard interrupt (CTRL+C).</p>
+</dd></dl>
+
+<dl class="py function">
 <dt id="rsudp.helpers.fsec">
 <code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">fsec</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ti</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.fsec" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -424,22 +477,6 @@ and <code class="docutils literal notranslate"><span class="pre">IMGPATH</span><
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>the time embedded in the message</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="rsudp.helpers.get_scap_dir">
-<code class="sig-prename descclassname">rsudp.helpers.</code><code class="sig-name descname">get_scap_dir</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.get_scap_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function returns the screen capture directory from the init function.
-This allows the variable to be more threadsafe.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_scap_dir</span><span class="p">()</span>
-<span class="go">&#39;/home/pi/rsudp/screenshots/&#39;</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>the path of the screenshot directory</p>
 </dd>
 </dl>
 </dd></dl>

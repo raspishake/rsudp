@@ -22,6 +22,10 @@ By default, the rsudp settings file will live in :bash:`$HOME/.config/rsudp/rsud
 where :bash:`$HOME` is your home directory (often shortened to :bash:`~/`).
 To output default settings to a different location, see :ref:`running-manually`.
 
+For convenience, you can use rsudp's built-in :bash:`rs-settings` command
+(:func:`rsudp.helpers.edit_settings`) to call your system's default editor to edit the settings
+file.
+
 
 :code:`settings` (general settings)
 *************************************************
@@ -40,8 +44,10 @@ The directory specified here will be created if it doesn't already exist.
 :code:`plot` (live data plot)
 *************************************************
 
-:json:`"plot"` controls :class:`rsudp.c_plot.Plot`, the thread containing the GUI plotting algorithm.
-This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and display a spectrogram beneath each.
+:json:`"plot"` controls :class:`rsudp.c_plot.Plot`, the thread containing the GUI plotting
+algorithm.
+This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and
+display a spectrogram beneath each.
 
 By default the plotted :json:`"duration"` in seconds is :json:`30`.
 The plot will refresh at most once per second, but slower processors may take longer.

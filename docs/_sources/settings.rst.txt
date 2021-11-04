@@ -22,6 +22,10 @@ By default, the rsudp settings file will live in :bash:`$HOME/.config/rsudp/rsud
 where :bash:`$HOME` is your home directory (often shortened to :bash:`~/`).
 To output default settings to a different location, see :ref:`running-manually`.
 
+For convenience, you can use rsudp's built-in :bash:`rs-settings` command
+(:func:`rsudp.helpers.edit_settings`) to call your system's default editor to edit the settings
+file.
+
 
 :code:`settings` (general settings)
 *************************************************
@@ -40,8 +44,10 @@ The directory specified here will be created if it doesn't already exist.
 :code:`plot` (live data plot)
 *************************************************
 
-:json:`"plot"` controls :class:`rsudp.c_plot.Plot`, the thread containing the GUI plotting algorithm.
-This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and display a spectrogram beneath each.
+:json:`"plot"` controls :class:`rsudp.c_plot.Plot`, the thread containing the GUI plotting
+algorithm.
+This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and
+display a spectrogram beneath each.
 
 By default the plotted :json:`"duration"` in seconds is :json:`30`.
 The plot will refresh at most once per second, but slower processors may take longer.
@@ -202,11 +208,11 @@ For a very quiet station placed atop bedrock:
 Classroom demonstrations
 """""""""""""""""""""""""""""""""""
 
-For a classroom looking to detect jumps but not necessarily earthquakes is below.
-The main difference here is that there is no bandpass filter applied to the signal
-before it is put into the STA/LTA algorithm, which changes the calculation needed
-for exceedence of the threshold. Adjust the :json:`"threshold"` downward, closer to 
-:json:`1.7` if :json:`1.8` is too high.
+For a classroom looking to detect jumps but not necessarily earthquakes, start with
+the settings below. The main difference here is that there is no bandpass filter
+applied to the signal before it is put into the STA/LTA algorithm, which changes
+the calculation needed for exceedence of the threshold. Adjust the
+:json:`"threshold"` downward, closer to :json:`1.7` if :json:`1.8` is too high.
 
 .. code-block::
 
@@ -634,12 +640,12 @@ By default, the settings are as follows:
         "channels": ["all"]},
     "plot": {
         "enabled": true,
-        "duration": 30,
+        "duration": 90,
         "spectrogram": true,
         "fullscreen": false,
         "kiosk": false,
         "eq_screenshots": false,
-        "channels": ["HZ", "HDF"],
+        "channels": ["all"],
         "deconvolve": true,
         "units": "CHAN"},
     "forward": {
@@ -654,10 +660,10 @@ By default, the settings are as follows:
         "channel": "HZ",
         "sta": 6,
         "lta": 30,
-        "threshold": 1.7,
-        "reset": 1.6,
-        "highpass": 0,
-        "lowpass": 50,
+        "threshold": 3.95,
+        "reset": 0.9,
+        "highpass": 0.8,
+        "lowpass": 9,
         "deconvolve": false,
         "units": "VEL"},
     "alertsound": {

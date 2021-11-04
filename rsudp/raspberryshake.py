@@ -1,5 +1,5 @@
 import numpy as np
-import sys, os, platform
+import os, platform
 import socket as s
 import signal
 from obspy import UTCDateTime

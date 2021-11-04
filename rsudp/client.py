@@ -5,7 +5,7 @@ import time
 import json
 import traceback
 from queue import Queue
-from rsudp import printM, printW, printE, default_loc, init_dirs, output_dir, add_debug_handler, start_logging
+from rsudp import printM, printW, printE, default_loc, init_dirs, settings_loc, add_debug_handler, start_logging
 from rsudp import COLOR
 import rsudp.helpers as H
 import rsudp.test as T
@@ -369,7 +369,6 @@ def main():
 	Loads settings to start the main client.
 	Supply -h from the command line to see help text.
 	'''
-	settings_loc = os.path.join(default_loc, 'rsudp_settings.json').replace('\\', '/')
 
 	hlp_txt='''
 ###########################################

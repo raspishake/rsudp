@@ -1,6 +1,8 @@
 :py:data:`rsudp.entry_points` (convenience fx)
 =====================================================
 
+.. versionadded:: 1.0.3
+
 These are some convenience functions for editing rsudp's settings and
 monitoring log output.
 

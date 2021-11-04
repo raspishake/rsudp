@@ -6,10 +6,11 @@ from rsudp import COLOR, log_loc, settings_loc
 
 def ep_edit_settings():
 	'''
-	.. versionadded:: 1.0.3
-
 	This function calls the system's default text editor to open the settings
 	file for editing. It is provided for convenience only.
+
+	This function is accessible via the console command ``rs-settings``.
+
 	Advanced users may prefer to add an alias in place of this function.
 	The alias **should** override the entrypoint command set in rsudp's
 	``setup.py``.
@@ -23,7 +24,8 @@ def ep_edit_settings():
 		# then reload the console
 		bash
 
-	To add an alias on Windows via the command prompt is much more difficult.
+	To add an alias on Windows via the command prompt is much more difficult,
+	so the method is not provided here.
 
 	.. note::
 
@@ -44,31 +46,39 @@ def ep_edit_settings():
 
 def ep_cat_log():
 	'''
-	.. versionadded:: 1.0.3
-
 	This function uses a posix system's ``cat`` command to print messages in
 	the rsudp log file. It is provided for convenience only.
 
 	It is accessible via the console command ``rs-log`` on posix (Linux, MacOS)
 	style operating systems.
+
+	.. note::
+
+		This function is the equivalent of ``cat /tmp/rsudp/rsudp.log`` on
+		Linux/MacOS and ``type "C:/tmp/rsudp/rsudp.log"`` on
+		Windows.
 	'''
 	if os.name == 'posix':
 		subprocess.call(('cat', log_loc))
 	else:
-		print('This command is only available on posix (Linux, MacOS) machines.')
+		subprocess.call(('type', '"' + log_loc + '"'))
 
 def ep_tailf_log():
 	'''
-	.. versionadded:: 1.0.3
-
 	This function uses a the system's follow command to follow new
 	messages added to the log file. It is provided for convenience only.
-	is the equivalent of ``tail -f /tmp/rsudp/rsudp.log`` on Linux/MacOS
-	and ``Get-Content -Path "C:/tmp/rsudp/rsudp.log" -Wait`` on Windows.
 
-	It is accessible via the console command ``rs-tailf``.
+	This function is accessible via the console command ``rs-tailf``.
 
-	The function will run until it receives a keyboard interrupt (CTRL+C).
+	The function will run until it receives a keyboard interrupt
+	(:kbd:`Ctrl`\ +\ :kbd:`C`).
+
+	.. note::
+
+		This function is the equivalent of ``tail -f /tmp/rsudp/rsudp.log`` on
+		Linux/MacOS and ``Get-Content -Path "C:/tmp/rsudp/rsudp.log" -Wait`` on
+		Windows.
+
 	'''
 	if os.name == 'posix':
 		try:
@@ -82,6 +92,6 @@ def ep_tailf_log():
 		try:
 			print('Entering log follow mode.')
 			print('New log messages will be printed until the console receives an interrupt (CTRL+C to end).')
-			subprocess.call(('Get-Content', '-Path', '"C:/tmp/rsudp/rsudp.log"', '-Wait'))
+			subprocess.call(('Get-Content', '-Path', '"' + log_loc + '"', '-Wait'))
 		except Exception as e:
 			print('This function is not available on Windows. Error: %s' % (e))

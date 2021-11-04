@@ -119,6 +119,7 @@
 <li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.entry_points</span></code> (convenience functions)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Clients</span></p>
 <ul>
@@ -266,10 +267,13 @@ systemctl --user start rsudp.service
 </pre></div>
 </div>
 <p>rsudp should start within about 30 seconds.
-You can monitor the program’s output in real time by doing the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tail -n <span class="m">30</span> -f /tmp/rsudp/rsudp.log
+You can monitor the program’s output in real time by entering the following command
+(source function: <a class="reference internal" href="entry_points.html#rsudp.entry_points.ep_tailf_log" title="rsudp.entry_points.ep_tailf_log"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.entry_points.ep_tailf_log()</span></code></a>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rs-tailf
 </pre></div>
 </div>
+<p>Which is the equivalent of <code class="docutils literal notranslate"><span class="pre">tail</span> <span class="pre">-f</span> <span class="pre">/tmp/rsudp/rsudp.log</span></code> on Linux/MacOS
+and <code class="docutils literal notranslate"><span class="pre">Get-Content</span> <span class="pre">-Path</span> <span class="pre">&quot;C:/tmp/rsudp/rsudp.log&quot;</span> <span class="pre">-Wait</span></code> on Windows.</p>
 <p>If it does start correctly, you can enable the daemon to run permanently with this command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>systemctl --user <span class="nb">enable</span> rsudp.service
 </pre></div>

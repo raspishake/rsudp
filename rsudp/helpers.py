@@ -1,6 +1,5 @@
 import rsudp.raspberryshake as rs
 from rsudp import COLOR, printM, printW
-import rsudp
 import os
 import json
 
@@ -40,12 +39,12 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
     "channels": ["all"]},
 "plot": {
     "enabled": true,
-    "duration": 30,
+    "duration": 90,
     "spectrogram": true,
     "fullscreen": false,
     "kiosk": false,
     "eq_screenshots": false,
-    "channels": ["HZ", "HDF"],
+    "channels": ["all"],
     "deconvolve": true,
     "units": "CHAN"},
 "forward": {
@@ -60,10 +59,10 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
     "channel": "HZ",
     "sta": 6,
     "lta": 30,
-    "threshold": 1.7,
-    "reset": 1.6,
-    "highpass": 0,
-    "lowpass": 50,
+    "threshold": 3.95,
+    "reset": 0.9,
+    "highpass": 0.8,
+    "lowpass": 9,
     "deconvolve": false,
     "units": "VEL"},
 "alertsound": {
@@ -390,21 +389,6 @@ def get_msg_path(msg):
 	return msg.decode('utf-8').split(' ')[2]
 
 
-def get_scap_dir():
-	'''
-	This function returns the screen capture directory from the init function.
-	This allows the variable to be more threadsafe.
-
-	.. code-block:: python
-
-		>>> get_scap_dir()
-		'/home/pi/rsudp/screenshots/'
-
-	:return: the path of the screenshot directory
-	'''
-	return rsudp.scap_dir
-
-
 def deconv_vel_inst(self, trace, output):
 	'''
 	.. role:: pycode(code)
@@ -558,4 +542,3 @@ def resolve_extra_text(extra_text, max_len, sender='helpers'):
 			extra_text = extra_text[:allowable_len]
 
 		return ' %s' % (extra_text)
-

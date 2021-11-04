@@ -114,6 +114,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entrypoints.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.entrypoints</span></code> (convenience functions)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Clients</span></p>
 <ul>
@@ -261,6 +262,22 @@ it is formatted using formatException() and appended to the message.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt id="rsudp.__init__.get_scap_dir">
+<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">get_scap_dir</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.get_scap_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function returns the screen capture directory from the init function.
+This allows the variable to be more threadsafe.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_scap_dir</span><span class="p">()</span>
+<span class="go">&#39;/home/pi/rsudp/screenshots/&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the path of the screenshot directory</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="rsudp.__init__.init_dirs">
 <code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">init_dirs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">odir</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.init_dirs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the write directories if they do not already exist.</p>
@@ -331,7 +348,7 @@ it is formatted using formatException() and appended to the message.</p>
 
 <dl class="py function">
 <dt id="rsudp.__init__.start_logging">
-<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">start_logging</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logname</span><span class="o">=</span><span class="default_value">'rsudp.log'</span></em>, <em class="sig-param"><span class="n">testing</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.start_logging" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rsudp.__init__.</code><code class="sig-name descname">start_logging</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">log_name</span><span class="o">=</span><span class="default_value">'rsudp.log'</span></em>, <em class="sig-param"><span class="n">testing</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.__init__.start_logging" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a handler for logging info and warnings to file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

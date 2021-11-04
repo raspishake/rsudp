@@ -68,11 +68,15 @@ Next, execute the following lines:
     systemctl --user start rsudp.service
 
 rsudp should start within about 30 seconds.
-You can monitor the program's output in real time by doing the following command:
+You can monitor the program's output in real time by entering the following command
+(source function: :func:`rsudp.entry_points.ep_tailf_log`):
 
 .. code-block:: bash
 
-    tail -n 30 -f /tmp/rsudp/rsudp.log
+    rs-tailf
+
+Which is the equivalent of ``tail -f /tmp/rsudp/rsudp.log`` on Linux/MacOS
+and ``Get-Content -Path "C:/tmp/rsudp/rsudp.log" -Wait`` on Windows.
 
 If it does start correctly, you can enable the daemon to run permanently with this command:
 

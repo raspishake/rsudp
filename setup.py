@@ -25,6 +25,9 @@ setuptools.setup(
             'rs-client=rsudp.client:main',
             'rs-test=rsudp.client:test',
             'packetize=rsudp.packetize:main',
+            'rs-settings=rsudp.entry_points:ep_edit_settings',
+            'rs-log=rsudp.entry_points:ep_cat_log',
+            'rs-tailf=rsudp.entry_points:ep_tailf_log',
             ],
     },
     classifiers=[

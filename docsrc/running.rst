@@ -94,7 +94,7 @@ Quitting
 *************************************************
 
 You can force-stop rsudp in all operating systems by either closing the plot window (if open)
-or by pressing ``Ctrl+C`` with the terminal window in focus.
+or by pressing :kbd:`Ctrl`\ +\ :kbd:`C` with the terminal window in focus.
 
 
 `Back to top ↑ <#top>`_

@@ -40,14 +40,14 @@ protocol (UDP) packets, taking the opportunity to exploit the existence of this
 streaming data was obvious.
 
 While the plotting may be the centerpiece of the program, perhaps the most
-useful aspect of rsudp for researchers is its ability to monitor sudden motion
+useful aspect of `rsudp` for researchers is its ability to monitor sudden motion
 and trigger various actions when events are detected. This software's ability
 to monitor data and trigger alerts with little processing overhead could be
-critical to monitoring units in the field. Additionally, rsudp was designed for
+critical to monitoring units in the field. Additionally, `rsudp` was designed for
 extensibility, meaning that it leaves room for users to add their own code to
 be run when events are detected. The demands of real-time seismic processing
 require that calculations must be made quickly and remain stable for weeks or
-months without user intervention. rsudp aims to achieve both of these things,
+months without user intervention. `rsudp` aims to achieve both of these things,
 maintaining a codebase lean enough to run on Raspberry Pi but intuitive enough
 that users can learn the theory of real time continuous data processing and
 contribute code of their own. Programs that do similar tasks are usually not as

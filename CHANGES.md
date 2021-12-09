@@ -1,4 +1,7 @@
 # Changelog
+## changes in 1.1.0
+- changing version tag to reflect peer review status, and creating Zenodo record
+
 ## changes in 1.0.3
 - changed matplotlib pin to be `<3.2` rather than `==3.1.1` to address [#21](https://github.com/raspishake/rsudp/issues/21)
 - modified logos

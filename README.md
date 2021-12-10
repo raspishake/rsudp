@@ -1,7 +1,7 @@
 ![Raspberry Shake event logo](https://raw.githubusercontent.com/raspishake/rsudp/master/docs/_static/logo.png)
 # rsudp
 ### Continuous sudden motion and visual monitoring of Raspberry Shake data
-*Written by Ian Nesbitt (@iannesbitt) and Richard Boaz (@ivor)*
+*Written by Ian Nesbitt (@iannesbitt), Richard Boaz, and Justin Long (@crockpotveggies)*
 
 [![PyPI](https://img.shields.io/pypi/v/rsudp)](https://pypi.org/project/rsudp/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/rsudp)](https://pypi.org/project/rsudp/)
@@ -10,11 +10,16 @@
 [![Build Status](https://scrutinizer-ci.com/g/raspishake/rsudp/badges/build.png?b=master)](https://scrutinizer-ci.com/g/raspishake/rsudp/build-status/master)
 [![Code Coverage](https://scrutinizer-ci.com/g/raspishake/rsudp/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/raspishake/rsudp/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/raspishake/rsudp/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/raspishake/rsudp/?branch=master)
-[![JOSS Publication Status](https://joss.theoj.org/papers/11e2afeb2d45da49b4092e8311c8f8a4/status.svg)](https://joss.theoj.org/papers/11e2afeb2d45da49b4092e8311c8f8a4)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.02565/status.svg)](https://doi.org/10.21105/joss.02565)
 
 `rsudp` is a tool for receiving and interacting with data casts from [Raspberry Shake](https://raspberryshake.org) personal seismographs and Raspberry Boom pressure transducer instruments.
 
-`rsudp` has [full documentation here](https://raspishake.github.io/rsudp/). We also have [tutorial instructions](https://raspishake.github.io/rsudp/index.html#tutorial) to install, set up, and run rsudp there. Additionally, our documentation features [YouTube walkthroughs](https://raspishake.github.io/rsudp/youtube.html), [notes for contributors](https://raspishake.github.io/rsudp/contributing.html), a brief [Developer's guide](https://raspishake.github.io/rsudp/theory.html), and [module documentation](https://raspishake.github.io/rsudp/#code-documentation).
+`rsudp` has [full documentation here](https://raspishake.github.io/rsudp/). We also have [tutorial instructions](https://raspishake.github.io/rsudp/index.html#tutorial) to install, set up, and run `rsudp` there. Additionally, our documentation features [YouTube walkthroughs](https://raspishake.github.io/rsudp/youtube.html), [notes for contributors](https://raspishake.github.io/rsudp/contributing.html), a brief [Developer's guide](https://raspishake.github.io/rsudp/theory.html), and [module documentation](https://raspishake.github.io/rsudp/#code-documentation).
+
+We now have [a paper](https://doi.org/10.21105/joss.02565) published in The Journal of Open Source Software! You can reference `rsudp` using the following citation:
+
+> Nesbitt et al., (2021). rsudp: A Python package for real-time seismic monitoring with Raspberry Shake instruments. Journal of Open Source Software, 6(68), 2565, https://doi.org/10.21105/joss.02565
+
 
 `rsudp` contains ten main features:
 1. **Alert** - an earthquake/sudden motion alert trigger, complete with a bandpass filter and stream deconvolution capabilities

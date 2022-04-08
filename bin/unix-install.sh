@@ -199,9 +199,9 @@ if [ -z ${conda_exists+x} ]; then
 fi
 
 if [[ "$arch" == "armv"* ]]; then
-  env_install="conda create -n rsudp python=3.6.6 numpy matplotlib'<3.2' future scipy lxml cffi sqlalchemy cryptography -y"
+  env_install="conda create -n rsudp python=3.6.6 numpy matplotlib=3.1.3 future scipy lxml cffi sqlalchemy cryptography -y"
 else
-  env_install="conda create -n rsudp python=3.7.4 matplotlib'<3.2' numpy=1.16.4 future scipy lxml sqlalchemy cryptography obspy -y"
+  env_install="conda create -n rsudp python=3.7.4 matplotlib=3.1.3 numpy=1.16.4 future scipy lxml sqlalchemy cryptography obspy -y"
 fi
 
 # check for conda forge channel; if it's not there add it

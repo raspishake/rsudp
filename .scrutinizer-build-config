@@ -33,7 +33,7 @@ build:
                     - rs-client -d default
             tests:
                 before:
-                    - pip install -U pylint astroid
+                    - pip install -U pylint astroid coverage
                 override:
                     - py-scrutinizer-run
                     -

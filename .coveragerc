@@ -2,7 +2,7 @@
 [run]
 branch = False
 command_line = './runtests'
-concurrency = 'thread'
+concurrency = thread
 parallel = True
 omit =
     # omit anything in a .local directory anywhere

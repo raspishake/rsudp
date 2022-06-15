@@ -23,17 +23,19 @@ build:
                     - $HOME/miniconda3/bin/conda update conda -y
                     - . $HOME/miniconda3/etc/profile.d/conda.sh
                     - conda config --append channels conda-forge
-                    - conda create -n rsudp python=3.7.4 matplotlib=3.1.1 numpy=1.16.4 future scipy lxml sqlalchemy obspy coverage -y
+                    - conda create -n rsudp python=3.7.4 numpy=1.16.4 future scipy lxml sqlalchemy coverage -y
                     - conda activate rsudp
-                    - cd $CDIR
-                    - pip install .
+                    - pip install -U pip
             project_setup:
                 override:
+                    - cd $CDIR
+                    - pip install .
                     - rs-client -d default
             tests:
+                before:
+                    - pip install -U pylint astroid
                 override:
                     - py-scrutinizer-run
-                    -
                         command: pylint-run
                         use_website_config: true
                     - command: 'coverage run; coverage combine'

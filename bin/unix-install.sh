@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ver="v0.3"
+yr="2022"
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." >/dev/null 2>&1 && pwd )" # current directory
 arch=$(uname -m)    # machine hardware 
 os=$(uname -s)      # kernel name
@@ -27,7 +28,7 @@ settings="$config/rsudp_settings.json"  # settings file
 
 echo "--------------------------------------------"
 echo "Raspberry Shake UDP client installer $ver"
-echo "Ian Nesbitt, Raspberry Shake S.A., 2019"
+echo "Ian Nesbitt, Raspberry Shake S.A., $yr"
 echo "--------------------------------------------"
 echo "Please follow instructions in prompts."
 read -rp $'Press Enter to continue...\n'
@@ -200,9 +201,9 @@ if [ -z ${conda_exists+x} ]; then
 fi
 
 if [[ "$arch" == "armv"* ]]; then
-  env_install="conda create -n rsudp python=3.6.6 numpy future scipy lxml cffi sqlalchemy cryptography -y"
+  env_install="conda create -n rsudp python=3 numpy future scipy lxml cffi sqlalchemy cryptography -y"
 else
-  env_install="conda create -n rsudp python=3.7.4 numpy=1.16.4 future scipy lxml sqlalchemy cryptography -y"
+  env_install="conda create -n rsudp python=3 numpy=1.16.4 future scipy lxml sqlalchemy cryptography -y"
 fi
 
 # check for conda forge channel; if it's not there add it

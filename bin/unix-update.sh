@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ver="v0.3"
+yr="2022"
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." >/dev/null 2>&1 && pwd )" # current directory
 arch=$(uname -m)    # machine hardware 
 os=$(uname -s)      # kernel name
@@ -18,7 +19,7 @@ settings="$config/rsudp_settings.json"  # settings file
 
 echo "--------------------------------------------"
 echo "Raspberry Shake UDP client updater $ver"
-echo "Ian Nesbitt, Raspberry Shake S.A., 2019"
+echo "Ian Nesbitt, Raspberry Shake S.A., $yr"
 echo "--------------------------------------------"
 read -rp $'Press Enter to continue...\n'
 

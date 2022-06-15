@@ -60,11 +60,11 @@ if exist %conda_dir%\envs\rsudp (
     echo Removing old environment...
 	rd /s/q "%conda_dir%\envs\rsudp"
 	echo Reinstalling rsudp conda environment...
-	call %conda% create -n rsudp python=3 matplotlib=3.1.1 numpy=1.16.4 future scipy lxml sqlalchemy obspy -y
+	call %conda% create -n rsudp python=3 numpy=1.16.4 future scipy lxml sqlalchemy obspy -y
   )
 ) else (
   echo Creating and installing rsudp conda environment...
-  call %conda% create -n rsudp python=3 matplotlib=3.1.1 numpy=1.16.4 future scipy lxml sqlalchemy obspy -y
+  call %conda% create -n rsudp python=3 numpy=1.16.4 future scipy lxml sqlalchemy obspy -y
 )
 
 if not exist %conda_dir%\envs\rsudp (

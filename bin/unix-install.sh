@@ -238,7 +238,6 @@ fi
 if [ -d $prefix/envs/rsudp ]; then
   echo "Activating rsudp environment..." &&
   conda activate rsudp && echo "Success: rsudp environment activated." &&
-  echo "Installing matplotlib version: '$mpl'" && conda install matplotlib$mpl -y &&
   echo "Upgrading pip..." && pip install -U pip &&
   echo "Installing rsudp..." &&
   pip install $dir && success=1

@@ -1,0 +1,10 @@
+Disclaimer Regarding Earthquake Detection and Alerts
+
+  It is extremely important that you do not rely on this code to save life
+or property. Neither the authors of this software nor OSOP Raspberry Shake
+are liable for earthquake detection false positives, false negatives,
+errors running the Alert module, or any other part of this library; it is
+free software provided "as-is" and is meant for hobby and non-professional
+notification use only. If you need professional software meant to provide
+warning that saves life or property please contact Raspberry Shake
+directly or look elsewhere.

@@ -36,6 +36,7 @@ build:
                     - pip install -U pylint astroid
                 override:
                     - py-scrutinizer-run
+                    -
                         command: pylint-run
                         use_website_config: true
                     - command: 'coverage run; coverage combine'

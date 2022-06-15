@@ -2,6 +2,8 @@
 ## changes in 1.1.1
 - attempted to fix broken requirements in install script
 - fixed small typos in paper
+- fixed coverage tests in scrutinizer CI
+- reset license to GPLv3 and moved disclaimer to its own file
 
 ## changes in 1.1.0
 - changing version tag to reflect peer review status, and creating Zenodo record

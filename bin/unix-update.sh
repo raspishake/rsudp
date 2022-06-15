@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ver="v0.2"
+ver="v0.3"
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." >/dev/null 2>&1 && pwd )" # current directory
 arch=$(uname -m)    # machine hardware 
 os=$(uname -s)      # kernel name
@@ -104,6 +104,7 @@ fi
 if [ -d $prefix/envs/rsudp ]; then
   echo "Activating rsudp environment..." &&
   conda activate rsudp && echo "Success: rsudp environment activated." &&
+  echo "Updating pip..." && pip install -U pip &&
   echo "Installing rsudp..." &&
   pip install $dir && success=1
 else

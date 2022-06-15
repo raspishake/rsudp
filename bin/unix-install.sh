@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ver="v0.2"
+ver="v0.3"
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." >/dev/null 2>&1 && pwd )" # current directory
 arch=$(uname -m)    # machine hardware 
 os=$(uname -s)      # kernel name
@@ -10,6 +10,7 @@ tmp="/tmp"          # temporary directory for install file
 exe="conda-install.sh" # install file name
 tmp_exe="$tmp/$exe" # install file loc/name
 conda="conda"       # anaconda executable or alias
+mpl="<3.2"          # matplotlib version
 macos_exe="Miniconda3-4.7.12-MacOSX-x86_64.sh"
 linux_exe="Miniconda3-4.7.12-Linux-x86_64.sh"
 arm_exe="Berryconda3-2.0.0-Linux-armv7l.sh"
@@ -199,9 +200,9 @@ if [ -z ${conda_exists+x} ]; then
 fi
 
 if [[ "$arch" == "armv"* ]]; then
-  env_install="conda create -n rsudp python=3.6.6 numpy matplotlib=3.1.3 future scipy lxml cffi sqlalchemy cryptography -y"
+  env_install="conda create -n rsudp python=3.6.6 numpy future scipy lxml cffi sqlalchemy cryptography -y"
 else
-  env_install="conda create -n rsudp python=3.7.4 matplotlib=3.1.3 numpy=1.16.4 future scipy lxml sqlalchemy cryptography obspy -y"
+  env_install="conda create -n rsudp python=3.7.4 numpy=1.16.4 future scipy lxml sqlalchemy cryptography -y"
 fi
 
 # check for conda forge channel; if it's not there add it
@@ -237,6 +238,8 @@ fi
 if [ -d $prefix/envs/rsudp ]; then
   echo "Activating rsudp environment..." &&
   conda activate rsudp && echo "Success: rsudp environment activated." &&
+  echo "Installing matplotlib version: '$mpl'" && conda install matplotlib$mpl -y &&
+  echo "Upgrading pip..." && pip install -U pip &&
   echo "Installing rsudp..." &&
   pip install $dir && success=1
 else

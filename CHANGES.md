@@ -1,4 +1,8 @@
 # Changelog
+## changes in 1.1.1
+- attempted to fix broken requirements in install script
+- fixed small typos in paper
+
 ## changes in 1.1.0
 - changing version tag to reflect peer review status, and creating Zenodo record
 

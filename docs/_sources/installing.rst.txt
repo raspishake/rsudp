@@ -135,13 +135,17 @@ You can follow these steps to both install and update rsudp.
 
 .. |github_download| raw:: html
 
-   <a href="https://github.com/raspishake/rsudp/releases/latest/download/rsudp.zip" target="_blank">Download</a>
+   <a href="https://github.com/raspishake/rsudp/archive/refs/heads/master.zip" target="_blank">Download</a>
 
 .. |github_latest| raw:: html
 
    <a href="https://github.com/raspishake/rsudp/releases/latest/" target="_blank">latest release</a>
 
-1. |github_download| and unzip the software from the |github_latest| in the GitHub repository.
+.. |github_homepage| raw:: html
+
+   <a href="https://github.com/raspishake/rsudp/" target="_blank">GitHub landing page</a>
+
+1. |github_download| and unzip the software from the |github_latest| in the GitHub repository (also available by clicking Code > Download ZIP from the |github_homepage|).
 2. Double click the file named ``win-install-rsudp.bat`` in the unzipped folder. You may need administrator privileges for this step.
 
 The install will take several minutes. When it is done, you will have a new settings file at

@@ -118,6 +118,8 @@ call %conda% activate rsudp && echo Success: rsudp environment activated. & set 
 
 :: Install rsudp.
 if defined success (
+  echo Installing PyQt5...
+  pip install pyqt5
   echo Installing rsudp...
   pip install "%cd%" && echo rsudp has installed successfully! || set success=
 )

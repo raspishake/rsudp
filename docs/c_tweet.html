@@ -20,11 +20,21 @@
   <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -64,7 +74,7 @@
             
             
               <div class="version">
-                1.0.3
+                1.1.1
               </div>
             
           
@@ -94,7 +104,7 @@
 <li class="toctree-l1"><a class="reference internal" href="installing.html">2. Installing rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal"><span class="pre">systemctl</span></code> daemon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
@@ -111,38 +121,39 @@
 </ul>
 <p class="caption"><span class="caption-text">Library</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="docutils literal"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="docutils literal"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="docutils literal"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="docutils literal"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="docutils literal"><span class="pre">rsudp.client</span></code> (central module)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="docutils literal"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Producer and Consumer</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="docutils literal"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="docutils literal"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Sub-Consumers</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="docutils literal"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="docutils literal"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="docutils literal"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="docutils literal"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="docutils literal"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="docutils literal"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="docutils literal"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="docutils literal"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="docutils literal"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Testing modules</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="docutils literal"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="docutils literal"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="docutils literal"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="docutils literal"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
 </ul>
 
             
@@ -188,7 +199,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</li>
+      <li><code class="docutils literal"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -208,19 +219,19 @@
            <div itemprop="articleBody">
             
   <div class="section" id="module-rsudp.c_tweet">
-<span id="rsudp-c-tweet-twitter-alerts"></span><h1><a class="reference internal" href="#module-rsudp.c_tweet" title="rsudp.c_tweet"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code></a> (Twitter alerts)<a class="headerlink" href="#module-rsudp.c_tweet" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
+<span id="rsudp-c-tweet-twitter-alerts"></span><h1><a class="reference internal" href="#module-rsudp.c_tweet" title="rsudp.c_tweet"><code class="xref py py-data docutils literal"><span class="pre">rsudp.c_tweet</span></code></a> (Twitter alerts)<a class="headerlink" href="#module-rsudp.c_tweet" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
 <dt id="rsudp.c_tweet.Tweeter">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_tweet.</code><code class="sig-name descname">Tweeter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">consumer_key</span></em>, <em class="sig-param"><span class="n">consumer_secret</span></em>, <em class="sig-param"><span class="n">access_token</span></em>, <em class="sig-param"><span class="n">access_token_secret</span></em>, <em class="sig-param"><span class="n">q</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">tweet_images</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">extra_text</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">testing</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_tweet.Tweeter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">rsudp.c_tweet.</code><code class="descname">Tweeter</code><span class="sig-paren">(</span><em>consumer_key</em>, <em>consumer_secret</em>, <em>access_token</em>, <em>access_token_secret</em>, <em>q=False</em>, <em>tweet_images=False</em>, <em>extra_text=False</em>, <em>testing=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_tweet.Tweeter" title="Permalink to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.2: </span>The option to add extra text to tweets using the <code class="code docutils literal notranslate"><span class="pre">&quot;extra_text&quot;</span></code>
+<p><span class="versionmodified">New in version 1.0.2: </span>The option to add extra text to tweets using the <code class="code docutils literal"><span class="pre">&quot;extra_text&quot;</span></code>
 setting in settings files built by this version and later.</p>
 </div>
 <p>Twitter is a social media platform sometimes used for quickly
 distributing public alert information. It is used by many agencies
 including <a href="https://twitter.com/raspishakeq" target="_blank">Raspberry Shake</a>, <a href="https://twitter.com/USGSBigQuakes" target="_blank">USGS</a>, and <a href="https://twitter.com/LastQuake" target="_blank">EMSC</a>.</p>
 <div class="admonition note">
-<p class="admonition-title">Note</p>
+<p class="first admonition-title">Note</p>
 <p>Twitter is more difficult and stricter when it comes to making
 <a href="https://developer.twitter.com/apps" target="_blank">API bots</a> than many services.
 First, you must go through a relatively rigorous process of applying for
@@ -231,27 +242,31 @@ its rules on rate limiting relatively difficult to nail down.
 Generally, the early 2020 rate limit for posting is 300 in a 3-hour span,
 however that can vary depending on whether or not Twitter thinks there is
 suspicious activity coming from your account.</p>
-<p>In general, if you are looking for a simple multi-platform notification
+<p class="last">In general, if you are looking for a simple multi-platform notification
 service, it may be easier and more reliable to use the Telegram service
 instead. rsudp has a telegram module at
-<code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_telegram.Telegram</span></code>. See <a class="reference internal" href="settings.html#setting-up-telegram"><span class="std std-ref">Setting up a Telegram Bot</span></a> for details.</p>
+<code class="xref py py-class docutils literal"><span class="pre">rsudp.c_telegram.Telegram</span></code>. See <a class="reference internal" href="settings.html#setting-up-telegram"><span class="std std-ref">Setting up a Telegram Bot</span></a> for details.</p>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>consumer_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Twitter calls this the “consumer key”</p></li>
-<li><p><strong>consumer_secret</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Twitter calls this the “consumer key secret”</p></li>
-<li><p><strong>access_token</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Twitter calls this the “consumer access token”</p></li>
-<li><p><strong>access_secret</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Twitter calls this the “consumer access secret”</p></li>
-<li><p><strong>tweet_images</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether or not to send images. if False, only alerts will be sent.</p></li>
-<li><p><strong>extra_text</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – 103 additional characters to post as part of the twitter message (longer messages will be truncated).</p></li>
-<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.10)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>consumer_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Twitter calls this the “consumer key”</li>
+<li><strong>consumer_secret</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Twitter calls this the “consumer key secret”</li>
+<li><strong>access_token</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Twitter calls this the “consumer access token”</li>
+<li><strong>access_secret</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Twitter calls this the “consumer access secret”</li>
+<li><strong>tweet_images</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether or not to send images. if False, only alerts will be sent.</li>
+<li><strong>extra_text</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – 103 additional characters to post as part of the twitter message (longer messages will be truncated).</li>
+<li><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.10)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></li>
 </ul>
-</dd>
-</dl>
-<dl class="py method">
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
 <dt id="rsudp.c_tweet.Tweeter.run">
-<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_tweet.Tweeter.run" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_tweet.Tweeter.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads data from the queue and tweets a message if it sees an ALARM or IMGPATH message</p>
 </dd></dl>
 
@@ -259,8 +274,8 @@ instead. rsudp has a telegram module at
 
 <hr class="docutils" />
 <ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
 </ul>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
 </div>
@@ -285,7 +300,7 @@ instead. rsudp has a telegram module at
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2021, Raspberry Shake S.A.
+        &copy; Copyright 2022, Raspberry Shake S.A.
 
     </p>
   </div>

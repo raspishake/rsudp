@@ -20,11 +20,21 @@
   <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -64,7 +74,7 @@
             
             
               <div class="version">
-                1.0.3
+                1.1.1
               </div>
             
           
@@ -94,7 +104,7 @@
 <li class="toctree-l1"><a class="reference internal" href="installing.html">2. Installing rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal"><span class="pre">systemctl</span></code> daemon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
@@ -111,39 +121,39 @@
 </ul>
 <p class="caption"><span class="caption-text">Library</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.entry_points</span></code> (convenience functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="docutils literal"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="docutils literal"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="docutils literal"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="docutils literal"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="docutils literal"><span class="pre">rsudp.client</span></code> (central module)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="docutils literal"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Producer and Consumer</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="docutils literal"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="docutils literal"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Sub-Consumers</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="docutils literal"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="docutils literal"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="docutils literal"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="docutils literal"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="docutils literal"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="docutils literal"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="docutils literal"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="docutils literal"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="docutils literal"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Testing modules</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="docutils literal"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="docutils literal"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="docutils literal"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="docutils literal"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
 </ul>
 
             
@@ -189,7 +199,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</li>
+      <li><code class="docutils literal"><span class="pre">rsudp.c_plot</span></code> (plot data)</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -209,158 +219,171 @@
            <div itemprop="articleBody">
             
   <div class="section" id="rsudp-c-plot-plot-data">
-<h1><a class="reference internal" href="#module-rsudp.c_plot" title="rsudp.c_plot"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code></a> (plot data)<a class="headerlink" href="#rsudp-c-plot-plot-data" title="Permalink to this headline">¶</a></h1>
+<h1><a class="reference internal" href="#module-rsudp.c_plot" title="rsudp.c_plot"><code class="xref py py-data docutils literal"><span class="pre">rsudp.c_plot</span></code></a> (plot data)<a class="headerlink" href="#rsudp-c-plot-plot-data" title="Permalink to this headline">¶</a></h1>
 <div class="figure align-center" id="id1">
 <span id="event-plot"></span><img alt="_images/event.png" src="_images/event.png" />
-<p class="caption"><span class="caption-text">An event recorded on a vertical geophone by rsudp and saved by the plotting module.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">An event recorded on a vertical geophone by rsudp and saved by the plotting module.</span></p>
 </div>
-<span class="target" id="module-rsudp.c_plot"></span><dl class="py class">
+<span class="target" id="module-rsudp.c_plot"></span><dl class="class">
 <dt id="rsudp.c_plot.Plot">
-<em class="property">class </em><code class="sig-prename descclassname">rsudp.c_plot.</code><code class="sig-name descname">Plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">cha</span><span class="o">=</span><span class="default_value">'all'</span></em>, <em class="sig-param"><span class="n">seconds</span><span class="o">=</span><span class="default_value">30</span></em>, <em class="sig-param"><span class="n">spectrogram</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">fullscreen</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">kiosk</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">deconv</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">screencap</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">alert</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">testing</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>GUI plotting algorithm, compatible with both Qt5 and TkAgg backends (see <a class="reference external" href="https://matplotlib.org/api/matplotlib_configuration_api.html#matplotlib.use" title="(in Matplotlib v3.4.3)"><code class="xref py py-func docutils literal notranslate"><span class="pre">matplotlib.use()</span></code></a>).
+<em class="property">class </em><code class="descclassname">rsudp.c_plot.</code><code class="descname">Plot</code><span class="sig-paren">(</span><em>q</em>, <em>cha='all'</em>, <em>seconds=30</em>, <em>spectrogram=True</em>, <em>fullscreen=False</em>, <em>kiosk=False</em>, <em>deconv=False</em>, <em>screencap=False</em>, <em>alert=True</em>, <em>testing=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>GUI plotting algorithm, compatible with both Qt5 and TkAgg backends (see <a class="reference external" href="https://matplotlib.org/stable/api/matplotlib_configuration_api.html#matplotlib.use" title="(in Matplotlib v3.6.0)"><code class="xref py py-func docutils literal"><span class="pre">matplotlib.use()</span></code></a>).
 This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and display a spectrogram beneath each.</p>
-<p>By default the plotted <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“duration”</span></span></code> in seconds is <code class="code json docutils literal notranslate"><span class="literal number integer"><span class="pre">30</span></span></code>.
+<p>By default the plotted <code class="code json docutils literal"><span class="literal string double"><span class="pre">“duration”</span></span></code> in seconds is <code class="code json docutils literal"><span class="literal number integer"><span class="pre">30</span></span></code>.
 The plot will refresh at most once per second, but slower processors may take longer.
 The longer the duration, the more processor power it will take to refresh the plot,
 especially when the spectrogram is enabled.
-To disable the spectrogram, set <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“spectrogram”</span></span></code> to <code class="code json docutils literal notranslate"><span class="keyword constant"><span class="pre">false</span></span></code> in the settings file.
-To put the plot into fullscreen window mode, set <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“fullscreen”</span></span></code> to <code class="code json docutils literal notranslate"><span class="keyword constant"><span class="pre">true</span></span></code>.
-To put the plot into kiosk mode, set <code class="code json docutils literal notranslate"><span class="literal string double"><span class="pre">“kiosk”</span></span></code> to <code class="code json docutils literal notranslate"><span class="keyword constant"><span class="pre">true</span></span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>cha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – channels to plot. Defaults to “all” but can be passed a list of channel names as strings.</p></li>
-<li><p><strong>seconds</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – number of seconds to plot. Defaults to 30.</p></li>
-<li><p><strong>spectrogram</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether to plot the spectrogram. Defaults to True.</p></li>
-<li><p><strong>fullscreen</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether to plot in a fullscreen window. Defaults to False.</p></li>
-<li><p><strong>kiosk</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether to plot in kiosk mode (true fullscreen). Defaults to False.</p></li>
-<li><p><strong>deconv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether to deconvolve the signal. Defaults to False.</p></li>
-<li><p><strong>screencap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether or not to save screenshots of events. Defaults to False.</p></li>
-<li><p><strong>alert</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether to draw the number of events at startup. Defaults to True.</p></li>
-<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.10)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
+To disable the spectrogram, set <code class="code json docutils literal"><span class="literal string double"><span class="pre">“spectrogram”</span></span></code> to <code class="code json docutils literal"><span class="keyword constant"><span class="pre">false</span></span></code> in the settings file.
+To put the plot into fullscreen window mode, set <code class="code json docutils literal"><span class="literal string double"><span class="pre">“fullscreen”</span></span></code> to <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code>.
+To put the plot into kiosk mode, set <code class="code json docutils literal"><span class="literal string double"><span class="pre">“kiosk”</span></span></code> to <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – channels to plot. Defaults to “all” but can be passed a list of channel names as strings.</li>
+<li><strong>seconds</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – number of seconds to plot. Defaults to 30.</li>
+<li><strong>spectrogram</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether to plot the spectrogram. Defaults to True.</li>
+<li><strong>fullscreen</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether to plot in a fullscreen window. Defaults to False.</li>
+<li><strong>kiosk</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether to plot in kiosk mode (true fullscreen). Defaults to False.</li>
+<li><strong>deconv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether to deconvolve the signal. Defaults to False.</li>
+<li><strong>screencap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether or not to save screenshots of events. Defaults to False.</li>
+<li><strong>alert</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether to draw the number of events at startup. Defaults to True.</li>
+<li><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.10)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></li>
 </ul>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ImportError" title="(in Python v3.10)"><strong>ImportError</strong></a> – if the module cannot import either of the Matplotlib Qt5 or TkAgg backends</p>
-</dd>
-</dl>
-<dl class="py method">
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ImportError" title="(in Python v3.10)"><strong>ImportError</strong></a> – if the module cannot import either of the Matplotlib Qt5 or TkAgg backends</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
 <dt id="rsudp.c_plot.Plot.deconvolve">
-<code class="sig-name descname">deconvolve</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.deconvolve" title="Permalink to this definition">¶</a></dt>
+<code class="descname">deconvolve</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.deconvolve" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send the streams to the central library deconvolve function.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="rsudp.c_plot.Plot.figloop">
-<code class="sig-name descname">figloop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.figloop" title="Permalink to this definition">¶</a></dt>
+<code class="descname">figloop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.figloop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Let some time elapse in order for the plot canvas to draw properly.
-Must be separate from <a class="reference internal" href="#rsudp.c_plot.Plot.update_plot" title="rsudp.c_plot.Plot.update_plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_plot()</span></code></a> to avoid a broadcast error early in plotting.</p>
+Must be separate from <a class="reference internal" href="#rsudp.c_plot.Plot.update_plot" title="rsudp.c_plot.Plot.update_plot"><code class="xref py py-func docutils literal"><span class="pre">update_plot()</span></code></a> to avoid a broadcast error early in plotting.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="rsudp.c_plot.Plot.getq">
-<code class="sig-name descname">getq</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.getq" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getq</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.getq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get data from the queue and test for whether it has certain strings.
 ALARM and TERM both trigger specific behavior.
 ALARM messages cause the event counter to increment, and if
-<code class="xref py py-data docutils literal notranslate"><span class="pre">screencap==True</span></code> then aplot image will be saved when the
-event is <code class="xref py py-data docutils literal notranslate"><span class="pre">self.save_pct</span></code> of the way across the plot.</p>
+<code class="xref py py-data docutils literal"><span class="pre">screencap==True</span></code> then aplot image will be saved when the
+event is <code class="xref py py-data docutils literal"><span class="pre">self.save_pct</span></code> of the way across the plot.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="rsudp.c_plot.Plot.handle_close">
-<code class="sig-name descname">handle_close</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">evt</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.handle_close" title="Permalink to this definition">¶</a></dt>
+<code class="descname">handle_close</code><span class="sig-paren">(</span><em>evt</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.handle_close" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handles a plot close event.
 This will trigger a full shutdown of all other processes related to rsudp.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="rsudp.c_plot.Plot.handle_resize">
-<code class="sig-name descname">handle_resize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">evt</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.handle_resize" title="Permalink to this definition">¶</a></dt>
+<code class="descname">handle_resize</code><span class="sig-paren">(</span><em>evt=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.handle_resize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handles a plot window resize event.
 This will allow the plot to resize dynamically.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="rsudp.c_plot.Plot.mainloop">
-<code class="sig-name descname">mainloop</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">i</span></em>, <em class="sig-param"><span class="n">u</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.mainloop" title="Permalink to this definition">¶</a></dt>
-<dd><p>The main loop in the <a class="reference internal" href="#rsudp.c_plot.Plot.run" title="rsudp.c_plot.Plot.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.c_plot.Plot.run()</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – number of plot events without clearing the linecache</p></li>
-<li><p><strong>u</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – queue blocking counter</p></li>
+<code class="descname">mainloop</code><span class="sig-paren">(</span><em>i</em>, <em>u</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.mainloop" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main loop in the <a class="reference internal" href="#rsudp.c_plot.Plot.run" title="rsudp.c_plot.Plot.run"><code class="xref py py-func docutils literal"><span class="pre">rsudp.c_plot.Plot.run()</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – number of plot events without clearing the linecache</li>
+<li><strong>u</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – queue blocking counter</li>
 </ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>number of plot events without clearing the linecache and queue blocking counter</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
-</dd>
-</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">number of plot events without clearing the linecache and queue blocking counter</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="rsudp.c_plot.Plot.qu">
-<code class="sig-name descname">qu</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.qu" title="Permalink to this definition">¶</a></dt>
+<code class="descname">qu</code><span class="sig-paren">(</span><em>u</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.qu" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a queue object and increment the queue counter.
 This is a way to figure out how many channels have arrived in the queue.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>u</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – queue blocking counter</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>queue blocking counter</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>u</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – queue blocking counter</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">queue blocking counter</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="rsudp.c_plot.Plot.run">
-<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.run" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>The heart of the plotting routine.</p>
-<p>Begins by updating the queue to populate a <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy Documentation (1.2.0) v1.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.stream.Stream</span></code></a> object, then setting up the main plot.
+<p>Begins by updating the queue to populate a <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy v1.3.0)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.stream.Stream</span></code></a> object, then setting up the main plot.
 The first time through the main loop, the plot is not drawn. After that, the plot is drawn every time all channels are updated.
 Any plots containing a spectrogram and more than 1 channel are drawn at most every second (1000 ms).
 All other plots are drawn at most every quarter second (250 ms).</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="rsudp.c_plot.Plot.savefig">
-<code class="sig-name descname">savefig</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event_time</span><span class="o">=</span><span class="default_value">UTCDateTime(2021, 11, 4, 21, 36, 5, 345848)</span></em>, <em class="sig-param"><span class="n">event_time_str</span><span class="o">=</span><span class="default_value">'2021-11-04-213605'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.savefig" title="Permalink to this definition">¶</a></dt>
+<code class="descname">savefig</code><span class="sig-paren">(</span><em>event_time=UTCDateTime(2022</em>, <em>10</em>, <em>4</em>, <em>21</em>, <em>28</em>, <em>18</em>, <em>512899)</em>, <em>event_time_str='2022-10-04-212818'</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.savefig" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the figure and puts an IMGPATH message on the master queue.
 This message can be used to upload the image to various services.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>event_time</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy Documentation (1.2.0) v1.2)"><em>obspy.core.utcdatetime.UTCDateTime</em></a>) – Event time as an obspy UTCDateTime object. Defaults to <code class="docutils literal notranslate"><span class="pre">UTCDateTime.now()</span></code>.</p></li>
-<li><p><strong>event_time_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Event time as a string, in the format <code class="docutils literal notranslate"><span class="pre">'%Y-%m-%d-%H%M%S'</span></code>. This is used to set the filename.</p></li>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>event_time</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy v1.3.0)"><em>obspy.core.utcdatetime.UTCDateTime</em></a>) – Event time as an obspy UTCDateTime object. Defaults to <code class="docutils literal"><span class="pre">UTCDateTime.now()</span></code>.</li>
+<li><strong>event_time_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Event time as a string, in the format <code class="docutils literal"><span class="pre">'%Y-%m-%d-%H%M%S'</span></code>. This is used to set the filename.</li>
 </ul>
-</dd>
-</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="rsudp.c_plot.Plot.set_sps">
-<code class="sig-name descname">set_sps</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.set_sps" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_sps</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.set_sps" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get samples per second from the main library.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="rsudp.c_plot.Plot.setup_plot">
-<code class="sig-name descname">setup_plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.setup_plot" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setup_plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.setup_plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets up the plot. Quite a lot of stuff happens in this function.
 Matplotlib backends are not threadsafe, so things are a little weird.
 See code comments for details.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="rsudp.c_plot.Plot.update_plot">
-<code class="sig-name descname">update_plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.update_plot" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_plot.Plot.update_plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Redraw the plot with new data.
 Called on every nth loop after the plot is set up, where n is
 the number of channels times the data packet arrival rate in Hz.
@@ -371,8 +394,8 @@ This has the effect of making the plot update once per second.</p>
 
 <hr class="docutils" />
 <ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
 </ul>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
 </div>
@@ -397,7 +420,7 @@ This has the effect of making the plot update once per second.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2021, Raspberry Shake S.A.
+        &copy; Copyright 2022, Raspberry Shake S.A.
 
     </p>
   </div>

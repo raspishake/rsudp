@@ -172,7 +172,7 @@ General use
 For a station with sudden motion (footsteps nearby occasionally),
 or one atop unconsolidated sediment:
 
-.. code-block::
+.. code-block:: None
 
     "alert": {
         "enabled": true,
@@ -191,7 +191,7 @@ Quiet vault
 
 For a very quiet station placed atop bedrock:
 
-.. code-block::
+.. code-block:: None
 
     "alert": {
         "enabled": true,
@@ -214,7 +214,7 @@ applied to the signal before it is put into the STA/LTA algorithm, which changes
 the calculation needed for exceedence of the threshold. Adjust the
 :json:`"threshold"` downward, closer to :json:`1.7` if :json:`1.8` is too high.
 
-.. code-block::
+.. code-block:: None
 
     "alert": {
         "enabled": true,

@@ -50,24 +50,18 @@ if [ ${conda_exists+x} ]; then
   echo "Found anaconda at $prefix"
   if [ -d $prefix/envs/rsudp ]; then
     rsudp_exists=1
-    update_choice = 'y'
     echo "rsudp environment exists at $prefix/envs/rsudp"
-    read -p "Enter 'y' to update existing rsudp environment and 'n' to reinstall it default is 'y'" update_choice
-    case $update_choice in
-      n|N|No|NO|nO|no)
-        echo "Reinstalling rsudp"
-        rm -rf $prefix/envs/rsudp
-        /bin/bash $dir_name/bin/unix-install.sh
-        ;;
-      y|Yes|YES|YEs|YeS|yes|yEs|yES|yeS)
-        echo "Starting update script."
-        /bin/bash $dir_name/bin/unix-update.sh
-        ;;
-      *)
-        echo "Invalid input starting update script."
-        /bin/bash $dir_name/bin/unix-update.sh 
-        ;;
-    esac
+    read -rp $'Press Enter to continue with update, or type no and press Enter to prevent this...\n' update_choice
+    
+    if [[ "$update_choice" == "no" ]]; then
+      echo "Removing existing rsudp"
+      rm -rf $prefix/envs/rsudp
+      echo "Reinstalling rsudp"
+      /bin/bash $dir_name/bin/unix-install.sh
+    else
+      echo "Starting update script."
+      /bin/bash $dir_name/bin/unix-update.sh
+    fi
   else
     echo "No rsudp environment found."
   fi

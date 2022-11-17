@@ -516,7 +516,7 @@ def get_inventory(sender='get_inventory'):
 			url = 'https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&level=resp&nodata=404&format=xml' % (
 				   net, stn)#, str(UTCDateTime.now()-timedelta(seconds=14400)))
 			inv = read_inventory(url)
-			region = FlinnEngdahl().get_region(inv[0][0].longitude, inv[0][0].latitude)
+			region = FlinnEngdahl().get_region(inv[0][-1].longitude, inv[0][-1].latitude)
 			printM('Inventory fetch successful. Station region is %s' % (region), sender)
 		except (IndexError, HTTPError):
 			printW('No inventory found for %s. Are you forwarding your Shake data?' % stn, sender)

@@ -51,9 +51,9 @@ if [ ${conda_exists+x} ]; then
   if [ -d $prefix/envs/rsudp ]; then
     rsudp_exists=1
     echo "rsudp environment exists at $prefix/envs/rsudp"
-    read -rp $'Press Enter to continue with update, or type no and press Enter to prevent this...\n' update_choice
+    read -rp $'Press Enter to continue with update, or type reinstall and press Enter to reinstall...\n' update_choice
     
-    if [[ "$update_choice" == "no" ]]; then
+    if [[ "$update_choice" == *"reinstall"* ]]; then
       echo "Removing existing rsudp"
       rm -rf $prefix/envs/rsudp
       echo "Reinstalling rsudp"

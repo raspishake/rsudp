@@ -5,6 +5,7 @@
 - fixed coverage tests in scrutinizer CI
 - reset license to GPLv3 and moved disclaimer to its own file
 - fixed [#46](https://github.com/raspishake/rsudp/issues/46) which caused an incorrect Flinn-Engdahl location to be reported for stations with multiple station locations/regions
+- added the option to choose reinstall or upgrade to the install script ([#44](https://github.com/raspishake/rsudp/issues/44) & [#45](https://github.com/raspishake/rsudp/issues/45))
 
 ## changes in 1.1.0
 - changing version tag to reflect peer review status, and creating Zenodo record

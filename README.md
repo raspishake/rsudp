@@ -38,3 +38,18 @@ We now have [a paper](https://doi.org/10.21105/joss.02565) published in The Jour
 ![Earthquake plot recorded on a Raspberry Shake 4D](https://raw.githubusercontent.com/raspishake/rsudp/master/docs/_static/4d-event.png)
 
 (Above) a plot of an earthquake on the four channels of a Raspberry Shake 4D (EHZ---the geophone channel, and EHE, EHN, and ENZ---the accelerometer east, north, and vertical channels).
+
+
+### DISCLAIMER
+
+RSUDP source code and software is provided "as is". No guarantee of functionality, performance, or advertised intent is implicitly or explicitly provided.
+
+This project is free-to-use and free-to-copy, located in the public domain, and is provided in the hope that it may be useful.
+
+Raspberry Shake, S.A., may, from time to time, make updates to the code base, be these bug fixes or new features.  However, the company does not formally support this software / program, nor does it place itself under any obligation to respond to bug reports or new feature requests in any prescribed time frame.
+
+Like all public projects, end-users are encouraged to provide their own bug fixes and new features as they desire: create a new branch, followed by a merge request, to have the code reviewed and folded into the main branch.
+
+We hope you enjoy RSUDP, playing with it, and perhaps even diving into the code to see how it can be made better!
+
+TEAM RS

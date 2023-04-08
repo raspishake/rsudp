@@ -18,7 +18,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     include_package_data=True,
     install_requires=['obspy', 'numpy', 'matplotlib<3.2', 'pydub', 'twython',
-                      'python-telegram-bot<=13.11'],
+                      'python-telegram-bot'], # No need to pin the version with the new telegram code.
     entry_points = {
         'console_scripts': [
             'rs-packetloss=rsudp.packetloss:main',

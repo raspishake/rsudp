@@ -183,4 +183,7 @@ class Telegrammer(rs.ConsumerThread):
 
 			elif 'IMGPATH' in str(d):
 #				Async send the image, sometimes it takes too long, so we need to create a potential grace of max 3 sec for the async loop to finish.
-				asyncio.run(asyncio.wait_for(self._when_img(d), 3))
+				try:
+					asyncio.run(asyncio.wait_for(self._when_img(d), 3))
+				except asyncio.TimeoutError as e: #if it completely times out, catch the error.
+					printE('Asyncio timeout error - %s' % (e))

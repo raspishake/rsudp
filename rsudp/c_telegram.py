@@ -3,6 +3,12 @@ import time
 import rsudp.raspberryshake as rs
 from rsudp import printM, printW, printE, helpers
 from rsudp.test import TEST
+# Import asyncio to run the new telegram bot code.
+import asyncio
+
+
+
+
 import telegram as tg
 
 class Telegrammer(rs.ConsumerThread):
@@ -50,7 +56,8 @@ class Telegrammer(rs.ConsumerThread):
 
 		self.extra_text = helpers.resolve_extra_text(extra_text, max_len=4096, sender=self.sender)
 
-		self.auth()
+#		instead of initializing it here, we init the bot for each call.
+#		self.auth()
 
 		self.livelink = u'live feed ➡️ https://stationview.raspberryshake.org/#?net=%s&sta=%s' % (rs.net, rs.stn)
 		self.message0 = '(Raspberry Shake station %s.%s%s) Event detected at' % (rs.net, rs.stn, self.region)
@@ -78,8 +85,8 @@ class Telegrammer(rs.ConsumerThread):
 		else:
 			return d
 
-
-	def _when_alarm(self, d):
+#	Change the def to async
+	async def _when_alarm(self, d):
 		'''
 		Send a telegram in an alert scenario.
 
@@ -91,9 +98,12 @@ class Telegrammer(rs.ConsumerThread):
 		response = None
 		try:
 			printM('Sending alert...', sender=self.sender)
+			self.auth() #Bot init
 			printM('Telegram message: %s' % (message), sender=self.sender)
 			if not self.testing:
-				response = self.telegram.sendMessage(chat_id=self.chat_id, text=message)
+#				As a result of the bot being async code, we need to await the run.				
+				response = await self.telegram.sendMessage(chat_id=self.chat_id, text=message)
+				
 			else:
 				TEST['c_telegram'][1] = True
 
@@ -105,7 +115,9 @@ class Telegrammer(rs.ConsumerThread):
 				self.auth()
 				printM('Telegram message: %s' % (message), sender=self.sender)
 				if not self.testing:
-					response = self.telegram.sendMessage(chat_id=self.chat_id, text=message)
+#					As a result of the bot being async code, we need to await the run.
+					response = await self.telegram.sendMessage(chat_id=self.chat_id, text=message)
+
 				else:
 					# if you are here in testing mode, there is a problem
 					TEST['c_telegram'][1] = False
@@ -114,8 +126,8 @@ class Telegrammer(rs.ConsumerThread):
 				response = None
 		self.last_message = message
 
-
-	def _when_img(self, d):
+#	Change the def to async
+	async def _when_img(self, d):
 		'''
 		Send a telegram image in when you get an ``IMGPATH`` message.
 
@@ -127,9 +139,11 @@ class Telegrammer(rs.ConsumerThread):
 			if os.path.exists(imgpath):
 				with open(imgpath, 'rb') as image:
 					try:
+						self.auth() #Bot init
 						if not self.testing:
 							printM('Uploading image to Telegram %s' % (imgpath), self.sender)
-							response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
+#							As a result of the bot being async code, we need to await the run.
+							response = await self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
 							printM('Sent image', sender=self.sender)
 						else:
 							printM('Image ready to send - %s' % (imgpath), self.sender)
@@ -142,7 +156,9 @@ class Telegrammer(rs.ConsumerThread):
 								time.sleep(5.1)
 								self.auth()
 								printM('Uploading image to Telegram (2nd try) %s' % (imgpath), self.sender)
-								response = self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
+#								As a result of the bot being async code, we need to await the run.								
+								response = await self.telegram.sendPhoto(chat_id=self.chat_id, photo=image)
+								
 								printM('Sent image', sender=self.sender)
 							else:
 								# if you are here in testing mode, there is a problem
@@ -162,7 +178,9 @@ class Telegrammer(rs.ConsumerThread):
 			d = self.getq()
 
 			if 'ALARM' in str(d):
-				self._when_alarm(d)
+#				Async send the message via the bot to Telegram			
+				asyncio.run(self._when_alarm(d))
 
 			elif 'IMGPATH' in str(d):
-				self._when_img(d)
+#				Async send the image, sometimes it takes too long, so we need to create a potential grace of max 3 sec for the async loop to finish.
+				asyncio.run(asyncio.wait_for(self._when_img(d), 3))

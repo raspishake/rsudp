@@ -393,7 +393,7 @@ def deconv_vel_inst(self, trace, output):
 	'''
 	.. role:: pycode(code)
 		:language: python
-	
+
 	A helper function for :py:func:`rsudp.raspberryshake.deconvolve`
 	for velocity channels.
 
@@ -423,7 +423,7 @@ def deconv_acc_inst(self, trace, output):
 	'''
 	.. role:: pycode(code)
 		:language: python
-	
+
 	A helper function for :py:func:`rsudp.raspberryshake.deconvolve`
 	for acceleration channels.
 
@@ -455,7 +455,7 @@ def deconv_rbm_inst(self, trace, output):
 	'''
 	.. role:: pycode(code)
 		:language: python
-	
+
 	A helper function for :py:func:`rsudp.raspberryshake.deconvolve`
 	for Raspberry Boom pressure transducer channels.
 
@@ -476,7 +476,7 @@ def deconvolve(self):
 	'''
 	.. role:: pycode(code)
 		:language: python
-	
+
 	A central helper function for sub-consumers (i.e. :py:class:`rsudp.c_plot.Plot` or :py:class:`rsudp.c_alert.Alert`)
 	that need to deconvolve their raw data to metric units.
 	Consumers with :py:class:`obspy.core.stream.Stream` objects in :pycode:`self.stream` can use this to deconvolve data
@@ -493,6 +493,7 @@ def deconvolve(self):
 	for trace in self.stream:
 		trace.stats.units = self.units
 		output = 'ACC' if self.deconv == 'GRAV' else self.deconv	# if conversion is to gravity
+		print('hello>>>', trace, output)
 		if self.deconv:
 			if trace.stats.channel in vel_channels:
 				deconv_vel_inst(self, trace, output)	# geophone channels

@@ -113,6 +113,7 @@ def read_settings(loc):
 	:rtype: dict or NoneType
 	'''
 	settings_loc = os.path.abspath(os.path.expanduser(loc)).replace('\\', '/')
+	print('settings_loc', settings_loc)
 	settings = None
 	with open(settings_loc, 'r') as f:
 		try:

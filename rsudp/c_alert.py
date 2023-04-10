@@ -14,7 +14,7 @@ COLOR['current'] = COLOR['green']
 class Alert(rs.ConsumerThread):
 	"""
 	A data consumer class that listens to a specific incoming data channel
-	and calculates a recursive STA/LTA (short term average over long term 
+	and calculates a recursive STA/LTA (short term average over long term
 	average). If a threshold of STA/LTA ratio is exceeded, the class
 	sets the :py:data:`alarm` flag to the alarm time as a
 	:py:class:`obspy.core.utcdatetime.UTCDateTime` object.
@@ -163,12 +163,13 @@ class Alert(rs.ConsumerThread):
 		self.stalta = np.ndarray(1)
 		self.maxstalta = 0
 		self.units = 'counts'
-		
+
+		print('deconv>>>>', deconv)
 		self._set_deconv(deconv)
 
 		self.exceed = False
 		self.sound = sound
-		
+
 		self._set_filt(bp)
 		self._print_filt()
 
@@ -239,7 +240,7 @@ class Alert(rs.ConsumerThread):
 		'''
 		if self.stalta.max() > self.thresh:
 			if not self.exceed:
-				# raise a flag that the Producer can read and modify 
+				# raise a flag that the Producer can read and modify
 				self.alarm = helpers.fsec(self.stream[0].stats.starttime + timedelta(seconds=
 										trigger_onset(self.stalta, self.thresh,
 										self.reset)[-1][0] * self.stream[0].stats.delta))

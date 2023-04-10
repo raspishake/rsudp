@@ -99,7 +99,7 @@ class Testing(rs.ConsumerThread):
 			printM('Got TERM message...', sender=self.sender)
 			t.TEST['x_TERM'][1] = True
 			self.alive = False
-	
+
 		elif 'ALARM' in str(d):
 			printM('Got ALARM message with time %s' % (
 				   helpers.fsec(helpers.get_msg_time(d))
@@ -132,6 +132,7 @@ class Testing(rs.ConsumerThread):
 		Start the testing thread and run until ``self.alive == False``.
 
 		'''
+		print('c_testing.py >>>>', rs.inv, t)
 		if rs.inv:
 			t.TEST['n_inventory'][1] = True
 		self._datatests(self._getq())

@@ -3,7 +3,7 @@
 ver="v0.3"
 yr="2022"
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." >/dev/null 2>&1 && pwd )" # current directory
-arch=$(uname -m)    # machine hardware 
+arch=$(uname -m)    # machine hardware
 os=$(uname -s)      # kernel name
 node=$(uname -n)    # node name
 gnu=$(uname -a | grep GNU)  # is this GNU?
@@ -12,7 +12,7 @@ exe="conda-install.sh" # install file name
 tmp_exe="$tmp/$exe" # install file loc/name
 conda="conda"       # anaconda executable or alias
 mpl="<3.2"          # matplotlib version
-macos_exe="Miniconda3-4.7.12-MacOSX-x86_64.sh"
+macos_exe="Miniconda3-latest-MacOSX-arm64.sh"
 linux_exe="Miniconda3-4.7.12-Linux-x86_64.sh"
 arm_exe="Berryconda3-2.0.0-Linux-armv7l.sh"
 x86_base_url="https://repo.anaconda.com/miniconda/"
@@ -203,7 +203,7 @@ fi
 if [[ "$arch" == "armv"* ]]; then
   env_install="conda create -n rsudp python=3 numpy future scipy lxml cffi sqlalchemy cryptography -y"
 else
-  env_install="conda create -n rsudp python=3 numpy=1.16.4 future scipy lxml sqlalchemy cryptography -y"
+  env_install="conda create -n rsudp python=3 freetype pyqt pydub numpy future scipy lxml sqlalchemy cryptography -y"
 fi
 
 # check for conda forge channel; if it's not there add it
@@ -224,7 +224,7 @@ if [ -d $prefix/envs/rsudp ]; then
   echo "Another rsudp conda environment already exists at $prefix/envs/rsudp" &&
   echo "Do you want to use it, or remove it and install a new one?"
   read -rp $'Press Enter to use it, or type yes and press Enter to reinstall:\n' reinstall
-  
+
   if [[ "$reinstall" == "yes" ]]; then
     echo "Removing old environment..."
     rm -r $prefix/envs/rsudp

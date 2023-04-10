@@ -153,8 +153,8 @@ def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 		printE('reverting to station name Z0000', announce=False, spaces=True)
 	except Exception as e:
 		printE('Details - %s' % e)
-	
-	try:						# set timeout value 
+
+	try:						# set timeout value
 		to = int(timeout)
 	except ValueError as e:
 		printW('You likely supplied a non-integer as the timeout value. Your value was: %s'
@@ -186,7 +186,7 @@ def openSOCK(host=''):
 	global sockopen
 	sockopen = False
 	if initd:
-		HP = '%s:%s' % ('localhost',port)
+		HP = '%s:%s' % ('127.0.0.1',port)
 		printM("Opening socket on %s (HOST:PORT)"
 				% HP, 'openSOCK')
 		try:
@@ -258,7 +258,7 @@ def getDATA():
 			raise IOError("No socket is open. Please open a socket using this library's openSOCK() function.")
 		else:
 			raise IOError('No socket is open. Please initialize the library using initRSlib() then open a socket using openSOCK().')
-	
+
 def getCHN(DP):
 	'''
 	Extract the channel information from the data packet.
@@ -280,7 +280,7 @@ def getCHN(DP):
 	:return: Returns the instrument channel as a string.
 	'''
 	return str(DP.decode('utf-8').split(",")[0][1:]).strip("\'")
-	
+
 def getTIME(DP):
 	'''
 	Extract the timestamp from the data packet.
@@ -403,7 +403,7 @@ def getSR(TR, DP):
 	global sps
 	sps = int((DP.count(b",") - 1) * 1000 / TR)
 	return sps
-	
+
 def getCHNS():
 	'''
 	Get a list of channels sent to the port.

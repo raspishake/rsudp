@@ -220,7 +220,7 @@ class RSAM(rs.ConsumerThread):
 		"""
 		if self.fwaddr and self.fwport:
 			printM('Opening socket...', sender=self.sender)
-			socket_type = s.SOCK_DGRAM if os.name in 'nt' else s.SOCK_DGRAM | s.SO_REUSEADDR
+			socket_type = s.SOCK_DGRAM if os.name in 'nt' else s.SOCK_DGRAM
 			self.sock = s.socket(s.AF_INET, socket_type)
 
 		n = 0

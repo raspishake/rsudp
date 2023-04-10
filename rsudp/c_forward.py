@@ -31,7 +31,7 @@ class Forward(rs.ConsumerThread):
 	def __init__(self, num, addr, port, fwd_data, fwd_alarms, cha, q, testing=False):
 		"""
 		Initializes data forwarding module.
-		
+
 		"""
 		super().__init__()
 
@@ -74,7 +74,7 @@ class Forward(rs.ConsumerThread):
 		Gets and distributes queue objects to another address and port on the network.
 		"""
 		printM('Opening socket...', sender=self.sender)
-		socket_type = s.SOCK_DGRAM if os.name in 'nt' else s.SOCK_DGRAM | s.SO_REUSEADDR
+		socket_type = s.SOCK_DGRAM if os.name in 'nt' else s.SOCK_DGRAM
 		sock = s.socket(s.AF_INET, socket_type)
 
 		msg_data = '%s data' % (self.chans) if self.fwd_data else ''
@@ -113,4 +113,3 @@ class Forward(rs.ConsumerThread):
 			if self.testing:
 				TEST['c_forward'][1] = False
 			sys.exit(2)
-

@@ -225,7 +225,7 @@ def logdir_permissions(logdir='/tmp/rsudp'):
 
 def is_connected(hostname):
 	'''
-	Test for an internet connection. 
+	Test for an internet connection.
 
 	:param str hostname: The hostname to test with
 	:rtype: bool
@@ -243,4 +243,3 @@ def is_connected(hostname):
 	except:
 		pass
 	return False
-

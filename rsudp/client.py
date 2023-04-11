@@ -352,22 +352,28 @@ def run(settings, debug):
     # start additional modules here!
     ################################
 
-    if settings['process']['enabled']:
-        # put settings in namespace
-        data_dir = settings['process']['output_dir']
 
-        q = mk_q()
-        PROCESSOR = Processor(q=q, data_dir=data_dir, testing=TESTING)
+    try:
+        if settings['process']['enabled']:
+            # put settings in namespace
+            data_dir = settings['process']['output_dir']
 
-        mk_p(PROCESSOR)
+            q = mk_q()
+            PROCESSOR = Processor(q=q, data_dir=data_dir, testing=TESTING)
 
-    if settings['dialog']['enabled']:
+            mk_p(PROCESSOR)
+    except KeyError as e:
+        printE('"process" key not found in settings', 'client.py')
 
-        q = mk_q()
-        DIALOG = Dialog(q=q,testing=TESTING)
-        DIALOG.daemon = True
+    try:
+        if settings['dialog']['enabled']:
+            q = mk_q()
+            DIALOG = Dialog(q=q,testing=TESTING)
+            DIALOG.daemon = True
 
-        mk_p(DIALOG)
+            mk_p(DIALOG)
+    except KeyError as e:
+        printE('"dialog" key not found in settings', 'client.py')
 
     ################################
 
@@ -586,10 +592,12 @@ default settings and the data file at
         packetize(inf=TESTFILE+'.ms', outf=TESTFILE, testing=True)
 
     T.TEST['n_internet'][1] = T.is_connected('www.google.com')
-    print(settings)
-    if settings_are_default:
 
+    if settings_are_default:
         settings = T.make_test_settings(settings=settings, inet=T.TEST['n_internet'][1])
+
+    printM('settings are default: %s' % settings_are_default, 'client.py')
+    print(settings)
 
     T.TEST['p_log_dir'][1] = T.logdir_permissions()
     T.TEST['p_log_file'][1] = start_logging(testing=True)

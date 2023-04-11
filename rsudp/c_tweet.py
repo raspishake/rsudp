@@ -1,10 +1,11 @@
 import os, sys
+import serial
 import time
 import rsudp.raspberryshake as rs
 from rsudp import printM, printW, printE, helpers
 from rsudp.test import TEST
 from twython import Twython
-
+from tkinter import *
 
 class Tweeter(rs.ConsumerThread):
 	'''
@@ -168,6 +169,9 @@ class Tweeter(rs.ConsumerThread):
 
 		:param bytes d: queue message
 		'''
+		
+
+
 		if self.tweet_images:
 			imgpath = helpers.get_msg_path(d)
 			imgtime = helpers.fsec(helpers.get_msg_time(d))

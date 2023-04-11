@@ -49,6 +49,8 @@ TEST = {
 	'c_forward':			['forwarding                  ', False],
 	'c_rsam':				['RSAM transmission           ', False],
 	'c_custom':				['custom code execution       ', False],
+    'c_process':            ['data processing             ', False],
+    'c_dialog':             ['dialog box                  ', False]
 }
 
 TRANS = {
@@ -134,6 +136,8 @@ def make_test_settings(settings, inet=False):
 	settings['rsam']['enabled'] = True
 	settings['rsam']['quiet'] = False
 	settings['rsam']['interval'] = 10
+
+# 	settings['process']['enabled'] = True
 
 	return settings
 

@@ -221,6 +221,13 @@ class RSAM(rs.ConsumerThread):
 		if self.fwaddr and self.fwport:
 			printM('Opening socket...', sender=self.sender)
 			socket_type = s.SOCK_DGRAM if os.name in 'nt' else s.SOCK_DGRAM | s.SO_REUSEADDR
+
+			# The following may be backwards-incompatible
+			import platform
+			if platform.machine() == 'arm64':
+				printW('This code is running on a Mac with an Apple Silicon Chip')
+				socket_type = s.SOCK_DGRAM
+
 			self.sock = s.socket(s.AF_INET, socket_type)
 
 		n = 0

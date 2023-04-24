@@ -1,0 +1,82 @@
+{
+  "settings": {
+      "port": 18888,
+      "station": "Z0000",
+      "output_dir": "../../",
+      "debug": true
+  },
+  "printdata": {
+      "enabled": false
+  },
+  "write": {
+      "enabled": true,
+      "channels": ["all"]
+  },
+  "plot": {
+      "enabled": true,
+      "duration": 30,
+      "spectrogram": false,
+      "fullscreen": false,
+      "kiosk": false,
+      "eq_screenshots": true,
+      "channels": ["all"],
+      "deconvolve": true,
+      "units": "CHAN"
+  },
+  "forward": {
+      "enabled": false,
+      "address": ["192.168.1.254"],
+      "port": [8888],
+      "channels": ["all"],
+      "fwd_data": true,
+      "fwd_alarms": false
+  },
+  "alert": {
+      "enabled": true,
+      "channel": "HZ",
+      "sta": 6,
+      "lta": 30,
+      "threshold": 1.7,
+      "reset": 1.6,
+      "highpass": 0,
+      "lowpass": 50,
+      "deconvolve": false,
+      "units": "VEL"
+  },
+  "alertsound": {
+      "enabled": true,
+      "mp3file": "doorbell"
+  },
+  "custom": {
+      "enabled": false,
+      "codefile": "n/a",
+      "win_override": false
+  },
+  "tweets": {
+      "enabled": false,
+      "tweet_images": true,
+      "api_key": "n/a",
+      "api_secret": "n/a",
+      "access_token": "n/a",
+      "access_secret": "n/a",
+      "extra_text": ""
+  },
+  "telegram": {
+      "enabled": false,
+      "send_images": true,
+      "token": "n/a",
+      "chat_id": "n/a",
+      "extra_text": ""
+  },
+  "rsam": {
+      "enabled": false,
+      "quiet": true,
+      "fwaddr": "192.168.1.254",
+      "fwport": 8887,
+      "fwformat": "LITE",
+      "channel": "HZ",
+      "interval": 10,
+      "deconvolve": false,
+      "units": "VEL"
+  }
+}

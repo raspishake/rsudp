@@ -53,3 +53,112 @@ Like all public projects, end-users are encouraged to provide their own bug fixe
 We hope you enjoy RSUDP, playing with it, and perhaps even diving into the code to see how it can be made better!
 
 TEAM RS
+
+-----
+
+## Added by @jadurani
+
+I'm running this program on my Mac Apple Silicon Chip (M2). The client and testers run the app on Windows. The changes I've first added are related to the build scripts for running the machine specifically on Mac.
+
+## rs-test
+
+For running `rs-test`, you may use the settings file in [rsudp/test/rsudp_settings.json](rsudp/test/rsudp_settings.json).
+
+```sh
+rs-test -s /absolute/path/to/your/rsudp_settings.json
+```
+
+### Troubleshooting and changes added (Apple Silicon Chip)
+
+1. syntax error near unexpected token
+
+This might be an issue on the the text formats, especially if none of your syntax seems wrong at all. Install dos2unix (see [link](https://formulae.brew.sh/formula/dos2unix))
+
+```sh
+brew install dos2unix
+```
+
+Then update the bash scripts that throw this error. E.g.
+
+```sh
+dos2unix unix-install-rsudp.sh
+```
+
+And rerun the script(s)
+
+```sh
+bash unix-install-rsudp.sh
+```
+
+2. Protocol not supported
+
+```
+Exception in thread Thread-1:
+2023-04-24 07:27:27 TESTING [openSOCK] Opening socket on localhost:8888 (HOST:PORT)
+Traceback (most recent call last):
+  File "/path/to/miniconda3/envs/rsudp/lib/python3.11/threading.py", line 1038, in _bootstrap_inner
+2023-04-24 07:27:27 TESTING [RS lib] Waiting for UDP data on port 8888...
+    self.run()
+  File "/path/to/miniconda3/envs/rsudp/lib/python3.11/site-packages/rsudp/t_testdata.py", line 112, in run
+    self.sock = s.socket(s.AF_INET, socket_type)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/path/to/miniconda3/envs/rsudp/lib/python3.11/socket.py", line 232, in __init__
+    _socket.socket.__init__(self, family, type, proto, fileno)
+OSError: [Errno 43] Protocol not supported
+```
+
+Investigate the files containing the following line:
+
+```python
+socket_type = s.SOCK_DGRAM if os.name in 'nt' else s.SOCK_DGRAM | s.SO_REUSEADDR
+```
+
+Check the following files in particular:
+
+- /rsudp/c_forward.py
+- /rsudp/c_rsam.py
+- /rsudp/t_testdata.py
+
+I've updated these files to support Apple Silicon Chip machine. The changes may not be backwards-compatible or supported by other machines.
+
+After updating the files, run:
+
+```bash
+pip install -e .
+```
+
+3. Unexpected type 'float' on self.fig.canvas.start_event_loop
+
+```sh
+2023-04-24 07:48:09 TESTING [Alert] Earthquake trigger warmup time of 30 seconds...
+2023-04-24 07:48:11 TESTING Traceback (most recent call last):
+  File "/path/to/rsudp/rsudp/client.py", line 579, in test
+    run(settings, debug=True)
+  File "/path/to/rsudp/rsudp/client.py", line 358, in run
+    start()
+  File "/path/to/rsudp/rsudp/client.py", line 122, in start
+    PLOTTER.run()
+  File "/path/to/rsudp/rsudp/c_plot.py", line 665, in run
+    self.setup_plot()
+  File "/path/to/rsudp/rsudp/c_plot.py", line 503, in setup_plot
+    self.fig.canvas.start_event_loop(0.005)             # wait for canvas to update
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/path/to/miniconda3/envs/rsudp/lib/python3.11/site-packages/matplotlib/backends/backend_qt5.py", line 468, in start_event_loop
+    timer = QtCore.QTimer.singleShot(timeout * 1000, event_loop.quit)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: arguments did not match any overloaded call:
+  singleShot(int, PYQT_SLOT): argument 1 has unexpected type 'float'
+  singleShot(int, Qt.TimerType, PYQT_SLOT): argument 1 has unexpected type 'float'
+
+2023-04-24 07:48:11 TESTING [Main] Ending tests.
+```
+
+It's likely that this is an error enountered only on my machine. :/
+
+I updated the event loop timeout to be still be backwards compatible.
+
+4. For issues related to audio, run:
+
+```sh
+brew install ffmpeg
+```

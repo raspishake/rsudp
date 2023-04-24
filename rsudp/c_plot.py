@@ -47,6 +47,12 @@ except Exception as e:
 	printE('detail: %s' % e, sender, spaces=True)
 	MPL = False
 
+event_loop_timeout = 0.005
+if platform.machine() == 'arm64':
+	printW('Running on %s machine, updating event loop timeout to 1 second' % (platform.machine()))
+	event_loop_timeout = 1
+
+
 ICON = 'icon.ico'
 ICON2 = 'icon.png'
 
@@ -202,7 +208,7 @@ class Plot:
 			printM('Event time: %s' % (self.last_event_str), sender=self.sender)		# show event time in the logs
 			if self.screencap:
 				printM('Saving png in about %i seconds' % (self.save_pct * (self.seconds)), self.sender)
-				self.save.append(event) # append 
+				self.save.append(event) # append
 			self.fig.suptitle('%s.%s live output - detected events: %s' # title
 							% (self.net, self.stn, self.events),
 							fontsize=14, color=self.fgcolor, x=0.52)
@@ -214,7 +220,7 @@ class Plot:
 			return True
 		else:
 			return False
-		
+
 	def set_sps(self):
 		'''
 		Get samples per second from the main library.
@@ -326,7 +332,7 @@ class Plot:
 		self.fig = plt.figure(figsize=(11,3*self.num_chans))
 		self.fig.canvas.mpl_connect('close_event', self.handle_close)
 		self.fig.canvas.mpl_connect('resize_event', self.handle_resize)
-		
+
 		if QT:
 			self.fig.canvas.window().statusBar().setVisible(False) # remove bottom bar
 		self.fig.canvas.set_window_title('%s.%s - Raspberry Shake Monitor' % (self.net, self.stn))
@@ -456,7 +462,7 @@ class Plot:
 
 	def _setup_fig_manager(self):
 		'''
-		Setting up figure manager and 
+		Setting up figure manager and
 		'''
 		# update canvas and draw
 		figManager = plt.get_current_fig_manager()
@@ -500,7 +506,7 @@ class Plot:
 
 		# draw plot, loop, and resize the plot
 		plt.draw()									# draw the canvas
-		self.fig.canvas.start_event_loop(0.005)		# wait for canvas to update
+		self.figloop()							# wait for canvas to update
 		self.handle_resize()
 
 
@@ -602,7 +608,7 @@ class Plot:
 		Let some time elapse in order for the plot canvas to draw properly.
 		Must be separate from :py:func:`update_plot()` to avoid a broadcast error early in plotting.
 		"""
-		self.fig.canvas.start_event_loop(0.005)
+		self.fig.canvas.start_event_loop(event_loop_timeout)
 
 
 	def mainloop(self, i, u):

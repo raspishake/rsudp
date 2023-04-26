@@ -20,8 +20,8 @@ class Producer(Thread):
 
 	def __init__(self, queue, threads, testing=False):
 		"""
-		Initializing Producer thread. 
-		
+		Initializing Producer thread.
+
 		"""
 		super().__init__()
 
@@ -76,6 +76,15 @@ class Producer(Thread):
 						% thread.sender, sender=self.sender)
 				# re-arm the trigger
 				thread.alarm_reset = False
+
+			#### see c_process.py ####
+			if thread.process:
+					self.queue.put(helpers.msg_process(thread.process))
+					printM('%s thread has indicated process state, sending PROCESS message to queues'
+									% thread.sender, sender=self.sender)
+					# re-arm the trigger
+					thread.process = False
+
 			if not thread.alive:
 				# if a thread stops, set the stop flag
 				self.stop = True

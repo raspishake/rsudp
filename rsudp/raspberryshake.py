@@ -12,6 +12,8 @@ from requests.exceptions import HTTPError
 from threading import Thread
 from . import __version__
 
+from obspy.core.inventory import Inventory, Network
+
 initd, sockopen = False, False
 qsize = 2048 			# max queue size
 port = 8888				# default listening port
@@ -153,8 +155,8 @@ def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 		printE('reverting to station name Z0000', announce=False, spaces=True)
 	except Exception as e:
 		printE('Details - %s' % e)
-	
-	try:						# set timeout value 
+
+	try:						# set timeout value
 		to = int(timeout)
 	except ValueError as e:
 		printW('You likely supplied a non-integer as the timeout value. Your value was: %s'
@@ -258,7 +260,7 @@ def getDATA():
 			raise IOError("No socket is open. Please open a socket using this library's openSOCK() function.")
 		else:
 			raise IOError('No socket is open. Please initialize the library using initRSlib() then open a socket using openSOCK().')
-	
+
 def getCHN(DP):
 	'''
 	Extract the channel information from the data packet.
@@ -280,7 +282,7 @@ def getCHN(DP):
 	:return: Returns the instrument channel as a string.
 	'''
 	return str(DP.decode('utf-8').split(",")[0][1:]).strip("\'")
-	
+
 def getTIME(DP):
 	'''
 	Extract the timestamp from the data packet.
@@ -403,7 +405,7 @@ def getSR(TR, DP):
 	global sps
 	sps = int((DP.count(b",") - 1) * 1000 / TR)
 	return sps
-	
+
 def getCHNS():
 	'''
 	Get a list of channels sent to the port.
@@ -516,8 +518,19 @@ def get_inventory(sender='get_inventory'):
 			url = 'https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&level=resp&nodata=404&format=xml' % (
 				   net, stn)#, str(UTCDateTime.now()-timedelta(seconds=14400)))
 			inv = read_inventory(url)
-			region = FlinnEngdahl().get_region(inv[0][-1].longitude, inv[0][-1].latitude)
+
+			# Unknown author. Inherited by @jadurani
+			latest_station_response = (inv[-1][-1]).copy()
+			latest_station_response.start_date = None
+			latest_station_response.end_date = None
+			for cha in latest_station_response:
+				cha.start_date=None
+				cha.end_date=None
+			inv = Inventory(networks=[Network(code=net, stations=[latest_station_response])])
+			region = FlinnEngdahl().get_region(inv[0][0].longitude, inv[0][0].latitude)
+
 			printM('Inventory fetch successful. Station region is %s' % (region), sender)
+
 		except (IndexError, HTTPError):
 			printW('No inventory found for %s. Are you forwarding your Shake data?' % stn, sender)
 			printW('Deconvolution will only be available if data forwarding is on.', sender, spaces=True)
@@ -530,6 +543,8 @@ def get_inventory(sender='get_inventory'):
 			printE('Error detail: %s' % e, sender, spaces=True)
 			inv = False
 			region = False
+
+	printM(inv, sender)
 	return inv
 
 
@@ -681,6 +696,7 @@ class ConsumerThread(Thread):
 		self.sender = 'ConsumerThread'  # module name used in logging
 		self.alarm = False              # the Producer reads this to set the ``ALARM`` state
 		self.alarm_reset = False        # the Producer reads this to set the ``RESET`` state
+		self.process = False            # the Producer reads this to set the ``PROCESS`` state
 		self.alive = True               # this is used to keep the main ``for`` loop running
 
 	For more information on creating your own consumer threads,
@@ -692,6 +708,7 @@ class ConsumerThread(Thread):
 		self.sender = 'ConsumerThread'	# used in logging
 		self.alarm = False				# the producer reads this
 		self.alarm_reset = False		# the producer reads this
+		self.process = False		# the producer reads this
 		self.alive = True				# this is used to keep the main for loop running
 
 

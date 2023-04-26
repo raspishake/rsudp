@@ -1,8 +1,13 @@
 import rsudp.raspberryshake as rs
-from rsudp import COLOR, printM, printW
+from rsudp import COLOR, printM, printW, printE
 import os
 import json
 
+from obspy.signal.util import _npts2nfft
+from scipy.signal import resample
+from scipy import integrate
+from obspy.signal.filter import bandpass
+import numpy as np
 
 def dump_default(settings_loc, default_settings):
 	'''
@@ -26,79 +31,102 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
 	:return: default settings string in formatted json
 	:rtype: str
 	'''
-	def_settings = r"""{
-"settings": {
-    "port": 8888,
-    "station": "Z0000",
-    "output_dir": "%s",
-    "debug": true},
-"printdata": {
-    "enabled": false},
-"write": {
-    "enabled": false,
-    "channels": ["all"]},
-"plot": {
-    "enabled": true,
-    "duration": 90,
-    "spectrogram": true,
-    "fullscreen": false,
-    "kiosk": false,
-    "eq_screenshots": false,
-    "channels": ["all"],
-    "deconvolve": true,
-    "units": "CHAN"},
-"forward": {
-    "enabled": false,
-    "address": ["192.168.1.254"],
-    "port": [8888],
-    "channels": ["all"],
-    "fwd_data": true,
-    "fwd_alarms": false},
-"alert": {
-    "enabled": true,
-    "channel": "HZ",
-    "sta": 6,
-    "lta": 30,
-    "threshold": 3.95,
-    "reset": 0.9,
-    "highpass": 0.8,
-    "lowpass": 9,
-    "deconvolve": false,
-    "units": "VEL"},
-"alertsound": {
-    "enabled": false,
-    "mp3file": "doorbell"},
-"custom": {
-    "enabled": false,
-    "codefile": "n/a",
-    "win_override": false},
-"tweets": {
-    "enabled": false,
-    "tweet_images": true,
-    "api_key": "n/a",
-    "api_secret": "n/a",
-    "access_token": "n/a",
-    "access_secret": "n/a",
-    "extra_text": ""},
-"telegram": {
-    "enabled": false,
-    "send_images": true,
-    "token": "n/a",
-    "chat_id": "n/a",
-    "extra_text": ""},
-"rsam": {
-    "enabled": false,
-    "quiet": true,
-    "fwaddr": "192.168.1.254",
-    "fwport": 8887,
-    "fwformat": "LITE",
-    "channel": "HZ",
-    "interval": 10,
-    "deconvolve": false,
-    "units": "VEL"}
+	def_settings = r"""
+{
+		"settings": {
+				"port": 18888,
+				"station": "Z0000",
+				"output_dir": "%s",
+				"debug": true
+		},
+		"printdata": {
+				"enabled": false
+		},
+		"write": {
+				"enabled": false,
+				"channels": ["all"]
+		},
+		"plot": {
+				"enabled": true,
+				"duration": 90,
+				"spectrogram": true,
+				"fullscreen": false,
+				"kiosk": false,
+				"eq_screenshots": false,
+				"channels": ["all"],
+				"deconvolve": true,
+				"units": "CHAN"
+		},
+		"forward": {
+				"enabled": false,
+				"address": ["192.168.1.254"],
+				"port": [8888],
+				"channels": ["all"],
+				"fwd_data": true,
+				"fwd_alarms": false
+		},
+		"alert": {
+				"enabled": true,
+				"channel": "HZ",
+				"sta": 6,
+				"lta": 30,
+				"threshold": 3.95,
+				"reset": 0.9,
+				"highpass": 0.8,
+				"lowpass": 9,
+				"deconvolve": false,
+				"units": "VEL"
+		},
+		"alertsound": {
+				"enabled": false,
+				"mp3file": "doorbell"
+		},
+		"custom": {
+				"enabled": false,
+				"codefile": "n/a",
+				"win_override": false
+		},
+		"tweets": {
+				"enabled": false,
+				"tweet_images": true,
+				"api_key": "n/a",
+				"api_secret": "n/a",
+				"access_token": "n/a",
+				"access_secret": "n/a",
+				"extra_text": ""
+		},
+		"telegram": {
+				"enabled": false,
+				"send_images": true,
+				"token": "n/a",
+				"chat_id": "n/a",
+				"extra_text": ""
+		},
+		"rsam": {
+				"enabled": false,
+				"quiet": true,
+				"fwaddr": "192.168.1.254",
+				"fwport": 8887,
+				"fwformat": "LITE",
+				"channel": "HZ",
+				"interval": 10,
+				"deconvolve": false,
+				"units": "VEL"
+		},
+		"process": {
+			"enabled": true,
+			"output_dir": "%s"
+		},
+		"dialog": {
+			"enabled": true,
+			"floor_num": 1,
+			"disp_thresh": 0.5,
+			"drift_thresh": 0.7,
+			"autoclose": true
+		}
 }
+""" % (output_dir, output_dir)
 
-""" % (output_dir)
 	if verbose:
 		print('By default output_dir is set to %s' % output_dir)
 	return def_settings
@@ -120,9 +148,9 @@ def read_settings(loc):
 			settings = json.loads(data)
 		except Exception as e:
 			print(COLOR['red'] + 'ERROR: Could not load settings file. Perhaps the JSON is malformed?' + COLOR['white'])
-			print(COLOR['red'] + '       detail: %s' % e + COLOR['white'])
-			print(COLOR['red'] + '       If you would like to overwrite and rebuild the file, you can enter the command below:' + COLOR['white'])
-			print(COLOR['bold'] + '       shake_client -d %s' % loc + COLOR['white'])
+			print(COLOR['red'] + '			 detail: %s' % e + COLOR['white'])
+			print(COLOR['red'] + '			 If you would like to overwrite and rebuild the file, you can enter the command below:' + COLOR['white'])
+			print(COLOR['bold'] + '			 shake_client -d %s' % loc + COLOR['white'])
 			exit(2)
 	return settings
 
@@ -230,30 +258,30 @@ def conn_stats(TESTING=False):
 
 		>>> conn_stats()
 		2020-03-25 01:35:04 [conn_stats] Initialization stats:
-		2020-03-25 01:35:04 [conn_stats]                 Port: 18069
-		2020-03-25 01:35:04 [conn_stats]   Sending IP address: 192.168.0.4
-		2020-03-25 01:35:04 [conn_stats]     Set station name: R24FA
-		2020-03-25 01:35:04 [conn_stats]   Number of channels: 4
-		2020-03-25 01:35:04 [conn_stats]   Transmission freq.: 250 ms/packet
-		2020-03-25 01:35:04 [conn_stats]    Transmission rate: 4 packets/sec
-		2020-03-25 01:35:04 [conn_stats]   Samples per second: 100 sps
-		2020-03-25 01:35:04 [conn_stats]            Inventory: AM.R24FA (Raspberry Shake Citizen Science Station)
+		2020-03-25 01:35:04 [conn_stats]								 Port: 18069
+		2020-03-25 01:35:04 [conn_stats]	 Sending IP address: 192.168.0.4
+		2020-03-25 01:35:04 [conn_stats]		 Set station name: R24FA
+		2020-03-25 01:35:04 [conn_stats]	 Number of channels: 4
+		2020-03-25 01:35:04 [conn_stats]	 Transmission freq.: 250 ms/packet
+		2020-03-25 01:35:04 [conn_stats]		Transmission rate: 4 packets/sec
+		2020-03-25 01:35:04 [conn_stats]	 Samples per second: 100 sps
+		2020-03-25 01:35:04 [conn_stats]						Inventory: AM.R24FA (Raspberry Shake Citizen Science Station)
 
 	:param bool TESTING: if ``True``, text is printed to the console in yellow. if not, in white.
 	'''
 	s = 'conn_stats'
 	pf = printW if TESTING else printM
 	pf('Initialization stats:', sender=s, announce=False)
-	pf('                Port: %s' % rs.port, sender=s, announce=False)
-	pf('  Sending IP address: %s' % rs.firstaddr, sender=s, announce=False)
-	pf('    Set station name: %s' % rs.stn, sender=s, announce=False)
-	pf('  Number of channels: %s' % rs.numchns, sender=s, announce=False)
-	pf('  Transmission freq.: %s ms/packet' % rs.tf, sender=s, announce=False)
-	pf('   Transmission rate: %s packets/sec' % rs.tr, sender=s, announce=False)
-	pf('  Samples per second: %s sps' % rs.sps, sender=s, announce=False)
+	pf('								Port: %s' % rs.port, sender=s, announce=False)
+	pf('	Sending IP address: %s' % rs.firstaddr, sender=s, announce=False)
+	pf('		Set station name: %s' % rs.stn, sender=s, announce=False)
+	pf('	Number of channels: %s' % rs.numchns, sender=s, announce=False)
+	pf('	Transmission freq.: %s ms/packet' % rs.tf, sender=s, announce=False)
+	pf('	 Transmission rate: %s packets/sec' % rs.tr, sender=s, announce=False)
+	pf('	Samples per second: %s sps' % rs.sps, sender=s, announce=False)
 	if rs.inv:
-		pf('           Inventory: %s' % rs.inv.get_contents()['stations'][0],
-			   sender=s, announce=False)
+		pf('					 Inventory: %s' % rs.inv.get_contents()['stations'][0],
+				 sender=s, announce=False)
 
 
 def msg_alarm(event_time):
@@ -393,7 +421,7 @@ def deconv_vel_inst(self, trace, output):
 	'''
 	.. role:: pycode(code)
 		:language: python
-	
+
 	A helper function for :py:func:`rsudp.raspberryshake.deconvolve`
 	for velocity channels.
 
@@ -418,30 +446,51 @@ def deconv_vel_inst(self, trace, output):
 	else:
 		trace.stats.units = 'Velocity'
 
-
 def deconv_acc_inst(self, trace, output):
 	'''
 	.. role:: pycode(code)
 		:language: python
-	
+
 	A helper function for :py:func:`rsudp.raspberryshake.deconvolve`
 	for acceleration channels.
 
 	:param self self: The self object of the sub-consumer class calling this function.
 	:param obspy.core.trace.Trace trace: the trace object instance to deconvolve
 	'''
+
+	if len(trace.data) >= 1000:
+			lowcut = get_low_corner_freq(trace, noise_type="lowest_ave")
+
+			if lowcut <= 0.1:
+					lowcut = 0.1
+			elif lowcut <= 0.5:
+					lowcut = 0.3
+			else:
+					lowcut = 0.5
+
 	if self.deconv not in 'CHAN':
-		trace.remove_response(inventory=rs.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
-								output=output, water_level=4.5, taper=False)
+		trace.remove_response(inventory=rs.inv, output=output, taper=True, taper_fraction=0.1,
+																			pre_filt=False, water_level=4.5)
 	else:
-		trace.remove_response(inventory=rs.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
-								output='ACC', water_level=4.5, taper=False)
+		trace.remove_response(inventory=rs.inv, output='ACC', taper=True, taper_fraction=0.1,
+															pre_filt=False, water_level=4.5)
+
+	if len(trace.data) >= 1000:
+			trace.data = bandpass(trace.data, lowcut, 0.49*self.sps, df=self.sps, corners=4, zerophase=True)
+
 	if 'VEL' in self.deconv:
 		trace.data = rs.np.cumsum(trace.data)
 		trace.detrend(type='demean')
+
 	elif 'DISP' in self.deconv:
-		trace.data = rs.np.cumsum(rs.np.cumsum(trace.data))
-		trace.detrend(type='linear')
+		try:
+			updated_trace = differentiate(improved_integration(trace))
+			trace.data = updated_trace.data
+		except Exception as e:
+			print(COLOR['red'] + '[helpers.py][deconv_acc_inst] Failed to differentiate on "improved integration" for deconv="DISP", using original code...' + COLOR['white'], e)
+			trace.data = rs.np.cumsum(rs.np.cumsum(trace.data))
+			trace.detrend(type='linear')
+
 	elif 'GRAV' in self.deconv:
 		trace.data = trace.data / rs.g
 		trace.stats.units = 'Earth gravity'
@@ -455,7 +504,7 @@ def deconv_rbm_inst(self, trace, output):
 	'''
 	.. role:: pycode(code)
 		:language: python
-	
+
 	A helper function for :py:func:`rsudp.raspberryshake.deconvolve`
 	for Raspberry Boom pressure transducer channels.
 
@@ -476,7 +525,7 @@ def deconvolve(self):
 	'''
 	.. role:: pycode(code)
 		:language: python
-	
+
 	A central helper function for sub-consumers (i.e. :py:class:`rsudp.c_plot.Plot` or :py:class:`rsudp.c_alert.Alert`)
 	that need to deconvolve their raw data to metric units.
 	Consumers with :py:class:`obspy.core.stream.Stream` objects in :pycode:`self.stream` can use this to deconvolve data
@@ -542,3 +591,179 @@ def resolve_extra_text(extra_text, max_len, sender='helpers'):
 			extra_text = extra_text[:allowable_len]
 
 		return ' %s' % (extra_text)
+
+############################
+### additional functions ###
+############################
+
+def msg_process(max_values):
+		'''
+		This function constructs the ``PROCESS`` message as a bytes object.
+		Currently this is only used by :py:class:`rsudp.p_producer.Producer`
+		to construct process queue messages.
+		For example:
+		.. code-block:: python
+				>>> max_pga = 0.8800480717294786 # m/s^2 (meters per second squared)
+				>>> max_pgd = 6.899747467484326e-06 # m (meters)
+				>>> max_pga_channel = "ENE"
+				>>> max_pgd_channel = "ENN"
+				>>> event_time = "2023-04-26T04:26:12.02Z"
+				>>> msg_process(max_values)
+				b'PROCESS {"max_pga":0.44449061403448303,"max_pgd":6.130023442598087e-06,"max_pga_channel":"ENN","max_pgd_channel":"ENN","event_time":"2023-04-26T04:26:12.02Z"}'
+		:param tuple event_time: a tuple with the maximum peak ground acceleration and
+				maximum peak ground displacement as the first and second entries, respectively
+		:rtype: bytes
+		:return: the ``PROCESS`` message, ready to be put on the queue
+		'''
+
+		# remove spaces -- this is critical in `get_msg_process_values` so do not remove
+		max_values = max_values.replace(' ', '')
+		return b'PROCESS %s' % (bytes(str(max_values), 'utf-8'))
+
+def get_msg_process_values(msg):
+		'''
+		This function gets the max values from ``PROCESS`` messages as a string.
+		For example:
+		.. code-block:: python
+				>>> msg = b'PROCESS {"max_pga":0.26285487778758243,"max_pgd":2.3574178136785185e-06,"max_pga_channel":"ENN","max_pgd_channel":"ENN","event_time":"2023-04-26T04:48:52.27Z"}'
+				>>> get_msg_process_values(msg)
+				{'max_pga': 0.26285487778758243, 'max_pgd': 2.3574178136785185e-06, 'max_pga_channel': 'ENN', 'max_pgd_channel': 'ENN', 'event_time': '2023-04-26T04:48:52.27Z'}
+		:param bytes msg: the bytes-formatted queue message to decode
+		:rtype: tuple
+		:return: the max values part of the ``PROCESS`` message as a tuple
+		'''
+		decoded_msg_arr = msg.decode('utf-8').split(' ')
+		max_values_str = decoded_msg_arr[1]
+		max_values_dict = json.loads(max_values_str)
+		return max_values_dict
+
+def g_to_intensity(g):
+		'''
+		Gets intensity from PGA.
+		Author unknown. Inspect changes in https://github.com/jadurani/rsudp/pull/1/files
+		Inherited by @jadurani.
+		'''
+		intensity_scale = {
+			(0,0.00170): 'I',
+			(0.00170,0.01400): 'II-III',
+			(0.01400,0.03900): 'IV',
+			(0.03900,0.09200): 'V',
+			(0.09200,0.18000): 'VI',
+			(0.18000,0.34000): 'VII',
+			(0.34000,0.65000): 'VIII',
+			(0.65000,1.24000): 'IX',
+			(1.24000,5): 'X+'
+		}
+		intensity = 'X+'
+		for i in intensity_scale:
+			if i[0] < g < i[1]:
+					intensity = intensity_scale[i]
+		return intensity
+
+def intensity_to_int(intensity):
+		'''
+		Convert string to number for text-to-voice
+		Author unknown. Inspect changes in https://github.com/jadurani/rsudp/pull/1/files
+		Inherited by @jadurani.
+		'''
+		if intensity == "I":
+				intensityNum = 1
+		elif intensity == "II-III":
+				intensityNum = 2
+		elif intensity == "IV":
+				intensityNum = 4
+		elif intensity == "V":
+				intensityNum = 5
+		elif intensity == "VI":
+				intensityNum = 6
+		elif intensity == "VII":
+				intensityNum = 7
+		elif intensity == "VIII":
+				intensityNum = 8
+		elif intensity == "IX":
+				intensityNum = 9
+		elif intensity == "X+":
+				intensityNum = 10
+		else:
+				intensityNum = 0
+
+		return intensityNum
+
+def get_low_corner_freq(tr, low_power_thresh = 0.0001, noise_type="use_end", plot=False, save_plot=False, plot_info=None, verbose=False):
+		'''
+		Written by unknown author.
+		Inherited by @jadurani. Note: I haven't fully delved into studying what this function does. I only updated the part regarding the
+		masked values which I've only experienced to appear when I've set the "station" value to one that is not within my local area network.
+		'''
+		tr = tr.copy()
+
+		window_size = int(0.10*len(tr.data)) # get 10% length of data
+		# window_size = len(tr.data)
+
+		# Check if the Trace has masked values. (Writted by @jadurani, not sure on the resulting computation)
+		# When receiving data from a raspberry shake machine not within LAN, masked values may appear
+		if np.ma.is_masked(tr.data):
+				print(COLOR['red'] + "[helpers.py][get_low_corner_freq] The Trace contains masked values. Unmasking..." + COLOR['white'])
+				tr.data = np.ma.filled(tr.data)
+				print(COLOR['yellow'] + "[helpers.py][get_low_corner_freq] Done. However, do note that this may have side-effects on the computed values." + COLOR['white'])
+
+		if noise_type == "use_end":
+				# print(tr.data.dtype)
+				noise = tr.data[-1*int(window_size-1*tr.stats.sampling_rate):] # remove one second worth of samples
+				# print(int(window_size-1*tr.stats.sampling_rate))
+		elif noise_type == "lowest_ave":
+				tr = tr.copy()
+				tr.detrend("linear") # remove dc
+				windowed_ave_arr = rs.np.convolve(rs.np.absolute(tr.data[window_size:]), rs.np.ones(window_size), 'valid')/window_size
+														# convolve takes inner product of the two arrays and sum them,
+														# take abs to avoid cancelling of positive and negative amps
+														# skip first window size to avoid it being the minimum
+														# valid is to only perform when overlap is complete
+				last_occur_min_index = rs.np.argmin(windowed_ave_arr[::-1])
+				last_occur_min_index = len(windowed_ave_arr) - last_occur_min_index - 1
+														# get first occur of min in reversed arr to get last occur
+														# then flip to normal indices
+				noise_end_ind = 2*window_size + last_occur_min_index
+				noise_start_ind = noise_end_ind - window_size
+				noise = tr.data[noise_start_ind : noise_end_ind + 1]
+		else: # get noise from beginning
+				noise = tr.data[:int(window_size-1*tr.stats.sampling_rate)] # remove one second worth of samples
+
+		# get responses
+		signal = tr.detrend("linear").data
+		signal_resp = abs(rs.np.fft.rfft(signal, n=_npts2nfft(len(signal)))) # get distance as magnitude
+		# signal_resp_x = rs.np.fft.rfftfreq(_npts2nfft(len(signal)), 1/tr.stats.sampling_rate)
+		noise = noise - rs.np.mean(noise) #remove DC
+		noise_resp = abs(rs.np.fft.rfft(noise, n=_npts2nfft(len(noise)))) # get distance as magnitude
+		noise_resp = resample(noise_resp, len(signal_resp))
+		#noise_resp_x = rs.np.fft.rfftfreq(_npts2nfft(len(noise)), 1/tr.stats.sampling_rate)
+		noise_resp_x = rs.np.fft.rfftfreq(_npts2nfft(len(signal)), 1/tr.stats.sampling_rate)
+		nyquist_ind = len(noise_resp)//2
+
+		noise_integral = integrate.cumtrapz(signal_resp[:nyquist_ind]-noise_resp[:nyquist_ind], noise_resp_x[:nyquist_ind], initial=0) # only up to nyquist freq
+		noise_integral = noise_integral/noise_integral[-1] # normalize w max
+		# linearly approximate lowcut
+		# lowcut_ind = int((noise_integral > low_power_thresh).nonzero()[0][0])
+		lowcut = rs.np.interp(low_power_thresh, noise_integral, noise_resp_x[:nyquist_ind]) # inverted
+
+		return lowcut
+
+
+def improved_integration(tr):
+		'''
+		Unknown author. Possibly @jermz
+		'''
+		tr = tr.copy()
+		tr.detrend("demean") # make sure no constant that will become linear function
+		tr.integrate(method="cumtrapz")
+		tr.detrend("linear") # (mx+b, ie the leakage due to cumtrapz)
+		return tr
+
+def differentiate(tr):
+		'''
+		Unknown author. Possibly @jermz
+		'''
+		tr = tr.copy()
+		tr.differentiate(method="gradient")
+
+		return tr

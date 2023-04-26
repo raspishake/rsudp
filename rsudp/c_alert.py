@@ -14,7 +14,7 @@ COLOR['current'] = COLOR['green']
 class Alert(rs.ConsumerThread):
 	"""
 	A data consumer class that listens to a specific incoming data channel
-	and calculates a recursive STA/LTA (short term average over long term 
+	and calculates a recursive STA/LTA (short term average over long term
 	average). If a threshold of STA/LTA ratio is exceeded, the class
 	sets the :py:data:`alarm` flag to the alarm time as a
 	:py:class:`obspy.core.utcdatetime.UTCDateTime` object.
@@ -163,12 +163,12 @@ class Alert(rs.ConsumerThread):
 		self.stalta = np.ndarray(1)
 		self.maxstalta = 0
 		self.units = 'counts'
-		
+
 		self._set_deconv(deconv)
 
 		self.exceed = False
 		self.sound = sound
-		
+
 		self._set_filt(bp)
 		self._print_filt()
 
@@ -239,7 +239,7 @@ class Alert(rs.ConsumerThread):
 		'''
 		if self.stalta.max() > self.thresh:
 			if not self.exceed:
-				# raise a flag that the Producer can read and modify 
+				# raise a flag that the Producer can read and modify
 				self.alarm = helpers.fsec(self.stream[0].stats.starttime + timedelta(seconds=
 										trigger_onset(self.stalta, self.thresh,
 										self.reset)[-1][0] * self.stream[0].stats.delta))
@@ -261,12 +261,16 @@ class Alert(rs.ConsumerThread):
 				if self.stalta[-1] < self.reset:
 					self.alarm_reset = helpers.fsec(self.stream[0].stats.endtime)	# lazy; effective
 					self.exceed = False
-					print()
+
 					printM('Max STA/LTA ratio reached in alarm state: %s' % (round(self.maxstalta, 3)),
 							self.sender)
-					printM('Earthquake trigger reset and active again at %s' % (
-							self.alarm_reset.strftime('%Y-%m-%d %H:%M:%S.%f')[:22]),
-							self.sender)
+					try:
+						printM('Earthquake trigger reset and active again at %s' % (
+								self.alarm_reset.strftime('%Y-%m-%d %H:%M:%S.%f')[:22]),
+								self.sender)
+					except:
+						printM('Earthquake trigger reset and active again.', self.sender)
+
 					self.maxstalta = 0
 					COLOR['current'] = COLOR['green']
 				if self.testing:
@@ -281,11 +285,12 @@ class Alert(rs.ConsumerThread):
 		Print the current max STA/LTA of the stream.
 		'''
 		if self.debug:
-			msg = '\r%s [%s] Threshold: %s; Current max STA/LTA: %.4f' % (
+			msg = '\r%s [%s] Threshold: %s; Reset: %s; Current max STA/LTA: %.4f' % (
 					(self.stream[0].stats.starttime + timedelta(seconds=
 					 len(self.stream[0].data) * self.stream[0].stats.delta)).strftime('%Y-%m-%d %H:%M:%S'),
 					self.sender,
 					self.thresh,
+					self.reset,
 					round(np.max(self.stalta[-50:]), 4)
 					)
 			print(COLOR['current'] + COLOR['bold'] + msg + COLOR['white'], end='', flush=True)

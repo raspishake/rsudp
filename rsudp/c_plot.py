@@ -214,6 +214,26 @@ class Plot:
 							fontsize=14, color=self.fgcolor, x=0.52)
 			self.fig.canvas.set_window_title('(%s) %s.%s - Raspberry Shake Monitor' % (self.events, self.net, self.stn))
 
+		elif 'RESET' in str(d):
+			# when signal falls below threshold and it's set to autoclose, do close pop-up
+			if self.autoclose:
+				self.can_show_popup = False
+
+		elif 'PROCESS' in str(d):
+			max_values_dict = helpers.get_msg_process_values(d)
+			pga = max_values_dict['max_pga']
+			pgd = max_values_dict['max_pgd']
+			max_intensity_str = helpers.g_to_intensity(pga/9.81)
+			max_intensity_int = helpers.intensity_to_int(max_intensity_str)
+
+			# compare the new and previous values of acc and disp
+			if self.prev_pga != pga or self.prev_pgd != pgd:
+				# hide existing pop-up
+				self._hide_popup()
+
+			self._show_popup(acc=pga, disp=pgd, intensity=max_intensity_int)
+			self.can_show_popup = True
+
 		if rs.getCHN(d) in self.chans:
 			self.raw = rs.update_stream(
 				stream=self.raw, d=d, fill_value='latest')
@@ -475,6 +495,113 @@ class Plot:
 				else:	# maximizing in Tk
 					figManager.resize(*figManager.window.maxsize())
 
+	def _set_up_axes(self, ax):
+		'''
+		Sets up the axes such that it will look like a plain rectangle at the top potion of the figure
+		'''
+		ax.xaxis.set_tick_params(labelbottom=False)
+		ax.yaxis.set_tick_params(labelleft=False)
+		ax.set_position([0, 0.75, 1, 0.5])
+
+		# Hide X and Y axes tick marks
+		ax.set_xticks([])
+		ax.set_yticks([])
+
+		# hide spines
+		ax.spines['top'].set_visible(False)
+		ax.spines['right'].set_visible(False)
+		ax.spines['left'].set_visible(False)
+		ax.spines['bottom'].set_visible(False)
+
+	def _show_popup(self, acc, disp, intensity):
+		'''
+		Creates a pop-up for showing info regarding the earthquake
+		This pop-up has no plots or graphs at all -- it's informational
+		This ideally shouldn't reside in c_plot.py but GUIs need to be initialized from with the main thread.
+		And c_plot.py is the only module run on the main thread.
+		:param float acc: ground acceleration; computed by c_process.py
+		:param float disp: ground displacement in (m); computed by c_process.py
+		:param int intensity: intensity of the earthquake; only shown when instrument is on the ground floor;
+				computed by c_process.py
+		'''
+
+		try:
+			# don't create another alert window if there's an existing one that's already opened
+			if self.alert_window is not None:
+				return
+
+			drift = disp/self.disp_thresh
+			(banner_color, banner_text) = ('#FFA723', 'Earthquake Alert') if drift < self.drift_thresh else ('#B80303', '!!! EARTHQUAKE WARNING !!!')
+
+			# Create a new figure
+			fig = plt.figure(facecolor='#EEEEEE')
+			fig.canvas.set_window_title(banner_text)
+			fig.canvas.mpl_connect('close_event', self._hide_popup)
+
+			# create axes that will serve as the banner
+			ax = fig.add_subplot(111)
+			self._set_up_axes(ax)
+
+			# set background color
+			ax.set_facecolor(banner_color)
+			# set banner text (positioned on top of the banner)
+			fig.text(0.5, 0.865, banner_text, ha='center', va='center', fontsize=24, color='#ffffff', weight="bold")
+
+			drift_perc = drift * 100
+			drift_info = ('Drift is %.2f%% of the threshold') % (drift_perc)
+
+			if drift_perc.is_integer():
+				drift_info = ('Drift is %d%% of the threshold') % (drift_perc)
+
+			if self.floor_num > 1:
+				fig.text(0.5, 0.55, drift_info, ha='center', va='center', fontsize=18, weight="semibold")
+				fig.text(0.5, 0.45, ('FLOOR %s') % (self.floor_num), ha='center', va='center', fontsize=18, weight="semibold")
+				fig.text(0.5, 0.35, ('Displacement %.2f m') % (disp), ha='center', va='center', fontsize=18, weight="semibold")
+				fig.text(0.5, 0.25, ('Acceleration %.2f m/s2') % (acc), ha='center', va='center', fontsize=18, weight="semibold")
+			else:
+				fig.text(0.5, 0.625, ('Intensity %d') % (intensity), ha='center', va='center', fontsize=24, weight="semibold")
+				fig.text(0.5, 0.475, drift_info, ha='center', va='center', fontsize=18, weight="semibold")
+				fig.text(0.5, 0.375, ('FLOOR %s') % (self.floor_num), ha='center', va='center', fontsize=18, weight="semibold")
+				fig.text(0.5, 0.275, ('Displacement %.2f m') % (disp), ha='center', va='center', fontsize=18, weight="semibold")
+				fig.text(0.5, 0.175, ('Acceleration %.2f m/s2') % (acc), ha='center', va='center', fontsize=18, weight="semibold")
+
+			self.alert_window = fig
+			self.prev_pga = acc
+			self.prev_pgd = disp
+
+		except Exception as e:
+			printE('Unable to create pop-up')
+			print(e)
+
+	def _hide_popup(self, evt=None):
+		'''
+		Hides the popup, if it already exists
+		'''
+		if self.alert_window is not None:
+			plt.close(self.alert_window)
+			self.alert_window = None
+			self.prev_pga = None
+			self.prev_pgd = None
+
+	def set_popup_info(self,
+		floor_num,
+		disp_thresh,
+		drift_thresh,
+		autoclose
+	):
+		'''
+		Set the fixed info needed by the custom popup.
+		'''
+		self.floor_num = floor_num
+		self.disp_thresh = disp_thresh
+		self.drift_thresh = drift_thresh
+		self.autoclose = autoclose
+
+		# Default values
+		self.can_show_popup = False
+		self.alert_window = None
+		self.prev_pga = None
+		self.prev_pgd = None
 
 	def setup_plot(self):
 		"""
@@ -631,6 +758,9 @@ class Plot:
 		self.update_plot()
 		if u >= 0:				# avoiding a matplotlib broadcast error
 			self.figloop()
+
+		if not self.can_show_popup:
+			self._hide_popup()
 
 		if self.save:
 			# save the plot

@@ -49,6 +49,7 @@ TEST = {
 	'c_forward':			['forwarding                  ', False],
 	'c_rsam':				['RSAM transmission           ', False],
 	'c_custom':				['custom code execution       ', False],
+	'c_process':			['data processing       ', False],
 }
 
 TRANS = {
@@ -225,7 +226,7 @@ def logdir_permissions(logdir='/tmp/rsudp'):
 
 def is_connected(hostname):
 	'''
-	Test for an internet connection. 
+	Test for an internet connection.
 
 	:param str hostname: The hostname to test with
 	:rtype: bool
@@ -243,4 +244,3 @@ def is_connected(hostname):
 	except:
 		pass
 	return False
-

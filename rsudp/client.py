@@ -27,6 +27,9 @@ from rsudp.c_testing import Testing
 from rsudp.t_testdata import TestData
 import pkg_resources as pr
 
+#### Start of custom modules
+from rsudp.c_process import Processor
+#### End of custom modules
 
 DESTINATIONS, THREADS = [], []
 PROD = False
@@ -37,6 +40,7 @@ WRITER = False
 SOUND = False
 TESTING = False
 TESTQUEUE = False
+PROCESSOR = False
 TESTFILE = pr.resource_filename('rsudp', os.path.join('test', 'testdata'))
 SENDER = 'Main'
 
@@ -56,7 +60,7 @@ def _xit(code=0):
 		TESTQUEUE.put(b'ENDTEST')
 	for thread in THREADS:
 		del thread
-	
+
 	printM('Shutdown successful.', sender=SENDER)
 	print()
 	sys.exit(code)
@@ -207,6 +211,25 @@ def run(settings, debug):
 						screencap=screencap, alert=alert, testing=TESTING)
 		# no mk_p() here because the plotter must be controlled by the main thread (this one)
 
+		# pop-up is dependent on plot module (due to the requirement of GUI running in the main thread)
+		# to be clear, 'dialog' is not a worker thread
+		try:
+			if settings['dialog']['enabled']:
+				floor_num = settings['dialog']['floor_num']
+				disp_thresh = settings['dialog']['disp_thresh']
+				drift_thresh = settings['dialog']['drift_thresh']
+				autoclose = settings['dialog']['autoclose']
+
+				PLOTTER.set_popup_info(
+					floor_num=floor_num,
+					disp_thresh=disp_thresh,
+					drift_thresh=drift_thresh,
+					autoclose=autoclose)
+		except Exception as e:
+			printE('rsudp_settings.json required to have floor_num, disp_thresh, drift_thresh, and autoclose under `dialog`', 'client.py')
+
+
+
 	if settings['forward']['enabled']:
 		# put settings in namespace
 		addr = settings['forward']['address']
@@ -344,6 +367,17 @@ def run(settings, debug):
 	# start additional modules here!
 	################################
 
+	try:
+		if settings['process']['enabled']:
+			# put settings in namespace
+			data_dir = settings['process']['output_dir']
+
+			q = mk_q()
+			PROCESSOR = Processor(q=q, data_dir=data_dir, testing=TESTING)
+
+			mk_p(PROCESSOR)
+	except KeyError as e:
+		printE('"process" key not found in settings', 'client.py')
 
 	################################
 

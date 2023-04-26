@@ -78,5 +78,16 @@
       "interval": 10,
       "deconvolve": false,
       "units": "VEL"
+  },
+  "process": {
+    "enabled": true,
+    "output_dir": "../../"
+  },
+  "dialog": {
+    "enabled": true,
+    "floor_num": 1,
+    "disp_thresh": 0.5,
+    "drift_thresh": 0.7,
+    "autoclose": true
   }
 }

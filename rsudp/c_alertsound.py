@@ -1,7 +1,10 @@
 import sys, os
 from rsudp.raspberryshake import ConsumerThread
-from rsudp import printM, printW, printE
+from rsudp import printM, printW, printE, helpers
 from rsudp.test import TEST
+from gtts import gTTS
+from io import BytesIO
+
 import subprocess
 try:
 	from pydub.playback import play
@@ -25,19 +28,18 @@ class AlertSound(ConsumerThread):
 	``rsudp.c_alertsound.AlertSound.sound`` is a pydub.AudioSegment_ object and is passed from the client.
 
 	:param sta: short term average (STA) duration in seconds.
-	:type sta: bool or pydub.AudioSegment_ 
+	:type sta: bool or pydub.AudioSegment_
 	:param queue.Queue q: queue of data and messages sent by :class:`rsudp.c_consumer.Consumer`.
 
 	"""
 
-	def _load_sound(self):
+	def _load_sound(self, soundloc):
 		'''
 		Loads MP3 sound if possible, then writes to wav.
 		Catches a ``FileNotFoundError`` when no player can be loaded.
 		'''
 		try:
-			soundloc = self.sound
-			self.sound = AudioSegment.from_file(self.sound, format="mp3")
+			self.sound = AudioSegment.from_file(soundloc, format="mp3")
 			printM('Loaded %.2f sec alert sound from %s' % (len(self.sound)/1000., soundloc), sender=self.sender)
 			self.wavloc = '%s.wav' % os.path.splitext(soundloc)[0]
 			if 'ffplay' in PLAYER:
@@ -51,12 +53,12 @@ class AlertSound(ConsumerThread):
 			printW('The program will now continue without sound playback.', sender=self.sender, spaces=True)
 			self.sound = False
 
-	def _init_sound(self):
+	def _init_sound(self, soundloc):
 		if pydub_exists:
-			if os.path.exists(self.sound):
-				self._load_sound()
+			if os.path.exists(soundloc):
+				self._load_sound(soundloc)
 			else:
-				printW("The file %s could not be found." % (self.sound), sender=self.sender)
+				printW("The file %s could not be found." % (soundloc), sender=self.sender)
 				printW('The program will now continue without sound playback.', sender=self.sender, spaces=True)
 				self.sound = False
 		else:
@@ -72,13 +74,16 @@ class AlertSound(ConsumerThread):
 		non-verbose mode we must export to .wav prior to playing a sound.
 		This function checks for an existing wav file and if it does not
 		exist, writes a new one.
+
+		However, we'll always rewrite if gtts_enabled (meaning, there's the announcement speech
+		is updated all the time)
 		'''
-		if not os.path.isfile(self.wavloc):
+		if not os.path.isfile(self.wavloc) or self.gtts_enabled:
 			self.sound.export(self.wavloc, format="wav")
 			printM('Wrote wav version of sound file %s' % (self.wavloc), self.sender)
 
 
-	def __init__(self, testing=False, soundloc=False, q=False):
+	def __init__(self, testing=False, soundloc=False, q=False, gtts_enabled=False, tts_loc=None, is_ground_floor=False):
 		"""
 		.. _pydub.AudioSegment: https://github.com/jiaaro/pydub/blob/master/API.markdown#audiosegment
 
@@ -91,10 +96,17 @@ class AlertSound(ConsumerThread):
 		self.alive = True
 		self.testing = testing
 
-		self.sound = soundloc
+		self.sound = None
+		self.soundloc = soundloc
 		self.devnull = open(os.devnull, 'w')
-		
-		self._init_sound()
+
+		self.gtts_enabled = gtts_enabled
+		self.tts_loc = tts_loc
+		self.is_ground_floor = is_ground_floor
+
+		# initialize only once
+		if not self.gtts_enabled:
+			self._init_sound(soundloc)
 
 		if q:
 			self.queue = q
@@ -124,6 +136,36 @@ class AlertSound(ConsumerThread):
 		if self.testing:
 			TEST['c_play'][1] = True
 
+	def _convert_text_to_speech(self, d):
+		'''
+		Gets the pga and pgd values from the PROCESS event
+		and generates a new sound alert, prepended by the original alert message.
+		'''
+		max_values_dict = helpers.get_msg_process_values(d)
+		pga = max_values_dict['max_pga']
+		pgd = max_values_dict['max_pgd']
+		alert_text_1 = helpers.get_intensity_alert_text(pga)
+		alert_text_2 = helpers.get_pga_pgd_alert_text(pga, pgd)
+		announcement = 'Attention!' + (alert_text_1 + alert_text_2 if self.is_ground_floor else alert_text_2)
+
+		speech = gTTS(text=announcement, lang="en", slow=False)
+
+		# Convert the audio data to an in-memory file-like object
+		audio_file = BytesIO()
+		speech.write_to_fp(audio_file)
+		audio_file.seek(0)
+
+		# Load the audio data into pydub
+		speech_audio = AudioSegment.from_file(audio_file, format='mp3')
+
+		# The original alarm
+		alert_audio = AudioSegment.from_file(self.soundloc, format="mp3")
+
+		# combine_audio
+		final_tts_audio = alert_audio + speech_audio
+		# save audio to file
+		final_tts_audio.export(self.tts_loc, format="mp3")
+
 	def run(self):
 		"""
 		Reads data from the queue and plays self.sound if it sees an ``ALARM`` message.
@@ -137,6 +179,11 @@ class AlertSound(ConsumerThread):
 				self.devnull.close()
 				printM('Exiting.', self.sender)
 				sys.exit()
-			elif 'ALARM' in str(d):
+			elif 'PROCESS' in str(d):
+
+				if self.gtts_enabled:
+					self._convert_text_to_speech(d)
+					self._init_sound(self.tts_loc)
+
 				if self.sound and pydub_exists:
 					self._play()

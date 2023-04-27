@@ -122,3 +122,6 @@ dmypy.json
 # vscode
 .vscode
 /.idea/
+
+# auto-generated files
+rsudp/rs_sounds/tts_alert.mp3

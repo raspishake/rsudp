@@ -45,7 +45,8 @@
   },
   "alertsound": {
       "enabled": true,
-      "mp3file": "doorbell"
+      "mp3file": "doorbell",
+      "gtts_enabled": true
   },
   "custom": {
       "enabled": false,
@@ -85,7 +86,7 @@
   },
   "dialog": {
     "enabled": true,
-    "floor_num": 1,
+    "floor_num": 2,
     "disp_thresh": 0.5,
     "drift_thresh": 0.7,
     "autoclose": true

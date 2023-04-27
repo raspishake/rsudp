@@ -79,7 +79,8 @@ def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\
 		},
 		"alertsound": {
 				"enabled": false,
-				"mp3file": "doorbell"
+				"mp3file": "doorbell",
+				"gtts_enabled": true
 		},
 		"custom": {
 				"enabled": false,
@@ -688,6 +689,19 @@ def intensity_to_int(intensity):
 				intensityNum = 0
 
 		return intensityNum
+
+def get_intensity_alert_text(pga):
+	max_intensity_str = g_to_intensity(pga/9.81)
+	max_intensity_int = intensity_to_int(max_intensity_str)
+
+	if max_intensity_str == "II-III":
+		return "Earthquake detected at intensity two or three"
+
+	return "Earthquake detected at intensity %.0f" % max_intensity_int
+
+def get_pga_pgd_alert_text(pga, pgd):
+	return ("Peak displacement is %.2f meters and peak acceleration is %.2f meters per second squared ") % (pgd, pga)
+
 
 def get_low_corner_freq(tr, low_power_thresh = 0.0001, noise_type="use_end", plot=False, save_plot=False, plot_info=None, verbose=False):
 		'''

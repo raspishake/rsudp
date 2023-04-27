@@ -279,8 +279,16 @@ def run(settings, debug):
 		if soundloc in ['doorbell', 'alarm', 'beeps', 'sonar']:
 			soundloc = pr.resource_filename('rsudp', os.path.join('rs_sounds', '%s.mp3' % soundloc))
 
+		gtts_enabled = settings['alertsound']['gtts_enabled']
+		# As of the moment, this file does not exist. We are only setting the location of the file.
+		# It will be generated once `PROCESS` event is triggered
+		tts_loc = pr.resource_filename('rsudp', os.path.join('rs_sounds', 'tts_alert.mp3'))
+
+		# TO DO: need to add checks here
+		is_ground_floor = settings['dialog']['floor_num'] <= 1
+
 		q = mk_q()
-		alsnd = AlertSound(q=q, testing=TESTING, soundloc=soundloc)
+		alsnd = AlertSound(q=q, testing=TESTING, soundloc=soundloc, gtts_enabled=gtts_enabled, tts_loc=tts_loc, is_ground_floor=is_ground_floor)
 		mk_p(alsnd)
 
 	runcustom = False

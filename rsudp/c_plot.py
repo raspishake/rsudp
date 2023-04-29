@@ -530,6 +530,9 @@ class Plot:
 			if self.alert_window is not None:
 				return
 
+			acc = acc * 100 # convert to cm
+			disp = disp * 100 # convert to cm
+
 			drift = disp/self.disp_thresh
 			(banner_color, banner_text) = ('#FFA723', 'Earthquake Alert') if drift < self.drift_thresh else ('#B80303', '!!! EARTHQUAKE WARNING !!!')
 
@@ -548,7 +551,7 @@ class Plot:
 			fig.text(0.5, 0.865, banner_text, ha='center', va='center', fontsize=24, color='#ffffff', weight="bold")
 
 			drift_perc = drift * 100
-			drift_info = ('Drift is %.2f%% of the threshold') % (drift_perc)
+			drift_info = ('Drift is %.6f%% of the threshold') % (drift_perc)
 
 			if drift_perc.is_integer():
 				drift_info = ('Drift is %d%% of the threshold') % (drift_perc)
@@ -556,14 +559,14 @@ class Plot:
 			if self.floor_num > 1:
 				fig.text(0.5, 0.55, drift_info, ha='center', va='center', fontsize=18, weight="semibold")
 				fig.text(0.5, 0.45, ('FLOOR %s') % (self.floor_num), ha='center', va='center', fontsize=18, weight="semibold")
-				fig.text(0.5, 0.35, ('Displacement %.2f m') % (disp), ha='center', va='center', fontsize=18, weight="semibold")
-				fig.text(0.5, 0.25, ('Acceleration %.2f m/s2') % (acc), ha='center', va='center', fontsize=18, weight="semibold")
+				fig.text(0.5, 0.35, ('Displacement %.6f cm') % (disp), ha='center', va='center', fontsize=18, weight="semibold")
+				fig.text(0.5, 0.25, ('Acceleration %.6f cm/s^2') % (acc), ha='center', va='center', fontsize=18, weight="semibold")
 			else:
 				fig.text(0.5, 0.625, ('Intensity %d') % (intensity), ha='center', va='center', fontsize=24, weight="semibold")
 				fig.text(0.5, 0.475, drift_info, ha='center', va='center', fontsize=18, weight="semibold")
 				fig.text(0.5, 0.375, ('FLOOR %s') % (self.floor_num), ha='center', va='center', fontsize=18, weight="semibold")
-				fig.text(0.5, 0.275, ('Displacement %.2f m') % (disp), ha='center', va='center', fontsize=18, weight="semibold")
-				fig.text(0.5, 0.175, ('Acceleration %.2f m/s2') % (acc), ha='center', va='center', fontsize=18, weight="semibold")
+				fig.text(0.5, 0.275, ('Displacement %.6f cm') % (disp), ha='center', va='center', fontsize=18, weight="semibold")
+				fig.text(0.5, 0.175, ('Acceleration %.6f cm/s^2') % (acc), ha='center', va='center', fontsize=18, weight="semibold")
 
 			self.alert_window = fig
 			self.prev_pga = acc

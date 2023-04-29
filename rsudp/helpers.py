@@ -459,38 +459,46 @@ def deconv_acc_inst(self, trace, output):
 	:param obspy.core.trace.Trace trace: the trace object instance to deconvolve
 	'''
 
-	if len(trace.data) >= 1000:
-			lowcut = get_low_corner_freq(trace, noise_type="lowest_ave")
+	# if len(trace.data) >= 1000:
+	# 		lowcut = get_low_corner_freq(trace, noise_type="lowest_ave")
 
-			if lowcut <= 0.1:
-					lowcut = 0.1
-			elif lowcut <= 0.5:
-					lowcut = 0.3
-			else:
-					lowcut = 0.5
+	# 		if lowcut <= 0.1:
+	# 				lowcut = 0.1
+	# 		elif lowcut <= 0.5:
+	# 				lowcut = 0.3
+	# 		else:
+	# 				lowcut = 0.5
 
 	if self.deconv not in 'CHAN':
-		trace.remove_response(inventory=rs.inv, output=output, taper=True, taper_fraction=0.1,
-																			pre_filt=False, water_level=4.5)
+		# custom
+		# trace.remove_response(inventory=rs.inv, output=output, taper=True, taper_fraction=0.1,
+		# 																	pre_filt=False, water_level=4.5)
+		trace.remove_response(inventory=rs.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
+								output=output, water_level=4.5, taper=False)
 	else:
-		trace.remove_response(inventory=rs.inv, output='ACC', taper=True, taper_fraction=0.1,
-															pre_filt=False, water_level=4.5)
+		# custom
+		# trace.remove_response(inventory=rs.inv, output='ACC', taper=True, taper_fraction=0.1,
+		# 													pre_filt=False, water_level=4.5)
+		trace.remove_response(inventory=rs.inv, pre_filt=[0.1, 0.6, 0.95*self.sps, self.sps],
+										output='ACC', water_level=4.5, taper=False)
 
-	if len(trace.data) >= 1000:
-			trace.data = bandpass(trace.data, lowcut, 0.49*self.sps, df=self.sps, corners=4, zerophase=True)
+	# if len(trace.data) >= 1000:
+	# 		trace.data = bandpass(trace.data, lowcut, 0.49*self.sps, df=self.sps, corners=4, zerophase=True)
 
 	if 'VEL' in self.deconv:
 		trace.data = rs.np.cumsum(trace.data)
 		trace.detrend(type='demean')
 
 	elif 'DISP' in self.deconv:
-		try:
-			updated_trace = differentiate(improved_integration(trace))
-			trace.data = updated_trace.data
-		except Exception as e:
-			print(COLOR['red'] + '[helpers.py][deconv_acc_inst] Failed to differentiate on "improved integration" for deconv="DISP", using original code...' + COLOR['white'], e)
-			trace.data = rs.np.cumsum(rs.np.cumsum(trace.data))
-			trace.detrend(type='linear')
+		# try:
+		# 	updated_trace = differentiate(improved_integration(trace))
+		# 	trace.data = updated_trace.data
+		# except Exception as e:
+			# print(COLOR['red'] + '[helpers.py][deconv_acc_inst] Failed to differentiate on "improved integration" for deconv="DISP", using original code...' + COLOR['white'], e)
+			# trace.data = rs.np.cumsum(rs.np.cumsum(trace.data))
+			# trace.detrend(type='linear')
+		trace.data = rs.np.cumsum(rs.np.cumsum(trace.data))
+		trace.detrend(type='linear')
 
 	elif 'GRAV' in self.deconv:
 		trace.data = trace.data / rs.g

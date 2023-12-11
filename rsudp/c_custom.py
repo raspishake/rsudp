@@ -91,7 +91,9 @@ class Custom(ConsumerThread):
 			printM('Executing code from file: %s' % self.codefile, sender=self.sender)
 			try:
 				# try to execute some code
-				exec(self.codefile)
+				with open(self.codefile, 'r') as file:
+					file_content = file.read()
+				exec(file_content)
 				if self.testing:
 					TEST['c_custom'][1] = True
 			except Exception as e:

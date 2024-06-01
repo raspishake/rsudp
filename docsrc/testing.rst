@@ -57,7 +57,7 @@ alert functionality, sound-playing capability, and more.
 
 It does test whether it can see the internet at large,
 and whether it can send data to its own port
-(we've chosen 18888 as a test port).
+(we've chosen 8888 as a test port).
 However, it does not test the ability to receive data from a
 remote shake. If you are having trouble with that, please see the
 :ref:`troubleshooting` page.

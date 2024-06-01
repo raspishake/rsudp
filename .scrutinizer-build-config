@@ -23,7 +23,7 @@ build:
                     - $HOME/miniconda3/bin/conda update conda -y
                     - . $HOME/miniconda3/etc/profile.d/conda.sh
                     - conda config --append channels conda-forge
-                    - conda create -n rsudp python=3.7.4 numpy=1.16.4 future scipy lxml sqlalchemy coverage -y
+                    - conda create -n rsudp python=3.7.4 numpy=1.19.2 future scipy lxml sqlalchemy coverage -y
                     - conda activate rsudp
                     - pip install -U pip
             project_setup:

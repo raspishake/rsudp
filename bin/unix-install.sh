@@ -203,7 +203,7 @@ fi
 if [[ "$arch" == "armv"* ]]; then
   env_install="conda create -n rsudp python=3 numpy future scipy lxml cffi sqlalchemy cryptography -y"
 else
-  env_install="conda create -n rsudp python=3 numpy=1.16.4 future scipy lxml sqlalchemy cryptography -y"
+  env_install="conda create -n rsudp python=3 numpy=1.19.2 future scipy lxml sqlalchemy cryptography -y"
 fi
 
 # check for conda forge channel; if it's not there add it

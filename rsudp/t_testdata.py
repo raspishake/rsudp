@@ -107,8 +107,8 @@ class TestData(Thread):
 
 		self.speed = rs.getTIME(l2) - rs.getTIME(l)
 
-		printW('Opening test socket...', sender=self.sender, announce=False)
-		socket_type = s.SOCK_DGRAM if os.name in 'nt' else s.SOCK_DGRAM | s.SO_REUSEADDR
+		print('Opening test socket...', sender=self.sender, announce=False)
+		socket_type = s.SOCK_DGRAM  # Use only SOCK_DGRAM for non-Windows systems
 		self.sock = s.socket(s.AF_INET, socket_type)
 
 		printW('Sending data to %s:%s every %s seconds'

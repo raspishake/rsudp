@@ -64,7 +64,7 @@ def get_ip():
 	:return: The network IP of the machine that this program is running on
 	'''
 
-	testsock = s.socket(s.AF_INET, s.SOCK_DGRAM)
+	testsock = s.socket(s.AF_PACKET, s.SOCK_DGRAM)
 	try:
 		# doesn't even have to be reachable
 		testsock.connect(('10.255.255.255', 1))
@@ -76,10 +76,11 @@ def get_ip():
 	return IP
 
 ip = get_ip()
+print('ABTEST - IP ', IP)
 
 # construct a socket
 socket_type =  s.SOCK_DGRAM
-sock = s.socket(s.AF_INET, socket_type)
+sock = s.socket(s.AF_PACKET, socket_type)
 if platform.system() not in 'Windows':
     sock.setsockopt(s.SOL_SOCKET, s.SO_REUSEADDR, 1)
 
@@ -185,13 +186,17 @@ def openSOCK(host=''):
 	'''
 	global sockopen
 	sockopen = False
+	
 	if initd:
 		HP = '%s:%s' % ('localhost',port)
+		print('ABTEST - HOST ', HP)
+		print('ABTEST - localhost ', localhost)
 		printM("Opening socket on %s (HOST:PORT)"
 				% HP, 'openSOCK')
 		try:
 			sock.bind((host, port))
 			sockopen = True
+			print('ABTEST - Socket was succesfully opened. ', sock)
 		except Exception as e:
 			printE('Could not bind to port %s. Is another program using it?' % port)
 			printE('Detail: %s' % e, announce=False)
@@ -199,6 +204,7 @@ def openSOCK(host=''):
 	else:
 		raise IOError("Before opening a socket, you must initialize this raspberryshake library by calling initRSlib(dport=XXXXX, rssta='R0E05') first.")
 
+#THE CODE IS FAILING HERE...
 def set_params():
 	'''
 	.. role:: pycode(code)

@@ -220,8 +220,14 @@ class RSAM(rs.ConsumerThread):
 		"""
 		if self.fwaddr and self.fwport:
 			printM('Opening socket...', sender=self.sender)
-			socket_type = s.SOCK_DGRAM if os.name in 'nt' else s.SOCK_DGRAM | s.SO_REUSEADDR
+			
+			# Set the socket type correctly for macOS compatibility
+			socket_type = s.SOCK_DGRAM
 			self.sock = s.socket(s.AF_INET, socket_type)
+			
+			# Set SO_REUSEADDR option separately if not on Windows
+			if os.name != 'nt':
+				self.sock.setsockopt(s.SOL_SOCKET, s.SO_REUSEADDR, 1)
 
 		n = 0
 		next_int = time.time() + self.interval
@@ -236,15 +242,15 @@ class RSAM(rs.ConsumerThread):
 		while True:
 			self._subloop()
 
-			self.raw = rs.copy(self.raw)	# necessary to avoid memory leak
+			self.raw = rs.copy(self.raw)  # necessary to avoid memory leak
 			self.stream = self.raw.copy()
 			self._deconvolve()
 
 			if n > wait_pkts:
 				# if the trigger is activated
-				obstart = self.stream[0].stats.endtime - timedelta(seconds=self.interval)	# obspy time
-				self.raw = self.raw.slice(starttime=obstart)		# slice the stream to the specified length (seconds variable)
-				self.stream = self.stream.slice(starttime=obstart)	# slice the stream to the specified length (seconds variable)
+				obstart = self.stream[0].stats.endtime - timedelta(seconds=self.interval)  # obspy time
+				self.raw = self.raw.slice(starttime=obstart)  # slice the stream to the specified length (seconds variable)
+				self.stream = self.stream.slice(starttime=obstart)  # slice the stream to the specified length (seconds variable)
 
 				# run rsam analysis
 				if time.time() > next_int:
@@ -256,8 +262,8 @@ class RSAM(rs.ConsumerThread):
 
 			elif n == 0:
 				printM('Starting RSAM analysis with interval=%s on station=%s channel=%s forward=%s' %
-					   (self.interval, self.stn, self.cha, self.fwaddr),
-					   self.sender)
+					(self.interval, self.stn, self.cha, self.fwaddr),
+					self.sender)
 			elif n == wait_pkts:
 				printM('RSAM analysis up and running normally.', self.sender)
 				if self.testing:

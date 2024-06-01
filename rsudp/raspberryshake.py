@@ -185,6 +185,7 @@ def openSOCK(host=''):
 	'''
 	global sockopen
 	sockopen = False
+	
 	if initd:
 		HP = '%s:%s' % ('localhost',port)
 		printM("Opening socket on %s (HOST:PORT)"
@@ -192,6 +193,7 @@ def openSOCK(host=''):
 		try:
 			sock.bind((host, port))
 			sockopen = True
+			print('ABTEST - Socket was succesfully opened. ', sock)
 		except Exception as e:
 			printE('Could not bind to port %s. Is another program using it?' % port)
 			printE('Detail: %s' % e, announce=False)

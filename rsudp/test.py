@@ -56,7 +56,7 @@ TRANS = {
 	False: COLOR['red'] + 'FAIL' + COLOR['white']
 }
 
-PORT = 18888
+PORT = 8888
 
 def make_test_settings(settings, inet=False):
 	'''

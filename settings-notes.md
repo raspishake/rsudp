@@ -123,3 +123,9 @@ By configuring these settings appropriately, you can fine-tune the sensitivity a
 Open settings: rs-settings
 Run with custom config: rs-client config.json
 
+Install with pip:
+
+- PyQt5
+
+Install with brew: 
+- freetype

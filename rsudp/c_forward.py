@@ -74,22 +74,27 @@ class Forward(rs.ConsumerThread):
 		Gets and distributes queue objects to another address and port on the network.
 		"""
 		printM('Opening socket...', sender=self.sender)
-		socket_type = s.SOCK_DGRAM if os.name in 'nt' else s.SOCK_DGRAM | s.SO_REUSEADDR
+		
+		# Set the socket type correctly for macOS compatibility
+		socket_type = s.SOCK_DGRAM
 		sock = s.socket(s.AF_INET, socket_type)
+		
+		# Set SO_REUSEADDR option separately if not on Windows
+		if os.name != 'nt':
+			sock.setsockopt(s.SOL_SOCKET, s.SO_REUSEADDR, 1)
 
 		msg_data = '%s data' % (self.chans) if self.fwd_data else ''
 		msg_and = ' and ' if (self.fwd_data and self.fwd_alarms) else ''
 		msg_alarms = 'ALARM / RESET messages' if self.fwd_alarms else ''
 
-		printM('Forwarding %s%s%s to %s:%s' % (msg_data, msg_and, msg_alarms, self.addr,
-											   self.port), sender=self.sender)
+		printM('Forwarding %s%s%s to %s:%s' % (msg_data, msg_and, msg_alarms, self.addr, self.port), sender=self.sender)
 
 		try:
 			while self.running:
-				p = self.queue.get()	# get a packet
-				self.queue.task_done()	# close the queue
+				p = self.queue.get()    # get a packet
+				self.queue.task_done()  # close the queue
 
-				if 'TERM' in str(p):	# shutdown if there's a TERM message on the queue
+				if 'TERM' in str(p):    # shutdown if there's a TERM message on the queue
 					self._exit()
 
 				if 'IMGPATH' in str(p):

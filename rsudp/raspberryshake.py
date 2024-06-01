@@ -44,41 +44,44 @@ g = 9.81	# earth gravity in m/s2
 # get an IP to report to the user
 # from https://stackoverflow.com/questions/166506/finding-local-ip-addresses-using-pythons-stdlib
 def get_ip():
-    '''
-    Return a reliable network IP to report to the user when there is no data received.
-    This helps the user set their Raspberry Shake's datacast streams to point to the correct location
-    if the library raises a "no data received" error.
-    Solution adapted from this stackoverflow answer.
+	'''
+	.. |so_ip| raw:: html
 
-    .. code-block:: python
+		<a href="https://stackoverflow.com/questions/166506/finding-local-ip-addresses-using-pythons-stdlib" target="_blank">this stackoverflow answer</a>
 
-        >>> get_ip()
-        '192.168.1.23'
 
-    :rtype: str
-    :return: The network IP of the machine that this program is running on
-    '''
-    try:
-        # This method works for most systems and is more portable
-        testsock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        # doesn't even have to be reachable
-        testsock.connect(('10.255.255.255', 1))
-        IP = testsock.getsockname()[0]
-    except Exception as e:
-        print(f"Error obtaining IP address: {e}")
-        IP = '127.0.0.1'
-    finally:
-        testsock.close()
-    return IP
+	Return a reliable network IP to report to the user when there is no data received.
+	This helps the user set their Raspberry Shake's datacast streams to point to the correct location
+	if the library raises a "no data received" error.
+	Solution adapted from |so_ip|.
+
+	.. code-block:: python
+
+		>>> get_ip()
+		'192.168.1.23'
+
+	:rtype: str
+	:return: The network IP of the machine that this program is running on
+	'''
+
+	testsock = s.socket(s.AF_INET, s.SOCK_DGRAM)
+	try:
+		# doesn't even have to be reachable
+		testsock.connect(('10.255.255.255', 1))
+		IP = testsock.getsockname()[0]
+	except:
+		IP = '127.0.0.1'
+	finally:
+		testsock.close()
+	return IP
 
 ip = get_ip()
-print('ABTEST - IP ', ip)
 
 # construct a socket
-socket_type = socket.SOCK_DGRAM
-sock = socket.socket(socket.AF_INET, socket_type)  # Use AF_INET instead of AF_PACKET
-if platform.system() not in ['Windows']:
-    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+socket_type =  s.SOCK_DGRAM
+sock = s.socket(s.AF_INET, socket_type)
+if platform.system() not in 'Windows':
+    sock.setsockopt(s.SOL_SOCKET, s.SO_REUSEADDR, 1)
 
 def handler(signum, frame, ip=ip):
 	'''
@@ -185,8 +188,6 @@ def openSOCK(host=''):
 	
 	if initd:
 		HP = '%s:%s' % ('localhost',port)
-		print('ABTEST - HOST ', HP)
-		print('ABTEST - localhost ', localhost)
 		printM("Opening socket on %s (HOST:PORT)"
 				% HP, 'openSOCK')
 		try:
@@ -200,7 +201,6 @@ def openSOCK(host=''):
 	else:
 		raise IOError("Before opening a socket, you must initialize this raspberryshake library by calling initRSlib(dport=XXXXX, rssta='R0E05') first.")
 
-#THE CODE IS FAILING HERE...
 def set_params():
 	'''
 	.. role:: pycode(code)

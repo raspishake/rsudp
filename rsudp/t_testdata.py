@@ -107,7 +107,7 @@ class TestData(Thread):
 
 		self.speed = rs.getTIME(l2) - rs.getTIME(l)
 
-		print('Opening test socket...', sender=self.sender, announce=False)
+		print('Opening test socket...')
 		socket_type = s.SOCK_DGRAM  # Use only SOCK_DGRAM for non-Windows systems
 		self.sock = s.socket(s.AF_INET, socket_type)
 

@@ -169,7 +169,7 @@ Advanced Users
 .. code-block:: bash
 
     conda config --append channels conda-forge
-    conda create -n rsudp python=3 matplotlib=3.1.1 numpy=1.16.4 future scipy lxml sqlalchemy cryptography obspy
+    conda create -n rsudp python=3 matplotlib=3.1.1 numpy=1.19.2 future scipy lxml sqlalchemy cryptography obspy
     conda activate rsudp
     pip install rsudp
 

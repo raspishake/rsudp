@@ -13,7 +13,7 @@ tmp_exe="$tmp/$exe" # install file loc/name
 conda="conda"       # anaconda executable or alias
 mpl="<3.2"          # matplotlib version
 macos_exe="Miniconda3-4.7.12-MacOSX-x86_64.sh"
-linux_exe="Miniconda3-4.7.12-Linux-x86_64.sh"
+linux_exe="Miniconda3-py312_24.5.0-0-Linux-x86_64.sh"
 arm_exe="Berryconda3-2.0.0-Linux-armv7l.sh"
 x86_base_url="https://repo.anaconda.com/miniconda/"
 arm_base_url="https://github.com/jjhelmus/berryconda/releases/download/v2.0.0/"
@@ -201,9 +201,9 @@ if [ -z ${conda_exists+x} ]; then
 fi
 
 if [[ "$arch" == "armv"* ]]; then
-  env_install="conda create -n rsudp python=3 numpy future scipy lxml cffi sqlalchemy cryptography -y"
+  env_install="conda create -n rsudp python=3.12 numpy future scipy lxml cffi sqlalchemy cryptography -y"
 else
-  env_install="conda create -n rsudp python=3 numpy=1.16.4 future scipy lxml sqlalchemy cryptography -y"
+  env_install="conda create -n rsudp python=3.12 numpy=2.0.1 future scipy lxml sqlalchemy cryptography -y"
 fi
 
 # check for conda forge channel; if it's not there add it

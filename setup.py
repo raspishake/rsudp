@@ -17,8 +17,8 @@ setuptools.setup(
     url="https://github.com/raspishake/rsudp",
     packages=setuptools.find_packages(),
     include_package_data=True,
-    install_requires=['obspy', 'numpy', 'matplotlib<3.2', 'pydub', 'twython',
-                      'python-telegram-bot<=13.11'],
+    install_requires=['obspy', 'numpy>=2.0.0', 'matplotlib>3.2', 'pydub', 'twython',
+                      'python-telegram-bot'],
     entry_points = {
         'console_scripts': [
             'rs-packetloss=rsudp.packetloss:main',
@@ -32,8 +32,7 @@ setuptools.setup(
     },
     classifiers=[
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.12",
         "Operating System :: OS Independent",
         "Framework :: Matplotlib",
         "Topic :: Scientific/Engineering :: Physics",

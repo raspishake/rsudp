@@ -206,7 +206,7 @@ class Plot:
 			self.fig.suptitle('%s.%s live output - detected events: %s' # title
 							% (self.net, self.stn, self.events),
 							fontsize=14, color=self.fgcolor, x=0.52)
-			self.fig.canvas.set_window_title('(%s) %s.%s - Raspberry Shake Monitor' % (self.events, self.net, self.stn))
+			self.fig.canvas.manager.set_window_title('(%s) %s.%s - Raspberry Shake Monitor' % (self.events, self.net, self.stn))
 
 		if rs.getCHN(d) in self.chans:
 			self.raw = rs.update_stream(
@@ -329,7 +329,7 @@ class Plot:
 		
 		if QT:
 			self.fig.canvas.window().statusBar().setVisible(False) # remove bottom bar
-		self.fig.canvas.set_window_title('%s.%s - Raspberry Shake Monitor' % (self.net, self.stn))
+		self.fig.canvas.manager.set_window_title('%s.%s - Raspberry Shake Monitor' % (self.net, self.stn))
 		self.fig.patch.set_facecolor(self.bgcolor)	# background color
 		self.fig.suptitle('%s.%s live output%s'	# title
 						  % (self.net, self.stn, self.event_text),

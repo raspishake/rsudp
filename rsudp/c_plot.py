@@ -542,7 +542,7 @@ class Plot:
 										+np.ptp(self.stream[i].data-mean)*0.1)
 
 
-	def _update_specgram(self, i, mean):
+	def _update_specgram(self, i: int, mean: float):
 		'''
 		Updates the spectrogram and its labels.
 
@@ -554,9 +554,9 @@ class Plot:
 		if len(self.stream[i].data) < self.nfft1:	# when the number of data points is low, we just need to kind of fake it for a few fractions of a second
 			self.nfft1 = 8
 			self.nlap1 = 6
-		sg = self.ax[i*self.mult+1].specgram(self.stream[i].data-mean,
-					NFFT=self.nfft1, pad_to=int(self.nfft1*4), # previously self.sps*4),
-					Fs=self.sps, noverlap=self.nlap1)[0]	# meat & potatoes
+		sg = self.ax[i*self.mult+1].specgram(self.stream[i].data - mean,
+                    NFFT=int(self.nfft1), pad_to=int(self.nfft1*4), # previously self.sps*4),
+					Fs=self.sps, noverlap=int(self.nlap1))[0]	# meat & potatoes
 		self.ax[i*self.mult+1].clear()	# incredibly important, otherwise continues to draw over old images (gets exponentially slower)
 		# cloogy way to shift the spectrogram to line up with the seismogram
 		self.ax[i*self.mult+1].set_xlim(0.25,self.seconds-0.25)

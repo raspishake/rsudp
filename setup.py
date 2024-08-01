@@ -17,7 +17,11 @@ setuptools.setup(
     url="https://github.com/raspishake/rsudp",
     packages=setuptools.find_packages(),
     include_package_data=True,
-    install_requires=['obspy', 'numpy>=2.0.0', 'matplotlib>3.2', 'pydub', 'twython',
+    install_requires=['obspy',
+                      'numpy>=2.0.0,<3',
+                      'matplotlib>3.2,<4',
+                      'pydub',
+                      'twython',
                       'python-telegram-bot'],
     entry_points = {
         'console_scripts': [

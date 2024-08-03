@@ -139,13 +139,14 @@ if [ -z ${conda_exists+x} ]; then
     wget "$arm_base_url$arm_exe" -O "$tmp_exe" && dl=1
 
   else
-    if [[ "$arch" == "aarch64" ]]; then
-      conda_installer=$aarch64_exe
-      wget "$aarch64_base_url$conda_installer" -O "$tmp_exe" && dl=1
-
-    elif [[ "$os" == "Linux" ]]; then
-      conda_installer=$linux_exe
-      wget "$x86_base_url$conda_installer" -O "$tmp_exe" && dl=1
+    if [[ "$os" == "Linux" ]]; then
+      if [[ "$arch" == "aarch64" ]]; then
+        conda_installer=$aarch64_exe
+        wget "$aarch64_base_url$conda_installer" -O "$tmp_exe" && dl=1
+      else
+        conda_installer=$linux_exe
+        wget "$x86_base_url$conda_installer" -O "$tmp_exe" && dl=1
+      fi
 
     elif [[ "$os" == "Darwin" ]]; then
       conda_installer=$macos_exe

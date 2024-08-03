@@ -413,10 +413,10 @@ class Plot:
 							  )-np.timedelta64(self.seconds, 's')	# numpy time
 		end = np.datetime64(self.stream[0].stats.endtime)	# numpy time
 
-		#im = mpimg.imread(pr.resource_filename('rsudp', os.path.join('img', 'version1-01-small.png')))
-		#self.imax = self.fig.add_axes([0.015, 0.944, 0.2, 0.056], anchor='NW') # [left, bottom, right, top]
-		#self.imax.imshow(im, aspect='equal', interpolation='sinc')
-		#self.imax.axis('off')
+		im = mpimg.imread(pr.resource_filename('rsudp', os.path.join('img', 'version1-01-small.png')))
+		self.imax = self.fig.add_axes([0.015, 0.944, 0.2, 0.056], anchor='NW') # [left, bottom, right, top]
+		self.imax.imshow(im, aspect='equal', interpolation='sinc')
+		self.imax.axis('off')
 		# set up axes and artists
 		for i in range(self.num_chans): # create lines objects and modify axes
 			if len(self.stream[i].data) < int(self.sps*(1/self.per_lap)):

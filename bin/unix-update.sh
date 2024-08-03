@@ -8,7 +8,7 @@ os=$(uname -s)      # kernel name
 node=$(uname -n)    # node name
 bsd=$(uname -a | grep BSD || uname -a | grep Darwin)  # is this a BSD variant?
 conda="conda"       # anaconda executable or alias
-if [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='miniconda3'; fi
+if [[ "$arch" == "aarch64" ]]; then release='miniforge3'; elif [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='miniconda3'; fi
 # conda install location:
 prefix="$HOME/$release"         # $HOME/miniconda3 is default location
 full="$HOME/anaconda3"          # full release install location

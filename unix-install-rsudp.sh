@@ -3,7 +3,7 @@
 dir_name="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" # current directory
 arch=$(uname -m)    # machine hardware 
 conda="conda"       # anaconda executable or alias
-if [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='miniconda3'; fi
+if [[ "$arch" == "aarch64" ]]; then release='miniforge3'; elif [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='miniconda3'; fi
 # conda install location:
 prefix="$HOME/$release"         # $HOME/miniconda3 is default location
 full="$HOME/anaconda3"          # full release install location

@@ -14,10 +14,12 @@ conda="conda"       # anaconda executable or alias
 mpl="<3.2"          # matplotlib version
 macos_exe="Miniconda3-4.7.12-MacOSX-x86_64.sh"
 linux_exe="Miniconda3-py312_24.5.0-0-Linux-x86_64.sh"
+aarch64_exe="Miniforge3-Linux-aarch64.sh"
 arm_exe="Berryconda3-2.0.0-Linux-armv7l.sh"
 x86_base_url="https://repo.anaconda.com/miniconda/"
+aarch64_base_url="https://github.com/conda-forge/miniforge/releases/latest/download/"
 arm_base_url="https://github.com/jjhelmus/berryconda/releases/download/v2.0.0/"
-if [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='miniconda3'; fi
+if [[ "$arch" == "aarch64" ]]; then release='miniforge3'; elif [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='miniconda3'; fi
 # conda install location:
 prefix="$HOME/$release"         # $HOME/miniconda3 is default location
 full="$HOME/anaconda3"          # full release install location
@@ -137,7 +139,11 @@ if [ -z ${conda_exists+x} ]; then
     wget "$arm_base_url$arm_exe" -O "$tmp_exe" && dl=1
 
   else
-    if [[ "$os" == "Linux" ]]; then
+    if [[ "$arch" == "aarch64" ]]; then
+      conda_installer=$aarch64_exe
+      wget "$aarch64_base_url$conda_installer" -O "$tmp_exe" && dl=1
+
+    elif [[ "$os" == "Linux" ]]; then
       conda_installer=$linux_exe
       wget "$x86_base_url$conda_installer" -O "$tmp_exe" && dl=1
 

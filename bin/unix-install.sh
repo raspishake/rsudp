@@ -14,13 +14,16 @@ conda="conda"       # anaconda executable or alias
 mpl="<3.2"          # matplotlib version
 macos_exe="Miniconda3-4.7.12-MacOSX-x86_64.sh"
 linux_exe="Miniconda3-py312_24.5.0-0-Linux-x86_64.sh"
+aarch64_exe="Miniforge3-Linux-aarch64.sh"
 arm_exe="Berryconda3-2.0.0-Linux-armv7l.sh"
 x86_base_url="https://repo.anaconda.com/miniconda/"
+aarch64_base_url="https://github.com/conda-forge/miniforge/releases/latest/download/"
 arm_base_url="https://github.com/jjhelmus/berryconda/releases/download/v2.0.0/"
-if [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='miniconda3'; fi
+if [[ "$arch" == "aarch64" ]]; then release='miniforge3'; elif [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='miniconda3'; fi
 # conda install location:
 prefix="$HOME/$release"         # $HOME/miniconda3 is default location
 full="$HOME/anaconda3"          # full release install location
+miniforge3="$HOME/miniforge3"   # MiniForge3
 berryconda="$HOME/berryconda3"  # berryconda install location
 miniconda="$HOME/miniconda3"    # miniconda install location
 config="$HOME/.config/rsudp"    # config location
@@ -78,6 +81,12 @@ if [ -z ${conda_exists+x} ]; then
     . $prefix/etc/profile.d/conda.sh &&
     conda activate &&
     conda_exists=1
+  elif [ -f "$miniforge3/bin/conda" ]; then
+    # look for a miniforge3 release
+    . $miniforge3/etc/profile.d/conda.sh &&
+    prefix=$miniforge3
+    conda activate &&
+    conda_exists=1
   elif [ -f "$berryconda/bin/conda" ]; then
     # look for a berryconda release
     . $berryconda/etc/profile.d/conda.sh &&
@@ -131,8 +140,13 @@ if [ -z ${conda_exists+x} ]; then
 
   else
     if [[ "$os" == "Linux" ]]; then
-      conda_installer=$linux_exe
-      wget "$x86_base_url$conda_installer" -O "$tmp_exe" && dl=1
+      if [[ "$arch" == "aarch64" ]]; then
+        conda_installer=$aarch64_exe
+        wget "$aarch64_base_url$conda_installer" -O "$tmp_exe" && dl=1
+      else
+        conda_installer=$linux_exe
+        wget "$x86_base_url$conda_installer" -O "$tmp_exe" && dl=1
+      fi
 
     elif [[ "$os" == "Darwin" ]]; then
       conda_installer=$macos_exe

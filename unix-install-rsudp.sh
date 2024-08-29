@@ -3,10 +3,11 @@
 dir_name="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" # current directory
 arch=$(uname -m)    # machine hardware 
 conda="conda"       # anaconda executable or alias
-if [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='miniconda3'; fi
+if [[ "$arch" == "aarch64" ]]; then release='miniforge3'; elif [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='miniconda3'; fi
 # conda install location:
 prefix="$HOME/$release"         # $HOME/miniconda3 is default location
 full="$HOME/anaconda3"          # full release install location
+miniforge3="$HOME/miniforge3"   # MiniForge3
 berryconda="$HOME/berryconda3"  # berryconda install location
 miniconda="$HOME/miniconda3"    # miniconda install location
 config="$HOME/.config/rsudp"    # config location
@@ -25,6 +26,12 @@ if [ -z ${conda_exists+x} ]; then
   if [ -f "$miniconda/bin/conda" ]; then
     # now we look in the default install location
     . $prefix/etc/profile.d/conda.sh &&
+    conda activate &&
+    conda_exists=1
+  elif [ -f "$miniforge3/bin/conda" ]; then
+    # look for a miniforge3 release
+    . $miniforge3/etc/profile.d/conda.sh &&
+    prefix=$miniforge3
     conda activate &&
     conda_exists=1
   elif [ -f "$berryconda/bin/conda" ]; then

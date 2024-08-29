@@ -10,11 +10,14 @@ if [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='miniconda
 # conda install location:
 prefix="$HOME/$release"         # $HOME/miniconda3 is default location
 full="$HOME/anaconda3"          # full release install location
+miniforge3="$HOME/miniforge3"   # MiniForge3
 
 if [ -f "$prefix/etc/profile.d/conda.sh" ]; then
   . $prefix/etc/profile.d/conda.sh
 elif [ -f "$full/etc/profile.d/conda.sh" ]; then
   . $full/etc/profile.d/conda.sh
+  elif [ -f "$miniforge3/bin/conda" ]; then
+  . $miniforge3/etc/profile.d/conda.sh
 else
   echo "Could not find an anaconda installation. Have you used the installer script to install rsudp, or is anaconda in a nonstandard location?"
   exit 2

@@ -12,7 +12,8 @@ exe="conda-install.sh" # install file name
 tmp_exe="$tmp/$exe" # install file loc/name
 conda="conda"       # anaconda executable or alias
 mpl="<3.2"          # matplotlib version
-macos_exe="Miniconda3-4.7.12-MacOSX-x86_64.sh"
+macos_exe="Miniconda3-py312_24.7.1-0-MacOSX-x86_64.sh"
+macos_arm_exe="Miniconda3-py312_24.7.1-0-MacOSX-arm64.sh"
 linux_exe="Miniconda3-py312_24.5.0-0-Linux-x86_64.sh"
 aarch64_exe="Miniforge3-Linux-aarch64.sh"
 arm_exe="Berryconda3-2.0.0-Linux-armv7l.sh"
@@ -76,6 +77,14 @@ conda_exists=1
 
 if [ -z ${conda_exists+x} ]; then
   # if conda command doesn't exist,
+  # Create symbolic link on MacOS if anaconda in opt directory
+  if [[ "$os" == "Darwin" ]]; then
+    if [ -f "/opt/miniconda3/bin/conda" ]; then
+      ln -s /opt/miniconda3 "$miniconda"
+    elif [ -f "/opt/anaconda3/bin/conda" ]; then
+      ln -s /opt/anaconda3 "$full"
+    fi
+  fi
   if [ -f "$miniconda/bin/conda" ]; then
     # now we look in the default install location
     . $prefix/etc/profile.d/conda.sh &&
@@ -149,7 +158,11 @@ if [ -z ${conda_exists+x} ]; then
       fi
 
     elif [[ "$os" == "Darwin" ]]; then
-      conda_installer=$macos_exe
+      if [[ "$arch" == "arm"* ]]; then
+        conda_installer=$macos_arm_exe
+      else
+        conda_installer=$macos_exe
+      fi
       curl "$x86_base_url$conda_installer" -o "$tmp_exe" && dl=1
 
     else

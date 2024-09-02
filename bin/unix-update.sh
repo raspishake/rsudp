@@ -56,6 +56,14 @@ conda_exists=1
 
 if [ -z ${conda_exists+x} ]; then
   # if conda command doesn't exist,
+  # Create symbolic link on MacOS if anaconda in opt directory
+  if [[ "$os" == "Darwin" ]]; then
+    if [ -f "/opt/miniconda3/bin/conda" ]; then
+      ln -s /opt/miniconda3 "$miniconda"
+    elif [ -f "/opt/anaconda3/bin/conda" ]; then
+      ln -s /opt/anaconda3 "$full"
+    fi
+  fi
   if [ -f "$miniconda/bin/conda" ]; then
     # now we look in the default install location
     . $prefix/etc/profile.d/conda.sh &&

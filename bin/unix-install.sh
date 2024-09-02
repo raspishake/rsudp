@@ -12,15 +12,19 @@ exe="conda-install.sh" # install file name
 tmp_exe="$tmp/$exe" # install file loc/name
 conda="conda"       # anaconda executable or alias
 mpl="<3.2"          # matplotlib version
-macos_exe="Miniconda3-4.7.12-MacOSX-x86_64.sh"
-linux_exe="Miniconda3-4.7.12-Linux-x86_64.sh"
+macos_exe="Miniconda3-py312_24.7.1-0-MacOSX-x86_64.sh"
+macos_arm_exe="Miniconda3-py312_24.7.1-0-MacOSX-arm64.sh"
+linux_exe="Miniconda3-py312_24.5.0-0-Linux-x86_64.sh"
+aarch64_exe="Miniforge3-Linux-aarch64.sh"
 arm_exe="Berryconda3-2.0.0-Linux-armv7l.sh"
 x86_base_url="https://repo.anaconda.com/miniconda/"
+aarch64_base_url="https://github.com/conda-forge/miniforge/releases/latest/download/"
 arm_base_url="https://github.com/jjhelmus/berryconda/releases/download/v2.0.0/"
-if [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='miniconda3'; fi
+if [[ "$arch" == "aarch64" ]]; then release='miniforge3'; elif [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='miniconda3'; fi
 # conda install location:
 prefix="$HOME/$release"         # $HOME/miniconda3 is default location
 full="$HOME/anaconda3"          # full release install location
+miniforge3="$HOME/miniforge3"   # MiniForge3
 berryconda="$HOME/berryconda3"  # berryconda install location
 miniconda="$HOME/miniconda3"    # miniconda install location
 config="$HOME/.config/rsudp"    # config location
@@ -73,9 +77,23 @@ conda_exists=1
 
 if [ -z ${conda_exists+x} ]; then
   # if conda command doesn't exist,
+  # Create symbolic link on MacOS if anaconda in opt directory
+  if [[ "$os" == "Darwin" ]]; then
+    if [ -f "/opt/miniconda3/bin/conda" ]; then
+      ln -s /opt/miniconda3 "$miniconda"
+    elif [ -f "/opt/anaconda3/bin/conda" ]; then
+      ln -s /opt/anaconda3 "$full"
+    fi
+  fi
   if [ -f "$miniconda/bin/conda" ]; then
     # now we look in the default install location
     . $prefix/etc/profile.d/conda.sh &&
+    conda activate &&
+    conda_exists=1
+  elif [ -f "$miniforge3/bin/conda" ]; then
+    # look for a miniforge3 release
+    . $miniforge3/etc/profile.d/conda.sh &&
+    prefix=$miniforge3
     conda activate &&
     conda_exists=1
   elif [ -f "$berryconda/bin/conda" ]; then
@@ -131,11 +149,20 @@ if [ -z ${conda_exists+x} ]; then
 
   else
     if [[ "$os" == "Linux" ]]; then
-      conda_installer=$linux_exe
-      wget "$x86_base_url$conda_installer" -O "$tmp_exe" && dl=1
+      if [[ "$arch" == "aarch64" ]]; then
+        conda_installer=$aarch64_exe
+        wget "$aarch64_base_url$conda_installer" -O "$tmp_exe" && dl=1
+      else
+        conda_installer=$linux_exe
+        wget "$x86_base_url$conda_installer" -O "$tmp_exe" && dl=1
+      fi
 
     elif [[ "$os" == "Darwin" ]]; then
-      conda_installer=$macos_exe
+      if [[ "$arch" == "arm"* ]]; then
+        conda_installer=$macos_arm_exe
+      else
+        conda_installer=$macos_exe
+      fi
       curl "$x86_base_url$conda_installer" -o "$tmp_exe" && dl=1
 
     else
@@ -201,9 +228,9 @@ if [ -z ${conda_exists+x} ]; then
 fi
 
 if [[ "$arch" == "armv"* ]]; then
-  env_install="conda create -n rsudp python=3 numpy future scipy lxml cffi sqlalchemy cryptography -y"
+  env_install="conda create -n rsudp python=3.12 numpy future scipy lxml cffi sqlalchemy cryptography -y"
 else
-  env_install="conda create -n rsudp python=3 numpy=1.16.4 future scipy lxml sqlalchemy cryptography -y"
+  env_install="conda create -n rsudp python=3.12 numpy=2.0.1 future scipy lxml sqlalchemy cryptography -y"
 fi
 
 # check for conda forge channel; if it's not there add it

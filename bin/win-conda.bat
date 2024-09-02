@@ -61,7 +61,7 @@ reg Query "HKLM\Hardware\Description\System\CentralProcessor\0" | find /i "x86" 
   
 :: Set correct download url
 if %OS%==32BIT set url=https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86.exe
-if %OS%==64BIT set url=https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe
+if %OS%==64BIT set url=https://repo.anaconda.com/miniconda/Miniconda3-py312_24.5.0-0-Windows-x86_64.exe
   
 powershell -Command "Invoke-WebRequest %url% -OutFile tmp.exe"
   

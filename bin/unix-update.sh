@@ -8,10 +8,11 @@ os=$(uname -s)      # kernel name
 node=$(uname -n)    # node name
 bsd=$(uname -a | grep BSD || uname -a | grep Darwin)  # is this a BSD variant?
 conda="conda"       # anaconda executable or alias
-if [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='miniconda3'; fi
+if [[ "$arch" == "aarch64" ]]; then release='miniforge3'; elif [[ "$arch" == "armv"* ]]; then release='berryconda3'; else release='miniconda3'; fi
 # conda install location:
 prefix="$HOME/$release"         # $HOME/miniconda3 is default location
 full="$HOME/anaconda3"          # full release install location
+miniforge3="$HOME/miniforge3"   # MiniForge3
 berryconda="$HOME/berryconda3"  # berryconda install location
 miniconda="$HOME/miniconda3"    # miniconda install location
 config="$HOME/.config/rsudp"    # config location
@@ -55,9 +56,23 @@ conda_exists=1
 
 if [ -z ${conda_exists+x} ]; then
   # if conda command doesn't exist,
+  # Create symbolic link on MacOS if anaconda in opt directory
+  if [[ "$os" == "Darwin" ]]; then
+    if [ -f "/opt/miniconda3/bin/conda" ]; then
+      ln -s /opt/miniconda3 "$miniconda"
+    elif [ -f "/opt/anaconda3/bin/conda" ]; then
+      ln -s /opt/anaconda3 "$full"
+    fi
+  fi
   if [ -f "$miniconda/bin/conda" ]; then
     # now we look in the default install location
     . $prefix/etc/profile.d/conda.sh &&
+    conda activate &&
+    conda_exists=1
+  elif [ -f "$miniforge3/bin/conda" ]; then
+    # look for a miniforge3 release
+    . $miniforge3/etc/profile.d/conda.sh &&
+    prefix=$miniforge3
     conda activate &&
     conda_exists=1
   elif [ -f "$berryconda/bin/conda" ]; then

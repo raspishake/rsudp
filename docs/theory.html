@@ -1,48 +1,24 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>1. Program architecture and flow &mdash; rsudp  documentation</title>
-  
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -50,71 +26,46 @@
     <link rel="prev" title="YouTube walkthroughs" href="youtube.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="index.html" class="icon icon-home"> rsudp
           
-
-          
-            
-            <img src="_static/logo.png" class="logo" alt="Logo"/>
-          
+          <a href="index.html" class="icon icon-home">
+            rsudp
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-
-          
-            
-            
               <div class="version">
-                1.1.1
+                2.0.0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Tutorial guide</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorial guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="about.html">1. About rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installing.html">2. Installing rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal"><span class="pre">systemctl</span></code> daemon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Video resources</span></p>
+<p class="caption" role="heading"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#detected-earthquake">Detected earthquake</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Developers' guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">1. Program architecture and flow</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#thread-layout">1.1. Thread layout</a></li>
@@ -125,7 +76,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#adding-your-own-consumer-modules">1.3. Adding your own consumer modules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#sample-consumer">1.3.1. Sample consumer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#adding-your-module-to-the-settings-file">1.3.2. Adding your module to the settings file</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#adding-your-module-to-client-py">1.3.3. Adding your module to <code class="docutils literal"><span class="pre">client.py</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-your-module-to-client-py">1.3.3. Adding your module to <code class="docutils literal notranslate"><span class="pre">client.py</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#testing-your-module">1.3.4. Testing your module</a></li>
 </ul>
 </li>
@@ -134,250 +85,210 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">2. Contributing to this project</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Library</span></p>
+<p class="caption" role="heading"><span class="caption-text">Library</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="docutils literal"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="docutils literal"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="docutils literal"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="docutils literal"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Clients</span></p>
+<p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="docutils literal"><span class="pre">rsudp.client</span></code> (central module)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="docutils literal"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Producer and Consumer</span></p>
+<p class="caption" role="heading"><span class="caption-text">Producer and Consumer</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="docutils literal"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="docutils literal"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Sub-Consumers</span></p>
+<p class="caption" role="heading"><span class="caption-text">Sub-Consumers</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="docutils literal"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="docutils literal"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="docutils literal"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="docutils literal"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="docutils literal"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="docutils literal"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="docutils literal"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="docutils literal"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="docutils literal"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Testing modules</span></p>
+<p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="docutils literal"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="docutils literal"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="docutils literal"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="docutils literal"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">rsudp</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li>1. Program architecture and flow</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1. </span>Program architecture and flow</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="_sources/theory.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="program-architecture-and-flow">
-<span id="flow"></span><h1>1. Program architecture and flow<a class="headerlink" href="#program-architecture-and-flow" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="program-architecture-and-flow">
+<span id="flow"></span><h1><span class="section-number">1. </span>Program architecture and flow<a class="headerlink" href="#program-architecture-and-flow" title="Permalink to this heading"></a></h1>
 <p>rsudp is laid out in a way that is standard for many continuous monitoring
 softwares, but which may be unfamiliar to some developers.</p>
 <p>The program’s organization relies on two hierarchies: thread hierarchy and
 data hierarchy. This allows the program to distribute data and messages
 between different modules efficiently while maintaining programmatic
-integrity required by rsudp’s dependencies (<a class="reference external" href="https://matplotlib.org/stable/api/pyplot_summary.html#module-matplotlib.pyplot" title="(in Matplotlib v3.6.0)"><code class="xref py py-mod docutils literal"><span class="pre">matplotlib.pyplot</span></code></a>
+integrity required by rsudp’s dependencies (<a class="reference external" href="https://matplotlib.org/stable/api/pyplot_summary.html#module-matplotlib.pyplot" title="(in Matplotlib v3.9.2)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">matplotlib.pyplot</span></code></a>
 objects, for example, can only be owned by the master thread).</p>
-<div class="figure align-center" id="id2">
+<figure class="align-center" id="id2">
 <span id="flow-diagram"></span><img alt="_images/rsudp-flow.png" src="_images/rsudp-flow.png" />
-<p class="caption"><span class="caption-text">Data and (inset) thread hierarchies for rsudp.
+<figcaption>
+<p><span class="caption-text">Data and (inset) thread hierarchies for rsudp.
 This figure shows a flow chart of data as it makes its way through
 rsudp’s producer-consumer architecture,
 and eventually to the end-consumer processing the data.
 Thread hierarchies are shown in the inset chart.
 If you are looking to add a module to rsudp,
 it will be a worker class (red) and will receive data from
-the master consumer like the rest of the workers.</span></p>
-</div>
-<div class="section" id="thread-layout">
-<h2>1.1. Thread layout<a class="headerlink" href="#thread-layout" title="Permalink to this headline">¶</a></h2>
-<p>The program relies on the <a class="reference external" href="https://docs.python.org/3/library/threading.html#module-threading" title="(in Python v3.10)"><code class="xref py py-mod docutils literal"><span class="pre">threading</span></code></a> and <a class="reference external" href="https://docs.python.org/3/library/queue.html#module-queue" title="(in Python v3.10)"><code class="xref py py-mod docutils literal"><span class="pre">queue</span></code></a> modules
+the master consumer like the rest of the workers.</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<section id="thread-layout">
+<h2><span class="section-number">1.1. </span>Thread layout<a class="headerlink" href="#thread-layout" title="Permalink to this heading"></a></h2>
+<p>The program relies on the <a class="reference external" href="https://docs.python.org/3/library/threading.html#module-threading" title="(in Python v3.12)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">threading</span></code></a> and <a class="reference external" href="https://docs.python.org/3/library/queue.html#module-queue" title="(in Python v3.12)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code></a> modules
 to spin up multiple threads which all receive and work with data
 independently of one another.</p>
-<p>First, the <code class="xref py py-mod docutils literal"><span class="pre">rsudp.client</span></code> (the “main” or “parent” thread) gathers
+<p>First, the <code class="xref py py-mod docutils literal notranslate"><span class="pre">rsudp.client</span></code> (the “main” or “parent” thread) gathers
 and parses settings. The client then instantiates the relevant
-<a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.10)"><code class="xref py py-class docutils literal"><span class="pre">threading.Thread</span></code></a> objects and passes settings and queues to
+<a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></a> objects and passes settings and queues to
 them. Next, it starts each of these consumer threads as “child” threads,
 then finally the producer, also as a child thread.</p>
-<p>If the <a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot" title="rsudp.c_plot.Plot"><code class="xref py py-class docutils literal"><span class="pre">rsudp.c_plot.Plot</span></code></a> thread is enabled, the program will
+<p>If the <a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot" title="rsudp.c_plot.Plot"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_plot.Plot</span></code></a> thread is enabled, the program will
 start that last, since plotting must be run as a loop controlled by the
-main thread (<code class="xref py py-mod docutils literal"><span class="pre">rsudp.client</span></code>) which can only be done once it has
+main thread (<code class="xref py py-mod docutils literal notranslate"><span class="pre">rsudp.client</span></code>) which can only be done once it has
 started all of its child threads.</p>
-</div>
-<div class="section" id="producer-consumer-message-passing">
-<span id="producer-consumer"></span><h2>1.2. Producer-consumer message passing<a class="headerlink" href="#producer-consumer-message-passing" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="producer-consumer-message-passing">
+<span id="producer-consumer"></span><h2><span class="section-number">1.2. </span>Producer-consumer message passing<a class="headerlink" href="#producer-consumer-message-passing" title="Permalink to this heading"></a></h2>
 <p>Data is read off the port by the data producer
-(<a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal"><span class="pre">rsudp.p_producer.Producer</span></code></a>) and passed directly to the
-(<a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>) via a first-in first-out (FIFO)
+(<a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.p_producer.Producer</span></code></a>) and passed directly to the
+(<a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>) via a first-in first-out (FIFO)
 queue object.</p>
 <p>This master consumer then duplicates these messages and
 passes them to each sub-consumer queue destination in a list. At the
 other end of each of these queues is a sub-consumer module, denoted
-with a <code class="xref py py-data docutils literal"><span class="pre">c_</span></code> before its module name.</p>
+with a <code class="xref py py-data docutils literal notranslate"><span class="pre">c_</span></code> before its module name.</p>
 <p>Sub-consumers read messages from their queues and process data in
-their logic loops. Some build <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy v1.3.0)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.stream.Stream</span></code></a> with
+their logic loops. Some build <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy v1.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.stream.Stream</span></code></a> with
 the data passed to them, while some ignore the data and watch for
 status messages.</p>
-<div class="section" id="message-types">
-<span id="id1"></span><h3>1.2.1. Message types<a class="headerlink" href="#message-types" title="Permalink to this headline">¶</a></h3>
+<section id="message-types">
+<span id="id1"></span><h3><span class="section-number">1.2.1. </span>Message types<a class="headerlink" href="#message-types" title="Permalink to this heading"></a></h3>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.4.3: </span>the <code class="code docutils literal"><span class="pre">RESET</span></code> message type was added.</p>
+<p><span class="versionmodified added">New in version 0.4.3: </span>the <code class="code docutils literal notranslate"><span class="pre">RESET</span></code> message type was added.</p>
 </div>
 <p>Currently, the message types are as follows.</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="4%" />
-<col width="96%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Message</th>
-<th class="head">Format example</th>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Message</p></th>
+<th class="head"><p>Format example</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>data</td>
-<td><code class="docutils literal"><span class="pre">b&quot;{'EHZ',</span> <span class="pre">1582315130.292,</span> <span class="pre">14168,</span> <span class="pre">14927,</span> <span class="pre">16112,</span> <span class="pre">17537,</span> <span class="pre">18052,</span> <span class="pre">17477,</span> <span class="pre">15418,</span> <span class="pre">13716,</span> <span class="pre">15604,</span> <span class="pre">17825,</span> <span class="pre">19637,</span> <span class="pre">20985,</span> <span class="pre">17325,</span> <span class="pre">10439,</span> <span class="pre">11510,</span> <span class="pre">17678,</span> <span class="pre">20027,</span> <span class="pre">20207,</span> <span class="pre">18481,</span> <span class="pre">15916,</span> <span class="pre">13836,</span> <span class="pre">13073,</span> <span class="pre">14462,</span> <span class="pre">17628,</span> <span class="pre">19388}&quot;</span></code></td>
+<tbody>
+<tr class="row-even"><td><p>data</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">b&quot;{'EHZ',</span> <span class="pre">1582315130.292,</span> <span class="pre">14168,</span> <span class="pre">14927,</span> <span class="pre">16112,</span> <span class="pre">17537,</span> <span class="pre">18052,</span> <span class="pre">17477,</span> <span class="pre">15418,</span> <span class="pre">13716,</span> <span class="pre">15604,</span> <span class="pre">17825,</span> <span class="pre">19637,</span> <span class="pre">20985,</span> <span class="pre">17325,</span> <span class="pre">10439,</span> <span class="pre">11510,</span> <span class="pre">17678,</span> <span class="pre">20027,</span> <span class="pre">20207,</span> <span class="pre">18481,</span> <span class="pre">15916,</span> <span class="pre">13836,</span> <span class="pre">13073,</span> <span class="pre">14462,</span> <span class="pre">17628,</span> <span class="pre">19388}&quot;</span></code></p></td>
 </tr>
-<tr class="row-odd"><td>ALARM</td>
-<td><code class="docutils literal"><span class="pre">b'ALARM</span> <span class="pre">2020-02-23T06:56:40.598944Z'</span></code></td>
+<tr class="row-odd"><td><p>ALARM</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">b'ALARM</span> <span class="pre">2020-02-23T06:56:40.598944Z'</span></code></p></td>
 </tr>
-<tr class="row-even"><td>RESET</td>
-<td><code class="docutils literal"><span class="pre">b'RESET</span> <span class="pre">2020-02-23T06:56:55.435214Z'</span></code></td>
+<tr class="row-even"><td><p>RESET</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">b'RESET</span> <span class="pre">2020-02-23T06:56:55.435214Z'</span></code></p></td>
 </tr>
-<tr class="row-odd"><td>IMGPATH</td>
-<td><code class="docutils literal"><span class="pre">b'IMGPATH</span> <span class="pre">2020-02-23T06:59:19.211704Z</span> <span class="pre">/home/pi/rsudp/screenshots/R24FA-2020-02-23-065919.png'</span></code></td>
+<tr class="row-odd"><td><p>IMGPATH</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">b'IMGPATH</span> <span class="pre">2020-02-23T06:59:19.211704Z</span> <span class="pre">/home/pi/rsudp/screenshots/R24FA-2020-02-23-065919.png'</span></code></p></td>
 </tr>
-<tr class="row-even"><td>TERM</td>
-<td><code class="docutils literal"><span class="pre">b'TERM'</span></code></td>
+<tr class="row-even"><td><p>TERM</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">b'TERM'</span></code></p></td>
 </tr>
 </tbody>
 </table>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The above message formats are Python bytes objects, not traditional
+<p class="admonition-title">Note</p>
+<p>The above message formats are Python bytes objects, not traditional
 strings. The difference between a bytes object and a string is
 outlined briefly
 <a class="reference external" href="https://www.geeksforgeeks.org/byte-objects-vs-string-python/">here</a>.</p>
 </div>
-<p><strong>ALARM</strong> messages are sent by <a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal"><span class="pre">rsudp.p_producer.Producer</span></code></a>
-when it sees the <code class="xref py py-data docutils literal"><span class="pre">rsudp.c_consumer.Alert.alarm</span></code> flag set to
-<code class="docutils literal"><span class="pre">True</span></code>. This can trigger all sorts of actions. For example, when the
-<a class="reference internal" href="c_alertsound.html#rsudp.c_alertsound.AlertSound" title="rsudp.c_alertsound.AlertSound"><code class="xref py py-class docutils literal"><span class="pre">rsudp.c_alertsound.AlertSound</span></code></a> module is enabled and sees
+<p><strong>ALARM</strong> messages are sent by <a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.p_producer.Producer</span></code></a>
+when it sees the <code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer.Alert.alarm</span></code> flag set to
+<code class="docutils literal notranslate"><span class="pre">True</span></code>. This can trigger all sorts of actions. For example, when the
+<a class="reference internal" href="c_alertsound.html#rsudp.c_alertsound.AlertSound" title="rsudp.c_alertsound.AlertSound"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_alertsound.AlertSound</span></code></a> module is enabled and sees
 this message, it uses ffmpeg or libav to play a sound. The social media
-classes <code class="xref py py-class docutils literal"><span class="pre">rsudp.c_tweet.Tweeter</span></code> and
-<code class="xref py py-class docutils literal"><span class="pre">rsudp.c_telegram.Telegrammer</span></code> both use this message to
+classes <code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_tweet.Tweeter</span></code> and
+<code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_telegram.Telegrammer</span></code> both use this message to
 instantly broadcast to their respective platforms.</p>
-<p><strong>RESET</strong> messages are sent by <a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal"><span class="pre">rsudp.p_producer.Producer</span></code></a>
-when it sees the <code class="xref py py-data docutils literal"><span class="pre">rsudp.c_consumer.Alert.alarm</span></code> flag set to
-<code class="docutils literal"><span class="pre">True</span></code>. Similar to ALARM messages, consumers can be programmed for
+<p><strong>RESET</strong> messages are sent by <a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.p_producer.Producer</span></code></a>
+when it sees the <code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer.Alert.alarm</span></code> flag set to
+<code class="docutils literal notranslate"><span class="pre">True</span></code>. Similar to ALARM messages, consumers can be programmed for
 an essentially infinite number of things upon seeing this message.</p>
 <p><strong>IMGPATH</strong> messages are placed on the master queue by the
-<a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot.savefig" title="rsudp.c_plot.Plot.savefig"><code class="xref py py-func docutils literal"><span class="pre">rsudp.c_plot.Plot.savefig()</span></code></a> function, if and when a screenshot
+<a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot.savefig" title="rsudp.c_plot.Plot.savefig"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.c_plot.Plot.savefig()</span></code></a> function, if and when a screenshot
 figure is saved to disk. This is currently only used by the social media
-modules, <code class="xref py py-class docutils literal"><span class="pre">rsudp.c_tweet.Tweeter</span></code> and
-<code class="xref py py-class docutils literal"><span class="pre">rsudp.c_telegram.Telegrammer</span></code> which then send the saved image
+modules, <code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_tweet.Tweeter</span></code> and
+<code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_telegram.Telegrammer</span></code> which then send the saved image
 to their respective social media platforms’ APIs for broadcast.</p>
 <p><strong>TERM</strong> messages are the universal signal for rsudp to quit.
 They generally start at the Producer and are passed through the
 data hierarchy as normal data would.</p>
-</div>
-</div>
-<div class="section" id="adding-your-own-consumer-modules">
-<span id="add-your-own"></span><h2>1.3. Adding your own consumer modules<a class="headerlink" href="#adding-your-own-consumer-modules" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="adding-your-own-consumer-modules">
+<span id="add-your-own"></span><h2><span class="section-number">1.3. </span>Adding your own consumer modules<a class="headerlink" href="#adding-your-own-consumer-modules" title="Permalink to this heading"></a></h2>
 <p>Adding consumer modules is easy in theory, when you understand the
 workings of rsudp’s layout. Using the existing modules’ code architecture
 is likely useful and should be encouraged, so feel free to follow along
 with what we have already laid out in the code base.</p>
 <p>There are three main things that need to happen in order to add a consumer.</p>
 <ol class="arabic simple">
-<li>Create a new module, named <code class="docutils literal"><span class="pre">c_mymodule.py</span></code>, in the <code class="docutils literal"><span class="pre">rsudp</span></code> directory.</li>
-<li>Add a section to your settings file which will tell rsudp what settings to pass to your module.</li>
-<li>Add code to <code class="xref py py-func docutils literal"><span class="pre">rsudp.client.run()</span></code> to pass settings and a queue to your module, and start it.</li>
+<li><p>Create a new module, named <code class="docutils literal notranslate"><span class="pre">c_mymodule.py</span></code>, in the <code class="docutils literal notranslate"><span class="pre">rsudp</span></code> directory.</p></li>
+<li><p>Add a section to your settings file which will tell rsudp what settings to pass to your module.</p></li>
+<li><p>Add code to <code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.client.run()</span></code> to pass settings and a queue to your module, and start it.</p></li>
 </ol>
 <p>And some optional things to do in case you plan on submitting a pull request:</p>
 <ol class="arabic simple" start="4">
-<li>Add documentation in the form of reStructuredText-formatted docstrings (see examples below)</li>
-<li>Add testing capability to your module.</li>
+<li><p>Add documentation in the form of reStructuredText-formatted docstrings (see examples below)</p></li>
+<li><p>Add testing capability to your module.</p></li>
 </ol>
-<div class="section" id="sample-consumer">
-<h3>1.3.1. Sample consumer<a class="headerlink" href="#sample-consumer" title="Permalink to this headline">¶</a></h3>
+<section id="sample-consumer">
+<h3><span class="section-number">1.3.1. </span>Sample consumer<a class="headerlink" href="#sample-consumer" title="Permalink to this heading"></a></h3>
 <p>Below is a sample consumer construction to modify for your own purposes.
 It receives all queue messages (outlined in <a class="reference internal" href="#producer-consumer"><span class="std std-ref">Producer-consumer message passing</span></a>)
 and can be made to do pretty much whatever you wish,
-until it receives a <code class="docutils literal"><span class="pre">TERM</span></code> queue message.</p>
+until it receives a <code class="docutils literal notranslate"><span class="pre">TERM</span></code> queue message.</p>
 <p>This consumer is created from a
-<a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.ConsumerThread" title="rsudp.raspberryshake.ConsumerThread"><code class="xref py py-class docutils literal"><span class="pre">rsudp.raspberryshake.ConsumerThread</span></code></a> object,
-which in turn modifies the <a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.10)"><code class="xref py py-class docutils literal"><span class="pre">threading.Thread</span></code></a> class.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.ConsumerThread" title="rsudp.raspberryshake.ConsumerThread"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.raspberryshake.ConsumerThread</span></code></a> object,
+which in turn modifies the <a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></a> class.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">rsudp.raspberryshake</span> <span class="kn">import</span> <span class="n">ConsumerThread</span>
 <span class="kn">from</span> <span class="nn">rsudp</span> <span class="kn">import</span> <span class="n">printM</span>
 
 <span class="k">class</span> <span class="nc">MyModule</span><span class="p">(</span><span class="n">ConsumerThread</span><span class="p">):</span> <span class="c1"># this means MyModule will be based on the ConsumerThread class</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Documentation of your new module class goes here.</span>
 <span class="sd">    Below is the format of two types of *param* string, which tell the</span>
 <span class="sd">    documentation parser to inform users that this object needs the user to</span>
@@ -405,7 +316,7 @@ which in turn modifies the <a class="reference external" href="https://docs.pyth
         <span class="n">printM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">thing1</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sender</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">getq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Reads data from the queue and returns the queue object.</span>
 
 <span class="sd">        Since this function returns something, it has return</span>
@@ -421,7 +332,7 @@ which in turn modifies the <a class="reference external" href="https://docs.pyth
         <span class="k">return</span> <span class="n">d</span>
 
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Documenting how my cool module runs!</span>
 
 <span class="sd">        Right now, its only function is to get and read queue messages</span>
@@ -442,23 +353,28 @@ which in turn modifies the <a class="reference external" href="https://docs.pyth
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="adding-your-module-to-the-settings-file">
-<h3>1.3.2. Adding your module to the settings file<a class="headerlink" href="#adding-your-module-to-the-settings-file" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="adding-your-module-to-the-settings-file">
+<h3><span class="section-number">1.3.2. </span>Adding your module to the settings file<a class="headerlink" href="#adding-your-module-to-the-settings-file" title="Permalink to this heading"></a></h3>
 <p>An example settings section is given here.
 As a reminder, each settings section except the last one
 is required to have a comma after its closing brace to conform
 to JSON standards.
 Here let’s assume this is not the last JSON section,
 so we include the comma:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;mymodule&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s2">&quot;thing1&quot;</span><span class="p">:</span> <span class="s2">&quot;first thing&quot;</span><span class="p">},</span>
+</pre></div>
 </div>
-<div class="section" id="adding-your-module-to-client-py">
-<h3>1.3.3. Adding your module to <code class="docutils literal"><span class="pre">client.py</span></code><a class="headerlink" href="#adding-your-module-to-client-py" title="Permalink to this headline">¶</a></h3>
-<p>Since all modules are started from the client’s <code class="xref py py-func docutils literal"><span class="pre">rsudp.client.run()</span></code>
+</section>
+<section id="adding-your-module-to-client-py">
+<h3><span class="section-number">1.3.3. </span>Adding your module to <code class="docutils literal notranslate"><span class="pre">client.py</span></code><a class="headerlink" href="#adding-your-module-to-client-py" title="Permalink to this heading"></a></h3>
+<p>Since all modules are started from the client’s <code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.client.run()</span></code>
 function, you will need to add a section of code to the client to tell it
 how to start your module.
 An example based on the JSON section above is given here.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">c_mymodule</span> <span class="kn">import</span> <span class="n">MyModule</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">c_mymodule</span> <span class="kn">import</span> <span class="n">MyModule</span>
 
 <span class="c1"># ... lots of other stuff in client.py</span>
 
@@ -484,20 +400,20 @@ An example based on the JSON section above is given here.</p>
     <span class="c1"># ...</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="testing-your-module">
-<span id="add-testing"></span><h3>1.3.4. Testing your module<a class="headerlink" href="#testing-your-module" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="testing-your-module">
+<span id="add-testing"></span><h3><span class="section-number">1.3.4. </span>Testing your module<a class="headerlink" href="#testing-your-module" title="Permalink to this heading"></a></h3>
 <p>Formal testing of new modules is easy in rsudp.</p>
-<p>The <code class="xref py py-func docutils literal"><span class="pre">rsudp.client.test()</span></code> function is set to run any enabled
+<p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.client.test()</span></code> function is set to run any enabled
 module by default. If the module is not enabled in the default
 settings, you can add a line to the
-<a class="reference internal" href="test.html#rsudp.test.make_test_settings" title="rsudp.test.make_test_settings"><code class="xref py py-func docutils literal"><span class="pre">rsudp.test.make_test_settings()</span></code></a> that specifies</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;your_module&#39;</span><span class="p">][</span><span class="s1">&#39;enabled&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<a class="reference internal" href="test.html#rsudp.test.make_test_settings" title="rsudp.test.make_test_settings"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.test.make_test_settings()</span></code></a> that specifies</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;your_module&#39;</span><span class="p">][</span><span class="s1">&#39;enabled&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 </pre></div>
 </div>
 <p>The second step is to add your test to the dictionary of tests in
-<a class="reference internal" href="test.html#module-rsudp.test" title="rsudp.test"><code class="xref py py-mod docutils literal"><span class="pre">rsudp.test</span></code></a>, so that it gets reported. For example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">TEST</span> <span class="o">=</span> <span class="p">{</span>
+<a class="reference internal" href="test.html#module-rsudp.test" title="rsudp.test"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rsudp.test</span></code></a>, so that it gets reported. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">TEST</span> <span class="o">=</span> <span class="p">{</span>
         <span class="c1"># other tests</span>
         <span class="c1"># ...</span>
         <span class="s1">&#39;c_mytest&#39;</span><span class="p">:</span>             <span class="p">[</span><span class="s1">&#39;something I am testing for  &#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
@@ -511,7 +427,7 @@ and the second is the status of the test
 (False is failure and True is passing).</p>
 <p>Then, in your module, you can import the test dictionary and modify
 the status of your tests like so:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rsudp.raspberryshake</span> <span class="kn">import</span> <span class="n">ConsumerThread</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rsudp.raspberryshake</span> <span class="kn">import</span> <span class="n">ConsumerThread</span>
 <span class="kn">from</span> <span class="nn">rsudp.test</span> <span class="kn">import</span> <span class="n">TEST</span>
 
 <span class="k">class</span> <span class="nc">MyModule</span><span class="p">(</span><span class="n">ConsumerThread</span><span class="p">):</span>
@@ -536,65 +452,47 @@ the status of your tests like so:</p>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="suggesting-features">
-<h2>1.4. Suggesting features<a class="headerlink" href="#suggesting-features" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="suggesting-features">
+<h2><span class="section-number">1.4. </span>Suggesting features<a class="headerlink" href="#suggesting-features" title="Permalink to this heading"></a></h2>
 <p>As with other issues, if you have an idea for a feature addition but have
 questions about how to implement it, we encourage you to post to our
 forums at <a class="reference external" href="https://community.raspberryshake.org">https://community.raspberryshake.org</a>.</p>
 <p>Thanks for supporting open source!</p>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="contributing.html" class="btn btn-neutral float-right" title="2. Contributing to this project" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="youtube.html" class="btn btn-neutral float-left" title="YouTube walkthroughs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="youtube.html" class="btn btn-neutral float-left" title="YouTube walkthroughs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="contributing.html" class="btn btn-neutral float-right" title="2. Contributing to this project" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2022, Raspberry Shake S.A.
-
-    </p>
+    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

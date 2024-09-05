@@ -1,48 +1,24 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>2. Installing rsudp &mdash; rsudp  documentation</title>
-  
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -50,61 +26,36 @@
     <link rel="prev" title="1. About rsudp" href="about.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="index.html" class="icon icon-home"> rsudp
           
-
-          
-            
-            <img src="_static/logo.png" class="logo" alt="Logo"/>
-          
+          <a href="index.html" class="icon icon-home">
+            rsudp
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-
-          
-            
-            
               <div class="version">
-                1.1.1
+                2.0.0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Tutorial guide</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorial guide</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">1. About rsudp</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">2. Installing rsudp</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installing-on-linux-macos">2.1. Installing on Linux &amp; MacOS</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#run-the-sourcing-line">2.1.1. Run the sourcing line</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#add-the-sourcing-line-to-your-bashrc">2.1.2. Add the sourcing line to your <code class="docutils literal"><span class="pre">bashrc</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-the-sourcing-line-to-your-bashrc">2.1.2. Add the sourcing line to your <code class="xref py py-data docutils literal notranslate"><span class="pre">bashrc</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#updating">2.1.3. Updating</a></li>
 </ul>
 </li>
@@ -117,303 +68,238 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal"><span class="pre">systemctl</span></code> daemon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Video resources</span></p>
+<p class="caption" role="heading"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#detected-earthquake">Detected earthquake</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Developers' guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">1. Program architecture and flow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">2. Contributing to this project</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Library</span></p>
+<p class="caption" role="heading"><span class="caption-text">Library</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="docutils literal"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="docutils literal"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="docutils literal"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="docutils literal"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Clients</span></p>
+<p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="docutils literal"><span class="pre">rsudp.client</span></code> (central module)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="docutils literal"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Producer and Consumer</span></p>
+<p class="caption" role="heading"><span class="caption-text">Producer and Consumer</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="docutils literal"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="docutils literal"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Sub-Consumers</span></p>
+<p class="caption" role="heading"><span class="caption-text">Sub-Consumers</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="docutils literal"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="docutils literal"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="docutils literal"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="docutils literal"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="docutils literal"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="docutils literal"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="docutils literal"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="docutils literal"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="docutils literal"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Testing modules</span></p>
+<p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="docutils literal"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="docutils literal"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="docutils literal"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="docutils literal"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">rsudp</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li>2. Installing rsudp</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">2. </span>Installing rsudp</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="_sources/installing.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="installing-rsudp">
-<span id="install"></span><h1>2. Installing rsudp<a class="headerlink" href="#installing-rsudp" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="installing-rsudp">
+<span id="install"></span><h1><span class="section-number">2. </span>Installing rsudp<a class="headerlink" href="#installing-rsudp" title="Permalink to this heading"></a></h1>
 <p>Installation is covered in our <a href="https://youtu.be/e-kyg55GZyA" target="_blank">installation tutorial video</a>.</p>
-<div class="section" id="installing-on-linux-macos">
-<h2>2.1. Installing on Linux &amp; MacOS<a class="headerlink" href="#installing-on-linux-macos" title="Permalink to this headline">¶</a></h2>
-<p>A UNIX installer script is available at <code class="code bash docutils literal"><span class="pre">unix-install-rsudp.sh</span></code>.
+<section id="installing-on-linux-macos">
+<h2><span class="section-number">2.1. </span>Installing on Linux &amp; MacOS<a class="headerlink" href="#installing-on-linux-macos" title="Permalink to this heading"></a></h2>
+<p>A UNIX installer script is available at <code class="code highlight bash docutils literal highlight-bash">unix-install-rsudp.sh</code>.
 This script checks whether or not you have Anaconda or Miniconda installed,
 then downloads and installs it if need be.
-This script has been tested on both <code class="code bash docutils literal"><span class="pre">x86_64</span></code> and <code class="code bash docutils literal"><span class="pre">armv7l</span></code>
+This script has been tested on both <code class="code highlight bash docutils literal highlight-bash">x86_64</code> and <code class="code highlight bash docutils literal highlight-bash">armv7l</code>
 architectures (meaning that it can run on your home computer or a Raspberry Pi)
 and will download the appropriate Anaconda distribution, set up a virtual Python environment,
 and leave you ready to run the program. To install using this method, open a Terminal and
 enter the following command:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>bash unix-install-rsudp.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash<span class="w"> </span>unix-install-rsudp.sh
 </pre></div>
 </div>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">In order for this installer to work correctly,
+<p class="admonition-title">Warning</p>
+<p>In order for this installer to work correctly,
 your Anaconda/Miniconda base directory must be in your home folder,
-for example: <code class="code bash docutils literal"><span class="pre">~/anaconda3</span></code> or <code class="code bash docutils literal"><span class="pre">~/miniconda3</span></code>.
+for example: <code class="code highlight bash docutils literal highlight-bash">~/anaconda3</code> or <code class="code highlight bash docutils literal highlight-bash">~/miniconda3</code>.
 If this is not the case, you could end up with a second conda installation overriding your first.</p>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last"><strong>The installer script will pause partway through to ask if you would like to make the</strong>
-<code class="code bash docutils literal"><span class="pre">conda</span></code> <strong>command executable by default.</strong>
-<strong>This is done by appending the line below to your</strong> <code class="code bash docutils literal"><span class="pre">~/.bashrc</span></code> <strong>file.</strong>
+<p class="admonition-title">Note</p>
+<p><strong>The installer script will pause partway through to ask if you would like to make the</strong>
+<code class="code highlight bash docutils literal highlight-bash">conda</code> <strong>command executable by default.</strong>
+<strong>This is done by appending the line below to your</strong> <code class="code highlight bash docutils literal highlight-bash">~/.bashrc</code> <strong>file.</strong>
 This is generally harmless, but if you have a specific objection to it,
 hitting any key other than “y” will cause the script to skip this step.
-You will have to manually run the <code class="code bash docutils literal"><span class="pre">conda</span></code> executable in this case, however.
+You will have to manually run the <code class="code highlight bash docutils literal highlight-bash">conda</code> executable in this case, however.
 If you choose to do it manually later, follow the instructions in the section below.</p>
 </div>
 <p>You are now ready to proceed to the next section, <a class="reference internal" href="settings.html#settings"><span class="std std-ref">Modules and Settings</span></a>.</p>
-<div class="section" id="run-the-sourcing-line">
-<span id="source"></span><h3>2.1.1. Run the sourcing line<a class="headerlink" href="#run-the-sourcing-line" title="Permalink to this headline">¶</a></h3>
-<p>If you are running UNIX and having trouble running <code class="docutils literal"><span class="pre">conda</span> <span class="pre">activate</span></code>
+<section id="run-the-sourcing-line">
+<span id="source"></span><h3><span class="section-number">2.1.1. </span>Run the sourcing line<a class="headerlink" href="#run-the-sourcing-line" title="Permalink to this heading"></a></h3>
+<p>If you are running UNIX and having trouble running <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span></code>
 commands, your operating system probably doesn’t know where to look
 for Anaconda. To fix this, we need to tell it to read Anaconda’s
 definitions telling it where to look.</p>
 <p>If you are running an x86 (desktop or laptop) or AMD type processor,
 run the following command:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>. <span class="nv">$HOME</span>/miniconda3/etc/profile.d/conda.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="w"> </span><span class="nv">$HOME</span>/miniconda3/etc/profile.d/conda.sh
 </pre></div>
 </div>
 <p>or on ARMv7 (Raspberry Pi) architecture with Raspbian OS:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>. <span class="nv">$HOME</span>/berryconda3/etc/profile.d/conda.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="w"> </span><span class="nv">$HOME</span>/berryconda3/etc/profile.d/conda.sh
 </pre></div>
 </div>
-<p>where <code class="code bash docutils literal"><span class="name variable"><span class="pre">$HOME</span></span></code> is the home directory of the current user.</p>
+<p>where <code class="code highlight bash docutils literal highlight-bash"><span class="nv">$HOME</span></code> is the home directory of the current user.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">You can run <code class="code bash docutils literal"><span class="pre">uname</span> <span class="pre">-m</span></code> to check your computer’s architecture.</p>
+<p class="admonition-title">Note</p>
+<p>You can run <code class="code highlight bash docutils literal highlight-bash">uname<span class="w"> </span>-m</code> to check your computer’s architecture.</p>
 </div>
-</div>
-<div class="section" id="add-the-sourcing-line-to-your-bashrc">
-<h3>2.1.2. Add the sourcing line to your <code class="xref py py-data docutils literal"><span class="pre">bashrc</span></code><a class="headerlink" href="#add-the-sourcing-line-to-your-bashrc" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="add-the-sourcing-line-to-your-bashrc">
+<h3><span class="section-number">2.1.2. </span>Add the sourcing line to your <code class="xref py py-data docutils literal notranslate"><span class="pre">bashrc</span></code><a class="headerlink" href="#add-the-sourcing-line-to-your-bashrc" title="Permalink to this heading"></a></h3>
 <p>The UNIX installer script <em>should</em> do this step automatically,
 but if you have this problem consistently, you may need to add this
-line to your <code class="docutils literal"><span class="pre">~/.bashrc</span></code> file.
+line to your <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file.
 The following step will append the sourcing line to
-the end of your <code class="code bash docutils literal"><span class="pre">~/.bashrc</span></code> is the following (architecture-dependent):</p>
+the end of your <code class="code highlight bash docutils literal highlight-bash">~/.bashrc</code> is the following (architecture-dependent):</p>
 <p>On x86/AMD systems:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;. </span><span class="nv">$HOME</span><span class="s2">/miniconda3/etc/profile.d/conda.sh&quot;</span> &gt;&gt; ~/.bashrc
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;. </span><span class="nv">$HOME</span><span class="s2">/miniconda3/etc/profile.d/conda.sh&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
 </pre></div>
 </div>
 <p>or on ARMv7:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;. </span><span class="nv">$HOME</span><span class="s2">/berryconda3/etc/profile.d/conda.sh&quot;</span> &gt;&gt; ~/.bashrc
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;. </span><span class="nv">$HOME</span><span class="s2">/berryconda3/etc/profile.d/conda.sh&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
 </pre></div>
 </div>
-</div>
-<div class="section" id="updating">
-<h3>2.1.3. Updating<a class="headerlink" href="#updating" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="updating">
+<h3><span class="section-number">2.1.3. </span>Updating<a class="headerlink" href="#updating" title="Permalink to this heading"></a></h3>
 <p>Unix users can update the repository to the latest development version by running the following commands:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> /rsudp/location
-git pull
-bash unix-install-rsudp.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/rsudp/location
+git<span class="w"> </span>pull
+bash<span class="w"> </span>unix-install-rsudp.sh
 </pre></div>
 </div>
 <p>The update script will replace the previous default settings file
-(<code class="code bash docutils literal"><span class="pre">~/.config/rsudp/rsudp_settings.json</span></code>) with a new settings file.
+(<code class="code highlight bash docutils literal highlight-bash">~/.config/rsudp/rsudp_settings.json</code>) with a new settings file.
 If you use the default settings file, you will need to copy some old values over to the new file.
 The reason for this is that the default settings file may change (i.e. add or modify sections of values)
 and thus must be rewritten when updating. On Linux, backed up settings files will be named
-<code class="code bash docutils literal"><span class="pre">~/.config/rsudp/rsudp_settings.json.~x~</span></code>, where <code class="code bash docutils literal"><span class="pre">x</span></code> is an integer.
-On Mac, the backed up file will simply be named <code class="code bash docutils literal"><span class="pre">~/.config/rsudp/rsudp_settings.json~</span></code>.
+<code class="code highlight bash docutils literal highlight-bash">~/.config/rsudp/rsudp_settings.json.~x~</code>, where <code class="code highlight bash docutils literal highlight-bash">x</code> is an integer.
+On Mac, the backed up file will simply be named <code class="code highlight bash docutils literal highlight-bash">~/.config/rsudp/rsudp_settings.json~</code>.
 To back up the settings file yourself to a location that will not be overwritten,
 you can do a command similar to the following:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>cp ~/.config/rsudp/rsudp_settings.json ~/.config/rsudp/rsudp_settings.json.bak
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>~/.config/rsudp/rsudp_settings.json<span class="w"> </span>~/.config/rsudp/rsudp_settings.json.bak
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="installing-on-windows">
-<h2>2.2. Installing on Windows<a class="headerlink" href="#installing-on-windows" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="the-easy-way">
-<h3>2.2.1. The Easy Way<a class="headerlink" href="#the-easy-way" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="installing-on-windows">
+<h2><span class="section-number">2.2. </span>Installing on Windows<a class="headerlink" href="#installing-on-windows" title="Permalink to this heading"></a></h2>
+<section id="the-easy-way">
+<h3><span class="section-number">2.2.1. </span>The Easy Way<a class="headerlink" href="#the-easy-way" title="Permalink to this heading"></a></h3>
 <p>You can follow these steps to both install and update rsudp.</p>
 <ol class="arabic simple">
-<li><a href="https://github.com/raspishake/rsudp/archive/refs/heads/master.zip" target="_blank">Download</a> and unzip the software from the <a href="https://github.com/raspishake/rsudp/releases/latest/" target="_blank">latest release</a> in the GitHub repository (also available by clicking Code &gt; Download ZIP from the <a href="https://github.com/raspishake/rsudp/" target="_blank">GitHub landing page</a>).</li>
-<li>Double click the file named <code class="docutils literal"><span class="pre">win-install-rsudp.bat</span></code> in the unzipped folder. You may need administrator privileges for this step.</li>
+<li><p><a href="https://github.com/raspishake/rsudp/archive/refs/heads/master.zip" target="_blank">Download</a> and unzip the software from the <a href="https://github.com/raspishake/rsudp/releases/latest/" target="_blank">latest release</a> in the GitHub repository (also available by clicking Code &gt; Download ZIP from the <a href="https://github.com/raspishake/rsudp/" target="_blank">GitHub landing page</a>).</p></li>
+<li><p>Double click the file named <code class="docutils literal notranslate"><span class="pre">win-install-rsudp.bat</span></code> in the unzipped folder. You may need administrator privileges for this step.</p></li>
 </ol>
 <p>The install will take several minutes. When it is done, you will have a new settings file at
-<code class="docutils literal"><span class="pre">~/.config/rsudp/rsudp_settings.json</span></code>. Edit this file to change how rsudp runs.</p>
+<code class="docutils literal notranslate"><span class="pre">~/.config/rsudp/rsudp_settings.json</span></code>. Edit this file to change how rsudp runs.</p>
 <p>For explanations of the various settings fields and values, head to <a class="reference internal" href="settings.html#settings"><span class="std std-ref">Modules and Settings</span></a>.</p>
-</div>
-<div class="section" id="advanced-users">
-<h3>2.2.2. Advanced Users<a class="headerlink" href="#advanced-users" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="advanced-users">
+<h3><span class="section-number">2.2.2. </span>Advanced Users<a class="headerlink" href="#advanced-users" title="Permalink to this heading"></a></h3>
 <ol class="arabic simple">
-<li>Download and install Anaconda3 or <a href="https://docs.conda.io/en/latest/miniconda.html" target="_blank">Miniconda3</a>.</li>
-<li>Open an Anaconda Prompt.</li>
-<li>Execute the following lines of code:</li>
+<li><p>Download and install Anaconda3 or <a href="https://docs.conda.io/en/latest/miniconda.html" target="_blank">Miniconda3</a>.</p></li>
+<li><p>Open an Anaconda Prompt.</p></li>
+<li><p>Execute the following lines of code:</p></li>
 </ol>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>conda config --append channels conda-forge
-conda create -n rsudp <span class="nv">python</span><span class="o">=</span><span class="m">3</span> <span class="nv">matplotlib</span><span class="o">=</span><span class="m">3</span>.1.1 <span class="nv">numpy</span><span class="o">=</span><span class="m">1</span>.16.4 future scipy lxml sqlalchemy cryptography obspy
-conda activate rsudp
-pip install rsudp
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>config<span class="w"> </span>--append<span class="w"> </span>channels<span class="w"> </span>conda-forge
+conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>rsudp<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.12<span class="w"> </span><span class="nv">numpy</span><span class="o">=</span><span class="m">2</span>.0.1<span class="w"> </span>future<span class="w"> </span>scipy<span class="w"> </span>lxml<span class="w"> </span>sqlalchemy<span class="w"> </span>cryptography
+conda<span class="w"> </span>activate<span class="w"> </span>rsudp
+pip<span class="w"> </span>install<span class="w"> </span>rsudp
 </pre></div>
 </div>
 <p>If you wish to play sounds on Windows, please follow steps 1-8 in <a href="https://windowsloop.com/install-ffmpeg-windows-10/" target="_blank">this tutorial</a>
-in order to install <code class="code docutils literal"><span class="pre">ffmpeg</span></code> and add it to your system’s path variable.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>To find where all the RSUDP modules have been installed, you can execute <code class="code bash docutils literal notranslate"><span class="pre">pip</span><span class="whitespace"> </span><span class="pre">list</span><span class="whitespace"> </span><span class="pre">-v</span></code> from your RSUDP Python environment and look for the <code class="code bash docutils literal notranslate"><span class="pre">rsudp</span></code> line. The default locations are:</p>
-</aside>
-<ol class="arabic simple">
-<li><p><code class="code bash docutils literal notranslate"><span class="pre">/home/&lt;username&gt;/&lt;anacondainstallname&gt;/envs/rsudp/lib/&lt;pythonversion&gt;/site-packages/rsudp</span></code> for Linux installations</p></li>
-<li><p><code class="code bash docutils literal notranslate"><span class="pre">c:</span><span class="literal string escape"><span class="pre">\u</span></span><span class="pre">sers</span><span class="literal string escape"><span class="pre">\&lt;</span></span><span class="pre">username&gt;</span><span class="literal string escape"><span class="pre">\&lt;</span></span><span class="pre">anacondainstallname&gt;</span><span class="literal string escape"><span class="pre">\e</span></span><span class="pre">nvs</span><span class="literal string escape"><span class="pre">\r</span></span><span class="pre">sudp</span><span class="literal string escape"><span class="pre">\l</span></span><span class="pre">ib</span><span class="literal string escape"><span class="pre">\s</span></span><span class="pre">ite-packages</span><span class="literal string escape"><span class="pre">\r</span></span><span class="pre">sudp</span></code> for Windows installations</p></li>
-</ol>
-</div>
+in order to install <code class="code docutils literal notranslate"><span class="pre">ffmpeg</span></code> and add it to your system’s path variable.</p>
 <p>You are now ready to proceed to the next section, <a class="reference internal" href="settings.html#settings"><span class="std std-ref">Modules and Settings</span></a>.</p>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="settings.html" class="btn btn-neutral float-right" title="3. Modules and Settings" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="about.html" class="btn btn-neutral float-left" title="1. About rsudp" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="about.html" class="btn btn-neutral float-left" title="1. About rsudp" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="settings.html" class="btn btn-neutral float-right" title="3. Modules and Settings" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2022, Raspberry Shake S.A.
-
-    </p>
+    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

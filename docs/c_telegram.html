@@ -1,48 +1,24 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rsudp.c_telegram (Telegram alerts) &mdash; rsudp  documentation</title>
-  
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -50,266 +26,150 @@
     <link rel="prev" title="rsudp.c_tweet (Twitter alerts)" href="c_tweet.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="index.html" class="icon icon-home"> rsudp
           
-
-          
-            
-            <img src="_static/logo.png" class="logo" alt="Logo"/>
-          
+          <a href="index.html" class="icon icon-home">
+            rsudp
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-
-          
-            
-            
               <div class="version">
-                1.1.1
+                2.0.0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Tutorial guide</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorial guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="about.html">1. About rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installing.html">2. Installing rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal"><span class="pre">systemctl</span></code> daemon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Video resources</span></p>
+<p class="caption" role="heading"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#detected-earthquake">Detected earthquake</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Developers' guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">1. Program architecture and flow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">2. Contributing to this project</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Library</span></p>
+<p class="caption" role="heading"><span class="caption-text">Library</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="docutils literal"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="docutils literal"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="docutils literal"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="docutils literal"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Clients</span></p>
+<p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="docutils literal"><span class="pre">rsudp.client</span></code> (central module)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="docutils literal"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Producer and Consumer</span></p>
+<p class="caption" role="heading"><span class="caption-text">Producer and Consumer</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="docutils literal"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="docutils literal"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Sub-Consumers</span></p>
+<p class="caption" role="heading"><span class="caption-text">Sub-Consumers</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="docutils literal"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="docutils literal"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="docutils literal"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="docutils literal"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="docutils literal"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="docutils literal"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="docutils literal"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="docutils literal"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="docutils literal"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Testing modules</span></p>
+<p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="docutils literal"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="docutils literal"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="docutils literal"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="docutils literal"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">rsudp</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li><code class="docutils literal"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="_sources/c_telegram.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="module-rsudp.c_telegram">
-<span id="rsudp-c-telegram-telegram-alerts"></span><h1><a class="reference internal" href="#module-rsudp.c_telegram" title="rsudp.c_telegram"><code class="xref py py-data docutils literal"><span class="pre">rsudp.c_telegram</span></code></a> (Telegram alerts)<a class="headerlink" href="#module-rsudp.c_telegram" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="rsudp.c_telegram.Telegrammer">
-<em class="property">class </em><code class="descclassname">rsudp.c_telegram.</code><code class="descname">Telegrammer</code><span class="sig-paren">(</span><em>token</em>, <em>chat_id</em>, <em>testing=False</em>, <em>q=False</em>, <em>send_images=False</em>, <em>extra_text=False</em>, <em>sender='Telegram'</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_telegram.Telegrammer" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div><div class="versionadded">
-<p><span class="versionmodified">New in version 0.4.2.</span></p>
-</div>
-</div></blockquote>
-<p><a href="https://t.me/" target="_blank">Telegram</a> is a free messaging service which,
-among other things, is suited to quickly broadcasting automatic
-notifications via an API.
-It is used by the <a href="https://t.me/sasmex" target="_blank">Mexican Early Warning System (SASMEX)</a> and PanamaIGC.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>token</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – bot token from Telegram bot creation</li>
-<li><strong>chat_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Telegram chat ID number that this module will post to</li>
-<li><strong>send_images</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether or not to send images. if False, only alerts will be sent.</li>
-<li><strong>extra_text</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Approximately 3900 additional characters to post as part of the Telegram message (Telegram message limits are 4096 characters). Longer messages will be truncated.</li>
-<li><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.10)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="rsudp.c_telegram.Telegrammer.run">
-<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_telegram.Telegrammer.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reads data from the queue and sends a message if it sees an ALARM or IMGPATH message</p>
-</dd></dl>
-
-</dd></dl>
-
+             
+  <section id="rsudp-c-telegram-telegram-alerts">
+<h1><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)<a class="headerlink" href="#rsudp-c-telegram-telegram-alerts" title="Permalink to this heading"></a></h1>
 <hr class="docutils" />
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="c_forward.html" class="btn btn-neutral float-right" title="rsudp.c_forward (forward data)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="c_tweet.html" class="btn btn-neutral float-left" title="rsudp.c_tweet (Twitter alerts)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="c_tweet.html" class="btn btn-neutral float-left" title="rsudp.c_tweet (Twitter alerts)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="c_forward.html" class="btn btn-neutral float-right" title="rsudp.c_forward (forward data)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2022, Raspberry Shake S.A.
-
-    </p>
+    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

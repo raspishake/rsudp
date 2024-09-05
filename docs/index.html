@@ -1,224 +1,137 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>rsudp 1.1.1 &mdash; rsudp  documentation</title>
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rsudp 2.0.0 &mdash; rsudp  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="1. About rsudp" href="about.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="#" class="icon icon-home"> rsudp
           
-
-          
-            
-            <img src="_static/logo.png" class="logo" alt="Logo"/>
-          
+          <a href="#" class="icon icon-home">
+            rsudp
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-
-          
-            
-            
               <div class="version">
-                1.1.1
+                2.0.0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Tutorial guide</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorial guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="about.html">1. About rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installing.html">2. Installing rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal"><span class="pre">systemctl</span></code> daemon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Video resources</span></p>
+<p class="caption" role="heading"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#detected-earthquake">Detected earthquake</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Developers' guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">1. Program architecture and flow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">2. Contributing to this project</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Library</span></p>
+<p class="caption" role="heading"><span class="caption-text">Library</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="docutils literal"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="docutils literal"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="docutils literal"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="docutils literal"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Clients</span></p>
+<p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="docutils literal"><span class="pre">rsudp.client</span></code> (central module)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="docutils literal"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Producer and Consumer</span></p>
+<p class="caption" role="heading"><span class="caption-text">Producer and Consumer</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="docutils literal"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="docutils literal"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Sub-Consumers</span></p>
+<p class="caption" role="heading"><span class="caption-text">Sub-Consumers</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="docutils literal"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="docutils literal"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="docutils literal"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="docutils literal"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="docutils literal"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="docutils literal"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="docutils literal"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="docutils literal"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="docutils literal"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Testing modules</span></p>
+<p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="docutils literal"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="docutils literal"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="docutils literal"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="docutils literal"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="#">rsudp</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="#">Docs</a> &raquo;</li>
-        
-      <li><cite>rsudp</cite> 1.1.1</li>
-    
-    
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><cite>rsudp</cite> 2.0.0</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="rsudp-version">
-<h1><cite>rsudp</cite> 1.1.1<a class="headerlink" href="#rsudp-version" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="rsudp-version">
+<h1><cite>rsudp</cite> 2.0.0<a class="headerlink" href="#rsudp-version" title="Permalink to this heading"></a></h1>
 <a class="reference external image-reference" href="https://github.com/raspishake/rsudp"><img alt="https://img.shields.io/github/stars/raspishake/rsudp?style=social" src="https://img.shields.io/github/stars/raspishake/rsudp?style=social" /></a>
 <div class="line-block">
 <div class="line"><a href="https://github.com/raspishake/rsudp" target="_blank">https://github.com/raspishake/rsudp</a></div>
@@ -238,7 +151,7 @@ It is written in Python and is therefore highly customizable.</p>
 <div class="line">Or, if you know what you’re looking for, find it in <a class="reference internal" href="#modules"><span class="std std-ref">Code documentation</span></a>.</div>
 </div>
 <div class="toctree-wrapper compound" id="tutorial">
-<p class="caption"><span class="caption-text">Tutorial guide</span><a class="headerlink" href="#tutorial" title="Permalink to this toctree">¶</a></p>
+<p class="caption" role="heading"><span class="caption-text">Tutorial guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="about.html">1. About rsudp</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="about.html#broad-overview">1.1. Broad overview</a></li>
@@ -252,17 +165,17 @@ It is written in Python and is therefore highly customizable.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#settings-general-settings">3.1. <code class="code docutils literal"><span class="pre">settings</span></code> (general settings)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#plot-live-data-plot">3.2. <code class="code docutils literal"><span class="pre">plot</span></code> (live data plot)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#alert-sta-lta-earthquake-detection-trigger">3.3. <code class="code docutils literal"><span class="pre">alert</span></code> (STA/LTA earthquake detection trigger)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#rsam-real-time-seismic-amplitude">3.4. <code class="code docutils literal"><span class="pre">RSAM</span></code> (Real-time Seismic AMplitude)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#alarmsound-play-sounds-upon-alerts">3.5. <code class="code docutils literal"><span class="pre">alarmsound</span></code> (play sounds upon alerts)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#telegram-telegram-notification-module">3.6. <code class="code docutils literal"><span class="pre">telegram</span></code> (Telegram notification module)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#tweets-twitter-notification-module">3.7. <code class="code docutils literal"><span class="pre">tweets</span></code> (Twitter notification module)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#write-miniseed-writer">3.8. <code class="code docutils literal"><span class="pre">write</span></code> (miniSEED writer)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#forward-datacast-forwarding">3.9. <code class="code docutils literal"><span class="pre">forward</span></code> (datacast forwarding)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#custom-run-custom-code">3.10. <code class="code docutils literal"><span class="pre">custom</span></code> (run custom code)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="settings.html#printdata-print-data-to-console">3.11. <code class="code docutils literal"><span class="pre">printdata</span></code> (print data to console)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#settings-general-settings">3.1. <code class="code docutils literal notranslate"><span class="pre">settings</span></code> (general settings)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#plot-live-data-plot">3.2. <code class="code docutils literal notranslate"><span class="pre">plot</span></code> (live data plot)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#alert-sta-lta-earthquake-detection-trigger">3.3. <code class="code docutils literal notranslate"><span class="pre">alert</span></code> (STA/LTA earthquake detection trigger)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#rsam-real-time-seismic-amplitude">3.4. <code class="code docutils literal notranslate"><span class="pre">RSAM</span></code> (Real-time Seismic AMplitude)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#alarmsound-play-sounds-upon-alerts">3.5. <code class="code docutils literal notranslate"><span class="pre">alarmsound</span></code> (play sounds upon alerts)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#telegram-telegram-notification-module">3.6. <code class="code docutils literal notranslate"><span class="pre">telegram</span></code> (Telegram notification module)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#tweets-twitter-notification-module">3.7. <code class="code docutils literal notranslate"><span class="pre">tweets</span></code> (Twitter notification module)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#write-miniseed-writer">3.8. <code class="code docutils literal notranslate"><span class="pre">write</span></code> (miniSEED writer)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#forward-datacast-forwarding">3.9. <code class="code docutils literal notranslate"><span class="pre">forward</span></code> (datacast forwarding)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#custom-run-custom-code">3.10. <code class="code docutils literal notranslate"><span class="pre">custom</span></code> (run custom code)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#printdata-print-data-to-console">3.11. <code class="code docutils literal notranslate"><span class="pre">printdata</span></code> (print data to console)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="settings.html#default-settings">3.12. Default settings</a></li>
 </ul>
 </li>
@@ -274,7 +187,7 @@ It is written in Python and is therefore highly customizable.</p>
 <li class="toctree-l2"><a class="reference internal" href="running.html#quitting">4.5. Quitting</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal"><span class="pre">systemctl</span></code> daemon</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="daemon.html#setup-instructions">5.1. Setup instructions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="daemon.html#restarting-the-daemon">5.2. Restarting the daemon</a></li>
 <li class="toctree-l2"><a class="reference internal" href="daemon.html#troubleshooting-the-daemon">5.3. Troubleshooting the daemon</a></li>
@@ -298,7 +211,7 @@ It is written in Python and is therefore highly customizable.</p>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Video resources</span></p>
+<p class="caption" role="heading"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
@@ -306,7 +219,7 @@ It is written in Python and is therefore highly customizable.</p>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Developers' guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">1. Program architecture and flow</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="theory.html#thread-layout">1.1. Thread layout</a></li>
@@ -322,113 +235,206 @@ It is written in Python and is therefore highly customizable.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="code-documentation">
-<span id="modules"></span><h2>Code documentation<a class="headerlink" href="#code-documentation" title="Permalink to this headline">¶</a></h2>
+<section id="code-documentation">
+<span id="modules"></span><h2>Code documentation<a class="headerlink" href="#code-documentation" title="Permalink to this heading"></a></h2>
 <p>The modules available in rsudp are organized by type below.</p>
 <hr class="docutils" />
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Library</span></p>
+<p class="caption" role="heading"><span class="caption-text">Library</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="docutils literal"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="docutils literal"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="docutils literal"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="docutils literal"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="init.html#rsudp.__init__.LevelFormatter"><code class="docutils literal notranslate"><span class="pre">LevelFormatter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="init.html#rsudp.__init__.add_debug_handler"><code class="docutils literal notranslate"><span class="pre">add_debug_handler()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="init.html#rsudp.__init__.get_scap_dir"><code class="docutils literal notranslate"><span class="pre">get_scap_dir()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="init.html#rsudp.__init__.init_dirs"><code class="docutils literal notranslate"><span class="pre">init_dirs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="init.html#rsudp.__init__.make_colors_friendly"><code class="docutils literal notranslate"><span class="pre">make_colors_friendly()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="init.html#rsudp.__init__.printE"><code class="docutils literal notranslate"><span class="pre">printE()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="init.html#rsudp.__init__.printM"><code class="docutils literal notranslate"><span class="pre">printM()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="init.html#rsudp.__init__.printW"><code class="docutils literal notranslate"><span class="pre">printW()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="init.html#rsudp.__init__.start_logging"><code class="docutils literal notranslate"><span class="pre">start_logging()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.ConsumerThread"><code class="docutils literal notranslate"><span class="pre">ConsumerThread</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.copy"><code class="docutils literal notranslate"><span class="pre">copy()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.getCHN"><code class="docutils literal notranslate"><span class="pre">getCHN()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.getCHNS"><code class="docutils literal notranslate"><span class="pre">getCHNS()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.getDATA"><code class="docutils literal notranslate"><span class="pre">getDATA()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.getSR"><code class="docutils literal notranslate"><span class="pre">getSR()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.getSTREAM"><code class="docutils literal notranslate"><span class="pre">getSTREAM()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.getTIME"><code class="docutils literal notranslate"><span class="pre">getTIME()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.getTR"><code class="docutils literal notranslate"><span class="pre">getTR()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.getTTLCHN"><code class="docutils literal notranslate"><span class="pre">getTTLCHN()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.get_inventory"><code class="docutils literal notranslate"><span class="pre">get_inventory()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.get_ip"><code class="docutils literal notranslate"><span class="pre">get_ip()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.handler"><code class="docutils literal notranslate"><span class="pre">handler()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.initRSlib"><code class="docutils literal notranslate"><span class="pre">initRSlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.make_trace"><code class="docutils literal notranslate"><span class="pre">make_trace()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.openSOCK"><code class="docutils literal notranslate"><span class="pre">openSOCK()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.set_params"><code class="docutils literal notranslate"><span class="pre">set_params()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.update_stream"><code class="docutils literal notranslate"><span class="pre">update_stream()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#rsudp.helpers.conn_stats"><code class="docutils literal notranslate"><span class="pre">conn_stats()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#rsudp.helpers.deconv_acc_inst"><code class="docutils literal notranslate"><span class="pre">deconv_acc_inst()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#rsudp.helpers.deconv_rbm_inst"><code class="docutils literal notranslate"><span class="pre">deconv_rbm_inst()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#rsudp.helpers.deconv_vel_inst"><code class="docutils literal notranslate"><span class="pre">deconv_vel_inst()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#rsudp.helpers.deconvolve"><code class="docutils literal notranslate"><span class="pre">deconvolve()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#rsudp.helpers.default_settings"><code class="docutils literal notranslate"><span class="pre">default_settings()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#rsudp.helpers.dump_default"><code class="docutils literal notranslate"><span class="pre">dump_default()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#rsudp.helpers.fsec"><code class="docutils literal notranslate"><span class="pre">fsec()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#rsudp.helpers.get_msg_path"><code class="docutils literal notranslate"><span class="pre">get_msg_path()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#rsudp.helpers.get_msg_time"><code class="docutils literal notranslate"><span class="pre">get_msg_time()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#rsudp.helpers.lesser_multiple"><code class="docutils literal notranslate"><span class="pre">lesser_multiple()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#rsudp.helpers.msg_alarm"><code class="docutils literal notranslate"><span class="pre">msg_alarm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#rsudp.helpers.msg_imgpath"><code class="docutils literal notranslate"><span class="pre">msg_imgpath()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#rsudp.helpers.msg_reset"><code class="docutils literal notranslate"><span class="pre">msg_reset()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#rsudp.helpers.msg_term"><code class="docutils literal notranslate"><span class="pre">msg_term()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#rsudp.helpers.read_settings"><code class="docutils literal notranslate"><span class="pre">read_settings()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#rsudp.helpers.resolve_extra_text"><code class="docutils literal notranslate"><span class="pre">resolve_extra_text()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#rsudp.helpers.set_channels"><code class="docutils literal notranslate"><span class="pre">set_channels()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="entry_points.html#rsudp.entry_points.ep_cat_log"><code class="docutils literal notranslate"><span class="pre">ep_cat_log()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="entry_points.html#rsudp.entry_points.ep_edit_settings"><code class="docutils literal notranslate"><span class="pre">ep_edit_settings()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="entry_points.html#rsudp.entry_points.ep_tailf_log"><code class="docutils literal notranslate"><span class="pre">ep_tailf_log()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Clients</span></p>
+<p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="docutils literal"><span class="pre">rsudp.client</span></code> (central module)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="docutils literal"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code> (track packets)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="packetloss.html#rsudp.packetloss.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="packetloss.html#rsudp.packetloss.printTTLS"><code class="docutils literal notranslate"><span class="pre">printTTLS()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="packetloss.html#rsudp.packetloss.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="packetloss.html#rsudp.packetloss.signal_handler"><code class="docutils literal notranslate"><span class="pre">signal_handler()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Producer and Consumer</span></p>
+<p class="caption" role="heading"><span class="caption-text">Producer and Consumer</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="docutils literal"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="docutils literal"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.p_producer</span></code> (data producer)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer"><code class="docutils literal notranslate"><span class="pre">Producer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer"><code class="docutils literal notranslate"><span class="pre">Consumer</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Sub-Consumers</span></p>
+<p class="caption" role="heading"><span class="caption-text">Sub-Consumers</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="docutils literal"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="docutils literal"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="docutils literal"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="docutils literal"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="docutils literal"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="docutils literal"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="docutils literal"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="docutils literal"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="docutils literal"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="c_alert.html#rsudp.c_alert.Alert"><code class="docutils literal notranslate"><span class="pre">Alert</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="c_rsam.html#rsudp.c_rsam.RSAM"><code class="docutils literal notranslate"><span class="pre">RSAM</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="c_alertsound.html#rsudp.c_alertsound.AlertSound"><code class="docutils literal notranslate"><span class="pre">AlertSound</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot"><code class="docutils literal notranslate"><span class="pre">Plot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="c_forward.html#rsudp.c_forward.Forward"><code class="docutils literal notranslate"><span class="pre">Forward</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="c_write.html#rsudp.c_write.Write"><code class="docutils literal notranslate"><span class="pre">Write</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="c_custom.html#rsudp.c_custom.Custom"><code class="docutils literal notranslate"><span class="pre">Custom</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Testing modules</span></p>
+<p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="docutils literal"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="docutils literal"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="docutils literal"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="docutils literal"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="t_testdata.html#rsudp.t_testdata.TestData"><code class="docutils literal notranslate"><span class="pre">TestData</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="c_testing.html#rsudp.c_testing.Testing"><code class="docutils literal notranslate"><span class="pre">Testing</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code> (test helpers)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="test.html#rsudp.test.cancel_tests"><code class="docutils literal notranslate"><span class="pre">cancel_tests()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html#rsudp.test.datadir_permissions"><code class="docutils literal notranslate"><span class="pre">datadir_permissions()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html#rsudp.test.is_connected"><code class="docutils literal notranslate"><span class="pre">is_connected()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html#rsudp.test.logdir_permissions"><code class="docutils literal notranslate"><span class="pre">logdir_permissions()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html#rsudp.test.make_test_settings"><code class="docutils literal notranslate"><span class="pre">make_test_settings()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html#rsudp.test.permissions"><code class="docutils literal notranslate"><span class="pre">permissions()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html#rsudp.test.ss_permissions"><code class="docutils literal notranslate"><span class="pre">ss_permissions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetize</span></code> (data formatter)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="packetize.html#rsudp.packetize.cutoff_calc"><code class="docutils literal notranslate"><span class="pre">cutoff_calc()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="packetize.html#rsudp.packetize.get_samps"><code class="docutils literal notranslate"><span class="pre">get_samps()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="packetize.html#rsudp.packetize.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="packetize.html#rsudp.packetize.packetize"><code class="docutils literal notranslate"><span class="pre">packetize()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
-</div>
-<div class="section" id="function-index">
-<h2>Function index<a class="headerlink" href="#function-index" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="function-index">
+<h2>Function index<a class="headerlink" href="#function-index" title="Permalink to this heading"></a></h2>
 <p>Need to look something up?</p>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="about.html" class="btn btn-neutral float-right" title="1. About rsudp" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="about.html" class="btn btn-neutral float-right" title="1. About rsudp" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2022, Raspberry Shake S.A.
-
-    </p>
+    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

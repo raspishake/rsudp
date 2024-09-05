@@ -1,48 +1,24 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>3. Modules and Settings &mdash; rsudp  documentation</title>
-  
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -50,74 +26,49 @@
     <link rel="prev" title="2. Installing rsudp" href="installing.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="index.html" class="icon icon-home"> rsudp
           
-
-          
-            
-            <img src="_static/logo.png" class="logo" alt="Logo"/>
-          
+          <a href="index.html" class="icon icon-home">
+            rsudp
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-
-          
-            
-            
               <div class="version">
-                1.1.1
+                2.0.0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Tutorial guide</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorial guide</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">1. About rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installing.html">2. Installing rsudp</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">3. Modules and Settings</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#settings-general-settings">3.1. <code class="code docutils literal"><span class="pre">settings</span></code> (general settings)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#plot-live-data-plot">3.2. <code class="code docutils literal"><span class="pre">plot</span></code> (live data plot)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#alert-sta-lta-earthquake-detection-trigger">3.3. <code class="code docutils literal"><span class="pre">alert</span></code> (STA/LTA earthquake detection trigger)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#settings-general-settings">3.1. <code class="code docutils literal notranslate"><span class="pre">settings</span></code> (general settings)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plot-live-data-plot">3.2. <code class="code docutils literal notranslate"><span class="pre">plot</span></code> (live data plot)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alert-sta-lta-earthquake-detection-trigger">3.3. <code class="code docutils literal notranslate"><span class="pre">alert</span></code> (STA/LTA earthquake detection trigger)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#recommendations">3.3.1. Recommendations</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#general-use">3.3.1.1. General use</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#quiet-vault">3.3.1.2. Quiet vault</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#classroom-demonstrations">3.3.1.3. Classroom demonstrations</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#using-exec">3.3.2. Using <code class="code docutils literal"><span class="pre">&quot;exec&quot;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-exec">3.3.2. Using <code class="code docutils literal notranslate"><span class="pre">&quot;exec&quot;</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#rsam-real-time-seismic-amplitude">3.4. <code class="code docutils literal"><span class="pre">RSAM</span></code> (Real-time Seismic AMplitude)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#alarmsound-play-sounds-upon-alerts">3.5. <code class="code docutils literal"><span class="pre">alarmsound</span></code> (play sounds upon alerts)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#installing-pydub-dependencies">3.5.1. Installing <code class="code docutils literal"><span class="pre">pydub</span></code> dependencies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#rsam-real-time-seismic-amplitude">3.4. <code class="code docutils literal notranslate"><span class="pre">RSAM</span></code> (Real-time Seismic AMplitude)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alarmsound-play-sounds-upon-alerts">3.5. <code class="code docutils literal notranslate"><span class="pre">alarmsound</span></code> (play sounds upon alerts)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installing-pydub-dependencies">3.5.1. Installing <code class="code docutils literal notranslate"><span class="pre">pydub</span></code> dependencies</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#on-linux">3.5.1.1. On Linux</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#on-macos">3.5.1.2. On MacOS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#on-windows">3.5.1.3. On Windows</a></li>
@@ -125,217 +76,179 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#telegram-telegram-notification-module">3.6. <code class="code docutils literal"><span class="pre">telegram</span></code> (Telegram notification module)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#telegram-telegram-notification-module">3.6. <code class="code docutils literal notranslate"><span class="pre">telegram</span></code> (Telegram notification module)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#setting-up-a-telegram-bot">3.6.1. Setting up a Telegram Bot</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#tweets-twitter-notification-module">3.7. <code class="code docutils literal"><span class="pre">tweets</span></code> (Twitter notification module)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tweets-twitter-notification-module">3.7. <code class="code docutils literal notranslate"><span class="pre">tweets</span></code> (Twitter notification module)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#examples">3.7.1. Examples</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#setting-up-twitter-apps">3.7.2. Setting up Twitter Apps</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#write-miniseed-writer">3.8. <code class="code docutils literal"><span class="pre">write</span></code> (miniSEED writer)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#forward-datacast-forwarding">3.9. <code class="code docutils literal"><span class="pre">forward</span></code> (datacast forwarding)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#custom-run-custom-code">3.10. <code class="code docutils literal"><span class="pre">custom</span></code> (run custom code)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#printdata-print-data-to-console">3.11. <code class="code docutils literal"><span class="pre">printdata</span></code> (print data to console)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#write-miniseed-writer">3.8. <code class="code docutils literal notranslate"><span class="pre">write</span></code> (miniSEED writer)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#forward-datacast-forwarding">3.9. <code class="code docutils literal notranslate"><span class="pre">forward</span></code> (datacast forwarding)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-run-custom-code">3.10. <code class="code docutils literal notranslate"><span class="pre">custom</span></code> (run custom code)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#printdata-print-data-to-console">3.11. <code class="code docutils literal notranslate"><span class="pre">printdata</span></code> (print data to console)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#default-settings">3.12. Default settings</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal"><span class="pre">systemctl</span></code> daemon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Video resources</span></p>
+<p class="caption" role="heading"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#detected-earthquake">Detected earthquake</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Developers' guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">1. Program architecture and flow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">2. Contributing to this project</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Library</span></p>
+<p class="caption" role="heading"><span class="caption-text">Library</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="docutils literal"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="docutils literal"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="docutils literal"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="docutils literal"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Clients</span></p>
+<p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="docutils literal"><span class="pre">rsudp.client</span></code> (central module)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="docutils literal"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Producer and Consumer</span></p>
+<p class="caption" role="heading"><span class="caption-text">Producer and Consumer</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="docutils literal"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="docutils literal"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Sub-Consumers</span></p>
+<p class="caption" role="heading"><span class="caption-text">Sub-Consumers</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="docutils literal"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="docutils literal"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="docutils literal"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="docutils literal"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="docutils literal"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="docutils literal"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="docutils literal"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="docutils literal"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="docutils literal"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Testing modules</span></p>
+<p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="docutils literal"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="docutils literal"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="docutils literal"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="docutils literal"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">rsudp</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li>3. Modules and Settings</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3. </span>Modules and Settings</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="_sources/settings.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="modules-and-settings">
-<span id="settings"></span><h1>3. Modules and Settings<a class="headerlink" href="#modules-and-settings" title="Permalink to this headline">¶</a></h1>
-<p>You will need to adjust the settings file before running <code class="code bash docutils literal"><span class="pre">rsudp</span></code> in order to
+             
+  <section id="modules-and-settings">
+<span id="settings"></span><h1><span class="section-number">3. </span>Modules and Settings<a class="headerlink" href="#modules-and-settings" title="Permalink to this heading"></a></h1>
+<p>You will need to adjust the settings file before running <code class="code highlight bash docutils literal highlight-bash">rsudp</code> in order to
 both receive data and suit your earthquake detection and notification needs.
-Additionally after changing settings, you will need to restart <code class="code bash docutils literal"><span class="pre">rsudp</span></code> to load new values.</p>
-<p>By default, the rsudp settings file will live in <code class="code bash docutils literal"><span class="name variable"><span class="pre">$HOME</span></span><span class="pre">/.config/rsudp/rsudp_settings.json</span></code>,
-where <code class="code bash docutils literal"><span class="name variable"><span class="pre">$HOME</span></span></code> is your home directory (often shortened to <code class="code bash docutils literal"><span class="pre">~/</span></code>).
+Additionally after changing settings, you will need to restart <code class="code highlight bash docutils literal highlight-bash">rsudp</code> to load new values.</p>
+<p>By default, the rsudp settings file will live in <code class="code highlight bash docutils literal highlight-bash"><span class="nv">$HOME</span>/.config/rsudp/rsudp_settings.json</code>,
+where <code class="code highlight bash docutils literal highlight-bash"><span class="nv">$HOME</span></code> is your home directory (often shortened to <code class="code highlight bash docutils literal highlight-bash">~/</code>).
 To output default settings to a different location, see <a class="reference internal" href="running.html#running-manually"><span class="std std-ref">Starting manually on Windows or Unix</span></a>.</p>
-<p>For convenience, you can use rsudp’s built-in <code class="code bash docutils literal"><span class="pre">rs-settings</span></code> command
-(<a class="reference internal" href="entry_points.html#rsudp.entry_points.ep_edit_settings" title="rsudp.entry_points.ep_edit_settings"><code class="xref py py-func docutils literal"><span class="pre">rsudp.entry_points.ep_edit_settings()</span></code></a>) to call your system’s default editor to edit the settings
+<p>For convenience, you can use rsudp’s built-in <code class="code highlight bash docutils literal highlight-bash">rs-settings</code> command
+(<a class="reference internal" href="entry_points.html#rsudp.entry_points.ep_edit_settings" title="rsudp.entry_points.ep_edit_settings"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.entry_points.ep_edit_settings()</span></code></a>) to call your system’s default editor to edit the settings
 file.</p>
-<div class="section" id="settings-general-settings">
-<h2>3.1. <code class="code docutils literal"><span class="pre">settings</span></code> (general settings)<a class="headerlink" href="#settings-general-settings" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="code json docutils literal"><span class="literal string double"><span class="pre">“settings”</span></span></code> portion of the settings file contains some basic items:
-<code class="code json docutils literal"><span class="literal string double"><span class="pre">“port”</span></span></code>, <code class="code json docutils literal"><span class="literal string double"><span class="pre">“station”</span></span></code>, <code class="code json docutils literal"><span class="literal string double"><span class="pre">“output_dir”</span></span></code>, and <code class="code json docutils literal"><span class="literal string double"><span class="pre">“debug”</span></span></code>.
-Change <code class="code json docutils literal"><span class="literal string double"><span class="pre">“port”</span></span></code> if you are receiving the data at a different port than <code class="code json docutils literal"><span class="literal number integer"><span class="pre">8888</span></span></code>.
-To set your station name, change the value set for <code class="code json docutils literal"><span class="literal string double"><span class="pre">“station”</span></span></code>.
-<code class="code json docutils literal"><span class="literal string double"><span class="pre">“output_dir”</span></span></code> will contain folders for miniSEED data and plot screenshots,
+<section id="settings-general-settings">
+<h2><span class="section-number">3.1. </span><code class="code docutils literal notranslate"><span class="pre">settings</span></code> (general settings)<a class="headerlink" href="#settings-general-settings" title="Permalink to this heading"></a></h2>
+<p>The <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;settings&quot;</span></code> portion of the settings file contains some basic items:
+<code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;port&quot;</span></code>, <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;station&quot;</span></code>, <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;output_dir&quot;</span></code>, and <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;debug&quot;</span></code>.
+Change <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;port&quot;</span></code> if you are receiving the data at a different port than <code class="code highlight json docutils literal highlight-json"><span class="mi">8888</span></code>.
+To set your station name, change the value set for <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;station&quot;</span></code>.
+<code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;output_dir&quot;</span></code> will contain folders for miniSEED data and plot screenshots,
 which are explained in the relevant sections (write and plot) below.
 The directory specified here will be created if it doesn’t already exist.
-<code class="code json docutils literal"><span class="literal string double"><span class="pre">“debug”</span></span></code> controls how much text is sent to the command line STDOUT
-(even if this is false, output will always be sent to a log at <code class="code docutils literal"><span class="pre">/tmp/rsudp/rsudp.log</span></code>).</p>
-</div>
-<div class="section" id="plot-live-data-plot">
-<h2>3.2. <code class="code docutils literal"><span class="pre">plot</span></code> (live data plot)<a class="headerlink" href="#plot-live-data-plot" title="Permalink to this headline">¶</a></h2>
-<p><code class="code json docutils literal"><span class="literal string double"><span class="pre">“plot”</span></span></code> controls <a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot" title="rsudp.c_plot.Plot"><code class="xref py py-class docutils literal"><span class="pre">rsudp.c_plot.Plot</span></code></a>, the thread containing the GUI plotting
+<code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;debug&quot;</span></code> controls how much text is sent to the command line STDOUT
+(even if this is false, output will always be sent to a log at <code class="code docutils literal notranslate"><span class="pre">/tmp/rsudp/rsudp.log</span></code>).</p>
+</section>
+<section id="plot-live-data-plot">
+<h2><span class="section-number">3.2. </span><code class="code docutils literal notranslate"><span class="pre">plot</span></code> (live data plot)<a class="headerlink" href="#plot-live-data-plot" title="Permalink to this heading"></a></h2>
+<p><code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;plot&quot;</span></code> controls <a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot" title="rsudp.c_plot.Plot"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_plot.Plot</span></code></a>, the thread containing the GUI plotting
 algorithm.
 This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and
 display a spectrogram beneath each.</p>
-<p>By default the plotted <code class="code json docutils literal"><span class="literal string double"><span class="pre">“duration”</span></span></code> in seconds is <code class="code json docutils literal"><span class="literal number integer"><span class="pre">30</span></span></code>.
+<p>By default the plotted <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;duration&quot;</span></code> in seconds is <code class="code highlight json docutils literal highlight-json"><span class="mi">30</span></code>.
 The plot will refresh at most once per second, but slower processors may take longer.
 The longer the duration, the more processor power it will take to refresh the plot,
 especially when the spectrogram is enabled.
-To disable the spectrogram, set <code class="code json docutils literal"><span class="literal string double"><span class="pre">“spectrogram”</span></span></code> to <code class="code json docutils literal"><span class="keyword constant"><span class="pre">false</span></span></code> in the settings file.
-To put the plot into fullscreen window mode, set <code class="code json docutils literal"><span class="literal string double"><span class="pre">“fullscreen”</span></span></code> to <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code>.
-To put the plot into kiosk mode, set <code class="code json docutils literal"><span class="literal string double"><span class="pre">“kiosk”</span></span></code> to <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code>.</p>
+To disable the spectrogram, set <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;spectrogram&quot;</span></code> to <code class="code highlight json docutils literal highlight-json"><span class="kc">false</span></code> in the settings file.
+To put the plot into fullscreen window mode, set <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;fullscreen&quot;</span></code> to <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>.
+To put the plot into kiosk mode, set <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;kiosk&quot;</span></code> to <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Kiosk mode will force the plot to fill the entire screen.
+<p class="admonition-title">Note</p>
+<p>Kiosk mode will force the plot to fill the entire screen.
 To exit, press Ctrl+W or Alt+Tab (Command+Tab on Mac OS) to bring up a window switcher).</p>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">On a Raspberry Pi 3B+, plotting 600 seconds of data and a spectrogram from one channel,
+<p class="admonition-title">Note</p>
+<p>On a Raspberry Pi 3B+, plotting 600 seconds of data and a spectrogram from one channel,
 the update frequency is approximately once every 5 seconds,
 but more powerful processors will be able to accommodate a higher refresh speed.</p>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Because the plot module is queue-based, it will not drop any packets received, no matter the processor.
+<p class="admonition-title">Note</p>
+<p>Because the plot module is queue-based, it will not drop any packets received, no matter the processor.
 Dropped packets (if you experience them) are most likely a sign of network issues
 where the missing data never actually arrives at the receiving machine.</p>
 </div>
-<p>By default, the <code class="code json docutils literal"><span class="literal string double"><span class="pre">“channels”</span></span></code> field is <code class="code json docutils literal"><span class="punctuation"><span class="pre">[</span></span><span class="literal string double"><span class="pre">“HZ”</span></span><span class="punctuation"><span class="pre">,</span></span> <span class="literal string double"><span class="pre">“HDF”</span></span><span class="punctuation"><span class="pre">]</span></span></code>.
+<p>By default, the <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;channels&quot;</span></code> field is <code class="code highlight json docutils literal highlight-json"><span class="p">[</span><span class="s2">&quot;HZ&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;HDF&quot;</span><span class="p">]</span></code>.
 This will resolve to at least one channel of any Shake input.
-<code class="code json docutils literal"><span class="literal string double"><span class="pre">“HZ”</span></span></code> will match either <code class="code json docutils literal"><span class="literal string double"><span class="pre">“SHZ”</span></span></code> or <code class="code json docutils literal"><span class="literal string double"><span class="pre">“EHZ”</span></span></code> depending on your Shake digitizer model,
-and <code class="code json docutils literal"><span class="literal string double"><span class="pre">“HDF”</span></span></code> will match the pressure transducer channel on a Raspberry Boom or Shake &amp; Boom.
+<code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;HZ&quot;</span></code> will match either <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;SHZ&quot;</span></code> or <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;EHZ&quot;</span></code> depending on your Shake digitizer model,
+and <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;HDF&quot;</span></code> will match the pressure transducer channel on a Raspberry Boom or Shake &amp; Boom.
 If one of the channels in the list doesn’t exist in the data sent to the port, it will be ignored.</p>
 <p>The program will use the Raspberry Shake FDSN service to search for an inventory response file
-for the Shake you specify in the <code class="code json docutils literal"><span class="literal string double"><span class="pre">“station”</span></span></code> field.
+for the Shake you specify in the <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;station&quot;</span></code> field.
 If it successfully finds an inventory,
-setting “deconvolve” to <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code> will deconvolve the channels plotted to either <code class="code json docutils literal"><span class="literal string double"><span class="pre">“ACC”</span></span></code> (acceleration in m/s^2),
-<code class="code json docutils literal"><span class="literal string double"><span class="pre">“VEL”</span></span></code> (velocity in m/s), or <code class="code json docutils literal"><span class="literal string double"><span class="pre">“DISP”</span></span></code> (displacement in m).
-The default is <code class="code json docutils literal"><span class="literal string double"><span class="pre">“CHAN”</span></span></code> which lets the program deconvolve the channel
+setting “deconvolve” to <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code> will deconvolve the channels plotted to either <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;ACC&quot;</span></code> (acceleration in m/s^2),
+<code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;VEL&quot;</span></code> (velocity in m/s), or <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;DISP&quot;</span></code> (displacement in m).
+The default is <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;CHAN&quot;</span></code> which lets the program deconvolve the channel
 to its native units (acceleration for accelerometers, and velocity for geophones).
 This means that the Shake must both have the 4.5 Hz geophone distributed by RS,
 and be forwarding data to the Shake server, in order to deconvolve successfully.
 For the time being, the Raspberry Boom will display in counts of Voltage, i.e., not a deconvolved unit.</p>
-<p>If the <a class="reference internal" href="#alert"><span class="std std-ref">alert (STA/LTA earthquake detection trigger)</span></a> module is enabled, setting <code class="code json docutils literal"><span class="literal string double"><span class="pre">“eq_screenshots”</span></span></code> to <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code>
-will result in screenshots being saved whenever there is an <code class="code docutils literal"><span class="pre">ALARM</span></code>
+<p>If the <a class="reference internal" href="#alert"><span class="std std-ref">alert (STA/LTA earthquake detection trigger)</span></a> module is enabled, setting <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;eq_screenshots&quot;</span></code> to <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>
+will result in screenshots being saved whenever there is an <code class="code docutils literal notranslate"><span class="pre">ALARM</span></code>
 is internally forwarded for further processing (see Alert section below).
-The script will save one PNG figure per alert to the <code class="code docutils literal"><span class="pre">screenshots</span></code> directory
-inside of <code class="code json docutils literal"><span class="literal string double"><span class="pre">“output_dir”</span></span></code> when the leading edge of the quake is about 70% of the way across the plot window.
+The script will save one PNG figure per alert to the <code class="code docutils literal notranslate"><span class="pre">screenshots</span></code> directory
+inside of <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;output_dir&quot;</span></code> when the leading edge of the quake is about 70% of the way across the plot window.
 This will only occur when the alarm gets triggered, however, so make sure to test your alert settings thoroughly.</p>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
-</div>
-<div class="section" id="alert-sta-lta-earthquake-detection-trigger">
-<span id="alert"></span><h2>3.3. <code class="code docutils literal"><span class="pre">alert</span></code> (STA/LTA earthquake detection trigger)<a class="headerlink" href="#alert-sta-lta-earthquake-detection-trigger" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="alert-sta-lta-earthquake-detection-trigger">
+<span id="alert"></span><h2><span class="section-number">3.3. </span><code class="code docutils literal notranslate"><span class="pre">alert</span></code> (STA/LTA earthquake detection trigger)<a class="headerlink" href="#alert-sta-lta-earthquake-detection-trigger" title="Permalink to this heading"></a></h2>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
+<p class="admonition-title">Warning</p>
 <p><strong>Standard performance disclaimer</strong></p>
 <p>It is extremely important that you do not rely on this code to save life or property.
 It is not a substitute for earthquake early warning (EEW), or state or local official
@@ -346,41 +259,41 @@ implied or explicit, for the performance of this software in earthquake detectio
 <p>Raspberry Shake assumes no liability for false positives, false negatives,
 errors running the Alert module, or any other part of this software;
 it is meant for hobby and non-professional notification use only.</p>
-<p class="last">If you need professional-grade software to provide a warning intended to save life
+<p>If you need professional-grade software to provide a warning intended to save life
 or property, please contact Raspberry Shake directly or look elsewhere.
 See sections 16 and 16b of the <a href="https://github.com/raspishake/rsudp/blob/master/LICENSE" target="_blank">license</a> for further details.</p>
 </div>
-<p><code class="code json docutils literal"><span class="literal string double"><span class="pre">“alert”</span></span></code> controls the <a class="reference internal" href="c_alert.html#rsudp.c_alert.Alert" title="rsudp.c_alert.Alert"><code class="xref py py-class docutils literal"><span class="pre">rsudp.c_alert.Alert</span></code></a> module (please see Warning above).
+<p><code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;alert&quot;</span></code> controls the <a class="reference internal" href="c_alert.html#rsudp.c_alert.Alert" title="rsudp.c_alert.Alert"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_alert.Alert</span></code></a> module (please see Warning above).
 The alert module is a fast recursive STA/LTA sudden motion detector that utilizes obspy’s
-<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.signal.trigger.recursive_sta_lta.html#obspy.signal.trigger.recursive_sta_lta" title="(in ObsPy v1.3.0)"><code class="xref py py-func docutils literal"><span class="pre">obspy.signal.trigger.recursive_sta_lta()</span></code></a> function
+<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.signal.trigger.recursive_sta_lta.html#obspy.signal.trigger.recursive_sta_lta" title="(in ObsPy v1.4.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">obspy.signal.trigger.recursive_sta_lta()</span></code></a> function
 (more detailed information on how to use that function <a href="https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#recursive-sta-lta" target="_blank">here</a>).
 STA/LTA algorithms calculate a ratio of the short term average of station noise to the long term average.
-The data can be highpass, lowpass, or bandpass filtered by changing the <code class="code json docutils literal"><span class="literal string double"><span class="pre">“highpass”</span></span></code>
-and <code class="code json docutils literal"><span class="literal string double"><span class="pre">“lowpass”</span></span></code> parameters from their defaults (<code class="code json docutils literal"><span class="literal number integer"><span class="pre">0</span></span></code> and <code class="code json docutils literal"><span class="literal number integer"><span class="pre">50</span></span></code> respectively).
+The data can be highpass, lowpass, or bandpass filtered by changing the <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;highpass&quot;</span></code>
+and <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;lowpass&quot;</span></code> parameters from their defaults (<code class="code highlight json docutils literal highlight-json"><span class="mi">0</span></code> and <code class="code highlight json docutils literal highlight-json"><span class="mi">50</span></code> respectively).
 By default, the alert will be calculated on raw count data
-from the vertical geophone channel (either <code class="code json docutils literal"><span class="literal string double"><span class="pre">“SHZ”</span></span></code> or <code class="code json docutils literal"><span class="literal string double"><span class="pre">“EHZ”</span></span></code>).
+from the vertical geophone channel (either <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;SHZ&quot;</span></code> or <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;EHZ&quot;</span></code>).
 It will throw an error if there is no Z channel available (i.e. if you have a Raspberry Boom with no geophone).
-If you have a Boom and still would like to run this module, change the default channel <code class="code json docutils literal"><span class="literal string double"><span class="pre">“HZ”</span></span></code> to <code class="code json docutils literal"><span class="literal string double"><span class="pre">“HDF”</span></span></code>.</p>
+If you have a Boom and still would like to run this module, change the default channel <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;HZ&quot;</span></code> to <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;HDF&quot;</span></code>.</p>
 <p>Like in the plot module, the alert module deconvolves the instrument response if a response file exists
-for your <code class="code json docutils literal"><span class="literal string double"><span class="pre">“station”</span></span></code> on the Raspberry Shake FDSN server.
+for your <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;station&quot;</span></code> on the Raspberry Shake FDSN server.
 Same as above, if the response file exists,
-setting <code class="code json docutils literal"><span class="literal string double"><span class="pre">“deconvolve”</span></span></code> to <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code> will cause the alert function to
-calculate the STA/LTA ratio on deconvolved data (again <code class="code json docutils literal"><span class="literal string double"><span class="pre">“ACC”</span></span></code>, <code class="code json docutils literal"><span class="literal string double"><span class="pre">“VEL”</span></span></code>, or <code class="code json docutils literal"><span class="literal string double"><span class="pre">“DISP”</span></span></code>).</p>
-<p>If the STA/LTA ratio goes above a certain value (defined by <code class="code json docutils literal"><span class="literal string double"><span class="pre">“threshold”</span></span></code>),
-then the <a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal"><span class="pre">rsudp.p_producer.Producer</span></code></a> thread will generate an <code class="code docutils literal"><span class="pre">ALARM</span></code> “event packet”,
+setting <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;deconvolve&quot;</span></code> to <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code> will cause the alert function to
+calculate the STA/LTA ratio on deconvolved data (again <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;ACC&quot;</span></code>, <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;VEL&quot;</span></code>, or <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;DISP&quot;</span></code>).</p>
+<p>If the STA/LTA ratio goes above a certain value (defined by <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;threshold&quot;</span></code>),
+then the <a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.p_producer.Producer</span></code></a> thread will generate an <code class="code docutils literal notranslate"><span class="pre">ALARM</span></code> “event packet”,
 to be distributed to every consumer module.
-This tells all consumers listening for <code class="code docutils literal"><span class="pre">ALARM</span></code> messages to do something.</p>
-<p>When the ratio goes back below the <code class="code json docutils literal"><span class="literal string double"><span class="pre">“reset”</span></span></code> value, the alarm is reset.
-The Producer will then send a <code class="code docutils literal"><span class="pre">RESET</span></code> message to the queues.</p>
+This tells all consumers listening for <code class="code docutils literal notranslate"><span class="pre">ALARM</span></code> messages to do something.</p>
+<p>When the ratio goes back below the <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;reset&quot;</span></code> value, the alarm is reset.
+The Producer will then send a <code class="code docutils literal notranslate"><span class="pre">RESET</span></code> message to the queues.</p>
 <p>For more information on the packets generated by the Producer, see <a class="reference internal" href="theory.html#producer-consumer"><span class="std std-ref">Producer-consumer message passing</span></a>.</p>
-<div class="section" id="recommendations">
-<h3>3.3.1. Recommendations<a class="headerlink" href="#recommendations" title="Permalink to this headline">¶</a></h3>
+<section id="recommendations">
+<h3><span class="section-number">3.3.1. </span>Recommendations<a class="headerlink" href="#recommendations" title="Permalink to this heading"></a></h3>
 <p>The detection and filtering settings that we’ve found work well are below for different scenarios.</p>
-<div class="section" id="general-use">
-<h4>3.3.1.1. General use<a class="headerlink" href="#general-use" title="Permalink to this headline">¶</a></h4>
+<section id="general-use">
+<h4><span class="section-number">3.3.1.1. </span>General use<a class="headerlink" href="#general-use" title="Permalink to this heading"></a></h4>
 <p>For a station with sudden motion (footsteps nearby occasionally),
 or one atop unconsolidated sediment:</p>
-<div class="highlight-None"><div class="highlight"><pre><span></span>&quot;alert&quot;: {
+<div class="highlight-None notranslate"><div class="highlight"><pre><span></span>&quot;alert&quot;: {
     &quot;enabled&quot;: true,
     &quot;channel&quot;: &quot;HZ&quot;,
     &quot;sta&quot;: 6,
@@ -393,11 +306,11 @@ or one atop unconsolidated sediment:</p>
     &quot;units&quot;: &quot;VEL&quot;},
 </pre></div>
 </div>
-</div>
-<div class="section" id="quiet-vault">
-<h4>3.3.1.2. Quiet vault<a class="headerlink" href="#quiet-vault" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="quiet-vault">
+<h4><span class="section-number">3.3.1.2. </span>Quiet vault<a class="headerlink" href="#quiet-vault" title="Permalink to this heading"></a></h4>
 <p>For a very quiet station placed atop bedrock:</p>
-<div class="highlight-None"><div class="highlight"><pre><span></span>&quot;alert&quot;: {
+<div class="highlight-None notranslate"><div class="highlight"><pre><span></span>&quot;alert&quot;: {
     &quot;enabled&quot;: true,
     &quot;channel&quot;: &quot;HZ&quot;,
     &quot;sta&quot;: 6,
@@ -410,15 +323,15 @@ or one atop unconsolidated sediment:</p>
     &quot;units&quot;: &quot;VEL&quot;},
 </pre></div>
 </div>
-</div>
-<div class="section" id="classroom-demonstrations">
-<h4>3.3.1.3. Classroom demonstrations<a class="headerlink" href="#classroom-demonstrations" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="classroom-demonstrations">
+<h4><span class="section-number">3.3.1.3. </span>Classroom demonstrations<a class="headerlink" href="#classroom-demonstrations" title="Permalink to this heading"></a></h4>
 <p>For a classroom looking to detect jumps but not necessarily earthquakes, start with
 the settings below. The main difference here is that there is no bandpass filter
 applied to the signal before it is put into the STA/LTA algorithm, which changes
 the calculation needed for exceedence of the threshold. Adjust the
-<code class="code json docutils literal"><span class="literal string double"><span class="pre">“threshold”</span></span></code> downward, closer to <code class="code json docutils literal"><span class="literal number float"><span class="pre">1.7</span></span></code> if <code class="code json docutils literal"><span class="literal number float"><span class="pre">1.8</span></span></code> is too high.</p>
-<div class="highlight-None"><div class="highlight"><pre><span></span>&quot;alert&quot;: {
+<code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;threshold&quot;</span></code> downward, closer to <code class="code highlight json docutils literal highlight-json"><span class="mf">1.7</span></code> if <code class="code highlight json docutils literal highlight-json"><span class="mf">1.8</span></code> is too high.</p>
+<div class="highlight-None notranslate"><div class="highlight"><pre><span></span>&quot;alert&quot;: {
     &quot;enabled&quot;: true,
     &quot;channel&quot;: &quot;HZ&quot;,
     &quot;sta&quot;: 6,
@@ -431,136 +344,132 @@ the calculation needed for exceedence of the threshold. Adjust the
     &quot;units&quot;: &quot;VEL&quot;},
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="using-exec">
-<h3>3.3.2. Using <code class="code docutils literal"><span class="pre">&quot;exec&quot;</span></code><a class="headerlink" href="#using-exec" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="using-exec">
+<h3><span class="section-number">3.3.2. </span>Using <code class="code docutils literal notranslate"><span class="pre">&quot;exec&quot;</span></code><a class="headerlink" href="#using-exec" title="Permalink to this heading"></a></h3>
 <blockquote>
 <div><div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 0.4.3: </span>You can change the <code class="code json docutils literal"><span class="literal string double"><span class="pre">“exec”</span></span></code> field and supply a path to
-executable Python code to run with the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.10)"><code class="xref py py-func docutils literal"><span class="pre">exec()</span></code></a> function.
-<a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.10)"><code class="xref py py-func docutils literal"><span class="pre">exec()</span></code></a> functionality will move to its own module in version 0.4.3
-(see <a class="reference internal" href="#customcode"><span class="std std-ref">custom (run custom code)</span></a> and the <a class="reference internal" href="c_custom.html#rsudp.c_custom.Custom" title="rsudp.c_custom.Custom"><code class="xref py py-class docutils literal"><span class="pre">rsudp.c_custom.Custom</span></code></a> class),
+<p><span class="versionmodified deprecated">Deprecated since version 0.4.3: </span>You can change the <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;exec&quot;</span></code> field and supply a path to
+executable Python code to run with the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function.
+<a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> functionality will move to its own module in version 0.4.3
+(see <a class="reference internal" href="#customcode"><span class="std std-ref">custom (run custom code)</span></a> and the <a class="reference internal" href="c_custom.html#rsudp.c_custom.Custom" title="rsudp.c_custom.Custom"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_custom.Custom</span></code></a> class),
 and this part of the alert module will be fully removed in a future release.</p>
 </div>
 </div></blockquote>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
-</div>
-</div>
-<div class="section" id="rsam-real-time-seismic-amplitude">
-<h2>3.4. <code class="code docutils literal"><span class="pre">RSAM</span></code> (Real-time Seismic AMplitude)<a class="headerlink" href="#rsam-real-time-seismic-amplitude" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="rsam-real-time-seismic-amplitude">
+<h2><span class="section-number">3.4. </span><code class="code docutils literal notranslate"><span class="pre">RSAM</span></code> (Real-time Seismic AMplitude)<a class="headerlink" href="#rsam-real-time-seismic-amplitude" title="Permalink to this heading"></a></h2>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 1.0.1.</span></p>
+<p><span class="versionmodified added">New in version 1.0.1.</span></p>
 </div>
 <p>This module calculates the Real-time Seismic Amplitude Measurement (RSAM) of the data stream every few seconds
 and can forward this data to another location on the network.</p>
-<p><code class="code json docutils literal"><span class="literal string double"><span class="pre">“interval”</span></span></code> is a float that specifies the number of seconds to wait between each RSAM analysis.</p>
-<p><code class="code json docutils literal"><span class="literal string double"><span class="pre">“quiet”</span></span></code> controls the amount of data printed to the console in debug mode.
-When <code class="code json docutils literal"><span class="literal string double"><span class="pre">“quiet”</span></span></code> is <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code>, the module will not print any RSAM analysis,
-If debug mode is on and <code class="code json docutils literal"><span class="literal string double"><span class="pre">“quiet”</span></span></code> is <code class="code json docutils literal"><span class="keyword constant"><span class="pre">false</span></span></code>, then the module will
-print the analysis to the console every <code class="code json docutils literal"><span class="literal string double"><span class="pre">“interval”</span></span></code> seconds.</p>
-<p><code class="code json docutils literal"><span class="literal string double"><span class="pre">“fwaddr”</span></span></code> and <code class="code json docutils literal"><span class="literal string double"><span class="pre">“fwport”</span></span></code> specify the forwarding address and port to which to
-optionally send RSAM data. If one of these fields is <code class="code json docutils literal"><span class="keyword constant"><span class="pre">false</span></span></code> then no data will be
+<p><code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;interval&quot;</span></code> is a float that specifies the number of seconds to wait between each RSAM analysis.</p>
+<p><code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;quiet&quot;</span></code> controls the amount of data printed to the console in debug mode.
+When <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;quiet&quot;</span></code> is <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>, the module will not print any RSAM analysis,
+If debug mode is on and <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;quiet&quot;</span></code> is <code class="code highlight json docutils literal highlight-json"><span class="kc">false</span></code>, then the module will
+print the analysis to the console every <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;interval&quot;</span></code> seconds.</p>
+<p><code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;fwaddr&quot;</span></code> and <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;fwport&quot;</span></code> specify the forwarding address and port to which to
+optionally send RSAM data. If one of these fields is <code class="code highlight json docutils literal highlight-json"><span class="kc">false</span></code> then no data will be
 forwarded. If these fields are populated with valid IP and port, data will be forwarded every
-<code class="code json docutils literal"><span class="literal string double"><span class="pre">“interval”</span></span></code> seconds.</p>
-<p><code class="code json docutils literal"><span class="literal string double"><span class="pre">“fwformat”</span></span></code> specifies the format of data to be forwarded. There are three formats,
-<code class="code json docutils literal"><span class="literal string double"><span class="pre">“LITE”</span></span></code>, <code class="code json docutils literal"><span class="literal string double"><span class="pre">“JSON”</span></span></code>, and <code class="code json docutils literal"><span class="literal string double"><span class="pre">“CSV”</span></span></code>, which can be used depending on the
+<code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;interval&quot;</span></code> seconds.</p>
+<p><code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;fwformat&quot;</span></code> specifies the format of data to be forwarded. There are three formats,
+<code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;LITE&quot;</span></code>, <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;JSON&quot;</span></code>, and <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;CSV&quot;</span></code>, which can be used depending on the
 endpoint processing method and size constraints.</p>
-<p><code class="code json docutils literal"><span class="literal string double"><span class="pre">“channel”</span></span></code> specifies the channel to use for RSAM analysis (only one can be chosen).</p>
-<p><code class="code json docutils literal"><span class="literal string double"><span class="pre">“deconvolve”</span></span></code> specifies whether the instrument response should be removed from the data stream
+<p><code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;channel&quot;</span></code> specifies the channel to use for RSAM analysis (only one can be chosen).</p>
+<p><code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;deconvolve&quot;</span></code> specifies whether the instrument response should be removed from the data stream
 prior to RSAM calculations.</p>
-<p>To run the RSAM module, set <code class="code json docutils literal"><span class="literal string double"><span class="pre">“enabled”</span></span></code> to <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code>.</p>
-</div>
-<div class="section" id="alarmsound-play-sounds-upon-alerts">
-<h2>3.5. <code class="code docutils literal"><span class="pre">alarmsound</span></code> (play sounds upon alerts)<a class="headerlink" href="#alarmsound-play-sounds-upon-alerts" title="Permalink to this headline">¶</a></h2>
-<p>If alarmsound’s <code class="code json docutils literal"><span class="literal string double"><span class="pre">“enabled”</span></span></code> is <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code> and you have either <code class="code bash docutils literal"><span class="pre">ffmpeg</span></code> or <code class="code bash docutils literal"><span class="pre">libav</span></code> installed,
-<a class="reference internal" href="c_alertsound.html#rsudp.c_alertsound.AlertSound" title="rsudp.c_alertsound.AlertSound"><code class="xref py py-class docutils literal"><span class="pre">rsudp.c_alertsound.AlertSound</span></code></a> plays an MP3 sound every time it receives an <code class="code docutils literal"><span class="pre">ALARM</span></code> queue message.
+<p>To run the RSAM module, set <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;enabled&quot;</span></code> to <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>.</p>
+</section>
+<section id="alarmsound-play-sounds-upon-alerts">
+<h2><span class="section-number">3.5. </span><code class="code docutils literal notranslate"><span class="pre">alarmsound</span></code> (play sounds upon alerts)<a class="headerlink" href="#alarmsound-play-sounds-upon-alerts" title="Permalink to this heading"></a></h2>
+<p>If alarmsound’s <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;enabled&quot;</span></code> is <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code> and you have either <code class="code highlight bash docutils literal highlight-bash">ffmpeg</code> or <code class="code highlight bash docutils literal highlight-bash">libav</code> installed,
+<a class="reference internal" href="c_alertsound.html#rsudp.c_alertsound.AlertSound" title="rsudp.c_alertsound.AlertSound"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_alertsound.AlertSound</span></code></a> plays an MP3 sound every time it receives an <code class="code docutils literal notranslate"><span class="pre">ALARM</span></code> queue message.
 For details on installation of these dependencies, see <a href="https://github.com/jiaaro/pydub#dependencies" target="_blank">this page</a>.</p>
 <p>The rsudp software will install several small MP3 files.
-The <code class="code json docutils literal"><span class="literal string double"><span class="pre">“mp3file”</span></span></code> is <code class="code json docutils literal"><span class="literal string double"><span class="pre">“doorbell”</span></span></code> (two doorbell chimes) by default,
-but there are a few more aggressive alert sounds, including: a three-beep sound <code class="code json docutils literal"><span class="literal string double"><span class="pre">“beeps”</span></span></code>,
-a sequence of sonar pings <code class="code json docutils literal"><span class="literal string double"><span class="pre">“sonar”</span></span></code>,
-and a continuous alarm beeping for 5 seconds, <code class="code json docutils literal"><span class="literal string double"><span class="pre">“alarm”</span></span></code>.
-You can also point the <code class="code json docutils literal"><span class="literal string double"><span class="pre">“mp3file”</span></span></code> field to an MP3 file somewhere in your filesystem.
-For example, if your username was <code class="code docutils literal"><span class="pre">pi</span></code> and you had a file called <cite>earthquake.mp3</cite> in your Downloads folder,
-you would specify <code class="code json docutils literal"><span class="literal string double"><span class="pre">“mp3file”</span></span><span class="error"><span class="pre">:</span></span> <span class="literal string double"><span class="pre">“/home/pi/Downloads/earthquake.mp3”</span></span></code>.
+The <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;mp3file&quot;</span></code> is <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;doorbell&quot;</span></code> (two doorbell chimes) by default,
+but there are a few more aggressive alert sounds, including: a three-beep sound <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;beeps&quot;</span></code>,
+a sequence of sonar pings <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;sonar&quot;</span></code>,
+and a continuous alarm beeping for 5 seconds, <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;alarm&quot;</span></code>.
+You can also point the <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;mp3file&quot;</span></code> field to an MP3 file somewhere in your filesystem.
+For example, if your username was <code class="code docutils literal notranslate"><span class="pre">pi</span></code> and you had a file called <cite>earthquake.mp3</cite> in your Downloads folder,
+you would specify <code class="code highlight json docutils literal highlight-json"><span class="nt">&quot;mp3file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/home/pi/Downloads/earthquake.mp3&quot;</span></code>.
 The program will throw an error if it can’t find (or load) the specified MP3 file.
 It will also alert you if the software dependencies for playback are not installed.</p>
 <p>To test the sound output, ensure you have the correct dependencies installed (see below),
-change <code class="code json docutils literal"><span class="literal string double"><span class="pre">“enabled”</span></span></code> to <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code>, start rsudp,
+change <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;enabled&quot;</span></code> to <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>, start rsudp,
 wait for the trigger to warm up, then stomp, jump, or Shake to trigger the sound.</p>
-<div class="section" id="installing-pydub-dependencies">
-<h3>3.5.1. Installing <code class="code docutils literal"><span class="pre">pydub</span></code> dependencies<a class="headerlink" href="#installing-pydub-dependencies" title="Permalink to this headline">¶</a></h3>
+<section id="installing-pydub-dependencies">
+<h3><span class="section-number">3.5.1. </span>Installing <code class="code docutils literal notranslate"><span class="pre">pydub</span></code> dependencies<a class="headerlink" href="#installing-pydub-dependencies" title="Permalink to this heading"></a></h3>
 <p>If you would like to play sounds when the STA/LTA trigger activates,
 you will need to take the following installation steps beforehand:</p>
-<div class="section" id="on-linux">
-<h4>3.5.1.1. On Linux<a class="headerlink" href="#on-linux" title="Permalink to this headline">¶</a></h4>
+<section id="on-linux">
+<h4><span class="section-number">3.5.1.1. </span>On Linux<a class="headerlink" href="#on-linux" title="Permalink to this heading"></a></h4>
 <p><a href="http://ffmpeg.org/" target="_blank">ffmpeg</a> comes installed by default on some OS flavors
 and is available on most Linux package managers.</p>
-<p>Debian and Raspbian users can simply type <code class="code bash docutils literal"><span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">update</span><span class="punctuation"><span class="pre">;</span></span> <span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">install</span> <span class="pre">ffmpeg</span></code></p>
-</div>
-<div class="section" id="on-macos">
-<h4>3.5.1.2. On MacOS<a class="headerlink" href="#on-macos" title="Permalink to this headline">¶</a></h4>
-<p>Users with Homebrew can install by doing <code class="code bash docutils literal"><span class="pre">brew</span> <span class="pre">install</span> <span class="pre">ffmpeg</span></code></p>
+<p>Debian and Raspbian users can simply type <code class="code highlight bash docutils literal highlight-bash">sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="p">;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ffmpeg</code></p>
+</section>
+<section id="on-macos">
+<h4><span class="section-number">3.5.1.2. </span>On MacOS<a class="headerlink" href="#on-macos" title="Permalink to this heading"></a></h4>
+<p>Users with Homebrew can install by doing <code class="code highlight bash docutils literal highlight-bash">brew<span class="w"> </span>install<span class="w"> </span>ffmpeg</code></p>
 <p>Users without Homebrew will need to install using a binary build <a href="http://ffmpeg.org/download.html#build-mac" target="_blank">from the ffmpeg website</a>.</p>
-</div>
-<div class="section" id="on-windows">
-<h4>3.5.1.3. On Windows<a class="headerlink" href="#on-windows" title="Permalink to this headline">¶</a></h4>
-<p>Windows users will need to do a couple of extra steps to get <code class="code docutils literal"><span class="pre">ffmpeg</span></code> installed.
+</section>
+<section id="on-windows">
+<h4><span class="section-number">3.5.1.3. </span>On Windows<a class="headerlink" href="#on-windows" title="Permalink to this heading"></a></h4>
+<p>Windows users will need to do a couple of extra steps to get <code class="code docutils literal notranslate"><span class="pre">ffmpeg</span></code> installed.
 Following steps 1-8 in <a href="https://windowsloop.com/install-ffmpeg-windows-10/" target="_blank">this installation guide</a> should be sufficient to get things working.</p>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
-</div>
-</div>
-</div>
-<div class="section" id="telegram-telegram-notification-module">
-<h2>3.6. <code class="code docutils literal"><span class="pre">telegram</span></code> (Telegram notification module)<a class="headerlink" href="#telegram-telegram-notification-module" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+</section>
+<section id="telegram-telegram-notification-module">
+<h2><span class="section-number">3.6. </span><code class="code docutils literal notranslate"><span class="pre">telegram</span></code> (Telegram notification module)<a class="headerlink" href="#telegram-telegram-notification-module" title="Permalink to this heading"></a></h2>
 <p><a href="https://t.me/" target="_blank">Telegram</a> is a free and open source messaging and notification system,
 used by several earthquake notification agencies including the
 Mexican national early warning system (<a href="https://sasmex.net/" target="_blank">SASMEX</a>, <a href="https://t.me/sasmex" target="_blank">Telegram channel here</a>).
 It has the bonus of being much, much easier to set up than Twitter,
 and will not as readily lock your account if there happen to be many posts in a short time period
 (in comparison to Twitter).</p>
-<p>If <code class="code json docutils literal"><span class="literal string double"><span class="pre">“enabled”</span></span></code> is <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code>, and bot <code class="code json docutils literal"><span class="literal string double"><span class="pre">“token”</span></span></code> key is correctly entered,
-<code class="xref py py-class docutils literal"><span class="pre">rsudp.c_telegram.Telegrammer</span></code> will use the Telegram bot API to create alerts when an
-<code class="code docutils literal"><span class="pre">ALARM</span></code> message arrives on the queue.
-If <code class="code json docutils literal"><span class="literal string double"><span class="pre">“send_images”</span></span></code> is <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code>, then the module will also send a saved image of the event,
-if <code class="code json docutils literal"><span class="literal string double"><span class="pre">“eq_screenshots”</span></span></code> is set to <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code> in the <code class="code json docutils literal"><span class="literal string double"><span class="pre">“plot”</span></span></code> module.</p>
-<p>If any text is put in the <code class="code json docutils literal"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string, then the software will insert that text
+<p>If <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;enabled&quot;</span></code> is <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>, and bot <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;token&quot;</span></code> key is correctly entered,
+<code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_telegram.Telegrammer</span></code> will use the Telegram bot API to create alerts when an
+<code class="code docutils literal notranslate"><span class="pre">ALARM</span></code> message arrives on the queue.
+If <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;send_images&quot;</span></code> is <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>, then the module will also send a saved image of the event,
+if <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;eq_screenshots&quot;</span></code> is set to <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code> in the <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;plot&quot;</span></code> module.</p>
+<p>If any text is put in the <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;extra_text&quot;</span></code> string, then the software will insert that text
 (no longer than 3900 characters) into the message after the UTC designation and prior to the
 stationview hyperlink.
-This works similarly to the <code class="code json docutils literal"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> field in the Twitter module below.
+This works similarly to the <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;extra_text&quot;</span></code> field in the Twitter module below.
 (See <a class="reference internal" href="#examples"><span class="std std-ref">Examples</span></a>.)</p>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">Starting the software with an <code class="code json docutils literal"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string in excess of 3900 characters
-will yield a warning and the <code class="code json docutils literal"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string will be truncated
+<p class="admonition-title">Warning</p>
+<p>Starting the software with an <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;extra_text&quot;</span></code> string in excess of 3900 characters
+will yield a warning and the <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;extra_text&quot;</span></code> string will be truncated
 in order to avoid the message being rejected for exceeding the 4096 character limit.</p>
 </div>
-<div class="section" id="setting-up-a-telegram-bot">
-<span id="setting-up-telegram"></span><h3>3.6.1. Setting up a Telegram Bot<a class="headerlink" href="#setting-up-a-telegram-bot" title="Permalink to this headline">¶</a></h3>
+<section id="setting-up-a-telegram-bot">
+<span id="setting-up-telegram"></span><h3><span class="section-number">3.6.1. </span>Setting up a Telegram Bot<a class="headerlink" href="#setting-up-a-telegram-bot" title="Permalink to this heading"></a></h3>
 <p>Here is a brief overview of the steps to set up a Telegram bot in order to make and distribute
 Telegram alerts from rsudp.</p>
 <ol class="arabic">
-<li><p class="first">Download <a href="https://t.me/" target="_blank">Telegram</a>, create a profile, and sign in.</p>
-</li>
-<li><p class="first">Create a Telegram bot by sending the <code class="code docutils literal"><span class="pre">/start</span></code> message to the <code class="code docutils literal"><span class="pre">&#64;BotFather</span></code> account.</p>
-</li>
-<li><p class="first">Follow the instructions. Your messages to <code class="code docutils literal"><span class="pre">&#64;BotFather</span></code> should look something like the following:</p>
+<li><p>Download <a href="https://t.me/" target="_blank">Telegram</a>, create a profile, and sign in.</p></li>
+<li><p>Create a Telegram bot by sending the <code class="code docutils literal notranslate"><span class="pre">/start</span></code> message to the <code class="code docutils literal notranslate"><span class="pre">&#64;BotFather</span></code> account.</p></li>
+<li><p>Follow the instructions. Your messages to <code class="code docutils literal notranslate"><span class="pre">&#64;BotFather</span></code> should look something like the following:</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li><code class="code docutils literal"><span class="pre">/start</span></code></li>
-<li><code class="code docutils literal"><span class="pre">/newbot</span></code></li>
-<li><code class="code docutils literal"><span class="pre">Your</span> <span class="pre">Shake</span> <span class="pre">Bot</span> <span class="pre">Name</span></code></li>
-<li><code class="code docutils literal"><span class="pre">your_shake_bot_id</span></code></li>
-<li><code class="code docutils literal"><span class="pre">&#64;BotFather</span></code> will then give you an access token for your new bot.</li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">/start</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">/newbot</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">Your</span> <span class="pre">Shake</span> <span class="pre">Bot</span> <span class="pre">Name</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">your_shake_bot_id</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">&#64;BotFather</span></code> will then give you an access token for your new bot.</p></li>
 </ol>
 </div></blockquote>
 </li>
-<li><p class="first">Enter your bot’s access token in the <code class="code json docutils literal"><span class="literal string double"><span class="pre">“token”</span></span></code> field of the settings file.</p>
-</li>
-<li><dl class="first docutils">
-<dt>Enter a user or group ID into the <code class="code json docutils literal"><span class="literal string double"><span class="pre">“chat_id”</span></span></code> field (or multiple separated by commas),</dt>
-<dd><p class="first last">which you can find by following the instructions in <a href="https://stackoverflow.com/a/32572159" target="_blank">this stackoverflow answer</a>.</p>
+<li><p>Enter your bot’s access token in the <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;token&quot;</span></code> field of the settings file.</p></li>
+<li><dl class="simple">
+<dt>Enter a user or group ID into the <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;chat_id&quot;</span></code> field (or multiple separated by commas),</dt><dd><p>which you can find by following the instructions in <a href="https://stackoverflow.com/a/32572159" target="_blank">this stackoverflow answer</a>.</p>
 </dd>
 </dl>
 </li>
@@ -568,85 +477,89 @@ Telegram alerts from rsudp.</p>
 <p>If you wish to broadcast telegrams to a group or a channel, first add the bot to the group using your
 user account, then follow the instructions in the previous link,
 where you will see the group chat ID appear as a field in the last JSON entry.
-This chat ID may be negative, in which case you must enter the negative sign into <code class="code json docutils literal"><span class="literal string double"><span class="pre">“chat_id”</span></span></code>
+This chat ID may be negative, in which case you must enter the negative sign into <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;chat_id&quot;</span></code>
 as well.</p>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
-</div>
-</div>
-<div class="section" id="tweets-twitter-notification-module">
-<h2>3.7. <code class="code docutils literal"><span class="pre">tweets</span></code> (Twitter notification module)<a class="headerlink" href="#tweets-twitter-notification-module" title="Permalink to this headline">¶</a></h2>
-<p>If <code class="code json docutils literal"><span class="literal string double"><span class="pre">“enabled”</span></span></code> is <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code>, and all API keys have been generated and are correctly entered,
-then the <code class="xref py py-class docutils literal"><span class="pre">rsudp.c_tweet.Tweeter</span></code> class will use the Twitter API to
+</section>
+</section>
+<section id="tweets-twitter-notification-module">
+<h2><span class="section-number">3.7. </span><code class="code docutils literal notranslate"><span class="pre">tweets</span></code> (Twitter notification module)<a class="headerlink" href="#tweets-twitter-notification-module" title="Permalink to this heading"></a></h2>
+<p>If <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;enabled&quot;</span></code> is <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>, and all API keys have been generated and are correctly entered,
+then the <code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_tweet.Tweeter</span></code> class will use the Twitter API to
 create tweets when an ALARM message arrives on the queue.
-If <code class="code json docutils literal"><span class="literal string double"><span class="pre">“tweet_images”</span></span></code> is <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code>, then the module will also tweet a saved image of the event,
-if <code class="code json docutils literal"><span class="literal string double"><span class="pre">“eq_screenshots”</span></span></code> is set to <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code> in the “plot” module. If any text is put in the
-<code class="code json docutils literal"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string, then the software will insert that text (no longer than 103 characters)
+If <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;tweet_images&quot;</span></code> is <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>, then the module will also tweet a saved image of the event,
+if <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;eq_screenshots&quot;</span></code> is set to <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code> in the “plot” module. If any text is put in the
+<code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;extra_text&quot;</span></code> string, then the software will insert that text (no longer than 103 characters)
 into the tweets after a single space. See examples below.</p>
-<div class="section" id="examples">
-<span id="eq-tweet-examples"></span><h3>3.7.1. Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
-<p>As a comparison point, an unmodified tweet with <code class="code docutils literal"><span class="pre">&quot;extra_text&quot;:</span> <span class="pre">&quot;&quot;</span></code> might look like
+<section id="examples">
+<span id="eq-tweet-examples"></span><h3><span class="section-number">3.7.1. </span>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h3>
+<p>As a comparison point, an unmodified tweet with <code class="code docutils literal notranslate"><span class="pre">&quot;extra_text&quot;:</span> <span class="pre">&quot;&quot;</span></code> might look like
 the following:</p>
-<div class="figure align-center" id="id10">
+<figure class="align-center" id="id10">
 <span id="eq-tweet"></span><img alt="_images/eq_tweet.png" src="_images/eq_tweet.png" />
-<p class="caption"><span class="caption-text">An example tweet sent with the “extra_text” parameter empty (this is the default).</span></p>
-</div>
-<p>Changing the <code class="code json docutils literal"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> parameter to <code class="code docutils literal"><span class="pre">&quot;extra_text&quot;:</span> <span class="pre">&quot;from</span> <span class="pre">#Williamstown</span> <span class="pre">#MA&quot;</span></code>
+<figcaption>
+<p><span class="caption-text">An example tweet sent with the “extra_text” parameter empty (this is the default).</span><a class="headerlink" href="#id10" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>Changing the <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;extra_text&quot;</span></code> parameter to <code class="code docutils literal notranslate"><span class="pre">&quot;extra_text&quot;:</span> <span class="pre">&quot;from</span> <span class="pre">#Williamstown</span> <span class="pre">#MA&quot;</span></code>
 would render something like this:</p>
-<div class="figure align-center" id="id11">
+<figure class="align-center" id="id11">
 <span id="eq-tweet-extra"></span><img alt="_images/eq_tweet_extra.png" src="_images/eq_tweet_extra.png" />
-<p class="caption"><span class="caption-text">An example tweet sent with the “extra_text” parameter filled.</span></p>
-</div>
+<figcaption>
+<p><span class="caption-text">An example tweet sent with the “extra_text” parameter filled.</span><a class="headerlink" href="#id11" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">Starting the software with an <code class="code json docutils literal"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string in excess of 103 characters
-will yield a warning and the <code class="code json docutils literal"><span class="literal string double"><span class="pre">“extra_text”</span></span></code> string will be truncated
+<p class="admonition-title">Warning</p>
+<p>Starting the software with an <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;extra_text&quot;</span></code> string in excess of 103 characters
+will yield a warning and the <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;extra_text&quot;</span></code> string will be truncated
 in order to avoid the tweet being rejected for exceeding the 280 character limit.</p>
 </div>
-</div>
-<div class="section" id="setting-up-twitter-apps">
-<span id="setting-up-twitter"></span><h3>3.7.2. Setting up Twitter Apps<a class="headerlink" href="#setting-up-twitter-apps" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="setting-up-twitter-apps">
+<span id="setting-up-twitter"></span><h3><span class="section-number">3.7.2. </span>Setting up Twitter Apps<a class="headerlink" href="#setting-up-twitter-apps" title="Permalink to this heading"></a></h3>
 <p>Here is a brief overview of the steps to set up a Twitter app (also known as an API bot)
 in order to make and distribute tweets from rsudp.</p>
 <ol class="arabic simple">
-<li><a href="https://twitter.com/signup" target="_blank">Create a twitter profile</a> (or use an existing account).</li>
-<li>Register this account as a <a href="https://developer.twitter.com/en.html" target="_blank">Twitter developer account</a>.</li>
-<li>Create a <a href="https://opensource.com/article/17/8/raspberry-pi-twitter-bot" target="_blank">Twitter API app</a> inside said developer account.</li>
-<li>Generate consumer keys and API keys for that app.</li>
+<li><p><a href="https://twitter.com/signup" target="_blank">Create a twitter profile</a> (or use an existing account).</p></li>
+<li><p>Register this account as a <a href="https://developer.twitter.com/en.html" target="_blank">Twitter developer account</a>.</p></li>
+<li><p>Create a <a href="https://opensource.com/article/17/8/raspberry-pi-twitter-bot" target="_blank">Twitter API app</a> inside said developer account.</p></li>
+<li><p>Generate consumer keys and API keys for that app.</p></li>
 </ol>
 <p>Once you have generated the four API keys required for authentication
 (consumer API key, consumer API secret, access token, and access token secret),
 you may enter them into your settings file in the appropriate fields:
-<code class="code json docutils literal"><span class="literal string double"><span class="pre">“api_key”</span></span></code>, <code class="code json docutils literal"><span class="literal string double"><span class="pre">“api_secret”</span></span></code>, <code class="code json docutils literal"><span class="literal string double"><span class="pre">“access_token”</span></span></code>, and <code class="code json docutils literal"><span class="literal string double"><span class="pre">“access_secret”</span></span></code>.</p>
+<code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;api_key&quot;</span></code>, <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;api_secret&quot;</span></code>, <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;access_token&quot;</span></code>, and <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;access_secret&quot;</span></code>.</p>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
-</div>
-</div>
-<div class="section" id="write-miniseed-writer">
-<h2>3.8. <code class="code docutils literal"><span class="pre">write</span></code> (miniSEED writer)<a class="headerlink" href="#write-miniseed-writer" title="Permalink to this headline">¶</a></h2>
-<p><code class="code json docutils literal"><span class="literal string double"><span class="pre">“write”</span></span></code> controls <a class="reference internal" href="c_write.html#rsudp.c_write.Write" title="rsudp.c_write.Write"><code class="xref py py-class docutils literal"><span class="pre">rsudp.c_write.Write</span></code></a>, a very simple STEIM2 miniSEED writer class.
-If <code class="code json docutils literal"><span class="literal string double"><span class="pre">“enabled”</span></span></code> is <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code>, seismic data is appended to a miniSEED file with a
-descriptive name in the data directory inside of <code class="code json docutils literal"><span class="literal string double"><span class="pre">“output_dir”</span></span></code> every 10 seconds.
-By default, <code class="code json docutils literal"><span class="literal string double"><span class="pre">“all”</span></span></code> channels will be written to their own files.
-You can change which channels are written by changing this to, for example, <code class="code json docutils literal"><span class="punctuation"><span class="pre">[</span></span><span class="literal string double"><span class="pre">“EHZ”</span></span><span class="punctuation"><span class="pre">,</span></span> <span class="literal string double"><span class="pre">“ENZ”</span></span><span class="punctuation"><span class="pre">]</span></span></code>,
+</section>
+</section>
+<section id="write-miniseed-writer">
+<h2><span class="section-number">3.8. </span><code class="code docutils literal notranslate"><span class="pre">write</span></code> (miniSEED writer)<a class="headerlink" href="#write-miniseed-writer" title="Permalink to this heading"></a></h2>
+<p><code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;write&quot;</span></code> controls <a class="reference internal" href="c_write.html#rsudp.c_write.Write" title="rsudp.c_write.Write"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_write.Write</span></code></a>, a very simple STEIM2 miniSEED writer class.
+If <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;enabled&quot;</span></code> is <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>, seismic data is appended to a miniSEED file with a
+descriptive name in the data directory inside of <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;output_dir&quot;</span></code> every 10 seconds.
+By default, <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;all&quot;</span></code> channels will be written to their own files.
+You can change which channels are written by changing this to, for example, <code class="code highlight json docutils literal highlight-json"><span class="p">[</span><span class="s2">&quot;EHZ&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;ENZ&quot;</span><span class="p">]</span></code>,
 which will write the vertical geophone and accelerometer channels from RS4D output.</p>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
-</div>
-<div class="section" id="forward-datacast-forwarding">
-<span id="datacast-forwarding"></span><h2>3.9. <code class="code docutils literal"><span class="pre">forward</span></code> (datacast forwarding)<a class="headerlink" href="#forward-datacast-forwarding" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="code json docutils literal"><span class="literal string double"><span class="pre">“forward”</span></span></code> module controls <a class="reference internal" href="c_forward.html#rsudp.c_forward.Forward" title="rsudp.c_forward.Forward"><code class="xref py py-class docutils literal"><span class="pre">rsudp.c_forward.Forward</span></code></a>, a UDP datacast forwarding module.
+</section>
+<section id="forward-datacast-forwarding">
+<span id="datacast-forwarding"></span><h2><span class="section-number">3.9. </span><code class="code docutils literal notranslate"><span class="pre">forward</span></code> (datacast forwarding)<a class="headerlink" href="#forward-datacast-forwarding" title="Permalink to this heading"></a></h2>
+<p>The <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;forward&quot;</span></code> module controls <a class="reference internal" href="c_forward.html#rsudp.c_forward.Forward" title="rsudp.c_forward.Forward"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_forward.Forward</span></code></a>, a UDP datacast forwarding module.
 You can forward UDP packets containing data and/or alarm state messages to a list of destinations specified
-in <code class="code json docutils literal"><span class="literal string double"><span class="pre">“address”</span></span></code> and <code class="code json docutils literal"><span class="literal string double"><span class="pre">“port”</span></span></code>, just like you would from the Shake’s web front end.</p>
-<p>By default, <code class="code json docutils literal"><span class="punctuation"><span class="pre">[</span></span><span class="literal string double"><span class="pre">“all”</span></span><span class="punctuation"><span class="pre">]</span></span></code> channels are forwarded. To forward only data from EHZ and ENZ
-channels, set this field to a list, e.g. <code class="code json docutils literal"><span class="punctuation"><span class="pre">[</span></span><span class="literal string double"><span class="pre">“EHZ”</span></span><span class="punctuation"><span class="pre">,</span></span> <span class="literal string double"><span class="pre">“ENZ”</span></span><span class="punctuation"><span class="pre">]</span></span></code>.</p>
-<p>To change the types of messages that are forwarded, change the boolean fields <code class="code json docutils literal"><span class="literal string double"><span class="pre">“fwd_data”</span></span></code> and
-<code class="code json docutils literal"><span class="literal string double"><span class="pre">“fwd_alarms”</span></span></code> accordingly. Setting <code class="code docutils literal"><span class="pre">&quot;fwd_data&quot;:</span> <span class="pre">true</span></code> will forward data from the specified
-channels, while <code class="code docutils literal"><span class="pre">&quot;fwd_alarms&quot;:</span> <span class="pre">true</span></code> will forward <code class="code docutils literal"><span class="pre">ALARM</span></code> and <code class="code docutils literal"><span class="pre">RESET</span></code> messages. These can
+in <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;address&quot;</span></code> and <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;port&quot;</span></code>, just like you would from the Shake’s web front end.</p>
+<p>By default, <code class="code highlight json docutils literal highlight-json"><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">]</span></code> channels are forwarded. To forward only data from EHZ and ENZ
+channels, set this field to a list, e.g. <code class="code highlight json docutils literal highlight-json"><span class="p">[</span><span class="s2">&quot;EHZ&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;ENZ&quot;</span><span class="p">]</span></code>.</p>
+<p>To change the types of messages that are forwarded, change the boolean fields <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;fwd_data&quot;</span></code> and
+<code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;fwd_alarms&quot;</span></code> accordingly. Setting <code class="code docutils literal notranslate"><span class="pre">&quot;fwd_data&quot;:</span> <span class="pre">true</span></code> will forward data from the specified
+channels, while <code class="code docutils literal notranslate"><span class="pre">&quot;fwd_alarms&quot;:</span> <span class="pre">true</span></code> will forward <code class="code docutils literal notranslate"><span class="pre">ALARM</span></code> and <code class="code docutils literal notranslate"><span class="pre">RESET</span></code> messages. These can
 both be set to true simultaneously.</p>
 <p>To take advantage of this forwarding capability in another piece of software (such as NodeRED), it may help
 to consult the <a class="reference internal" href="theory.html#message-types"><span class="std std-ref">Message types</span></a>.</p>
 <p>Forwarding to multiple destinations (such as in a classroom setting) is easy. Say you want to send alarm
 messages to several Raspberry Pis running NodeRED in a classroom. Simply create equal-length lists of
 addresses and ports in the forward settings like so:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="s2">&quot;forward&quot;</span><span class="p">:</span> <span class="p">{</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;forward&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
     <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;192.168.1.250&quot;</span><span class="p">,</span><span class="s2">&quot;192.168.1.251&quot;</span><span class="p">,</span><span class="s2">&quot;192.168.1.252&quot;</span><span class="p">,</span><span class="s2">&quot;192.168.1.253&quot;</span><span class="p">],</span>
     <span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">8888</span><span class="p">,</span><span class="mi">8888</span><span class="p">,</span><span class="mi">8888</span><span class="p">,</span><span class="mi">8888</span><span class="p">],</span>
@@ -655,25 +568,25 @@ addresses and ports in the forward settings like so:</p>
     <span class="s2">&quot;fwd_alarms&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">},</span>
 </pre></div>
 </div>
-<p>This will create one Forward thread per destination and distribute <code class="code docutils literal"><span class="pre">ALARM</span></code> and <code class="code docutils literal"><span class="pre">RESET</span></code>
+<p>This will create one Forward thread per destination and distribute <code class="code docutils literal notranslate"><span class="pre">ALARM</span></code> and <code class="code docutils literal notranslate"><span class="pre">RESET</span></code>
 messages to each simultaneously. Each Pi node can then be configured to listen to its own port 8888
 (127.0.0.1:8888) to read these messages.</p>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
-</div>
-<div class="section" id="custom-run-custom-code">
-<span id="customcode"></span><h2>3.10. <code class="code docutils literal"><span class="pre">custom</span></code> (run custom code)<a class="headerlink" href="#custom-run-custom-code" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="custom-run-custom-code">
+<span id="customcode"></span><h2><span class="section-number">3.10. </span><code class="code docutils literal notranslate"><span class="pre">custom</span></code> (run custom code)<a class="headerlink" href="#custom-run-custom-code" title="Permalink to this heading"></a></h2>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.4.3.</span></p>
+<p><span class="versionmodified added">New in version 0.4.3.</span></p>
 </div>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">Do not use this module unless you understand the implications of running unchecked code.</p>
+<p class="admonition-title">Warning</p>
+<p>Do not use this module unless you understand the implications of running unchecked code.</p>
 </div>
-<p><code class="code json docutils literal"><span class="literal string double"><span class="pre">“custom”</span></span></code> controls the execution of a custom python code file specified by the <code class="code json docutils literal"><span class="literal string double"><span class="pre">“codefile”</span></span></code> field.
-If <code class="code json docutils literal"><span class="literal string double"><span class="pre">“enabled”</span></span></code> is <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code> and a python file is found at the path specified,
-this thread will run the specified file using python’s <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.10)"><code class="xref py py-func docutils literal"><span class="pre">exec()</span></code></a> function.</p>
-<p>Be very careful when using this module, as the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.10)"><code class="xref py py-func docutils literal"><span class="pre">exec()</span></code></a> function is known to have problems.
-Notably, <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.10)"><code class="xref py py-func docutils literal"><span class="pre">exec()</span></code></a> does not check the passed file for errors prior to running.
+<p><code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;custom&quot;</span></code> controls the execution of a custom python code file specified by the <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;codefile&quot;</span></code> field.
+If <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;enabled&quot;</span></code> is <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code> and a python file is found at the path specified,
+this thread will run the specified file using python’s <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function.</p>
+<p>Be very careful when using this module, as the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function is known to have problems.
+Notably, <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> does not check the passed file for errors prior to running.
 Also, the passed file cannot have Windows line endings (see warning below).
 Additionally, if the code takes too long to execute,
 you could end up losing data packets from the queue, so keep it simple.
@@ -685,161 +598,143 @@ Theoretically you could run code that takes longer to process than that,
 but the issue is that the longer it takes the function to process code,
 the longer the module will go without processing data from the queue
 (the queue can hold up to 2048 packets, which for a RS4D works out to ~128 seconds of data).
-Another way of saying this is: you could miss whatever subsequent earthquakes occur while <code class="code pycode python docutils literal"><span class="name"><span class="pre">exec</span></span><span class="punctuation"><span class="pre">()</span></span></code> is running.
+Another way of saying this is: you could miss whatever subsequent earthquakes occur while <code class="code highlight pycode python docutils literal highlight-python"><span class="n">exec</span><span class="p">()</span></code> is running.
 A better way to run your own code would be to fork this repository
 and create a new thread that does the thing you want when it sees an ALARM data packet on the queue.
 That way, the code will be checked for errors prior to running.</p>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p>If you are running Windows and have code you want to pass to the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.10)"><code class="xref py py-func docutils literal"><span class="pre">exec()</span></code></a> function,
-Python requires that your newline characters are in the UNIX style (<code class="code docutils literal"><span class="pre">\n</span></code>), not the standard Windows style (<code class="code docutils literal"><span class="pre">\r\n</span></code>).
+<p class="admonition-title">Warning</p>
+<p>If you are running Windows and have code you want to pass to the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function,
+Python requires that your newline characters are in the UNIX style (<code class="code docutils literal notranslate"><span class="pre">n</span></code>), not the standard Windows style (<code class="code docutils literal notranslate"><span class="pre">rn</span></code>).
 To convert, follow the instructions in one of the answers to <a href="https://stackoverflow.com/questions/17579553/windows-command-to-convert-unix-line-endings" target="_blank">this stackoverflow question</a>.
 If you’re not sure what this means, please read about newline/line ending characters <a href="https://en.wikipedia.org/wiki/Newline" target="_blank">here</a>.
-If you are certain that your code file has no Windows newlines, you can set <code class="code json docutils literal"><span class="literal string double"><span class="pre">“win_override”</span></span></code> to <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code>.</p>
-<p class="last">Code will not execute on Windows unless this field is set to <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code>.</p>
+If you are certain that your code file has no Windows newlines, you can set <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;win_override&quot;</span></code> to <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>.</p>
+<p>Code will not execute on Windows unless this field is set to <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>.</p>
 </div>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
-</div>
-<div class="section" id="printdata-print-data-to-console">
-<h2>3.11. <code class="code docutils literal"><span class="pre">printdata</span></code> (print data to console)<a class="headerlink" href="#printdata-print-data-to-console" title="Permalink to this headline">¶</a></h2>
-<p><code class="code json docutils literal"><span class="literal string double"><span class="pre">“printdata”</span></span></code> controls the data output module <code class="xref py py-class docutils literal"><span class="pre">rsudp.c_printraw.PrintRaw</span></code>,
+</section>
+<section id="printdata-print-data-to-console">
+<h2><span class="section-number">3.11. </span><code class="code docutils literal notranslate"><span class="pre">printdata</span></code> (print data to console)<a class="headerlink" href="#printdata-print-data-to-console" title="Permalink to this heading"></a></h2>
+<p><code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;printdata&quot;</span></code> controls the data output module <code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_printraw.PrintRaw</span></code>,
 which simply prints Shake data packets to stdout as it receives them.
-Change <code class="code json docutils literal"><span class="literal string double"><span class="pre">“enabled”</span></span></code> to <code class="code json docutils literal"><span class="keyword constant"><span class="pre">true</span></span></code> to activate.</p>
+Change <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;enabled&quot;</span></code> to <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code> to activate.</p>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
 <p>You are now ready to proceed to the next section, <a class="reference internal" href="running.html#running"><span class="std std-ref">Running rsudp</span></a>.</p>
-</div>
-<div class="section" id="default-settings">
-<span id="defaults"></span><h2>3.12. Default settings<a class="headerlink" href="#default-settings" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="default-settings">
+<span id="defaults"></span><h2><span class="section-number">3.12. </span>Default settings<a class="headerlink" href="#default-settings" title="Permalink to this heading"></a></h2>
 <p>By default, the settings are as follows:</p>
-<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="nt">&quot;settings&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;port&quot;</span><span class="p">:</span> <span class="mi">8888</span><span class="p">,</span>
-    <span class="nt">&quot;station&quot;</span><span class="p">:</span> <span class="s2">&quot;Z0000&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;output_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;@@DIR@@&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;debug&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">},</span>
-<span class="nt">&quot;printdata&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">},</span>
-<span class="nt">&quot;write&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="nt">&quot;channels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">]},</span>
-<span class="nt">&quot;plot&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="nt">&quot;duration&quot;</span><span class="p">:</span> <span class="mi">90</span><span class="p">,</span>
-    <span class="nt">&quot;spectrogram&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="nt">&quot;fullscreen&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="nt">&quot;kiosk&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="nt">&quot;eq_screenshots&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="nt">&quot;channels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">],</span>
-    <span class="nt">&quot;deconvolve&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="nt">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;CHAN&quot;</span><span class="p">},</span>
-<span class="nt">&quot;forward&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="nt">&quot;address&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;192.168.1.254&quot;</span><span class="p">],</span>
-    <span class="nt">&quot;port&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">8888</span><span class="p">],</span>
-    <span class="nt">&quot;channels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">],</span>
-    <span class="nt">&quot;fwd_data&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="nt">&quot;fwd_alarms&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">},</span>
-<span class="nt">&quot;alert&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="nt">&quot;channel&quot;</span><span class="p">:</span> <span class="s2">&quot;HZ&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;sta&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-    <span class="nt">&quot;lta&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
-    <span class="nt">&quot;threshold&quot;</span><span class="p">:</span> <span class="mf">3.95</span><span class="p">,</span>
-    <span class="nt">&quot;reset&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
-    <span class="nt">&quot;highpass&quot;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span>
-    <span class="nt">&quot;lowpass&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
-    <span class="nt">&quot;deconvolve&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="nt">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;VEL&quot;</span><span class="p">},</span>
-<span class="nt">&quot;alertsound&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="nt">&quot;mp3file&quot;</span><span class="p">:</span> <span class="s2">&quot;doorbell&quot;</span><span class="p">},</span>
-<span class="nt">&quot;custom&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="nt">&quot;codefile&quot;</span><span class="p">:</span> <span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;win_override&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">},</span>
-<span class="nt">&quot;tweets&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="nt">&quot;tweet_images&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="nt">&quot;api_key&quot;</span><span class="p">:</span> <span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;api_secret&quot;</span><span class="p">:</span> <span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;access_token&quot;</span><span class="p">:</span> <span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;access_secret&quot;</span><span class="p">:</span> <span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;extra_text&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
-<span class="nt">&quot;telegram&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="nt">&quot;send_images&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="nt">&quot;token&quot;</span><span class="p">:</span> <span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;chat_id&quot;</span><span class="p">:</span> <span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;extra_text&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
-<span class="nt">&quot;rsam&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="nt">&quot;quiet&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="nt">&quot;fwaddr&quot;</span><span class="p">:</span> <span class="s2">&quot;192.168.1.254&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;fwport&quot;</span><span class="p">:</span> <span class="mi">8887</span><span class="p">,</span>
-    <span class="nt">&quot;fwformat&quot;</span><span class="p">:</span> <span class="s2">&quot;LITE&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;channel&quot;</span><span class="p">:</span> <span class="s2">&quot;HZ&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;interval&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="nt">&quot;deconvolve&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="nt">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;VEL&quot;</span><span class="p">}</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;port&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8888</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;station&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Z0000&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;output_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@@DIR@@&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;debug&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">},</span>
+<span class="nt">&quot;printdata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">},</span>
+<span class="nt">&quot;write&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;channels&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">]},</span>
+<span class="nt">&quot;plot&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">90</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;spectrogram&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;fullscreen&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;kiosk&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;eq_screenshots&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;channels&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;deconvolve&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CHAN&quot;</span><span class="p">},</span>
+<span class="nt">&quot;forward&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;192.168.1.254&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;port&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">8888</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;channels&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;fwd_data&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;fwd_alarms&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">},</span>
+<span class="nt">&quot;alert&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;channel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HZ&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;sta&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;lta&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.95</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;reset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;highpass&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;lowpass&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;deconvolve&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VEL&quot;</span><span class="p">},</span>
+<span class="nt">&quot;alertsound&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;mp3file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;doorbell&quot;</span><span class="p">},</span>
+<span class="nt">&quot;custom&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;codefile&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;win_override&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">},</span>
+<span class="nt">&quot;tweets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;tweet_images&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;api_key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;api_secret&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;access_secret&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;extra_text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">},</span>
+<span class="nt">&quot;telegram&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;send_images&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;chat_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;extra_text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">},</span>
+<span class="nt">&quot;rsam&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;quiet&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;fwaddr&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;192.168.1.254&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;fwport&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8887</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;fwformat&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;LITE&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;channel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HZ&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;deconvolve&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VEL&quot;</span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <hr class="docutils" />
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="running.html" class="btn btn-neutral float-right" title="4. Running rsudp" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="installing.html" class="btn btn-neutral float-left" title="2. Installing rsudp" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installing.html" class="btn btn-neutral float-left" title="2. Installing rsudp" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="running.html" class="btn btn-neutral float-right" title="4. Running rsudp" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2022, Raspberry Shake S.A.
-
-    </p>
+    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

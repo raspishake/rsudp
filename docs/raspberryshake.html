@@ -1,48 +1,24 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rsudp.raspberryshake (main library) &mdash; rsudp  documentation</title>
-  
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -50,183 +26,140 @@
     <link rel="prev" title="rsudp.__init__ (initialization functions)" href="init.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="index.html" class="icon icon-home"> rsudp
           
-
-          
-            
-            <img src="_static/logo.png" class="logo" alt="Logo"/>
-          
+          <a href="index.html" class="icon icon-home">
+            rsudp
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-
-          
-            
-            
               <div class="version">
-                1.1.1
+                2.0.0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Tutorial guide</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorial guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="about.html">1. About rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installing.html">2. Installing rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal"><span class="pre">systemctl</span></code> daemon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Video resources</span></p>
+<p class="caption" role="heading"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#detected-earthquake">Detected earthquake</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Developers' guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">1. Program architecture and flow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">2. Contributing to this project</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Library</span></p>
+<p class="caption" role="heading"><span class="caption-text">Library</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="docutils literal"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="docutils literal"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="docutils literal"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="docutils literal"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.raspberryshake.ConsumerThread"><code class="docutils literal notranslate"><span class="pre">ConsumerThread</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.raspberryshake.copy"><code class="docutils literal notranslate"><span class="pre">copy()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.raspberryshake.getCHN"><code class="docutils literal notranslate"><span class="pre">getCHN()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.raspberryshake.getCHNS"><code class="docutils literal notranslate"><span class="pre">getCHNS()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.raspberryshake.getDATA"><code class="docutils literal notranslate"><span class="pre">getDATA()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.raspberryshake.getSR"><code class="docutils literal notranslate"><span class="pre">getSR()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.raspberryshake.getSTREAM"><code class="docutils literal notranslate"><span class="pre">getSTREAM()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.raspberryshake.getTIME"><code class="docutils literal notranslate"><span class="pre">getTIME()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.raspberryshake.getTR"><code class="docutils literal notranslate"><span class="pre">getTR()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.raspberryshake.getTTLCHN"><code class="docutils literal notranslate"><span class="pre">getTTLCHN()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.raspberryshake.get_inventory"><code class="docutils literal notranslate"><span class="pre">get_inventory()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.raspberryshake.get_ip"><code class="docutils literal notranslate"><span class="pre">get_ip()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.raspberryshake.handler"><code class="docutils literal notranslate"><span class="pre">handler()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.raspberryshake.initRSlib"><code class="docutils literal notranslate"><span class="pre">initRSlib()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.raspberryshake.make_trace"><code class="docutils literal notranslate"><span class="pre">make_trace()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.raspberryshake.openSOCK"><code class="docutils literal notranslate"><span class="pre">openSOCK()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.raspberryshake.set_params"><code class="docutils literal notranslate"><span class="pre">set_params()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.raspberryshake.update_stream"><code class="docutils literal notranslate"><span class="pre">update_stream()</span></code></a></li>
 </ul>
-<p class="caption"><span class="caption-text">Clients</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="docutils literal"><span class="pre">rsudp.client</span></code> (central module)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="docutils literal"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Producer and Consumer</span></p>
+<p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="docutils literal"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="docutils literal"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Sub-Consumers</span></p>
+<p class="caption" role="heading"><span class="caption-text">Producer and Consumer</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="docutils literal"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="docutils literal"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="docutils literal"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="docutils literal"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="docutils literal"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="docutils literal"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="docutils literal"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="docutils literal"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="docutils literal"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Testing modules</span></p>
+<p class="caption" role="heading"><span class="caption-text">Sub-Consumers</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="docutils literal"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="docutils literal"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="docutils literal"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="docutils literal"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">rsudp</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li><code class="docutils literal"><span class="pre">rsudp.raspberryshake</span></code> (main library)</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="_sources/raspberryshake.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="rsudp-raspberryshake-main-library">
-<h1><a class="reference internal" href="#module-rsudp.raspberryshake" title="rsudp.raspberryshake"><code class="xref py py-data docutils literal"><span class="pre">rsudp.raspberryshake</span></code></a> (main library)<a class="headerlink" href="#rsudp-raspberryshake-main-library" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="rsudp-raspberryshake-main-library">
+<h1><a class="reference internal" href="#module-rsudp.raspberryshake" title="rsudp.raspberryshake"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code></a> (main library)<a class="headerlink" href="#rsudp-raspberryshake-main-library" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="admonition-title">Note</p>
 <p>If you are starting this program from a command line by using
-<code class="docutils literal"><span class="pre">rs-client</span></code> or a start script, the functions in this
-library will be executed by the <code class="xref py py-mod docutils literal"><span class="pre">rsudp.client</span></code> automatically.
+<code class="docutils literal notranslate"><span class="pre">rs-client</span></code> or a start script, the functions in this
+library will be executed by the <code class="xref py py-mod docutils literal notranslate"><span class="pre">rsudp.client</span></code> automatically.
 See <a class="reference internal" href="running.html#running"><span class="std std-ref">Running rsudp</span></a> for details.</p>
-<p class="last">If you are a developer looking for helper functions to create a new module,
+<p>If you are a developer looking for helper functions to create a new module,
 you have come to the right place.</p>
 </div>
 <p>This is the main library powering rsudp.
@@ -234,29 +167,29 @@ It contains common functions to open a port listener,
 get data packets, parse the information in those packets,
 and help consumer modules update their data streams.</p>
 <p>Prior to working with data from the port,
-this library must be initialized using <a class="reference internal" href="#rsudp.raspberryshake.initRSlib" title="rsudp.raspberryshake.initRSlib"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.initRSlib()</span></code></a>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
+this library must be initialized using <a class="reference internal" href="#rsudp.raspberryshake.initRSlib" title="rsudp.raspberryshake.initRSlib"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.initRSlib()</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">initRSlib</span><span class="p">(</span><span class="n">dport</span><span class="o">=</span><span class="mi">8888</span><span class="p">,</span> <span class="n">rsstn</span><span class="o">=</span><span class="s1">&#39;R940D&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">This request will time out if there is no data being sent to the port.</p>
+<p class="admonition-title">Note</p>
+<p>This request will time out if there is no data being sent to the port.</p>
 </div>
-<p>After initializing the library, the <a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a>
+<p>After initializing the library, the <a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a>
 function and its derivatives will be available for use.</p>
-<span class="target" id="module-rsudp.raspberryshake"></span><dl class="class">
-<dt id="rsudp.raspberryshake.ConsumerThread">
-<em class="property">class </em><code class="descclassname">rsudp.raspberryshake.</code><code class="descname">ConsumerThread</code><a class="headerlink" href="#rsudp.raspberryshake.ConsumerThread" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-rsudp.raspberryshake"></span><dl class="py class">
+<dt class="sig sig-object py" id="rsudp.raspberryshake.ConsumerThread">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rsudp.raspberryshake.</span></span><span class="sig-name descname"><span class="pre">ConsumerThread</span></span><a class="headerlink" href="#rsudp.raspberryshake.ConsumerThread" title="Permalink to this definition"></a></dt>
 <dd><p>The default consumer thread setup.
 Import this consumer and easily create your own consumer modules!
-This class modifies the <a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.10)"><code class="xref py py-class docutils literal"><span class="pre">threading.Thread</span></code></a> object to
+This class modifies the <a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></a> object to
 include some settings that all rsudp consumers need,
-some of which the <a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal"><span class="pre">rsudp.p_producer.Producer</span></code></a>
+some of which the <a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.p_producer.Producer</span></code></a>
 needs in order to function.</p>
 <p>Currently, the modifications that this module makes to
-<a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.10)"><code class="xref py py-class docutils literal"><span class="pre">threading.Thread</span></code></a> objects are:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">sender</span> <span class="o">=</span> <span class="s1">&#39;ConsumerThread&#39;</span>  <span class="c1"># module name used in logging</span>
+<a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></a> objects are:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">sender</span> <span class="o">=</span> <span class="s1">&#39;ConsumerThread&#39;</span>  <span class="c1"># module name used in logging</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">alarm</span> <span class="o">=</span> <span class="kc">False</span>              <span class="c1"># the Producer reads this to set the ``ALARM`` state</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">alarm_reset</span> <span class="o">=</span> <span class="kc">False</span>        <span class="c1"># the Producer reads this to set the ``RESET`` state</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">alive</span> <span class="o">=</span> <span class="kc">True</span>               <span class="c1"># this is used to keep the main ``for`` loop running</span>
@@ -266,16 +199,16 @@ needs in order to function.</p>
 see <a class="reference internal" href="theory.html#add-your-own"><span class="std std-ref">Adding your own consumer modules</span></a>.</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.raspberryshake.copy">
-<code class="descclassname">rsudp.raspberryshake.</code><code class="descname">copy</code><span class="sig-paren">(</span><em>orig</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.copy" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.raspberryshake.copy">
+<span class="sig-prename descclassname"><span class="pre">rsudp.raspberryshake.</span></span><span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.copy" title="Permalink to this definition"></a></dt>
 <dd><p>True-copy a stream by creating a new stream and copying old attributes to it.
 This is necessary because the old stream accumulates <em>something</em> that causes
 CPU usage to increase over time as more data is added. This is a bug in obspy
 that I intend to find–or at the very least report–but until then this hack
 works fine and is plenty fast enough.</p>
 <p>In this example, we make a stream object with some RS 1Dv7 data and then copy it to a new stream:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">obspy.core.stream</span> <span class="kn">import</span> <span class="n">Stream</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">initRSlib</span><span class="p">(</span><span class="n">dport</span><span class="o">=</span><span class="mi">8888</span><span class="p">,</span> <span class="n">rsstn</span><span class="o">=</span><span class="s1">&#39;R3BCF&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Stream</span><span class="p">()</span>
@@ -291,76 +224,72 @@ works fine and is plenty fast enough.</p>
 <span class="go">AM.R3BCF.00.EHZ | 2020-02-21T19:58:50.292000Z - 2020-02-21T19:58:50.532000Z | 100.0 Hz, 25 samples</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>orig</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy v1.3.0)"><em>obspy.core.stream.Stream</em></a>) – The data stream to copy information from</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy v1.3.0)">obspy.core.stream.Stream</a></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A low-memory copy of the passed data stream</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>orig</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy v1.4.1)"><em>obspy.core.stream.Stream</em></a>) – The data stream to copy information from</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy v1.4.1)">obspy.core.stream.Stream</a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A low-memory copy of the passed data stream</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.raspberryshake.getCHN">
-<code class="descclassname">rsudp.raspberryshake.</code><code class="descname">getCHN</code><span class="sig-paren">(</span><em>DP</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getCHN" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.raspberryshake.getCHN">
+<span class="sig-prename descclassname"><span class="pre">rsudp.raspberryshake.</span></span><span class="sig-name descname"><span class="pre">getCHN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DP</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getCHN" title="Permalink to this definition"></a></dt>
 <dd><p>Extract the channel information from the data packet.
-Requires <a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a> packet as argument.</p>
+Requires <a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a> packet as argument.</p>
 <p>In this example, we get the channel code from a Shake 1Dv7 data packet:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">initRSlib</span><span class="p">(</span><span class="n">dport</span><span class="o">=</span><span class="mi">8888</span><span class="p">,</span> <span class="n">rsstn</span><span class="o">=</span><span class="s1">&#39;R3BCF&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">getDATA</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">getCHN</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
 <span class="go">&#39;EHZ&#39;</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>DP</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><em>bytes</em></a>) – The Raspberry Shake UDP data packet (<a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a>) to parse channel information from</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Returns the instrument channel as a string.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>DP</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)"><em>bytes</em></a>) – The Raspberry Shake UDP data packet (<a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a>) to parse channel information from</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Returns the instrument channel as a string.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.raspberryshake.getCHNS">
-<code class="descclassname">rsudp.raspberryshake.</code><code class="descname">getCHNS</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getCHNS" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.raspberryshake.getCHNS">
+<span class="sig-prename descclassname"><span class="pre">rsudp.raspberryshake.</span></span><span class="sig-name descname"><span class="pre">getCHNS</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getCHNS" title="Permalink to this definition"></a></dt>
 <dd><p>Get a list of channels sent to the port.</p>
 <p>In this example, we list channels from a Boom:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">initRSlib</span><span class="p">(</span><span class="n">dport</span><span class="o">=</span><span class="mi">8888</span><span class="p">,</span> <span class="n">rsstn</span><span class="o">=</span><span class="s1">&#39;R940D&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">getCHNS</span><span class="p">()</span>
 <span class="go">[&#39;EHZ&#39;, &#39;HDF&#39;]</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)">list</a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The list of channels being sent to the port (from the single IP address sending data)</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list of channels being sent to the port (from the single IP address sending data)</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.raspberryshake.getDATA">
-<code class="descclassname">rsudp.raspberryshake.</code><code class="descname">getDATA</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getDATA" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.raspberryshake.getDATA">
+<span class="sig-prename descclassname"><span class="pre">rsudp.raspberryshake.</span></span><span class="sig-name descname"><span class="pre">getDATA</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getDATA" title="Permalink to this definition"></a></dt>
 <dd><p>Read a data packet off the port.</p>
 <p>In this example, we get a Shake 1Dv7 data packet:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">initRSlib</span><span class="p">(</span><span class="n">dport</span><span class="o">=</span><span class="mi">8888</span><span class="p">,</span> <span class="n">rsstn</span><span class="o">=</span><span class="s1">&#39;R3BCF&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">getDATA</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span>
@@ -369,33 +298,29 @@ Requires <a class="reference internal" href="#rsudp.raspberryshake.getDATA" titl
 <span class="go">20027, 20207, 18481, 15916, 13836, 13073, 14462, 17628, 19388}&quot;</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)">bytes</a></p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Returns a data packet as an encoded bytes object.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
-<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IOError" title="(in Python v3.10)"><strong>IOError</strong></a> – if no socket is open (<a class="reference internal" href="#rsudp.raspberryshake.openSOCK" title="rsudp.raspberryshake.openSOCK"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.openSOCK()</span></code></a>) prior to running this function</li>
-<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IOError" title="(in Python v3.10)"><strong>IOError</strong></a> – if the library is not initialized (<a class="reference internal" href="#rsudp.raspberryshake.initRSlib" title="rsudp.raspberryshake.initRSlib"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.initRSlib()</span></code></a>) prior to running this function</li>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)">bytes</a></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns a data packet as an encoded bytes object.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IOError" title="(in Python v3.12)"><strong>IOError</strong></a> – if no socket is open (<a class="reference internal" href="#rsudp.raspberryshake.openSOCK" title="rsudp.raspberryshake.openSOCK"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.openSOCK()</span></code></a>) prior to running this function</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IOError" title="(in Python v3.12)"><strong>IOError</strong></a> – if the library is not initialized (<a class="reference internal" href="#rsudp.raspberryshake.initRSlib" title="rsudp.raspberryshake.initRSlib"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.initRSlib()</span></code></a>) prior to running this function</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.raspberryshake.getSR">
-<code class="descclassname">rsudp.raspberryshake.</code><code class="descname">getSR</code><span class="sig-paren">(</span><em>TR</em>, <em>DP</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getSR" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.raspberryshake.getSR">
+<span class="sig-prename descclassname"><span class="pre">rsudp.raspberryshake.</span></span><span class="sig-name descname"><span class="pre">getSR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">TR</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DP</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getSR" title="Permalink to this definition"></a></dt>
 <dd><p>Get the sample rate in samples per second.
 Requires an integer transmission frequency and a data packet as arguments.</p>
 <p>In this example, we calculate the number of samples per second from a Shake 1Dv7:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">initRSlib</span><span class="p">(</span><span class="n">dport</span><span class="o">=</span><span class="mi">8888</span><span class="p">,</span> <span class="n">rsstn</span><span class="o">=</span><span class="s1">&#39;R3BCF&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">getDATA</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tr</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">getTR</span><span class="p">(</span><span class="n">rs</span><span class="o">.</span><span class="n">getCHN</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
@@ -406,33 +331,29 @@ Requires an integer transmission frequency and a data packet as arguments.</p>
 <span class="go">100</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>TR</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The transmission frequency (<a class="reference internal" href="#rsudp.raspberryshake.getTR" title="rsudp.raspberryshake.getTR"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.getTR()</span></code></a>) in milliseconds between packets</li>
-<li><strong>DP</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><em>bytes</em></a>) – The Raspberry Shake UDP data packet (<a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a>) calculate sample rate information from</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>TR</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The transmission frequency (<a class="reference internal" href="#rsudp.raspberryshake.getTR" title="rsudp.raspberryshake.getTR"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.getTR()</span></code></a>) in milliseconds between packets</p></li>
+<li><p><strong>DP</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)"><em>bytes</em></a>) – The Raspberry Shake UDP data packet (<a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a>) calculate sample rate information from</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The sample rate in samples per second from a specific channel</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The sample rate in samples per second from a specific channel</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.raspberryshake.getSTREAM">
-<code class="descclassname">rsudp.raspberryshake.</code><code class="descname">getSTREAM</code><span class="sig-paren">(</span><em>DP</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getSTREAM" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.raspberryshake.getSTREAM">
+<span class="sig-prename descclassname"><span class="pre">rsudp.raspberryshake.</span></span><span class="sig-name descname"><span class="pre">getSTREAM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DP</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getSTREAM" title="Permalink to this definition"></a></dt>
 <dd><p>Get the samples in a data packet as a list object.
-Requires <a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a> packet as argument.</p>
+Requires <a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a> packet as argument.</p>
 <p>In this example, we get a list of samples from a Shake 1Dv7 data packet:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">initRSlib</span><span class="p">(</span><span class="n">dport</span><span class="o">=</span><span class="mi">8888</span><span class="p">,</span> <span class="n">rsstn</span><span class="o">=</span><span class="s1">&#39;R3BCF&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">getDATA</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">getSTREAM</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
@@ -442,28 +363,27 @@ Requires <a class="reference internal" href="#rsudp.raspberryshake.getDATA" titl
 <span class="go"> 18481, 15916, 13836, 13073, 14462, 17628, 19388]</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>DP</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><em>bytes</em></a>) – The Raspberry Shake UDP data packet (<a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a>) to parse stream information from</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)">list</a></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">List of data samples in the packet</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>DP</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)"><em>bytes</em></a>) – The Raspberry Shake UDP data packet (<a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a>) to parse stream information from</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of data samples in the packet</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.raspberryshake.getTIME">
-<code class="descclassname">rsudp.raspberryshake.</code><code class="descname">getTIME</code><span class="sig-paren">(</span><em>DP</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getTIME" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.raspberryshake.getTIME">
+<span class="sig-prename descclassname"><span class="pre">rsudp.raspberryshake.</span></span><span class="sig-name descname"><span class="pre">getTIME</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DP</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getTIME" title="Permalink to this definition"></a></dt>
 <dd><p>Extract the timestamp from the data packet.
 Timestamp is seconds since 1970-01-01 00:00:00Z,
-which can be passed directly to an <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy v1.3.0)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.utcdatetime.UTCDateTime</span></code></a> object:</p>
+which can be passed directly to an <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy v1.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.utcdatetime.UTCDateTime</span></code></a> object:</p>
 <p>In this example, we get the timestamp of a Shake 1Dv7 data packet and convert it to a UTCDateTime:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">initRSlib</span><span class="p">(</span><span class="n">dport</span><span class="o">=</span><span class="mi">8888</span><span class="p">,</span> <span class="n">rsstn</span><span class="o">=</span><span class="s1">&#39;R3BCF&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">obspy</span> <span class="kn">import</span> <span class="n">UTCDateTime</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">getDATA</span><span class="p">()</span>
@@ -475,28 +395,27 @@ which can be passed directly to an <a class="reference external" href="https://d
 <span class="go">UTCDateTime(2020, 2, 21, 19, 58, 50, 292000)</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>DP</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><em>bytes</em></a>) – The Raspberry Shake UDP data packet (<a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a>) to parse time information from</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)">float</a></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Timestamp in decimal seconds since 1970-01-01 00:00:00Z</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>DP</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)"><em>bytes</em></a>) – The Raspberry Shake UDP data packet (<a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a>) to parse time information from</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Timestamp in decimal seconds since 1970-01-01 00:00:00Z</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.raspberryshake.getTR">
-<code class="descclassname">rsudp.raspberryshake.</code><code class="descname">getTR</code><span class="sig-paren">(</span><em>chn</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getTR" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.raspberryshake.getTR">
+<span class="sig-prename descclassname"><span class="pre">rsudp.raspberryshake.</span></span><span class="sig-name descname"><span class="pre">getTR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chn</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getTR" title="Permalink to this definition"></a></dt>
 <dd><p>Get the transmission rate in milliseconds between consecutive packets from the same channel.
 Must wait to receive a second packet from the same channel.
-Requires a <a class="reference internal" href="#rsudp.raspberryshake.getCHN" title="rsudp.raspberryshake.getCHN"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.getCHN()</span></code></a> or a channel name string as argument.</p>
+Requires a <a class="reference internal" href="#rsudp.raspberryshake.getCHN" title="rsudp.raspberryshake.getCHN"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.getCHN()</span></code></a> or a channel name string as argument.</p>
 <p>In this example, we calculate the transmission frequency of a Shake 1Dv7:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">initRSlib</span><span class="p">(</span><span class="n">dport</span><span class="o">=</span><span class="mi">8888</span><span class="p">,</span> <span class="n">rsstn</span><span class="o">=</span><span class="s1">&#39;R3BCF&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">getDATA</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tr</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">getTR</span><span class="p">(</span><span class="n">rs</span><span class="o">.</span><span class="n">getCHN</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
@@ -504,51 +423,48 @@ Requires a <a class="reference internal" href="#rsudp.raspberryshake.getCHN" tit
 <span class="go">250</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>chn</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The seismic instrument channel (<a class="reference internal" href="#rsudp.raspberryshake.getCHN" title="rsudp.raspberryshake.getCHN"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.getCHN()</span></code></a>) to calculate transmission rate information from</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Transmission rate in milliseconds between consecutive packets from a specific channel</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>chn</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The seismic instrument channel (<a class="reference internal" href="#rsudp.raspberryshake.getCHN" title="rsudp.raspberryshake.getCHN"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.getCHN()</span></code></a>) to calculate transmission rate information from</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Transmission rate in milliseconds between consecutive packets from a specific channel</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.raspberryshake.getTTLCHN">
-<code class="descclassname">rsudp.raspberryshake.</code><code class="descname">getTTLCHN</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getTTLCHN" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.raspberryshake.getTTLCHN">
+<span class="sig-prename descclassname"><span class="pre">rsudp.raspberryshake.</span></span><span class="sig-name descname"><span class="pre">getTTLCHN</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.getTTLCHN" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate total number of channels received,
-by counting the number of channels returned by <a class="reference internal" href="#rsudp.raspberryshake.getCHNS" title="rsudp.raspberryshake.getCHNS"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.getCHNS()</span></code></a>.</p>
+by counting the number of channels returned by <a class="reference internal" href="#rsudp.raspberryshake.getCHNS" title="rsudp.raspberryshake.getCHNS"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.getCHNS()</span></code></a>.</p>
 <p>In this example, we get the number of channels from a Shake &amp; Boom:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">initRSlib</span><span class="p">(</span><span class="n">dport</span><span class="o">=</span><span class="mi">8888</span><span class="p">,</span> <span class="n">rsstn</span><span class="o">=</span><span class="s1">&#39;R940D&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">getTTLCHN</span><span class="p">()</span>
 <span class="go">2</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The number of channels being sent to the port (from the single IP address sending data)</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number of channels being sent to the port (from the single IP address sending data)</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.raspberryshake.get_inventory">
-<code class="descclassname">rsudp.raspberryshake.</code><code class="descname">get_inventory</code><span class="sig-paren">(</span><em>sender='get_inventory'</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.get_inventory" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.raspberryshake.get_inventory">
+<span class="sig-prename descclassname"><span class="pre">rsudp.raspberryshake.</span></span><span class="sig-name descname"><span class="pre">get_inventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'get_inventory'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.get_inventory" title="Permalink to this definition"></a></dt>
 <dd><p>Downloads the station inventory from the Raspberry Shake FDSN and stores
-it as an <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.Inventory.html#obspy.core.inventory.inventory.Inventory" title="(in ObsPy v1.3.0)"><code class="xref py py-class docutils literal"><span class="pre">obspy.core.inventory.inventory.Inventory</span></code></a> object which is available globally.</p>
+it as an <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.Inventory.html#obspy.core.inventory.inventory.Inventory" title="(in ObsPy v1.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.inventory.inventory.Inventory</span></code></a> object which is available globally.</p>
 <p>In this example, we get the R940D station inventory from the Raspberry Shake FDSN:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">initRSlib</span><span class="p">(</span><span class="n">dport</span><span class="o">=</span><span class="mi">8888</span><span class="p">,</span> <span class="n">rsstn</span><span class="o">=</span><span class="s1">&#39;R940D&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">inv</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">get_inventory</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">inv</span><span class="p">)</span>
@@ -563,107 +479,96 @@ it as an <a class="reference external" href="https://docs.obspy.org/packages/aut
 <span class="go">                        AM.R940D.00.EHZ, AM.R940D.00.HDF</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sender</strong> – <cite>(optional)</cite> The name of the function calling the <code class="xref py py-func docutils literal"><span class="pre">rsudp.printM()</span></code> logging function</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.Inventory.html#obspy.core.inventory.inventory.Inventory" title="(in ObsPy v1.3.0)">obspy.core.inventory.inventory.Inventory</a> or <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The inventory of the Raspberry Shake station in the <code class="code pycode python docutils literal"><span class="name"><span class="pre">rsudp</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">raspberryshake</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">stn</span></span></code> variable.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sender</strong> – <cite>(optional)</cite> The name of the function calling the <code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.printM()</span></code> logging function</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.Inventory.html#obspy.core.inventory.inventory.Inventory" title="(in ObsPy v1.4.1)">obspy.core.inventory.inventory.Inventory</a> or <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The inventory of the Raspberry Shake station in the <code class="code highlight pycode python docutils literal highlight-python"><span class="n">rsudp</span><span class="o">.</span><span class="n">raspberryshake</span><span class="o">.</span><span class="n">stn</span></code> variable.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.raspberryshake.get_ip">
-<code class="descclassname">rsudp.raspberryshake.</code><code class="descname">get_ip</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.get_ip" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.raspberryshake.get_ip">
+<span class="sig-prename descclassname"><span class="pre">rsudp.raspberryshake.</span></span><span class="sig-name descname"><span class="pre">get_ip</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.get_ip" title="Permalink to this definition"></a></dt>
 <dd><p>Return a reliable network IP to report to the user when there is no data received.
 This helps the user set their Raspberry Shake’s datacast streams to point to the correct location
 if the library raises a “no data received” error.
 Solution adapted from <a href="https://stackoverflow.com/questions/166506/finding-local-ip-addresses-using-pythons-stdlib" target="_blank">this stackoverflow answer</a>.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_ip</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_ip</span><span class="p">()</span>
 <span class="go">&#39;192.168.1.23&#39;</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The network IP of the machine that this program is running on</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The network IP of the machine that this program is running on</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.raspberryshake.handler">
-<code class="descclassname">rsudp.raspberryshake.</code><code class="descname">handler</code><span class="sig-paren">(</span><em>signum</em>, <em>frame</em>, <em>ip='10.119.93.133'</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.handler" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.raspberryshake.handler">
+<span class="sig-prename descclassname"><span class="pre">rsudp.raspberryshake.</span></span><span class="sig-name descname"><span class="pre">handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'192.168.231.10'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.handler" title="Permalink to this definition"></a></dt>
 <dd><p>The signal handler for the nodata alarm.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>signum</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – signal number</li>
-<li><strong>frame</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – frame number</li>
-<li><strong>ip</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – the IP of the box this program is running on (i.e. the device the Raspberry Shake should send data to)</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signum</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – signal number</p></li>
+<li><p><strong>frame</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – frame number</p></li>
+<li><p><strong>ip</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – the IP of the box this program is running on (i.e. the device the Raspberry Shake should send data to)</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IOError" title="(in Python v3.10)"><strong>IOError</strong></a> – on UNIX systems if no data is received</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IOError" title="(in Python v3.12)"><strong>IOError</strong></a> – on UNIX systems if no data is received</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.raspberryshake.initRSlib">
-<code class="descclassname">rsudp.raspberryshake.</code><code class="descname">initRSlib</code><span class="sig-paren">(</span><em>dport=8888</em>, <em>rsstn='Z0000'</em>, <em>timeout=10</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.initRSlib" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initializes this library (<a class="reference internal" href="#module-rsudp.raspberryshake" title="rsudp.raspberryshake"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake()</span></code></a>).
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.raspberryshake.initRSlib">
+<span class="sig-prename descclassname"><span class="pre">rsudp.raspberryshake.</span></span><span class="sig-name descname"><span class="pre">initRSlib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dport</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8888</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rsstn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Z0000'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.initRSlib" title="Permalink to this definition"></a></dt>
+<dd><p>Initializes this library (<a class="reference internal" href="#module-rsudp.raspberryshake" title="rsudp.raspberryshake"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake()</span></code></a>).
 Set values for data port, station, network, and port timeout prior to opening the socket.
-Calls both <a class="reference internal" href="#rsudp.raspberryshake.openSOCK" title="rsudp.raspberryshake.openSOCK"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.openSOCK()</span></code></a> and <a class="reference internal" href="#rsudp.raspberryshake.set_params" title="rsudp.raspberryshake.set_params"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.set_params()</span></code></a>.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
+Calls both <a class="reference internal" href="#rsudp.raspberryshake.openSOCK" title="rsudp.raspberryshake.openSOCK"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.openSOCK()</span></code></a> and <a class="reference internal" href="#rsudp.raspberryshake.set_params" title="rsudp.raspberryshake.set_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.set_params()</span></code></a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">initRSlib</span><span class="p">(</span><span class="n">dport</span><span class="o">=</span><span class="mi">8888</span><span class="p">,</span> <span class="n">rsstn</span><span class="o">=</span><span class="s1">&#39;R3BCF&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The library is now initialized:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">initd</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">initd</span>
 <span class="go">True</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>dport</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The local port the Raspberry Shake is sending UDP data packets to. Defaults to <code class="code pycode python docutils literal"><span class="literal number integer"><span class="pre">8888</span></span></code>.</li>
-<li><strong>rsstn</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The name of the station (something like <code class="code pycode python docutils literal"><span class="literal string single"><span class="pre">‘RCB43’</span></span></code> or <code class="code pycode python docutils literal"><span class="literal string single"><span class="pre">‘S0CDE’</span></span></code>)</li>
-<li><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of seconds for <a class="reference internal" href="#rsudp.raspberryshake.set_params" title="rsudp.raspberryshake.set_params"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.set_params()</span></code></a> to wait for data before an error is raised (zero for unlimited wait)</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dport</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The local port the Raspberry Shake is sending UDP data packets to. Defaults to <code class="code highlight pycode python docutils literal highlight-python"><span class="mi">8888</span></code>.</p></li>
+<li><p><strong>rsstn</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the station (something like <code class="code highlight pycode python docutils literal highlight-python"><span class="s1">&#39;RCB43&#39;</span></code> or <code class="code highlight pycode python docutils literal highlight-python"><span class="s1">&#39;S0CDE&#39;</span></code>)</p></li>
+<li><p><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The number of seconds for <a class="reference internal" href="#rsudp.raspberryshake.set_params" title="rsudp.raspberryshake.set_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.set_params()</span></code></a> to wait for data before an error is raised (zero for unlimited wait)</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The instrument channel as a string</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The instrument channel as a string</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.raspberryshake.make_trace">
-<code class="descclassname">rsudp.raspberryshake.</code><code class="descname">make_trace</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.make_trace" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.raspberryshake.make_trace">
+<span class="sig-prename descclassname"><span class="pre">rsudp.raspberryshake.</span></span><span class="sig-name descname"><span class="pre">make_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.make_trace" title="Permalink to this definition"></a></dt>
 <dd><p>Makes a trace and assigns it some values using a data packet.</p>
 <p>In this example, we make a trace object with some RS 1Dv7 data:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">initRSlib</span><span class="p">(</span><span class="n">dport</span><span class="o">=</span><span class="mi">8888</span><span class="p">,</span> <span class="n">rsstn</span><span class="o">=</span><span class="s1">&#39;R3BCF&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">getDATA</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">make_trace</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
@@ -671,60 +576,55 @@ Calls both <a class="reference internal" href="#rsudp.raspberryshake.openSOCK" t
 <span class="go">AM.R3BCF.00.EHZ | 2020-02-21T19:58:50.292000Z - 2020-02-21T19:58:50.532000Z | 100.0 Hz, 25 samples</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>d</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><em>bytes</em></a>) – The Raspberry Shake UDP data packet (<a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a>) to parse Trace information from</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.trace.Trace.html#obspy.core.trace.Trace" title="(in ObsPy v1.3.0)">obspy.core.trace.Trace</a></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A fully formed Trace object to build a Stream with</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>d</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)"><em>bytes</em></a>) – The Raspberry Shake UDP data packet (<a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a>) to parse Trace information from</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.trace.Trace.html#obspy.core.trace.Trace" title="(in ObsPy v1.4.1)">obspy.core.trace.Trace</a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A fully formed Trace object to build a Stream with</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.raspberryshake.openSOCK">
-<code class="descclassname">rsudp.raspberryshake.</code><code class="descname">openSOCK</code><span class="sig-paren">(</span><em>host=''</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.openSOCK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize a socket at the port specified by <code class="code pycode python docutils literal"><span class="name"><span class="pre">rsudp</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">raspberryshake</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">port</span></span></code>.
-Called by <a class="reference internal" href="#rsudp.raspberryshake.initRSlib" title="rsudp.raspberryshake.initRSlib"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.initRSlib()</span></code></a>, must be done before <a class="reference internal" href="#rsudp.raspberryshake.set_params" title="rsudp.raspberryshake.set_params"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.set_params()</span></code></a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>host</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – self-referential location at which to open a listening port (defaults to <code class="code pycode python docutils literal"><span class="literal string single"><span class="pre">‘’</span></span></code> which resolves to <code class="code pycode python docutils literal"><span class="literal string single"><span class="pre">‘localhost’</span></span></code>)</p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
-<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IOError" title="(in Python v3.10)"><strong>IOError</strong></a> – if the library is not initialized (<a class="reference internal" href="#rsudp.raspberryshake.initRSlib" title="rsudp.raspberryshake.initRSlib"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.initRSlib()</span></code></a>) prior to running this function</li>
-<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#OSError" title="(in Python v3.10)"><strong>OSError</strong></a> – if the program cannot bind to the specified port number</li>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.raspberryshake.openSOCK">
+<span class="sig-prename descclassname"><span class="pre">rsudp.raspberryshake.</span></span><span class="sig-name descname"><span class="pre">openSOCK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.openSOCK" title="Permalink to this definition"></a></dt>
+<dd><p>Initialize a socket at the port specified by <code class="code highlight pycode python docutils literal highlight-python"><span class="n">rsudp</span><span class="o">.</span><span class="n">raspberryshake</span><span class="o">.</span><span class="n">port</span></code>.
+Called by <a class="reference internal" href="#rsudp.raspberryshake.initRSlib" title="rsudp.raspberryshake.initRSlib"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.initRSlib()</span></code></a>, must be done before <a class="reference internal" href="#rsudp.raspberryshake.set_params" title="rsudp.raspberryshake.set_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.set_params()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>host</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – self-referential location at which to open a listening port (defaults to <code class="code highlight pycode python docutils literal highlight-python"><span class="s1">&#39;&#39;</span></code> which resolves to <code class="code highlight pycode python docutils literal highlight-python"><span class="s1">&#39;localhost&#39;</span></code>)</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IOError" title="(in Python v3.12)"><strong>IOError</strong></a> – if the library is not initialized (<a class="reference internal" href="#rsudp.raspberryshake.initRSlib" title="rsudp.raspberryshake.initRSlib"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.initRSlib()</span></code></a>) prior to running this function</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#OSError" title="(in Python v3.12)"><strong>OSError</strong></a> – if the program cannot bind to the specified port number</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.raspberryshake.set_params">
-<code class="descclassname">rsudp.raspberryshake.</code><code class="descname">set_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.set_params" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.raspberryshake.set_params">
+<span class="sig-prename descclassname"><span class="pre">rsudp.raspberryshake.</span></span><span class="sig-name descname"><span class="pre">set_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.set_params" title="Permalink to this definition"></a></dt>
 <dd><p>Read a data packet off the port.
-Called by <a class="reference internal" href="#rsudp.raspberryshake.initRSlib" title="rsudp.raspberryshake.initRSlib"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.initRSlib()</span></code></a>,
-must be done after <a class="reference internal" href="#rsudp.raspberryshake.openSOCK" title="rsudp.raspberryshake.openSOCK"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.openSOCK()</span></code></a>
-but before <a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a>.
-Will wait <code class="code pycode python docutils literal"><span class="name"><span class="pre">rsudp</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">raspberryshake</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">to</span></span></code> seconds for data before raising a no data exception
+Called by <a class="reference internal" href="#rsudp.raspberryshake.initRSlib" title="rsudp.raspberryshake.initRSlib"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.initRSlib()</span></code></a>,
+must be done after <a class="reference internal" href="#rsudp.raspberryshake.openSOCK" title="rsudp.raspberryshake.openSOCK"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.openSOCK()</span></code></a>
+but before <a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a>.
+Will wait <code class="code highlight pycode python docutils literal highlight-python"><span class="n">rsudp</span><span class="o">.</span><span class="n">raspberryshake</span><span class="o">.</span><span class="n">to</span></code> seconds for data before raising a no data exception
 (only available with UNIX socket types).</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.raspberryshake.update_stream">
-<code class="descclassname">rsudp.raspberryshake.</code><code class="descname">update_stream</code><span class="sig-paren">(</span><em>stream</em>, <em>d</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.update_stream" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.raspberryshake.update_stream">
+<span class="sig-prename descclassname"><span class="pre">rsudp.raspberryshake.</span></span><span class="sig-name descname"><span class="pre">update_stream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.raspberryshake.update_stream" title="Permalink to this definition"></a></dt>
 <dd><p>Returns an updated Stream object with new data, merged down to one trace per available channel.
 Most sub-consumers call this each time they receive data packets in order to keep their obspy stream current.</p>
 <p>In this example, we make a stream object with some RS 1Dv7 data:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rsudp.raspberryshake</span> <span class="k">as</span> <span class="nn">rs</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">obspy.core.stream</span> <span class="kn">import</span> <span class="n">Stream</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rs</span><span class="o">.</span><span class="n">initRSlib</span><span class="p">(</span><span class="n">dport</span><span class="o">=</span><span class="mi">8888</span><span class="p">,</span> <span class="n">rsstn</span><span class="o">=</span><span class="s1">&#39;R3BCF&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Stream</span><span class="p">()</span>
@@ -736,81 +636,59 @@ Most sub-consumers call this each time they receive data packets in order to kee
 <span class="go">AM.R3BCF.00.EHZ | 2020-02-21T19:58:50.292000Z - 2020-02-21T19:58:50.532000Z | 100.0 Hz, 25 samples</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>stream</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy v1.3.0)"><em>obspy.core.stream.Stream</em></a>) – The stream to update</li>
-<li><strong>d</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><em>bytes</em></a>) – The Raspberry Shake UDP data packet (<a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a>) to parse Stream information from</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stream</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy v1.4.1)"><em>obspy.core.stream.Stream</em></a>) – The stream to update</p></li>
+<li><p><strong>d</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)"><em>bytes</em></a>) – The Raspberry Shake UDP data packet (<a class="reference internal" href="#rsudp.raspberryshake.getDATA" title="rsudp.raspberryshake.getDATA"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.getDATA()</span></code></a>) to parse Stream information from</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy v1.3.0)">obspy.core.stream.Stream</a></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A seismic data stream</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy v1.4.1)">obspy.core.stream.Stream</a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A seismic data stream</p>
+</dd>
+</dl>
 </dd></dl>
 
 <hr class="docutils" />
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="helpers.html" class="btn btn-neutral float-right" title="rsudp.helpers (helper functions)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="init.html" class="btn btn-neutral float-left" title="rsudp.__init__ (initialization functions)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="init.html" class="btn btn-neutral float-left" title="rsudp.__init__ (initialization functions)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="helpers.html" class="btn btn-neutral float-right" title="rsudp.helpers (helper functions)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2022, Raspberry Shake S.A.
-
-    </p>
+    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

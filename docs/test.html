@@ -1,48 +1,24 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rsudp.test (test helpers) &mdash; rsudp  documentation</title>
-  
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -50,182 +26,128 @@
     <link rel="prev" title="rsudp.c_testing (test consumer)" href="c_testing.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="index.html" class="icon icon-home"> rsudp
           
-
-          
-            
-            <img src="_static/logo.png" class="logo" alt="Logo"/>
-          
+          <a href="index.html" class="icon icon-home">
+            rsudp
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-
-          
-            
-            
               <div class="version">
-                1.1.1
+                2.0.0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Tutorial guide</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorial guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="about.html">1. About rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installing.html">2. Installing rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal"><span class="pre">systemctl</span></code> daemon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Video resources</span></p>
+<p class="caption" role="heading"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#detected-earthquake">Detected earthquake</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Developers' guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">1. Program architecture and flow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">2. Contributing to this project</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Library</span></p>
+<p class="caption" role="heading"><span class="caption-text">Library</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="docutils literal"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="docutils literal"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="docutils literal"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="docutils literal"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Clients</span></p>
+<p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="docutils literal"><span class="pre">rsudp.client</span></code> (central module)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="docutils literal"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Producer and Consumer</span></p>
+<p class="caption" role="heading"><span class="caption-text">Producer and Consumer</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="docutils literal"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="docutils literal"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Sub-Consumers</span></p>
+<p class="caption" role="heading"><span class="caption-text">Sub-Consumers</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="docutils literal"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="docutils literal"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="docutils literal"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="docutils literal"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="docutils literal"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="docutils literal"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="docutils literal"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="docutils literal"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="docutils literal"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Testing modules</span></p>
+<p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="docutils literal"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="docutils literal"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="docutils literal"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="docutils literal"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code> (test helpers)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.test.cancel_tests"><code class="docutils literal notranslate"><span class="pre">cancel_tests()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.test.datadir_permissions"><code class="docutils literal notranslate"><span class="pre">datadir_permissions()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.test.is_connected"><code class="docutils literal notranslate"><span class="pre">is_connected()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.test.logdir_permissions"><code class="docutils literal notranslate"><span class="pre">logdir_permissions()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.test.make_test_settings"><code class="docutils literal notranslate"><span class="pre">make_test_settings()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.test.permissions"><code class="docutils literal notranslate"><span class="pre">permissions()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.test.ss_permissions"><code class="docutils literal notranslate"><span class="pre">ss_permissions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">rsudp</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li><code class="docutils literal"><span class="pre">rsudp.test</span></code> (test helpers)</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code> (test helpers)</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="_sources/test.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="rsudp-test-test-helpers">
-<h1><a class="reference internal" href="#module-rsudp.test" title="rsudp.test"><code class="xref py py-data docutils literal"><span class="pre">rsudp.test</span></code></a> (test helpers)<a class="headerlink" href="#rsudp-test-test-helpers" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="rsudp-test-test-helpers">
+<h1><a class="reference internal" href="#module-rsudp.test" title="rsudp.test"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code></a> (test helpers)<a class="headerlink" href="#rsudp-test-test-helpers" title="Permalink to this heading"></a></h1>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.4.3.</span></p>
+<p><span class="versionmodified added">New in version 0.4.3.</span></p>
 </div>
 <p>The test module. Here are the currently available tests, descriptions,
 and their initial state:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">TEST</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">TEST</span> <span class="o">=</span> <span class="p">{</span>
     <span class="c1"># permissions</span>
     <span class="s1">&#39;p_log_dir&#39;</span><span class="p">:</span>            <span class="p">[</span><span class="s1">&#39;log directory               &#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
     <span class="s1">&#39;p_log_std&#39;</span><span class="p">:</span>            <span class="p">[</span><span class="s1">&#39;stdout logging              &#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
@@ -274,290 +196,255 @@ and their initial state:</p>
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="admonition-title">Note</p>
 <p>If you wish to add your own consumer module, the easiest way to test
 its functionality is to follow the instructions in
 <a class="reference internal" href="theory.html#add-testing"><span class="std std-ref">Testing your module</span></a>, then add the relevant test to this dictionary.
-Then, you would import the <code class="xref py py-data docutils literal"><span class="pre">rsudp.test.TEST</span></code> variable
-and modify the test result (<code class="xref py py-data docutils literal"><span class="pre">TEST['your_test'][1]</span> <span class="pre">=</span> <span class="pre">True</span></code>)
+Then, you would import the <code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test.TEST</span></code> variable
+and modify the test result (<code class="xref py py-data docutils literal notranslate"><span class="pre">TEST['your_test'][1]</span> <span class="pre">=</span> <span class="pre">True</span></code>)
 if the test passed.</p>
-<p class="last">If your module is set not to start by default, and you are using the
+<p>If your module is set not to start by default, and you are using the
 default settings file for testing, you will need to set
-<code class="docutils literal"><span class="pre">settings['your_module']['enabled']</span> <span class="pre">=</span> <span class="pre">True</span></code> in
-<a class="reference internal" href="#rsudp.test.make_test_settings" title="rsudp.test.make_test_settings"><code class="xref py py-func docutils literal"><span class="pre">rsudp.test.make_test_settings()</span></code></a> prior to running the tests.</p>
+<code class="docutils literal notranslate"><span class="pre">settings['your_module']['enabled']</span> <span class="pre">=</span> <span class="pre">True</span></code> in
+<a class="reference internal" href="#rsudp.test.make_test_settings" title="rsudp.test.make_test_settings"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.test.make_test_settings()</span></code></a> prior to running the tests.</p>
 </div>
-<span class="target" id="module-rsudp.test"></span><dl class="function">
-<dt id="rsudp.test.cancel_tests">
-<code class="descclassname">rsudp.test.</code><code class="descname">cancel_tests</code><span class="sig-paren">(</span><em>settings</em>, <em>MPL</em>, <em>plot</em>, <em>quiet</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.cancel_tests" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-rsudp.test"></span><dl class="py function">
+<dt class="sig sig-object py" id="rsudp.test.cancel_tests">
+<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">cancel_tests</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MPL</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiet</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.cancel_tests" title="Permalink to this definition"></a></dt>
 <dd><p>Cancel some tests if they don’t need to be run.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a>) – the dictionary of settings for program execution</li>
-<li><strong>plot</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether or not to plot (<code class="docutils literal"><span class="pre">False</span></code> == no plot)</li>
-<li><strong>quiet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether or not to play sounds (<code class="docutils literal"><span class="pre">True</span></code> == no sound)</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a>) – the dictionary of settings for program execution</p></li>
+<li><p><strong>plot</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – whether or not to plot (<code class="docutils literal notranslate"><span class="pre">False</span></code> == no plot)</p></li>
+<li><p><strong>quiet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – whether or not to play sounds (<code class="docutils literal notranslate"><span class="pre">True</span></code> == no sound)</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">settings dictionary to test with</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>settings dictionary to test with</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.test.datadir_permissions">
-<code class="descclassname">rsudp.test.</code><code class="descname">datadir_permissions</code><span class="sig-paren">(</span><em>testdir</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.datadir_permissions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Test write permissions in the data directory (<code class="docutils literal"><span class="pre">./data</span></code> by default)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>testdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The directory to test permissions for</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the output of <a class="reference internal" href="#rsudp.test.permissions" title="rsudp.test.permissions"><code class="xref py py-func docutils literal"><span class="pre">rsudp.test.permissions()</span></code></a></td>
-</tr>
-</tbody>
-</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.test.datadir_permissions">
+<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">datadir_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testdir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.datadir_permissions" title="Permalink to this definition"></a></dt>
+<dd><p>Test write permissions in the data directory (<code class="docutils literal notranslate"><span class="pre">./data</span></code> by default)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>testdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The directory to test permissions for</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the output of <a class="reference internal" href="#rsudp.test.permissions" title="rsudp.test.permissions"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.test.permissions()</span></code></a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.test.is_connected">
-<code class="descclassname">rsudp.test.</code><code class="descname">is_connected</code><span class="sig-paren">(</span><em>hostname</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.is_connected" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.test.is_connected">
+<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">is_connected</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hostname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.is_connected" title="Permalink to this definition"></a></dt>
 <dd><p>Test for an internet connection.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>hostname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The hostname to test with</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if connection is successful, <code class="docutils literal"><span class="pre">False</span></code> otherwise</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>hostname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The hostname to test with</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if connection is successful, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.test.logdir_permissions">
-<code class="descclassname">rsudp.test.</code><code class="descname">logdir_permissions</code><span class="sig-paren">(</span><em>logdir='/tmp/rsudp'</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.logdir_permissions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Test write permissions in the log directory (<code class="docutils literal"><span class="pre">/tmp/rsudp</span></code> by default)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The log directory to test permissions for</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the output of <a class="reference internal" href="#rsudp.test.permissions" title="rsudp.test.permissions"><code class="xref py py-func docutils literal"><span class="pre">rsudp.test.permissions()</span></code></a></td>
-</tr>
-</tbody>
-</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.test.logdir_permissions">
+<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">logdir_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/tmp/rsudp'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.logdir_permissions" title="Permalink to this definition"></a></dt>
+<dd><p>Test write permissions in the log directory (<code class="docutils literal notranslate"><span class="pre">/tmp/rsudp</span></code> by default)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>logdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The log directory to test permissions for</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the output of <a class="reference internal" href="#rsudp.test.permissions" title="rsudp.test.permissions"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.test.permissions()</span></code></a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.test.make_test_settings">
-<code class="descclassname">rsudp.test.</code><code class="descname">make_test_settings</code><span class="sig-paren">(</span><em>settings</em>, <em>inet=False</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.make_test_settings" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.test.make_test_settings">
+<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">make_test_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.make_test_settings" title="Permalink to this definition"></a></dt>
 <dd><p>Get the default settings and return settings for testing.</p>
 <p>The default settings are modified in the following way:</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="68%" />
-<col width="32%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Setting</th>
-<th class="head">Value</th>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Setting</p></th>
+<th class="head"><p>Value</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">settings['settings']['station']</span></code></td>
-<td><code class="docutils literal"><span class="pre">'R24FA'</span></code></td>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">settings['settings']['station']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'R24FA'</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">settings['printdata']['enabled']</span></code></td>
-<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">settings['printdata']['enabled']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">settings['alert']['threshold']</span></code></td>
-<td><code class="docutils literal"><span class="pre">2</span></code></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">settings['alert']['threshold']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">2</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">settings['alert']['reset']</span></code></td>
-<td><code class="docutils literal"><span class="pre">0.5</span></code></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">settings['alert']['reset']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0.5</span></code></p></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">settings['alert']['lowpass']</span></code></td>
-<td><code class="docutils literal"><span class="pre">9</span></code></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">settings['alert']['lowpass']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">9</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">settings['alert']['highpass']</span></code></td>
-<td><code class="docutils literal"><span class="pre">0.8</span></code></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">settings['alert']['highpass']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0.8</span></code></p></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">settings['plot']['channels']</span></code></td>
-<td><code class="docutils literal"><span class="pre">['all']</span></code></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">settings['plot']['channels']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">['all']</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">settings['plot']['duration']</span></code></td>
-<td><code class="docutils literal"><span class="pre">60</span></code></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">settings['plot']['duration']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">60</span></code></p></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">settings['plot']['deconvolve']</span></code></td>
-<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">settings['plot']['deconvolve']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">settings['plot']['units']</span></code></td>
-<td><code class="docutils literal"><span class="pre">'CHAN'</span></code></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">settings['plot']['units']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'CHAN'</span></code></p></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">settings['plot']['eq_screenshots']</span></code></td>
-<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">settings['plot']['eq_screenshots']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">settings['write']['enabled']</span></code></td>
-<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">settings['write']['enabled']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">settings['write']['channels']</span></code></td>
-<td><code class="docutils literal"><span class="pre">['all']</span></code></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">settings['write']['channels']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">['all']</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">settings['tweets']['enabled']</span></code></td>
-<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">settings['tweets']['enabled']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">settings['telegram']['enabled']</span></code></td>
-<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">settings['telegram']['enabled']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">settings['alertsound']['enabled']</span></code></td>
-<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">settings['alertsound']['enabled']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">settings['rsam']['enabled']</span></code></td>
-<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">settings['rsam']['enabled']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">settings['rsam']['debug']</span></code></td>
-<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">settings['rsam']['debug']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">settings['rsam']['interval']</span></code></td>
-<td><code class="docutils literal"><span class="pre">10</span></code></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">settings['rsam']['interval']</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">10</span></code></p></td>
 </tr>
 </tbody>
 </table>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">If there is no internet connection detected, the station
-name will default to <code class="docutils literal"><span class="pre">'Z0000'</span></code> so that no time is wasted
+<p class="admonition-title">Note</p>
+<p>If there is no internet connection detected, the station
+name will default to <code class="docutils literal notranslate"><span class="pre">'Z0000'</span></code> so that no time is wasted
 trying to download an inventory from the Raspberry Shake
 FDSN service.</p>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a>) – settings dictionary (will be modified from <a class="reference internal" href="settings.html#defaults"><span class="std std-ref">Default settings</span></a>)</li>
-<li><strong>inet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – whether or not the internet test passed</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a>) – settings dictionary (will be modified from <a class="reference internal" href="settings.html#defaults"><span class="std std-ref">Default settings</span></a>)</p></li>
+<li><p><strong>inet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – whether or not the internet test passed</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)">dict</a></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">settings dictionary to test with</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>settings dictionary to test with</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.test.permissions">
-<code class="descclassname">rsudp.test.</code><code class="descname">permissions</code><span class="sig-paren">(</span><em>dp</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.permissions" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.test.permissions">
+<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.permissions" title="Permalink to this definition"></a></dt>
 <dd><p>Test write permissions for the specified directory.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dp</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – the directory path to test permissions for</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">if <code class="docutils literal"><span class="pre">True</span></code>, the test was successful, <code class="docutils literal"><span class="pre">False</span></code> otherwise</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dp</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – the directory path to test permissions for</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>if <code class="docutils literal notranslate"><span class="pre">True</span></code>, the test was successful, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="rsudp.test.ss_permissions">
-<code class="descclassname">rsudp.test.</code><code class="descname">ss_permissions</code><span class="sig-paren">(</span><em>testdir</em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.ss_permissions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Test write permissions in the screenshots directory (<code class="docutils literal"><span class="pre">./screenshots</span></code> by default)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>testdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The directory to test permissions for</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the output of <a class="reference internal" href="#rsudp.test.permissions" title="rsudp.test.permissions"><code class="xref py py-func docutils literal"><span class="pre">rsudp.test.permissions()</span></code></a></td>
-</tr>
-</tbody>
-</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.test.ss_permissions">
+<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">ss_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testdir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.ss_permissions" title="Permalink to this definition"></a></dt>
+<dd><p>Test write permissions in the screenshots directory (<code class="docutils literal notranslate"><span class="pre">./screenshots</span></code> by default)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>testdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The directory to test permissions for</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the output of <a class="reference internal" href="#rsudp.test.permissions" title="rsudp.test.permissions"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.test.permissions()</span></code></a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <hr class="docutils" />
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="packetize.html" class="btn btn-neutral float-right" title="rsudp.packetize (data formatter)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="c_testing.html" class="btn btn-neutral float-left" title="rsudp.c_testing (test consumer)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="c_testing.html" class="btn btn-neutral float-left" title="rsudp.c_testing (test consumer)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="packetize.html" class="btn btn-neutral float-right" title="rsudp.packetize (data formatter)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2022, Raspberry Shake S.A.
-
-    </p>
+    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

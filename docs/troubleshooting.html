@@ -1,48 +1,24 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>6. Troubleshooting rsudp &mdash; rsudp  documentation</title>
-  
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -50,64 +26,39 @@
     <link rel="prev" title="5. rsudp as a systemctl daemon" href="daemon.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="index.html" class="icon icon-home"> rsudp
           
-
-          
-            
-            <img src="_static/logo.png" class="logo" alt="Logo"/>
-          
+          <a href="index.html" class="icon icon-home">
+            rsudp
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-
-          
-            
-            
               <div class="version">
-                1.1.1
+                2.0.0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Tutorial guide</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorial guide</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">1. About rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installing.html">2. Installing rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal"><span class="pre">systemctl</span></code> daemon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="daemon.html">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">6. Troubleshooting rsudp</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#remote-rsudp-side">6.1. Remote (rsudp) side</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#can-t-run-the-conda-command">6.1.1. Can’t run the <code class="docutils literal"><span class="pre">conda</span></code> command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#can-t-run-the-conda-command">6.1.1. Can’t run the <code class="docutils literal notranslate"><span class="pre">conda</span></code> command</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#no-data-received">6.1.2. No data received</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#data-stops-flowing-or-is-inconsistent">6.1.3. Data stops flowing or is inconsistent</a></li>
 </ul>
@@ -123,216 +74,174 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Video resources</span></p>
+<p class="caption" role="heading"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#detected-earthquake">Detected earthquake</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Developers' guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">1. Program architecture and flow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">2. Contributing to this project</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Library</span></p>
+<p class="caption" role="heading"><span class="caption-text">Library</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="docutils literal"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="docutils literal"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="docutils literal"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="docutils literal"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Clients</span></p>
+<p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="docutils literal"><span class="pre">rsudp.client</span></code> (central module)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="docutils literal"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Producer and Consumer</span></p>
+<p class="caption" role="heading"><span class="caption-text">Producer and Consumer</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="docutils literal"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="docutils literal"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Sub-Consumers</span></p>
+<p class="caption" role="heading"><span class="caption-text">Sub-Consumers</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="docutils literal"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="docutils literal"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="docutils literal"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="docutils literal"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="docutils literal"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="docutils literal"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="docutils literal"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="docutils literal"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="docutils literal"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Testing modules</span></p>
+<p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="docutils literal"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="docutils literal"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="docutils literal"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="docutils literal"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">rsudp</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li>6. Troubleshooting rsudp</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">6. </span>Troubleshooting rsudp</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="_sources/troubleshooting.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="troubleshooting-rsudp">
-<span id="troubleshooting"></span><h1>6. Troubleshooting rsudp<a class="headerlink" href="#troubleshooting-rsudp" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="troubleshooting-rsudp">
+<span id="troubleshooting"></span><h1><span class="section-number">6. </span>Troubleshooting rsudp<a class="headerlink" href="#troubleshooting-rsudp" title="Permalink to this heading"></a></h1>
 <p>In general, troubleshooting should be fairly straightforward.
-Most output goes either to the command line or to <code class="docutils literal"><span class="pre">/tmp/rsudp/rsudp.log</span></code>.
+Most output goes either to the command line or to <code class="docutils literal notranslate"><span class="pre">/tmp/rsudp/rsudp.log</span></code>.
 If you have a recurring issue, please see if the logs give any indication
 as to what is going on, and check relevant sections below.</p>
 <p>By far the most common problem you’ll run into if you are a first-time user
 is the inability to see data coming in.</p>
-<div class="section" id="remote-rsudp-side">
-<span id="remote"></span><h2>6.1. Remote (rsudp) side<a class="headerlink" href="#remote-rsudp-side" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="can-t-run-the-conda-command">
-<h3>6.1.1. Can’t run the <code class="docutils literal"><span class="pre">conda</span></code> command<a class="headerlink" href="#can-t-run-the-conda-command" title="Permalink to this headline">¶</a></h3>
+<section id="remote-rsudp-side">
+<span id="remote"></span><h2><span class="section-number">6.1. </span>Remote (rsudp) side<a class="headerlink" href="#remote-rsudp-side" title="Permalink to this heading"></a></h2>
+<section id="can-t-run-the-conda-command">
+<h3><span class="section-number">6.1.1. </span>Can’t run the <code class="docutils literal notranslate"><span class="pre">conda</span></code> command<a class="headerlink" href="#can-t-run-the-conda-command" title="Permalink to this heading"></a></h3>
 <p>See <a class="reference internal" href="installing.html#source"><span class="std std-ref">Run the sourcing line</span></a>.</p>
-</div>
-<div class="section" id="no-data-received">
-<h3>6.1.2. No data received<a class="headerlink" href="#no-data-received" title="Permalink to this headline">¶</a></h3>
-<p>If you are getting an <code class="docutils literal"><span class="pre">IOError('No</span> <span class="pre">data</span> <span class="pre">received')</span></code>, most likely one of three
+</section>
+<section id="no-data-received">
+<h3><span class="section-number">6.1.2. </span>No data received<a class="headerlink" href="#no-data-received" title="Permalink to this heading"></a></h3>
+<p>If you are getting an <code class="docutils literal notranslate"><span class="pre">IOError('No</span> <span class="pre">data</span> <span class="pre">received')</span></code>, most likely one of three
 things is wrong:</p>
 <ol class="arabic simple">
-<li>Your Shake is not forwarding to the correct address and port — see <a class="reference internal" href="#local"><span class="std std-ref">Shake (local) side</span></a></li>
-<li>rsudp is configured to listen on the wrong port</li>
-<li>There is a firewall between your computer and the Shake — see <a class="reference internal" href="#middle"><span class="std std-ref">Middle (firewalls)</span></a></li>
+<li><p>Your Shake is not forwarding to the correct address and port — see <a class="reference internal" href="#local"><span class="std std-ref">Shake (local) side</span></a></p></li>
+<li><p>rsudp is configured to listen on the wrong port</p></li>
+<li><p>There is a firewall between your computer and the Shake — see <a class="reference internal" href="#middle"><span class="std std-ref">Middle (firewalls)</span></a></p></li>
 </ol>
 <p>In an error like this, your rsudp output will display some helpful info just
 above the error text. Scroll up to where you see something like this:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="m">2020</span>-02-22 <span class="m">21</span>:49:01 <span class="o">[</span>Init<span class="o">]</span> ERROR: No data received in <span class="m">10</span> seconds<span class="p">;</span> aborting.
-<span class="m">2020</span>-02-22 <span class="m">21</span>:49:01 <span class="o">[</span>Init<span class="o">]</span>        Check that the Shake is forwarding data to:
-<span class="m">2020</span>-02-22 <span class="m">21</span>:49:01 <span class="o">[</span>Init<span class="o">]</span>        IP address: <span class="m">192</span>.168.1.118    Port: <span class="m">8888</span>
-<span class="m">2020</span>-02-22 <span class="m">21</span>:49:01 <span class="o">[</span>Init<span class="o">]</span>        and that no firewall exists between the Shake and this computer.
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">2020</span>-02-22<span class="w"> </span><span class="m">21</span>:49:01<span class="w"> </span><span class="o">[</span>Init<span class="o">]</span><span class="w"> </span>ERROR:<span class="w"> </span>No<span class="w"> </span>data<span class="w"> </span>received<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">10</span><span class="w"> </span>seconds<span class="p">;</span><span class="w"> </span>aborting.
+<span class="m">2020</span>-02-22<span class="w"> </span><span class="m">21</span>:49:01<span class="w"> </span><span class="o">[</span>Init<span class="o">]</span><span class="w">        </span>Check<span class="w"> </span>that<span class="w"> </span>the<span class="w"> </span>Shake<span class="w"> </span>is<span class="w"> </span>forwarding<span class="w"> </span>data<span class="w"> </span>to:
+<span class="m">2020</span>-02-22<span class="w"> </span><span class="m">21</span>:49:01<span class="w"> </span><span class="o">[</span>Init<span class="o">]</span><span class="w">        </span>IP<span class="w"> </span>address:<span class="w"> </span><span class="m">192</span>.168.1.118<span class="w">    </span>Port:<span class="w"> </span><span class="m">8888</span>
+<span class="m">2020</span>-02-22<span class="w"> </span><span class="m">21</span>:49:01<span class="w"> </span><span class="o">[</span>Init<span class="o">]</span><span class="w">        </span>and<span class="w"> </span>that<span class="w"> </span>no<span class="w"> </span>firewall<span class="w"> </span>exists<span class="w"> </span>between<span class="w"> </span>the<span class="w"> </span>Shake<span class="w"> </span>and<span class="w"> </span>this<span class="w"> </span>computer.
 </pre></div>
 </div>
 <p>Make note of the values after <strong>IP address</strong> and <strong>Port</strong>.</p>
 <p>First, check to make sure the address and port have been configured on
-the Shake side to cast data to the address <code class="docutils literal"><span class="pre">192.168.1.118</span></code> and port <code class="docutils literal"><span class="pre">8888</span></code>
+the Shake side to cast data to the address <code class="docutils literal notranslate"><span class="pre">192.168.1.118</span></code> and port <code class="docutils literal notranslate"><span class="pre">8888</span></code>
 — see <a class="reference internal" href="#local"><span class="std std-ref">Shake (local) side</span></a>.</p>
-<p>If you are sending data to a different port than 8888, check the <code class="docutils literal"><span class="pre">&quot;port&quot;</span></code>
-value in your settings file (<code class="docutils literal"><span class="pre">~/.config/rsudp/rsudp_settings.json</span></code>) reflects
+<p>If you are sending data to a different port than 8888, check the <code class="docutils literal notranslate"><span class="pre">&quot;port&quot;</span></code>
+value in your settings file (<code class="docutils literal notranslate"><span class="pre">~/.config/rsudp/rsudp_settings.json</span></code>) reflects
 the port to which data is being sent.</p>
 <p>Finally, if you are for example sending data from a location outside your home
 network to somewhere inside your home network, your router may not be letting
 data come through the port you specified, and you may need to specify rsudp to
 send data to the router’s public (externally facing) IP address.</p>
-</div>
-<div class="section" id="data-stops-flowing-or-is-inconsistent">
-<h3>6.1.3. Data stops flowing or is inconsistent<a class="headerlink" href="#data-stops-flowing-or-is-inconsistent" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="data-stops-flowing-or-is-inconsistent">
+<h3><span class="section-number">6.1.3. </span>Data stops flowing or is inconsistent<a class="headerlink" href="#data-stops-flowing-or-is-inconsistent" title="Permalink to this heading"></a></h3>
 <p>This may be due to network problems. rsudp is designed to be able to ingest all
 data sent to it by the Shake. However, since the Shake uses UDP, which is not a
 guaranteed delivery protocol, some packets may be dropped.</p>
 <p>There are several reasons why this might happen.</p>
 <ol class="arabic simple">
-<li>You are using WiFi and there is an unstable connection</li>
-<li>The router nodes between the Shake and your computer may restart or be overloaded</li>
-<li>The Shake may be a great distance from your computer (across the globe)</li>
-<li>The Shake or your computer may have a slow connection</li>
+<li><p>You are using WiFi and there is an unstable connection</p></li>
+<li><p>The router nodes between the Shake and your computer may restart or be overloaded</p></li>
+<li><p>The Shake may be a great distance from your computer (across the globe)</p></li>
+<li><p>The Shake or your computer may have a slow connection</p></li>
 </ol>
 <p>Typically, if the Shake is connected via Ethernet, and sending to a computer that
 also uses Ethernet, you will experience on average zero dropped packets in a given
 24 hour period. However, if you are sending data across an unstable connection,
 you could experience 40% or more dropped packets.</p>
-<p>To monitor packet loss over time, you can run our <a class="reference internal" href="packetloss.html#module-rsudp.packetloss" title="rsudp.packetloss"><code class="xref py py-mod docutils literal"><span class="pre">rsudp.packetloss</span></code></a> script.
+<p>To monitor packet loss over time, you can run our <a class="reference internal" href="packetloss.html#module-rsudp.packetloss" title="rsudp.packetloss"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code></a> script.
 For example, to report dropped packets on port 8888 in periods of 1 hour at a time:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>conda activate rsudp
-rs-packetloss -p <span class="m">8888</span> -f <span class="m">3600</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>rsudp
+rs-packetloss<span class="w"> </span>-p<span class="w"> </span><span class="m">8888</span><span class="w"> </span>-f<span class="w"> </span><span class="m">3600</span>
 </pre></div>
 </div>
-<p>where <code class="docutils literal"><span class="pre">-p</span> <span class="pre">8888</span></code> specifies port 8888 and <code class="docutils literal"><span class="pre">-f</span> <span class="pre">3600</span></code> specifies 3600 seconds between
+<p>where <code class="docutils literal notranslate"><span class="pre">-p</span> <span class="pre">8888</span></code> specifies port 8888 and <code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">3600</span></code> specifies 3600 seconds between
 reports.</p>
 <p>This will run indefinitely until the CTRL+C keys are pressed.</p>
-</div>
-</div>
-<div class="section" id="shake-local-side">
-<span id="local"></span><h2>6.2. Shake (local) side<a class="headerlink" href="#shake-local-side" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="shake-local-side">
+<span id="local"></span><h2><span class="section-number">6.2. </span>Shake (local) side<a class="headerlink" href="#shake-local-side" title="Permalink to this heading"></a></h2>
 <p>To set up or change Datacasting (also known as data forwarding or UDP forwarding)
-navigate to your Shake’s home page, then click on <code class="docutils literal"><span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">DATACAST</span></code>.</p>
+navigate to your Shake’s home page, then click on <code class="docutils literal notranslate"><span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">DATACAST</span></code>.</p>
 <p>In the above example, you should configure your Shake to send data to:</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="52%" />
-<col width="48%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Label</th>
-<th class="head">Value</th>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Label</p></th>
+<th class="head"><p>Value</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>Target Host IP</td>
-<td>192.168.1.118</td>
+<tbody>
+<tr class="row-even"><td><p>Target Host IP</p></td>
+<td><p>192.168.1.118</p></td>
 </tr>
-<tr class="row-odd"><td>Target Port</td>
-<td>8888</td>
+<tr class="row-odd"><td><p>Target Port</p></td>
+<td><p>8888</p></td>
 </tr>
 </tbody>
 </table>
 <p>Then press the blue plus button on the right side of the row.</p>
-</div>
-<div class="section" id="middle-firewalls">
-<span id="middle"></span><h2>6.3. Middle (firewalls)<a class="headerlink" href="#middle-firewalls" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="home-network">
-<h3>6.3.1. Home network<a class="headerlink" href="#home-network" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="middle-firewalls">
+<span id="middle"></span><h2><span class="section-number">6.3. </span>Middle (firewalls)<a class="headerlink" href="#middle-firewalls" title="Permalink to this heading"></a></h2>
+<section id="home-network">
+<h3><span class="section-number">6.3.1. </span>Home network<a class="headerlink" href="#home-network" title="Permalink to this heading"></a></h3>
 <p>Almost every home router in existence has a firewall between the outside of the
 network it resides on and the “inside”, i.e. the local in-home network it is
 responsible for. (If you’re working on a <a class="reference internal" href="#school-net"><span class="std std-ref">School or university network</span></a>, this works slightly
@@ -348,54 +257,49 @@ online services that will do this. One of the safer ways to figure it out is jus
 <a class="reference external" href="https://duckduckgo.com/?q=what+is+my+IP&amp;t=canonical&amp;ia=answer">searching “what is my IP” on DuckDuckGo</a>
 (DuckDuckGo will not store your information, while many other sites will).
 Your IP should appear right under the search bar.</p>
-<p>Let’s say DuckDuckGo tells you that your IP address is <code class="docutils literal"><span class="pre">28.14.122.178</span></code>.</p>
+<p>Let’s say DuckDuckGo tells you that your IP address is <code class="docutils literal notranslate"><span class="pre">28.14.122.178</span></code>.</p>
 <p>Let’s look at the following configuration:</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="27%" />
-<col width="31%" />
-<col width="42%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Device</th>
-<th class="head">IP</th>
-<th class="head">Public or Private IP</th>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Device</p></th>
+<th class="head"><p>IP</p></th>
+<th class="head"><p>Public or Private IP</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>Your Shake</td>
-<td>130.112.21.12</td>
-<td>Public</td>
+<tbody>
+<tr class="row-even"><td><p>Your Shake</p></td>
+<td><p>130.112.21.12</p></td>
+<td><p>Public</p></td>
 </tr>
-<tr class="row-odd"><td>Your router</td>
-<td>28.14.122.178</td>
-<td>Public (external)</td>
+<tr class="row-odd"><td><p>Your router</p></td>
+<td><p>28.14.122.178</p></td>
+<td><p>Public (external)</p></td>
 </tr>
-<tr class="row-even"><td>Your router</td>
-<td>192.168.1.1</td>
-<td>Private (internal)</td>
+<tr class="row-even"><td><p>Your router</p></td>
+<td><p>192.168.1.1</p></td>
+<td><p>Private (internal)</p></td>
 </tr>
-<tr class="row-odd"><td>Your computer</td>
-<td>192.168.1.118</td>
-<td>Private</td>
+<tr class="row-odd"><td><p>Your computer</p></td>
+<td><p>192.168.1.118</p></td>
+<td><p>Private</p></td>
 </tr>
 </tbody>
 </table>
 <p>In this case, you must configure your Shake to forward UDP data to address
-<code class="docutils literal"><span class="pre">28.14.122.178</span></code> at, for example, port <code class="docutils literal"><span class="pre">8888</span></code> (i.e. port 8888 on the external side
+<code class="docutils literal notranslate"><span class="pre">28.14.122.178</span></code> at, for example, port <code class="docutils literal notranslate"><span class="pre">8888</span></code> (i.e. port 8888 on the external side
 of your router). Then, configure your router to forward data on external UDP port
-<code class="docutils literal"><span class="pre">8888</span></code> to internal address <code class="docutils literal"><span class="pre">192.168.1.118</span></code> and port <code class="docutils literal"><span class="pre">8888</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">8888</span></code> to internal address <code class="docutils literal notranslate"><span class="pre">192.168.1.118</span></code> and port <code class="docutils literal notranslate"><span class="pre">8888</span></code>.</p>
 <p>You should then be able to receive data on your computer.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Some internet service providers (ISPs) do not let you change your router’s
+<p class="admonition-title">Note</p>
+<p>Some internet service providers (ISPs) do not let you change your router’s
 settings yourself. In this case, you will need to call them and ask them to
-configure port forwarding for external port <code class="docutils literal"><span class="pre">8888</span></code> to forward data to the same
-port at the internal IP address <code class="docutils literal"><span class="pre">192.168.1.118</span></code>.</p>
+configure port forwarding for external port <code class="docutils literal notranslate"><span class="pre">8888</span></code> to forward data to the same
+port at the internal IP address <code class="docutils literal notranslate"><span class="pre">192.168.1.118</span></code>.</p>
 </div>
-</div>
-<div class="section" id="school-or-university-network">
-<span id="school-net"></span><h3>6.3.2. School or university network<a class="headerlink" href="#school-or-university-network" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="school-or-university-network">
+<span id="school-net"></span><h3><span class="section-number">6.3.2. </span>School or university network<a class="headerlink" href="#school-or-university-network" title="Permalink to this heading"></a></h3>
 <p>If you are on a school or university network, often security is much more strict.
 In your home network, data is usually free to move around internally on the
 network. On school networks, individual devices are usually not allowed to talk
@@ -404,10 +308,10 @@ still need to notify the school’s IT team to give your Shake permission to sen
 data to another computer on the network.</p>
 <p>They may be able to help with configuration of the setup as well, although they
 usually have difficult jobs, so don’t be too hard on them!</p>
-</div>
-</div>
-<div class="section" id="other-issues">
-<h2>6.4. Other issues<a class="headerlink" href="#other-issues" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="other-issues">
+<h2><span class="section-number">6.4. </span>Other issues<a class="headerlink" href="#other-issues" title="Permalink to this heading"></a></h2>
 <p>For more information about Raspberry Shake UDP output, see the <a href="https://manual.raspberryshake.org/udp.html#udp" target="_blank">UDP section</a> of the
 <a href="https://manual.raspberryshake.org/" target="_blank">Raspberry Shake User Manual</a>.</p>
 <p>If you are having a technical support issue other than one described above,
@@ -417,60 +321,42 @@ issue there.</p>
 <p>If it turns out that we cannot solve it without a bug fix in the code, please
 submit a <a href="https://github.com/raspishake/rsudp/issues/new" target="_blank">new issue</a> on GitHub.
 Be sure to describe the problem clearly, attach your logs
-(<code class="code docutils literal"><span class="pre">/tmp/rsudp/rsudp.log</span></code>) and/or copy/paste command line output
+(<code class="code docutils literal notranslate"><span class="pre">/tmp/rsudp/rsudp.log</span></code>) and/or copy/paste command line output
 in triple backticks ``` like this ``` to format it as code.</p>
 <p>Our small team thanks you for your patience and cooperation!</p>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="testing.html" class="btn btn-neutral float-right" title="7. Testing and demoing rsudp" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="daemon.html" class="btn btn-neutral float-left" title="5. rsudp as a systemctl daemon" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="daemon.html" class="btn btn-neutral float-left" title="5. rsudp as a systemctl daemon" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="testing.html" class="btn btn-neutral float-right" title="7. Testing and demoing rsudp" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2022, Raspberry Shake S.A.
-
-    </p>
+    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

@@ -1,48 +1,24 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>5. rsudp as a systemctl daemon &mdash; rsudp  documentation</title>
-  
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -50,61 +26,36 @@
     <link rel="prev" title="4. Running rsudp" href="running.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="index.html" class="icon icon-home"> rsudp
           
-
-          
-            
-            <img src="_static/logo.png" class="logo" alt="Logo"/>
-          
+          <a href="index.html" class="icon icon-home">
+            rsudp
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-
-          
-            
-            
               <div class="version">
-                1.1.1
+                2.0.0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Tutorial guide</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorial guide</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">1. About rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installing.html">2. Installing rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="settings.html">3. Modules and Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">4. Running rsudp</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">5. rsudp as a <code class="docutils literal"><span class="pre">systemctl</span></code> daemon</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#setup-instructions">5.1. Setup instructions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#restarting-the-daemon">5.2. Restarting the daemon</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#troubleshooting-the-daemon">5.3. Troubleshooting the daemon</a></li>
@@ -113,147 +64,109 @@
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">6. Troubleshooting rsudp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing.html">7. Testing and demoing rsudp</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Video resources</span></p>
+<p class="caption" role="heading"><span class="caption-text">Video resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html">YouTube walkthroughs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#live-demo">Live demo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="youtube.html#detected-earthquake">Detected earthquake</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Developers' guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="theory.html">1. Program architecture and flow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">2. Contributing to this project</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Library</span></p>
+<p class="caption" role="heading"><span class="caption-text">Library</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="docutils literal"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="docutils literal"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="docutils literal"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="docutils literal"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="init.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.__init__</span></code> (initialization functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="raspberryshake.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.raspberryshake</span></code> (main library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code> (helper functions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entry_points.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.entry_points</span></code> (convenience fx)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Clients</span></p>
+<p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="docutils literal"><span class="pre">rsudp.client</span></code> (central module)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="docutils literal"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Producer and Consumer</span></p>
+<p class="caption" role="heading"><span class="caption-text">Producer and Consumer</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="docutils literal"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="docutils literal"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p_producer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.p_producer</span></code> (data producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_consumer.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer</span></code> (master consumer)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Sub-Consumers</span></p>
+<p class="caption" role="heading"><span class="caption-text">Sub-Consumers</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="docutils literal"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="docutils literal"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="docutils literal"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="docutils literal"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="docutils literal"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="docutils literal"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="docutils literal"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="docutils literal"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="docutils literal"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alert.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alert</span></code> (STA/LTA alarm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Testing modules</span></p>
+<p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="docutils literal"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="docutils literal"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="docutils literal"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="docutils literal"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="t_testdata.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code> (test pre-producer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_testing.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_testing</span></code> (test consumer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code> (test helpers)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packetize.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetize</span></code> (data formatter)</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">rsudp</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li>5. rsudp as a <code class="docutils literal"><span class="pre">systemctl</span></code> daemon</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">5. </span>rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="_sources/daemon.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="rsudp-as-a-systemctl-daemon">
-<span id="daemon"></span><h1>5. rsudp as a <code class="docutils literal"><span class="pre">systemctl</span></code> daemon<a class="headerlink" href="#rsudp-as-a-systemctl-daemon" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="rsudp-as-a-systemctl-daemon">
+<span id="daemon"></span><h1><span class="section-number">5. </span>rsudp as a <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> daemon<a class="headerlink" href="#rsudp-as-a-systemctl-daemon" title="Permalink to this heading"></a></h1>
 <p>If you need rsudp to restart every time your Debain/Ubuntu machine boots,
 this tutorial will work well for you.
 This includes both raspbian (Raspberry Pi) and Ubuntu-like systems.
 If you have an OS other than Linux, you will need to look elsewhere for
 documentation regarding the creation and activation of daemon programs.</p>
-<div class="section" id="setup-instructions">
-<h2>5.1. Setup instructions<a class="headerlink" href="#setup-instructions" title="Permalink to this headline">¶</a></h2>
-<p>First of all, clone rsudp to <code class="docutils literal"><span class="pre">~/bin/rsudp</span></code>:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>mkdir -p ~/bin
-<span class="nb">cd</span> ~/bin
-git clone https://github.com/raspishake/rsudp
+<section id="setup-instructions">
+<h2><span class="section-number">5.1. </span>Setup instructions<a class="headerlink" href="#setup-instructions" title="Permalink to this heading"></a></h2>
+<p>First of all, clone rsudp to <code class="docutils literal notranslate"><span class="pre">~/bin/rsudp</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/bin
+<span class="nb">cd</span><span class="w"> </span>~/bin
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/raspishake/rsudp
 </pre></div>
 </div>
 <p>If you have not already done so, install rsudp using the provided
 installer script.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>bash ~/bin/rsudp/unix-install-rsudp.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash<span class="w"> </span>~/bin/rsudp/unix-install-rsudp.sh
 </pre></div>
 </div>
 <p>Next, enter the following commands in order to set up a user systemd
 directory structure.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>mkdir -p ~/.config/systemd/user/default.target.wants
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/.config/systemd/user/default.target.wants
 </pre></div>
 </div>
 <p>Now create a new service file</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>nano /home/pi/.config/systemd/user/rsudp.service
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nano<span class="w"> </span>/home/pi/.config/systemd/user/rsudp.service
 </pre></div>
 </div>
 <p>and paste the following code in it:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>[Unit]
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[Unit]
 Description=rsudp daemon
 Documentation=https://github.com/iannesbitt/rsudp
 After=graphical.target
@@ -271,97 +184,79 @@ WantedBy=default.target
 </pre></div>
 </div>
 <p>Next, execute the following lines:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>systemctl --user daemon-reload
-sudo loginctl enable-linger <span class="s2">&quot;</span><span class="nv">$USER</span><span class="s2">&quot;</span>
-systemctl --user start rsudp.service
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>systemctl<span class="w"> </span>--user<span class="w"> </span>daemon-reload
+sudo<span class="w"> </span>loginctl<span class="w"> </span>enable-linger<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$USER</span><span class="s2">&quot;</span>
+systemctl<span class="w"> </span>--user<span class="w"> </span>start<span class="w"> </span>rsudp.service
 </pre></div>
 </div>
 <p>rsudp should start within about 30 seconds.
 You can monitor the program’s output in real time by entering the following command
-(source function: <a class="reference internal" href="entry_points.html#rsudp.entry_points.ep_tailf_log" title="rsudp.entry_points.ep_tailf_log"><code class="xref py py-func docutils literal"><span class="pre">rsudp.entry_points.ep_tailf_log()</span></code></a>):</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>rs-tailf
+(source function: <a class="reference internal" href="entry_points.html#rsudp.entry_points.ep_tailf_log" title="rsudp.entry_points.ep_tailf_log"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.entry_points.ep_tailf_log()</span></code></a>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rs-tailf
 </pre></div>
 </div>
-<p>Which is the equivalent of <code class="docutils literal"><span class="pre">tail</span> <span class="pre">-f</span> <span class="pre">/tmp/rsudp/rsudp.log</span></code> on Linux/MacOS
-and <code class="docutils literal"><span class="pre">Get-Content</span> <span class="pre">-Path</span> <span class="pre">&quot;C:/tmp/rsudp/rsudp.log&quot;</span> <span class="pre">-Wait</span></code> on Windows.</p>
+<p>Which is the equivalent of <code class="docutils literal notranslate"><span class="pre">tail</span> <span class="pre">-f</span> <span class="pre">/tmp/rsudp/rsudp.log</span></code> on Linux/MacOS
+and <code class="docutils literal notranslate"><span class="pre">Get-Content</span> <span class="pre">-Path</span> <span class="pre">&quot;C:/tmp/rsudp/rsudp.log&quot;</span> <span class="pre">-Wait</span></code> on Windows.</p>
 <p>If it does start correctly, you can enable the daemon to run permanently with this command:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>systemctl --user <span class="nb">enable</span> rsudp.service
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>systemctl<span class="w"> </span>--user<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>rsudp.service
 </pre></div>
 </div>
 <p>You can test its enablement by restarting the entire system:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo reboot
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>reboot
 </pre></div>
 </div>
-</div>
-<div class="section" id="restarting-the-daemon">
-<h2>5.2. Restarting the daemon<a class="headerlink" href="#restarting-the-daemon" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="restarting-the-daemon">
+<h2><span class="section-number">5.2. </span>Restarting the daemon<a class="headerlink" href="#restarting-the-daemon" title="Permalink to this heading"></a></h2>
 <p>Finally, if you need to restart the rsudp daemon service
 (this may be necessary if your Shake changes IP or the network connection
 is interrupted, or if rsudp freezes for some reason):</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>systemctl --user restart rsudp.service
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>systemctl<span class="w"> </span>--user<span class="w"> </span>restart<span class="w"> </span>rsudp.service
 </pre></div>
 </div>
-</div>
-<div class="section" id="troubleshooting-the-daemon">
-<h2>5.3. Troubleshooting the daemon<a class="headerlink" href="#troubleshooting-the-daemon" title="Permalink to this headline">¶</a></h2>
-<p>If rsudp fails to start, you can run <code class="docutils literal"><span class="pre">tail</span> <span class="pre">-n</span> <span class="pre">30</span> <span class="pre">-f</span> <span class="pre">/tmp/rsudp/rsudp.log</span></code>
-to see what the error might be, or <code class="docutils literal"><span class="pre">systemctl</span> <span class="pre">--user</span> <span class="pre">status</span> <span class="pre">rsudp.service</span></code>
+</section>
+<section id="troubleshooting-the-daemon">
+<h2><span class="section-number">5.3. </span>Troubleshooting the daemon<a class="headerlink" href="#troubleshooting-the-daemon" title="Permalink to this heading"></a></h2>
+<p>If rsudp fails to start, you can run <code class="docutils literal notranslate"><span class="pre">tail</span> <span class="pre">-n</span> <span class="pre">30</span> <span class="pre">-f</span> <span class="pre">/tmp/rsudp/rsudp.log</span></code>
+to see what the error might be, or <code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">--user</span> <span class="pre">status</span> <span class="pre">rsudp.service</span></code>
 to check whether the service file is misconfigured somehow.</p>
 <p>A running daemon will show its status with green text saying “active (running)”,
 whereas a failed start will show red or grey text that will say
 something like “inactive (failed)” or “inactive (dead)”
 and will have some diagnostic text with which you can troubleshoot.</p>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="troubleshooting.html" class="btn btn-neutral float-right" title="6. Troubleshooting rsudp" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="running.html" class="btn btn-neutral float-left" title="4. Running rsudp" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="running.html" class="btn btn-neutral float-left" title="4. Running rsudp" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="troubleshooting.html" class="btn btn-neutral float-right" title="6. Troubleshooting rsudp" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2022, Raspberry Shake S.A.
-
-    </p>
+    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

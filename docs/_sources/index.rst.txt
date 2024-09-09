@@ -7,6 +7,8 @@
 | **Continuous sudden motion and visual monitoring of Raspberry Shake data**
 | *by Ian M. Nesbitt and Richard I. Boaz*
 
+*Maintained by Raspberry Shake, S.A. for use by the citizen science and seismology-in-schools communities.*
+
 .. |github| raw:: html
 
    <a href="https://github.com/raspishake/rsudp" target="_blank">https://github.com/raspishake/rsudp</a>

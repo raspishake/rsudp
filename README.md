@@ -3,6 +3,8 @@
 ### Continuous sudden motion and visual monitoring of Raspberry Shake data
 *Written by Ian Nesbitt (@iannesbitt), Richard Boaz, and Justin Long (@crockpotveggies)*
 
+*Maintained by Raspberry Shake, S.A. for use by the citizen science and seismology-in-schools communities.*
+
 [![PyPI](https://img.shields.io/pypi/v/rsudp)](https://pypi.org/project/rsudp/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/rsudp)](https://pypi.org/project/rsudp/)
 [![GitHub](https://img.shields.io/github/license/raspishake/rsudp)](https://github.com/raspishake/rsudp/blob/master/LICENSE)

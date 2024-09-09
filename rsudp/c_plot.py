@@ -206,7 +206,7 @@ class Plot:
 			self.fig.suptitle('%s.%s live output - detected events: %s' # title
 							% (self.net, self.stn, self.events),
 							fontsize=14, color=self.fgcolor, x=0.52)
-			self.fig.canvas.set_window_title('(%s) %s.%s - Raspberry Shake Monitor' % (self.events, self.net, self.stn))
+			self.fig.canvas.manager.set_window_title('(%s) %s.%s - Raspberry Shake Monitor' % (self.events, self.net, self.stn))
 
 		if rs.getCHN(d) in self.chans:
 			self.raw = rs.update_stream(
@@ -329,7 +329,7 @@ class Plot:
 		
 		if QT:
 			self.fig.canvas.window().statusBar().setVisible(False) # remove bottom bar
-		self.fig.canvas.set_window_title('%s.%s - Raspberry Shake Monitor' % (self.net, self.stn))
+		self.fig.canvas.manager.set_window_title('%s.%s - Raspberry Shake Monitor' % (self.net, self.stn))
 		self.fig.patch.set_facecolor(self.bgcolor)	# background color
 		self.fig.suptitle('%s.%s live output%s'	# title
 						  % (self.net, self.stn, self.event_text),
@@ -542,7 +542,7 @@ class Plot:
 										+np.ptp(self.stream[i].data-mean)*0.1)
 
 
-	def _update_specgram(self, i, mean):
+	def _update_specgram(self, i: int, mean: float):
 		'''
 		Updates the spectrogram and its labels.
 
@@ -554,9 +554,9 @@ class Plot:
 		if len(self.stream[i].data) < self.nfft1:	# when the number of data points is low, we just need to kind of fake it for a few fractions of a second
 			self.nfft1 = 8
 			self.nlap1 = 6
-		sg = self.ax[i*self.mult+1].specgram(self.stream[i].data-mean,
-					NFFT=self.nfft1, pad_to=int(self.nfft1*4), # previously self.sps*4),
-					Fs=self.sps, noverlap=self.nlap1)[0]	# meat & potatoes
+		sg = self.ax[i*self.mult+1].specgram(self.stream[i].data - mean,
+                    NFFT=int(self.nfft1), pad_to=int(self.nfft1*4), # previously self.sps*4),
+					Fs=self.sps, noverlap=int(self.nlap1))[0]	# meat & potatoes
 		self.ax[i*self.mult+1].clear()	# incredibly important, otherwise continues to draw over old images (gets exponentially slower)
 		# cloogy way to shift the spectrogram to line up with the seismogram
 		self.ax[i*self.mult+1].set_xlim(0.25,self.seconds-0.25)

@@ -169,7 +169,7 @@ Advanced Users
 .. code-block:: bash
 
     conda config --append channels conda-forge
-    conda create -n rsudp python=3 matplotlib=3.1.1 numpy=1.16.4 future scipy lxml sqlalchemy cryptography obspy
+    conda create -n rsudp python=3.12 numpy=2.0.1 future scipy lxml sqlalchemy cryptography
     conda activate rsudp
     pip install rsudp
 
@@ -179,13 +179,6 @@ Advanced Users
 
 If you wish to play sounds on Windows, please follow steps 1-8 in |windows_tutorial|
 in order to install :code:`ffmpeg` and add it to your system's path variable.
-
-.. note::
-
-    To find where all the RSUDP modules have been installed, you can execute :bash:`pip list -v` from your RSUDP Python environment and look for the :bash:`rsudp` line. The default locations are:
-
-1. :bash:`/home/<username>/<anacondainstallname>/envs/rsudp/lib/<pythonversion>/site-packages/rsudp` for Linux installations
-2. :bash:`c:\users\<username>\<anacondainstallname>\envs\rsudp\lib\site-packages\rsudp` for Windows installations
 
 
 You are now ready to proceed to the next section, :ref:`settings`.

@@ -4,19 +4,6 @@ import os
 import json
 
 
-def dump_default(settings_loc, default_settings):
-	'''
-	Dumps a default settings file to a specified location.
-
-	:param str settings_loc: The location to create the new settings JSON.
-	:param str default_settings: The default settings to dump to file.
-	'''
-	print('Creating a default settings file at %s' % settings_loc)
-	with open(settings_loc, 'w+') as f:
-		f.write(default_settings)
-		f.write('\n')
-
-
 def set_channels(self, cha):
 	'''
 	This function sets the channels available for plotting. Allowed units are as follows:

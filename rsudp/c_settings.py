@@ -4,6 +4,27 @@ from rsudp import COLOR
 
 
 class Settings(dict):
+    def dump(self, loc: str):
+        '''
+        Dumps a default settings file to a specified location.
+
+        :param str loc: The location to create the new settings JSON.
+        '''
+        print(f'Creating a default settings file at {loc}')
+        with open(loc, 'w+') as f:
+            f.write(self.json)
+            f.write('\n')
+
+    @property
+    def json(self):
+        '''
+        Convert Settings to json string
+
+        :return: JSON string
+        :rtype: str
+        '''
+        return json.dumps(Settings)
+
     @staticmethod
     def read_settings(loc: str):
         '''
@@ -11,7 +32,7 @@ class Settings(dict):
 
         :param str loc: location on disk to read json settings file from
         :return: settings dictionary read from JSON, or ``None``
-        :rtype: dict or NoneType
+        :rtype: Settings or NoneType
         '''
         settings = None
         settings_loc = os.path.abspath(os.path.expanduser(loc)).replace('\\', '/')
@@ -35,7 +56,7 @@ class Settings(dict):
         :param str output_dir: the user's specified output location. defaults to ``~/rsudp``.
         :param bool verbose: if ``True``, displays some information as the string is created.
         :return: Settings
-        :rtype: dict
+        :rtype: Settings
         '''
         settings = Settings()
 

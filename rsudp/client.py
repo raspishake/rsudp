@@ -416,7 +416,7 @@ settings in %s
 	if len(opts) == 0:
 		if not os.path.exists(settings_loc):
 			print(COLOR['yellow'] + 'Could not find rsudp settings file, creating one at %s' % settings_loc + COLOR['white'])
-			H.dump_default(settings_loc, json.dumps(Settings.default_settings()))
+			Settings.default_settings().dump(settings_loc)
 		else:
 			settings = Settings.read_settings(settings_loc)
 
@@ -429,7 +429,7 @@ settings in %s
 			This is only meant to be used by the install script.
 			'''
 			os.makedirs(default_loc, exist_ok=True)
-			H.dump_default(settings_loc, json.dumps(Settings.default_settings(output_dir='@@DIR@@', verbose=False)))
+			Settings.default_settings(output_dir='@@DIR@@', verbose=False).dump(settings_loc)
 			exit(0)
 		if o in ('-d', '--dump='):
 			'''
@@ -437,9 +437,9 @@ settings in %s
 			'''
 			if str(a) in 'default':
 				os.makedirs(default_loc, exist_ok=True)
-				H.dump_default(settings_loc, json.dumps(Settings.default_settings()))
+				Settings.default_settings().dump(settings_loc)
 			else:
-				H.dump_default(os.path.abspath(os.path.expanduser(a)), json.dumps(Settings.default_settings()))
+				Settings.default_settings().dump(os.path.abspath(os.path.expanduser(a)))
 			exit(0)
 		if o in ('-s', 'settings='):
 			'''

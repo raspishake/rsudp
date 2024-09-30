@@ -23,7 +23,7 @@ class Settings(dict):
         :return: JSON string
         :rtype: str
         '''
-        return json.dumps(Settings)
+        return json.dumps(self)
 
     @staticmethod
     def read_settings(loc: str):

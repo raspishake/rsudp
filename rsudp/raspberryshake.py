@@ -478,7 +478,7 @@ def getTTLCHN():
 	return numchns
 
 
-def get_inventory(sender='get_inventory'):
+def get_inventory(sender='get_inventory', settings=None):
 	'''
 	.. role:: pycode(code)
 		:language: python

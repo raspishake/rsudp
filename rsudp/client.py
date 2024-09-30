@@ -402,7 +402,7 @@ settings in %s
 ''' % settings_loc
 
 
-	settings = json.loads(H.default_settings(verbose=False))
+	settings = Settings.default_settings(verbose=False)
 
 	# get arguments
 	try:
@@ -416,7 +416,7 @@ settings in %s
 	if len(opts) == 0:
 		if not os.path.exists(settings_loc):
 			print(COLOR['yellow'] + 'Could not find rsudp settings file, creating one at %s' % settings_loc + COLOR['white'])
-			H.dump_default(settings_loc, H.default_settings())
+			H.dump_default(settings_loc, json.dumps(Settings.default_settings()))
 		else:
 			settings = Settings.read_settings(settings_loc)
 
@@ -429,7 +429,7 @@ settings in %s
 			This is only meant to be used by the install script.
 			'''
 			os.makedirs(default_loc, exist_ok=True)
-			H.dump_default(settings_loc, H.default_settings(output_dir='@@DIR@@', verbose=False))
+			H.dump_default(settings_loc, json.dumps(Settings.default_settings(output_dir='@@DIR@@', verbose=False)))
 			exit(0)
 		if o in ('-d', '--dump='):
 			'''
@@ -437,9 +437,9 @@ settings in %s
 			'''
 			if str(a) in 'default':
 				os.makedirs(default_loc, exist_ok=True)
-				H.dump_default(settings_loc, H.default_settings())
+				H.dump_default(settings_loc, json.dumps(Settings.default_settings()))
 			else:
-				H.dump_default(os.path.abspath(os.path.expanduser(a)), H.default_settings())
+				H.dump_default(os.path.abspath(os.path.expanduser(a)), json.dumps(Settings.default_settings()))
 			exit(0)
 		if o in ('-s', 'settings='):
 			'''
@@ -506,7 +506,7 @@ default settings and the data file at
 ''' % (TESTFILE)
 
 	test_mode(True)
-	settings = H.default_settings(verbose=False)
+	settings = Settings.default_settings(verbose=False)
 	settings_are_default = True
 	plot = True
 	quiet = False

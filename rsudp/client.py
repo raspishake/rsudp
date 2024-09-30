@@ -25,6 +25,7 @@ from rsudp.c_telegram import Telegrammer
 from rsudp.c_rsam import RSAM
 from rsudp.c_testing import Testing
 from rsudp.t_testdata import TestData
+from rsudp.c_settings import Settings
 import pkg_resources as pr
 
 
@@ -417,7 +418,7 @@ settings in %s
 			print(COLOR['yellow'] + 'Could not find rsudp settings file, creating one at %s' % settings_loc + COLOR['white'])
 			H.dump_default(settings_loc, H.default_settings())
 		else:
-			settings = H.read_settings(settings_loc)
+			settings = Settings.read_settings(settings_loc)
 
 	for o, a in opts:
 		if o in ('-h', '--help'):
@@ -444,7 +445,7 @@ settings in %s
 			'''
 			Start the program with a specific settings file, for example: `-s settings.json`.
 			'''
-			settings = H.read_settings(a)
+			settings = Settings.read_settings(a)
 
 	debug = settings['settings']['debug']
 	if debug:
@@ -546,7 +547,7 @@ default settings and the data file at
 			'''
 			settings_loc = os.path.abspath(os.path.expanduser(a)).replace('\\', '/')
 			if os.path.exists(settings_loc):
-				settings = H.read_settings(settings_loc)
+				settings = Settings.read_settings(settings_loc)
 				settings_are_default = False
 			else:
 				print(COLOR['red'] + 'ERROR: could not find settings file at %s' % (a) + COLOR['white'])

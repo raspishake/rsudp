@@ -100,7 +100,7 @@ def handler(signum, frame, ip=ip):
 	raise IOError('No data received')
 
 
-def initRSlib(dport=port, rsstn='Z0000', timeout=10):
+def initRSlib(dport=port, rsstn='Z0000', timeout=10, settings=None):
 	'''
 	.. role:: pycode(code)
 		:language: python
@@ -124,6 +124,7 @@ def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 	:param int dport: The local port the Raspberry Shake is sending UDP data packets to. Defaults to :pycode:`8888`.
 	:param str rsstn: The name of the station (something like :pycode:`'RCB43'` or :pycode:`'S0CDE'`)
 	:param int timeout: The number of seconds for :py:func:`rsudp.raspberryshake.set_params` to wait for data before an error is raised (zero for unlimited wait)
+	:param dict settings: Dict of settings parameters
 
 	:rtype: str
 	:return: The instrument channel as a string
@@ -131,6 +132,9 @@ def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 	'''
 	global port, stn, to, initd, port
 	global producer
+	if settings is None:
+		settings = {}
+
 	sender = 'RS lib'
 	printM('Initializing rsudp v %s.' % (__version__), sender)
 	try:						# set port value first
@@ -168,7 +172,7 @@ def initRSlib(dport=port, rsstn='Z0000', timeout=10):
 	initd = True				# if initialization goes correctly, set initd to true
 	openSOCK()					# open a socket
 	printM('Waiting for UDP data on port %s...' % (port), sender)
-	set_params()				# get data and set parameters
+	set_params(settings=settings)				# get data and set parameters
 
 def openSOCK(host=''):
 	'''
@@ -199,7 +203,7 @@ def openSOCK(host=''):
 	else:
 		raise IOError("Before opening a socket, you must initialize this raspberryshake library by calling initRSlib(dport=XXXXX, rssta='R0E05') first.")
 
-def set_params():
+def set_params(settings=None):
 	'''
 	.. role:: pycode(code)
 		:language: python
@@ -210,9 +214,12 @@ def set_params():
 	but before :py:func:`rsudp.raspberryshake.getDATA`.
 	Will wait :pycode:`rsudp.raspberryshake.to` seconds for data before raising a no data exception
 	(only available with UNIX socket types).
+	:param dict settings: Dict of settings parameters
 
 	'''
 	global to, firstaddr
+	if settings is None:
+		settings = {}
 	if os.name not in 'nt': 	# signal alarm not available on windows
 		signal.signal(signal.SIGALRM, handler)
 		signal.alarm(to)		# alarm time set with timeout value
@@ -224,7 +231,7 @@ def set_params():
 	getSR(tf, data)
 	getTTLCHN()
 	printM('Available channels: %s' % chns, 'Init')
-	get_inventory()
+	get_inventory(settings=settings)
 
 def getDATA():
 	'''
@@ -499,11 +506,14 @@ def get_inventory(sender='get_inventory'):
 
 
 	:param sender: `(optional)` The name of the function calling the :py:func:`rsudp.printM` logging function
+	:param dict settings: Dict of settings parameters
 	:type str: str or None
 	:rtype: obspy.core.inventory.inventory.Inventory or bool
 	:return: The inventory of the Raspberry Shake station in the :pycode:`rsudp.raspberryshake.stn` variable.
 	'''
 	global inv, stn, region
+	if settings is None:
+		settings = {}
 	sender = 'get_inventory'
 	if 'Z0000' in stn:
 		printW('No station name given, continuing without inventory.',
@@ -513,8 +523,8 @@ def get_inventory(sender='get_inventory'):
 		try:
 			printM('Fetching inventory for station %s.%s from Raspberry Shake FDSN.'
 					% (net, stn), sender)
-			url = 'https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&level=resp&nodata=404&format=xml' % (
-				   net, stn)#, str(UTCDateTime.now()-timedelta(seconds=14400)))
+			inventory_url = settings["settings"].get("inventory_url", None) or 'https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&level=resp&nodata=404&format=xml'
+			url = inventory_url % (net, stn)#, str(UTCDateTime.now()-timedelta(seconds=14400)))
 			inv = read_inventory(url)
 			region = FlinnEngdahl().get_region(inv[0][-1].longitude, inv[0][-1].latitude)
 			printM('Inventory fetch successful. Station region is %s' % (region), sender)

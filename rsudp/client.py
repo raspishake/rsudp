@@ -25,6 +25,7 @@ from rsudp.c_telegram import Telegrammer
 from rsudp.c_rsam import RSAM
 from rsudp.c_testing import Testing
 from rsudp.t_testdata import TestData
+from rsudp.c_settings import Settings
 import pkg_resources as pr
 
 
@@ -150,7 +151,8 @@ def run(settings, debug):
 
 	# initialize the central library
 	rs.initRSlib(dport=settings['settings']['port'],
-				 rsstn=settings['settings']['station'])
+				 rsstn=settings['settings']['station'],
+				 settings=settings)
 
 	H.conn_stats(TESTING)
 	if TESTING:
@@ -401,7 +403,7 @@ settings in %s
 ''' % settings_loc
 
 
-	settings = json.loads(H.default_settings(verbose=False))
+	settings = Settings.default_settings(verbose=False)
 
 	# get arguments
 	try:
@@ -415,9 +417,9 @@ settings in %s
 	if len(opts) == 0:
 		if not os.path.exists(settings_loc):
 			print(COLOR['yellow'] + 'Could not find rsudp settings file, creating one at %s' % settings_loc + COLOR['white'])
-			H.dump_default(settings_loc, H.default_settings())
+			Settings.default_settings().dump(settings_loc)
 		else:
-			settings = H.read_settings(settings_loc)
+			settings = Settings.read_settings(settings_loc)
 
 	for o, a in opts:
 		if o in ('-h', '--help'):
@@ -428,7 +430,7 @@ settings in %s
 			This is only meant to be used by the install script.
 			'''
 			os.makedirs(default_loc, exist_ok=True)
-			H.dump_default(settings_loc, H.default_settings(output_dir='@@DIR@@', verbose=False))
+			Settings.default_settings(output_dir='@@DIR@@', verbose=False).dump(settings_loc)
 			exit(0)
 		if o in ('-d', '--dump='):
 			'''
@@ -436,15 +438,15 @@ settings in %s
 			'''
 			if str(a) in 'default':
 				os.makedirs(default_loc, exist_ok=True)
-				H.dump_default(settings_loc, H.default_settings())
+				Settings.default_settings().dump(settings_loc)
 			else:
-				H.dump_default(os.path.abspath(os.path.expanduser(a)), H.default_settings())
+				Settings.default_settings().dump(os.path.abspath(os.path.expanduser(a)))
 			exit(0)
 		if o in ('-s', 'settings='):
 			'''
 			Start the program with a specific settings file, for example: `-s settings.json`.
 			'''
-			settings = H.read_settings(a)
+			settings = Settings.read_settings(a)
 
 	debug = settings['settings']['debug']
 	if debug:
@@ -505,7 +507,7 @@ default settings and the data file at
 ''' % (TESTFILE)
 
 	test_mode(True)
-	settings = H.default_settings(verbose=False)
+	settings = Settings.default_settings(verbose=False)
 	settings_are_default = True
 	plot = True
 	quiet = False
@@ -546,7 +548,7 @@ default settings and the data file at
 			'''
 			settings_loc = os.path.abspath(os.path.expanduser(a)).replace('\\', '/')
 			if os.path.exists(settings_loc):
-				settings = H.read_settings(settings_loc)
+				settings = Settings.read_settings(settings_loc)
 				settings_are_default = False
 			else:
 				print(COLOR['red'] + 'ERROR: could not find settings file at %s' % (a) + COLOR['white'])

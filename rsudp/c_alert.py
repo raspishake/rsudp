@@ -1,4 +1,5 @@
 import sys
+import time
 from datetime import timedelta
 import rsudp.raspberryshake as rs
 from obspy.signal.trigger import recursive_sta_lta, trigger_onset
@@ -6,6 +7,7 @@ from rsudp import printM, printW, printE
 from rsudp import COLOR, helpers
 from rsudp.test import TEST
 import numpy as np
+
 
 # set the terminal text color to green
 COLOR['current'] = COLOR['green']
@@ -27,6 +29,7 @@ class Alert(rs.ConsumerThread):
 	:param float sta: short term average (STA) duration in seconds.
 	:param float lta: long term average (LTA) duration in seconds.
 	:param float thresh: threshold for STA/LTA trigger.
+	:param float duration : duration for STA/LTA trigger.
 	:type bp: :py:class:`bool` or :py:class:`list`
 	:param bp: bandpass filter parameters. if set, should be in the format ``[highpass, lowpass]``
 	:param bool debug: whether or not to display max STA/LTA calculation live to the console.
@@ -131,7 +134,7 @@ class Alert(rs.ConsumerThread):
 					% (self.filt, modifier, self.freq), self.sender)
 
 
-	def __init__(self, q, sta=5, lta=30, thresh=1.6, reset=1.55, bp=False,
+	def __init__(self, q, sta=5, lta=30, thresh=1.6, duration=0.0, reset=1.55, bp=False,
 				 debug=True, cha='HZ', sound=False, deconv=False, testing=False,
 				 *args, **kwargs):
 		"""
@@ -149,6 +152,7 @@ class Alert(rs.ConsumerThread):
 		self.sta = sta
 		self.lta = lta
 		self.thresh = thresh
+		self.duration = duration
 		self.reset = reset
 		self.debug = debug
 		self.args = args
@@ -167,6 +171,10 @@ class Alert(rs.ConsumerThread):
 		self._set_deconv(deconv)
 
 		self.exceed = False
+		self.exceed_timer_end = 0
+		self.exceed_timer_start = 0
+		self.exceed_timer_running = False
+
 		self.sound = sound
 		
 		self._set_filt(bp)
@@ -235,46 +243,82 @@ class Alert(rs.ConsumerThread):
 
 	def _is_trigger(self):
 		'''
-		Figures out it there's a trigger active.
+		Figures out it there's a trigger active. Check need to check duration or not.
 		'''
-		if self.stalta.max() > self.thresh:
-			if not self.exceed:
-				# raise a flag that the Producer can read and modify 
-				self.alarm = helpers.fsec(self.stream[0].stats.starttime + timedelta(seconds=
-										trigger_onset(self.stalta, self.thresh,
-										self.reset)[-1][0] * self.stream[0].stats.delta))
-				self.exceed = True	# the state machine; this one should not be touched from the outside, otherwise bad things will happen
-				print()
-				printM('Trigger threshold of %s exceeded at %s'
-						% (self.thresh, self.alarm.strftime('%Y-%m-%d %H:%M:%S.%f')[:22]), self.sender)
-				printM('Trigger will reset when STA/LTA goes below %s...' % self.reset, sender=self.sender)
-				COLOR['current'] = COLOR['purple']
-				if self.testing:
-					TEST['c_alerton'][1] = True
-			else:
-				pass
-
-			if self.stalta.max() > self.maxstalta:
-				self.maxstalta = self.stalta.max()
+		if self.duration:
+			self._is_trigger_with_timer()
 		else:
-			if self.exceed:
-				if self.stalta[-1] < self.reset:
-					self.alarm_reset = helpers.fsec(self.stream[0].stats.endtime)	# lazy; effective
-					self.exceed = False
-					print()
-					printM('Max STA/LTA ratio reached in alarm state: %s' % (round(self.maxstalta, 3)),
-							self.sender)
-					printM('Earthquake trigger reset and active again at %s' % (
-							self.alarm_reset.strftime('%Y-%m-%d %H:%M:%S.%f')[:22]),
-							self.sender)
-					self.maxstalta = 0
-					COLOR['current'] = COLOR['green']
-				if self.testing:
-					TEST['c_alertoff'][1] = True
+			self._is_trigger_without_timer()
 
+	def _is_trigger_with_timer(self):
+		'''
+		Figures out it there's a trigger active with timer
+		'''
+		trigger_current_status = self.stalta.max() > self.thresh
+		if not self.exceed and trigger_current_status:
+			if self.exceed_timer_running:
+				self.exceed_timer_end = time.time()
+				if self.exceed_timer_end - self.exceed_timer_start > self.duration:
+					self.exceed = True
+					self.exceed_timer_running = False
+					self._trigger_activate()
 			else:
-				pass
+				self.exceed_timer_running = True
+				self.exceed_timer_start = time.time()
+		else:
+			if self.exceed_timer_running:
+				self.exceed_timer_running = False
+				self.exceed_timer_end = time.time()
+			if self.exceed and self.stalta[-1] < self.reset:
+				self.exceed = False
+				self._trigger_deactivate()
 
+	def _is_trigger_without_timer(self):
+		'''
+		Figures out it there's a trigger active without timer
+		'''
+		trigger_current_status = self.stalta.max() > self.thresh
+		if trigger_current_status and self.stalta.max() > self.maxstalta:
+			self.maxstalta = self.stalta.max()
+
+		if not self.exceed and trigger_current_status:
+			self.exceed = True
+			self._trigger_activate()
+		elif self.exceed and self.stalta[-1] < self.reset:
+			self.exceed = False
+			self._trigger_deactivate()
+
+	def _trigger_activate(self):
+		'''
+		Trigger activation logic
+		'''
+		self.alarm = helpers.fsec(self.stream[0].stats.starttime + timedelta(seconds=
+																			 trigger_onset(self.stalta, self.thresh,
+																						   self.reset)[-1][0] *
+																			 self.stream[0].stats.delta))
+		print()
+		printM('Trigger threshold of %s exceeded at %s'
+			   % (self.thresh, self.alarm.strftime('%Y-%m-%d %H:%M:%S.%f')[:22]), self.sender)
+		printM('Trigger will reset when STA/LTA goes below %s...' % self.reset, sender=self.sender)
+		COLOR['current'] = COLOR['purple']
+		if self.testing:
+			TEST['c_alerton'][1] = True
+
+	def _trigger_deactivate(self):
+		'''
+		Trigger deactivation logic
+		'''
+		self.alarm_reset = helpers.fsec(self.stream[0].stats.endtime)  # lazy; effective
+		print()
+		printM('Max STA/LTA ratio reached in alarm state: %s' % (round(self.maxstalta, 3)),
+			   self.sender)
+		printM('Earthquake trigger reset and active again at %s' % (
+			self.alarm_reset.strftime('%Y-%m-%d %H:%M:%S.%f')[:22]),
+			   self.sender)
+		self.maxstalta = 0
+		COLOR['current'] = COLOR['green']
+		if self.testing:
+			TEST['c_alertoff'][1] = True
 
 	def _print_stalta(self):
 		'''

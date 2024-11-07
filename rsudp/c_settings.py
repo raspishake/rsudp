@@ -103,6 +103,7 @@ class Settings(dict):
         settings["alert"]["channel"] = "HZ"
         settings["alert"]["sta"] = 6
         settings["alert"]["lta"] = 30
+        settings["alert"]["duration"] = 0.0
         settings["alert"]["threshold"] = 3.95
         settings["alert"]["reset"] = 0.9
         settings["alert"]["highpass"] = 0.8

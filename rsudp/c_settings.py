@@ -4,6 +4,11 @@ from rsudp import COLOR
 
 
 class Settings(dict):
+    """
+    .. versionadded:: 2.0.1
+
+    Сlass processes configuration files.
+    """
     def dump(self, loc: str):
         '''
         Dumps a default settings file to a specified location.
@@ -43,7 +48,7 @@ class Settings(dict):
             except Exception as e:
                 print(f'{COLOR['red']}ERROR: Could not load settings file. Perhaps the JSON is malformed?{COLOR['white']}')
                 print(f'{COLOR['red']}       detail: {e}{COLOR['white']}')
-                print(f'{COLOR['red']}       If you would like to overwrite and rebuild the file, you can enter the command below:{COLOR['white']}')
+                print(f'{COLOR['reexitd']}       If you would like to overwrite and rebuild the file, you can enter the command below:{COLOR['white']}')
                 print(f'{COLOR['red']}       shake_client -d {loc}{COLOR['white']}')
                 exit(2)
         return settings

@@ -1,7 +1,7 @@
-:py:data:`rsudp.c_telegram` (Telegram alerts)
+:py:data:`rsudp.c_settings` (Settings)
 =====================================================
 
-.. automodule:: rsudp.c_telegram
+.. automodule:: rsudp.c_settings
     :members:
 
 ................

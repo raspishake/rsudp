@@ -39,7 +39,7 @@
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.0.0
+                2.0.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -153,14 +153,14 @@ and optionally forwarded to an IP address and port specified by <code class="doc
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.12)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>.</p></li>
-<li><p><strong>quiet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – <code class="docutils literal notranslate"><span class="pre">True</span></code> to suppress printing of RSAM analysis live to the console, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p></li>
-<li><p><strong>interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – window of time in seconds to apply RSAM analysis.</p></li>
-<li><p><strong>cha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – listening channel (defaults to [S,E]HZ)</p></li>
-<li><p><strong>deconv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – <code class="docutils literal notranslate"><span class="pre">'VEL'</span></code>, <code class="docutils literal notranslate"><span class="pre">'ACC'</span></code>, <code class="docutils literal notranslate"><span class="pre">'GRAV'</span></code>, <code class="docutils literal notranslate"><span class="pre">'DISP'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'CHAN'</span></code></p></li>
-<li><p><strong>fwaddr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Specify a forwarding address to send RSAM in a UDP packet</p></li>
-<li><p><strong>fwport</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Specify a forwarding port to send RSAM in a UDP packet</p></li>
-<li><p><strong>fwformat</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Specify a format for the forwarded packet: <code class="docutils literal notranslate"><span class="pre">'LITE'</span></code>, <code class="docutils literal notranslate"><span class="pre">'JSON'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'CSV'</span></code></p></li>
+<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.13)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>.</p></li>
+<li><p><strong>quiet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – <code class="docutils literal notranslate"><span class="pre">True</span></code> to suppress printing of RSAM analysis live to the console, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p></li>
+<li><p><strong>interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – window of time in seconds to apply RSAM analysis.</p></li>
+<li><p><strong>cha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – listening channel (defaults to [S,E]HZ)</p></li>
+<li><p><strong>deconv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – <code class="docutils literal notranslate"><span class="pre">'VEL'</span></code>, <code class="docutils literal notranslate"><span class="pre">'ACC'</span></code>, <code class="docutils literal notranslate"><span class="pre">'GRAV'</span></code>, <code class="docutils literal notranslate"><span class="pre">'DISP'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'CHAN'</span></code></p></li>
+<li><p><strong>fwaddr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Specify a forwarding address to send RSAM in a UDP packet</p></li>
+<li><p><strong>fwport</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Specify a forwarding port to send RSAM in a UDP packet</p></li>
+<li><p><strong>fwformat</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Specify a format for the forwarded packet: <code class="docutils literal notranslate"><span class="pre">'LITE'</span></code>, <code class="docutils literal notranslate"><span class="pre">'JSON'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'CSV'</span></code></p></li>
 </ul>
 </dd>
 </dl>

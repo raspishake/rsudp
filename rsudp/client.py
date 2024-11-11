@@ -234,6 +234,7 @@ def run(settings, debug):
 		# put settings in namespace
 		sta = settings['alert']['sta']
 		lta = settings['alert']['lta']
+		duration = settings['alert'].get('duration', 0.0)
 		thresh = settings['alert']['threshold']
 		reset = settings['alert']['reset']
 		bp = [settings['alert']['highpass'], settings['alert']['lowpass']]
@@ -248,7 +249,7 @@ def run(settings, debug):
 
 		# set up queue and process
 		q = mk_q()
-		alrt = Alert(sta=sta, lta=lta, thresh=thresh, reset=reset, bp=bp,
+		alrt = Alert(sta=sta, lta=lta, duration=duration, thresh=thresh, reset=reset, bp=bp,
 					 cha=cha, debug=debug, q=q, testing=TESTING,
 					 deconv=deconv)
 		mk_p(alrt)

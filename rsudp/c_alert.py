@@ -376,8 +376,8 @@ class Alert(rs.ConsumerThread):
 				self._print_stalta()
 
 			elif n == 0:
-				printM('Starting Alert trigger with sta=%ss, lta=%ss, and threshold=%s on channel=%s'
-					   % (self.sta, self.lta, self.thresh, self.cha), self.sender)
+				printM('Starting Alert trigger with sta=%ss, lta=%ss, duration=%ss and threshold=%s on channel=%s'
+					   % (self.sta, self.lta, self.duration, self.thresh, self.cha), self.sender)
 				printM('Earthquake trigger warmup time of %s seconds...'
 					   % (self.lta), self.sender)
 			elif n == wait_pkts:

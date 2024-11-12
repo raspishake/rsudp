@@ -191,6 +191,7 @@ def run(settings, debug):
 				break
 		cha = settings['plot']['channels']
 		sec = settings['plot']['duration']
+		refresh_interval = settings['plot']['refresh_interval']
 		spec = settings['plot']['spectrogram']
 		full = settings['plot']['fullscreen']
 		kiosk = settings['plot']['kiosk']
@@ -204,7 +205,7 @@ def run(settings, debug):
 		else:
 			deconv = False
 		pq = mk_q()
-		PLOTTER = Plot(cha=cha, seconds=sec, spectrogram=spec,
+		PLOTTER = Plot(cha=cha, refresh_interval=refresh_interval, seconds=sec, spectrogram=spec,
 						fullscreen=full, kiosk=kiosk, deconv=deconv, q=pq,
 						screencap=screencap, alert=alert, testing=TESTING)
 		# no mk_p() here because the plotter must be controlled by the main thread (this one)

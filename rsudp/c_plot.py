@@ -69,6 +69,8 @@ class Plot:
 	:param cha: channels to plot. Defaults to "all" but can be passed a list of channel names as strings.
 	:type cha: str or list
 	:param int seconds: number of seconds to plot. Defaults to 30.
+	:param int refresh_interval: number of seconds for run main loop. If set, then time will be counted. Otherwise,
+	iterations without delay will be counted. Defaults to 0.
 	:param bool spectrogram: whether to plot the spectrogram. Defaults to True.
 	:param bool fullscreen: whether to plot in a fullscreen window. Defaults to False.
 	:param bool kiosk: whether to plot in kiosk mode (true fullscreen). Defaults to False.
@@ -107,7 +109,8 @@ class Plot:
 		printM('Seismogram units are %s' % (self.units), self.sender)
 
 
-	def __init__(self, q, cha='all',
+	def __init__(self, q,
+				 cha='all', refresh_interval=0,
 				 seconds=30, spectrogram=True,
 				 fullscreen=False, kiosk=False,
 				 deconv=False, screencap=False,
@@ -152,6 +155,7 @@ class Plot:
 		self.fullscreen = fullscreen
 		self.kiosk = kiosk
 		self.num_chans = len(self.chans)
+		self.refresh_interval = refresh_interval
 		self.delay = rs.tr if (self.spectrogram) else 1
 		self.delay = 0.5 if (self.chans == ['SHZ']) else self.delay
 
@@ -202,7 +206,7 @@ class Plot:
 			printM('Event time: %s' % (self.last_event_str), sender=self.sender)		# show event time in the logs
 			if self.screencap:
 				printM('Saving png in about %i seconds' % (self.save_pct * (self.seconds)), self.sender)
-				self.save.append(event) # append 
+				self.save.append(event) # append
 			self.fig.suptitle('%s.%s live output - detected events: %s' # title
 							% (self.net, self.stn, self.events),
 							fontsize=14, color=self.fgcolor, x=0.52)
@@ -214,7 +218,7 @@ class Plot:
 			return True
 		else:
 			return False
-		
+
 	def set_sps(self):
 		'''
 		Get samples per second from the main library.
@@ -326,7 +330,7 @@ class Plot:
 		self.fig = plt.figure(figsize=(11,3*self.num_chans))
 		self.fig.canvas.mpl_connect('close_event', self.handle_close)
 		self.fig.canvas.mpl_connect('resize_event', self.handle_resize)
-		
+
 		if QT:
 			self.fig.canvas.window().statusBar().setVisible(False) # remove bottom bar
 		self.fig.canvas.manager.set_window_title('%s.%s - Raspberry Shake Monitor' % (self.net, self.stn))
@@ -668,6 +672,7 @@ class Plot:
 		i = 0	# number of plot events without clearing the linecache
 		u = -1	# number of blocked queue calls (must be -1 at startup)
 		while True: # main loop
+			refresh_start = time.time()
 			while True: # sub loop
 				if self.alive == False:	# break if the user has closed the plot
 					break
@@ -678,7 +683,11 @@ class Plot:
 					time.sleep(0.009)		# wait a ms to see if another packet will arrive
 				else:
 					u = self.qu(u)
-					if n > (self.delay * rs.numchns):
+					refresh_current = time.time()
+					if not self.refresh_interval and n > (self.delay * rs.numchns):
+						n = 0
+						break
+					elif self.refresh_interval and refresh_current - refresh_start > self.refresh_interval:
 						n = 0
 						break
 			if self.alive == False:	# break if the user has closed the plot

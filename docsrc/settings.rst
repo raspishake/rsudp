@@ -154,7 +154,7 @@ calculate the STA/LTA ratio on deconvolved data (again :json:`"ACC"`, :json:`"VE
 If the STA/LTA ratio goes above a certain value (defined by :json:`"threshold"`),
 then the :py:class:`rsudp.p_producer.Producer` thread will generate an :code:`ALARM` "event packet",
 to be distributed to every consumer module.
-This tells all consumers listening for :code:`ALARM` messages to do something.
+This tells all consumers listening for :code:`ALARM` messages to do something. Also possible set a duration parameter to reduce the incidence of false triggers.
 
 When the ratio goes back below the :json:`"reset"` value, the alarm is reset.
 The Producer will then send a :code:`RESET` message to the queues.

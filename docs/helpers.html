@@ -39,7 +39,7 @@
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.0.0
+                2.0.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -80,8 +80,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#rsudp.helpers.deconv_rbm_inst"><code class="docutils literal notranslate"><span class="pre">deconv_rbm_inst()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#rsudp.helpers.deconv_vel_inst"><code class="docutils literal notranslate"><span class="pre">deconv_vel_inst()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#rsudp.helpers.deconvolve"><code class="docutils literal notranslate"><span class="pre">deconvolve()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#rsudp.helpers.default_settings"><code class="docutils literal notranslate"><span class="pre">default_settings()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#rsudp.helpers.dump_default"><code class="docutils literal notranslate"><span class="pre">dump_default()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#rsudp.helpers.fsec"><code class="docutils literal notranslate"><span class="pre">fsec()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#rsudp.helpers.get_msg_path"><code class="docutils literal notranslate"><span class="pre">get_msg_path()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#rsudp.helpers.get_msg_time"><code class="docutils literal notranslate"><span class="pre">get_msg_time()</span></code></a></li>
@@ -90,7 +88,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#rsudp.helpers.msg_imgpath"><code class="docutils literal notranslate"><span class="pre">msg_imgpath()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#rsudp.helpers.msg_reset"><code class="docutils literal notranslate"><span class="pre">msg_reset()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#rsudp.helpers.msg_term"><code class="docutils literal notranslate"><span class="pre">msg_term()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#rsudp.helpers.read_settings"><code class="docutils literal notranslate"><span class="pre">read_settings()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#rsudp.helpers.resolve_extra_text"><code class="docutils literal notranslate"><span class="pre">resolve_extra_text()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#rsudp.helpers.set_channels"><code class="docutils literal notranslate"><span class="pre">set_channels()</span></code></a></li>
 </ul>
@@ -173,7 +170,7 @@
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>TESTING</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code>, text is printed to the console in yellow. if not, in white.</p>
+<dd class="field-odd"><p><strong>TESTING</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code>, text is printed to the console in yellow. if not, in white.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -246,40 +243,6 @@ contains a valid <a class="reference external" href="https://docs.obspy.org/pack
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="rsudp.helpers.default_settings">
-<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">default_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/energyneo0/rsudp'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.default_settings" title="Permalink to this definition"></a></dt>
-<dd><p>Returns a formatted json string of default settings.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>output_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – the user’s specified output location. defaults to <code class="docutils literal notranslate"><span class="pre">~/rsudp</span></code>.</p></li>
-<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code>, displays some information as the string is created.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>default settings string in formatted json</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="rsudp.helpers.dump_default">
-<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">dump_default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings_loc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_settings</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.dump_default" title="Permalink to this definition"></a></dt>
-<dd><p>Dumps a default settings file to a specified location.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>settings_loc</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The location to create the new settings JSON.</p></li>
-<li><p><strong>default_settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The default settings to dump to file.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="rsudp.helpers.fsec">
 <span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">fsec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ti</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.fsec" title="Permalink to this definition"></a></dt>
 <dd><div class="versionadded">
@@ -332,10 +295,10 @@ of a datetime object.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)"><em>bytes</em></a>) – the bytes-formatted queue message to decode</p>
+<dd class="field-odd"><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.13)"><em>bytes</em></a>) – the bytes-formatted queue message to decode</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the path embedded in the message</p>
@@ -361,7 +324,7 @@ and <code class="docutils literal notranslate"><span class="pre">IMGPATH</span><
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)"><em>bytes</em></a>) – the bytes-formatted queue message to decode</p>
+<dd class="field-odd"><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.13)"><em>bytes</em></a>) – the bytes-formatted queue message to decode</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy v1.4.1)">obspy.core.utcdatetime.UTCDateTime</a></p>
@@ -402,7 +365,7 @@ to construct alarm queue messages.</p>
 <dd class="field-odd"><p><strong>event_time</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy v1.4.1)"><em>obspy.core.utcdatetime.UTCDateTime</em></a>) – the datetime object to serialize and convert to bytes</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)">bytes</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.13)">bytes</a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the <code class="docutils literal notranslate"><span class="pre">ALARM</span></code> message, ready to be put on the queue</p>
@@ -428,11 +391,11 @@ to construct queue messages containing timestamp and saved image path.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>event_time</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy v1.4.1)"><em>obspy.core.utcdatetime.UTCDateTime</em></a>) – the datetime object to serialize and convert to bytes</p></li>
-<li><p><strong>figname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – the figure path as a string</p></li>
+<li><p><strong>figname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – the figure path as a string</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)">bytes</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.13)">bytes</a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the <code class="docutils literal notranslate"><span class="pre">IMGPATH</span></code> message, ready to be put on the queue</p>
@@ -458,7 +421,7 @@ to construct reset queue messages.</p>
 <dd class="field-odd"><p><strong>reset_time</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.utcdatetime.UTCDateTime.html#obspy.core.utcdatetime.UTCDateTime" title="(in ObsPy v1.4.1)"><em>obspy.core.utcdatetime.UTCDateTime</em></a>) – the datetime object to serialize and convert to bytes</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)">bytes</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.13)">bytes</a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the <code class="docutils literal notranslate"><span class="pre">RESET</span></code> message, ready to be put on the queue</p>
@@ -476,27 +439,10 @@ to construct reset queue messages.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)">bytes</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.13)">bytes</a></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>the <code class="docutils literal notranslate"><span class="pre">TERM</span></code> message</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="rsudp.helpers.read_settings">
-<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">read_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.read_settings" title="Permalink to this definition"></a></dt>
-<dd><p>Reads settings from a specific location.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>loc</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – location on disk to read json settings file from</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>settings dictionary read from JSON, or <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a> or NoneType</p>
 </dd>
 </dl>
 </dd></dl>
@@ -515,13 +461,13 @@ The function will truncate longer messages.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>extra_text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – String of additional characters to post as part of the alert message (longer messages will be truncated).</p></li>
-<li><p><strong>max_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Upper limit of characters accepted in message (280 for Twitter, 4096 for Telegram).</p></li>
-<li><p><strong>sender</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – String identifying the origin of the use of this function (<code class="code highlight pycode python docutils literal highlight-python"><span class="bp">self</span><span class="o">.</span><span class="n">sender</span></code> in the source function).</p></li>
+<li><p><strong>extra_text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – String of additional characters to post as part of the alert message (longer messages will be truncated).</p></li>
+<li><p><strong>max_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Upper limit of characters accepted in message (280 for Twitter, 4096 for Telegram).</p></li>
+<li><p><strong>sender</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – String identifying the origin of the use of this function (<code class="code highlight pycode python docutils literal highlight-python"><span class="bp">self</span><span class="o">.</span><span class="n">sender</span></code> in the source function).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the message string to be incorporated</p>
@@ -554,7 +500,7 @@ you could specify</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>self</strong> (<em>self</em>) – self object of the class calling this function</p></li>
-<li><p><strong>cha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – the channel or list of channels to plot</p></li>
+<li><p><strong>cha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – the channel or list of channels to plot</p></li>
 </ul>
 </dd>
 </dl>

@@ -130,3 +130,9 @@ class TestData(Thread):
 		self.sock.sendto(helpers.msg_term(), (self.addr, self.port))
 		printW('Exiting.', self.sender, announce=False)
 		sys.exit()
+
+if __name__ == "__main__":
+	from queue import Queue
+	q = Queue()
+	t = TestData(q, "./test/testdata", 8888)
+	t.start()

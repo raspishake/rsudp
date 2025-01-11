@@ -23,7 +23,7 @@ class Settings(dict):
         :return: JSON string
         :rtype: str
         '''
-        return json.dumps(self)
+        return json.dumps(self, indent=2)
 
     @staticmethod
     def read_settings(loc: str):
@@ -85,6 +85,15 @@ class Settings(dict):
         settings["plot"]["kiosk"] = False
         settings["plot"]["eq_screenshots"] = False
         settings["plot"]["channels"] = ["all"]
+        settings["plot"]["filter_waveform"] = False
+        settings["plot"]["filter_spectrogram"] = False
+        settings["plot"]["filter_highpass"] = 0.7
+        settings["plot"]["filter_lowpass"] = 2.0
+        settings["plot"]["filter_corners"] = 4
+        settings["plot"]["spectrogram_freq_range"] = False
+        settings["plot"]["upper_limit"] = 15.0
+        settings["plot"]["lower_limit"] = 0.0
+        settings["plot"]["logarithmic_y_axis"] = False
         settings["plot"]["deconvolve"] = True
         settings["plot"]["units"] = "CHAN"
 

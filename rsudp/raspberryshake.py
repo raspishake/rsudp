@@ -523,7 +523,7 @@ def get_inventory(sender='get_inventory', settings=None):
 		try:
 			printM('Fetching inventory for station %s.%s from Raspberry Shake FDSN.'
 					% (net, stn), sender)
-			inventory_url = settings["settings"].get("inventory_url", None) or 'https://fdsnws.raspberryshakedata.com/fdsnws/station/1/query?network=%s&station=%s&level=resp&nodata=404&format=xml'
+			inventory_url = settings["settings"].get("inventory_url", None) or 'https://data.raspberryshake.org/fdsnws/station/1/query?network=%s&station=%s&level=resp&nodata=404&format=xml'
 			url = inventory_url % (net, stn)#, str(UTCDateTime.now()-timedelta(seconds=14400)))
 			inv = read_inventory(url)
 			region = FlinnEngdahl().get_region(inv[0][-1].longitude, inv[0][-1].latitude)

@@ -197,6 +197,22 @@ def run(settings, debug):
 		kiosk = settings['plot']['kiosk']
 		screencap = settings['plot']['eq_screenshots']
 		alert = settings['alert']['enabled']
+		
+		# Load filter values from .json file
+		filter_waveform = settings['plot']['filter_waveform']
+		filter_spectrogram = settings['plot']['filter_spectrogram']
+		filter_highpass = settings['plot']['filter_highpass']
+		filter_lowpass = settings['plot']['filter_lowpass']
+		filter_corners = settings['plot']['filter_corners']
+		
+		# Spectrogram range variables
+		spectrogram_freq_range = settings['plot']['spectrogram_freq_range']
+		lower_limit = settings['plot']['lower_limit']
+		upper_limit = settings['plot']['upper_limit']
+		
+		# Logarithmic y-axis
+		logarithmic_y_axis = settings['plot']['logarithmic_y_axis']
+		
 		if settings['plot']['deconvolve']:
 			if settings['plot']['units'].upper() in rs.UNITS:
 				deconv = settings['plot']['units'].upper()
@@ -207,7 +223,12 @@ def run(settings, debug):
 		pq = mk_q()
 		PLOTTER = Plot(cha=cha, refresh_interval=refresh_interval, seconds=sec, spectrogram=spec,
 						fullscreen=full, kiosk=kiosk, deconv=deconv, q=pq,
-						screencap=screencap, alert=alert, testing=TESTING)
+						screencap=screencap, alert=alert, filter_waveform=filter_waveform,
+						filter_spectrogram=filter_spectrogram, filter_highpass=filter_highpass,
+						filter_lowpass=filter_lowpass, filter_corners=filter_corners,
+						spectrogram_freq_range=spectrogram_freq_range,
+						lower_limit=lower_limit, upper_limit=upper_limit, 
+						logarithmic_y_axis=logarithmic_y_axis, testing=TESTING)
 		# no mk_p() here because the plotter must be controlled by the main thread (this one)
 
 	if settings['forward']['enabled']:

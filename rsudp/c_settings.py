@@ -80,6 +80,7 @@ class Settings(dict):
         settings["plot"] = {}
         settings["plot"]["enabled"] = True
         settings["plot"]["duration"] = 90
+        settings["plot"]["refresh_interval"] = 0
         settings["plot"]["spectrogram"] = True
         settings["plot"]["fullscreen"] = False
         settings["plot"]["kiosk"] = False

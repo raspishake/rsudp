@@ -105,6 +105,7 @@ The modules available in rsudp are organized by type below.
     c_forward
     c_write
     c_custom
+    c_settings
 
 .. toctree::
     :maxdepth: 2

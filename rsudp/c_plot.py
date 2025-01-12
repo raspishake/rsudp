@@ -69,6 +69,8 @@ class Plot:
 	:param cha: channels to plot. Defaults to "all" but can be passed a list of channel names as strings.
 	:type cha: str or list
 	:param int seconds: number of seconds to plot. Defaults to 30.
+	:param int refresh_interval: number of seconds for run main loop. If set, then time will be counted. Otherwise,
+	iterations without delay will be counted. Defaults to 0.
 	:param bool spectrogram: whether to plot the spectrogram. Defaults to True.
 	:param bool fullscreen: whether to plot in a fullscreen window. Defaults to False.
 	:param bool kiosk: whether to plot in kiosk mode (true fullscreen). Defaults to False.
@@ -83,7 +85,7 @@ class Plot:
 		'''
 		This function sets the deconvolution units. Allowed values are as follows:
 
-		.. |ms2| replace:: m/s\ :sup:`2`\
+		.. |ms2| replace:: m/s\\ :sup:`2`\\
 
 		- ``'VEL'`` - velocity (m/s)
 		- ``'ACC'`` - acceleration (|ms2|)
@@ -107,11 +109,21 @@ class Plot:
 		printM('Seismogram units are %s' % (self.units), self.sender)
 
 
-	def __init__(self, q, cha='all',
+	def __init__(self, q,
+				 cha='all', refresh_interval=0,
 				 seconds=30, spectrogram=True,
 				 fullscreen=False, kiosk=False,
 				 deconv=False, screencap=False,
-				 alert=True, testing=False):
+				 alert=True, filter_waveform=False,
+				 spectrogram_freq_range=False,
+				 upper_limit=50.0,
+				 lower_limit=0.0,
+				 logarithmic_y_axis=False,
+				 filter_spectrogram=False,
+				 filter_highpass=0,
+				 filter_lowpass=45,
+				 filter_corners=4,
+				 testing=False):
 		"""
 		Initialize the plot process.
 
@@ -122,6 +134,8 @@ class Plot:
 		self.testing = testing
 		self.alarm = False			# don't touch this
 		self.alarm_reset = False	# don't touch this
+		
+		self.oldtime = time.time()
 
 		if MPL == False:
 			sys.stdout.flush()
@@ -134,6 +148,7 @@ class Plot:
 
 		self.stream = rs.Stream()
 		self.raw = rs.Stream()
+		self.stream_uf = rs.Stream()  # Initialize stream_uf
 		self.stn = rs.stn
 		self.net = rs.net
 
@@ -152,15 +167,31 @@ class Plot:
 		self.fullscreen = fullscreen
 		self.kiosk = kiosk
 		self.num_chans = len(self.chans)
+		self.refresh_interval = refresh_interval
 		self.delay = rs.tr if (self.spectrogram) else 1
 		self.delay = 0.5 if (self.chans == ['SHZ']) else self.delay
+
+		# New filter variables
+		self.filter_waveform = filter_waveform
+		self.filter_spectrogram = filter_spectrogram
+		self.filter_highpass = filter_highpass
+		self.filter_lowpass = filter_lowpass
+		self.filter_corners = filter_corners
+
+		# Spectrogram range variables
+		self.spectrogram_freq_range = spectrogram_freq_range
+		self.lower_limit = lower_limit
+		self.upper_limit = upper_limit
+
+		# Logarithmic y axis
+		self.logarithmic_y_axis = logarithmic_y_axis
 
 		self.screencap = screencap
 		self.save_timer = 0
 		self.save_pct = 0.7
 		self.save = []
 		self.events = 0
-		self.event_text = ' - detected events: 0' if alert else ''
+		self.event_text = ' - Detected Events: 0' if alert else ''
 		self.last_event = []
 		self.last_event_str = False
 		# plot stuff
@@ -203,10 +234,10 @@ class Plot:
 			if self.screencap:
 				printM('Saving png in about %i seconds' % (self.save_pct * (self.seconds)), self.sender)
 				self.save.append(event) # append 
-			self.fig.suptitle('%s.%s live output - detected events: %s' # title
-							% (self.net, self.stn, self.events),
+			self.fig.suptitle('Raspberry Shake %s Live Data - Detected Events: %s' # title
+							% (self.stn, self.events),
 							fontsize=14, color=self.fgcolor, x=0.52)
-			self.fig.canvas.manager.set_window_title('(%s) %s.%s - Raspberry Shake Monitor' % (self.events, self.net, self.stn))
+			self.fig.canvas.manager.set_window_title('(%s) %s - Raspberry Shake Monitor' % (self.events, self.stn))
 
 		if rs.getCHN(d) in self.chans:
 			self.raw = rs.update_stream(
@@ -214,7 +245,7 @@ class Plot:
 			return True
 		else:
 			return False
-		
+
 	def set_sps(self):
 		'''
 		Get samples per second from the main library.
@@ -279,8 +310,8 @@ class Plot:
 		title_time_str = event[1].strftime('%Y-%m-%d %H:%M:%S.%f')[:22]		# pretty event time for plot
 
 		# change title (just for a moment)
-		self.fig.suptitle('%s.%s detected event - %s UTC' # title
-						  % (self.net, self.stn, title_time_str),
+		self.fig.suptitle('%s Detected Event - %s UTC' # title
+						  % (self.stn, title_time_str),
 						  fontsize=14, color=self.fgcolor, x=0.52)
 
 		# save figure
@@ -314,8 +345,8 @@ class Plot:
 		'''
 		Sets the figure title back to something that makes sense for the live viewer.
 		'''
-		self.fig.suptitle('%s.%s live output - detected events: %s' # title
-						  % (self.net, self.stn, self.events),
+		self.fig.suptitle('Raspberry Shake %s Live Data - Detected Events: %s' # title
+						  % (self.stn, self.events),
 						  fontsize=14, color=self.fgcolor, x=0.52)
 
 
@@ -326,13 +357,13 @@ class Plot:
 		self.fig = plt.figure(figsize=(11,3*self.num_chans))
 		self.fig.canvas.mpl_connect('close_event', self.handle_close)
 		self.fig.canvas.mpl_connect('resize_event', self.handle_resize)
-		
+
 		if QT:
 			self.fig.canvas.window().statusBar().setVisible(False) # remove bottom bar
-		self.fig.canvas.manager.set_window_title('%s.%s - Raspberry Shake Monitor' % (self.net, self.stn))
+		self.fig.canvas.manager.set_window_title('%s - Raspberry Shake Monitor' % (self.stn))
 		self.fig.patch.set_facecolor(self.bgcolor)	# background color
-		self.fig.suptitle('%s.%s live output%s'	# title
-						  % (self.net, self.stn, self.event_text),
+		self.fig.suptitle('Raspberry Shake %s Live Data%s'	# title
+						  % (self.stn, self.event_text),
 						  fontsize=14, color=self.fgcolor,x=0.52)
 		self.ax, self.lines = [], []				# list for subplot axes and lines artists
 		self.mult = 1					# spectrogram selection multiplier
@@ -442,16 +473,54 @@ class Plot:
 			ylabel = self.stream[i].stats.units.strip().capitalize() if (' ' in self.stream[i].stats.units) else self.stream[i].stats.units
 			self.ax[i*self.mult].set_ylabel(ylabel, color=self.fgcolor)
 			self.ax[i*self.mult].legend(loc='upper left')	# legend and location
+			if self.filter_waveform: # Display filter info text if filter for the waveform is enabled
+				self.ax[i * self.mult].text(0.005, .05, 'Bandpass (' + str(self.filter_highpass) + ' - ' + str(self.filter_lowpass) +' Hz)',
+											fontsize=8, color=self.fgcolor, horizontalalignment='left',verticalalignment='center',
+											transform = self.ax[i * self.mult].transAxes)			
 			if self.spectrogram:		# if the user wants a spectrogram, plot it
 				# add spectrogram to axes list
 				sg = self.ax[1].specgram(self.stream[i].data, NFFT=8, pad_to=8,
 										 Fs=self.sps, noverlap=7, cmap='inferno',
 										 xextent=(self.seconds-0.5, self.seconds))[0]
 				self.ax[1].set_xlim(0,self.seconds)
-				self.ax[i*self.mult+1].set_ylim(0,int(self.sps/2))
+				# spectrogram frequency range option
+				if self.spectrogram_freq_range:
+					try:
+						# validate upper_limit
+						if self.upper_limit > 50:
+							raise ValueError("Upper limit cannot be greater than 50.")
+						if self.upper_limit < self.lower_limit:
+							raise ValueError("Upper limit cannot be less than the lower limit.")
+						
+						# validate lower_limit
+						if self.lower_limit == 0:
+							y_min = 0
+						else:
+							# validate lower_limit for negative values
+							if self.lower_limit < 0:
+								raise ValueError("Lower limit cannot be negative.")
+							y_min = self.sps / (100 / self.lower_limit)
+						y_max = self.sps / (100 / self.upper_limit)
+					except ValueError as e:
+						print(f"Error: {e} Reverting to fallback values.")
+						# provide fallback values in case of error (optional)
+						y_max = int(self.sps / 2)
+						y_min = 0
+				else:
+					y_max = int(self.sps / 2)
+					y_min = 0
+				self.ax[i*self.mult+1].set_ylim(y_min,y_max)
 				self.ax[i*self.mult+1].imshow(np.flipud(sg**(1/float(10))), cmap='inferno',
 						extent=(self.seconds-(1/(self.sps/float(len(self.stream[i].data)))),
-								self.seconds,0,self.sps/2), aspect='auto')
+								self.seconds,y_min,y_max), aspect='auto')
+				if self.logarithmic_y_axis:
+					custom_ticks = [0.5, 1, 2, 3, 5, 10, 20, 30, 50]
+					custom_labels = ['0.5', '1', '2', '3', '5', '10', '20', '30', '50']
+					self.ax[i*self.mult+1].set_yscale('log')  # Apply logarithmic scale
+					self.ax[i * self.mult + 1].set_yticks(custom_ticks)
+					self.ax[i * self.mult + 1].set_yticklabels(custom_labels) 
+					self.ax[i * self.mult + 1].tick_params(which='minor', color=self.bgcolor)
+					self.ax[i*self.mult+1].set_ylim(10**(-0.25), (self.sps / 2))  # Avoid log(0)
 
 
 	def _setup_fig_manager(self):
@@ -551,25 +620,79 @@ class Plot:
 		'''
 		self.nfft1 = self._nearest_pow_2(self.sps)	# FFTs run much faster if the number of transforms is a power of 2
 		self.nlap1 = self.nfft1 * self.per_lap
-		if len(self.stream[i].data) < self.nfft1:	# when the number of data points is low, we just need to kind of fake it for a few fractions of a second
+		if len(self.stream_uf[i].data) < self.nfft1:	# when the number of data points is low, we just need to kind of fake it for a few fractions of a second # Replaced Stream with Stream_uf
 			self.nfft1 = 8
 			self.nlap1 = 6
-		sg = self.ax[i*self.mult+1].specgram(self.stream[i].data - mean,
+		sg = self.ax[i*self.mult+1].specgram(self.stream_uf[i].data - mean, # Replaced Stream with Stream_uf
                     NFFT=int(self.nfft1), pad_to=int(self.nfft1*4), # previously self.sps*4),
 					Fs=self.sps, noverlap=int(self.nlap1))[0]	# meat & potatoes
 		self.ax[i*self.mult+1].clear()	# incredibly important, otherwise continues to draw over old images (gets exponentially slower)
-		# cloogy way to shift the spectrogram to line up with the seismogram
-		self.ax[i*self.mult+1].set_xlim(0.25,self.seconds-0.25)
-		self.ax[i*self.mult+1].set_ylim(0,int(self.sps/2))
 		# imshow to update the spectrogram
 		self.ax[i*self.mult+1].imshow(np.flipud(sg**(1/float(10))), cmap='inferno',
-				extent=(self.seconds-(1/(self.sps/float(len(self.stream[i].data)))),
-						self.seconds,0,self.sps/2), aspect='auto')
+				extent=(self.seconds-(1/(self.sps/float(len(self.stream_uf[i].data)))),
+						self.seconds,0,self.sps/2), aspect='auto') # Replaced Stream with Stream_uf
 		# some things that unfortunately can't be in the setup function:
 		self.ax[i*self.mult+1].tick_params(axis='x', which='both',
 				bottom=False, top=False, labelbottom=False)
 		self.ax[i*self.mult+1].set_ylabel('Frequency (Hz)', color=self.fgcolor)
 		self.ax[i*self.mult+1].set_xlabel('Time (UTC)', color=self.fgcolor)
+		# logarithmic y axis
+		if self.logarithmic_y_axis:
+			custom_ticks = [0.5, 1, 2, 3, 5, 10, 20, 30, 50]
+			custom_labels = ['0.5', '1', '2', '3', '5', '10', '20', '30', '50']
+			self.ax[i*self.mult+1].set_xlim(0.25,self.seconds-0.25)
+			self.ax[i*self.mult+1].set_yscale('log')
+			self.ax[i*self.mult+1].set_ylim(10**(-0.25), (self.sps / 2))
+			self.ax[i * self.mult + 1].set_yticks(custom_ticks)
+			self.ax[i * self.mult + 1].set_yticklabels(custom_labels)
+			self.ax[i * self.mult + 1].tick_params(which='minor', color=self.bgcolor)
+		# cloogy way to shift the spectrogram to line up with the seismogram
+		self.ax[i*self.mult+1].set_xlim(0.25,self.seconds-0.25)
+		if self.spectrogram_freq_range:
+			try:
+				# validate upper_limit
+				if self.upper_limit > 50:
+					raise ValueError("Upper limit cannot be greater than 50.")
+				if self.upper_limit < self.lower_limit:
+					raise ValueError("Upper limit cannot be less than the lower limit.")
+
+				# validate lower_limit
+				if self.lower_limit == 0:
+					y_min = 0
+				else:
+					# validate lower_limit for negative values
+					if self.lower_limit < 0:
+						raise ValueError("Lower limit cannot be negative.")
+					y_min = self.sps / (100 / self.lower_limit)
+				y_max = self.sps / (100 / self.upper_limit)
+
+			except ValueError as e:
+				print(f"Warning: {e} Reverting to fallback values.")
+				y_max = int(self.sps / 2)
+				y_min = 0
+		else:
+			y_max = int(self.sps / 2)
+			y_min = 0
+		self.ax[i*self.mult+1].set_ylim(y_min,y_max)
+
+		# display filter info text when spectrogram filtering/range is/are enabled
+		text_content = ''
+		if self.filter_spectrogram and self.spectrogram_freq_range:
+			text_content = (
+				'Bandpass (' + str(self.filter_highpass) + ' - ' + str(self.filter_lowpass) + ' Hz) | '
+				'Range (' + str(int(self.lower_limit)) + ' - ' + str(int(self.upper_limit)) + ' Hz)'
+			)
+		elif self.filter_spectrogram:
+			text_content = 'Bandpass (' + str(self.filter_highpass) + ' - ' + str(self.filter_lowpass) + ' Hz)'
+		elif self.spectrogram_freq_range:
+			text_content = 'Range (' + str(int(self.lower_limit)) + ' - ' + str(int(self.upper_limit)) + ' Hz)'
+
+		# only add text if there's content
+		if text_content:
+			self.ax[i * self.mult + 1].text(
+				0.005, -0.06, text_content,
+				fontsize=8, color=self.fgcolor, horizontalalignment='left', verticalalignment='center',
+				transform=self.ax[i * self.mult + 1].transAxes)
 
 
 	def update_plot(self):
@@ -621,7 +744,16 @@ class Plot:
 			i += 1
 		self.stream = rs.copy(self.stream)	# essential, otherwise the stream has a memory leak
 		self.raw = rs.copy(self.raw)		# and could eventually crash the machine
+		self.stream_uf = rs.copy(self.stream_uf)  # Applied the same fix/patch as above to prevent memory leak
 		self.deconvolve()
+		self.stream.detrend(type='demean') # Detrend the stream to support filtering for a non-deconvolved stream
+		self.stream_uf = self.stream.copy()  # Make an copy of the unfiltered Stream to be used with the Spectrogram
+		if self.filter_waveform: # filter stream if waveform filtering is enabled.
+			self.stream.filter('bandpass', freqmin=self.filter_highpass, freqmax=self.filter_lowpass,
+							   corners=self.filter_corners)  # Filter for the waveform.
+		if self.filter_spectrogram: # filter stream if spectrogram filtering is enabled.
+			self.stream_uf.filter('bandpass', freqmin=self.filter_highpass, freqmax=self.filter_lowpass,
+								  corners=self.filter_corners)
 		self.update_plot()
 		if u >= 0:				# avoiding a matplotlib broadcast error
 			self.figloop()
@@ -668,6 +800,7 @@ class Plot:
 		i = 0	# number of plot events without clearing the linecache
 		u = -1	# number of blocked queue calls (must be -1 at startup)
 		while True: # main loop
+			refresh_start = time.time()
 			while True: # sub loop
 				if self.alive == False:	# break if the user has closed the plot
 					break
@@ -678,7 +811,11 @@ class Plot:
 					time.sleep(0.009)		# wait a ms to see if another packet will arrive
 				else:
 					u = self.qu(u)
-					if n > (self.delay * rs.numchns):
+					refresh_current = time.time()
+					if not self.refresh_interval and n > (self.delay * rs.numchns):
+						n = 0
+						break
+					elif self.refresh_interval and refresh_current - refresh_start > self.refresh_interval:
 						n = 0
 						break
 			if self.alive == False:	# break if the user has closed the plot

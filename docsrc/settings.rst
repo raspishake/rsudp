@@ -154,7 +154,7 @@ calculate the STA/LTA ratio on deconvolved data (again :json:`"ACC"`, :json:`"VE
 If the STA/LTA ratio goes above a certain value (defined by :json:`"threshold"`),
 then the :py:class:`rsudp.p_producer.Producer` thread will generate an :code:`ALARM` "event packet",
 to be distributed to every consumer module.
-This tells all consumers listening for :code:`ALARM` messages to do something.
+This tells all consumers listening for :code:`ALARM` messages to do something. Also possible set a duration parameter to reduce the incidence of false triggers.
 
 When the ratio goes back below the :json:`"reset"` value, the alarm is reset.
 The Producer will then send a :code:`RESET` message to the queues.
@@ -628,66 +628,97 @@ By default, the settings are as follows:
 .. code-block:: json
 
     {
-    "settings": {
+      "settings": {
         "port": 8888,
         "station": "Z0000",
-        "output_dir": "@@DIR@@",
-        "debug": true},
-    "printdata": {
-        "enabled": false},
-    "write": {
+        "output_dir": "output_dir",
+        "debug": true
+      },
+      "printdata": {
+        "enabled": false
+      },
+      "write": {
         "enabled": false,
-        "channels": ["all"]},
-    "plot": {
+        "channels": [
+          "all"
+        ]
+      },
+      "plot": {
         "enabled": true,
         "duration": 90,
+        "refresh_interval": 0,
         "spectrogram": true,
         "fullscreen": false,
         "kiosk": false,
         "eq_screenshots": false,
-        "channels": ["all"],
+        "channels": [
+          "all"
+        ],
+        "filter_waveform": false,
+        "filter_spectrogram": false,
+        "filter_highpass": 0.7,
+        "filter_lowpass": 2.0,
+        "filter_corners": 4,
+        "spectrogram_freq_range": false,
+        "upper_limit": 15.0,
+        "lower_limit": 0.0,
+        "logarithmic_y_axis": false,
         "deconvolve": true,
-        "units": "CHAN"},
-    "forward": {
+        "units": "CHAN"
+      },
+      "forward": {
         "enabled": false,
-        "address": ["192.168.1.254"],
-        "port": [8888],
-        "channels": ["all"],
+        "address": [
+          "192.168.1.254"
+        ],
+        "port": [
+          8888
+        ],
+        "channels": [
+          "all"
+        ],
         "fwd_data": true,
-        "fwd_alarms": false},
-    "alert": {
+        "fwd_alarms": false
+      },
+      "alert": {
         "enabled": true,
         "channel": "HZ",
         "sta": 6,
         "lta": 30,
+        "duration": 0.0,
         "threshold": 3.95,
         "reset": 0.9,
         "highpass": 0.8,
         "lowpass": 9,
         "deconvolve": false,
-        "units": "VEL"},
-    "alertsound": {
+        "units": "VEL"
+      },
+      "alertsound": {
         "enabled": false,
-        "mp3file": "doorbell"},
-    "custom": {
+        "mp3file": "doorbell"
+      },
+      "custom": {
         "enabled": false,
         "codefile": "n/a",
-        "win_override": false},
-    "tweets": {
+        "win_override": false
+      },
+      "tweets": {
         "enabled": false,
         "tweet_images": true,
         "api_key": "n/a",
         "api_secret": "n/a",
         "access_token": "n/a",
         "access_secret": "n/a",
-        "extra_text": ""},
-    "telegram": {
+        "extra_text": ""
+      },
+      "telegram": {
         "enabled": false,
         "send_images": true,
         "token": "n/a",
         "chat_id": "n/a",
-        "extra_text": ""},
-    "rsam": {
+        "extra_text": ""
+      },
+      "rsam": {
         "enabled": false,
         "quiet": true,
         "fwaddr": "192.168.1.254",
@@ -696,9 +727,9 @@ By default, the settings are as follows:
         "channel": "HZ",
         "interval": 10,
         "deconvolve": false,
-        "units": "VEL"}
+        "units": "VEL"
+      }
     }
-
 
 ................
 

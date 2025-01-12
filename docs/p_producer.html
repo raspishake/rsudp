@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rsudp.p_producer (data producer) &mdash; rsudp  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -38,9 +36,6 @@
             rsudp
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                2.0.0
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -104,6 +99,7 @@
 <li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_settings.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_settings</span></code> (Settings)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
@@ -138,10 +134,10 @@
            <div itemprop="articleBody">
              
   <section id="module-rsudp.p_producer">
-<span id="rsudp-p-producer-data-producer"></span><h1><a class="reference internal" href="#module-rsudp.p_producer" title="rsudp.p_producer"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.p_producer</span></code></a> (data producer)<a class="headerlink" href="#module-rsudp.p_producer" title="Permalink to this heading"></a></h1>
+<span id="rsudp-p-producer-data-producer"></span><h1><a class="reference internal" href="#module-rsudp.p_producer" title="rsudp.p_producer"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.p_producer</span></code></a> (data producer)<a class="headerlink" href="#module-rsudp.p_producer" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="rsudp.p_producer.Producer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rsudp.p_producer.</span></span><span class="sig-name descname"><span class="pre">Producer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">queue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threads</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.p_producer.Producer" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rsudp.p_producer.</span></span><span class="sig-name descname"><span class="pre">Producer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">queue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threads</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.p_producer.Producer" title="Link to this definition"></a></dt>
 <dd><p>Data Producer thread (see <a class="reference internal" href="theory.html#producer-consumer"><span class="std std-ref">Producer-consumer message passing</span></a>) which receives data from the port
 and puts it on the queue to be passed to the master consumer (<a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>).
 The producer also looks for flags in each consumer
@@ -151,14 +147,14 @@ consumers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>queue</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.12)"><em>queue.Queue</em></a>) – The master queue, used to pass data to <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
-<li><p><strong>threads</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a>) – The list of <a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></a> s to monitor for status changes</p></li>
+<li><p><strong>queue</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.13)"><em>queue.Queue</em></a>) – The master queue, used to pass data to <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
+<li><p><strong>threads</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a>) – The list of <a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></a> s to monitor for status changes</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rsudp.p_producer.Producer.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.p_producer.Producer.run" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.p_producer.Producer.run" title="Link to this definition"></a></dt>
 <dd><p>Distributes queue objects to execute various other tasks: for example,
 it may be used to populate ObsPy streams for various things like
 plotting, alert triggers, and ground motion calculation.</p>
@@ -185,7 +181,7 @@ plotting, alert triggers, and ground motion calculation.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
+    <p>&#169; Copyright 2025, Raspberry Shake S.A..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

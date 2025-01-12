@@ -73,6 +73,7 @@ def make_test_settings(settings, inet=False):
 	 ``settings['alert']['reset']``           ``0.5``
 	 ``settings['alert']['lowpass']``         ``9``
 	 ``settings['alert']['highpass']``        ``0.8``
+     ``settings['alert']['duration']``        ``0.0``
 	 ``settings['plot']['channels']``         ``['all']``
 	 ``settings['plot']['duration']``         ``60``
 	 ``settings['plot']['deconvolve']``       ``True``
@@ -114,6 +115,7 @@ def make_test_settings(settings, inet=False):
 	settings['alert']['reset'] = 0.5
 	settings['alert']['lowpass'] = 9
 	settings['alert']['highpass'] = 0.8
+	settings['alert']['duration'] = 0.0
 
 	settings['plot']['channels'] = ['all']
 	settings['plot']['duration'] = 60

@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rsudp.c_forward (forward data) &mdash; rsudp  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -38,9 +36,6 @@
             rsudp
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                2.0.0
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -104,6 +99,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_settings.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_settings</span></code> (Settings)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
@@ -138,10 +134,10 @@
            <div itemprop="articleBody">
              
   <section id="module-rsudp.c_forward">
-<span id="rsudp-c-forward-forward-data"></span><h1><a class="reference internal" href="#module-rsudp.c_forward" title="rsudp.c_forward"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code></a> (forward data)<a class="headerlink" href="#module-rsudp.c_forward" title="Permalink to this heading"></a></h1>
+<span id="rsudp-c-forward-forward-data"></span><h1><a class="reference internal" href="#module-rsudp.c_forward" title="rsudp.c_forward"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code></a> (forward data)<a class="headerlink" href="#module-rsudp.c_forward" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="rsudp.c_forward.Forward">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rsudp.c_forward.</span></span><span class="sig-name descname"><span class="pre">Forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">addr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fwd_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fwd_alarms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_forward.Forward" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rsudp.c_forward.</span></span><span class="sig-name descname"><span class="pre">Forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">addr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fwd_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fwd_alarms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_forward.Forward" title="Link to this definition"></a></dt>
 <dd><p>Single-destination data forwarding module. This consumer reads
 queue messages from the <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>
 and forwards those messages to a specified address and port.
@@ -149,25 +145,25 @@ Multiple of these threads can be started in order to deliver to
 more than one destination. (see the <a class="reference internal" href="settings.html#datacast-forwarding"><span class="std std-ref">forward (datacast forwarding)</span></a>
 section in <a class="reference internal" href="settings.html"><span class="doc">Modules and Settings</span></a>)</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.2: </span>The option to choose whether to forward either data or alarms or both
+<p><span class="versionmodified added">Added in version 1.0.2: </span>The option to choose whether to forward either data or alarms or both
 (find boolean settings <code class="code docutils literal notranslate"><span class="pre">&quot;fwd_data&quot;</span></code> and <code class="code docutils literal notranslate"><span class="pre">&quot;fwd_alarms&quot;</span></code> in
 settings json files built by this version and later).</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>addr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – IP address to pass UDP data to</p></li>
-<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – network port to pass UDP data to (at specified address)</p></li>
-<li><p><strong>fwd_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – whether or not to forward raw data packets</p></li>
-<li><p><strong>fwd_alarms</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – whether or not to forward <code class="code docutils literal notranslate"><span class="pre">ALARM</span></code> and <code class="code docutils literal notranslate"><span class="pre">RESET</span></code> messages</p></li>
-<li><p><strong>cha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a>) – channel(s) to forward. others will be ignored.</p></li>
-<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.12)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
+<li><p><strong>addr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – IP address to pass UDP data to</p></li>
+<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – network port to pass UDP data to (at specified address)</p></li>
+<li><p><strong>fwd_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – whether or not to forward raw data packets</p></li>
+<li><p><strong>fwd_alarms</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – whether or not to forward <code class="code docutils literal notranslate"><span class="pre">ALARM</span></code> and <code class="code docutils literal notranslate"><span class="pre">RESET</span></code> messages</p></li>
+<li><p><strong>cha</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a>) – channel(s) to forward. others will be ignored.</p></li>
+<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.13)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rsudp.c_forward.Forward.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_forward.Forward.run" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_forward.Forward.run" title="Link to this definition"></a></dt>
 <dd><p>Gets and distributes queue objects to another address and port on the network.</p>
 </dd></dl>
 
@@ -192,7 +188,7 @@ settings json files built by this version and later).</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
+    <p>&#169; Copyright 2025, Raspberry Shake S.A..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -1,28 +1,26 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rsudp.c_custom (run code) &mdash; rsudp  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="rsudp.t_testdata (test pre-producer)" href="t_testdata.html" />
+    <link rel="next" title="rsudp.c_settings (Settings)" href="c_settings.html" />
     <link rel="prev" title="rsudp.c_write (write data)" href="c_write.html" /> 
 </head>
 
@@ -38,9 +36,6 @@
             rsudp
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                2.0.0
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -104,6 +99,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="c_settings.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_settings</span></code> (Settings)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
@@ -138,18 +134,18 @@
            <div itemprop="articleBody">
              
   <section id="module-rsudp.c_custom">
-<span id="rsudp-c-custom-run-code"></span><h1><a class="reference internal" href="#module-rsudp.c_custom" title="rsudp.c_custom"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code></a> (run code)<a class="headerlink" href="#module-rsudp.c_custom" title="Permalink to this heading"></a></h1>
+<span id="rsudp-c-custom-run-code"></span><h1><a class="reference internal" href="#module-rsudp.c_custom" title="rsudp.c_custom"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code></a> (run code)<a class="headerlink" href="#module-rsudp.c_custom" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="rsudp.c_custom.Custom">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rsudp.c_custom.</span></span><span class="sig-name descname"><span class="pre">Custom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codefile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">win_ovr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_custom.Custom" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rsudp.c_custom.</span></span><span class="sig-name descname"><span class="pre">Custom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codefile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">win_ovr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_custom.Custom" title="Link to this definition"></a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 0.4.3.</span></p>
+<p><span class="versionmodified added">Added in version 0.4.3.</span></p>
 </div>
 <p>A consumer class that runs custom code from a python file passed to it.
 Please read the disclaimers and warnings at <a class="reference internal" href="settings.html#customcode"><span class="std std-ref">custom (run custom code)</span></a> prior to using this module.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>If you are running Windows and have code you want to pass to the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function,
+<p>If you are running Windows and have code you want to pass to the <a class="reference external" href="https://docs.python.org/3/library/functions.html#exec" title="(in Python v3.13)"><code class="xref py py-func docutils literal notranslate"><span class="pre">exec()</span></code></a> function,
 Python requires that your newline characters are in the UNIX style (<code class="code docutils literal notranslate"><span class="pre">n</span></code>),
 not the standard Windows style (<code class="code docutils literal notranslate"><span class="pre">rn</span></code>).
 To convert, follow the instructions in one of the answers to <a href="https://stackoverflow.com/questions/17579553/windows-command-to-convert-unix-line-endings" target="_blank">this stackoverflow question</a>.
@@ -160,15 +156,15 @@ If you are certain that your code file has no Windows newlines, you can set <cod
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.12)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>.</p></li>
-<li><p><strong>codefile</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – string of the python (.py) file to run, or False if none.</p></li>
-<li><p><strong>win_ovr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – user check to make sure that line ending format is correct (see warning above)</p></li>
+<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.13)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>.</p></li>
+<li><p><strong>codefile</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – string of the python (.py) file to run, or False if none.</p></li>
+<li><p><strong>win_ovr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – user check to make sure that line ending format is correct (see warning above)</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rsudp.c_custom.Custom.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_custom.Custom.run" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_custom.Custom.run" title="Link to this definition"></a></dt>
 <dd><p>Reads data from the queue and executes self.codefile if it sees an <code class="docutils literal notranslate"><span class="pre">ALARM</span></code> message.
 Quits if it sees a <code class="docutils literal notranslate"><span class="pre">TERM</span></code> message.</p>
 </dd></dl>
@@ -188,13 +184,13 @@ Quits if it sees a <code class="docutils literal notranslate"><span class="pre">
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="c_write.html" class="btn btn-neutral float-left" title="rsudp.c_write (write data)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="t_testdata.html" class="btn btn-neutral float-right" title="rsudp.t_testdata (test pre-producer)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="c_settings.html" class="btn btn-neutral float-right" title="rsudp.c_settings (Settings)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
+    <p>&#169; Copyright 2025, Raspberry Shake S.A..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

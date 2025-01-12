@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>2. Contributing to this project &mdash; rsudp  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -38,9 +36,6 @@
             rsudp
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                2.0.0
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -102,6 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_settings.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_settings</span></code> (Settings)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
@@ -136,9 +132,9 @@
            <div itemprop="articleBody">
              
   <section id="contributing-to-this-project">
-<h1><span class="section-number">2. </span>Contributing to this project<a class="headerlink" href="#contributing-to-this-project" title="Permalink to this heading"></a></h1>
+<h1><span class="section-number">2. </span>Contributing to this project<a class="headerlink" href="#contributing-to-this-project" title="Link to this heading"></a></h1>
 <section id="code-contributions">
-<h2><span class="section-number">2.1. </span>Code contributions<a class="headerlink" href="#code-contributions" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">2.1. </span>Code contributions<a class="headerlink" href="#code-contributions" title="Link to this heading"></a></h2>
 <p>Contributions to this project are always welcome.
 If you have questions or comments about how this software works,
 we want to hear from you.
@@ -163,7 +159,7 @@ here are some fun potential projects:</p>
 <li><p>GPIO pin interaction module (lights, motor control, buzzers, etc.)</p></li>
 <li><p>IFTTT integration</p></li>
 <li><p>Integration into other social media apps beyond Telegram and Twitter</p></li>
-<li><p>plot <a href="https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#advanced-example" target="_blank">trigger on-off events</a> for times set in <code class="docutils literal notranslate"><span class="pre">ALARM</span></code> and <code class="docutils literal notranslate"><span class="pre">RESET</span></code> messages using <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.axvline.html#matplotlib.pyplot.axvline" title="(in Matplotlib v3.9.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">matplotlib.pyplot.axvline()</span></code></a>:</p>
+<li><p>plot <a href="https://docs.obspy.org/tutorial/code_snippets/trigger_tutorial.html#advanced-example" target="_blank">trigger on-off events</a> for times set in <code class="docutils literal notranslate"><span class="pre">ALARM</span></code> and <code class="docutils literal notranslate"><span class="pre">RESET</span></code> messages using <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.axvline.html#matplotlib.pyplot.axvline" title="(in Matplotlib v3.10.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">matplotlib.pyplot.axvline()</span></code></a>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">on_events</span> <span class="o">=</span> <span class="p">[</span><span class="n">UTCDateTime1</span><span class="p">,</span> <span class="n">UTCDateTime3</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">time</span> <span class="ow">in</span> <span class="n">on_events</span><span class="p">:</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">time</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">14</span><span class="p">)),</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
@@ -178,7 +174,7 @@ here are some fun potential projects:</p>
 </ul>
 </section>
 <section id="bugs">
-<h2><span class="section-number">2.2. </span>Bugs<a class="headerlink" href="#bugs" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">2.2. </span>Bugs<a class="headerlink" href="#bugs" title="Link to this heading"></a></h2>
 <p>This software, like most, contains bugs and errors.
 If you find a bug, please create a GitHub issue.
 Be sure to describe the problem clearly, attach your logs
@@ -199,7 +195,7 @@ in triple backticks ``` like this ``` to format it as code.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
+    <p>&#169; Copyright 2025, Raspberry Shake S.A..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

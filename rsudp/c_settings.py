@@ -4,6 +4,11 @@ from rsudp import COLOR
 
 
 class Settings(dict):
+    """
+    .. versionadded:: 2.0.1
+
+    Сlass processes configuration files.
+    """
     def dump(self, loc: str):
         '''
         Dumps a default settings file to a specified location.
@@ -23,7 +28,7 @@ class Settings(dict):
         :return: JSON string
         :rtype: str
         '''
-        return json.dumps(self)
+        return json.dumps(self, indent=2)
 
     @staticmethod
     def read_settings(loc: str):
@@ -43,7 +48,7 @@ class Settings(dict):
             except Exception as e:
                 print(f'{COLOR['red']}ERROR: Could not load settings file. Perhaps the JSON is malformed?{COLOR['white']}')
                 print(f'{COLOR['red']}       detail: {e}{COLOR['white']}')
-                print(f'{COLOR['red']}       If you would like to overwrite and rebuild the file, you can enter the command below:{COLOR['white']}')
+                print(f'{COLOR['reexitd']}       If you would like to overwrite and rebuild the file, you can enter the command below:{COLOR['white']}')
                 print(f'{COLOR['red']}       shake_client -d {loc}{COLOR['white']}')
                 exit(2)
         return settings
@@ -80,11 +85,21 @@ class Settings(dict):
         settings["plot"] = {}
         settings["plot"]["enabled"] = True
         settings["plot"]["duration"] = 90
+        settings["plot"]["refresh_interval"] = 0
         settings["plot"]["spectrogram"] = True
         settings["plot"]["fullscreen"] = False
         settings["plot"]["kiosk"] = False
         settings["plot"]["eq_screenshots"] = False
         settings["plot"]["channels"] = ["all"]
+        settings["plot"]["filter_waveform"] = False
+        settings["plot"]["filter_spectrogram"] = False
+        settings["plot"]["filter_highpass"] = 0.7
+        settings["plot"]["filter_lowpass"] = 2.0
+        settings["plot"]["filter_corners"] = 4
+        settings["plot"]["spectrogram_freq_range"] = False
+        settings["plot"]["upper_limit"] = 15.0
+        settings["plot"]["lower_limit"] = 0.0
+        settings["plot"]["logarithmic_y_axis"] = False
         settings["plot"]["deconvolve"] = True
         settings["plot"]["units"] = "CHAN"
 
@@ -103,6 +118,7 @@ class Settings(dict):
         settings["alert"]["channel"] = "HZ"
         settings["alert"]["sta"] = 6
         settings["alert"]["lta"] = 30
+        settings["alert"]["duration"] = 0.0
         settings["alert"]["threshold"] = 3.95
         settings["alert"]["reset"] = 0.9
         settings["alert"]["highpass"] = 0.8

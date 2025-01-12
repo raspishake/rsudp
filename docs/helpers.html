@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rsudp.helpers (helper functions) &mdash; rsudp  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -38,9 +36,6 @@
             rsudp
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                2.0.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -115,6 +110,7 @@
 <li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_settings.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_settings</span></code> (Settings)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
@@ -149,11 +145,11 @@
            <div itemprop="articleBody">
              
   <section id="rsudp-helpers-helper-functions">
-<h1><a class="reference internal" href="#module-rsudp.helpers" title="rsudp.helpers"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code></a> (helper functions)<a class="headerlink" href="#rsudp-helpers-helper-functions" title="Permalink to this heading"></a></h1>
+<h1><a class="reference internal" href="#module-rsudp.helpers" title="rsudp.helpers"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.helpers</span></code></a> (helper functions)<a class="headerlink" href="#rsudp-helpers-helper-functions" title="Link to this heading"></a></h1>
 <p>These are some helper functions in rsudp.</p>
-<span class="target" id="module-rsudp.helpers"></span><dl class="py function">
+<dl class="py function" id="module-rsudp.helpers">
 <dt class="sig sig-object py" id="rsudp.helpers.conn_stats">
-<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">conn_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">TESTING</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.conn_stats" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">conn_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">TESTING</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.conn_stats" title="Link to this definition"></a></dt>
 <dd><p>Print some stats about the connection.</p>
 <p>Example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">conn_stats</span><span class="p">()</span>
@@ -177,7 +173,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.helpers.deconv_acc_inst">
-<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">deconv_acc_inst</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconv_acc_inst" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">deconv_acc_inst</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconv_acc_inst" title="Link to this definition"></a></dt>
 <dd><p>A helper function for <code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.deconvolve()</span></code>
 for acceleration channels.</p>
 <dl class="field-list simple">
@@ -192,7 +188,7 @@ for acceleration channels.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.helpers.deconv_rbm_inst">
-<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">deconv_rbm_inst</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconv_rbm_inst" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">deconv_rbm_inst</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconv_rbm_inst" title="Link to this definition"></a></dt>
 <dd><p>A helper function for <code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.deconvolve()</span></code>
 for Raspberry Boom pressure transducer channels.</p>
 <div class="admonition note">
@@ -214,7 +210,7 @@ counts.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.helpers.deconv_vel_inst">
-<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">deconv_vel_inst</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconv_vel_inst" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">deconv_vel_inst</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconv_vel_inst" title="Link to this definition"></a></dt>
 <dd><p>A helper function for <code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.raspberryshake.deconvolve()</span></code>
 for velocity channels.</p>
 <dl class="field-list simple">
@@ -229,7 +225,7 @@ for velocity channels.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.helpers.deconvolve">
-<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">deconvolve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconvolve" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">deconvolve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.deconvolve" title="Link to this definition"></a></dt>
 <dd><p>A central helper function for sub-consumers (i.e. <a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot" title="rsudp.c_plot.Plot"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_plot.Plot</span></code></a> or <a class="reference internal" href="c_alert.html#rsudp.c_alert.Alert" title="rsudp.c_alert.Alert"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_alert.Alert</span></code></a>)
 that need to deconvolve their raw data to metric units.
 Consumers with <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy v1.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">obspy.core.stream.Stream</span></code></a> objects in <code class="code highlight pycode python docutils literal highlight-python"><span class="bp">self</span><span class="o">.</span><span class="n">stream</span></code> can use this to deconvolve data
@@ -244,9 +240,9 @@ contains a valid <a class="reference external" href="https://docs.obspy.org/pack
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.helpers.fsec">
-<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">fsec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ti</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.fsec" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">fsec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ti</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.fsec" title="Link to this definition"></a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 0.4.3.</span></p>
+<p><span class="versionmodified added">Added in version 0.4.3.</span></p>
 </div>
 <p>The Raspberry Shake records at hundredths-of-a-second precision.
 In order to report time at this precision, we need to do some time-fu.</p>
@@ -259,7 +255,7 @@ strftime doesn’t support fractional returns, only the full integer microsecond
 which is an integer right-padded with zeroes. This function uses the <code class="docutils literal notranslate"><span class="pre">precision</span></code>
 of a datetime object.</p>
 <p>For example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">obspy</span> <span class="kn">import</span> <span class="n">UTCDateTime</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">obspy</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTCDateTime</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ti</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">599000</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fsec</span><span class="p">(</span><span class="n">ti</span><span class="p">)</span>
 <span class="go">UTCDateTime(2020, 1, 1, 0, 0, 0, 600000)</span>
@@ -280,10 +276,10 @@ of a datetime object.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.helpers.get_msg_path">
-<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">get_msg_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.get_msg_path" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">get_msg_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.get_msg_path" title="Link to this definition"></a></dt>
 <dd><p>This function gets the path from <code class="docutils literal notranslate"><span class="pre">IMGPATH</span></code> messages as a string.</p>
 <p>For example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">obspy</span> <span class="kn">import</span> <span class="n">UTCDateTime</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">obspy</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTCDateTime</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ti</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">599000</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/home/pi/rsudp/screenshots/test.png&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg_imgpath</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
@@ -308,11 +304,11 @@ of a datetime object.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.helpers.get_msg_time">
-<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">get_msg_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.get_msg_time" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">get_msg_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.get_msg_time" title="Link to this definition"></a></dt>
 <dd><p>This function gets the time from <code class="docutils literal notranslate"><span class="pre">ALARM</span></code>, <code class="docutils literal notranslate"><span class="pre">RESET</span></code>,
 and <code class="docutils literal notranslate"><span class="pre">IMGPATH</span></code> messages as a UTCDateTime object.</p>
 <p>For example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">obspy</span> <span class="kn">import</span> <span class="n">UTCDateTime</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">obspy</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTCDateTime</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ti</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">599000</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/home/pi/rsudp/screenshots/test.png&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg_imgpath</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
@@ -337,9 +333,9 @@ and <code class="docutils literal notranslate"><span class="pre">IMGPATH</span><
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.helpers.lesser_multiple">
-<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">lesser_multiple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.lesser_multiple" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">lesser_multiple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.lesser_multiple" title="Link to this definition"></a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.3.</span></p>
+<p><span class="versionmodified added">Added in version 1.0.3.</span></p>
 </div>
 <p>This function calculates the nearest multiple of the base number <code class="docutils literal notranslate"><span class="pre">base</span></code>
 for the number <code class="docutils literal notranslate"><span class="pre">x</span></code> passed to it, as long as the result is less than <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
@@ -349,12 +345,12 @@ off samples when trying to fit them into packets.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.helpers.msg_alarm">
-<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">msg_alarm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_alarm" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">msg_alarm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_alarm" title="Link to this definition"></a></dt>
 <dd><p>This function constructs the <code class="docutils literal notranslate"><span class="pre">ALARM</span></code> message as a bytes object.
 Currently this is only used by <a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.p_producer.Producer</span></code></a>
 to construct alarm queue messages.</p>
 <p>For example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">obspy</span> <span class="kn">import</span> <span class="n">UTCDateTime</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">obspy</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTCDateTime</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ti</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">599000</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">msg_alarm</span><span class="p">(</span><span class="n">ti</span><span class="p">)</span>
 <span class="go">b&#39;ALARM 2020-01-01T00:00:00.599Z&#39;</span>
@@ -375,12 +371,12 @@ to construct alarm queue messages.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.helpers.msg_imgpath">
-<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">msg_imgpath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_imgpath" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">msg_imgpath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_imgpath" title="Link to this definition"></a></dt>
 <dd><p>This function constructs the <code class="docutils literal notranslate"><span class="pre">IMGPATH</span></code> message as a bytes object.
 Currently this is only used by <a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot" title="rsudp.c_plot.Plot"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_plot.Plot</span></code></a>
 to construct queue messages containing timestamp and saved image path.</p>
 <p>For example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">obspy</span> <span class="kn">import</span> <span class="n">UTCDateTime</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">obspy</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTCDateTime</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ti</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">599000</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/home/pi/rsudp/screenshots/test.png&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">msg_imgpath</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
@@ -405,12 +401,12 @@ to construct queue messages containing timestamp and saved image path.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.helpers.msg_reset">
-<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">msg_reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reset_time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_reset" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">msg_reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reset_time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_reset" title="Link to this definition"></a></dt>
 <dd><p>This function constructs the <code class="docutils literal notranslate"><span class="pre">RESET</span></code> message as a bytes object.
 Currently this is only used by <a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.p_producer.Producer</span></code></a>
 to construct reset queue messages.</p>
 <p>For example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">obspy</span> <span class="kn">import</span> <span class="n">UTCDateTime</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">obspy</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTCDateTime</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ti</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">599000</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">msg_reset</span><span class="p">(</span><span class="n">ti</span><span class="p">)</span>
 <span class="go">b&#39;RESET 2020-01-01T00:00:00.599Z&#39;</span>
@@ -431,7 +427,7 @@ to construct reset queue messages.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.helpers.msg_term">
-<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">msg_term</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_term" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">msg_term</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.msg_term" title="Link to this definition"></a></dt>
 <dd><p>This function constructs the simple <code class="docutils literal notranslate"><span class="pre">TERM</span></code> message as a bytes object.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">msg_term</span><span class="p">()</span>
 <span class="go">b&#39;TERM&#39;</span>
@@ -449,12 +445,12 @@ to construct reset queue messages.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.helpers.resolve_extra_text">
-<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">resolve_extra_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_len</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sender</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'helpers'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.resolve_extra_text" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">resolve_extra_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_len</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sender</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'helpers'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.resolve_extra_text" title="Link to this definition"></a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.3.</span></p>
+<p><span class="versionmodified added">Added in version 1.0.3.</span></p>
 </div>
 <p>A central helper function for the <code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_telegram.Tweeter</span></code>
-and <code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_telegram.Telegrammer</span></code> classes that checks whether
+and <a class="reference internal" href="c_telegram.html#rsudp.c_telegram.Telegrammer" title="rsudp.c_telegram.Telegrammer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_telegram.Telegrammer</span></code></a> classes that checks whether
 the <code class="code highlight pycode python docutils literal highlight-python"><span class="s2">&quot;extra_text&quot;</span></code> parameter (in the settings file) is of appropriate
 length. This is done to avoid errors when posting alerts.
 The function will truncate longer messages.</p>
@@ -477,7 +473,7 @@ The function will truncate longer messages.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.helpers.set_channels">
-<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">set_channels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cha</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.set_channels" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.helpers.</span></span><span class="sig-name descname"><span class="pre">set_channels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cha</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.helpers.set_channels" title="Link to this definition"></a></dt>
 <dd><p>This function sets the channels available for plotting. Allowed units are as follows:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">[&quot;SHZ&quot;,</span> <span class="pre">&quot;EHZ&quot;,</span> <span class="pre">&quot;EHN&quot;,</span> <span class="pre">&quot;EHE&quot;]</span></code> - velocity channels</p></li>
@@ -520,7 +516,7 @@ you could specify</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
+    <p>&#169; Copyright 2025, Raspberry Shake S.A..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rsudp 2.0.1 &mdash; rsudp  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -37,9 +35,6 @@
             rsudp
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                2.0.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -97,6 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_settings.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_settings</span></code> (Settings)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
@@ -131,7 +127,7 @@
            <div itemprop="articleBody">
              
   <section id="rsudp-version">
-<h1><cite>rsudp</cite> 2.0.1<a class="headerlink" href="#rsudp-version" title="Permalink to this heading"></a></h1>
+<h1><cite>rsudp</cite> 2.0.1<a class="headerlink" href="#rsudp-version" title="Link to this heading"></a></h1>
 <a class="reference external image-reference" href="https://github.com/raspishake/rsudp"><img alt="https://img.shields.io/github/stars/raspishake/rsudp?style=social" src="https://img.shields.io/github/stars/raspishake/rsudp?style=social" /></a>
 <div class="line-block">
 <div class="line"><a href="https://github.com/raspishake/rsudp" target="_blank">https://github.com/raspishake/rsudp</a></div>
@@ -238,7 +234,7 @@ It is written in Python and is therefore highly customizable.</p>
 </ul>
 </div>
 <section id="code-documentation">
-<span id="modules"></span><h2>Code documentation<a class="headerlink" href="#code-documentation" title="Permalink to this heading"></a></h2>
+<span id="modules"></span><h2>Code documentation<a class="headerlink" href="#code-documentation" title="Link to this heading"></a></h2>
 <p>The modules available in rsudp are organized by type below.</p>
 <hr class="docutils" />
 <div class="toctree-wrapper compound">
@@ -306,7 +302,17 @@ It is written in Python and is therefore highly customizable.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="client.html#rsudp.client.handler"><code class="docutils literal notranslate"><span class="pre">handler()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="client.html#rsudp.client.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="client.html#rsudp.client.mk_p"><code class="docutils literal notranslate"><span class="pre">mk_p()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="client.html#rsudp.client.mk_q"><code class="docutils literal notranslate"><span class="pre">mk_q()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="client.html#rsudp.client.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="client.html#rsudp.client.start"><code class="docutils literal notranslate"><span class="pre">start()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="client.html#rsudp.client.test"><code class="docutils literal notranslate"><span class="pre">test()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="client.html#rsudp.client.test_mode"><code class="docutils literal notranslate"><span class="pre">test_mode()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code> (track packets)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="packetloss.html#rsudp.packetloss.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="packetloss.html#rsudp.packetloss.printTTLS"><code class="docutils literal notranslate"><span class="pre">printTTLS()</span></code></a></li>
@@ -348,8 +354,14 @@ It is written in Python and is therefore highly customizable.</p>
 <li class="toctree-l2"><a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot"><code class="docutils literal notranslate"><span class="pre">Plot</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_tweet.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="c_tweet.html#rsudp.c_tweet.Tweeter"><code class="docutils literal notranslate"><span class="pre">Tweeter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="c_telegram.html#rsudp.c_telegram.Telegrammer"><code class="docutils literal notranslate"><span class="pre">Telegrammer</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="c_forward.html#rsudp.c_forward.Forward"><code class="docutils literal notranslate"><span class="pre">Forward</span></code></a></li>
 </ul>
@@ -360,6 +372,10 @@ It is written in Python and is therefore highly customizable.</p>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="c_custom.html#rsudp.c_custom.Custom"><code class="docutils literal notranslate"><span class="pre">Custom</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="c_settings.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_settings</span></code> (Settings)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="c_settings.html#rsudp.c_settings.Settings"><code class="docutils literal notranslate"><span class="pre">Settings</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -396,7 +412,7 @@ It is written in Python and is therefore highly customizable.</p>
 </div>
 </section>
 <section id="function-index">
-<h2>Function index<a class="headerlink" href="#function-index" title="Permalink to this heading"></a></h2>
+<h2>Function index<a class="headerlink" href="#function-index" title="Link to this heading"></a></h2>
 <p>Need to look something up?</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
@@ -416,7 +432,7 @@ It is written in Python and is therefore highly customizable.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
+    <p>&#169; Copyright 2025, Raspberry Shake S.A..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

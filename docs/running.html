@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>4. Running rsudp &mdash; rsudp  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -38,9 +36,6 @@
             rsudp
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                2.0.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -105,6 +100,7 @@
 <li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_settings.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_settings</span></code> (Settings)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
@@ -139,22 +135,22 @@
            <div itemprop="articleBody">
              
   <section id="running-rsudp">
-<span id="running"></span><h1><span class="section-number">4. </span>Running rsudp<a class="headerlink" href="#running-rsudp" title="Permalink to this heading"></a></h1>
+<span id="running"></span><h1><span class="section-number">4. </span>Running rsudp<a class="headerlink" href="#running-rsudp" title="Link to this heading"></a></h1>
 <p>After modifying the settings file to your liking, you are ready to start rsudp.</p>
 <section id="starting-rsudp-on-unix">
-<h2><span class="section-number">4.1. </span>Starting rsudp on Unix<a class="headerlink" href="#starting-rsudp-on-unix" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">4.1. </span>Starting rsudp on Unix<a class="headerlink" href="#starting-rsudp-on-unix" title="Link to this heading"></a></h2>
 <p>Unix users may prefer to start with the easy-to-use start script available in the git repository:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash<span class="w"> </span>unix-start-rsudp.sh
 </pre></div>
 </div>
 </section>
 <section id="starting-rsudp-on-windows">
-<h2><span class="section-number">4.2. </span>Starting rsudp on Windows<a class="headerlink" href="#starting-rsudp-on-windows" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">4.2. </span>Starting rsudp on Windows<a class="headerlink" href="#starting-rsudp-on-windows" title="Link to this heading"></a></h2>
 <p>After modifying the settings file, Windows users can double click
 on the batch file named <code class="docutils literal notranslate"><span class="pre">win-start-rsudp.bat</span></code> to start.</p>
 </section>
 <section id="starting-manually-on-windows-or-unix">
-<span id="running-manually"></span><h2><span class="section-number">4.3. </span>Starting manually on Windows or Unix<a class="headerlink" href="#starting-manually-on-windows-or-unix" title="Permalink to this heading"></a></h2>
+<span id="running-manually"></span><h2><span class="section-number">4.3. </span>Starting manually on Windows or Unix<a class="headerlink" href="#starting-manually-on-windows-or-unix" title="Link to this heading"></a></h2>
 <p>This start method is covered in our <a href="https://youtu.be/HA9k3CzmgLI" target="_blank">rsudp start/run tutorial video</a>.</p>
 <p>1. First, to activate the conda environment, type <code class="code highlight bash docutils literal highlight-bash">conda<span class="w"> </span>activate<span class="w"> </span>rsudp</code>.
 If you can’t do this, and you’re on Unix, you may need to <a class="reference internal" href="installing.html#source"><span class="std std-ref">Run the sourcing line</span></a>.</p>
@@ -190,7 +186,7 @@ All data coming from any other Shake(s) will be ignored.</p>
 </div>
 </section>
 <section id="running-in-demonstration-testing-mode">
-<span id="run-test"></span><h2><span class="section-number">4.4. </span>Running in demonstration/testing mode<a class="headerlink" href="#running-in-demonstration-testing-mode" title="Permalink to this heading"></a></h2>
+<span id="run-test"></span><h2><span class="section-number">4.4. </span>Running in demonstration/testing mode<a class="headerlink" href="#running-in-demonstration-testing-mode" title="Link to this heading"></a></h2>
 <p>See more about this functionality in <a class="reference internal" href="testing.html#test"><span class="std std-ref">Testing and demoing rsudp</span></a>.</p>
 <p>To start, open a Terminal or Anaconda Prompt window.</p>
 <ol class="arabic simple">
@@ -203,7 +199,7 @@ earthquake detection functionality, the alarm sound,
 and the plot.</p>
 </section>
 <section id="quitting">
-<h2><span class="section-number">4.5. </span>Quitting<a class="headerlink" href="#quitting" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">4.5. </span>Quitting<a class="headerlink" href="#quitting" title="Link to this heading"></a></h2>
 <p>You can force-stop rsudp in all operating systems by either closing the plot window (if open)
 or by pressing <kbd class="kbd docutils literal notranslate">Ctrl</kbd>+<kbd class="kbd docutils literal notranslate">C</kbd> with the terminal window in focus.</p>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
@@ -221,7 +217,7 @@ or by pressing <kbd class="kbd docutils literal notranslate">Ctrl</kbd>+<kbd cla
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
+    <p>&#169; Copyright 2025, Raspberry Shake S.A..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

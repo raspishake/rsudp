@@ -1,29 +1,27 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rsudp.t_testdata (test pre-producer) &mdash; rsudp  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="rsudp.c_testing (test consumer)" href="c_testing.html" />
-    <link rel="prev" title="rsudp.c_custom (run code)" href="c_custom.html" /> 
+    <link rel="prev" title="rsudp.c_settings (Settings)" href="c_settings.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -38,9 +36,6 @@
             rsudp
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                2.0.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -98,6 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_settings.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_settings</span></code> (Settings)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul class="current">
@@ -139,12 +135,12 @@
            <div itemprop="articleBody">
              
   <section id="module-rsudp.t_testdata">
-<span id="rsudp-t-testdata-test-pre-producer"></span><h1><a class="reference internal" href="#module-rsudp.t_testdata" title="rsudp.t_testdata"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code></a> (test pre-producer)<a class="headerlink" href="#module-rsudp.t_testdata" title="Permalink to this heading"></a></h1>
+<span id="rsudp-t-testdata-test-pre-producer"></span><h1><a class="reference internal" href="#module-rsudp.t_testdata" title="rsudp.t_testdata"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.t_testdata</span></code></a> (test pre-producer)<a class="headerlink" href="#module-rsudp.t_testdata" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="rsudp.t_testdata.TestData">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rsudp.t_testdata.</span></span><span class="sig-name descname"><span class="pre">TestData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.t_testdata.TestData" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rsudp.t_testdata.</span></span><span class="sig-name descname"><span class="pre">TestData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.t_testdata.TestData" title="Link to this definition"></a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 0.4.3.</span></p>
+<p><span class="versionmodified added">Added in version 0.4.3.</span></p>
 </div>
 <p>A simple module that reads lines formatted as Raspberry Shake UDP packets
 from a file on disk, and sends them to the specified localhost port.
@@ -163,7 +159,7 @@ or when an <code class="docutils literal notranslate"><span class="pre">ENDTEST<
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rsudp.t_testdata.TestData.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.t_testdata.TestData.run" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.t_testdata.TestData.run" title="Link to this definition"></a></dt>
 <dd><p>Start the thread. First, opens a file, determines the speed of data flow,
 then opens a socket and begins sending data at that transmission rate.</p>
 <p>Continues sending data until an <code class="docutils literal notranslate"><span class="pre">ENDTEST</span></code> packet arrives on the queue,
@@ -173,7 +169,7 @@ Then, sends a <code class="docutils literal notranslate"><span class="pre">TERM<
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rsudp.t_testdata.TestData.send">
-<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.t_testdata.TestData.send" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.t_testdata.TestData.send" title="Link to this definition"></a></dt>
 <dd><p>Send the latest line in the open file to the specified port at localhost.
 If the next line’s timestamp is the same,
 that line will also be sent immediately.
@@ -198,14 +194,14 @@ and prepare to exit.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="c_custom.html" class="btn btn-neutral float-left" title="rsudp.c_custom (run code)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="c_settings.html" class="btn btn-neutral float-left" title="rsudp.c_settings (Settings)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="c_testing.html" class="btn btn-neutral float-right" title="rsudp.c_testing (test consumer)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
+    <p>&#169; Copyright 2025, Raspberry Shake S.A..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

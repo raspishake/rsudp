@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>3. Modules and Settings &mdash; rsudp  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -38,9 +36,6 @@
             rsudp
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                2.0.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -136,6 +131,7 @@
 <li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_settings.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_settings</span></code> (Settings)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
@@ -170,7 +166,7 @@
            <div itemprop="articleBody">
              
   <section id="modules-and-settings">
-<span id="settings"></span><h1><span class="section-number">3. </span>Modules and Settings<a class="headerlink" href="#modules-and-settings" title="Permalink to this heading"></a></h1>
+<span id="settings"></span><h1><span class="section-number">3. </span>Modules and Settings<a class="headerlink" href="#modules-and-settings" title="Link to this heading"></a></h1>
 <p>You will need to adjust the settings file before running <code class="code highlight bash docutils literal highlight-bash">rsudp</code> in order to
 both receive data and suit your earthquake detection and notification needs.
 Additionally after changing settings, you will need to restart <code class="code highlight bash docutils literal highlight-bash">rsudp</code> to load new values.</p>
@@ -181,7 +177,7 @@ To output default settings to a different location, see <a class="reference inte
 (<a class="reference internal" href="entry_points.html#rsudp.entry_points.ep_edit_settings" title="rsudp.entry_points.ep_edit_settings"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.entry_points.ep_edit_settings()</span></code></a>) to call your system’s default editor to edit the settings
 file.</p>
 <section id="settings-general-settings">
-<h2><span class="section-number">3.1. </span><code class="code docutils literal notranslate"><span class="pre">settings</span></code> (general settings)<a class="headerlink" href="#settings-general-settings" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">3.1. </span><code class="code docutils literal notranslate"><span class="pre">settings</span></code> (general settings)<a class="headerlink" href="#settings-general-settings" title="Link to this heading"></a></h2>
 <p>The <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;settings&quot;</span></code> portion of the settings file contains some basic items:
 <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;port&quot;</span></code>, <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;station&quot;</span></code>, <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;output_dir&quot;</span></code>, and <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;debug&quot;</span></code>.
 Change <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;port&quot;</span></code> if you are receiving the data at a different port than <code class="code highlight json docutils literal highlight-json"><span class="mi">8888</span></code>.
@@ -193,7 +189,7 @@ The directory specified here will be created if it doesn’t already exist.
 (even if this is false, output will always be sent to a log at <code class="code docutils literal notranslate"><span class="pre">/tmp/rsudp/rsudp.log</span></code>).</p>
 </section>
 <section id="plot-live-data-plot">
-<h2><span class="section-number">3.2. </span><code class="code docutils literal notranslate"><span class="pre">plot</span></code> (live data plot)<a class="headerlink" href="#plot-live-data-plot" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">3.2. </span><code class="code docutils literal notranslate"><span class="pre">plot</span></code> (live data plot)<a class="headerlink" href="#plot-live-data-plot" title="Link to this heading"></a></h2>
 <p><code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;plot&quot;</span></code> controls <a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot" title="rsudp.c_plot.Plot"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_plot.Plot</span></code></a>, the thread containing the GUI plotting
 algorithm.
 This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and
@@ -246,7 +242,7 @@ This will only occur when the alarm gets triggered, however, so make sure to tes
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
 </section>
 <section id="alert-sta-lta-earthquake-detection-trigger">
-<span id="alert"></span><h2><span class="section-number">3.3. </span><code class="code docutils literal notranslate"><span class="pre">alert</span></code> (STA/LTA earthquake detection trigger)<a class="headerlink" href="#alert-sta-lta-earthquake-detection-trigger" title="Permalink to this heading"></a></h2>
+<span id="alert"></span><h2><span class="section-number">3.3. </span><code class="code docutils literal notranslate"><span class="pre">alert</span></code> (STA/LTA earthquake detection trigger)<a class="headerlink" href="#alert-sta-lta-earthquake-detection-trigger" title="Link to this heading"></a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p><strong>Standard performance disclaimer</strong></p>
@@ -287,10 +283,10 @@ This tells all consumers listening for <code class="code docutils literal notran
 The Producer will then send a <code class="code docutils literal notranslate"><span class="pre">RESET</span></code> message to the queues.</p>
 <p>For more information on the packets generated by the Producer, see <a class="reference internal" href="theory.html#producer-consumer"><span class="std std-ref">Producer-consumer message passing</span></a>.</p>
 <section id="recommendations">
-<h3><span class="section-number">3.3.1. </span>Recommendations<a class="headerlink" href="#recommendations" title="Permalink to this heading"></a></h3>
+<h3><span class="section-number">3.3.1. </span>Recommendations<a class="headerlink" href="#recommendations" title="Link to this heading"></a></h3>
 <p>The detection and filtering settings that we’ve found work well are below for different scenarios.</p>
 <section id="general-use">
-<h4><span class="section-number">3.3.1.1. </span>General use<a class="headerlink" href="#general-use" title="Permalink to this heading"></a></h4>
+<h4><span class="section-number">3.3.1.1. </span>General use<a class="headerlink" href="#general-use" title="Link to this heading"></a></h4>
 <p>For a station with sudden motion (footsteps nearby occasionally),
 or one atop unconsolidated sediment:</p>
 <div class="highlight-None notranslate"><div class="highlight"><pre><span></span>&quot;alert&quot;: {
@@ -308,7 +304,7 @@ or one atop unconsolidated sediment:</p>
 </div>
 </section>
 <section id="quiet-vault">
-<h4><span class="section-number">3.3.1.2. </span>Quiet vault<a class="headerlink" href="#quiet-vault" title="Permalink to this heading"></a></h4>
+<h4><span class="section-number">3.3.1.2. </span>Quiet vault<a class="headerlink" href="#quiet-vault" title="Link to this heading"></a></h4>
 <p>For a very quiet station placed atop bedrock:</p>
 <div class="highlight-None notranslate"><div class="highlight"><pre><span></span>&quot;alert&quot;: {
     &quot;enabled&quot;: true,
@@ -325,7 +321,7 @@ or one atop unconsolidated sediment:</p>
 </div>
 </section>
 <section id="classroom-demonstrations">
-<h4><span class="section-number">3.3.1.3. </span>Classroom demonstrations<a class="headerlink" href="#classroom-demonstrations" title="Permalink to this heading"></a></h4>
+<h4><span class="section-number">3.3.1.3. </span>Classroom demonstrations<a class="headerlink" href="#classroom-demonstrations" title="Link to this heading"></a></h4>
 <p>For a classroom looking to detect jumps but not necessarily earthquakes, start with
 the settings below. The main difference here is that there is no bandpass filter
 applied to the signal before it is put into the STA/LTA algorithm, which changes
@@ -347,7 +343,7 @@ the calculation needed for exceedence of the threshold. Adjust the
 </section>
 </section>
 <section id="using-exec">
-<h3><span class="section-number">3.3.2. </span>Using <code class="code docutils literal notranslate"><span class="pre">&quot;exec&quot;</span></code><a class="headerlink" href="#using-exec" title="Permalink to this heading"></a></h3>
+<h3><span class="section-number">3.3.2. </span>Using <code class="code docutils literal notranslate"><span class="pre">&quot;exec&quot;</span></code><a class="headerlink" href="#using-exec" title="Link to this heading"></a></h3>
 <blockquote>
 <div><div class="deprecated">
 <p><span class="versionmodified deprecated">Deprecated since version 0.4.3: </span>You can change the <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;exec&quot;</span></code> field and supply a path to
@@ -361,9 +357,9 @@ and this part of the alert module will be fully removed in a future release.</p>
 </section>
 </section>
 <section id="rsam-real-time-seismic-amplitude">
-<h2><span class="section-number">3.4. </span><code class="code docutils literal notranslate"><span class="pre">RSAM</span></code> (Real-time Seismic AMplitude)<a class="headerlink" href="#rsam-real-time-seismic-amplitude" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">3.4. </span><code class="code docutils literal notranslate"><span class="pre">RSAM</span></code> (Real-time Seismic AMplitude)<a class="headerlink" href="#rsam-real-time-seismic-amplitude" title="Link to this heading"></a></h2>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.1.</span></p>
+<p><span class="versionmodified added">Added in version 1.0.1.</span></p>
 </div>
 <p>This module calculates the Real-time Seismic Amplitude Measurement (RSAM) of the data stream every few seconds
 and can forward this data to another location on the network.</p>
@@ -385,7 +381,7 @@ prior to RSAM calculations.</p>
 <p>To run the RSAM module, set <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;enabled&quot;</span></code> to <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>.</p>
 </section>
 <section id="alarmsound-play-sounds-upon-alerts">
-<h2><span class="section-number">3.5. </span><code class="code docutils literal notranslate"><span class="pre">alarmsound</span></code> (play sounds upon alerts)<a class="headerlink" href="#alarmsound-play-sounds-upon-alerts" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">3.5. </span><code class="code docutils literal notranslate"><span class="pre">alarmsound</span></code> (play sounds upon alerts)<a class="headerlink" href="#alarmsound-play-sounds-upon-alerts" title="Link to this heading"></a></h2>
 <p>If alarmsound’s <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;enabled&quot;</span></code> is <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code> and you have either <code class="code highlight bash docutils literal highlight-bash">ffmpeg</code> or <code class="code highlight bash docutils literal highlight-bash">libav</code> installed,
 <a class="reference internal" href="c_alertsound.html#rsudp.c_alertsound.AlertSound" title="rsudp.c_alertsound.AlertSound"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_alertsound.AlertSound</span></code></a> plays an MP3 sound every time it receives an <code class="code docutils literal notranslate"><span class="pre">ALARM</span></code> queue message.
 For details on installation of these dependencies, see <a href="https://github.com/jiaaro/pydub#dependencies" target="_blank">this page</a>.</p>
@@ -403,22 +399,22 @@ It will also alert you if the software dependencies for playback are not install
 change <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;enabled&quot;</span></code> to <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>, start rsudp,
 wait for the trigger to warm up, then stomp, jump, or Shake to trigger the sound.</p>
 <section id="installing-pydub-dependencies">
-<h3><span class="section-number">3.5.1. </span>Installing <code class="code docutils literal notranslate"><span class="pre">pydub</span></code> dependencies<a class="headerlink" href="#installing-pydub-dependencies" title="Permalink to this heading"></a></h3>
+<h3><span class="section-number">3.5.1. </span>Installing <code class="code docutils literal notranslate"><span class="pre">pydub</span></code> dependencies<a class="headerlink" href="#installing-pydub-dependencies" title="Link to this heading"></a></h3>
 <p>If you would like to play sounds when the STA/LTA trigger activates,
 you will need to take the following installation steps beforehand:</p>
 <section id="on-linux">
-<h4><span class="section-number">3.5.1.1. </span>On Linux<a class="headerlink" href="#on-linux" title="Permalink to this heading"></a></h4>
+<h4><span class="section-number">3.5.1.1. </span>On Linux<a class="headerlink" href="#on-linux" title="Link to this heading"></a></h4>
 <p><a href="http://ffmpeg.org/" target="_blank">ffmpeg</a> comes installed by default on some OS flavors
 and is available on most Linux package managers.</p>
 <p>Debian and Raspbian users can simply type <code class="code highlight bash docutils literal highlight-bash">sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="p">;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ffmpeg</code></p>
 </section>
 <section id="on-macos">
-<h4><span class="section-number">3.5.1.2. </span>On MacOS<a class="headerlink" href="#on-macos" title="Permalink to this heading"></a></h4>
+<h4><span class="section-number">3.5.1.2. </span>On MacOS<a class="headerlink" href="#on-macos" title="Link to this heading"></a></h4>
 <p>Users with Homebrew can install by doing <code class="code highlight bash docutils literal highlight-bash">brew<span class="w"> </span>install<span class="w"> </span>ffmpeg</code></p>
 <p>Users without Homebrew will need to install using a binary build <a href="http://ffmpeg.org/download.html#build-mac" target="_blank">from the ffmpeg website</a>.</p>
 </section>
 <section id="on-windows">
-<h4><span class="section-number">3.5.1.3. </span>On Windows<a class="headerlink" href="#on-windows" title="Permalink to this heading"></a></h4>
+<h4><span class="section-number">3.5.1.3. </span>On Windows<a class="headerlink" href="#on-windows" title="Link to this heading"></a></h4>
 <p>Windows users will need to do a couple of extra steps to get <code class="code docutils literal notranslate"><span class="pre">ffmpeg</span></code> installed.
 Following steps 1-8 in <a href="https://windowsloop.com/install-ffmpeg-windows-10/" target="_blank">this installation guide</a> should be sufficient to get things working.</p>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
@@ -426,7 +422,7 @@ Following steps 1-8 in <a href="https://windowsloop.com/install-ffmpeg-windows-1
 </section>
 </section>
 <section id="telegram-telegram-notification-module">
-<h2><span class="section-number">3.6. </span><code class="code docutils literal notranslate"><span class="pre">telegram</span></code> (Telegram notification module)<a class="headerlink" href="#telegram-telegram-notification-module" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">3.6. </span><code class="code docutils literal notranslate"><span class="pre">telegram</span></code> (Telegram notification module)<a class="headerlink" href="#telegram-telegram-notification-module" title="Link to this heading"></a></h2>
 <p><a href="https://t.me/" target="_blank">Telegram</a> is a free and open source messaging and notification system,
 used by several earthquake notification agencies including the
 Mexican national early warning system (<a href="https://sasmex.net/" target="_blank">SASMEX</a>, <a href="https://t.me/sasmex" target="_blank">Telegram channel here</a>).
@@ -434,7 +430,7 @@ It has the bonus of being much, much easier to set up than Twitter,
 and will not as readily lock your account if there happen to be many posts in a short time period
 (in comparison to Twitter).</p>
 <p>If <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;enabled&quot;</span></code> is <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>, and bot <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;token&quot;</span></code> key is correctly entered,
-<code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_telegram.Telegrammer</span></code> will use the Telegram bot API to create alerts when an
+<a class="reference internal" href="c_telegram.html#rsudp.c_telegram.Telegrammer" title="rsudp.c_telegram.Telegrammer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_telegram.Telegrammer</span></code></a> will use the Telegram bot API to create alerts when an
 <code class="code docutils literal notranslate"><span class="pre">ALARM</span></code> message arrives on the queue.
 If <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;send_images&quot;</span></code> is <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>, then the module will also send a saved image of the event,
 if <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;eq_screenshots&quot;</span></code> is set to <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code> in the <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;plot&quot;</span></code> module.</p>
@@ -450,7 +446,7 @@ will yield a warning and the <code class="code highlight json docutils literal h
 in order to avoid the message being rejected for exceeding the 4096 character limit.</p>
 </div>
 <section id="setting-up-a-telegram-bot">
-<span id="setting-up-telegram"></span><h3><span class="section-number">3.6.1. </span>Setting up a Telegram Bot<a class="headerlink" href="#setting-up-a-telegram-bot" title="Permalink to this heading"></a></h3>
+<span id="setting-up-telegram"></span><h3><span class="section-number">3.6.1. </span>Setting up a Telegram Bot<a class="headerlink" href="#setting-up-a-telegram-bot" title="Link to this heading"></a></h3>
 <p>Here is a brief overview of the steps to set up a Telegram bot in order to make and distribute
 Telegram alerts from rsudp.</p>
 <ol class="arabic">
@@ -483,22 +479,22 @@ as well.</p>
 </section>
 </section>
 <section id="tweets-twitter-notification-module">
-<h2><span class="section-number">3.7. </span><code class="code docutils literal notranslate"><span class="pre">tweets</span></code> (Twitter notification module)<a class="headerlink" href="#tweets-twitter-notification-module" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">3.7. </span><code class="code docutils literal notranslate"><span class="pre">tweets</span></code> (Twitter notification module)<a class="headerlink" href="#tweets-twitter-notification-module" title="Link to this heading"></a></h2>
 <p>If <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;enabled&quot;</span></code> is <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>, and all API keys have been generated and are correctly entered,
-then the <code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_tweet.Tweeter</span></code> class will use the Twitter API to
+then the <a class="reference internal" href="c_tweet.html#rsudp.c_tweet.Tweeter" title="rsudp.c_tweet.Tweeter"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_tweet.Tweeter</span></code></a> class will use the Twitter API to
 create tweets when an ALARM message arrives on the queue.
 If <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;tweet_images&quot;</span></code> is <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>, then the module will also tweet a saved image of the event,
 if <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;eq_screenshots&quot;</span></code> is set to <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code> in the “plot” module. If any text is put in the
 <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;extra_text&quot;</span></code> string, then the software will insert that text (no longer than 103 characters)
 into the tweets after a single space. See examples below.</p>
 <section id="examples">
-<span id="eq-tweet-examples"></span><h3><span class="section-number">3.7.1. </span>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h3>
+<span id="eq-tweet-examples"></span><h3><span class="section-number">3.7.1. </span>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
 <p>As a comparison point, an unmodified tweet with <code class="code docutils literal notranslate"><span class="pre">&quot;extra_text&quot;:</span> <span class="pre">&quot;&quot;</span></code> might look like
 the following:</p>
 <figure class="align-center" id="id10">
 <span id="eq-tweet"></span><img alt="_images/eq_tweet.png" src="_images/eq_tweet.png" />
 <figcaption>
-<p><span class="caption-text">An example tweet sent with the “extra_text” parameter empty (this is the default).</span><a class="headerlink" href="#id10" title="Permalink to this image"></a></p>
+<p><span class="caption-text">An example tweet sent with the “extra_text” parameter empty (this is the default).</span><a class="headerlink" href="#id10" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>Changing the <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;extra_text&quot;</span></code> parameter to <code class="code docutils literal notranslate"><span class="pre">&quot;extra_text&quot;:</span> <span class="pre">&quot;from</span> <span class="pre">#Williamstown</span> <span class="pre">#MA&quot;</span></code>
@@ -506,7 +502,7 @@ would render something like this:</p>
 <figure class="align-center" id="id11">
 <span id="eq-tweet-extra"></span><img alt="_images/eq_tweet_extra.png" src="_images/eq_tweet_extra.png" />
 <figcaption>
-<p><span class="caption-text">An example tweet sent with the “extra_text” parameter filled.</span><a class="headerlink" href="#id11" title="Permalink to this image"></a></p>
+<p><span class="caption-text">An example tweet sent with the “extra_text” parameter filled.</span><a class="headerlink" href="#id11" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <div class="admonition warning">
@@ -517,7 +513,7 @@ in order to avoid the tweet being rejected for exceeding the 280 character limit
 </div>
 </section>
 <section id="setting-up-twitter-apps">
-<span id="setting-up-twitter"></span><h3><span class="section-number">3.7.2. </span>Setting up Twitter Apps<a class="headerlink" href="#setting-up-twitter-apps" title="Permalink to this heading"></a></h3>
+<span id="setting-up-twitter"></span><h3><span class="section-number">3.7.2. </span>Setting up Twitter Apps<a class="headerlink" href="#setting-up-twitter-apps" title="Link to this heading"></a></h3>
 <p>Here is a brief overview of the steps to set up a Twitter app (also known as an API bot)
 in order to make and distribute tweets from rsudp.</p>
 <ol class="arabic simple">
@@ -534,7 +530,7 @@ you may enter them into your settings file in the appropriate fields:
 </section>
 </section>
 <section id="write-miniseed-writer">
-<h2><span class="section-number">3.8. </span><code class="code docutils literal notranslate"><span class="pre">write</span></code> (miniSEED writer)<a class="headerlink" href="#write-miniseed-writer" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">3.8. </span><code class="code docutils literal notranslate"><span class="pre">write</span></code> (miniSEED writer)<a class="headerlink" href="#write-miniseed-writer" title="Link to this heading"></a></h2>
 <p><code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;write&quot;</span></code> controls <a class="reference internal" href="c_write.html#rsudp.c_write.Write" title="rsudp.c_write.Write"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_write.Write</span></code></a>, a very simple STEIM2 miniSEED writer class.
 If <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;enabled&quot;</span></code> is <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code>, seismic data is appended to a miniSEED file with a
 descriptive name in the data directory inside of <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;output_dir&quot;</span></code> every 10 seconds.
@@ -544,7 +540,7 @@ which will write the vertical geophone and accelerometer channels from RS4D outp
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
 </section>
 <section id="forward-datacast-forwarding">
-<span id="datacast-forwarding"></span><h2><span class="section-number">3.9. </span><code class="code docutils literal notranslate"><span class="pre">forward</span></code> (datacast forwarding)<a class="headerlink" href="#forward-datacast-forwarding" title="Permalink to this heading"></a></h2>
+<span id="datacast-forwarding"></span><h2><span class="section-number">3.9. </span><code class="code docutils literal notranslate"><span class="pre">forward</span></code> (datacast forwarding)<a class="headerlink" href="#forward-datacast-forwarding" title="Link to this heading"></a></h2>
 <p>The <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;forward&quot;</span></code> module controls <a class="reference internal" href="c_forward.html#rsudp.c_forward.Forward" title="rsudp.c_forward.Forward"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_forward.Forward</span></code></a>, a UDP datacast forwarding module.
 You can forward UDP packets containing data and/or alarm state messages to a list of destinations specified
 in <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;address&quot;</span></code> and <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;port&quot;</span></code>, just like you would from the Shake’s web front end.</p>
@@ -574,9 +570,9 @@ messages to each simultaneously. Each Pi node can then be configured to listen t
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
 </section>
 <section id="custom-run-custom-code">
-<span id="customcode"></span><h2><span class="section-number">3.10. </span><code class="code docutils literal notranslate"><span class="pre">custom</span></code> (run custom code)<a class="headerlink" href="#custom-run-custom-code" title="Permalink to this heading"></a></h2>
+<span id="customcode"></span><h2><span class="section-number">3.10. </span><code class="code docutils literal notranslate"><span class="pre">custom</span></code> (run custom code)<a class="headerlink" href="#custom-run-custom-code" title="Link to this heading"></a></h2>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 0.4.3.</span></p>
+<p><span class="versionmodified added">Added in version 0.4.3.</span></p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -614,7 +610,7 @@ If you are certain that your code file has no Windows newlines, you can set <cod
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
 </section>
 <section id="printdata-print-data-to-console">
-<h2><span class="section-number">3.11. </span><code class="code docutils literal notranslate"><span class="pre">printdata</span></code> (print data to console)<a class="headerlink" href="#printdata-print-data-to-console" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">3.11. </span><code class="code docutils literal notranslate"><span class="pre">printdata</span></code> (print data to console)<a class="headerlink" href="#printdata-print-data-to-console" title="Link to this heading"></a></h2>
 <p><code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;printdata&quot;</span></code> controls the data output module <code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_printraw.PrintRaw</span></code>,
 which simply prints Shake data packets to stdout as it receives them.
 Change <code class="code highlight json docutils literal highlight-json"><span class="s2">&quot;enabled&quot;</span></code> to <code class="code highlight json docutils literal highlight-json"><span class="kc">true</span></code> to activate.</p>
@@ -622,69 +618,100 @@ Change <code class="code highlight json docutils literal highlight-json"><span c
 <p>You are now ready to proceed to the next section, <a class="reference internal" href="running.html#running"><span class="std std-ref">Running rsudp</span></a>.</p>
 </section>
 <section id="default-settings">
-<span id="defaults"></span><h2><span class="section-number">3.12. </span>Default settings<a class="headerlink" href="#default-settings" title="Permalink to this heading"></a></h2>
+<span id="defaults"></span><h2><span class="section-number">3.12. </span>Default settings<a class="headerlink" href="#default-settings" title="Link to this heading"></a></h2>
 <p>By default, the settings are as follows:</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;port&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8888</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;station&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Z0000&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;output_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;@@DIR@@&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;debug&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">},</span>
-<span class="nt">&quot;printdata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">},</span>
-<span class="nt">&quot;write&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;output_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;output_dir&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;debug&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;printdata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;write&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;channels&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">]},</span>
-<span class="nt">&quot;plot&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;channels&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;all&quot;</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;plot&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">90</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;refresh_interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;spectrogram&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;fullscreen&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;kiosk&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;eq_screenshots&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;channels&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;channels&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;all&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;filter_waveform&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;filter_spectrogram&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;filter_highpass&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;filter_lowpass&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;filter_corners&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;spectrogram_freq_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;upper_limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">15.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;lower_limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;logarithmic_y_axis&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;deconvolve&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CHAN&quot;</span><span class="p">},</span>
-<span class="nt">&quot;forward&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CHAN&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;forward&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;192.168.1.254&quot;</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;port&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">8888</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;channels&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;192.168.1.254&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;port&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="mi">8888</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;channels&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;all&quot;</span>
+<span class="w">    </span><span class="p">],</span>
 <span class="w">    </span><span class="nt">&quot;fwd_data&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;fwd_alarms&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">},</span>
-<span class="nt">&quot;alert&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;fwd_alarms&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;alert&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;channel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HZ&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;sta&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;lta&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;threshold&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.95</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;reset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;highpass&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;lowpass&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;deconvolve&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VEL&quot;</span><span class="p">},</span>
-<span class="nt">&quot;alertsound&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VEL&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;alertsound&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;mp3file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;doorbell&quot;</span><span class="p">},</span>
-<span class="nt">&quot;custom&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;mp3file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;doorbell&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;custom&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;codefile&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;win_override&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">},</span>
-<span class="nt">&quot;tweets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;win_override&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;tweets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;tweet_images&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;api_key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;api_secret&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;access_secret&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;extra_text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">},</span>
-<span class="nt">&quot;telegram&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;extra_text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;telegram&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;send_images&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;chat_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;n/a&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;extra_text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">},</span>
-<span class="nt">&quot;rsam&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;extra_text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;rsam&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;quiet&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;fwaddr&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;192.168.1.254&quot;</span><span class="p">,</span>
@@ -693,7 +720,8 @@ Change <code class="code highlight json docutils literal highlight-json"><span c
 <span class="w">    </span><span class="nt">&quot;channel&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HZ&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;deconvolve&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VEL&quot;</span><span class="p">}</span>
+<span class="w">    </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VEL&quot;</span>
+<span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -717,7 +745,7 @@ Change <code class="code highlight json docutils literal highlight-json"><span c
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
+    <p>&#169; Copyright 2025, Raspberry Shake S.A..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

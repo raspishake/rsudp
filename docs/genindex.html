@@ -1,22 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Index &mdash; rsudp  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="#" />
@@ -35,9 +33,6 @@
             rsudp
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                2.0.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -95,6 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_settings.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_settings</span></code> (Settings)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
@@ -139,6 +135,7 @@
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#J"><strong>J</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#O"><strong>O</strong></a>
@@ -196,16 +193,20 @@
 </li>
       <li><a href="helpers.html#rsudp.helpers.deconv_rbm_inst">deconv_rbm_inst() (in module rsudp.helpers)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="helpers.html#rsudp.helpers.deconv_vel_inst">deconv_vel_inst() (in module rsudp.helpers)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="helpers.html#rsudp.helpers.deconvolve">deconvolve() (in module rsudp.helpers)</a>
 
       <ul>
         <li><a href="c_plot.html#rsudp.c_plot.Plot.deconvolve">(rsudp.c_plot.Plot method)</a>
 </li>
       </ul></li>
+      <li><a href="c_settings.html#rsudp.c_settings.Settings.default_settings">default_settings() (rsudp.c_settings.Settings static method)</a>
+</li>
+      <li><a href="c_settings.html#rsudp.c_settings.Settings.dump">dump() (rsudp.c_settings.Settings method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -288,12 +289,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="c_plot.html#rsudp.c_plot.Plot.handle_close">handle_close() (rsudp.c_plot.Plot method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="c_plot.html#rsudp.c_plot.Plot.handle_resize">handle_resize() (rsudp.c_plot.Plot method)</a>
 </li>
-      <li><a href="raspberryshake.html#rsudp.raspberryshake.handler">handler() (in module rsudp.raspberryshake)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="client.html#rsudp.client.handler">handler() (in module rsudp.client)</a>
+
+      <ul>
+        <li><a href="raspberryshake.html#rsudp.raspberryshake.handler">(in module rsudp.raspberryshake)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -307,6 +312,14 @@
       <li><a href="raspberryshake.html#rsudp.raspberryshake.initRSlib">initRSlib() (in module rsudp.raspberryshake)</a>
 </li>
       <li><a href="test.html#rsudp.test.is_connected">is_connected() (in module rsudp.test)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="J">J</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="c_settings.html#rsudp.c_settings.Settings.json">json (rsudp.c_settings.Settings property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -328,9 +341,11 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="packetize.html#rsudp.packetize.main">main() (in module rsudp.packetize)</a>
+      <li><a href="client.html#rsudp.client.main">main() (in module rsudp.client)</a>
 
       <ul>
+        <li><a href="packetize.html#rsudp.packetize.main">(in module rsudp.packetize)</a>
+</li>
         <li><a href="packetloss.html#rsudp.packetloss.main">(in module rsudp.packetloss)</a>
 </li>
       </ul></li>
@@ -341,6 +356,10 @@
       <li><a href="test.html#rsudp.test.make_test_settings">make_test_settings() (in module rsudp.test)</a>
 </li>
       <li><a href="raspberryshake.html#rsudp.raspberryshake.make_trace">make_trace() (in module rsudp.raspberryshake)</a>
+</li>
+      <li><a href="client.html#rsudp.client.mk_p">mk_p() (in module rsudp.client)</a>
+</li>
+      <li><a href="client.html#rsudp.client.mk_q">mk_q() (in module rsudp.client)</a>
 </li>
       <li>
     module
@@ -362,9 +381,17 @@
 </li>
         <li><a href="c_rsam.html#module-rsudp.c_rsam">rsudp.c_rsam</a>
 </li>
+        <li><a href="c_settings.html#module-rsudp.c_settings">rsudp.c_settings</a>
+</li>
+        <li><a href="c_telegram.html#module-rsudp.c_telegram">rsudp.c_telegram</a>
+</li>
         <li><a href="c_testing.html#module-rsudp.c_testing">rsudp.c_testing</a>
 </li>
+        <li><a href="c_tweet.html#module-rsudp.c_tweet">rsudp.c_tweet</a>
+</li>
         <li><a href="c_write.html#module-rsudp.c_write">rsudp.c_write</a>
+</li>
+        <li><a href="client.html#module-rsudp.client">rsudp.client</a>
 </li>
         <li><a href="entry_points.html#module-rsudp.entry_points">rsudp.entry_points</a>
 </li>
@@ -439,6 +466,8 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="c_settings.html#rsudp.c_settings.Settings.read_settings">read_settings() (rsudp.c_settings.Settings static method)</a>
+</li>
       <li><a href="helpers.html#rsudp.helpers.resolve_extra_text">resolve_extra_text() (in module rsudp.helpers)</a>
 </li>
       <li><a href="c_rsam.html#rsudp.c_rsam.RSAM">RSAM (class in rsudp.c_rsam)</a>
@@ -500,10 +529,31 @@
 </li>
       </ul></li>
       <li>
+    rsudp.c_settings
+
+      <ul>
+        <li><a href="c_settings.html#module-rsudp.c_settings">module</a>
+</li>
+      </ul></li>
+      <li>
+    rsudp.c_telegram
+
+      <ul>
+        <li><a href="c_telegram.html#module-rsudp.c_telegram">module</a>
+</li>
+      </ul></li>
+      <li>
     rsudp.c_testing
 
       <ul>
         <li><a href="c_testing.html#module-rsudp.c_testing">module</a>
+</li>
+      </ul></li>
+      <li>
+    rsudp.c_tweet
+
+      <ul>
+        <li><a href="c_tweet.html#module-rsudp.c_tweet">module</a>
 </li>
       </ul></li>
       <li>
@@ -513,6 +563,15 @@
         <li><a href="c_write.html#module-rsudp.c_write">module</a>
 </li>
       </ul></li>
+      <li>
+    rsudp.client
+
+      <ul>
+        <li><a href="client.html#module-rsudp.client">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     rsudp.entry_points
 
@@ -527,8 +586,6 @@
         <li><a href="helpers.html#module-rsudp.helpers">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     rsudp.p_producer
 
@@ -571,9 +628,11 @@
         <li><a href="test.html#module-rsudp.test">module</a>
 </li>
       </ul></li>
-      <li><a href="packetloss.html#rsudp.packetloss.run">run() (in module rsudp.packetloss)</a>
+      <li><a href="client.html#rsudp.client.run">run() (in module rsudp.client)</a>
 
       <ul>
+        <li><a href="packetloss.html#rsudp.packetloss.run">(in module rsudp.packetloss)</a>
+</li>
         <li><a href="c_alert.html#rsudp.c_alert.Alert.run">(rsudp.c_alert.Alert method)</a>
 </li>
         <li><a href="c_alertsound.html#rsudp.c_alertsound.AlertSound.run">(rsudp.c_alertsound.AlertSound method)</a>
@@ -588,7 +647,11 @@
 </li>
         <li><a href="c_rsam.html#rsudp.c_rsam.RSAM.run">(rsudp.c_rsam.RSAM method)</a>
 </li>
+        <li><a href="c_telegram.html#rsudp.c_telegram.Telegrammer.run">(rsudp.c_telegram.Telegrammer method)</a>
+</li>
         <li><a href="c_testing.html#rsudp.c_testing.Testing.run">(rsudp.c_testing.Testing method)</a>
+</li>
+        <li><a href="c_tweet.html#rsudp.c_tweet.Tweeter.run">(rsudp.c_tweet.Tweeter method)</a>
 </li>
         <li><a href="c_write.html#rsudp.c_write.Write.run">(rsudp.c_write.Write method)</a>
 </li>
@@ -619,6 +682,8 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="c_settings.html#rsudp.c_settings.Settings">Settings (class in rsudp.c_settings)</a>
+</li>
       <li><a href="c_plot.html#rsudp.c_plot.Plot.setup_plot">setup_plot() (rsudp.c_plot.Plot method)</a>
 </li>
       <li><a href="packetloss.html#rsudp.packetloss.signal_handler">signal_handler() (in module rsudp.packetloss)</a>
@@ -626,6 +691,8 @@
       <li><a href="c_write.html#rsudp.c_write.Write.slicestream">slicestream() (rsudp.c_write.Write method)</a>
 </li>
       <li><a href="test.html#rsudp.test.ss_permissions">ss_permissions() (in module rsudp.test)</a>
+</li>
+      <li><a href="client.html#rsudp.client.start">start() (in module rsudp.client)</a>
 </li>
       <li><a href="init.html#rsudp.__init__.start_logging">start_logging() (in module rsudp.__init__)</a>
 </li>
@@ -635,11 +702,19 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="t_testdata.html#rsudp.t_testdata.TestData">TestData (class in rsudp.t_testdata)</a>
+      <li><a href="c_telegram.html#rsudp.c_telegram.Telegrammer">Telegrammer (class in rsudp.c_telegram)</a>
+</li>
+      <li><a href="client.html#rsudp.client.test">test() (in module rsudp.client)</a>
+</li>
+      <li><a href="client.html#rsudp.client.test_mode">test_mode() (in module rsudp.client)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="t_testdata.html#rsudp.t_testdata.TestData">TestData (class in rsudp.t_testdata)</a>
+</li>
       <li><a href="c_testing.html#rsudp.c_testing.Testing">Testing (class in rsudp.c_testing)</a>
+</li>
+      <li><a href="c_tweet.html#rsudp.c_tweet.Tweeter">Tweeter (class in rsudp.c_tweet)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -677,7 +752,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
+    <p>&#169; Copyright 2025, Raspberry Shake S.A..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

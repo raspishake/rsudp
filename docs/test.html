@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rsudp.test (test helpers) &mdash; rsudp  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -38,9 +36,6 @@
             rsudp
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                2.0.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -98,6 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_settings.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_settings</span></code> (Settings)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul class="current">
@@ -141,9 +137,9 @@
            <div itemprop="articleBody">
              
   <section id="rsudp-test-test-helpers">
-<h1><a class="reference internal" href="#module-rsudp.test" title="rsudp.test"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code></a> (test helpers)<a class="headerlink" href="#rsudp-test-test-helpers" title="Permalink to this heading"></a></h1>
+<h1><a class="reference internal" href="#module-rsudp.test" title="rsudp.test"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.test</span></code></a> (test helpers)<a class="headerlink" href="#rsudp-test-test-helpers" title="Link to this heading"></a></h1>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 0.4.3.</span></p>
+<p><span class="versionmodified added">Added in version 0.4.3.</span></p>
 </div>
 <p>The test module. Here are the currently available tests, descriptions,
 and their initial state:</p>
@@ -208,9 +204,9 @@ default settings file for testing, you will need to set
 <code class="docutils literal notranslate"><span class="pre">settings['your_module']['enabled']</span> <span class="pre">=</span> <span class="pre">True</span></code> in
 <a class="reference internal" href="#rsudp.test.make_test_settings" title="rsudp.test.make_test_settings"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.test.make_test_settings()</span></code></a> prior to running the tests.</p>
 </div>
-<span class="target" id="module-rsudp.test"></span><dl class="py function">
+<dl class="py function" id="module-rsudp.test">
 <dt class="sig sig-object py" id="rsudp.test.cancel_tests">
-<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">cancel_tests</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MPL</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiet</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.cancel_tests" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">cancel_tests</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MPL</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiet</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.cancel_tests" title="Link to this definition"></a></dt>
 <dd><p>Cancel some tests if they don’t need to be run.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -231,7 +227,7 @@ default settings file for testing, you will need to set
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.test.datadir_permissions">
-<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">datadir_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testdir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.datadir_permissions" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">datadir_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testdir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.datadir_permissions" title="Link to this definition"></a></dt>
 <dd><p>Test write permissions in the data directory (<code class="docutils literal notranslate"><span class="pre">./data</span></code> by default)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -248,7 +244,7 @@ default settings file for testing, you will need to set
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.test.is_connected">
-<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">is_connected</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hostname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.is_connected" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">is_connected</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hostname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.is_connected" title="Link to this definition"></a></dt>
 <dd><p>Test for an internet connection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -265,7 +261,7 @@ default settings file for testing, you will need to set
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.test.logdir_permissions">
-<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">logdir_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/tmp/rsudp'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.logdir_permissions" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">logdir_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/tmp/rsudp'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.logdir_permissions" title="Link to this definition"></a></dt>
 <dd><p>Test write permissions in the log directory (<code class="docutils literal notranslate"><span class="pre">/tmp/rsudp</span></code> by default)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -282,7 +278,7 @@ default settings file for testing, you will need to set
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.test.make_test_settings">
-<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">make_test_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.make_test_settings" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">make_test_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.make_test_settings" title="Link to this definition"></a></dt>
 <dd><blockquote>
 <div><p>Get the default settings and return settings for testing.</p>
 <p>The default settings are modified in the following way:</p>
@@ -317,7 +313,7 @@ default settings file for testing, you will need to set
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.test.permissions">
-<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.permissions" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.permissions" title="Link to this definition"></a></dt>
 <dd><p>Test write permissions for the specified directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -334,7 +330,7 @@ default settings file for testing, you will need to set
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.test.ss_permissions">
-<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">ss_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testdir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.ss_permissions" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.test.</span></span><span class="sig-name descname"><span class="pre">ss_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testdir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.test.ss_permissions" title="Link to this definition"></a></dt>
 <dd><p>Test write permissions in the screenshots directory (<code class="docutils literal notranslate"><span class="pre">./screenshots</span></code> by default)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -368,7 +364,7 @@ default settings file for testing, you will need to set
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
+    <p>&#169; Copyright 2025, Raspberry Shake S.A..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

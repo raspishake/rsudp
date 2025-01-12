@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>1. About rsudp &mdash; rsudp  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="#" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -38,9 +36,6 @@
             rsudp
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                2.0.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -103,6 +98,7 @@
 <li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_settings.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_settings</span></code> (Settings)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
@@ -137,11 +133,11 @@
            <div itemprop="articleBody">
              
   <section id="about-rsudp">
-<h1><span class="section-number">1. </span>About rsudp<a class="headerlink" href="#about-rsudp" title="Permalink to this heading"></a></h1>
+<h1><span class="section-number">1. </span>About rsudp<a class="headerlink" href="#about-rsudp" title="Link to this heading"></a></h1>
 <p>rsudp is an open source program developed for the community by <a href="https://raspberryshake.org" target="_blank">Raspberry Shake S.A.</a>
 to actively monitor and plot UDP data cast output from Raspberry Shake instruments.</p>
 <section id="broad-overview">
-<h2><span class="section-number">1.1. </span>Broad overview<a class="headerlink" href="#broad-overview" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">1.1. </span>Broad overview<a class="headerlink" href="#broad-overview" title="Link to this heading"></a></h2>
 <p>rsudp is a collection of python monitoring and notification tools
 to accompany Raspberry Shake seismographs and pressure transducers.
 It contains code for continuous plotting, continuous monitoring of sudden motion,
@@ -152,7 +148,7 @@ on most systems with sufficent RAM, and can be used to power both a display kios
 and notification system simultaneously.</p>
 </section>
 <section id="why-it-s-special">
-<h2><span class="section-number">1.2. </span>Why it’s special<a class="headerlink" href="#why-it-s-special" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">1.2. </span>Why it’s special<a class="headerlink" href="#why-it-s-special" title="Link to this heading"></a></h2>
 <p>rsudp’s uses as an educational tool in both seismology and computer science are broad.</p>
 <p>The demands of real-time seismic processing
 require that calculations must be made quickly and
@@ -176,7 +172,7 @@ to grasp yet informative format.</p>
 <span id="d-event"></span><img alt="_images/4d-event.png" src="_images/4d-event.png" />
 <figcaption>
 <p><span class="caption-text">An earthquake event recorded on the accelerometer and geophone channels of a
-Raspberry Shake 4D, recorded by rsudp and saved by its plotting module.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+Raspberry Shake 4D, recorded by rsudp and saved by its plotting module.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>While the plotting may be the centerpiece of the program,
@@ -188,7 +184,7 @@ to add their own code to be run when events are detected.</p>
 which brings easy-to-use open-source monitoring to low cost instrumentation.</p>
 </section>
 <section id="what-can-t-rsudp-do">
-<h2><span class="section-number">1.3. </span>What can’t rsudp do?<a class="headerlink" href="#what-can-t-rsudp-do" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">1.3. </span>What can’t rsudp do?<a class="headerlink" href="#what-can-t-rsudp-do" title="Link to this heading"></a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p><strong>Standard performance disclaimer</strong></p>
@@ -232,7 +228,7 @@ but this has not been tested extensively.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
+    <p>&#169; Copyright 2025, Raspberry Shake S.A..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

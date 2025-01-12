@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rsudp.c_tweet (Twitter alerts) &mdash; rsudp  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -38,9 +36,6 @@
             rsudp
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                2.0.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -93,11 +88,18 @@
 <li class="toctree-l1"><a class="reference internal" href="c_rsam.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_rsam</span></code> (RSAM analysis)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_alertsound.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_alertsound</span></code> (play sound)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_plot.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_plot</span></code> (plot data)</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.c_tweet.Tweeter"><code class="docutils literal notranslate"><span class="pre">Tweeter</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rsudp.c_tweet.Tweeter.run"><code class="docutils literal notranslate"><span class="pre">Tweeter.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="c_telegram.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_telegram</span></code> (Telegram alerts)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_settings.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_settings</span></code> (Settings)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
@@ -131,8 +133,56 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="rsudp-c-tweet-twitter-alerts">
-<h1><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code> (Twitter alerts)<a class="headerlink" href="#rsudp-c-tweet-twitter-alerts" title="Permalink to this heading"></a></h1>
+  <section id="module-rsudp.c_tweet">
+<span id="rsudp-c-tweet-twitter-alerts"></span><h1><a class="reference internal" href="#module-rsudp.c_tweet" title="rsudp.c_tweet"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_tweet</span></code></a> (Twitter alerts)<a class="headerlink" href="#module-rsudp.c_tweet" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="rsudp.c_tweet.Tweeter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rsudp.c_tweet.</span></span><span class="sig-name descname"><span class="pre">Tweeter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">consumer_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consumer_secret</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access_token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access_token_secret</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tweet_images</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_tweet.Tweeter" title="Link to this definition"></a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.0.2: </span>The option to add extra text to tweets using the <code class="code docutils literal notranslate"><span class="pre">&quot;extra_text&quot;</span></code>
+setting in settings files built by this version and later.</p>
+</div>
+<p>Twitter is a social media platform sometimes used for quickly
+distributing public alert information. It is used by many agencies
+including <a href="https://twitter.com/raspishakeq" target="_blank">Raspberry Shake</a>, <a href="https://twitter.com/USGSBigQuakes" target="_blank">USGS</a>, and <a href="https://twitter.com/LastQuake" target="_blank">EMSC</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Twitter is more difficult and stricter when it comes to making
+<a href="https://developer.twitter.com/apps" target="_blank">API bots</a> than many services.
+First, you must go through a relatively rigorous process of applying for
+a developer account, then making a Twitter “app”, and then giving the app
+permission to post on your behalf. See <a class="reference internal" href="settings.html#setting-up-twitter"><span class="std std-ref">Setting up Twitter Apps</span></a> for details.</p>
+<p>Once you’ve gone through that process, Twitter limits posting and makes
+its rules on rate limiting relatively difficult to nail down.
+Generally, the early 2020 rate limit for posting is 300 in a 3-hour span,
+however that can vary depending on whether or not Twitter thinks there is
+suspicious activity coming from your account.</p>
+<p>In general, if you are looking for a simple multi-platform notification
+service, it may be easier and more reliable to use the Telegram service
+instead. rsudp has a telegram module at
+<code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_telegram.Telegram</span></code>. See <a class="reference internal" href="settings.html#setting-up-telegram"><span class="std std-ref">Setting up a Telegram Bot</span></a> for details.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>consumer_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Twitter calls this the “consumer key”</p></li>
+<li><p><strong>consumer_secret</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Twitter calls this the “consumer key secret”</p></li>
+<li><p><strong>access_token</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Twitter calls this the “consumer access token”</p></li>
+<li><p><strong>access_secret</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Twitter calls this the “consumer access secret”</p></li>
+<li><p><strong>tweet_images</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – whether or not to send images. if False, only alerts will be sent.</p></li>
+<li><p><strong>extra_text</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – 103 additional characters to post as part of the twitter message (longer messages will be truncated).</p></li>
+<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.13)"><em>queue.Queue</em></a>) – queue of data and messages sent by <a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rsudp.c_tweet.Tweeter.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.c_tweet.Tweeter.run" title="Link to this definition"></a></dt>
+<dd><p>Reads data from the queue and tweets a message if it sees an ALARM or IMGPATH message</p>
+</dd></dl>
+
+</dd></dl>
+
 <hr class="docutils" />
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
@@ -152,7 +202,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
+    <p>&#169; Copyright 2025, Raspberry Shake S.A..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

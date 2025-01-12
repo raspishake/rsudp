@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rsudp.client (central module) &mdash; rsudp  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -38,9 +36,6 @@
             rsudp
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                2.0.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -79,7 +74,17 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Clients</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.client.handler"><code class="docutils literal notranslate"><span class="pre">handler()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.client.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.client.mk_p"><code class="docutils literal notranslate"><span class="pre">mk_p()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.client.mk_q"><code class="docutils literal notranslate"><span class="pre">mk_q()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.client.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.client.start"><code class="docutils literal notranslate"><span class="pre">start()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.client.test"><code class="docutils literal notranslate"><span class="pre">test()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rsudp.client.test_mode"><code class="docutils literal notranslate"><span class="pre">test_mode()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="packetloss.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code> (track packets)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Producer and Consumer</span></p>
@@ -98,6 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_settings.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_settings</span></code> (Settings)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
@@ -131,8 +137,97 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="rsudp-client-central-module">
-<h1><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code> (central module)<a class="headerlink" href="#rsudp-client-central-module" title="Permalink to this heading"></a></h1>
+  <section id="module-rsudp.client">
+<span id="rsudp-client-central-module"></span><h1><a class="reference internal" href="#module-rsudp.client" title="rsudp.client"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.client</span></code></a> (central module)<a class="headerlink" href="#module-rsudp.client" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.client.handler">
+<span class="sig-prename descclassname"><span class="pre">rsudp.client.</span></span><span class="sig-name descname"><span class="pre">handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.handler" title="Link to this definition"></a></dt>
+<dd><p>Function passed to <a class="reference external" href="https://docs.python.org/3/library/signal.html#signal.signal" title="(in Python v3.13)"><code class="xref py py-func docutils literal notranslate"><span class="pre">signal.signal()</span></code></a> to handle close events</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.client.main">
+<span class="sig-prename descclassname"><span class="pre">rsudp.client.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.main" title="Link to this definition"></a></dt>
+<dd><p>Loads settings to start the main client.
+Supply -h from the command line to see help text.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.client.mk_p">
+<span class="sig-prename descclassname"><span class="pre">rsudp.client.</span></span><span class="sig-name descname"><span class="pre">mk_p</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.mk_p" title="Link to this definition"></a></dt>
+<dd><p>Appends a process to the list of threads to start and stop.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>proc</strong> (<a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.13)"><em>threading.Thread</em></a>) – The process thread to append to the list of threads.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.client.mk_q">
+<span class="sig-prename descclassname"><span class="pre">rsudp.client.</span></span><span class="sig-name descname"><span class="pre">mk_q</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.mk_q" title="Link to this definition"></a></dt>
+<dd><p>Makes a queue and appends it to the <code class="xref py py-data docutils literal notranslate"><span class="pre">destinations</span></code>
+variable to be passed to the master consumer thread
+<a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.13)">queue.Queue</a></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns the queue to pass to the sub-consumer.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.client.run">
+<span class="sig-prename descclassname"><span class="pre">rsudp.client.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.run" title="Link to this definition"></a></dt>
+<dd><p>Main setup function. Takes configuration values and passes them to
+the appropriate threads and functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a>) – settings dictionary (see <a class="reference internal" href="settings.html#defaults"><span class="std std-ref">Default settings</span></a> for guidance)</p></li>
+<li><p><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – whether or not to show debug output (should be turned off if starting as daemon)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.client.start">
+<span class="sig-prename descclassname"><span class="pre">rsudp.client.</span></span><span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.start" title="Link to this definition"></a></dt>
+<dd><p>Start Consumer, Threads, and Producer.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.client.test">
+<span class="sig-prename descclassname"><span class="pre">rsudp.client.</span></span><span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.test" title="Link to this definition"></a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 0.4.3.</span></p>
+</div>
+<p>Set up tests, run modules, report test results.
+For a list of tests run, see <a class="reference internal" href="test.html#module-rsudp.test" title="rsudp.test"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rsudp.test</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rsudp.client.test_mode">
+<span class="sig-prename descclassname"><span class="pre">rsudp.client.</span></span><span class="sig-name descname"><span class="pre">test_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.client.test_mode" title="Link to this definition"></a></dt>
+<dd><p>Sets the TESTING global variable to <code class="docutils literal notranslate"><span class="pre">True</span></code> to indicate that
+testing-specific actions should be taken in routines.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>, sets testing mode state. if anything else, returns state only.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>testing mode state</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <hr class="docutils" />
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
@@ -152,7 +247,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
+    <p>&#169; Copyright 2025, Raspberry Shake S.A..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

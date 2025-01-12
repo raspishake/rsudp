@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rsudp.packetloss (track packets) &mdash; rsudp  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -38,9 +36,6 @@
             rsudp
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                2.0.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -104,6 +99,7 @@
 <li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_settings.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_settings</span></code> (Settings)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
@@ -138,10 +134,10 @@
            <div itemprop="articleBody">
              
   <section id="module-rsudp.packetloss">
-<span id="rsudp-packetloss-track-packets"></span><h1><a class="reference internal" href="#module-rsudp.packetloss" title="rsudp.packetloss"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code></a> (track packets)<a class="headerlink" href="#module-rsudp.packetloss" title="Permalink to this heading"></a></h1>
+<span id="rsudp-packetloss-track-packets"></span><h1><a class="reference internal" href="#module-rsudp.packetloss" title="rsudp.packetloss"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetloss</span></code></a> (track packets)<a class="headerlink" href="#module-rsudp.packetloss" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.packetloss.main">
-<span class="sig-prename descclassname"><span class="pre">rsudp.packetloss.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetloss.main" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.packetloss.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetloss.main" title="Link to this definition"></a></dt>
 <dd><p>When run from the command line, pass in a value of seconds as an argument
 to set the packet loss for reporting period.</p>
 <p>for example, to report packet loss statistics every hour, run the following command
@@ -153,7 +149,7 @@ to set the packet loss for reporting period.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.packetloss.printTTLS">
-<span class="sig-prename descclassname"><span class="pre">rsudp.packetloss.</span></span><span class="sig-name descname"><span class="pre">printTTLS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">CHAN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">TR</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetloss.printTTLS" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.packetloss.</span></span><span class="sig-name descname"><span class="pre">printTTLS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">CHAN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">TR</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetloss.printTTLS" title="Link to this definition"></a></dt>
 <dd><p>Report packets lost.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -173,7 +169,7 @@ to set the packet loss for reporting period.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.packetloss.run">
-<span class="sig-prename descclassname"><span class="pre">rsudp.packetloss.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">printFREQ</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8888</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetloss.run" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.packetloss.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">printFREQ</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8888</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetloss.run" title="Link to this definition"></a></dt>
 <dd><p>Initialize stream and print constants, then process data for packet loss.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -187,7 +183,7 @@ to set the packet loss for reporting period.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.packetloss.signal_handler">
-<span class="sig-prename descclassname"><span class="pre">rsudp.packetloss.</span></span><span class="sig-name descname"><span class="pre">signal_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetloss.signal_handler" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.packetloss.</span></span><span class="sig-name descname"><span class="pre">signal_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetloss.signal_handler" title="Link to this definition"></a></dt>
 <dd><p>The signal handler for the CTRL+C keystroke.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -218,7 +214,7 @@ to set the packet loss for reporting period.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
+    <p>&#169; Copyright 2025, Raspberry Shake S.A..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

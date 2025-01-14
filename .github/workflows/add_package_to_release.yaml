@@ -37,6 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Add package to release
     steps:
+    - uses: actions/checkout@v4
     - name: Download artifacts
       uses: actions/download-artifact@v4
       with:
@@ -59,6 +60,7 @@ jobs:
       name: pypi
       url: https://pypi.org/p/rsudp
     steps:
+      - uses: actions/checkout@v4
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:

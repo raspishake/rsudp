@@ -139,7 +139,7 @@ This method is the recommended approach for quickly installing and setting up rs
 
 This method uses a prebuilt script to automate the installation process and ensure all necessary dependencies are configured correctly.
 
-You can follow these steps to both install and update rsudp.
+You can follow these steps to both install and update rsudp:
 
 .. |github_download| raw:: html
 
@@ -171,6 +171,8 @@ The second method is recommended if:
 * Greater flexibility and control over the installation process is required.
 * Customization of the environment or the use of a specific version of Python is necessary.
 * Installation is being performed in a managed or non-standard environment, such as a server or an advanced workstation.
+
+You can follow these steps to both install and update rsudp:
 
 .. |miniconda3| raw:: html
 

@@ -128,8 +128,16 @@ you can do a command similar to the following:
 Installing on Windows
 *********************************
 
-The Easy Way
+Option #1
 ---------------------------------
+
+This method is the recommended approach for quickly installing and setting up rsudp. It is best suited for users who:
+
+* Are new to rsudp or similar software.
+* Prefer a straightforward, hassle-free installation process.
+* Want to get started quickly without customizing the environment.
+
+This method uses a prebuilt script to automate the installation process and ensure all necessary dependencies are configured correctly.
 
 You can follow these steps to both install and update rsudp.
 
@@ -154,15 +162,25 @@ The install will take several minutes. When it is done, you will have a new sett
 For explanations of the various settings fields and values, head to :ref:`settings`.
 
 
-Advanced Users
+Option #2
 ---------------------------------
+
+The second method is recommended if:
+
+* Option #1 fails to install rsudp properly due to specific system configurations.
+* Greater flexibility and control over the installation process is required.
+* Customization of the environment or the use of a specific version of Python is necessary.
+* Installation is being performed in a managed or non-standard environment, such as a server or an advanced workstation.
 
 .. |miniconda3| raw:: html
 
    <a href="https://docs.conda.io/en/latest/miniconda.html" target="_blank">Miniconda3</a>
 
+.. |anaconda3| raw:: html
 
-1. Download and install Anaconda3 or |miniconda3|.
+   <a href="https://www.anaconda.com/download" target="_blank">Anaconda3</a>
+
+1. Download and install |anaconda3| or |miniconda3|.
 2. Open an Anaconda Prompt.
 3. Execute the following lines of code:
 

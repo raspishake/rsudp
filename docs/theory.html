@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>1. Program architecture and flow &mdash; rsudp  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -38,9 +36,6 @@
             rsudp
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                2.0.0
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -113,6 +108,7 @@
 <li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_settings.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_settings</span></code> (Settings)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul>
@@ -147,13 +143,13 @@
            <div itemprop="articleBody">
              
   <section id="program-architecture-and-flow">
-<span id="flow"></span><h1><span class="section-number">1. </span>Program architecture and flow<a class="headerlink" href="#program-architecture-and-flow" title="Permalink to this heading"></a></h1>
+<span id="flow"></span><h1><span class="section-number">1. </span>Program architecture and flow<a class="headerlink" href="#program-architecture-and-flow" title="Link to this heading"></a></h1>
 <p>rsudp is laid out in a way that is standard for many continuous monitoring
 softwares, but which may be unfamiliar to some developers.</p>
 <p>The program’s organization relies on two hierarchies: thread hierarchy and
 data hierarchy. This allows the program to distribute data and messages
 between different modules efficiently while maintaining programmatic
-integrity required by rsudp’s dependencies (<a class="reference external" href="https://matplotlib.org/stable/api/pyplot_summary.html#module-matplotlib.pyplot" title="(in Matplotlib v3.9.2)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">matplotlib.pyplot</span></code></a>
+integrity required by rsudp’s dependencies (<a class="reference external" href="https://matplotlib.org/stable/api/pyplot_summary.html#module-matplotlib.pyplot" title="(in Matplotlib v3.10.0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">matplotlib.pyplot</span></code></a>
 objects, for example, can only be owned by the master thread).</p>
 <figure class="align-center" id="id2">
 <span id="flow-diagram"></span><img alt="_images/rsudp-flow.png" src="_images/rsudp-flow.png" />
@@ -165,26 +161,26 @@ and eventually to the end-consumer processing the data.
 Thread hierarchies are shown in the inset chart.
 If you are looking to add a module to rsudp,
 it will be a worker class (red) and will receive data from
-the master consumer like the rest of the workers.</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
+the master consumer like the rest of the workers.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <section id="thread-layout">
-<h2><span class="section-number">1.1. </span>Thread layout<a class="headerlink" href="#thread-layout" title="Permalink to this heading"></a></h2>
-<p>The program relies on the <a class="reference external" href="https://docs.python.org/3/library/threading.html#module-threading" title="(in Python v3.12)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">threading</span></code></a> and <a class="reference external" href="https://docs.python.org/3/library/queue.html#module-queue" title="(in Python v3.12)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code></a> modules
+<h2><span class="section-number">1.1. </span>Thread layout<a class="headerlink" href="#thread-layout" title="Link to this heading"></a></h2>
+<p>The program relies on the <a class="reference external" href="https://docs.python.org/3/library/threading.html#module-threading" title="(in Python v3.13)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">threading</span></code></a> and <a class="reference external" href="https://docs.python.org/3/library/queue.html#module-queue" title="(in Python v3.13)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">queue</span></code></a> modules
 to spin up multiple threads which all receive and work with data
 independently of one another.</p>
-<p>First, the <code class="xref py py-mod docutils literal notranslate"><span class="pre">rsudp.client</span></code> (the “main” or “parent” thread) gathers
+<p>First, the <a class="reference internal" href="client.html#module-rsudp.client" title="rsudp.client"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rsudp.client</span></code></a> (the “main” or “parent” thread) gathers
 and parses settings. The client then instantiates the relevant
-<a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></a> objects and passes settings and queues to
+<a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></a> objects and passes settings and queues to
 them. Next, it starts each of these consumer threads as “child” threads,
 then finally the producer, also as a child thread.</p>
 <p>If the <a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot" title="rsudp.c_plot.Plot"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_plot.Plot</span></code></a> thread is enabled, the program will
 start that last, since plotting must be run as a loop controlled by the
-main thread (<code class="xref py py-mod docutils literal notranslate"><span class="pre">rsudp.client</span></code>) which can only be done once it has
+main thread (<a class="reference internal" href="client.html#module-rsudp.client" title="rsudp.client"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rsudp.client</span></code></a>) which can only be done once it has
 started all of its child threads.</p>
 </section>
 <section id="producer-consumer-message-passing">
-<span id="producer-consumer"></span><h2><span class="section-number">1.2. </span>Producer-consumer message passing<a class="headerlink" href="#producer-consumer-message-passing" title="Permalink to this heading"></a></h2>
+<span id="producer-consumer"></span><h2><span class="section-number">1.2. </span>Producer-consumer message passing<a class="headerlink" href="#producer-consumer-message-passing" title="Link to this heading"></a></h2>
 <p>Data is read off the port by the data producer
 (<a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.p_producer.Producer</span></code></a>) and passed directly to the
 (<a class="reference internal" href="c_consumer.html#rsudp.c_consumer.Consumer" title="rsudp.c_consumer.Consumer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_consumer.Consumer</span></code></a>) via a first-in first-out (FIFO)
@@ -198,9 +194,9 @@ their logic loops. Some build <a class="reference external" href="https://docs.o
 the data passed to them, while some ignore the data and watch for
 status messages.</p>
 <section id="message-types">
-<span id="id1"></span><h3><span class="section-number">1.2.1. </span>Message types<a class="headerlink" href="#message-types" title="Permalink to this heading"></a></h3>
+<span id="id1"></span><h3><span class="section-number">1.2.1. </span>Message types<a class="headerlink" href="#message-types" title="Link to this heading"></a></h3>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 0.4.3: </span>the <code class="code docutils literal notranslate"><span class="pre">RESET</span></code> message type was added.</p>
+<p><span class="versionmodified added">Added in version 0.4.3: </span>the <code class="code docutils literal notranslate"><span class="pre">RESET</span></code> message type was added.</p>
 </div>
 <p>Currently, the message types are as follows.</p>
 <table class="docutils align-default">
@@ -239,8 +235,8 @@ when it sees the <code class="xref py py-data docutils literal notranslate"><spa
 <code class="docutils literal notranslate"><span class="pre">True</span></code>. This can trigger all sorts of actions. For example, when the
 <a class="reference internal" href="c_alertsound.html#rsudp.c_alertsound.AlertSound" title="rsudp.c_alertsound.AlertSound"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_alertsound.AlertSound</span></code></a> module is enabled and sees
 this message, it uses ffmpeg or libav to play a sound. The social media
-classes <code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_tweet.Tweeter</span></code> and
-<code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_telegram.Telegrammer</span></code> both use this message to
+classes <a class="reference internal" href="c_tweet.html#rsudp.c_tweet.Tweeter" title="rsudp.c_tweet.Tweeter"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_tweet.Tweeter</span></code></a> and
+<a class="reference internal" href="c_telegram.html#rsudp.c_telegram.Telegrammer" title="rsudp.c_telegram.Telegrammer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_telegram.Telegrammer</span></code></a> both use this message to
 instantly broadcast to their respective platforms.</p>
 <p><strong>RESET</strong> messages are sent by <a class="reference internal" href="p_producer.html#rsudp.p_producer.Producer" title="rsudp.p_producer.Producer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.p_producer.Producer</span></code></a>
 when it sees the <code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_consumer.Alert.alarm</span></code> flag set to
@@ -249,8 +245,8 @@ an essentially infinite number of things upon seeing this message.</p>
 <p><strong>IMGPATH</strong> messages are placed on the master queue by the
 <a class="reference internal" href="c_plot.html#rsudp.c_plot.Plot.savefig" title="rsudp.c_plot.Plot.savefig"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.c_plot.Plot.savefig()</span></code></a> function, if and when a screenshot
 figure is saved to disk. This is currently only used by the social media
-modules, <code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_tweet.Tweeter</span></code> and
-<code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_telegram.Telegrammer</span></code> which then send the saved image
+modules, <a class="reference internal" href="c_tweet.html#rsudp.c_tweet.Tweeter" title="rsudp.c_tweet.Tweeter"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_tweet.Tweeter</span></code></a> and
+<a class="reference internal" href="c_telegram.html#rsudp.c_telegram.Telegrammer" title="rsudp.c_telegram.Telegrammer"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.c_telegram.Telegrammer</span></code></a> which then send the saved image
 to their respective social media platforms’ APIs for broadcast.</p>
 <p><strong>TERM</strong> messages are the universal signal for rsudp to quit.
 They generally start at the Producer and are passed through the
@@ -258,7 +254,7 @@ data hierarchy as normal data would.</p>
 </section>
 </section>
 <section id="adding-your-own-consumer-modules">
-<span id="add-your-own"></span><h2><span class="section-number">1.3. </span>Adding your own consumer modules<a class="headerlink" href="#adding-your-own-consumer-modules" title="Permalink to this heading"></a></h2>
+<span id="add-your-own"></span><h2><span class="section-number">1.3. </span>Adding your own consumer modules<a class="headerlink" href="#adding-your-own-consumer-modules" title="Link to this heading"></a></h2>
 <p>Adding consumer modules is easy in theory, when you understand the
 workings of rsudp’s layout. Using the existing modules’ code architecture
 is likely useful and should be encouraged, so feel free to follow along
@@ -267,7 +263,7 @@ with what we have already laid out in the code base.</p>
 <ol class="arabic simple">
 <li><p>Create a new module, named <code class="docutils literal notranslate"><span class="pre">c_mymodule.py</span></code>, in the <code class="docutils literal notranslate"><span class="pre">rsudp</span></code> directory.</p></li>
 <li><p>Add a section to your settings file which will tell rsudp what settings to pass to your module.</p></li>
-<li><p>Add code to <code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.client.run()</span></code> to pass settings and a queue to your module, and start it.</p></li>
+<li><p>Add code to <a class="reference internal" href="client.html#rsudp.client.run" title="rsudp.client.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.client.run()</span></code></a> to pass settings and a queue to your module, and start it.</p></li>
 </ol>
 <p>And some optional things to do in case you plan on submitting a pull request:</p>
 <ol class="arabic simple" start="4">
@@ -275,19 +271,19 @@ with what we have already laid out in the code base.</p>
 <li><p>Add testing capability to your module.</p></li>
 </ol>
 <section id="sample-consumer">
-<h3><span class="section-number">1.3.1. </span>Sample consumer<a class="headerlink" href="#sample-consumer" title="Permalink to this heading"></a></h3>
+<h3><span class="section-number">1.3.1. </span>Sample consumer<a class="headerlink" href="#sample-consumer" title="Link to this heading"></a></h3>
 <p>Below is a sample consumer construction to modify for your own purposes.
 It receives all queue messages (outlined in <a class="reference internal" href="#producer-consumer"><span class="std std-ref">Producer-consumer message passing</span></a>)
 and can be made to do pretty much whatever you wish,
 until it receives a <code class="docutils literal notranslate"><span class="pre">TERM</span></code> queue message.</p>
 <p>This consumer is created from a
 <a class="reference internal" href="raspberryshake.html#rsudp.raspberryshake.ConsumerThread" title="rsudp.raspberryshake.ConsumerThread"><code class="xref py py-class docutils literal notranslate"><span class="pre">rsudp.raspberryshake.ConsumerThread</span></code></a> object,
-which in turn modifies the <a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></a> class.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">rsudp.raspberryshake</span> <span class="kn">import</span> <span class="n">ConsumerThread</span>
-<span class="kn">from</span> <span class="nn">rsudp</span> <span class="kn">import</span> <span class="n">printM</span>
+which in turn modifies the <a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Thread" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></a> class.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rsudp.raspberryshake</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConsumerThread</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rsudp</span><span class="w"> </span><span class="kn">import</span> <span class="n">printM</span>
 
-<span class="k">class</span> <span class="nc">MyModule</span><span class="p">(</span><span class="n">ConsumerThread</span><span class="p">):</span> <span class="c1"># this means MyModule will be based on the ConsumerThread class</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MyModule</span><span class="p">(</span><span class="n">ConsumerThread</span><span class="p">):</span> <span class="c1"># this means MyModule will be based on the ConsumerThread class</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Documentation of your new module class goes here.</span>
 <span class="sd">    Below is the format of two types of *param* string, which tell the</span>
@@ -305,7 +301,7 @@ which in turn modifies the <a class="reference external" href="https://docs.pyth
 <span class="sd">    :param thing1: a passed parameter that&#39;s either a string or a boolean (True/False)</span>
 <span class="sd">    :type thing1: bool or str</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">thing1</span>    <span class="c1"># ... probably some more parameters to pass to the class</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">thing1</span>    <span class="c1"># ... probably some more parameters to pass to the class</span>
                 <span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sender</span> <span class="o">=</span> <span class="s1">&#39;MyModule&#39;</span>
@@ -315,7 +311,7 @@ which in turn modifies the <a class="reference external" href="https://docs.pyth
         <span class="c1"># ... lots of other stuff to initialize your module</span>
         <span class="n">printM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">thing1</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sender</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">getq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Reads data from the queue and returns the queue object.</span>
 
@@ -331,7 +327,7 @@ which in turn modifies the <a class="reference external" href="https://docs.pyth
         <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">d</span>
 
-    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Documenting how my cool module runs!</span>
 
@@ -355,7 +351,7 @@ which in turn modifies the <a class="reference external" href="https://docs.pyth
 </div>
 </section>
 <section id="adding-your-module-to-the-settings-file">
-<h3><span class="section-number">1.3.2. </span>Adding your module to the settings file<a class="headerlink" href="#adding-your-module-to-the-settings-file" title="Permalink to this heading"></a></h3>
+<h3><span class="section-number">1.3.2. </span>Adding your module to the settings file<a class="headerlink" href="#adding-your-module-to-the-settings-file" title="Link to this heading"></a></h3>
 <p>An example settings section is given here.
 As a reminder, each settings section except the last one
 is required to have a comma after its closing brace to conform
@@ -369,16 +365,16 @@ so we include the comma:</p>
 </div>
 </section>
 <section id="adding-your-module-to-client-py">
-<h3><span class="section-number">1.3.3. </span>Adding your module to <code class="docutils literal notranslate"><span class="pre">client.py</span></code><a class="headerlink" href="#adding-your-module-to-client-py" title="Permalink to this heading"></a></h3>
-<p>Since all modules are started from the client’s <code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.client.run()</span></code>
+<h3><span class="section-number">1.3.3. </span>Adding your module to <code class="docutils literal notranslate"><span class="pre">client.py</span></code><a class="headerlink" href="#adding-your-module-to-client-py" title="Link to this heading"></a></h3>
+<p>Since all modules are started from the client’s <a class="reference internal" href="client.html#rsudp.client.run" title="rsudp.client.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.client.run()</span></code></a>
 function, you will need to add a section of code to the client to tell it
 how to start your module.
 An example based on the JSON section above is given here.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">c_mymodule</span> <span class="kn">import</span> <span class="n">MyModule</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">c_mymodule</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyModule</span>
 
 <span class="c1"># ... lots of other stuff in client.py</span>
 
-<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">debug</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">debug</span><span class="p">):</span>
 
     <span class="c1"># ... setting up other modules</span>
 
@@ -402,9 +398,9 @@ An example based on the JSON section above is given here.</p>
 </div>
 </section>
 <section id="testing-your-module">
-<span id="add-testing"></span><h3><span class="section-number">1.3.4. </span>Testing your module<a class="headerlink" href="#testing-your-module" title="Permalink to this heading"></a></h3>
+<span id="add-testing"></span><h3><span class="section-number">1.3.4. </span>Testing your module<a class="headerlink" href="#testing-your-module" title="Link to this heading"></a></h3>
 <p>Formal testing of new modules is easy in rsudp.</p>
-<p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.client.test()</span></code> function is set to run any enabled
+<p>The <a class="reference internal" href="client.html#rsudp.client.test" title="rsudp.client.test"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.client.test()</span></code></a> function is set to run any enabled
 module by default. If the module is not enabled in the default
 settings, you can add a line to the
 <a class="reference internal" href="test.html#rsudp.test.make_test_settings" title="rsudp.test.make_test_settings"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.test.make_test_settings()</span></code></a> that specifies</p>
@@ -427,11 +423,11 @@ and the second is the status of the test
 (False is failure and True is passing).</p>
 <p>Then, in your module, you can import the test dictionary and modify
 the status of your tests like so:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rsudp.raspberryshake</span> <span class="kn">import</span> <span class="n">ConsumerThread</span>
-<span class="kn">from</span> <span class="nn">rsudp.test</span> <span class="kn">import</span> <span class="n">TEST</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rsudp.raspberryshake</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConsumerThread</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rsudp.test</span><span class="w"> </span><span class="kn">import</span> <span class="n">TEST</span>
 
-<span class="k">class</span> <span class="nc">MyModule</span><span class="p">(</span><span class="n">ConsumerThread</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span>    <span class="c1"># ...</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MyModule</span><span class="p">(</span><span class="n">ConsumerThread</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span>    <span class="c1"># ...</span>
                 <span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="c1"># ... stuff to initialize your module</span>
@@ -439,7 +435,7 @@ the status of your tests like so:</p>
             <span class="c1"># this test occurs during initialization</span>
             <span class="n">TEST</span><span class="p">[</span><span class="s1">&#39;c_mytest&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># some stuff here also</span>
         <span class="k">if</span> <span class="n">xyz</span><span class="p">:</span>
             <span class="c1"># this test is done at runtime</span>
@@ -455,7 +451,7 @@ the status of your tests like so:</p>
 </section>
 </section>
 <section id="suggesting-features">
-<h2><span class="section-number">1.4. </span>Suggesting features<a class="headerlink" href="#suggesting-features" title="Permalink to this heading"></a></h2>
+<h2><span class="section-number">1.4. </span>Suggesting features<a class="headerlink" href="#suggesting-features" title="Link to this heading"></a></h2>
 <p>As with other issues, if you have an idea for a feature addition but have
 questions about how to implement it, we encourage you to post to our
 forums at <a class="reference external" href="https://community.raspberryshake.org">https://community.raspberryshake.org</a>.</p>
@@ -475,7 +471,7 @@ forums at <a class="reference external" href="https://community.raspberryshake.o
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
+    <p>&#169; Copyright 2025, Raspberry Shake S.A..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

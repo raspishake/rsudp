@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rsudp.packetize (data formatter) &mdash; rsudp  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -37,9 +35,6 @@
             rsudp
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                2.0.0
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -97,6 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="c_forward.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_forward</span></code> (forward data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_write.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_write</span></code> (write data)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_custom.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_custom</span></code> (run code)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c_settings.html"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.c_settings</span></code> (Settings)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Testing modules</span></p>
 <ul class="current">
@@ -137,13 +133,13 @@
            <div itemprop="articleBody">
              
   <section id="rsudp-packetize-data-formatter">
-<h1><a class="reference internal" href="#module-rsudp.packetize" title="rsudp.packetize"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetize</span></code></a> (data formatter)<a class="headerlink" href="#rsudp-packetize-data-formatter" title="Permalink to this heading"></a></h1>
+<h1><a class="reference internal" href="#module-rsudp.packetize" title="rsudp.packetize"><code class="xref py py-data docutils literal notranslate"><span class="pre">rsudp.packetize</span></code></a> (data formatter)<a class="headerlink" href="#rsudp-packetize-data-formatter" title="Link to this heading"></a></h1>
 <p>The <code class="docutils literal notranslate"><span class="pre">packetize</span></code> module is a utility that turns miniSEED data into text files
 containing the Raspberry Shake UDP data format (see <a class="reference internal" href="theory.html#producer-consumer"><span class="std std-ref">Producer-consumer message passing</span></a>).
 It can be run either from another python module using the
 <a class="reference internal" href="#rsudp.packetize.packetize" title="rsudp.packetize.packetize"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.packetize.packetize()</span></code></a> function, or from the command line.</p>
 <p>Python usage:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rsudp.packetize</span> <span class="kn">import</span> <span class="n">packetize</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rsudp.packetize</span><span class="w"> </span><span class="kn">import</span> <span class="n">packetize</span>
 <span class="n">packetize</span><span class="p">(</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">,</span> <span class="s1">&#39;output.txt&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -157,9 +153,9 @@ python<span class="w"> </span>packetize.py<span class="w"> </span>-i<span class=
 <p>Command line usage must be done from within an environment in which
 <code class="docutils literal notranslate"><span class="pre">obspy</span></code> is installed as a python3 package.</p>
 </div>
-<span class="target" id="module-rsudp.packetize"></span><dl class="py function">
+<dl class="py function" id="module-rsudp.packetize">
 <dt class="sig sig-object py" id="rsudp.packetize.cutoff_calc">
-<span class="sig-prename descclassname"><span class="pre">rsudp.packetize.</span></span><span class="sig-name descname"><span class="pre">cutoff_calc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetize.cutoff_calc" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.packetize.</span></span><span class="sig-name descname"><span class="pre">cutoff_calc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetize.cutoff_calc" title="Link to this definition"></a></dt>
 <dd><p>Return the number of samples that will be transcribed to UDP packet formatted ascii text.
 Iterates over each trace in the stream to make this calculation.</p>
 <dl class="field-list simple">
@@ -167,7 +163,7 @@ Iterates over each trace in the stream to make this calculation.</p>
 <dd class="field-odd"><p><strong>stream</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy v1.4.1)"><em>obspy.core.stream.Stream</em></a>) – Stream object to calculate number of samples from</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><ol class="arabic simple">
@@ -180,7 +176,7 @@ Iterates over each trace in the stream to make this calculation.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.packetize.get_samps">
-<span class="sig-prename descclassname"><span class="pre">rsudp.packetize.</span></span><span class="sig-name descname"><span class="pre">get_samps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetize.get_samps" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.packetize.</span></span><span class="sig-name descname"><span class="pre">get_samps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetize.get_samps" title="Link to this definition"></a></dt>
 <dd><p>Return the number of samples to place in each packet.
 This number is based on the sampling frequency of the data in question.</p>
 <p>Raspberry Shake data is sent to the UDP port either in packets of 25
@@ -193,7 +189,7 @@ which means that it can be used to determine the variety of sensor used
 <dd class="field-odd"><p><strong>stream</strong> (<a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.stream.Stream.html#obspy.core.stream.Stream" title="(in ObsPy v1.4.1)"><em>obspy.core.stream.Stream</em></a>) – Stream object to calculate samples per packet for</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the number of samples per packet (either 25 or 50)</p>
@@ -203,20 +199,20 @@ which means that it can be used to determine the variety of sensor used
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.packetize.main">
-<span class="sig-prename descclassname"><span class="pre">rsudp.packetize.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetize.main" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.packetize.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetize.main" title="Link to this definition"></a></dt>
 <dd><p>This function reads command line arguments, then calls
 <a class="reference internal" href="#rsudp.packetize.packetize" title="rsudp.packetize.packetize"><code class="xref py py-func docutils literal notranslate"><span class="pre">rsudp.packetize.packetize()</span></code></a> with those arguments.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rsudp.packetize.packetize">
-<span class="sig-prename descclassname"><span class="pre">rsudp.packetize.</span></span><span class="sig-name descname"><span class="pre">packetize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetize.packetize" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rsudp.packetize.</span></span><span class="sig-name descname"><span class="pre">packetize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rsudp.packetize.packetize" title="Link to this definition"></a></dt>
 <dd><p>Reads a seismic data file and converts it to ascii text.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>inf</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – the input data file to convert</p></li>
-<li><p><strong>outf</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – where to write the output file</p></li>
+<li><p><strong>inf</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – the input data file to convert</p></li>
+<li><p><strong>outf</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – where to write the output file</p></li>
 </ul>
 </dd>
 </dl>
@@ -240,7 +236,7 @@ which means that it can be used to determine the variety of sensor used
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Raspberry Shake S.A..</p>
+    <p>&#169; Copyright 2025, Raspberry Shake S.A..</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

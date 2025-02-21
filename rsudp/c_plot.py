@@ -56,21 +56,17 @@ class PlotsController():
 		self._plots = plots
 
 		self.queue = q
+		self.master_queue = None # careful with this, this goes directly to the master consumer. gets set by main thread.
 		self.sender = 'PlotsController'
-		self.master_queue = None
 		self.alive = True
 		self.save_timer = 0
 		self.refresh_interval = refresh_interval
 		self.delay = rs.tr
 		self.events = 0
-		self.save_timer = 0
 		self.save_pct = 0.7
 		self.seconds = seconds
 		self.save = []
 		self.pkts_in_period = rs.tr * rs.numchns * self.seconds
-		self.raw = rs.Stream()
-		self.stream = rs.Stream()
-		self.chans = []
 
 	def qu(self, u):
 		'''
@@ -85,36 +81,12 @@ class PlotsController():
 		return u
 
 	def getq(self):
-		'''
-		Get data from the queue and test for whether it has certain strings.
-		ALARM and TERM both trigger specific behavior.
-		ALARM messages cause the event counter to increment, and if
-		:py:data:`screencap==True` then aplot image will be saved when the
-		event is :py:data:`self.save_pct` of the way across the plot.
-		'''
 		d = self.queue.get()
 		self.queue.task_done()
-		if 'TERM' in str(d):
-			plt.close()
-			if 'SELF' in str(d):
-				printM('Plot has been closed, plot thread will exit.', self.sender)
-			self.alive = False
-			rs.producer = False
-
-		elif 'ALARM' in str(d):
-			self.events += 1  # add event to count
-			self.save_timer -= 1  # don't push the save time forward if there are a large number of alarm events
-			event = [self.save_timer + int(self.save_pct * self.pkts_in_period),
-					 helpers.fsec(helpers.get_msg_time(d))]  # event = [save after count, datetime]
-			self.last_event_str = '%s UTC' % (event[1].strftime('%Y-%m-%d %H:%M:%S.%f')[:22])
-			printM('Event time: %s' % (self.last_event_str), sender=self.sender)  # show event time in the logs
-
-		if rs.getCHN(d) in self.chans:
-			self.raw = rs.update_stream(
-				stream=self.raw, d=d, fill_value='latest')
-			return True
-		else:
-			return False
+		results = []
+		for plot in self._plots:
+			results.append(plot.getq(d))
+		return results[0]
 
 	def run(self):
 		self.getq()
@@ -245,8 +217,6 @@ class Plot:
 			printW('Running on %s machine, using Tk instead of Qt' % (platform.machine()), self.sender)
 
 		self.queue = q
-		self.master_queue = None  # careful with this, this goes directly to the master consumer. gets set by main thread.
-
 		self.stream = rs.Stream()
 		self.raw = rs.Stream()
 		self.stream_uf = rs.Stream()  # Initialize stream_uf
@@ -299,6 +269,7 @@ class Plot:
 		self.bgcolor = '#202530'  # background
 		self.fgcolor = '0.8'  # axis and label color
 		self.linecolor = '#c28285'  # seismogram color
+		self.controller = None
 
 		printM('Starting.', self.sender)
 
@@ -323,6 +294,7 @@ class Plot:
 			if 'SELF' in str(d):
 				printM('Plot has been closed, plot thread will exit.', self.sender)
 			self.alive = False
+			self.controller.alive = False
 			rs.producer = False
 
 		elif 'ALARM' in str(d):
@@ -382,7 +354,7 @@ class Plot:
 		Handles a plot close event.
 		This will trigger a full shutdown of all other processes related to rsudp.
 		'''
-		self.master_queue.put(helpers.msg_term())
+		self.controller.master_queue.put(helpers.msg_term())
 
 	def handle_resize(self, evt=False):
 		'''
@@ -438,7 +410,7 @@ class Plot:
 		printM('Saved %s' % (figname), sender=self.sender)
 		printM('%s thread has saved an image, sending IMGPATH message to queues' % self.sender, sender=self.sender)
 		# imgpath requires a UTCDateTime and a string figure path
-		self.master_queue.put(helpers.msg_imgpath(event_time, figname))
+		self.controller.master_queue.put(helpers.msg_imgpath(event_time, figname))
 
 	def _set_fig_title(self):
 		'''
@@ -865,22 +837,10 @@ class Plot:
 		sys.stdout.flush()
 		return i, u
 
-	def qu(self, u):
-		'''
-		Get a queue object and increment the queue counter.
-		This is a way to figure out how many channels have arrived in the queue.
-
-		:param int u: queue blocking counter
-		:return: queue blocking counter
-		:rtype: int
-		'''
-		u += 1 if self.getq() else 0
-		return u
-
-	def setup(self):
-		self.getq()  # block until data is flowing from the consumer
+	def setup(self, controller):
+		self.controller = controller
 		for i in range((self.totchns) * 2):  # fill up a stream object
-			self.getq()
+			self.controller.getq()
 		self.set_sps()
 		self.deconvolve()
 		self.setup_plot()

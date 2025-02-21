@@ -15,7 +15,7 @@ from rsudp.c_consumer import Consumer
 from rsudp.p_producer import Producer
 from rsudp.c_printraw import PrintRaw
 from rsudp.c_write import Write
-from rsudp.c_plot import Plot, MPL
+from rsudp.c_plot import Plot, PlotsController, MPL
 from rsudp.c_forward import Forward
 from rsudp.c_alert import Alert
 from rsudp.c_alertsound import AlertSound
@@ -31,6 +31,7 @@ import pkg_resources as pr
 
 DESTINATIONS, THREADS = [], []
 PROD = False
+CONTROLLER = False
 PLOTTER = False
 TELEGRAM = False
 TWITTER = False
@@ -103,7 +104,7 @@ def start():
 	'''
 	Start Consumer, Threads, and Producer.
 	'''
-	global PROD, PLOTTER, THREADS, DESTINATIONS
+	global PROD, PLOTTER, CONTROLLER, THREADS, DESTINATIONS
 	# master queue and consumer
 	queue = Queue(rs.qsize)
 	cons = Consumer(queue, DESTINATIONS, testing=TESTING)
@@ -115,12 +116,13 @@ def start():
 	PROD = Producer(queue, THREADS, testing=TESTING)
 	PROD.start()
 
-	if PLOTTER and MPL:
+	if CONTROLLER and PLOTTER and MPL:
 		# give the plotter the master queue
 		# so that it can issue a TERM signal if closed
 		PLOTTER.master_queue = queue
+		CONTROLLER.master_queue = queue
 		# start plotting (in this thread, not a separate one)
-		PLOTTER.run()
+		CONTROLLER.run()
 	else:
 		while not PROD.stop:
 			time.sleep(0.1) # wait until processes end
@@ -138,7 +140,7 @@ def run(settings, debug):
 	:param dict settings: settings dictionary (see :ref:`defaults` for guidance)
 	:param bool debug: whether or not to show debug output (should be turned off if starting as daemon)
 	'''
-	global PLOTTER, SOUND
+	global CONTROLLER, PLOTTER, SOUND
 	# handler for the exit signal
 	signal.signal(signal.SIGINT, handler)
 
@@ -230,6 +232,7 @@ def run(settings, debug):
 						lower_limit=lower_limit, upper_limit=upper_limit, 
 						logarithmic_y_axis=logarithmic_y_axis, testing=TESTING)
 		# no mk_p() here because the plotter must be controlled by the main thread (this one)
+		CONTROLLER = PlotsController(PLOTTER.queue, [PLOTTER],seconds=sec, refresh_interval=refresh_interval)
 
 	if settings['forward']['enabled']:
 		# put settings in namespace
@@ -383,6 +386,7 @@ def run(settings, debug):
 	start()
 
 	PLOTTER = False
+	CONTROLLER = False
 	if not TESTING:
 		_xit()
 	else:

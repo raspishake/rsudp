@@ -91,7 +91,7 @@ class PlotsController():
 	def run(self):
 		self.getq()
 		for plot in self._plots:
-			plot.setup()
+			plot.setup(self)
 
 		n = 0  # number of iterations without plotting
 		i = 0  # number of plot events without clearing the linecache
@@ -279,7 +279,7 @@ class Plot:
 		'''
 		helpers.deconvolve(self)
 
-	def getq(self):
+	def getq(self, d):
 		'''
 		Get data from the queue and test for whether it has certain strings.
 		ALARM and TERM both trigger specific behavior.
@@ -287,8 +287,6 @@ class Plot:
 		:py:data:`screencap==True` then aplot image will be saved when the
 		event is :py:data:`self.save_pct` of the way across the plot.
 		'''
-		d = self.queue.get()
-		self.queue.task_done()
 		if 'TERM' in str(d):
 			plt.close()
 			if 'SELF' in str(d):

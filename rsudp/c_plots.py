@@ -80,7 +80,7 @@ class AbcPlot():
         self.mult = 0
         self.nfft1 = 0
         self.nlap1 = 0
-        self.per_lap = 0
+        self.per_lap = 1
         self.figure_num = 0
 
         # Plot stuff

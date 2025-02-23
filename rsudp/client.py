@@ -15,7 +15,7 @@ from rsudp.c_consumer import Consumer
 from rsudp.p_producer import Producer
 from rsudp.c_printraw import PrintRaw
 from rsudp.c_write import Write
-from rsudp.c_plot import Plot, PlotsController, MPL
+from rsudp.c_plots import Plot, PlotAlert, PlotsController, MPL
 from rsudp.c_forward import Forward
 from rsudp.c_alert import Alert
 from rsudp.c_alertsound import AlertSound
@@ -32,7 +32,6 @@ import pkg_resources as pr
 DESTINATIONS, THREADS = [], []
 PROD = False
 CONTROLLER = False
-PLOTTER = False
 TELEGRAM = False
 TWITTER = False
 WRITER = False
@@ -104,7 +103,7 @@ def start():
 	'''
 	Start Consumer, Threads, and Producer.
 	'''
-	global PROD, PLOTTER, CONTROLLER, THREADS, DESTINATIONS
+	global PROD, CONTROLLER, THREADS, DESTINATIONS
 	# master queue and consumer
 	queue = Queue(rs.qsize)
 	cons = Consumer(queue, DESTINATIONS, testing=TESTING)
@@ -116,10 +115,9 @@ def start():
 	PROD = Producer(queue, THREADS, testing=TESTING)
 	PROD.start()
 
-	if CONTROLLER and PLOTTER and MPL:
-		# give the plotter the master queue
+	if CONTROLLER and MPL:
+		# give the controller the master queue
 		# so that it can issue a TERM signal if closed
-		PLOTTER.master_queue = queue
 		CONTROLLER.master_queue = queue
 		# start plotting (in this thread, not a separate one)
 		CONTROLLER.run()
@@ -140,7 +138,7 @@ def run(settings, debug):
 	:param dict settings: settings dictionary (see :ref:`defaults` for guidance)
 	:param bool debug: whether or not to show debug output (should be turned off if starting as daemon)
 	'''
-	global CONTROLLER, PLOTTER, SOUND
+	global CONTROLLER, SOUND
 	# handler for the exit signal
 	signal.signal(signal.SIGINT, handler)
 
@@ -184,6 +182,7 @@ def run(settings, debug):
 					   cha=cha, testing=TESTING)
 		mk_p(WRITER)
 
+	plotter = None
 	if settings['plot']['enabled'] and MPL:
 		while True:
 			if rs.numchns == 0:
@@ -222,9 +221,8 @@ def run(settings, debug):
 				deconv = 'CHAN'
 		else:
 			deconv = False
-		pq = mk_q()
-		PLOTTER = Plot(cha=cha, refresh_interval=refresh_interval, seconds=sec, spectrogram=spec,
-						fullscreen=full, kiosk=kiosk, deconv=deconv, q=pq,
+		plotter = Plot(cha=cha, seconds=sec, spectrogram=spec,
+						fullscreen=full, kiosk=kiosk, deconv=deconv,
 						screencap=screencap, alert=alert, filter_waveform=filter_waveform,
 						filter_spectrogram=filter_spectrogram, filter_highpass=filter_highpass,
 						filter_lowpass=filter_lowpass, filter_corners=filter_corners,
@@ -232,7 +230,6 @@ def run(settings, debug):
 						lower_limit=lower_limit, upper_limit=upper_limit, 
 						logarithmic_y_axis=logarithmic_y_axis, testing=TESTING)
 		# no mk_p() here because the plotter must be controlled by the main thread (this one)
-		CONTROLLER = PlotsController(PLOTTER.queue, [PLOTTER],seconds=sec, refresh_interval=refresh_interval)
 
 	if settings['forward']['enabled']:
 		# put settings in namespace
@@ -279,6 +276,57 @@ def run(settings, debug):
 					 deconv=deconv)
 		mk_p(alrt)
 
+	alert_plotter = None
+	if settings['alert']['enabled'] and settings['plot']['enabled']:
+		cha = settings['plot']['channels']
+		sec = settings['plot']['duration']
+		refresh_interval = settings['plot']['refresh_interval']
+		spec = settings['plot']['spectrogram']
+		full = settings['plot']['fullscreen']
+		kiosk = settings['plot']['kiosk']
+		screencap = settings['plot']['eq_screenshots']
+		alert = settings['alert']['enabled']
+
+		# Load filter values from .json file
+		filter_waveform = settings['plot']['filter_waveform']
+		filter_spectrogram = settings['plot']['filter_spectrogram']
+		filter_highpass = settings['plot']['filter_highpass']
+		filter_lowpass = settings['plot']['filter_lowpass']
+		filter_corners = settings['plot']['filter_corners']
+
+		# Spectrogram range variables
+		spectrogram_freq_range = settings['plot']['spectrogram_freq_range']
+		lower_limit = settings['plot']['lower_limit']
+		upper_limit = settings['plot']['upper_limit']
+
+		sta = settings['alert']['sta']
+		lta = settings['alert']['lta']
+		duration = settings['alert'].get('duration', 0.0)
+		thresh = settings['alert']['threshold']
+		reset = settings['alert']['reset']
+		bp = [settings['alert']['highpass'], settings['alert']['lowpass']]
+		cha = settings['alert']['channel']
+
+		# Logarithmic y-axis
+		logarithmic_y_axis = settings['plot']['logarithmic_y_axis']
+
+		if settings['plot']['deconvolve']:
+			if settings['plot']['units'].upper() in rs.UNITS:
+				deconv = settings['plot']['units'].upper()
+			else:
+				deconv = 'CHAN'
+		else:
+			deconv = False
+
+		alert_plotter = PlotAlert(sta=sta, lta=lta, cha=cha, seconds=sec, spectrogram=False,
+						fullscreen=False, kiosk=False, deconv=deconv,
+						screencap=False, alert=False, filter_waveform=filter_waveform,
+						filter_spectrogram=filter_spectrogram, filter_highpass=filter_highpass,
+						filter_lowpass=filter_lowpass, filter_corners=filter_corners,
+						spectrogram_freq_range=False,
+						duration=duration, thresh=thresh, reset=reset,
+						logarithmic_y_axis=logarithmic_y_axis, testing=TESTING, bp=bp)
+
 	if settings['alertsound']['enabled']:
 		soundloc = os.path.expanduser(os.path.expanduser(settings['alertsound']['mp3file']))
 		if soundloc in ['doorbell', 'alarm', 'beeps', 'sonar']:
@@ -287,6 +335,15 @@ def run(settings, debug):
 		q = mk_q()
 		alsnd = AlertSound(q=q, testing=TESTING, soundloc=soundloc)
 		mk_p(alsnd)
+
+	if settings['plot']['enabled'] and MPL:
+		pq = mk_q()
+		sec = settings['plot']['duration']
+		refresh_interval = settings['plot']['refresh_interval']
+		plots = [plotter]
+		if alert_plotter:
+			plots.append(alert_plotter)
+		CONTROLLER = PlotsController(pq, plots, seconds=sec, refresh_interval=refresh_interval)
 
 	runcustom = False
 	try:

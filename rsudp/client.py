@@ -344,6 +344,8 @@ def run(settings, debug):
 		plots = [plotter]
 		if alert_plotter:
 			plots.append(alert_plotter)
+		for num in range(0, len(plots)):
+			plots[num].figure_num = num + 1
 		CONTROLLER = PlotsController(pq, plots, seconds=sec, refresh_interval=refresh_interval)
 
 	runcustom = False

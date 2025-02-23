@@ -714,7 +714,7 @@ class Plot(AbcPlot):
         """
         self.controller = controller
         for i in range((self.totchns) * 2):  # fill up a stream object
-            self.controller.getq()
+            self.controller.get_queue()
         self.set_sps()
         self.deconvolve()
         # instantiate a figure and set basic params

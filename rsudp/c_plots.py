@@ -799,12 +799,6 @@ class PlotAlert(Plot):
                  lower_limit=0.0,
                  alert=False,
                  screencap=False,
-                 sta=5,
-                 lta=30,
-                 bp=False,
-                 thresh=1.6,
-                 duration=0.0,
-                 reset=1.55,
                  deconv=None,
                  testing=False):
         """
@@ -830,130 +824,10 @@ class PlotAlert(Plot):
                          testing=testing)
 
         self.sender = "PlotAlert"
-
-        self.sta = sta
-        self.lta = lta
-        self.thresh = thresh
-        self.duration = duration
-        self.reset = reset
-        self.stalta = np.ndarray(1)
-        self.maxstalta = 0
-        self.trigger_stream = rs.Stream()
-
-        self.freq = 0
-        self.freqmin = 0
-        self.freqmax = 0
         self.s_lines = []
         self.e_lines = []
 
-        self.exceed = False
-        self.exceed_timer_end = 0
-        self.exceed_timer_start = 0
-        self.exceed_timer_running = False
-
-        self.filt = None
-        self._set_filt(bp)
         printM('Starting.', self.sender)
-
-    def _set_filt(self, bp):
-        '''
-        This function sets the filter parameters (if specified).
-        Set to a boolean if not filtering, or ``[highpass, lowpass]``
-        if filtering.
-
-        :param bp: bandpass filter parameters. if set, should be in the format ``[highpass, lowpass]``
-        :type bp: :py:class:`bool` or :py:class:`list`
-        '''
-        if bp:
-            self.freqmin = bp[0]
-            self.freqmax = bp[1]
-            self.freq = 0
-            if (bp[0] <= 0) and (bp[1] >= (self.sps / 2)):
-                self.filt = False
-            elif (bp[0] > 0) and (bp[1] >= (self.sps / 2)):
-                self.filt = 'highpass'
-                self.freq = bp[0]
-                desc = 'low corner %s' % (bp[0])
-            elif (bp[0] <= 0) and (bp[1] <= (self.sps / 2)):
-                self.filt = 'lowpass'
-                self.freq = bp[1]
-            else:
-                self.filt = 'bandpass'
-
-    def _filter(self):
-        '''
-        Filters the stream associated with this class.
-        '''
-        if self.filt:
-            if self.filt in ['bandpass']:
-                self.stalta = recursive_sta_lta(
-                    self.trigger_stream[0].copy().filter(type=self.filt,
-                                                 freqmin=self.freqmin, freqmax=self.freqmax),
-                    int(self.sta * self.sps), int(self.lta * self.sps))
-            else:
-                self.stalta = recursive_sta_lta(
-                    self.trigger_stream
-                    [0].copy().filter(type=self.filt,freq=self.freq),
-                    int(self.sta * self.sps), int(self.lta * self.sps))
-        else:
-            self.stalta = recursive_sta_lta(self.trigger_stream[0],
-                                            int(self.sta * self.sps), int(self.lta * self.sps))
-
-    def _is_trigger(self):
-        '''
-        Figures out it there's a trigger active. Check need to check duration or not.
-        '''
-        if self.duration:
-            self._is_trigger_with_timer()
-        else:
-            self._is_trigger_without_timer()
-
-
-    def _is_trigger_with_timer(self):
-        '''
-        Figures out it there's a trigger active with timer
-        '''
-        trigger_current_status = self.stalta.max() > self.thresh
-        if not self.exceed and trigger_current_status:
-            if self.exceed_timer_running:
-                self.exceed_timer_end = time.time()
-                if self.exceed_timer_end - self.exceed_timer_start > self.duration:
-                    self.exceed = True
-                    self.exceed_timer_running = False
-                    self._trigger_activate()
-            else:
-                self.exceed_timer_running = True
-                self.exceed_timer_start = time.time()
-        else:
-            if self.exceed_timer_running:
-                self.exceed_timer_running = False
-                self.exceed_timer_end = time.time()
-            if self.exceed and self.stalta[-1] < self.reset:
-                self.exceed = False
-                self._trigger_deactivate()
-
-
-    def _is_trigger_without_timer(self):
-        '''
-        Figures out it there's a trigger active without timer
-        '''
-        trigger_current_status = self.stalta.max() > self.thresh
-        if trigger_current_status and self.stalta.max() > self.maxstalta:
-            self.maxstalta = self.stalta.max()
-
-        if not self.exceed and trigger_current_status:
-            self.exceed = True
-            self._trigger_activate()
-        elif self.exceed and self.stalta[-1] < self.reset:
-            self.exceed = False
-            self._trigger_deactivate()
-
-    def _trigger_activate(self):
-        self.s_lines.append(np.datetime64(self.stream[0].stats.endtime))
-
-    def _trigger_deactivate(self):
-        self.e_lines.append(np.datetime64(self.stream[0].stats.endtime))
-        self.maxstalta = 0
 
     def _draw_lines(self, i, start, end, mean):
         super()._draw_lines(i, start, end, mean)
@@ -966,6 +840,10 @@ class PlotAlert(Plot):
         '''
         Get data from the queue and test for whether it has certain strings.
         '''
+        if 'ALARM' in str(d):
+            self.s_lines.append(np.datetime64(helpers.fsec(helpers.get_msg_time(d))))
+        elif 'RESET' in str(d):
+            self.e_lines.append(np.datetime64(helpers.fsec(helpers.get_msg_time(d))))
         return super().getq(d)
 
     def setup(self, controller, *args, **kwargs):
@@ -985,10 +863,4 @@ class PlotAlert(Plot):
         :return: number of plot events without clearing the linecache and queue blocking counter
         :rtype: int, int
         '''
-
-        obstart = self.stream[0].stats.endtime - timedelta(seconds=self.lta)  # obspy time
-        self.trigger_stream = self.stream.slice(starttime=obstart)  # slice the stream to the specified length (seconds variable)
-        self._filter()
-        self._is_trigger()
-
         return super().main(i, u, *args, **kwargs)

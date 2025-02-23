@@ -319,14 +319,13 @@ def run(settings, debug):
 		else:
 			deconv = False
 
-		alert_plotter = PlotAlert(sta=sta, lta=lta, cha=cha, seconds=sec, spectrogram=False,
+		alert_plotter = PlotAlert(cha=cha, seconds=sec, spectrogram=False,
 						fullscreen=False, kiosk=False, deconv=deconv,
 						screencap=False, alert=False, filter_waveform=filter_waveform,
 						filter_spectrogram=filter_spectrogram, filter_highpass=filter_highpass,
 						filter_lowpass=filter_lowpass, filter_corners=filter_corners,
 						spectrogram_freq_range=False,
-						duration=duration, thresh=thresh, reset=reset,
-						logarithmic_y_axis=logarithmic_y_axis, testing=TESTING, bp=bp)
+						logarithmic_y_axis=logarithmic_y_axis, testing=TESTING)
 
 	if settings['alertsound']['enabled']:
 		soundloc = os.path.expanduser(os.path.expanduser(settings['alertsound']['mp3file']))
@@ -445,7 +444,6 @@ def run(settings, debug):
 	# start the producer, consumer, and activated modules
 	start()
 
-	PLOTTER = False
 	CONTROLLER = False
 	if not TESTING:
 		_xit()

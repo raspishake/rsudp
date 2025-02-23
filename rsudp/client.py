@@ -15,7 +15,8 @@ from rsudp.c_consumer import Consumer
 from rsudp.p_producer import Producer
 from rsudp.c_printraw import PrintRaw
 from rsudp.c_write import Write
-from rsudp.c_plots import Plot, PlotAlert, PlotsController, MPL
+from rsudp.c_plots import Plot, PlotAlert, MPL
+from rsudp.c_plot_controller import PlotsController
 from rsudp.c_forward import Forward
 from rsudp.c_alert import Alert
 from rsudp.c_alertsound import AlertSound

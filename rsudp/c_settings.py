@@ -53,6 +53,17 @@ class Settings(dict):
                 exit(2)
         return settings
 
+
+    def set_default_values(self):
+        default_settings = Settings.default_settings()
+        for key,value in default_settings.items():
+            if self.get(key, None) is None:
+                self[key] = value
+            if type(value) == dict:
+                for s_key,s_value in value.items():
+                    if self[key].get(s_key, None) is None:
+                        self[key][s_key] = s_value
+
     @staticmethod
     def default_settings(output_dir='%s/rsudp' % os.path.expanduser('~').replace('\\', '/'), verbose=True):
         '''

@@ -55,8 +55,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-on-windows">2.2. Installing on Windows</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#the-easy-way">2.2.1. The Easy Way</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#advanced-users">2.2.2. Advanced Users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#option-1">2.2.1. Option #1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#option-2">2.2.2. Option #2</a></li>
 </ul>
 </li>
 </ul>
@@ -235,32 +235,44 @@ you can do a command similar to the following:</p>
 </section>
 <section id="installing-on-windows">
 <h2><span class="section-number">2.2. </span>Installing on Windows<a class="headerlink" href="#installing-on-windows" title="Link to this heading"></a></h2>
-<section id="the-easy-way">
-<h3><span class="section-number">2.2.1. </span>The Easy Way<a class="headerlink" href="#the-easy-way" title="Link to this heading"></a></h3>
-<p>You can follow these steps to both install and update rsudp.</p>
+<section id="option-1">
+<h3><span class="section-number">2.2.1. </span>Option #1<a class="headerlink" href="#option-1" title="Link to this heading"></a></h3>
+<p>This method is the recommended approach for quickly installing and setting up rsudp. It is best suited for users who:</p>
+<ul>
+<li>Are new to rsudp or similar software.</li>
+<li>Prefer a straightforward, hassle-free installation process.</li>
+<li>Want to get started quickly without customizing the environment.</li>
+</ul>
+<p>This method uses a prebuilt script to automate the installation process and ensure all necessary dependencies are configured correctly.</p>
+<p>You can follow these steps to both install and update rsudp:</p>
 <ol class="arabic simple">
-<li><p><a href="https://github.com/raspishake/rsudp/archive/refs/heads/master.zip" target="_blank">Download</a> and unzip the software from the <a href="https://github.com/raspishake/rsudp/releases/latest/" target="_blank">latest release</a> in the GitHub repository (also available by clicking Code &gt; Download ZIP from the <a href="https://github.com/raspishake/rsudp/" target="_blank">GitHub landing page</a>).</p></li>
-<li><p>Double click the file named <code class="docutils literal notranslate"><span class="pre">win-install-rsudp.bat</span></code> in the unzipped folder. You may need administrator privileges for this step.</p></li>
+<li><a href="https://github.com/raspishake/rsudp/archive/refs/heads/master.zip" target="_blank">Download</a> and unzip the software from the <a href="https://github.com/raspishake/rsudp/releases/latest/" target="_blank">latest release</a> in the GitHub repository (also available by clicking Code &gt; Download ZIP from the <a href="https://github.com/raspishake/rsudp/" target="_blank">GitHub landing page</a>).</li>
+<li>Double click the file named <code class="docutils literal notranslate"><span class="pre">win-install-rsudp.bat</span></code> in the unzipped folder. You may need administrator privileges for this step.</li>
 </ol>
-<p>The install will take several minutes. When it is done, you will have a new settings file at
-<code class="docutils literal notranslate"><span class="pre">~/.config/rsudp/rsudp_settings.json</span></code>. Edit this file to change how rsudp runs.</p>
+<p>The install will take several minutes. When it is done, you will have a new settings file at <code class="docutils literal notranslate"><span class="pre">~/.config/rsudp/rsudp_settings.json</span></code>. Edit this file to change how rsudp runs.</p>
 <p>For explanations of the various settings fields and values, head to <a class="reference internal" href="settings.html#settings"><span class="std std-ref">Modules and Settings</span></a>.</p>
 </section>
-<section id="advanced-users">
-<h3><span class="section-number">2.2.2. </span>Advanced Users<a class="headerlink" href="#advanced-users" title="Link to this heading"></a></h3>
+<section id="option-2">
+<h3><span class="section-number">2.2.2. </span>Option #2<a class="headerlink" href="#option-2" title="Link to this heading"></a></h3>
+<p>The second method is recommended if:</p>
+<ul>
+<li>Option #1 fails to install rsudp properly due to specific system configurations.</li>
+<li>Greater flexibility and control over the installation process is required.</li>
+<li>Customization of the environment or the use of a specific version of Python is necessary.</li>
+<li>Installation is being performed in a managed or non-standard environment, such as a server or an advanced workstation.</li>
+</ul>
+<p>You can follow these steps to both install and update rsudp:</p>
 <ol class="arabic simple">
-<li><p>Download and install Anaconda3 or <a href="https://docs.conda.io/en/latest/miniconda.html" target="_blank">Miniconda3</a>.</p></li>
-<li><p>Open an Anaconda Prompt.</p></li>
-<li><p>Execute the following lines of code:</p></li>
+<li>Download and install <a href="https://www.anaconda.com/download" target="_blank">Anaconda3</a> or <a href="https://docs.conda.io/en/latest/miniconda.html" target="_blank">Miniconda3</a>.</li>
+<li>Open an Anaconda Prompt.</li>
+<li>Execute the following lines of code:</li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>config<span class="w"> </span>--append<span class="w"> </span>channels<span class="w"> </span>conda-forge
-conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>rsudp<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.12<span class="w"> </span><span class="nv">numpy</span><span class="o">=</span><span class="m">2</span>.0.1<span class="w"> </span>future<span class="w"> </span>scipy<span class="w"> </span>lxml<span class="w"> </span>sqlalchemy<span class="w"> </span>cryptography
-conda<span class="w"> </span>activate<span class="w"> </span>rsudp
-pip<span class="w"> </span>install<span class="w"> </span>rsudp
-</pre></div>
-</div>
-<p>If you wish to play sounds on Windows, please follow steps 1-8 in <a href="https://windowsloop.com/install-ffmpeg-windows-10/" target="_blank">this tutorial</a>
-in order to install <code class="code docutils literal notranslate"><span class="pre">ffmpeg</span></code> and add it to your system’s path variable.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda config --append channels conda-forge
+conda create -n rsudp python=3.12 numpy=2.0.1 future scipy lxml sqlalchemy cryptography
+conda activate rsudp
+pip install rsudp
+</pre></div></div>
+<p>If you wish to play sounds on Windows, please follow steps 1-8 in <a href="https://windowsloop.com/install-ffmpeg-windows-10/" target="_blank">this tutorial</a> in order to install <code class="code docutils literal notranslate"><span class="pre">ffmpeg</span></code> and add it to your system’s path variable.</p>
 <p>You are now ready to proceed to the next section, <a class="reference internal" href="settings.html#settings"><span class="std std-ref">Modules and Settings</span></a>.</p>
 <p><a class="reference external" href="#top">Back to top ↑</a></p>
 </section>

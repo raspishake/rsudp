@@ -800,7 +800,9 @@ class PlotAlert(Plot):
                  alert=False,
                  screencap=False,
                  deconv=None,
-                 testing=False):
+                 testing=False,
+                 s_line_color="b",
+                 e_line_color="r"):
         """
         A separate Plot for displaying trigger alert intervals.
         """
@@ -824,6 +826,8 @@ class PlotAlert(Plot):
                          testing=testing)
 
         self.sender = "PlotAlert"
+        self.s_line_color = s_line_color
+        self.e_line_color = e_line_color
         self.s_lines = []
         self.e_lines = []
 
@@ -832,9 +836,9 @@ class PlotAlert(Plot):
     def _draw_lines(self, i, start, end, mean):
         super()._draw_lines(i, start, end, mean)
         for line in self.s_lines:
-            self.ax[i * self.mult].axvline(line, color='b', linewidth=2)
+            self.ax[i * self.mult].axvline(line, color=self.s_line_color, linewidth=2)
         for line in self.e_lines:
-            self.ax[i * self.mult].axvline(line, color='r', linewidth=2)
+            self.ax[i * self.mult].axvline(line, color=self.e_line_color, linewidth=2)
 
     def getq(self, d):
         '''

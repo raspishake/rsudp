@@ -224,8 +224,12 @@ def run(settings, debug):
 			deconv = False
 
 		plotter_cls = Plot
+		s_line_color = "b"
+		e_line_color = "r"
 		if settings["alert"]["on_plot"] == "on-main":
 			plotter_cls = PlotAlert
+			s_line_color = settings["alert"]["on_plot_start_line_color"]
+			e_line_color = settings["alert"]["on_plot_end_line_color"]
 		plotter = plotter_cls(cha=cha, seconds=sec, spectrogram=spec,
 							  fullscreen=full, kiosk=kiosk, deconv=deconv,
 							  screencap=screencap, alert=alert, filter_waveform=filter_waveform,
@@ -233,7 +237,8 @@ def run(settings, debug):
 							  filter_lowpass=filter_lowpass, filter_corners=filter_corners,
 							  spectrogram_freq_range=spectrogram_freq_range,
 							  lower_limit=lower_limit, upper_limit=upper_limit,
-							  logarithmic_y_axis=logarithmic_y_axis, testing=TESTING)
+							  logarithmic_y_axis=logarithmic_y_axis, testing=TESTING,
+							  s_line_color=s_line_color, e_line_color=e_line_color)
 		# no mk_p() here because the plotter must be controlled by the main thread (this one)
 
 	if settings['forward']['enabled']:
@@ -282,13 +287,16 @@ def run(settings, debug):
 					 deconv=deconv)
 		mk_p(alrt)
 		if settings['plot']['enabled'] and settings["alert"]["on_plot"] == "separate":
+			s_line_color = settings["alert"]["on_plot_start_line_color"]
+			e_line_color = settings["alert"]["on_plot_end_line_color"]
 			alert_plotter = PlotAlert(cha=cha, seconds=sec, spectrogram=False,
 									  fullscreen=False, kiosk=False, deconv=deconv,
 									  screencap=False, alert=False, filter_waveform=filter_waveform,
 									  filter_spectrogram=filter_spectrogram, filter_highpass=filter_highpass,
 									  filter_lowpass=filter_lowpass, filter_corners=filter_corners,
 									  spectrogram_freq_range=False,
-									  logarithmic_y_axis=logarithmic_y_axis, testing=TESTING)
+									  logarithmic_y_axis=logarithmic_y_axis, testing=TESTING,
+							          s_line_color=s_line_color, e_line_color=e_line_color)
 
 	if settings['alertsound']['enabled']:
 		soundloc = os.path.expanduser(os.path.expanduser(settings['alertsound']['mp3file']))

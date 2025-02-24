@@ -1,5 +1,6 @@
 import os, sys
 from rsudp import COLOR, printM, printW, printE
+from rsudp.c_settings import Settings
 import socket
 import json
 
@@ -59,6 +60,8 @@ TRANS = {
 PORT = 18888
 
 def make_test_settings(settings, inet=False):
+	if isinstance(settings, Settings):
+		settings = settings.json
 	'''
 	Get the default settings and return settings for testing.
 
@@ -73,7 +76,7 @@ def make_test_settings(settings, inet=False):
 	 ``settings['alert']['reset']``           ``0.5``
 	 ``settings['alert']['lowpass']``         ``9``
 	 ``settings['alert']['highpass']``        ``0.8``
-     ``settings['alert']['duration']``        ``0.0``
+         ``settings['alert']['duration']``        ``0.0``
 	 ``settings['plot']['channels']``         ``['all']``
 	 ``settings['plot']['duration']``         ``60``
 	 ``settings['plot']['deconvolve']``       ``True``
@@ -245,4 +248,3 @@ def is_connected(hostname):
 	except:
 		pass
 	return False
-

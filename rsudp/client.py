@@ -222,14 +222,18 @@ def run(settings, debug):
 				deconv = 'CHAN'
 		else:
 			deconv = False
-		plotter = Plot(cha=cha, seconds=sec, spectrogram=spec,
-						fullscreen=full, kiosk=kiosk, deconv=deconv,
-						screencap=screencap, alert=alert, filter_waveform=filter_waveform,
-						filter_spectrogram=filter_spectrogram, filter_highpass=filter_highpass,
-						filter_lowpass=filter_lowpass, filter_corners=filter_corners,
-						spectrogram_freq_range=spectrogram_freq_range,
-						lower_limit=lower_limit, upper_limit=upper_limit, 
-						logarithmic_y_axis=logarithmic_y_axis, testing=TESTING)
+
+		plotter_cls = Plot
+		if settings["alert"]["on_plot"] == "on-main":
+			plotter_cls = PlotAlert
+		plotter = plotter_cls(cha=cha, seconds=sec, spectrogram=spec,
+							  fullscreen=full, kiosk=kiosk, deconv=deconv,
+							  screencap=screencap, alert=alert, filter_waveform=filter_waveform,
+							  filter_spectrogram=filter_spectrogram, filter_highpass=filter_highpass,
+							  filter_lowpass=filter_lowpass, filter_corners=filter_corners,
+							  spectrogram_freq_range=spectrogram_freq_range,
+							  lower_limit=lower_limit, upper_limit=upper_limit,
+							  logarithmic_y_axis=logarithmic_y_axis, testing=TESTING)
 		# no mk_p() here because the plotter must be controlled by the main thread (this one)
 
 	if settings['forward']['enabled']:
@@ -253,6 +257,7 @@ def run(settings, debug):
 										len(addr), len(port)), sender=SENDER)
 			_xit(1)
 
+	alert_plotter = None
 	if settings['alert']['enabled']:
 		# put settings in namespace
 		sta = settings['alert']['sta']
@@ -276,56 +281,14 @@ def run(settings, debug):
 					 cha=cha, debug=debug, q=q, testing=TESTING,
 					 deconv=deconv)
 		mk_p(alrt)
-
-	alert_plotter = None
-	if settings['alert']['enabled'] and settings['plot']['enabled']:
-		cha = settings['plot']['channels']
-		sec = settings['plot']['duration']
-		refresh_interval = settings['plot']['refresh_interval']
-		spec = settings['plot']['spectrogram']
-		full = settings['plot']['fullscreen']
-		kiosk = settings['plot']['kiosk']
-		screencap = settings['plot']['eq_screenshots']
-		alert = settings['alert']['enabled']
-
-		# Load filter values from .json file
-		filter_waveform = settings['plot']['filter_waveform']
-		filter_spectrogram = settings['plot']['filter_spectrogram']
-		filter_highpass = settings['plot']['filter_highpass']
-		filter_lowpass = settings['plot']['filter_lowpass']
-		filter_corners = settings['plot']['filter_corners']
-
-		# Spectrogram range variables
-		spectrogram_freq_range = settings['plot']['spectrogram_freq_range']
-		lower_limit = settings['plot']['lower_limit']
-		upper_limit = settings['plot']['upper_limit']
-
-		sta = settings['alert']['sta']
-		lta = settings['alert']['lta']
-		duration = settings['alert'].get('duration', 0.0)
-		thresh = settings['alert']['threshold']
-		reset = settings['alert']['reset']
-		bp = [settings['alert']['highpass'], settings['alert']['lowpass']]
-		cha = settings['alert']['channel']
-
-		# Logarithmic y-axis
-		logarithmic_y_axis = settings['plot']['logarithmic_y_axis']
-
-		if settings['plot']['deconvolve']:
-			if settings['plot']['units'].upper() in rs.UNITS:
-				deconv = settings['plot']['units'].upper()
-			else:
-				deconv = 'CHAN'
-		else:
-			deconv = False
-
-		alert_plotter = PlotAlert(cha=cha, seconds=sec, spectrogram=False,
-						fullscreen=False, kiosk=False, deconv=deconv,
-						screencap=False, alert=False, filter_waveform=filter_waveform,
-						filter_spectrogram=filter_spectrogram, filter_highpass=filter_highpass,
-						filter_lowpass=filter_lowpass, filter_corners=filter_corners,
-						spectrogram_freq_range=False,
-						logarithmic_y_axis=logarithmic_y_axis, testing=TESTING)
+		if settings['plot']['enabled'] and settings["alert"]["on_plot"] == "separate":
+			alert_plotter = PlotAlert(cha=cha, seconds=sec, spectrogram=False,
+									  fullscreen=False, kiosk=False, deconv=deconv,
+									  screencap=False, alert=False, filter_waveform=filter_waveform,
+									  filter_spectrogram=filter_spectrogram, filter_highpass=filter_highpass,
+									  filter_lowpass=filter_lowpass, filter_corners=filter_corners,
+									  spectrogram_freq_range=False,
+									  logarithmic_y_axis=logarithmic_y_axis, testing=TESTING)
 
 	if settings['alertsound']['enabled']:
 		soundloc = os.path.expanduser(os.path.expanduser(settings['alertsound']['mp3file']))

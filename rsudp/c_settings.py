@@ -125,6 +125,7 @@ class Settings(dict):
         settings["alert"]["lowpass"] = 9
         settings["alert"]["deconvolve"] = False
         settings["alert"]["units"] = "VEL"
+        settings["alert"]["on_plot"] = False # "separate" or "on-main"
 
         # alertsound section
         settings["alertsound"] = {}

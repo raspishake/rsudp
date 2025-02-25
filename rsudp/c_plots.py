@@ -272,7 +272,8 @@ class Plot(AbcPlot):
                  alert=False,
                  screencap=False,
                  deconv=None,
-                 testing=False):
+                 testing=False,
+                 **kwargs):
         super().__init__(deconv=deconv, testing=testing)
 
         self.sender = 'Plot'

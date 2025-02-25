@@ -15,7 +15,8 @@ from rsudp.c_consumer import Consumer
 from rsudp.p_producer import Producer
 from rsudp.c_printraw import PrintRaw
 from rsudp.c_write import Write
-from rsudp.c_plot import Plot, MPL
+from rsudp.c_plots import Plot, PlotAlert, MPL
+from rsudp.c_plot_controller import PlotsController
 from rsudp.c_forward import Forward
 from rsudp.c_alert import Alert
 from rsudp.c_alertsound import AlertSound
@@ -31,7 +32,7 @@ import pkg_resources as pr
 
 DESTINATIONS, THREADS = [], []
 PROD = False
-PLOTTER = False
+CONTROLLER = False
 TELEGRAM = False
 TWITTER = False
 WRITER = False
@@ -103,7 +104,7 @@ def start():
 	'''
 	Start Consumer, Threads, and Producer.
 	'''
-	global PROD, PLOTTER, THREADS, DESTINATIONS
+	global PROD, CONTROLLER, THREADS, DESTINATIONS
 	# master queue and consumer
 	queue = Queue(rs.qsize)
 	cons = Consumer(queue, DESTINATIONS, testing=TESTING)
@@ -115,12 +116,12 @@ def start():
 	PROD = Producer(queue, THREADS, testing=TESTING)
 	PROD.start()
 
-	if PLOTTER and MPL:
-		# give the plotter the master queue
+	if CONTROLLER and MPL:
+		# give the controller the master queue
 		# so that it can issue a TERM signal if closed
-		PLOTTER.master_queue = queue
+		CONTROLLER.master_queue = queue
 		# start plotting (in this thread, not a separate one)
-		PLOTTER.run()
+		CONTROLLER.run()
 	else:
 		while not PROD.stop:
 			time.sleep(0.1) # wait until processes end
@@ -138,7 +139,7 @@ def run(settings, debug):
 	:param dict settings: settings dictionary (see :ref:`defaults` for guidance)
 	:param bool debug: whether or not to show debug output (should be turned off if starting as daemon)
 	'''
-	global PLOTTER, SOUND
+	global CONTROLLER, SOUND
 	# handler for the exit signal
 	signal.signal(signal.SIGINT, handler)
 
@@ -182,6 +183,7 @@ def run(settings, debug):
 					   cha=cha, testing=TESTING)
 		mk_p(WRITER)
 
+	plotter = None
 	if settings['plot']['enabled'] and MPL:
 		while True:
 			if rs.numchns == 0:
@@ -220,15 +222,23 @@ def run(settings, debug):
 				deconv = 'CHAN'
 		else:
 			deconv = False
-		pq = mk_q()
-		PLOTTER = Plot(cha=cha, refresh_interval=refresh_interval, seconds=sec, spectrogram=spec,
-						fullscreen=full, kiosk=kiosk, deconv=deconv, q=pq,
-						screencap=screencap, alert=alert, filter_waveform=filter_waveform,
-						filter_spectrogram=filter_spectrogram, filter_highpass=filter_highpass,
-						filter_lowpass=filter_lowpass, filter_corners=filter_corners,
-						spectrogram_freq_range=spectrogram_freq_range,
-						lower_limit=lower_limit, upper_limit=upper_limit, 
-						logarithmic_y_axis=logarithmic_y_axis, testing=TESTING)
+
+		plotter_cls = Plot
+		s_line_color = "b"
+		e_line_color = "r"
+		if settings["alert"]["on_plot"] == "on-main":
+			plotter_cls = PlotAlert
+			s_line_color = settings["alert"]["on_plot_start_line_color"]
+			e_line_color = settings["alert"]["on_plot_end_line_color"]
+		plotter = plotter_cls(cha=cha, seconds=sec, spectrogram=spec,
+							  fullscreen=full, kiosk=kiosk, deconv=deconv,
+							  screencap=screencap, alert=alert, filter_waveform=filter_waveform,
+							  filter_spectrogram=filter_spectrogram, filter_highpass=filter_highpass,
+							  filter_lowpass=filter_lowpass, filter_corners=filter_corners,
+							  spectrogram_freq_range=spectrogram_freq_range,
+							  lower_limit=lower_limit, upper_limit=upper_limit,
+							  logarithmic_y_axis=logarithmic_y_axis, testing=TESTING,
+							  s_line_color=s_line_color, e_line_color=e_line_color)
 		# no mk_p() here because the plotter must be controlled by the main thread (this one)
 
 	if settings['forward']['enabled']:
@@ -252,6 +262,7 @@ def run(settings, debug):
 										len(addr), len(port)), sender=SENDER)
 			_xit(1)
 
+	alert_plotter = None
 	if settings['alert']['enabled']:
 		# put settings in namespace
 		sta = settings['alert']['sta']
@@ -275,6 +286,17 @@ def run(settings, debug):
 					 cha=cha, debug=debug, q=q, testing=TESTING,
 					 deconv=deconv)
 		mk_p(alrt)
+		if settings['plot']['enabled'] and settings["alert"]["on_plot"] == "separate":
+			s_line_color = settings["alert"]["on_plot_start_line_color"]
+			e_line_color = settings["alert"]["on_plot_end_line_color"]
+			alert_plotter = PlotAlert(cha=cha, seconds=sec, spectrogram=False,
+									  fullscreen=False, kiosk=False, deconv=deconv,
+									  screencap=False, alert=False, filter_waveform=filter_waveform,
+									  filter_spectrogram=filter_spectrogram, filter_highpass=filter_highpass,
+									  filter_lowpass=filter_lowpass, filter_corners=filter_corners,
+									  spectrogram_freq_range=False,
+									  logarithmic_y_axis=logarithmic_y_axis, testing=TESTING,
+							          s_line_color=s_line_color, e_line_color=e_line_color)
 
 	if settings['alertsound']['enabled']:
 		soundloc = os.path.expanduser(os.path.expanduser(settings['alertsound']['mp3file']))
@@ -284,6 +306,17 @@ def run(settings, debug):
 		q = mk_q()
 		alsnd = AlertSound(q=q, testing=TESTING, soundloc=soundloc)
 		mk_p(alsnd)
+
+	if settings['plot']['enabled'] and MPL:
+		pq = mk_q()
+		sec = settings['plot']['duration']
+		refresh_interval = settings['plot']['refresh_interval']
+		plots = [plotter]
+		if alert_plotter:
+			plots.append(alert_plotter)
+		for num in range(0, len(plots)):
+			plots[num].figure_num = num + 1
+		CONTROLLER = PlotsController(pq, plots, seconds=sec, refresh_interval=refresh_interval)
 
 	runcustom = False
 	try:
@@ -382,7 +415,7 @@ def run(settings, debug):
 	# start the producer, consumer, and activated modules
 	start()
 
-	PLOTTER = False
+	CONTROLLER = False
 	if not TESTING:
 		_xit()
 	else:

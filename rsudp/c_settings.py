@@ -136,6 +136,9 @@ class Settings(dict):
         settings["alert"]["lowpass"] = 9
         settings["alert"]["deconvolve"] = False
         settings["alert"]["units"] = "VEL"
+        settings["alert"]["on_plot"] = False # "separate" or "on-main"
+        settings["alert"]["on_plot_end_line_color"] = "#D72638"
+        settings["alert"]["on_plot_start_line_color"] = "#4C8BF5"
 
         # alertsound section
         settings["alertsound"] = {}

@@ -421,7 +421,7 @@ class Plot(AbcPlot):
 
         im = mpimg.imread(pr.resource_filename('rsudp', os.path.join('img', 'version1-01-small.png')))
         self.imax = self.fig.add_axes([0.015, 0.944, 0.2, 0.056], anchor='NW')  # [left, bottom, right, top]
-        self.imax.imshow(im, aspect='equal', interpolation='sinc')
+        self.imax.imshow(im, aspect='equal', interpolation='bilinear')
         self.imax.axis('off')
         # set up axes and artists
         for i in range(self.num_chans):  # create lines objects and modify axes
@@ -450,10 +450,10 @@ class Plot(AbcPlot):
             self.ax[i * self.mult].set_ylabel(ylabel, color=self.fgcolor)
             self.ax[i * self.mult].legend(loc='upper left')  # legend and location
             if self.filter_waveform:  # Display filter info text if filter for the waveform is enabled
-                self.ax[i * self.mult].text(0.005, .05, 'Bandpass (' + str(self.filter_highpass) + ' - ' + str(
+                self.ax[i * self.mult].text(0.005, 0.020, 'Bandpass (' + str(self.filter_highpass) + ' - ' + str(
                     self.filter_lowpass) + ' Hz)',
                                             fontsize=8, color=self.fgcolor, horizontalalignment='left',
-                                            verticalalignment='center',
+                                            verticalalignment='bottom',
                                             transform=self.ax[i * self.mult].transAxes)
             if self.spectrogram:  # if the user wants a spectrogram, plot it
                 # add spectrogram to axes list
@@ -643,8 +643,8 @@ class Plot(AbcPlot):
         # only add text if there's content
         if text_content:
             self.ax[i * self.mult + 1].text(
-                0.005, -0.06, text_content,
-                fontsize=8, color=self.fgcolor, horizontalalignment='left', verticalalignment='center',
+                0.005, -0.020, text_content,
+                fontsize=8, color=self.fgcolor, horizontalalignment='left', verticalalignment='top',
                 transform=self.ax[i * self.mult + 1].transAxes)
 
     def update_plot(self):

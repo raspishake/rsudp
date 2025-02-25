@@ -99,7 +99,8 @@ The modules available in rsudp are organized by type below.
     c_alert
     c_rsam
     c_alertsound
-    c_plot
+    c_plot_controller
+    c_plots
     c_tweet
     c_telegram
     c_forward

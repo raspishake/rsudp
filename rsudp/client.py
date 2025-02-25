@@ -516,6 +516,7 @@ settings in %s
 	if debug:
 		printM('Output directory is: %s' % odir)
 
+	settings.set_default_values()
 	run(settings, debug=debug)
 
 

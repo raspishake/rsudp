@@ -39,7 +39,7 @@ and parses settings. The client then instantiates the relevant
 them. Next, it starts each of these consumer threads as "child" threads,
 then finally the producer, also as a child thread.
 
-If the :py:class:`rsudp.c_plot.Plot` thread is enabled, the program will
+If the :py:class:`rsudp.c_plots.Plot` thread is enabled, the program will
 start that last, since plotting must be run as a loop controlled by the
 main thread (:py:mod:`rsudp.client`) which can only be done once it has
 started all of its child threads.
@@ -106,7 +106,7 @@ when it sees the :py:data:`rsudp.c_consumer.Alert.alarm` flag set to
 an essentially infinite number of things upon seeing this message.
 
 **IMGPATH** messages are placed on the master queue by the
-:py:func:`rsudp.c_plot.Plot.savefig` function, if and when a screenshot
+:py:func:`rsudp.c_plots.Plot.savefig` function, if and when a screenshot
 figure is saved to disk. This is currently only used by the social media
 modules, :py:class:`rsudp.c_tweet.Tweeter` and
 :py:class:`rsudp.c_telegram.Telegrammer` which then send the saved image

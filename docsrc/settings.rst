@@ -44,7 +44,7 @@ The directory specified here will be created if it doesn't already exist.
 :code:`plot` (live data plot)
 *************************************************
 
-:json:`"plot"` controls :class:`rsudp.c_plot.Plot`, the thread containing the GUI plotting
+:json:`"plot"` controls :class:`rsudp.c_plots.Plot`, the thread containing the GUI plotting
 algorithm.
 This module can plot seismogram data from a list of 1-4 Shake channels, and calculate and
 display a spectrogram beneath each.

@@ -168,6 +168,7 @@ class Settings(dict):
         settings["telegram"]["token"] = "n/a"
         settings["telegram"]["chat_id"] = "n/a"
         settings["telegram"]["extra_text"] = ""
+        settings["telegram"]["upload_timeout"] = 10
 
         # rsam section
         settings["rsam"] = {}

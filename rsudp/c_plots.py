@@ -677,6 +677,10 @@ class Plot(AbcPlot):
         :py:data:`screencap==True` then aplot image will be saved when the
         event is :py:data:`self.save_pct` of the way across the plot.
         '''
+        
+        #Need to move the save_timer forward of plot won't save / send. 
+        self.save_timer += 1
+        
         if 'TERM' in str(d):
             plt.close()
             if 'SELF' in str(d):

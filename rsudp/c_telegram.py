@@ -6,7 +6,7 @@ from rsudp.test import TEST
 
 class Telegrammer(rs.ConsumerThread):
     def __init__(self, token, chat_id, testing=False,
-                 q=False, send_images=False, extra_text=False,
+                 q=False, send_images=False, extra_text=False, upload_timeout=10,
                  sender='Telegram'):
         super().__init__()
         self.queue = q

@@ -1,4 +1,24 @@
 # Changelog
+## changes in 2.2.0
+ - screenshots fix
+ - telegram alerts push fix
+ - STA/LTA alarm value fix
+ - minor improvements
+
+## changes in 2.1.0
+ - plot class rendering updates
+ - test function and logo fix
+ - STA/LTA value plot with trigger lines
+ - filling missing values in setting
+
+## changes in 2.0.1
+ - display improvement features
+ - inventory url from settings.json
+ - filters, refresh_interval, timing alarm, and more
+
+## changes in 2.0.0
+ - major updates from old to new Python versions
+
 ## changes in 1.1.1
 - attempted to fix broken requirements in install script
 - fixed small typos in paper

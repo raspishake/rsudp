@@ -9,20 +9,21 @@ import rsudp.raspberryshake as rs
 from rsudp import printM, printW, printE, get_scap_dir, helpers
 from rsudp.test import TEST
 import linecache
+import threading
 sender = 'plot.py'
 QT = False
 QtGui = False
 PhotoImage = False
-try:		# test for matplotlib and exit if import fails
+try:
     from matplotlib import use
-    try:	# no way to know what machines can handle what software, but Tk is more universal
-        use('Qt5Agg')	# try for Qt because it's better and has less threatening errors
+    try:
+        use('Qt5Agg')
         from PyQt5 import QtGui
         QT = True
     except Exception as e:
         printW('Qt import failed. Trying Tk...')
         printW('detail: %s' % e, spaces=True)
-        try:	# fail over to the more reliable Tk
+        try:
             use('TkAgg')
             from tkinter import PhotoImage
         except Exception as e:
@@ -39,7 +40,6 @@ try:		# test for matplotlib and exit if import fails
     plt.ion()
     MPL = True
 
-    # avoiding a matplotlib user warning
     import warnings
     warnings.filterwarnings('ignore', category=UserWarning, module='rsudp')
 
@@ -50,6 +50,36 @@ except Exception as e:
 
 ICON = 'icon.ico'
 ICON2 = 'icon.png'
+
+
+def custom_channel_sort(channels):
+    """
+    Sorts the list of channel codes by custom logic:
+    - Z-ending channels first (alphabetically)
+    - then E-ending channels (alphabetically)
+    - then N-ending channels (alphabetically)
+    - then any remaining channels (alphabetically)
+    """
+    def channel_key(ch):
+        if ch.endswith('Z'):
+            return (0, ch)
+        elif ch.endswith('E'):
+            return (1, ch)
+        elif ch.endswith('N'):
+            return (2, ch)
+        else:
+            return (3, ch)
+    return sorted(channels, key=channel_key)
+
+
+# patch into helpers.set_channels logic
+original_set_channels = helpers.set_channels
+
+def patched_set_channels(self, cha):
+    original_set_channels(self, cha)
+    self.chans = custom_channel_sort(self.chans)
+
+helpers.set_channels = patched_set_channels
 
 
 class AbcPlot():
@@ -73,6 +103,7 @@ class AbcPlot():
         self.testing = testing
         self.fullscreen = False
         self.spectrogram = False
+        self.screenshot_lock = threading.Lock()
 
         self.sps = 0
         self.stn = rs.stn
@@ -155,15 +186,23 @@ class AbcPlot():
         :param obspy.core.utcdatetime.UTCDateTime event_time: Event time as an obspy UTCDateTime object. Defaults to ``UTCDateTime.now()``.
         :param str event_time_str: Event time as a string, in the format ``'%Y-%m-%d-%H%M%S'``. This is used to set the filename.
         '''
-        figname = os.path.join(get_scap_dir(), '%s-%s.png' % (self.stn, event_time_str))
-        elapsed = rs.UTCDateTime.now() - event_time
-        if int(elapsed) > 0:
-            printM(f'Saving png {elapsed} seconds after alarm', sender=self.sender)
-        plt.savefig(figname, facecolor=self.fig.get_facecolor(), edgecolor='none')
-        printM(f'Saved {figname}', sender=self.sender)
-        printM(f'{self.sender} thread has saved an image, sending IMGPATH message to queues', sender=self.sender)
-        # imgpath requires a UTCDateTime and a string figure path
-        self.controller.master_queue.put(helpers.msg_imgpath(event_time, figname))
+        with self.screenshot_lock:
+            scap_dir = get_scap_dir()  # Get screenshot directory
+            figname = os.path.join(scap_dir, f'{self.stn}-{event_time_str}.png')
+            elapsed = rs.UTCDateTime.now() - event_time
+            if int(elapsed) > 0:
+                printM(f'Saving png {int(elapsed)} seconds after alarm', sender=self.sender)
+            try:
+                plt.savefig(figname, facecolor=self.fig.get_facecolor(), edgecolor='none')          
+            except Exception as e:
+                printE(f'Error saving png image: {e}', sender=self.sender)
+                return
+            if os.path.exists(figname):
+                printM(f'Image successfully saved at {figname}', sender=self.sender)
+                printM(f'{self.sender} thread has saved an image, sending IMGPATH message to queues', sender=self.sender)         
+            else:
+                printE(f'Error: png not found at {figname} after save attempt.', sender=self.sender)
+            self.controller.master_queue.put(helpers.msg_imgpath(event_time, figname))          
 
     def figloop(self):
         """
@@ -285,7 +324,7 @@ class Plot(AbcPlot):
         self.stream = rs.Stream()
         self.stream_uf = rs.Stream()
 
-        # New filter variables
+        # Filter variables
         self.filter_waveform = filter_waveform
         self.filter_spectrogram = filter_spectrogram
         self.filter_highpass = filter_highpass
@@ -309,6 +348,19 @@ class Plot(AbcPlot):
         self.screencap = screencap
 
         # Channels
+        input_chans = cha if isinstance(cha, list) else [cha]
+
+        # Only validate if not 'all'
+        if not (len(input_chans) == 1 and input_chans[0] == 'all'):
+            valid_channels = ['SHZ', 'EHZ', 'EHE', 'EHN', 'ENZ', 'ENE', 'ENN', 'HDF']
+            invalid = [ch for ch in input_chans if ch not in valid_channels]
+            if invalid:
+                printE(
+                    f"Invalid channel(s): {invalid}.\n"
+                    f"Must be one (or combination) of: {valid_channels}\nQuitting.",
+                    self.sender
+                )
+                sys.exit(1)        
         self.chans = []
         helpers.set_channels(self, cha)
         printM(f'Plotting {len(self.chans)} channels: {self.chans}', self.sender)
@@ -324,29 +376,25 @@ class Plot(AbcPlot):
         self.spectrogram = spectrogram
         printM('Starting.', self.sender)
 
-    def _eventsave(self):
+    def _eventsave(self, event_time):
         '''
         This function takes the next event in line and pops it out of the list,
         so that it can be saved and others preserved.
         Then, it sets the title to something having to do with the event,
         then calls the save figure function, and finally resets the title.
         '''
-        self.save.reverse()
-        event = self.save.pop()
-        self.save.reverse()
+        # format strings
+        event_time_str = event_time.strftime('%Y-%m-%d-%H%M%S')  # for filename
+        title_time_str = event_time.strftime('%Y-%m-%d %H:%M:%S.%f')[:22]  # for title
 
-        event_time_str = event[1].strftime('%Y-%m-%d-%H%M%S')  # event time for filename
-        title_time_str = event[1].strftime('%Y-%m-%d %H:%M:%S.%f')[:22]  # pretty event time for plot
+        # temporarily set title for this event
+        self.fig.suptitle(f'{self.stn} Detected Event - {title_time_str} UTC',
+                        fontsize=14, color=self.fgcolor, x=0.52)
 
-        # change title (just for a moment)
-        self.fig.suptitle('%s Detected Event - %s UTC'  # title
-                          % (self.stn, title_time_str),
-                          fontsize=14, color=self.fgcolor, x=0.52)
+        # save the figure
+        self.savefig(event_time=event_time, event_time_str=event_time_str)
 
-        # save figure
-        self.savefig(event_time=event[1], event_time_str=event_time_str)
-
-        # reset title
+        # reset the title
         self.set_fig_title(self.events)
 
     def _init_plot(self):
@@ -557,6 +605,24 @@ class Plot(AbcPlot):
                                                - np.ptp(self.stream[i].data - mean) * 0.1,
                                         top=np.max(self.stream[i].data - mean)
                                             + np.ptp(self.stream[i].data - mean) * 0.1)
+        
+    def _sort_stream_channels(self):
+        """
+        Sort all internal Stream objects (raw, stream, stream_uf) according to custom channel logic.
+        """
+        def ch_key(tr):
+            ch = tr.stats.channel
+            if ch.endswith('Z'):
+                return (0, ch)
+            elif ch.endswith('E'):
+                return (1, ch)
+            elif ch.endswith('N'):
+                return (2, ch)
+            else:
+                return (3, ch)
+        self.raw.traces.sort(key=ch_key)
+        self.stream.traces.sort(key=ch_key)
+        self.stream_uf.traces.sort(key=ch_key)
 
     def _update_specgram(self, i: int, mean: float):
         '''
@@ -659,6 +725,7 @@ class Plot(AbcPlot):
         end = np.datetime64(self.stream[0].stats.endtime)  # numpy time
         self.raw = self.raw.slice(starttime=obstart)  # slice the stream to the specified length (seconds variable)
         self.stream = self.stream.slice(starttime=obstart)  # slice the stream to the specified length (seconds variable)
+        self._sort_stream_channels()
         for i in range(self.num_chans):  # for each channel, update the plots
             mean = int(round(np.mean(self.stream[i].data)))
             self._draw_lines(i, start, end, mean)
@@ -694,7 +761,11 @@ class Plot(AbcPlot):
             printM('Event time: %s' % (self.last_event_str), sender=self.sender)  # show event time in the logs
             if self.screencap:
                 printM('Saving png in about %i seconds' % (self.save_pct * (self.seconds)), self.sender)
-                self.save.append(event)  # append
+                event_time = helpers.fsec(helpers.get_msg_time(d))
+                self.save.append({
+                    'save_at': time.time() + int(self.save_pct * self.seconds),
+                    'event_time': event_time
+                })  # append the event to the save list
             self.fig.suptitle('Raspberry Shake %s Live Data - Detected Events: %s'  # title
                               % (self.stn, self.events),
                               fontsize=14, color=self.fgcolor, x=0.52)
@@ -718,6 +789,7 @@ class Plot(AbcPlot):
             self.controller.get_queue()
         self.set_sps()
         self.deconvolve()
+        self._sort_stream_channels()
         # instantiate a figure and set basic params
         self._init_plot()
 
@@ -774,9 +846,12 @@ class Plot(AbcPlot):
             self.figloop()
 
         if self.save:
-            # save the plot
-            if (self.save_timer > self.save[0][0]):
-                self._eventsave()
+            now = time.time()
+            ready = [e for e in self.save if now >= e['save_at']]
+            self.save = [e for e in self.save if now < e['save_at']]  # keep only future ones
+            for e in ready:
+                self._eventsave(event_time=e['event_time'])
+        
         u = 0
         time.sleep(0.005)  # wait a ms to see if another packet will arrive
         return i, u
@@ -837,9 +912,9 @@ class PlotAlert(Plot):
     def _draw_lines(self, i, start, end, mean):
         super()._draw_lines(i, start, end, mean)
         for line in self.s_lines:
-            self.ax[i * self.mult].axvline(line, color=self.s_line_color, linewidth=2)
+            self.ax[i * self.mult].axvline(line, color=self.s_line_color, linewidth=1.5)
         for line in self.e_lines:
-            self.ax[i * self.mult].axvline(line, color=self.e_line_color, linewidth=2)
+            self.ax[i * self.mult].axvline(line, color=self.e_line_color, linewidth=1.5)
 
     def getq(self, d):
         '''

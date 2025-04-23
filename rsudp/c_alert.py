@@ -252,7 +252,7 @@ class Alert(rs.ConsumerThread):
 
 	def _is_trigger_with_timer(self):
 		'''
-		Figures out it there's a trigger active with timer
+		Figures out if there's a trigger active with timer
 		'''
 		trigger_current_status = self.stalta.max() > self.thresh
 		if not self.exceed and trigger_current_status:
@@ -265,6 +265,7 @@ class Alert(rs.ConsumerThread):
 			else:
 				self.exceed_timer_running = True
 				self.exceed_timer_start = time.time()
+
 		else:
 			if self.exceed_timer_running:
 				self.exceed_timer_running = False
@@ -272,6 +273,9 @@ class Alert(rs.ConsumerThread):
 			if self.exceed and self.stalta[-1] < self.reset:
 				self.exceed = False
 				self._trigger_deactivate()
+
+		if self.exceed and self.stalta.max() > self.maxstalta:
+			self.maxstalta = self.stalta.max()
 
 	def _is_trigger_without_timer(self):
 		'''

@@ -22,7 +22,7 @@ setuptools.setup(
                       'matplotlib>3.2,<4',
                       'pydub',
                       'twython',
-                      'python-telegram-bot'],
+                      'python-telegram-bot>=20,<21'],
     entry_points = {
         'console_scripts': [
             'rs-packetloss=rsudp.packetloss:main',
